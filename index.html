@@ -1,0 +1,32 @@
+<!doctype html5>
+<html>
+  <head>
+    <style>
+      body {
+      	margin: 0;
+      }
+
+      #gifs > img {
+      	display: block;
+      	float: left;
+      	width: 50%;
+      	height: 50%;
+      	object-fit: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript" src="jspm_packages/system.js"></script>
+    <script type="text/javascript" src="config.js"></script>
+    <script>
+      System.import('src/blingz')
+    </script>
+
+
+    <!-- *** production *** -->
+    <!-- <script type="text/javascript" src="jspm_packages/babel.js"></script>-->
+    <!--<script type="text/javascript" src="build.js"></script>-->
+    <div id="gifs">
+    </div>
+  </body>
+</html>
