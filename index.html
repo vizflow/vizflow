@@ -67,7 +67,7 @@
           {x:   0, y: -10, dx: 0, dy: 0, r: 2, color: 'blue'}
         ] ;
 
-        data.forEach((d) => {
+        data.forEach(function (d) {
           d.visual = document.createElementNS(svgns, 'circle') ;
           d.visual.setAttribute('cx', d.x) ;
           d.visual.setAttribute('cy', d.y) ;
