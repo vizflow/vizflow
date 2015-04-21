@@ -8,7 +8,7 @@ import item            from './item' ;
 import pipe            from './pipe' ;
 import done            from './done' ;
 import exit            from './exit' ;
-import engine          from './engine' ;
+import run             from './run'  ;
 
 // import the functions defining the asynchronous tasks comprising the main simulation or game loop, stored in an array called "tasks": 
 
@@ -23,8 +23,8 @@ import step_or_exit    from './step_or_exit' ;
 
 var verbose = false ; // default verbosity value
 var iter    = 0 ;     // default initial iteration count
-var maxIter = 600 ;   // default iteration limit
-var _item   = [] ;    // initialize the array of items
+var maxIter = Infinity ;   // default iteration limit
+var _item   = [] ;    // initialize the array of items (change to an object pool later)
 
 var task = [ // array of functions defining the sequence of asynchronous (non-blocking) tasks to perform for each step/frame/iteration of the simulation or game
   acquire_input,   // process user inputs and translate them into actionable changes to the data item attributes
@@ -46,7 +46,7 @@ window.$Z = { // define the "bling Z" object for running interactive simulations
 	done,    // function to check for the end of the simulation or game, returns true if the simulation or game has ended
 	exit,    // function to execute after the simulation or game has ended to trigger the exit sequence
 	task,    // array of functions defining the sequence of asynchronous tasks to perform for each step or frame of the simulation or game
-	engine   // function that executes each of the asynchronous tasks sequentially using Promise.then() chaining
+	run      // function that executes each of the asynchronous tasks sequentially using Promise.then() chaining
 } ;
 
 export default {}

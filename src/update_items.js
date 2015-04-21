@@ -1,7 +1,9 @@
 export default function update_items() {
-	var name = 'update_items' ;
-	if($Z.verbose) console.log('inside', name) ;
+	if(window.$Z.verbose) console.log('inside', this.name) ;
 	return new Promise((resolve, reject) => {
-		resolve(name)
+    window.$Z.item().forEach((d) => {
+    	d.update() ;
+    }) ;
+		resolve(this.name)
   }) ;
 } ;

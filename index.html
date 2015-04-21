@@ -6,25 +6,86 @@
       	margin: 0;
       }
 
-      #gifs > img {
-      	display: block;
-      	float: left;
-      	width: 50%;
-      	height: 50%;
-      	object-fit: cover;
+      .red {
+        stroke: none;
+        fill: red;
       }
+
+      .blue {
+        stroke: none;
+        fill: blue;
+      } 
+
+      .green {
+        stroke: none;
+        fill: green;
+      }
+
     </style>
   </head>
   <body>
     <script type="text/javascript" src="jspm_packages/system.js"></script>
     <script type="text/javascript" src="config.js"></script>
     <script>
-      System.import('src/blingz')
-    </script>
+      System.import('src/blingz').then(() => {
+        // simple demo: three colored circles with SVG rendering
 
+        var width  = 40 ;
+        var height = 20 ;
+        var svgns = "http://www.w3.org/2000/svg" ;
+        var svg = document.createElementNS(svgns, 'svg') ;
+
+        svg.setAttribute('viewBox', '0 0 ' + 2 * width + ' ' + 2 * height) ;
+        document.body.appendChild(svg) ;
+
+        var g = document.createElementNS(svgns, 'g') ;
+        g.setAttribute('transform', 'translate(' + width + ',' + height + ')') ;
+
+        svg.appendChild(g) ;
+
+        function update() {
+          this.x += this.dx ;
+          this.y += this.dy ;
+          this.x = Math.min(width, Math.max(-width, this.x)) ;
+          this.y = Math.min(height, Math.max(-height, this.y)) ;
+        } ;
+
+        function render() {
+          this.visual.setAttribute('cx', this.x) ;
+          this.visual.setAttribute('cy', this.y) ;
+        }
+
+        function click() {
+          this.__data__.dx = 2 * (Math.random() - 0.5) ;
+          this.__data__.dy = 2 * (Math.random() - 0.5) ;
+          if($Z.verbose) console.log('clicked', this, this.__data__)
+        } ;
+
+        var data = [
+          {x: -10, y:  0, dx: 0, dy: 0, r: 2, color: 'red'}, 
+          {x:  10, y:  0, dx: 0, dy: 0, r: 2, color: 'green'}, 
+          {x:   0, y: -10, dx: 0, dy: 0, r: 2, color: 'blue'}
+        ] ;
+
+        data.forEach((d) => {
+          d.visual = document.createElementNS(svgns, 'circle') ;
+          d.visual.setAttribute('cx', d.x) ;
+          d.visual.setAttribute('cy', d.y) ;
+          d.visual.setAttribute('r', d.r) ;
+          d.visual.setAttribute('class', d.color) ;
+          d.visual['__data__'] = d ;
+          d.visual.onclick = click ;
+          g.appendChild(d.visual) ;
+          d.update = update ;
+          d.render = render ;
+        }) ;
+
+        $Z.item(data) ; // load the user data into the simulation to initialize the time equals zero (t = 0) state
+        $Z.run() ; // run the interactive simulation (infinite loop by default)
+    }) ;
+
+    </script>
     <!-- *** production - compile build.js using: jspm bundle-sfx --minify src/blingz -->
     <!--<script type="text/javascript" src="build.js"></script>-->
-    <div id="gifs">
-    </div>
-  </body>
+    </body>
 </html>

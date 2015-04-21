@@ -1,7 +1,6 @@
 export default function acquire_input() {
-	var name = 'acquire_input' ;
-	if($Z.verbose) console.log('inside', name) ;
+	if($Z.verbose) console.log('inside', this.name) ;
 	return new Promise((resolve, reject) => {
-		resolve(name)
+		resolve(this.name)
   }) ;
 } ;	

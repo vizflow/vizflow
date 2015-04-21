@@ -1,7 +1,9 @@
 export default function render_image() {
-	var name = 'render_image' ;
-	if($Z.verbose) console.log('inside', name) ;
+	if(window.$Z.verbose) console.log('inside', this.name) ;
 	return new Promise((resolve, reject) => {
-		resolve(name)
+    window.$Z.item().forEach((d) => {
+    	d.render() ;
+    }) ;
+		resolve(this.name)
   }) ;
 } ;

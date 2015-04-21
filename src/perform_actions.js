@@ -1,7 +1,6 @@
 export default function perform_actions() {
-	var name = 'perform_actions' ;
-	if($Z.verbose) console.log('inside', name) ;
+	if($Z.verbose) console.log('inside', this.name) ;
 	return new Promise((resolve, reject) => {
-		resolve(name)
+		resolve(this.name)
   }) ;
 } ;
