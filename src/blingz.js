@@ -1,6 +1,13 @@
 // the "bling Z" ($Z) interactive simulation and game engine
 // by Daniel Korenblum 4/20/2015
 
+// define some default values for the $Z object's attributes: 
+
+var _item   = [] ;       // initialize the array of items (change to an object pool later to reduce garbage collection)
+var iter    = 0 ;        // default initial iteration count
+var verbose = false ;    // default verbosity value
+var maxIter = Infinity ; // default iteration limit
+
 // import the helper functions and wrappers attached to the $Z object:
 
 import step            from './step' ;
@@ -19,13 +26,6 @@ import detect_actions  from './detect_actions'  ;
 import perform_actions from './perform_actions' ;
 import render_image    from './render_image'    ;
 import step_or_exit    from './step_or_exit'    ;
-
-// define some default values for the $Z object's attributes: 
-
-var verbose = false ;    // default verbosity value
-var iter    = 0 ;        // default initial iteration count
-var maxIter = Infinity ; // default iteration limit
-var _item   = [] ;       // initialize the array of items (change to an object pool later)
 
 var task = [ // array of functions defining the sequence of asynchronous (non-blocking) tasks to perform for each step/frame/iteration of the simulation or game
   acquire_input,   // process user inputs and translate them into actionable changes to the data item attributes

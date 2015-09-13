@@ -32,8 +32,8 @@
 
         var width  = 40 ;
         var height = 20 ;
-        var svgns = "http://www.w3.org/2000/svg" ;
-        var svg = document.createElementNS(svgns, 'svg') ;
+        var svgns  = "http://www.w3.org/2000/svg" ;
+        var svg    = document.createElementNS(svgns, 'svg') ;
 
         svg.setAttribute('viewBox', '0 0 ' + 2 * width + ' ' + 2 * height) ;
         document.body.appendChild(svg) ;
@@ -51,50 +51,115 @@
         // } ;
 
         function render() {
-          this.viz.setAttribute('cx', this.x) ;
-          this.viz.setAttribute('cy', this.y) ;
+          this.viz.setAttribute('cx',   this.x     ) ;
+          this.viz.setAttribute('cy',   this.y     ) ;
+          this.viz.setAttribute('fill', this.color ) ;
+          this.viz.setAttribute('r',    this.radius) ;
+        }
+
+
+        function linear_interp(t) { // attaches to transition object and handles linear interpolation of scalar values
+          var newValue = (1 - t) * this.startValue + t * this.endValue ; // return a value to avoid side-effects
+          return newValue ;
+        }
+
+        function color_interp(t) {
+          var color1 = this.startValue ;
+          var color2 = this.endValue ; 
+          var split1 = [] ;
+          var split2 = [] ;
+          var split  = [] ;
+
+          color1 = color1.slice(1) ; // take off the hash
+          color2 = color2.slice(1) ; // take off the hash
+
+          // Convert it to the right length if it is the shorthand
+          if(color1.length === 3) color1 = color1.replace(/([0-9a-f])/ig, '$1$1');
+          if(color2.length === 3) color2 = color2.replace(/([0-9a-f])/ig, '$1$1');
+          
+          // Split the string into its main components and convert them to RGB
+          for(var i = 0 ; i < 3 ; i++) {
+            split1.push(parseInt(color1.slice(i * 2, (i + 1) * 2), 16)) ;
+            split2.push(parseInt(color2.slice(i * 2, (i + 1) * 2), 16)) ;
+          }
+
+          for(var i = 0 ; i < 3 ; i++) {
+            split[i] = Math.round((1 - t) * split1[i] + t * split2[i]) ;
+          }
+
+          var color  = [] ;
+
+          for(i = 0; i < 3; i++) {
+            // Convert it to hex
+            color[i] = split[i].toString(16).toUpperCase();
+            
+            // Make sure it is always the right length
+            if(color[i].length === 1) color[i] = color[i] + color[i] ;
+
+          }
+
+          var newValue = '#' + color.join('') ;
+          return newValue ;
+        }
+
+        function random_color() {
+
+          var r = Math.round(255 * Math.random()).toString(16) ;
+          var g = Math.round(255 * Math.random()).toString(16) ;
+          var b = Math.round(255 * Math.random()).toString(16) ;
+
+          // Make sure it is always the right length
+          if(r.length === 1) r = r + r ;
+          if(g.length === 1) g = g + g ;
+          if(b.length === 1) b = b + b ;
+
+          return '#' + r + g + b ;
         }
 
         function click() {
           
-          var x  = width * (Math.random() - 0.5) ;
-          var y  = height * (Math.random() - 0.5) ;
-          var tx = {stateName: 'x', duration: 3000, interpFunc: linear_interp, endValue: x } ;
-          var ty = {stateName: 'y', duration: 3000, interpFunc: linear_interp, endValue: y } ;
-          this.__d__.transition.push(tx) ;
-          this.__d__.transition.push(ty) ;
+          var x   = width  * (Math.random() - 0.5) ;
+          var y   = height * (Math.random() - 0.5) ;
+          var dur = 500 ;
+          var tx  = { varName: 'x',      duration: dur, interpFunc: linear_interp, endValue: x                       } ;
+          var ty  = { varName: 'y',      duration: dur, interpFunc: linear_interp, endValue: y                       } ;
+          var tc  = { varName: 'color',  duration: dur, interpFunc: color_interp,  endValue: random_color()          } ;
+          var tr  = { varName: 'radius', duration: dur, interpFunc: linear_interp, endValue: 1 + (4 * Math.random()) } ;
+
+          this.__d__.transition = [tx, ty, tc, tr] ; // // set the transitions, also cancels all existing transitions
+
           if($Z.verbose) console.log('clicked', this, this.__d__) ;
+
         } ;
 
         var data = [
-          {x: -10, y:  0, dx: 0, dy: 0, r: 2, color: 'red'}, 
-          {x:  10, y:  0, dx: 0, dy: 0, r: 2, color: 'green'}, 
-          {x:   0, y: -10, dx: 0, dy: 0, r: 2, color: 'blue'}
+          { x: -10, y:   0, radius: 2, color: '#FF0000' } , 
+          { x:  10, y:   0, radius: 2, color: '#00FF00' } , 
+          { x:   0, y: -10, radius: 2, color: '#0000FF' }
         ] ;
 
-        function linear_interp(el, t) { // attaches to transition object and handles linear interpolation of scalar values
-          if(this.startValue === undefined) {
-            this.startValue = el[this.stateName] ;
-          }
-          el[this.stateName] = (1 - t) * this.startValue + t * this.endValue ;
-        }
-
         data.forEach(function (d) {
-          d.viz = document.createElementNS(svgns, 'circle') ;
-          d.viz.setAttribute('cx', d.x) ;
-          d.viz.setAttribute('cy', d.y) ;
-          d.viz.setAttribute('r', d.r) ;
-          d.viz.setAttribute('class', d.color) ;
-          d.viz['__d__'] = d ; // bind the data to the viz element for efficient access
-          d.viz.onclick = click ;
+
+          d.transition   = []        ;
+          d.update       = $Z.update ;
+          d.render       = render    ;
+
+          d.viz          = document.createElementNS(svgns, 'circle') ;
+          d.viz['__d__'] = d     ; // bind the data to the viz element for efficient access
+          d.viz.onclick  = click ;
+
+          d.viz.setAttribute('cx',    d.x)     ;
+          d.viz.setAttribute('cy',    d.y)     ;
+          d.viz.setAttribute('r',     d.radius)     ;
+          d.viz.setAttribute('fill',  d.color) ;
+
           g.appendChild(d.viz) ;
-          d.transition = [] ;
-          d.update = $Z.update ;
-          d.render = render ;
+
         }) ;
 
-        $Z.item(data) ; // load the user data into the simulation to initialize the time equals zero (t = 0) state
+        $Z.item(data) ; // load the user data into the simulation to initialize the time  equals zero (t = 0) state
         $Z.run() ; // run the interactive simulation (infinite loop by default)
+
       }) ;
 
     </script>
