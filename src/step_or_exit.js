@@ -1,11 +1,9 @@
 export default function step_or_exit() {
-	return new Promise((resolve, reject) => {
-		if(window.$Z.done()) {
-			window.$Z.exit() ;
-			resolve(true) ;
-		} else {
-			window.$Z.step() ;
-			resolve(false) ;
-		}
-  }) ;
-} ;	
+	if($Z.done()) {
+		$Z.exit() ;
+		return Promise.resolve(true) ;
+	} else {
+		$Z.step() ;
+		return Promise.resolve(false) ;
+	}
+} ;

@@ -43,22 +43,27 @@
 
         svg.appendChild(g) ;
 
-        function update() {
-          this.x += this.dx ;
-          this.y += this.dy ;
-          this.x = Math.min(width, Math.max(-width, this.x)) ;
-          this.y = Math.min(height, Math.max(-height, this.y)) ;
-        } ;
+        // function update() {
+        //   this.x += this.dx ;
+        //   this.y += this.dy ;
+        //   this.x = Math.min(width, Math.max(-width, this.x)) ;
+        //   this.y = Math.min(height, Math.max(-height, this.y)) ;
+        // } ;
 
         function render() {
-          this.visual.setAttribute('cx', this.x) ;
-          this.visual.setAttribute('cy', this.y) ;
+          this.viz.setAttribute('cx', this.x) ;
+          this.viz.setAttribute('cy', this.y) ;
         }
 
         function click() {
-          this.__data__.dx = 2 * (Math.random() - 0.5) ;
-          this.__data__.dy = 2 * (Math.random() - 0.5) ;
-          if($Z.verbose) console.log('clicked', this, this.__data__)
+          
+          var x  = width * (Math.random() - 0.5) ;
+          var y  = height * (Math.random() - 0.5) ;
+          var tx = {stateName: 'x', duration: 3000, interpFunc: linear_interp, endValue: x } ;
+          var ty = {stateName: 'y', duration: 3000, interpFunc: linear_interp, endValue: y } ;
+          this.__d__.transition.push(tx) ;
+          this.__d__.transition.push(ty) ;
+          if($Z.verbose) console.log('clicked', this, this.__d__) ;
         } ;
 
         var data = [
@@ -67,25 +72,33 @@
           {x:   0, y: -10, dx: 0, dy: 0, r: 2, color: 'blue'}
         ] ;
 
+        function linear_interp(el, t) { // attaches to transition object and handles linear interpolation of scalar values
+          if(this.startValue === undefined) {
+            this.startValue = el[this.stateName] ;
+          }
+          el[this.stateName] = (1 - t) * this.startValue + t * this.endValue ;
+        }
+
         data.forEach(function (d) {
-          d.visual = document.createElementNS(svgns, 'circle') ;
-          d.visual.setAttribute('cx', d.x) ;
-          d.visual.setAttribute('cy', d.y) ;
-          d.visual.setAttribute('r', d.r) ;
-          d.visual.setAttribute('class', d.color) ;
-          d.visual['__data__'] = d ;
-          d.visual.onclick = click ;
-          g.appendChild(d.visual) ;
-          d.update = update ;
+          d.viz = document.createElementNS(svgns, 'circle') ;
+          d.viz.setAttribute('cx', d.x) ;
+          d.viz.setAttribute('cy', d.y) ;
+          d.viz.setAttribute('r', d.r) ;
+          d.viz.setAttribute('class', d.color) ;
+          d.viz['__d__'] = d ; // bind the data to the viz element for efficient access
+          d.viz.onclick = click ;
+          g.appendChild(d.viz) ;
+          d.transition = [] ;
+          d.update = $Z.update ;
           d.render = render ;
         }) ;
 
         $Z.item(data) ; // load the user data into the simulation to initialize the time equals zero (t = 0) state
         $Z.run() ; // run the interactive simulation (infinite loop by default)
-    }) ;
+      }) ;
 
     </script>
     <!-- *** production - compile build.js using: jspm bundle-sfx --minify src/blingz -->
     <!--<script type="text/javascript" src="build.js"></script>-->
-    </body>
+  </body>
 </html>

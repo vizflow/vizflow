@@ -9,22 +9,23 @@ import pipe            from './pipe' ;
 import done            from './done' ;
 import exit            from './exit' ;
 import run             from './run'  ;
+import update          from './update' ;
 
 // import the functions defining the asynchronous tasks comprising the main simulation or game loop, stored in an array called "tasks": 
 
-import acquire_input   from './acquire_input' ;
-import update_items    from './update_items' ;
-import detect_actions  from './detect_actions' ;
+import acquire_input   from './acquire_input'   ;
+import update_items    from './update_items'    ;
+import detect_actions  from './detect_actions'  ;
 import perform_actions from './perform_actions' ;
-import render_image    from './render_image' ;
-import step_or_exit    from './step_or_exit' ;
+import render_image    from './render_image'    ;
+import step_or_exit    from './step_or_exit'    ;
 
 // define some default values for the $Z object's attributes: 
 
-var verbose = false ; // default verbosity value
-var iter    = 0 ;     // default initial iteration count
-var maxIter = Infinity ;   // default iteration limit
-var _item   = [] ;    // initialize the array of items (change to an object pool later)
+var verbose = false ;    // default verbosity value
+var iter    = 0 ;        // default initial iteration count
+var maxIter = Infinity ; // default iteration limit
+var _item   = [] ;       // initialize the array of items (change to an object pool later)
 
 var task = [ // array of functions defining the sequence of asynchronous (non-blocking) tasks to perform for each step/frame/iteration of the simulation or game
   acquire_input,   // process user inputs and translate them into actionable changes to the data item attributes
@@ -41,8 +42,9 @@ window.$Z = { // define the "bling Z" object for running interactive simulations
 	maxIter, // default maximum iteration count allowed (max # of frames
 	_item,   // default data item array
 	item,    // getter/setter function for interfacing with the data item array
+	update,  // default update function for items using arrays of transition objects containing interpolation functions
 	pipe,    // function for dynamically chaining promises using a for-loop
-	step,    // function that executes one complete step (frame) of the simulation or game
+	step,    // function that executes one complete step (frame) of the interactive visualization / simulation / game
 	done,    // function to check for the end of the simulation or game, returns true if the simulation or game has ended
 	exit,    // function to execute after the simulation or game has ended to trigger the exit sequence
 	task,    // array of functions defining the sequence of asynchronous tasks to perform for each step or frame of the simulation or game
