@@ -2,25 +2,7 @@
 <html>
   <head>
     <style>
-      body {
-      	margin: 0;
-      }
-
-      .red {
-        stroke: none;
-        fill: red;
-      }
-
-      .blue {
-        stroke: none;
-        fill: blue;
-      } 
-
-      .green {
-        stroke: none;
-        fill: green;
-      }
-
+      body { margin: 0; }
     </style>
   </head>
   <body>
@@ -129,11 +111,11 @@
         function click() {
           
           var dur = 500 ;
-          var tx  = linear_transition('x',      dur, width  * (Math.random() - 0.5)) ;
-          var ty  = linear_transition('y',      dur, height * (Math.random() - 0.5)) ;
-          var tr  = linear_transition('radius', dur, 1 + (4 * Math.random())       ) ; 
-          var tc  = color_transition ('color' , dur, random_color()                ) ;
-          var tc2 = color_transition ('color' , dur, this.__d__.color0             ) ;
+          var tx  = linear_transition( 'x',      dur, width  * (Math.random() - 0.5) ) ;
+          var ty  = linear_transition( 'y',      dur, height * (Math.random() - 0.5) ) ;
+          var tr  = linear_transition( 'radius', dur, 1 + (4 * Math.random())        ) ; 
+          var tc  = color_transition ( 'color' , dur, random_color()                 ) ;
+          var tc2 = color_transition ( 'color' , dur, this.__d__.color0              ) ;
           
           tc.child = tc2 ;
 
@@ -162,10 +144,10 @@
           d.viz['__d__'] = d     ; // bind the data to the viz element for efficient access
           d.viz.onclick  = click ;
 
-          d.viz.setAttribute('cx',    d.x      ) ;
-          d.viz.setAttribute('cy',    d.y      ) ;
-          d.viz.setAttribute('r',     d.radius ) ;
-          d.viz.setAttribute('fill',  d.color  ) ;
+          d.viz.setAttribute('cx',   d.x      ) ;
+          d.viz.setAttribute('cy',   d.y      ) ;
+          d.viz.setAttribute('r',    d.radius ) ;
+          d.viz.setAttribute('fill', d.color  ) ;
 
           g.appendChild(d.viz) ;
 

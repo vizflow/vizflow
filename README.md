@@ -1,9 +1,11 @@
 ![vizflow](thumbnail.png)
 =======
 
-[vizflow.js](https://github.com/gameprez/vizflow.js) - an application-agnostic engine for interactive visualizations, simulations, and/or games written using EcmaScript.6 (ES6) with no other external dependencies. It provides a lighter-weight and less data-analysis-specific library compared to [D3js](http://d3js.org), with less emphasis on selections and data binding, and more emphasis on higher-order functions for greater reusability and cleaner code. 
+[vizflow.js](https://github.com/gameprez/vizflow.js) - an application-agnostic interactive visualization engine written using EcmaScript.6 (ES6) with no other external dependencies. It provides a lighter-weight and less data-analysis-specific library compared to [D3js](http://d3js.org), with less emphasis on selections, data binding, and statistics. Instead it only handles the transitions and physics-based simulation or game logic, depending on the application. 
 
 It uses the symblol `$Z` (pronounced "bling Z" or "dollar Z") for defining its namespace.
+
+This is a work in progress. Keeping the library simple-to-use, small, and efficient in terms of performance are the main goals of this project. Feedback wanted.
 
 <!---
 For example, when using `d3` we might want to visualize one dataset representing intervals  as lines and another representing points as circles, and then have them both fade-in. 
