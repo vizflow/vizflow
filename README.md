@@ -1,9 +1,11 @@
-blingZ
-======
+vizflow
+=======
 
-[$Z](https://github.com/gameprez/blingZ) (pronounced "bling Z" or "dollar Z") is an engine for _interactives_ (i.e. interactive visualizations, simulations, or games) written using EcmaScript.6 (ES6) with no other external dependencies. It provides a lighter-weight library compared to [D3js](http://d3js.org) with less emphasis on selections and data binding and more emphasis on higher-order functions for greater reusability and cleaner code. 
+[$Z](https://github.com/gameprez/vizflow) - an application-agnostic engine for _interactive visualizations_ simulations, or games) written using EcmaScript.6 (ES6) with no other external dependencies. It provides a lighter-weight and less data-analysis-specific library compared to [D3js](http://d3js.org), with less emphasis on selections and data binding, and more emphasis on higher-order functions for greater reusability and cleaner code. 
 
-For example, when using `d3` we might want to visualize one dataset representing intervals  as lines and another representing points as circles, and then have them both fade-in.
+It uses the symblold `$Z` (pronounced "bling Z" or "dollar Z") for defining its namespace.
+
+For example, when using `d3` we might want to visualize one dataset representing intervals  as lines and another representing points as circles, and then have them both fade-in. 
 
 Using `d3`, this would normally lead to code snippets like:
 
