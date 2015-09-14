@@ -9,6 +9,7 @@ For example, when using `d3` we might want to visualize one dataset representing
 
 Using `d3`, this would normally lead to code snippets like:
 
+<!---
 ```javascript
 d3.selectAll('.blue_circle')
   .data(myData1)
@@ -41,7 +42,6 @@ which works, but has some repeated code arising from both the chaining syntax fo
 
 $Z uses higher-order functions to define the transitions instead of chaining for cleaner and more reusable code. The same example as above could be implemented as:
 
-<!---
 ```javascript
 $Z.fadeIn = $Z.transition({duration: 1000, ease: 'linear'}) ;
 $Z.hide   = $Z.style({opacity: 0}) ;
