@@ -1,6 +1,4 @@
-<h1>
-<img alt="vizflow logo" src="http://dannyko.github.io/vizflow/thumbnail.png" title="vizflow.js"/></a>
-</h1>
+![vizflow](vizflow.png)
 =======
 
 [vizflow.js](https://github.com/gameprez/vizflow.js) - an application-agnostic engine for interactive visualizations, simulations, and/or games written using EcmaScript.6 (ES6) with no other external dependencies. It provides a lighter-weight and less data-analysis-specific library compared to [D3js](http://d3js.org), with less emphasis on selections and data binding, and more emphasis on higher-order functions for greater reusability and cleaner code. 
