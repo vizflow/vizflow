@@ -116,42 +116,64 @@
           return '#' + r + g + b ;
         }
 
+        function linear_transition(varName, duration, endValue) {
+          return {
+            varName,
+            duration,
+            endValue,
+            interpFunc: linear_interp
+          }
+        }
+
+        function color_transition(varName, duration, endValue) {
+          return {
+            varName,
+            duration,
+            endValue,
+            interpFunc: color_interp
+          }
+        }
+
         function click() {
           
-          var x   = width  * (Math.random() - 0.5) ;
-          var y   = height * (Math.random() - 0.5) ;
           var dur = 500 ;
-          var tx  = { varName: 'x',      duration: dur, interpFunc: linear_interp, endValue: x                       } ;
-          var ty  = { varName: 'y',      duration: dur, interpFunc: linear_interp, endValue: y                       } ;
-          var tc  = { varName: 'color',  duration: dur, interpFunc: color_interp,  endValue: random_color()          } ;
-          var tr  = { varName: 'radius', duration: dur, interpFunc: linear_interp, endValue: 1 + (4 * Math.random()) } ;
+          var tx  = linear_transition('x',      dur, width  * (Math.random() - 0.5)) ;
+          var ty  = linear_transition('y',      dur, height * (Math.random() - 0.5)) ;
+          var tr  = linear_transition('radius', dur, 1 + (4 * Math.random())       ) ; 
+          var tc  = color_transition ('color' , dur, random_color()                ) ;
+          var tc2 = color_transition ('color' , dur, this.__d__.color0             ) ;
+          
+          tc.child = tc2 ;
 
-          this.__d__.transition = [tx, ty, tc, tr] ; // // set the transitions, also cancels all existing transitions
-
+          this.__d__.transition = [tx, ty, tr, tc] ; // // set the transitions, also cancels all existing transitions
           if($Z.verbose) console.log('clicked', this, this.__d__) ;
 
         } ;
 
+        var red   = '#993333' ;
+        var green = '#339933' ;
+        var blue  = '#333399' ;
+
         var data = [
-          { x: -10, y:   0, radius: 2, color: '#FF0000' } , 
-          { x:  10, y:   0, radius: 2, color: '#00FF00' } , 
-          { x:   0, y: -10, radius: 2, color: '#0000FF' }
+          { x: -10, y:   0, radius: 2, color: red,   color0: red   },
+          { x:  10, y:   0, radius: 2, color: green, color0: green },
+          { x:   0, y: -10, radius: 2, color: blue,  color0: blue  }
         ] ;
 
         data.forEach(function (d) {
 
           d.transition   = []        ;
-          d.update       = $Z.update ;
+          d.update       = $Z.update ; // use default update function to handle transitions
           d.render       = render    ;
 
           d.viz          = document.createElementNS(svgns, 'circle') ;
           d.viz['__d__'] = d     ; // bind the data to the viz element for efficient access
           d.viz.onclick  = click ;
 
-          d.viz.setAttribute('cx',    d.x)     ;
-          d.viz.setAttribute('cy',    d.y)     ;
-          d.viz.setAttribute('r',     d.radius)     ;
-          d.viz.setAttribute('fill',  d.color) ;
+          d.viz.setAttribute('cx',    d.x      ) ;
+          d.viz.setAttribute('cy',    d.y      ) ;
+          d.viz.setAttribute('r',     d.radius ) ;
+          d.viz.setAttribute('fill',  d.color  ) ;
 
           g.appendChild(d.viz) ;
 
