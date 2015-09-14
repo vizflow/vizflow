@@ -63,7 +63,7 @@ Modify the `index.html` file to create your own interactive visualizations, simu
 
 Load the index.html file locally to test the code in a development environment (requires a local web server such as [live-server](https://github.com/tapio/live-server) to be running).
 
-Compile build.js using `jspm bundle-sfx --minify src/vizflow.js` for running in a production environment.
+Compile build.js using `jspm bundle-sfx --minify src/vizflow` for running in a production environment.
 
 # References
 
