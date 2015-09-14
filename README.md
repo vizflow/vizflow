@@ -1,7 +1,7 @@
-vizflow
+vizflow.js
 =======
 
-[$Z](https://github.com/gameprez/vizflow) - an application-agnostic engine for _interactive visualizations_ simulations, or games) written using EcmaScript.6 (ES6) with no other external dependencies. It provides a lighter-weight and less data-analysis-specific library compared to [D3js](http://d3js.org), with less emphasis on selections and data binding, and more emphasis on higher-order functions for greater reusability and cleaner code. 
+[vizflow.js](https://github.com/gameprez/vizflow.js) - an application-agnostic engine for _interactive visualizations_ simulations, or games) written using EcmaScript.6 (ES6) with no other external dependencies. It provides a lighter-weight and less data-analysis-specific library compared to [D3js](http://d3js.org), with less emphasis on selections and data binding, and more emphasis on higher-order functions for greater reusability and cleaner code. 
 
 It uses the symblold `$Z` (pronounced "bling Z" or "dollar Z") for defining its namespace.
 
@@ -41,11 +41,13 @@ which works, but has some repeated code arising from both the chaining syntax fo
 
 $Z uses higher-order functions to define the transitions instead of chaining for cleaner and more reusable code. The same example as above could be implemented as:
 
+<!---
 ```javascript
 $Z.fadeIn = $Z.transition({duration: 1000, ease: 'linear'}) ;
 $Z.hide   = $Z.style({opacity: 0}) ;
 $Z.circIn = $Z.chain($Z.hide, $Z.attr({cx: 'x', cy: 'y', r: 'r', class: 'blue_circle'})) ;
 $Z.lineIn = $Z.chain($Z.hide, $Z.attr({d: $Z.svg.line, class: 'blue_circle'})) ;
+--> 
 
 $Z.addItem(myData1, 'circle', $Z.circIn)
   .addItem(myData2, 'path', $Z.lineIn) ;
@@ -61,7 +63,7 @@ Modify the `index.html` file to create your own interactive visualizations, simu
 
 Load the index.html file locally to test the code in a development environment (requires a local web server such as [live-server](https://github.com/tapio/live-server) to be running).
 
-Compile build.js using `jspm bundle-sfx --minify src/blingz` for running in a production environment.
+Compile build.js using `jspm bundle-sfx --minify src/vizflow.js` for running in a production environment.
 
 # References
 
