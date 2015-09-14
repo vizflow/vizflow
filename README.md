@@ -5,11 +5,11 @@ vizflow.js
 
 It uses the symblol `$Z` (pronounced "bling Z" or "dollar Z") for defining its namespace.
 
+<!---
 For example, when using `d3` we might want to visualize one dataset representing intervals  as lines and another representing points as circles, and then have them both fade-in. 
 
 Using `d3`, this would normally lead to code snippets like:
 
-<!---
 ```javascript
 d3.selectAll('.blue_circle')
   .data(myData1)
@@ -47,13 +47,13 @@ $Z.fadeIn = $Z.transition({duration: 1000, ease: 'linear'}) ;
 $Z.hide   = $Z.style({opacity: 0}) ;
 $Z.circIn = $Z.chain($Z.hide, $Z.attr({cx: 'x', cy: 'y', r: 'r', class: 'blue_circle'})) ;
 $Z.lineIn = $Z.chain($Z.hide, $Z.attr({d: $Z.svg.line, class: 'blue_circle'})) ;
---> 
 
 $Z.addItem(myData1, 'circle', $Z.circIn)
   .addItem(myData2, 'path', $Z.lineIn) ;
 ```
 
 which removes some of the repetitive boilerplate present in `d3`.
+--> 
 
 The file `index.html` included in this repository contains a demo showing an interactive stochastic dynamics simulation with 3 frictionless, non-interacting particles in a rectangular domain with inelastic boundaries with particles rendered as colored circles using SVG.
 
