@@ -24,14 +24,10 @@
     </style>
   </head>
   <body>
-    <!-- 
     <script type="text/javascript" src="jspm_packages/system.js"></script>
     <script type="text/javascript" src="config.js"></script>
-    -->
-    <!-- *** for production - compile build.js using: jspm bundle-sfx --minify src/vizflow -->
-    <script type="text/javascript" src="build.js"></script>
     <script>
-      // System.import('src/vizflow').then(() => {
+      System.import('src/vizflow').then(() => {
         // simple demo: three colored circles with SVG rendering
 
         var width  = 40 ;
@@ -178,8 +174,10 @@
         $Z.item(data) ; // load the user data into the simulation to initialize the time  equals zero (t = 0) state
         $Z.run() ; // run the interactive simulation (infinite loop by default)
 
-      // }) ;
+      }) ;
 
     </script>
+    <!-- *** production - compile build.js using: jspm bundle-sfx --minify src/vizflow -->
+    <!--<script type="text/javascript" src="build.js"></script>-->
   </body>
 </html>
