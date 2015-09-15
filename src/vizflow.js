@@ -36,7 +36,7 @@ var task = [ // array of functions defining the sequence of asynchronous (non-bl
   step_or_exit     // decides whether to generate another frame or to stop the simulation/game
 ] ; 
 
-window.$Z = { // define the "bling Z" object for running interactive simulations or games
+window.$Z = { // define the "bling Z" object for running interactive vizualizations
   verbose, // toggles console log statements
 	iter,    // initialize loop iteration index (simulation step counter)
 	maxIter, // default maximum iteration count allowed (max # of frames
@@ -47,7 +47,7 @@ window.$Z = { // define the "bling Z" object for running interactive simulations
 	step,    // function that executes one complete step (frame) of the interactive visualization / simulation / game
 	done,    // function to check for the end of the simulation or game, returns true if the simulation or game has ended
 	exit,    // function to execute after the simulation or game has ended to trigger the exit sequence
-	task,    // array of functions defining the sequence of asynchronous tasks to perform for each step or frame of the simulation or game
+	task,    // array of functions defining the sequence of asynchronous tasks to perform for each step or frame of the visualization
 	run      // function that executes each of the asynchronous tasks sequentially using Promise.then() chaining
 } ;
 
