@@ -21,6 +21,20 @@ function three_circles() {
     this.viz.setAttribute('r',    this.radius) ;
   }
 
+  function random_color() {
+
+    var r = Math.round(255 * Math.random()).toString(16) ;
+    var g = Math.round(255 * Math.random()).toString(16) ;
+    var b = Math.round(255 * Math.random()).toString(16) ;
+
+    // Make sure it is always the right length
+    if(r.length === 1) r += r ;
+    if(g.length === 1) g += g ;
+    if(b.length === 1) b += b ;
+
+    return '#' + r + g + b ;
+  }
+
   var dur          = 500 ; // transition duration in milliseconds
 
   var x_transition = $Z.transition.linear_transition_func( 'x',      dur ) ; // function accepting an x end-value and returning a transition object
@@ -33,7 +47,7 @@ function three_circles() {
     var tx   = x_transition( width  * (Math.random() - 0.5) ) ; // x transition object
     var ty   = y_transition( height * (Math.random() - 0.5) ) ; // y transition object
     var tr   = r_transition( 1 + (4 * Math.random())        ) ; // radius transition object
-    var tc   = c_transition( $Z.transition.random_color()   ) ; // transient color transition object
+    var tc   = c_transition( random_color()   ) ; // transient color transition object
     var tc2  = c_transition( this.__d__.color0              ) ; // final color transition object (return back to starting color)
 
     tc.child = tc2 ; // this is an example of the vizflow transition chaining syntax
