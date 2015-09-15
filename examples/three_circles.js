@@ -6,19 +6,19 @@ function three_circles() {
   var svgns  = "http://www.w3.org/2000/svg" ;
   var svg    = document.createElementNS(svgns, 'svg') ;
 
-  svg.setAttribute('viewBox', '0 0 ' + 2 * width + ' ' + 2 * height) ;
+  svg.setAttribute( 'viewBox', '0 0 ' + 2 * width + ' ' + 2 * height) ;
   document.body.appendChild(svg) ;
 
   var g = document.createElementNS(svgns, 'g') ;
-  g.setAttribute('transform', 'translate(' + width + ',' + height + ')') ;
+  g.setAttribute('transform', 'translate(' + width + ',' + height + ')' ) ;
 
   svg.appendChild(g) ;
 
   function render() {
-    this.viz.setAttribute('cx',   this.x     ) ;
-    this.viz.setAttribute('cy',   this.y     ) ;
-    this.viz.setAttribute('fill', this.color ) ;
-    this.viz.setAttribute('r',    this.radius) ;
+    this.viz.setAttribute( 'cx',   this.x      ) ;
+    this.viz.setAttribute( 'cy',   this.y      ) ;
+    this.viz.setAttribute( 'fill', this.color  ) ;
+    this.viz.setAttribute( 'r',    this.radius ) ;
   }
 
   function random_color() {
@@ -27,7 +27,7 @@ function three_circles() {
     var g = Math.round(255 * Math.random()).toString(16) ;
     var b = Math.round(255 * Math.random()).toString(16) ;
 
-    // Make sure it is always the right length
+    // make sure they are the right length
     if(r.length === 1) r += r ;
     if(g.length === 1) g += g ;
     if(b.length === 1) b += b ;
@@ -47,12 +47,12 @@ function three_circles() {
     var tx   = x_transition( width  * (Math.random() - 0.5) ) ; // x transition object
     var ty   = y_transition( height * (Math.random() - 0.5) ) ; // y transition object
     var tr   = r_transition( 1 + (4 * Math.random())        ) ; // radius transition object
-    var tc   = c_transition( random_color()   ) ; // transient color transition object
+    var tc   = c_transition( random_color()                 ) ; // transient color transition object
     var tc2  = c_transition( this.__d__.color0              ) ; // final color transition object (return back to starting color)
 
-    tc.child = tc2 ; // this is an example of the vizflow transition chaining syntax
+    tc.child = tc2 ; // ** example of the vizflow transition-chaining syntax
 
-    this.__d__.transition = [tx, ty, tr, tc] ; // set the transitions, also cancels all existing transitions (side-effect)
+    this.__d__.transition = [tx, ty, tr, tc] ; // set the transitions for this item, also cancels all existing transitions for this item (side-effect)
 
   } 
 
@@ -76,10 +76,10 @@ function three_circles() {
     d.viz['__d__'] = d     ; // bind the data to the viz element for efficient access
     d.viz.onclick  = click ;
 
-    d.viz.setAttribute('cx',   d.x      ) ;
-    d.viz.setAttribute('cy',   d.y      ) ;
-    d.viz.setAttribute('r',    d.radius ) ;
-    d.viz.setAttribute('fill', d.color  ) ;
+    d.viz.setAttribute( 'cx',   d.x      ) ;
+    d.viz.setAttribute( 'cy',   d.y      ) ;
+    d.viz.setAttribute( 'r',    d.radius ) ;
+    d.viz.setAttribute( 'fill', d.color  ) ;
 
     g.appendChild(d.viz) ;
 
