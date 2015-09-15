@@ -17,6 +17,7 @@ import done            from './done' ;
 import exit            from './exit' ;
 import run             from './run'  ;
 import update          from './update' ;
+import transition      from './transition' ;
 
 // import the functions defining the asynchronous tasks comprising the main simulation or game loop, stored in an array called "tasks": 
 
@@ -27,7 +28,7 @@ import perform_actions from './perform_actions' ;
 import render_image    from './render_image'    ;
 import step_or_exit    from './step_or_exit'    ;
 
-var task = [ // array of functions defining the sequence of asynchronous (non-blocking) tasks to perform for each step/frame/iteration of the simulation or game
+var task = [       // array of functions defining the sequence of asynchronous (non-blocking) tasks to perform for each step/frame/iteration of the visualization
   acquire_input,   // process user inputs and translate them into actionable changes to the data item attributes
   update_items,    // apply changes to the data item attributes as determined by current data item and user input states 
   detect_actions,  // apply simulation or game logic e.g. collision detection etc. to determine what actions need to be performed
@@ -37,18 +38,19 @@ var task = [ // array of functions defining the sequence of asynchronous (non-bl
 ] ; 
 
 window.$Z = { // define the "bling Z" object for running interactive vizualizations
-  verbose, // toggles console log statements
-	iter,    // initialize loop iteration index (simulation step counter)
-	maxIter, // default maximum iteration count allowed (max # of frames
-	_item,   // default data item array
-	item,    // getter/setter function for interfacing with the data item array
-	update,  // default update function for items using arrays of transition objects containing interpolation functions
-	pipe,    // function for dynamically chaining promises using a for-loop
-	step,    // function that executes one complete step (frame) of the interactive visualization / simulation / game
-	done,    // function to check for the end of the simulation or game, returns true if the simulation or game has ended
-	exit,    // function to execute after the simulation or game has ended to trigger the exit sequence
-	task,    // array of functions defining the sequence of asynchronous tasks to perform for each step or frame of the visualization
-	run      // function that executes each of the asynchronous tasks sequentially using Promise.then() chaining
+  verbose,    // toggles console log statements
+	iter,       // initialize loop iteration index (simulation step counter)
+	maxIter,    // default maximum iteration count allowed (max # of frames
+	transition,  // module comtaining transition helpers
+	_item,      // default data item array
+	item,       // getter/setter function for interfacing with the data item array
+	update,     // default update function for items using arrays of transition objects containing interpolation functions
+	pipe,       // function for dynamically chaining promises using a for-loop
+	step,       // function that executes one complete step (frame) of the interactive visualization / simulation / game
+	done,       // function to check for the end of the simulation or game, returns true if the simulation or game has ended
+	exit,       // function to execute after the simulation or game has ended to trigger the exit sequence
+	task,       // array of functions defining the sequence of asynchronous tasks to perform for each step or frame of the visualization
+	run,        // function that executes each of the asynchronous tasks sequentially using Promise.then() chaining
 } ;
 
 export default {}
