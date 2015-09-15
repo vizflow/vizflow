@@ -1,4 +1,4 @@
-// simple demo: three colored circles with SVG rendering
+// three colored circles with SVG rendering, a simple demo of vizflow's transition features
 
 function three_circles() {
   var width  = 40 ;
@@ -111,7 +111,7 @@ function three_circles() {
     this.__d__.transition = [tx, ty, tr, tc] ; // // set the transitions, also cancels all existing transitions
     if($Z.verbose) console.log('clicked', this, this.__d__) ;
 
-  } ;
+  } 
 
   var red   = '#993333' ;
   var green = '#339933' ;
