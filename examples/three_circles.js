@@ -85,7 +85,7 @@ function three_circles() {
       duration,
       endValue,
       interpFunc: linear_interp
-    }
+    } ;
   }
 
   function color_transition(varName, duration, endValue) {
@@ -94,7 +94,7 @@ function three_circles() {
       duration,
       endValue,
       interpFunc: color_interp
-    }
+    } ;
   }
 
   function click() {
