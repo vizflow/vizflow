@@ -1,4 +1,4 @@
-// the "bling Z" ($Z) interactive simulation and game engine
+// vizflow: application-agnostic interactive vizualization engine
 // by Daniel Korenblum 4/20/2015
 
 // define some default values for the $Z object's attributes: 
