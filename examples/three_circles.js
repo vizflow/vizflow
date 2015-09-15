@@ -79,32 +79,42 @@ function three_circles() {
     return '#' + r + g + b ;
   }
 
-  function linear_transition(varName, duration, endValue) {
-    return {
-      varName,
-      duration,
-      endValue,
-      interpFunc: linear_interp
+  function linear_transition_func(varName, duration) {
+    return function(endValue) {
+      return {
+        varName,
+        duration,
+        endValue,
+        interpFunc: linear_interp
+      } ;
     } ;
   }
 
-  function color_transition(varName, duration, endValue) {
-    return {
-      varName,
-      duration,
-      endValue,
-      interpFunc: color_interp
+  function color_transition_func(varName, duration) {
+    return function(endValue) {
+      return {
+        varName,
+        duration,
+        endValue,
+        interpFunc: color_interp
+      }
     } ;
   }
+
+  var dur         = 500 ; // duration in milliseconds
+
+  var x_trans     = linear_transition_func( 'x',      dur ) ; // function accepting an x end-value and returning a transition object
+  var y_trans     = linear_transition_func( 'y',      dur ) ; // function accepting a y end-value and returning a transition object
+  var r_trans     = linear_transition_func( 'radius', dur ) ; // function accepting a y end-value and returning a transition object
+  var color_trans = color_transition_func ( 'color',  dur ) ; // function accepting a color end-value and returning a transition object
 
   function click() {
     
-    var dur = 500 ;
-    var tx  = linear_transition( 'x',      dur, width  * (Math.random() - 0.5) ) ;
-    var ty  = linear_transition( 'y',      dur, height * (Math.random() - 0.5) ) ;
-    var tr  = linear_transition( 'radius', dur, 1 + (4 * Math.random())        ) ; 
-    var tc  = color_transition ( 'color' , dur, random_color()                 ) ;
-    var tc2 = color_transition ( 'color' , dur, this.__d__.color0              ) ;
+    var tx  = x_trans     ( width  * (Math.random() - 0.5) ) ; // x transition object
+    var ty  = y_trans     ( height * (Math.random() - 0.5) ) ; // y transition object
+    var tr  = r_trans     ( 1 + (4 * Math.random())        ) ; // radius transition object
+    var tc  = color_trans ( random_color()                 ) ; // transient color transition object
+    var tc2 = color_trans ( this.__d__.color0              ) ; // final color transition object (return back to starting color)
     
     tc.child = tc2 ; // this is an example of the vizflow transition chaining syntax
 
