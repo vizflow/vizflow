@@ -5,7 +5,7 @@
 
 Instead of focusing on specific applications such as data visualization, it only provides an engine for running animations, transition effects, simulations, games, etc., depending on the application. 
 
-Vizflow uses the symblol `$Z` (pronounced "bling Z" or "dollar Z") for defining its namespace.
+Vizflow uses the symbol `$Z` (pronounced "bling Z" or "dollar Z") for defining its namespace.
 
 This is a work in progress. Keeping the library simple-to-use, small, and efficient in terms of performance are the main goals of this project. Feedback wanted.
 
