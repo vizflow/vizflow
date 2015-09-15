@@ -61,7 +61,7 @@ which removes some of the repetitive boilerplate present in `d3`.
 
 The file `index.html` included in this repository contains a demo showing an interactive stochastic dynamics simulation with 3 frictionless, non-interacting particles in a rectangular domain with inelastic boundaries with particles rendered as colored circles using SVG.
 
-Clicking on any of the circles will randomly change their 2D velocity vectors by sampling from a uniform distribution.
+Clicking on any of the circles will randomly change their 2D position by sampling from a uniform distribution.
 
 Modify the `index.html` file to create your own interactive visualizations, simulations, and games with maximal flexibility and minimal overhead.
 
