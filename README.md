@@ -1,5 +1,5 @@
+![vizflow](thumbnail.png)
 <h1>
-  ![vizflow](thumbnail.png)
   vizflow
 </h1>
 =======
