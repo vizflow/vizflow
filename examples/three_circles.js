@@ -106,10 +106,9 @@ function three_circles() {
     var tc  = color_transition ( 'color' , dur, random_color()                 ) ;
     var tc2 = color_transition ( 'color' , dur, this.__d__.color0              ) ;
     
-    tc.child = tc2 ;
+    tc.child = tc2 ; // this is an example of the vizflow transition chaining syntax
 
     this.__d__.transition = [tx, ty, tr, tc] ; // // set the transitions, also cancels all existing transitions
-    if($Z.verbose) console.log('clicked', this, this.__d__) ;
 
   } 
 
