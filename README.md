@@ -1,4 +1,7 @@
-![vizflow](thumbnail.png)
+<h1>
+  ![vizflow](thumbnail.png)
+  vizflow
+</h1>
 =======
 
 [vizflow.js](https://github.com/gameprez/vizflow.js) - an application-agnostic interactive visualization engine written using EcmaScript.6 (ES6) with no other external dependencies. It provides a lighter-weight library for adding transition effects to HTML5 documents compared to [D3js](http://d3js.org). 
@@ -58,6 +61,8 @@ $Z.addItem(myData1, 'circle', $Z.circIn)
 
 which removes some of the repetitive boilerplate present in `d3`.
 --> 
+
+# Example
 
 The file `index.html` included in this repository contains a demo showing an interactive stochastic dynamics simulation with 3 frictionless, non-interacting particles in a rectangular domain with inelastic boundaries with particles rendered as colored circles using SVG.
 
