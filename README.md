@@ -1,8 +1,4 @@
-![vizflow](thumbnail.png)
-<h1>
-  vizflow
-</h1>
-=======
+# ![vizflow](thumbnail.png) vizflow
 
 [vizflow.js](https://github.com/gameprez/vizflow.js) - an application-agnostic interactive visualization engine written using EcmaScript.6 (ES6) with no other external dependencies. It provides a lighter-weight library for adding transition effects to HTML5 documents compared to [D3js](http://d3js.org). 
 
