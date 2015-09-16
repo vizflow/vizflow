@@ -52,7 +52,7 @@ window.$Z = { // define the "bling Z" object for running interactive vizualizati
 	done,       // function to check for the end of the simulation or game, returns true if the simulation or game has ended
 	exit,       // function to execute after the simulation or game has ended to trigger the exit sequence
 	task,       // array of functions defining the sequence of asynchronous tasks to perform for each step or frame of the visualization
-	run        // function that executes each of the asynchronous tasks sequentially using Promise.then() chaining
+	run         // function that executes each of the asynchronous tasks sequentially using Promise.then() chaining
 } ;
 
 export default {}
