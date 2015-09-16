@@ -10,12 +10,12 @@ var maxIter = Infinity ; // default iteration limit
 
 // import the helper functions and wrappers attached to the $Z object:
 
-import step            from './step' 						;
-import item            from './item' 						;
-import pipe            from './pipe' 						;
-import done            from './done' 						;
-import exit            from './exit' 						;
-import run             from './run'  						;
+import step            from './step'            ;
+import item            from './item'            ;
+import pipe            from './pipe'            ;
+import done            from './done'            ;
+import exit            from './exit'            ;
+import run             from './run'             ;
 import update          from './update'          ;
 import transition      from './transition'      ;
 
@@ -52,7 +52,7 @@ window.$Z = { // define the "bling Z" object for running interactive vizualizati
 	done,       // function to check for the end of the simulation or game, returns true if the simulation or game has ended
 	exit,       // function to execute after the simulation or game has ended to trigger the exit sequence
 	task,       // array of functions defining the sequence of asynchronous tasks to perform for each step or frame of the visualization
-	run,        // function that executes each of the asynchronous tasks sequentially using Promise.then() chaining
+	run        // function that executes each of the asynchronous tasks sequentially using Promise.then() chaining
 } ;
 
 export default {}
