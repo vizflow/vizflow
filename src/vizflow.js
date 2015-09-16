@@ -3,21 +3,21 @@
 
 // define some default values for the $Z object's attributes: 
 
-var _item   = [] ;       // initialize the array of items (change to an object pool later to reduce garbage collection)
-var iter    = 0 ;        // default initial iteration count
-var verbose = false ;    // default verbosity value
+var _item   = []       ; // initialize the array of items (change to an object pool later to reduce garbage collection)
+var iter    = 0        ; // default initial iteration count
+var verbose = false    ; // default verbosity value
 var maxIter = Infinity ; // default iteration limit
 
 // import the helper functions and wrappers attached to the $Z object:
 
-import step            from './step' ;
-import item            from './item' ;
-import pipe            from './pipe' ;
-import done            from './done' ;
-import exit            from './exit' ;
-import run             from './run'  ;
-import update          from './update' ;
-import transition      from './transition' ;
+import step            from './step' 						;
+import item            from './item' 						;
+import pipe            from './pipe' 						;
+import done            from './done' 						;
+import exit            from './exit' 						;
+import run             from './run'  						;
+import update          from './update'          ;
+import transition      from './transition'      ;
 
 // import the functions defining the asynchronous tasks comprising the main simulation or game loop, stored in an array called "tasks": 
 
@@ -37,11 +37,13 @@ var task = [       // array of functions defining the sequence of asynchronous (
   step_or_exit     // decides whether to generate another frame or to stop the simulation/game
 ] ; 
 
+// define the vizflow object ($Z): 
+
 window.$Z = { // define the "bling Z" object for running interactive vizualizations
   verbose,    // toggles console log statements
 	iter,       // initialize loop iteration index (simulation step counter)
 	maxIter,    // default maximum iteration count allowed (max # of frames
-	transition,  // module comtaining transition helpers
+	transition, // module comtaining transition helpers
 	_item,      // default data item array
 	item,       // getter/setter function for interfacing with the data item array
 	update,     // default update function for items using arrays of transition objects containing interpolation functions
