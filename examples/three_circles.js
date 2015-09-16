@@ -69,8 +69,7 @@ function three_circles() {
   data.forEach(function (d) {
 
     d.transition   = []        ;
-    d.update       = $Z.update ; // use default update function to handle transitions
-    d.render       = render    ;
+    d.render       = render    ; // tell the visulization engine how to render the items
 
     d.viz          = document.createElementNS(svgns, 'circle') ;
     d.viz['__d__'] = d     ; // bind the data to the viz element for efficient access
@@ -85,6 +84,7 @@ function three_circles() {
 
   }) ;
 
-  $Z.item(data) ; // load the user data into the simulation to initialize the time  equals zero (t = 0) state
-  $Z.run()      ; // run the interactive simulation (infinite loop by default)
+  $Z.item(data) ; // load the user data into the visualization engine to initialize the time  equals zero (t = 0) state
+  $Z.run()      ; // run the interactive visualization (infinite loop by default)
+  
 }
