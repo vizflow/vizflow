@@ -4,6 +4,8 @@ export default function update() { // default update function for handling anima
 	let removeList = [] ;
 	let children   = [] ;
 
+	if(el.transition === undefined) return ;
+
 	for(let kt = 0 ; kt < el.transition.length ; kt++) {
 
 		let trans = el.transition[kt] ; // transition object for each state variable that is changing

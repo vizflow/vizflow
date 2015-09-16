@@ -68,7 +68,6 @@ function three_circles() {
 
   data.forEach(function (d) {
 
-    d.transition   = []        ;
     d.render       = render    ; // tell the visulization engine how to render the items
 
     d.viz          = document.createElementNS(svgns, 'circle') ;
@@ -86,5 +85,5 @@ function three_circles() {
 
   $Z.item(data) ; // load the user data into the visualization engine to initialize the time  equals zero (t = 0) state
   $Z.run()      ; // run the interactive visualization (infinite loop by default)
-  
+
 }
