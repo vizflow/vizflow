@@ -68,7 +68,7 @@ function three_circles() {
 
   data.forEach(function (d) {
 
-    d.render       = render    ; // tell the visulization engine how to render the items
+    d.render       = render    ; // function that tells the visulization engine how to render the items for each frame of the visualization
 
     d.viz          = document.createElementNS(svgns, 'circle') ;
     d.viz['__d__'] = d     ; // bind the data to the viz element for efficient access
