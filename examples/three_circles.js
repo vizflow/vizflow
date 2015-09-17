@@ -42,25 +42,11 @@ function three_circles() {
   var r_transition = $Z.transition.linear_transition_func ( 'radius', dur ) ; // function accepting a y end-value and returning a transition object
   var c_transition = $Z.transition.color_transition_func  ( 'color',  dur ) ; // function accepting a color end-value and returning a transition object
 
-  function click() {
-    
-    var tx   = x_transition ( width  * (Math.random() - 0.5) ) ; // x transition object
-    var ty   = y_transition ( height * (Math.random() - 0.5) ) ; // y transition object
-    var tr   = r_transition ( 1 + (4 * Math.random())        ) ; // radius transition object
-    var tc   = c_transition ( random_color()                 ) ; // transient color transition object
-    var tc2  = c_transition ( this.__d__.color0              ) ; // final color transition object (return back to starting color)
-
-    tc.child = tc2 ; // ** example of the vizflow transition-chaining syntax
-
-    this.__d__.transition = [tx, ty, tr, tc] ; // set the transitions for this item, also cancels all existing transitions for this item (side-effect)
-
-  } 
-
   var red   = '#993333' ;
   var green = '#339933' ;
   var blue  = '#333399' ;
 
-  var data = [
+  var data = [ // array of object literals defining the three circles
     { x: -10, y:   0, radius: 2, color: red,   color0: red   },
     { x:  10, y:   0, radius: 2, color: green, color0: green },
     { x:   0, y: -10, radius: 2, color: blue,  color0: blue  }
@@ -82,6 +68,20 @@ function three_circles() {
     g.appendChild(d.viz) ;
 
   }) ;
+
+  function click() {
+    
+    var tx   = x_transition ( width  * (Math.random() - 0.5) ) ; // x transition object
+    var ty   = y_transition ( height * (Math.random() - 0.5) ) ; // y transition object
+    var tr   = r_transition ( 1 + (4 * Math.random())        ) ; // radius transition object
+    var tc   = c_transition ( random_color()                 ) ; // transient color transition object
+    var tc2  = c_transition ( this.__d__.color0              ) ; // final color transition object (return back to starting color)
+
+    tc.child = tc2 ; // ** example of the vizflow transition-chaining syntax
+
+    this.__d__.transition = [tx, ty, tr, tc] ; // set the transitions for this item, also cancels all existing transitions for this item (side-effect)
+
+  } 
 
   $Z.item(data) ; // load the user data into the visualization engine to initialize the time  equals zero (t = 0) state
   $Z.run()      ; // run the interactive visualization (infinite loop by default)
