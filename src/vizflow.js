@@ -1,9 +1,11 @@
 // vizflow: application-agnostic interactive vizualization engine
 // by Daniel Korenblum 4/20/2015
+// http://github.com/dannyko/vizflow
 
 // define some default values for the $Z object's attributes: 
 
 var _item   = []       ; // initialize the array of items (change to an object pool later to reduce garbage collection)
+var _action = []       ; // array of actions to perform before rendering the items on each frame (e.g. collision detection, background clearing)
 var iter    = 0        ; // default initial iteration count
 var verbose = false    ; // default verbosity value
 var maxIter = Infinity ; // default iteration limit
@@ -12,6 +14,7 @@ var maxIter = Infinity ; // default iteration limit
 
 import step            from './step'            ;
 import item            from './item'            ;
+import action          from './action'          ;
 import pipe            from './pipe'            ;
 import done            from './done'            ;
 import exit            from './exit'            ;
@@ -44,8 +47,10 @@ window.$Z = { // define the "bling Z" object for running interactive vizualizati
 	iter,       // initialize loop iteration index (simulation step counter)
 	maxIter,    // default maximum iteration count allowed (max # of frames
 	transition, // module comtaining transition helpers
-	_item,      // default data item array
-	item,       // getter/setter function for interfacing with the data item array
+	_item,      // default data item array (internal use only as marked by underscore)
+	_action,    // array of actions (internal use only as marked by underscore)
+	item,       // getter/setter function for interfacing with the item/data array
+	action,     // getter/setter function for interfacing with the action array
 	update,     // default update function for items using arrays of transition objects containing interpolation functions
 	pipe,       // function for dynamically chaining promises using a for-loop
 	step,       // function that executes one complete step (frame) of the interactive visualization / simulation / game

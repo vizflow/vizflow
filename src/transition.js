@@ -29,26 +29,23 @@ var transition = { // module containing transition helper functions
     return color ;
   },
 
-  linear_transition_func: function linear_transition_func(varName, duration) {
+  build_func: function build_func(varName, duration, interpFunc) {
     return function(endValue) {
       return {
-        varName: varName,
-        duration: duration,
-        endValue: endValue,
-        interpFunc: $Z.transition.linear_interp
+        varName,
+        duration,
+        interpFunc,
+        endValue
       } ;
     } ;
   },
 
+  linear_transition_func: function linear_transition_func(varName, duration) {
+    return this.build_func(varName, duration, this.linear_interp) ;
+  },
+
   color_transition_func: function color_transition_func(varName, duration) {
-    return function(endValue) {
-      return {
-        varName: varName,
-        duration: duration,
-        endValue: endValue,
-        interpFunc: $Z.transition.color_interp
-      }
-    } ;
+    return this.build_func(varName, duration, this.color_interp) ;
   }
 
 } ;

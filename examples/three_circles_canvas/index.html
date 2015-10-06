@@ -6,7 +6,7 @@
         margin: 0;
         font: 13pt courier;
         font-weight: bold;
-        background-color: #FFF;
+        background-color: #111;
         overflow-y:hidden;
         color: #ccc;
         -webkit-user-select: none;
@@ -16,13 +16,10 @@
     </style>
   </head>
   <body>
-    <script type="text/javascript" src="jspm_packages/system.js"></script>
-    <script type="text/javascript" src="config.js"></script>
-    <script type="text/javascript" src="examples/three_circles_canvas/three_circles_canvas.js"></script>
+    <script type="text/javascript" src="build.js"></script>
+    <script type="text/javascript" src="three_circles_canvas.js"></script>
     <script>
-      System.import('src/vizflow').then( () => { 
         three_circles_canvas() ; 
-      } ) ;
     </script>
     <!-- *** production - compile build.js using: jspm bundle-sfx --minify src/vizflow -->
     <!-- *** production - add <script type="text/javascript" src="build.js"></script> tag in place of system.js and config.js -->

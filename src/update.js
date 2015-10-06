@@ -37,8 +37,14 @@ export default function update() { // default update function for handling anima
 		
 	}
 
-	for(let kr = removeList.length - 1 ; kr >= 0 ; kr--) 
-		el.transition.splice(removeList[kr], 1) ; // remove completed transition (will be garbage collected, may want to reuse via factory)
+	for(let kr = removeList.length - 1 ; kr >= 0 ; kr--) {
+		if(removeList[kr] < el.transition.length - 1) { // swap with last element and then pop to avoid splice call
+		  let swap = el.transition[el.transition.length - 1] ; // last transition
+		  el.transition[el.transition.length - 1] = el.transition[removeList[kr]] ;
+		  el.transition[removeList[kr]] = swap ;
+		}
+		el.transition.pop() ; // remove completed transition (will be garbage collected, may want to reuse via factory)
+	}
 
 	for(let kc = 0 ; kc < children.length ; kc++) 
 		el.transition.push(children[kc]) ; // sequential transition support by appending child transitions to transition list
