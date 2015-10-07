@@ -159,10 +159,10 @@ function three_circles_canvas() {
       return ;
 
     var tx   = x_transition ( left / 2 + (right - left / 2)  * Math.random() ) ; // x transition object
-    var ty   = y_transition ( hthird / 2 + hmid * Math.random() ) ; // y transition object
-    var tr   = r_transition ( hmid / 10 + (2 * hmid / 10 * Math.random()) ) ; // radius transition object
-    var tc   = c_transition ( random_color()                 ) ; // transient color transition object
-    var tc2  = c_transition ( data[node].color0              ) ; // final color transition object (return back to starting color)
+    var ty   = y_transition ( hthird / 2 + hmid * Math.random()              ) ; // y transition object
+    var tr   = r_transition ( hmid / 10 + (2 * hmid / 10 * Math.random())    ) ; // radius transition object
+    var tc   = c_transition ( random_color()                                 ) ; // transient color transition object
+    var tc2  = c_transition ( data[node].color0                              ) ; // final color transition object (return back to starting color)
 
     tc.child = tc2 ; // ** example of the vizflow transition-chaining syntax
 
