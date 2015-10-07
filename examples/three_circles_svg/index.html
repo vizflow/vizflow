@@ -1,0 +1,27 @@
+<!doctype html5>
+<html>
+  <head>
+    <style>
+      body { 
+        margin: 0;
+        font: 13pt courier;
+        font-weight: bold;
+        background-color: #FFF;
+        overflow-y:hidden;
+        color: #ccc;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;        
+       }
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript" src="build.js"></script>
+    <script type="text/javascript" src="three_circles_svg.js"></script>
+    <script>
+        three_circles_svg() ; 
+    </script>
+    <!-- *** production - compile build.js using: jspm bundle-sfx --minify src/vizflow -->
+    <!-- *** production - add <script type="text/javascript" src="build.js"></script> tag in place of system.js and config.js -->
+  </body>
+</html>
