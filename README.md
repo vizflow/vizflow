@@ -60,7 +60,7 @@ which removes some of the repetitive boilerplate present in `d3`.
 
 # Example
 
-The file `index.html` included in this repository contains a demo showing an interactive stochastic dynamics simulation with three particles in a rectangular domain rendered as colored circles using SVG.
+The file `index.html` included in this repository contains a demo showing an interactive stochastic dynamics simulation with three particles in a rectangular domain rendered as colored circles using either Canvas or SVG.
 
 Clicking on a circle will randomly change its 2D `(x, y)` position and radius by sampling from am appropriate uniform distributions for each of these variables.
 
