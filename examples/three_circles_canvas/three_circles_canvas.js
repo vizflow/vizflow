@@ -2,16 +2,16 @@
 
 function three_circles_canvas() {
 
-  var width  = 500 ;
+  var width  = 400 ;
   var height = 300 ;
 
   //var scaleToCover = Math.max(scaleX, scaleY);
    
   var stage = document.createElement('div') ;
-  stage.style['width']  = width ;
-  stage.style['height'] = height ;
-  stage.style.position   = 'relative' ;
-  stage.style.margin     = 0 ;
+  stage.style['width']        = width ;
+  stage.style['height']       = height ;
+  stage.style.position        = 'relative' ;
+  stage.style.margin          = 0 ;
   stage.style.transformOrigin = "0 0"; // scale from top left
 
   var canvas = document.createElement('canvas') ;
@@ -20,10 +20,16 @@ function three_circles_canvas() {
   canvas.setAttribute('height', height) ;
   canvas.style.position = 'absolute' ;
 
+
+  var hiddenCanvas = document.createElement('canvas') ; // for color-picking e.g. see https://bocoup.com/weblog/2d-picking-in-canvas/
+  hiddenCanvas.setAttribute('width', width) ;
+  hiddenCanvas.setAttribute('height', height) ;
+  hiddenCanvas.style.display  = 'none' ; // hide this canvas
+
   var context                         = canvas.getContext('2d') ;  
-  context.webkitImageSmoothingEnabled = false;
-  context.mozImageSmoothingEnabled    = false;
-  context.imageSmoothingEnabled       = false;
+  context.webkitImageSmoothingEnabled = false ;
+  context.mozImageSmoothingEnabled    = false ;
+  context.imageSmoothingEnabled       = false ;
 
   stage.appendChild(canvas) ;
   document.body.appendChild(stage) ;
@@ -35,7 +41,10 @@ function three_circles_canvas() {
   }
 
   function random_color() {
-    return '#' + rgb2hex( 255 * Math.random() ) + rgb2hex( 255 * Math.random() ) + rgb2hex( 255 * Math.random() ) ;
+    return '#' 
+      + rgb2hex( 255 * Math.random() )   // r
+      + rgb2hex( 255 * Math.random() )   // g
+      + rgb2hex( 255 * Math.random() ) ; // b
   }
 
   var dur          = 500 ; // transition duration in milliseconds
@@ -55,11 +64,6 @@ function three_circles_canvas() {
     { x: 200, y:   50, radius: 15, color: blue,  color0: blue  }
   ] ;
 
-  code2node        = {} ;
-  code2node[red]   = 0 ;
-  code2node[green] = 1 ;
-  code2node[blue]  = 2 ;
-
   data.forEach(function (d) d.render = render) ; // function that tells the visulization engine how to render the items for each frame of the visualization
 
   function prep() {
@@ -68,7 +72,7 @@ function three_circles_canvas() {
       (resolve, reject) => {
 
         var scaleX     = width  / window.innerWidth  ;
-        var scaleY     = height / window.innerHeight ;  
+        var scaleY     = height / window.innerHeight ;
         var scaleToFit = Math.min(scaleX, scaleY)    ;
 
         stage.style.transform = "scale(" + 1 / scaleToFit + ")" ;
@@ -81,29 +85,39 @@ function three_circles_canvas() {
     ) ;
   }
 
-  function render() {
+  function draw_circle(ctx, circ) {
+    ctx.beginPath() ;
+    ctx.arc(circ.x, circ.y, circ.radius, 0, Math.PI * 2, true) ;
+    ctx.fillStyle = circ.color ;
+    ctx.fill() ;
+  }
 
+  function render() {
     return new Promise(
       (resolve, reject) => {
-
-        context.beginPath() ;
-        context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true) ;
-        context.fillStyle = this.color ;
-        context.fill() ;
-
+        draw_circle(context, this) ;
         resolve(true) ;
-
       }
     ) ;
   }  
+
+  code2node = {} ;
+  for(var k = 0 ; k < data.length ; k++) {
+    code2node[data[k].color0] = k ; // lookup table for color-picking
+  }
 
   function click(e) {
 
     var mouseX = e.layerX ;
     var mouseY = e.layerY ;
-    var col  = context.getImageData(mouseX, mouseY, 1, 1).data ;
-    var code = "#" + rgb2hex(col[0]) + rgb2hex(col[1]) + rgb2hex(col[2]) ;
-    var node = code2node[code] ;
+
+    var hiddenContext = hiddenCanvas.getContext('2d') ;
+    for(var k = 0 ; k < data.length ; k++) { // only need to draw hidden canvas when user clicks
+      draw_circle(hiddenContext, {x: data[k].x, y: data[k].y, radius: data[k].radius, color: data[k].color0}) ; // draw into hidden-canvas for color-picking
+    }
+    var col    = hiddenContext.getImageData(mouseX, mouseY, 1, 1).data ;
+    var code   = "#" + rgb2hex(col[0]) + rgb2hex(col[1]) + rgb2hex(col[2]) ;
+    var node   = code2node[code] ;
 
     if(node === undefined)
       return ;
