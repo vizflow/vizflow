@@ -60,13 +60,15 @@ which removes some of the repetitive boilerplate present in `d3`.
 
 # Example
 
-The file `index.html` included in this repository contains a demo showing an interactive stochastic dynamics simulation with three particles in a rectangular domain rendered as colored circles using either Canvas or SVG.
+The file `index.html` included in this repository contains a demo showing an interactive stochastic dynamics simulation with three particles in a rectangular domain rendered as colored circles using either Canvas or SVG. 
 
 Clicking on a circle will randomly change its 2D `(x, y)` position and radius by sampling from am appropriate uniform distributions for each of these variables.
 
 Modify the `index.html` file to create your own interactive visualizations, simulations, and games with maximal flexibility and minimal overhead.
 
-Load the index.html file locally to test the code in a development environment (requires a local web server such as [live-server](https://github.com/tapio/live-server) to be running).
+Load the `index.html` file locally to test the code in a development environment (requires a local web server such as [live-server](https://github.com/tapio/live-server) to be running). 
+
+The compiled examples can also be loaded without a local server by going to the `index.html` files within the subdirectories contained in `examples`.
 
 Compile build.js using `jspm bundle-sfx --minify src/vizflow` for running in a production environment.
 For a demo showing the compiled version, see this [gist](https://gist.github.com/dannyko/ca8cc0fc1df5d7282cb5).
