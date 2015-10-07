@@ -1,6 +1,6 @@
 // three colored circles with SVG rendering, a simple demo of vizflow's transition features
 
-function three_circles() {
+function three_circles_svg() {
   var width  = 40 ;
   var height = 20 ;
   var svgns  = "http://www.w3.org/2000/svg" ;

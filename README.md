@@ -78,3 +78,4 @@ For a demo showing the compiled version, see this [gist](https://gist.github.com
 * [Babel](http://babeljs.io/)
 * [JSPM](https://github.com/jspm/jspm-cli)
 * [ES6+jspm template](https://github.com/geelen/loopgifs)
+* [2D Picking in Canvas](https://bocoup.com/weblog/2d-picking-in-canvas/)
