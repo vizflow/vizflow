@@ -70,7 +70,7 @@ Load the `index.html` file locally to test the code in a development environment
 
 The compiled examples can also be loaded without a local server by going to the `index.html` files within the subdirectories contained in `examples`.
 
-Compile build.js using `jspm bundle-sfx --minify src/vizflow` for running in a production environment.
+Compile `build.js` using `jspm bundle-sfx --minify src/vizflow` for running in a production environment.
 This [github preview page](http://htmlpreview.github.io/?https://github.com/dannyko/vizflow/blob/master/examples/three_circles_canvas/index.html) has a demo showing the compiled version using Canvas rending.
 
 # References
