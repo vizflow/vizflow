@@ -14,6 +14,39 @@ function outer_product() {
 
   svg.appendChild(g) ;
 
+  var defs       = document.createElementNS(svgns, 'defs') ;
+  var markerRed  = document.createElementNS(svgns, 'marker') ;
+  var markerBlue = document.createElementNS(svgns, 'marker') ;
+
+  markerRed.setAttribute('id', 'redMarker') ;
+  markerRed.setAttribute('orient', 'auto') ;
+  markerRed.setAttribute('markerWidth', height / 30) ;
+
+  svg
+      .append('defs')
+      .append('marker')
+      .attr('id', 'redMarker')
+      .attr('orient', 'auto')
+      .attr('markerWidth', 2)
+      .attr('markerHeight', markHeight)
+      .attr('refX', 0.1)
+      .attr('refY', 2)
+      .append('path')
+      .attr('d', 'M0,0 V4 L2,2 Z')
+      .attr('fill', 'crimson') ; 
+
+  svg
+      .append('marker')
+      .attr('id', 'blueMarker')
+      .attr('orient', 'auto')
+      .attr('markerWidth', 2)
+      .attr('markerHeight', markHeight)
+      .attr('refX', 0.1)
+      .attr('refY', 2)
+      .append('path')
+      .attr('d', 'M0,0 V4 L2,2 Z')
+      .attr('fill', '#66C') ;  
+
   function render() {
     this.viz.setAttribute( 'cx',   this.x      ) ;
     this.viz.setAttribute( 'cy',   this.y      ) ;

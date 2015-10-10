@@ -49,9 +49,13 @@ function three_circles_canvas() {
 
   function draw_circle(ctx, circ) {
     ctx.beginPath() ;
-    ctx.arc(circ.x, circ.y, circ.radius, 0, Math.PI * 2, true) ;
+    var x = circ.x ;
+    var y = circ.y ;
+    var r = circ.radius ;
+    ctx.arc(x, y, r, 0, Math.PI * 2, true) ;
     ctx.fillStyle = circ.color ;
     ctx.fill() ;
+    ctx.closePath() ;
   }
 
   function render() {
@@ -121,17 +125,28 @@ function three_circles_canvas() {
   var lastResize = Date.now() ;
 
   function prep() {
+
     var t = Date.now() ;
-    if(t - lastResize >= throttle) {
+    if(t - lastResize >= throttle) { // don't check for window resizes every frame to avoid reflow thrashing
       resize() ;
       lastResize = t ;
     }
+
     return new Promise(
       (resolve, reject) => {
-        context.clearRect(0, 0, canvas.width, canvas.height) ;
+        //context.clearRect(0, 0, canvas.width, canvas.height) ;
+        var pad = 4 ; // to account for aliasing when drawing paths to canvas
+        for(var k = 0 ; k < data.length ; k++) {
+          var x = Math.max(0, Math.floor(data[k].x - data[k].radius) - pad) ;
+          var y = Math.max(0, Math.floor(data[k].y - data[k].radius) - pad) ;
+          var w = Math.min(canvas.width, Math.ceil(2 * data[k].radius) + 2 * pad) ;
+          var h = Math.min(canvas.height, Math.ceil(2 * data[k].radius) + 2 * pad) ;
+          context.clearRect(x, y, w, h) ;
+        }
         resolve(true) ;
       }
     ) ;
+
   }
 
   code2node = {} ;
@@ -151,9 +166,9 @@ function three_circles_canvas() {
     for(var k = 0 ; k < data.length ; k++) { // only need to draw hidden canvas when user clicks
       draw_circle(hiddenContext, {x: data[k].x, y: data[k].y, radius: data[k].radius, color: data[k].color0}) ; // draw into hidden-canvas for color-picking
     }
-    var col    = hiddenContext.getImageData(mouseX, mouseY, 1, 1).data ;
-    var code   = "#" + rgb2hex(col[0]) + rgb2hex(col[1]) + rgb2hex(col[2]) ;
-    var node   = code2node[code] ;
+    var col  = hiddenContext.getImageData(mouseX, mouseY, 1, 1).data ;
+    var code = "#" + rgb2hex(col[0]) + rgb2hex(col[1]) + rgb2hex(col[2]) ;
+    var node = code2node[code] ;
 
     if(node === undefined)
       return ;
@@ -173,7 +188,7 @@ function three_circles_canvas() {
   canvas.addEventListener('click', click, false) ;
 
   $Z.item(data)     ; // load the user data into the visualization engine to initialize the time  equals zero (t = 0) state
-  $Z.action([prep]) ; // set the action to perform on each frame of the animation prior to rendering the elements 
+  $Z.prep([prep]) ;   // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
   $Z.run()          ; // run the interactive visualization (infinite loop by default)
 
 }
