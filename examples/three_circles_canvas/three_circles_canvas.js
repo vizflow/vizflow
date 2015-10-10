@@ -4,6 +4,7 @@ function three_circles_canvas() {
 
   var width  = 1200 ;
   var height = 900 ;
+  var dur    = 500 ; // transition duration in milliseconds
 
   //var scaleToCover = Math.max(scaleX, scaleY);
    
@@ -19,7 +20,6 @@ function three_circles_canvas() {
   canvas.setAttribute('width', width) ;
   canvas.setAttribute('height', height) ;
   canvas.style.position = 'absolute' ;
-
 
   var hiddenCanvas = document.createElement('canvas') ; // for color-picking e.g. see https://bocoup.com/weblog/2d-picking-in-canvas/
   hiddenCanvas.setAttribute('width', width) ;
@@ -66,8 +66,6 @@ function three_circles_canvas() {
       }
     ) ;
   }    
-
-  var dur          = 500 ; // transition duration in milliseconds
 
   var x_transition = $Z.transition.linear_transition_func ( 'x',      dur ) ; // function accepting an x end-value and returning a transition object
   var y_transition = $Z.transition.linear_transition_func ( 'y',      dur ) ; // function accepting a y end-value and returning a transition object
@@ -188,7 +186,7 @@ function three_circles_canvas() {
   canvas.addEventListener('click', click, false) ;
 
   $Z.item(data)     ; // load the user data into the visualization engine to initialize the time  equals zero (t = 0) state
-  $Z.prep([prep]) ;   // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
+  $Z.prep([prep])     ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
   $Z.run()          ; // run the interactive visualization (infinite loop by default)
 
 }
