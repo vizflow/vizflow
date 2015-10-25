@@ -2,11 +2,11 @@
 
 function ph_game() {
 
-  var width  = 1200 ;
-  var height = 900 ;
-  var dur    = 500 ; // transition duration in milliseconds
+  var width    = 1200 ;
+  var height   = 900 ;
+  var dur      = 500 ; // transition duration in milliseconds
   var yPadding = 200 ;
-  var perf = window.performance ;
+  var perf     = window.performance ;
 
   var canvas = set_canvas(width, height)
   canvas.setAttribute('id', 'vizCanvas') ;
@@ -243,9 +243,8 @@ function ph_game() {
         context.fillStyle = ("white") ;
         context.fillText("Current pH: " + pH.toPrecision(3), 10, 50) ;          
         context.fillText("Target pH: " + target.toPrecision(3), 10, 100) ;
-        var blurb = " Hydronium Ions to adjust the pH" ;
-        if(pH < target) var message = 'Remove' + blurb ;
-        else if(pH > target) var message = 'Add' + blurb ;
+        if(pH < target) var message = 'Remove Hydronium Ions to RAISE the pH' ;
+        else if(pH > target) var message = "Add Hydronium Ions to LOWER the pH" ;
         else {
           context.fillStyle = ("yellow") ;
           var message = 'You did it. Great job!' ;
