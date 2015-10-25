@@ -243,8 +243,8 @@ function ph_game() {
         context.fillStyle = ("white") ;
         context.fillText("Current pH: " + pH.toPrecision(3), 10, 50) ;          
         context.fillText("Target pH: " + target.toPrecision(3), 10, 100) ;
-        if(pH < target) var message = 'Remove Hydronium Ions to RAISE the pH' ;
-        else if(pH > target) var message = "Add Hydronium Ions to LOWER the pH" ;
+        if(pH < target) var message = 'REMOVE Hydronium Ions to RAISE the pH' ;
+        else if(pH > target) var message = "ADD Hydronium Ions to LOWER the pH" ;
         else {
           context.fillStyle = ("yellow") ;
           var message = 'You did it. Great job!' ;
