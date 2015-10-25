@@ -1,6 +1,6 @@
 # ![pH Game](thumbnail.png) pH Game
 
-pH Game is an interactive visualization or game buit using the `vizflow` ES6 animation engine.
+This "pH Game" is an interactive visualization example buit using the `vizflow` ES6 animation engine.
 
 [vizflow.js](https://github.com/dannyko/vizflow.js) - an application-agnostic interactive visualization engine written using EcmaScript.6 (ES6) with no other external dependencies. 
 
