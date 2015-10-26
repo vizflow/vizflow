@@ -5,7 +5,7 @@ function ph_game() {
   var width    = 1200 ;
   var height   = 900 ;
   var dur      = 500 ; // transition duration in milliseconds
-  var yPadding = 200 ;
+  var yPadding = 275 ;
   var perf     = window.performance ;
 
   var canvas = set_canvas(width, height)
@@ -19,7 +19,7 @@ function ph_game() {
   //context.webkitImageSmoothingEnabled = false ;
   context.mozImageSmoothingEnabled    = false ;
   context.imageSmoothingEnabled       = false ;
-  context.font = "36px Impact" ; 
+  context.font = "36px Sans-Serif" ; 
   context.globalAlpha = 1.0 ;
 
   var stage = set_stage(width, height) ;
@@ -56,7 +56,7 @@ function ph_game() {
 
   function draw_hydrogen(ctx, x, y) {
     var r = 1.2 * sizeScale ;
-    var c = yellow ;
+    var c = white ;
     ctx.globalAlpha = 1/4;
     draw_circle(ctx, {x: x, y: y, radius: r, color: c}) ;
     ctx.globalAlpha = 1.0 ; 
@@ -77,7 +77,7 @@ function ph_game() {
     var bondlength = sizeScale * 0.958 ; // hydroxide O-H bond length in angstroms
     var hxy = pol2cart(bondlength, mol.spin) ; // hydrogen position
     draw_hydrogen(ctx, mol.x + hxy[0], mol.y + hxy[1]) ;    
-    draw_oxygen(ctx, mol.x, mol.y, blue) ; // blue for negatively charged
+    draw_oxygen(ctx, mol.x, mol.y, green) ; // green for negatively charged
   }
 
   function draw_water(ctx, mol) {
@@ -89,7 +89,8 @@ function ph_game() {
 
     hxy = pol2cart(bondlength, mol.spin + angle) ; // second hydrogen
     draw_hydrogen(ctx, mol.x + hxy[0], mol.y + hxy[1]) ;
-    draw_oxygen(ctx, mol.x, mol.y, green) ; // gray for neutral
+
+    draw_oxygen(ctx, mol.x, mol.y, blue) ; // blue for water
   }
 
   function draw_hydronium(ctx, mol) {
@@ -160,6 +161,10 @@ function ph_game() {
   //  { x: middle, y:  hthird,     type: 3 }
   //] ;
 
+  /***              ***/
+  /*** set the data ***/
+  /***              ***/
+
   var Nwater  = 200 ;
   var Nproton = Math.round(Nwater * 0.1) ;
   var Ndata   = Nwater + Nproton ;
@@ -173,20 +178,21 @@ function ph_game() {
     var Ninitial = Nproton - Ninitial2 ;
 
   for(var k = 0 ; k < Ndata ; k++) {
-    d = {} ;
-    d.x = left / 2 + (right - left / 2)  * Math.random() ;
-    d.y = hthird + 0.8 * 2 * (hthird * Math.random()) ;
-    if(k >= Ndata - Ninitial) d.type = 3 ;
-    else d.type = 2 ;
-    d.id     = k ;
-    d.render = render ; // function that tells the visulization engine how to render the items for each frame of the visualization
-    d.spin   = 2 * Math.PI * Math.random() ;
-    data[k] = d ;
+    var x = left / 2 + (right - left / 2)  * Math.random() ;
+    var y = hthird + 0.8 * 2 * (hthird * Math.random()) ;
+
+    var type = 2 ;
+    if(k >= Ndata - Ninitial) type = 3 ;
+
+    var spin = 2 * Math.PI * Math.random() ; 
+    var id   = k ;
+
+    data[k] = {x: x, y: y, spin: spin, type: type, id: id, render: render} ;
   }
 
-  var scaleX     ; 
-  var scaleY     ; 
-  var vizScale ; 
+  var scaleX      ; 
+  var scaleY      ; 
+  var vizScale    ; 
   var windowWidth ;
 
   function set_scale() {     
@@ -234,24 +240,41 @@ function ph_game() {
           var h = Math.min(canvas.height, Math.ceil(2 * radius) + 2 * pad) ;
           context.clearRect(x, y, w, h) ;
         }
-        var pH = 0 ;
+        var Nhydronium = 0 ;
         for(var k = 0 ; k < data.length ; k++) 
           if(data[k].type === 3) 
-            pH++ ;
-        pH /= (data.length - pH) ;
+            Nhydronium++ ;
+        var pH = Nhydronium / (data.length - Nhydronium) ;
         pH = -Math.log10(pH) ;
 
         context.clearRect(0, 0, width, yPadding) ;
         context.fillStyle = "white" ;
+        var f = context.font ;
+        context.font = '24px Sans-Serif' ;
+        context.fillText('- remove hydronium ions to raise the pH', 10, yPadding - 70)
+        context.fillText('- add hydronium Ions to lower the pH', 10, yPadding - 40);
+        context.font = f ;
         context.fillText("Current pH: " + pH.toPrecision(3), 10, 50) ;          
         context.fillText("Target pH: " + target.toPrecision(3), 10, 100) ;
-        if(pH < target) var message = 'REMOVE Hydronium Ions to RAISE the pH' ;
-        else if(pH > target) var message = "ADD Hydronium Ions to LOWER the pH" ;
+        if(pH !== target) {
+          var message = 'Mission: Ten            for every' ;
+          draw_water(context, {x: 275 , y: 140, spin: Math.PI / 3}) ;
+          draw_hydronium(context, {x: 540 , y: 140, spin: Math.PI / 3}) ;
+          context.fillStyle = "white" ;
+        }
         else {
           context.fillStyle = "yellow" ;
           var message = 'You did it. Great job!' ;
         }
         context.fillText(message, 10, 150) ;          
+
+        draw_water(context, {x: 1000, y: 40, spin: Math.PI / 3}) ;
+        draw_hydronium(context ,{x: 1000, y: 140, spin: Math.PI / 3}) ;   
+
+        context.fillStyle = "white" ;
+        context.fillText(data.length - Nhydronium, 1050, 60) ;          
+        context.fillText(Nhydronium, 1050, 150) ;          
+
         resolve(true) ;
       }
     ) ;
