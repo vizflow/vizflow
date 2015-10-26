@@ -46,9 +46,17 @@ function ph_game() {
   var sizeScale = 20 ; // pixels per Angstrom
   var radius    = 3.4 * sizeScale ; // for user interaction
 
+  var red    = '#882222' ;
+  var green  = '#224422' ;
+  var blue   = '#222288' ;
+  var gray   = '#222222' ;
+  var black  = '#000000' ;
+  var white  = '#FFFFFF' ;
+  var yellow = '#FFFF88' ;
+
   function draw_hydrogen(ctx, x, y) {
     var r = 1.2 * sizeScale ;
-    var c = '#FFFFFF' ;
+    var c = yellow ;
     ctx.globalAlpha = 1/4;
     draw_circle(ctx, {x: x, y: y, radius: r, color: c}) ;
     ctx.globalAlpha = 1.0 ; 
@@ -64,12 +72,6 @@ function ph_game() {
     var y = radius * Math.sin(angle) ;
     return [x, y] ;
   }
-
-  var red   = '#BB3333' ;
-  var green = '#336633' ;
-  var blue  = '#333366' ;
-  var gray  = '#333333' ;
-  var black = '#000000' ;
 
   function draw_hydroxide(ctx, mol) {
     var bondlength = sizeScale * 0.958 ; // hydroxide O-H bond length in angstroms
@@ -87,7 +89,7 @@ function ph_game() {
 
     hxy = pol2cart(bondlength, mol.spin + angle) ; // second hydrogen
     draw_hydrogen(ctx, mol.x + hxy[0], mol.y + hxy[1]) ;
-    draw_oxygen(ctx, mol.x, mol.y, gray) ; // gray for neutral
+    draw_oxygen(ctx, mol.x, mol.y, green) ; // gray for neutral
   }
 
   function draw_hydronium(ctx, mol) {
