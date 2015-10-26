@@ -12,6 +12,6 @@ Depending on the randomized target pH given at the start of the game, add or rem
 
 The purpose of this game is to teach the player to visualize that adding hydronium ions reduces the pH while removing hydronium ions raises the pH.
 
-Atomic radii, bond-lengths, and bond-angles are drawn to scale. No collision detection or force-fields are used and the position and orientation dynamics are sampled from uniform random distributions.
+Atomic radii, bond-lengths, and bond-angles are drawn to scale. No collision detection or force-fields are used and the position and orientation dynamics are sampled from uniform random (white noise) distributions. I.e., the atomic trajectories shown also represent discretized Wiener processes).
 
 Here is the link to the [live preview](http://htmlpreview.github.io/?https://github.com/dannyko/vizflow/blob/master/examples/ph_game/index.html) page. 
