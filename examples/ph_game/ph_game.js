@@ -253,8 +253,8 @@ function ph_game() {
         context.fillStyle = "white" ;
         var f = context.font ;
         context.font = '24px Sans-Serif' ;
-        context.fillText('remove H3O to raise the pH', 10, yPadding - 70)
-        context.fillText('add H3O to lower the pH', 10, yPadding - 40);
+        context.fillText('remove H3O ions to raise the pH', 10, yPadding - 70)
+        context.fillText('add H3O ions to lower the pH', 10, yPadding - 40);
         context.font = f ;
         context.fillText("Current pH: " + pH.toPrecision(3), 10, 50) ;          
         context.fillText("Target pH: " + target.toPrecision(3), 10, 100) ;
