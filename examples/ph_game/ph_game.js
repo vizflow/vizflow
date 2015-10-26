@@ -259,7 +259,7 @@ function ph_game() {
         context.fillText("Current pH: " + pH.toPrecision(3), 10, 50) ;          
         context.fillText("Target pH: " + target.toPrecision(3), 10, 100) ;
         if(pH !== target) {
-          var message = 'Mission: Ten            for every' ;
+          var message = 'Goal: 10            for every' ;
           draw_water(context, {x: 275 , y: 140, spin: Math.PI / 3}) ;
           draw_hydronium(context, {x: 540 , y: 140, spin: Math.PI / 3}) ;
           context.fillStyle = "white" ;
