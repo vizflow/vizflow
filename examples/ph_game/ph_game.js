@@ -16,11 +16,11 @@ function ph_game() {
   hiddenCanvas.style.display = 'none' ; // hide this canvas
 
   var context                         = canvas.getContext('2d') ;  
-  //context.webkitImageSmoothingEnabled = false ;
+  // context.webkitImageSmoothingEnabled = false ;
   context.mozImageSmoothingEnabled    = false ;
   context.imageSmoothingEnabled       = false ;
-  context.font = "36px Sans-Serif" ; 
-  context.globalAlpha = 1.0 ;
+  context.font                        = "36px Sans-Serif" ; 
+  context.globalAlpha                 = 1.0 ;
 
   var stage = set_stage(width, height) ;
   stage.appendChild(canvas) ;
@@ -248,11 +248,13 @@ function ph_game() {
         pH = -Math.log10(pH) ;
 
         context.clearRect(0, 0, width, yPadding) ;
+        var sTemp = sizeScale ;
+        sizeScale = 12 ;
         context.fillStyle = "white" ;
         var f = context.font ;
         context.font = '24px Sans-Serif' ;
-        context.fillText('- remove hydronium ions to raise the pH', 10, yPadding - 70)
-        context.fillText('- add hydronium Ions to lower the pH', 10, yPadding - 40);
+        context.fillText('remove H3O to raise the pH', 10, yPadding - 70)
+        context.fillText('add H3O to lower the pH', 10, yPadding - 40);
         context.font = f ;
         context.fillText("Current pH: " + pH.toPrecision(3), 10, 50) ;          
         context.fillText("Target pH: " + target.toPrecision(3), 10, 100) ;
@@ -274,6 +276,8 @@ function ph_game() {
         context.fillStyle = "white" ;
         context.fillText(data.length - Nhydronium, 1050, 60) ;          
         context.fillText(Nhydronium, 1050, 150) ;          
+
+        sizeScale = sTemp ;
 
         resolve(true) ;
       }
