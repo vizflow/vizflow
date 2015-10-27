@@ -127,14 +127,22 @@ function ph_game() {
   }
 
 
-  function random_angle_perturbation() {
-    var scale = 0.05 ;
-    return scale * 2 * Math.PI * (2 * (Math.random()  - 0.5)); // random perturbation in orientation 
+  function random_angle_perturbation() { // random perturbation in orientation 
+    var scale = 0.25 ;
+    return scale * gaussian_rng() ; // 2 * Math.PI * (2 * (Math.random()  - 0.5)); 
+  }
+
+  function gaussian_rng() {
+    var x1 = Math.random() ;
+    var x2 = Math.random() ;
+    y = Math.sqrt( - 2 * Math.log(x1) ) * Math.cos( 2 * Math.PI * x2 ) ;
+    //y2 = sqrt( - 2 Math.log(x1) ) Math.sin( 2 * Math.PI * x2 ) ;
+    return y ;  
   }
 
   function random_position_perturbation() {
-    var scale = 10  ;
-    return scale * (Math.random() - 0.5) ;
+    var scale = 2.5  ;
+    return scale * gaussian_rng() ;
   }
 
   function boundary_conditions(mol) {
