@@ -2,10 +2,28 @@
 
 function ph_game() {
 
+  var gameDiv = document.getElementById('#game_div') ; // assume there is some element called game_div
+
+  document.body.style.backgroundColor = '#222' ;
+  document.body.overflowY = 'hidden';
+  document.body.style.margin = 0 ;
+
+  gameDiv.style.margin = 0 ;
+  gameDiv.style.height = '100%' ;
+  gameDiv.style.width = '100%' ;
+  gameDiv.style.font = '13pt courier';
+  gameDiv.style.fontWeight = 'bold';
+  gameDiv.style.backgroundColor = '#222' ;
+  gameDiv.style.overflowY = 'hidden';
+  gameDiv.style.color = '#ccc';
+  gameDiv.style['-webkit-user-select'] = 'none';
+  gameDiv.style['-moz-user-select'] = 'none';
+  gameDiv.style['user-select'] = 'none' ;        
+
   var width    = 1600 ;
   var height   = 900 ;
   var dur      = 500 ; // transition duration in milliseconds
-  var yPadding = 275 ;
+  var yPadding = 340 ;
   var perf     = window.performance ;
 
   var canvas = set_canvas(width, height)
@@ -19,12 +37,12 @@ function ph_game() {
   // context.webkitImageSmoothingEnabled = false ;
   context.mozImageSmoothingEnabled    = false ;
   context.imageSmoothingEnabled       = false ;
-  context.font                        = "36px Arial" ; 
+  context.font                        = "72px Arial" ; 
   context.globalAlpha                 = 1.0 ;
 
   var stage = set_stage(width, height) ;
   stage.appendChild(canvas) ;
-  document.body.appendChild(stage) ;  
+  gameDiv.appendChild(stage) ;  
 
   function rgb2hex( rgb ) {
     var c = Math.round( rgb ).toString( 16 ) ;
@@ -57,7 +75,7 @@ function ph_game() {
   function draw_hydrogen(ctx, x, y) {
     var r = 1.2 * sizeScale ;
     var c = white ;
-    ctx.globalAlpha = 1/4;
+    ctx.globalAlpha = 1/3;
     draw_circle(ctx, {x: x, y: y, radius: r, color: c}) ;
     ctx.globalAlpha = 1.0 ; 
   }
@@ -242,33 +260,34 @@ function ph_game() {
 
     context.clearRect(0, 0, width, yPadding) ;
     var sTemp = sizeScale ;
-    sizeScale = 12 ;
+    sizeScale = 15 ;
     context.fillStyle = "white" ;
     var f = context.font ;
-    context.font = '24px Arial' ;
-    context.fillText('To play, add hydronium (H3O) ions to lower the pH, and remove hydronium (H3O) ions to raise the pH', 10, yPadding - 80)
+    context.font = '32px Arial' ;
+    context.fillText('To play, add hydronium (H3O) ions to lower the pH, and remove hydronium (H3O) ions to raise the pH', 10, yPadding - 50)
   //        context.fillText('', 10, yPadding - 50);
     context.font = f ;
-    context.fillText("Current pH: " + pH.toPrecision(3), 10, 50) ;          
-    context.fillText("Target pH: " + target.toPrecision(3), 10, 100) ;
+    var ySkip = 15 + yPadding / 5 ;
+    context.fillText("Current pH: " + pH.toPrecision(3), 10, ySkip) ;          
+    context.fillText("Target pH: " + target.toPrecision(3), 10, 2 * ySkip) ;
     if(pH !== target) {
-      var message = 'Goal: 10        for every' ;
-      draw_water(context, {x: 190 , y: 140, spin: Math.PI / 3}) ;
-      draw_hydronium(context, {x: 410 , y: 140, spin: Math.PI / 3}) ;
+      var message = 'Goal: 10      for every' ;
+      draw_water(context, {x: 340 , y: 3 * ySkip - 25, spin: Math.PI / 3}) ;
+      draw_hydronium(context, {x: 740 , y: 3 * ySkip - 25, spin: Math.PI / 3}) ;
       context.fillStyle = "white" ;
     }
     else {
       context.fillStyle = "yellow" ;
       var message = 'You did it. Great job!' ;
     }
-    context.fillText(message, 10, 150) ;          
+    context.fillText(message, 10, 3 * ySkip) ;          
 
-    draw_water(context, {x: width - 150, y: 80, spin: Math.PI / 3}) ;
-    draw_hydronium(context ,{x: width - 150 , y: 160, spin: Math.PI / 3}) ;   
+    draw_water(context, {x: width - 200, y: 50, spin: Math.PI / 3}) ;
+    draw_hydronium(context ,{x: width - 200 , y: 150, spin: Math.PI / 3}) ;   
 
     context.fillStyle = "white" ;
-    context.fillText(data.length - Nhydronium, width - 120, 95) ;          
-    context.fillText(Nhydronium, width - 120, 170) ;          
+    context.fillText(data.length - Nhydronium, width - 150, 80) ;          
+    context.fillText(Nhydronium, width - 150, 170) ;          
 
     sizeScale = sTemp ;
     return true ;
