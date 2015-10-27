@@ -2,7 +2,7 @@
 
 function ph_game() {
 
-  var width    = 1200 ;
+  var width    = 1600 ;
   var height   = 900 ;
   var dur      = 500 ; // transition duration in milliseconds
   var yPadding = 275 ;
@@ -253,8 +253,8 @@ function ph_game() {
         context.fillStyle = "white" ;
         var f = context.font ;
         context.font = '24px Sans-Serif' ;
-        context.fillText('remove H3O ions to raise the pH', 10, yPadding - 70)
-        context.fillText('add H3O ions to lower the pH', 10, yPadding - 40);
+        context.fillText('To play, add hydronium (H3O) ions to lower the pH, and remove hydronium (H3O) ions to raise the pH', 10, yPadding - 80)
+//        context.fillText('', 10, yPadding - 50);
         context.font = f ;
         context.fillText("Current pH: " + pH.toPrecision(3), 10, 50) ;          
         context.fillText("Target pH: " + target.toPrecision(3), 10, 100) ;
@@ -270,12 +270,12 @@ function ph_game() {
         }
         context.fillText(message, 10, 150) ;          
 
-        draw_water(context, {x: 1000, y: 40, spin: Math.PI / 3}) ;
-        draw_hydronium(context ,{x: 1000, y: 140, spin: Math.PI / 3}) ;   
+        draw_water(context, {x: width - 150, y: 80, spin: Math.PI / 3}) ;
+        draw_hydronium(context ,{x: width - 150 , y: 160, spin: Math.PI / 3}) ;   
 
         context.fillStyle = "white" ;
-        context.fillText(data.length - Nhydronium, 1050, 60) ;          
-        context.fillText(Nhydronium, 1050, 150) ;          
+        context.fillText(data.length - Nhydronium, width - 120, 95) ;          
+        context.fillText(Nhydronium, width - 120, 170) ;          
 
         sizeScale = sTemp ;
 
