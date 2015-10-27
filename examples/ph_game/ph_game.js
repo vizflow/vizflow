@@ -23,7 +23,7 @@ function ph_game() {
   var width    = 1600 ;
   var height   = 900 ;
   var dur      = 500 ; // transition duration in milliseconds
-  var yPadding = 340 ;
+  var yPadding = 260 ;
   var perf     = window.performance ;
 
   var canvas = set_canvas(width, height)
@@ -37,7 +37,7 @@ function ph_game() {
   // context.webkitImageSmoothingEnabled = false ;
   context.mozImageSmoothingEnabled    = false ;
   context.imageSmoothingEnabled       = false ;
-  context.font                        = "72px Arial" ; 
+  context.font                        = "48px Arial" ; 
   context.globalAlpha                 = 1.0 ;
 
   var stage = set_stage(width, height) ;
@@ -264,16 +264,16 @@ function ph_game() {
     context.fillStyle = "white" ;
     var f = context.font ;
     context.font = '32px Arial' ;
-    context.fillText('To play, add hydronium (H3O) ions to lower the pH, and remove hydronium (H3O) ions to raise the pH', 10, yPadding - 50)
+    context.fillText('To play, add hydronium (H3O) ions to lower the pH, and remove hydronium (H3O) ions to raise the pH', 10, yPadding - 30)
   //        context.fillText('', 10, yPadding - 50);
     context.font = f ;
-    var ySkip = 15 + yPadding / 5 ;
+    var ySkip = 10 + yPadding / 5 ;
     context.fillText("Current pH: " + pH.toPrecision(3), 10, ySkip) ;          
     context.fillText("Target pH: " + target.toPrecision(3), 10, 2 * ySkip) ;
     if(pH !== target) {
-      var message = 'Goal: 10      for every' ;
-      draw_water(context, {x: 340 , y: 3 * ySkip - 25, spin: Math.PI / 3}) ;
-      draw_hydronium(context, {x: 740 , y: 3 * ySkip - 25, spin: Math.PI / 3}) ;
+      var message = 'Goal: 10       for every' ;
+      draw_water(context, {x: 240 , y: 3 * ySkip - 25, spin: Math.PI / 3}) ;
+      draw_hydronium(context, {x: 520 , y: 3 * ySkip - 25, spin: Math.PI / 3}) ;
       context.fillStyle = "white" ;
     }
     else {
@@ -282,12 +282,12 @@ function ph_game() {
     }
     context.fillText(message, 10, 3 * ySkip) ;          
 
-    draw_water(context, {x: width - 200, y: 50, spin: Math.PI / 3}) ;
-    draw_hydronium(context ,{x: width - 200 , y: 150, spin: Math.PI / 3}) ;   
+    draw_water(context, {x: width - 250, y: 50, spin: Math.PI / 3}) ;
+    draw_hydronium(context ,{x: width - 250 , y: 150, spin: Math.PI / 3}) ;   
 
     context.fillStyle = "white" ;
-    context.fillText(data.length - Nhydronium, width - 150, 80) ;          
-    context.fillText(Nhydronium, width - 150, 170) ;          
+    context.fillText(data.length - Nhydronium, width - 200, 80) ;          
+    context.fillText(Nhydronium, width - 200, 170) ;          
 
     sizeScale = sTemp ;
     return true ;
