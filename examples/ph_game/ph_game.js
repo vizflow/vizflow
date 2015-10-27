@@ -19,7 +19,7 @@ function ph_game() {
   // context.webkitImageSmoothingEnabled = false ;
   context.mozImageSmoothingEnabled    = false ;
   context.imageSmoothingEnabled       = false ;
-  context.font                        = "36px Sans-Serif" ; 
+  context.font                        = "36px Arial" ; 
   context.globalAlpha                 = 1.0 ;
 
   var stage = set_stage(width, height) ;
@@ -137,13 +137,9 @@ function ph_game() {
   }
 
   function render() {
-    return new Promise(
-      (resolve, reject) => {
-        draw_molecule(context, this) ;
-        resolve(true) ;
-      }
-    ) ;
-  }    
+    draw_molecule(context, this) ;      
+    return true ;
+  }
 
 //  var x_transition = $Z.transition.linear_transition_func ( 'x',      dur ) ; // function accepting an x end-value and returning a transition object
 //  var y_transition = $Z.transition.linear_transition_func ( 'y',      dur ) ; // function accepting a y end-value and returning a transition object
@@ -228,61 +224,54 @@ function ph_game() {
   var target  = -Math.log10(Ntarget / (Ndata - Ntarget)) ;
 
   function prep() {
+    //context.clearRect(0, 0, canvas.width, canvas.height) ;
+    var pad = 4 ; // to account for aliasing when drawing paths to canvas
+    for(var k = 0 ; k < data.length ; k++) {
+      var x = Math.max(0, Math.floor(data[k].x - radius) - pad) ;
+      var y = Math.max(0, Math.floor(data[k].y - radius) - pad) ;
+      var w = Math.min(canvas.width, Math.ceil(2 * radius) + 2 * pad) ;
+      var h = Math.min(canvas.height, Math.ceil(2 * radius) + 2 * pad) ;
+      context.clearRect(x, y, w, h) ;
+    }
+    var Nhydronium = 0 ;
+    for(var k = 0 ; k < data.length ; k++) 
+      if(data[k].type === 3) 
+        Nhydronium++ ;
+    var pH = Nhydronium / (data.length - Nhydronium) ;
+    pH = -Math.log10(pH) ;
 
-    return new Promise(
-      (resolve, reject) => {
-        //context.clearRect(0, 0, canvas.width, canvas.height) ;
-        var pad = 4 ; // to account for aliasing when drawing paths to canvas
-        for(var k = 0 ; k < data.length ; k++) {
-          var x = Math.max(0, Math.floor(data[k].x - radius) - pad) ;
-          var y = Math.max(0, Math.floor(data[k].y - radius) - pad) ;
-          var w = Math.min(canvas.width, Math.ceil(2 * radius) + 2 * pad) ;
-          var h = Math.min(canvas.height, Math.ceil(2 * radius) + 2 * pad) ;
-          context.clearRect(x, y, w, h) ;
-        }
-        var Nhydronium = 0 ;
-        for(var k = 0 ; k < data.length ; k++) 
-          if(data[k].type === 3) 
-            Nhydronium++ ;
-        var pH = Nhydronium / (data.length - Nhydronium) ;
-        pH = -Math.log10(pH) ;
+    context.clearRect(0, 0, width, yPadding) ;
+    var sTemp = sizeScale ;
+    sizeScale = 12 ;
+    context.fillStyle = "white" ;
+    var f = context.font ;
+    context.font = '24px Arial' ;
+    context.fillText('To play, add hydronium (H3O) ions to lower the pH, and remove hydronium (H3O) ions to raise the pH', 10, yPadding - 80)
+  //        context.fillText('', 10, yPadding - 50);
+    context.font = f ;
+    context.fillText("Current pH: " + pH.toPrecision(3), 10, 50) ;          
+    context.fillText("Target pH: " + target.toPrecision(3), 10, 100) ;
+    if(pH !== target) {
+      var message = 'Goal: 10        for every' ;
+      draw_water(context, {x: 190 , y: 140, spin: Math.PI / 3}) ;
+      draw_hydronium(context, {x: 410 , y: 140, spin: Math.PI / 3}) ;
+      context.fillStyle = "white" ;
+    }
+    else {
+      context.fillStyle = "yellow" ;
+      var message = 'You did it. Great job!' ;
+    }
+    context.fillText(message, 10, 150) ;          
 
-        context.clearRect(0, 0, width, yPadding) ;
-        var sTemp = sizeScale ;
-        sizeScale = 12 ;
-        context.fillStyle = "white" ;
-        var f = context.font ;
-        context.font = '24px Sans-Serif' ;
-        context.fillText('To play, add hydronium (H3O) ions to lower the pH, and remove hydronium (H3O) ions to raise the pH', 10, yPadding - 80)
-//        context.fillText('', 10, yPadding - 50);
-        context.font = f ;
-        context.fillText("Current pH: " + pH.toPrecision(3), 10, 50) ;          
-        context.fillText("Target pH: " + target.toPrecision(3), 10, 100) ;
-        if(pH !== target) {
-          var message = 'Goal: 10        for every' ;
-          draw_water(context, {x: 190 , y: 140, spin: Math.PI / 3}) ;
-          draw_hydronium(context, {x: 410 , y: 140, spin: Math.PI / 3}) ;
-          context.fillStyle = "white" ;
-        }
-        else {
-          context.fillStyle = "yellow" ;
-          var message = 'You did it. Great job!' ;
-        }
-        context.fillText(message, 10, 150) ;          
+    draw_water(context, {x: width - 150, y: 80, spin: Math.PI / 3}) ;
+    draw_hydronium(context ,{x: width - 150 , y: 160, spin: Math.PI / 3}) ;   
 
-        draw_water(context, {x: width - 150, y: 80, spin: Math.PI / 3}) ;
-        draw_hydronium(context ,{x: width - 150 , y: 160, spin: Math.PI / 3}) ;   
+    context.fillStyle = "white" ;
+    context.fillText(data.length - Nhydronium, width - 120, 95) ;          
+    context.fillText(Nhydronium, width - 120, 170) ;          
 
-        context.fillStyle = "white" ;
-        context.fillText(data.length - Nhydronium, width - 120, 95) ;          
-        context.fillText(Nhydronium, width - 120, 170) ;          
-
-        sizeScale = sTemp ;
-
-        resolve(true) ;
-      }
-    ) ;
-
+    sizeScale = sTemp ;
+    return true ;
   }
 
   code2node = {} ;
