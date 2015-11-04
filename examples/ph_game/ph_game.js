@@ -272,7 +272,7 @@ function ph_game() {
     context.fillStyle = "white" ;
     var f = context.font ;
     context.font = '32px Arial' ;
-    context.fillText('Clicking adds or removes hydronium (H3O+) ions, lowering or raise the pH respectively', 10, yPadding - 30)
+    context.fillText('Clicking adds or removes hydronium (H3O+) ions, lowering or raising the pH respectively', 10, yPadding - 30)
   //        context.fillText('', 10, yPadding - 50);
     context.font = f ;
     var ySkip = 10 + yPadding / 5 ;
