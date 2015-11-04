@@ -62,7 +62,7 @@ function ph_game() {
   }
 
   var sizeScale = 20 ; // pixels per Angstrom
-  var radius    = 3.4 * sizeScale ; // for user interaction
+  var radius    = 2 * sizeScale ; // for user interaction
 
   var red    = '#882222' ;
   var green  = '#224422' ;
@@ -272,7 +272,7 @@ function ph_game() {
     context.fillStyle = "white" ;
     var f = context.font ;
     context.font = '32px Arial' ;
-    context.fillText('To play, add hydronium (H3O+) ions to lower the pH, and remove hydronium (H3O+) ions to raise the pH', 10, yPadding - 30)
+    context.fillText('Clicking adds or removes hydronium (H3O+) ions, lowering or raise the pH respectively', 10, yPadding - 30)
   //        context.fillText('', 10, yPadding - 50);
     context.font = f ;
     var ySkip = 10 + yPadding / 5 ;
@@ -307,7 +307,7 @@ function ph_game() {
     for(var kc = 0 ; kc < black.length - String(data[k].id).length ; kc++) {
       ccode += black[kc] ;
     }
-    ccode += data[k].id ;
+    ccode += data[k].id + 1 ; // shift away from zero because that's the background color
     code2node[ccode] = k ;
     data[k].code = ccode ;
   }
