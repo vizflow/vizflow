@@ -16,21 +16,15 @@ var transition = { // module containing transition helper functions
     if(color2.length === 3) color2 = color2.replace(/([0-9a-f])/ig, '$1$1');
     
     var color  = '#' ; // initialize
-    var debug  = false ; 
     // Split the string into its main components and convert them to RGB
     for(var i = 0 ; i < 3 ; i++) {
       let split1 = parseInt(color1.slice(i * 2, (i + 1) * 2), 16) ;
       let split2 = parseInt(color2.slice(i * 2, (i + 1) * 2), 16) ;
       let split  = Math.min(255, Math.round( (1 - t) * split1 + t * split2 )) ; // linear interpolation
-      if(split > 0) 
-        debug = true ;
       split = split.toString(16).toUpperCase() ;                 // convert it to hex
       if(split.length === 1) split = '0' + split ; // make sure it is always the right length
       color += split ;
     }
-
-    if(debug === true)
-      console.log(color) ;
 
     return color ;
   },
