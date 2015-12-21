@@ -33,6 +33,9 @@ export default function update() { // default update function for handling anima
 			if(trans.child !== undefined) {
 				children.push(trans.child) ;
 			}
+			if(trans.end !== undefined) {
+				trans.end() ;
+			}
 		}
 		
 	}
