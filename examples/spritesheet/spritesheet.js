@@ -5,10 +5,14 @@ var canvas    = create_canvas() ;
 var context   = create_context(canvas) ;
 var img       = new Image() ;
 var dur       = 100 ;
-var tileSize  = 16 ;
-var rowIndex  = 6 ;
+var tileWidth  = 16 ;
+var tileHeight = 32 ;
+var rowIndex  = 0 ;
+var offsetX = 9 ;
+var offsetY = 8 ;
 var tileCount = 6 ;
 var tile      = [] ;
+var padX = 2 ;
 
 function draw_image() {
 	var tile = this ;
@@ -22,14 +26,14 @@ img.onload = function() {
   context.drawImage(img, 0 , 0) ;
 
   for(var t = 0 ; t < tileCount ; t++) {
-  	var image       = context.getImageData(t * tileSize, rowIndex * tileSize, tileSize, tileSize)	 ;
-    var tileCanvas  = create_canvas(tileSize) ;
+  	var image       = context.getImageData(t * tileWidth + offsetX + padX * t, rowIndex * tileHeight + offsetY, tileWidth, tileHeight)	 ;
+    var tileCanvas  = create_canvas(tileWidth, tileHeight) ;
     var tileContext = create_context(tileCanvas) ;
     tileContext.putImageData(image, 0, 0);
     tile[t] = { image: tileCanvas, render: draw_image } ;
   }
 
-  var viz = create_canvas(tileSize) ; 
+  var viz = create_canvas(tileWidth, tileHeight) ; 
   place_viz(viz) ;
   context = create_context(viz) ;
 
@@ -53,4 +57,4 @@ img.onload = function() {
 
 }
 
-img.src = 'burgertime_spritesheet.png' ;
+img.src = 'metroid_spritesheet.png' ;

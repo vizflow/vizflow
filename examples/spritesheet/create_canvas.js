@@ -1,7 +1,7 @@
-function create_canvas(Nrect) {
+function create_canvas(width, height) {
   var canvas = document.createElement('canvas') ;
-  canvas.setAttribute('width', Nrect) ;
-  canvas.setAttribute('height', Nrect) ;
+  canvas.setAttribute('width', width) ;
+  canvas.setAttribute('height', height) ;
   canvas.style.position = 'fixed' ;
   return canvas ;
 }
