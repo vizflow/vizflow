@@ -11,8 +11,7 @@ function dd_tile (draw_image) {
   var spriteContext = create_context(spriteCanvas) ;
   var bgColor = [64, 136, 252] ;
 
-	function get_tile (tileCount, rowIndex, tileWidth, tileHeight, offsetX) {
-		var padX       = tileWidth ;
+	function get_tile (tileCount, rowIndex, tileWidth, tileHeight, offsetX, padX) {
 	  var tile       = [] ;
 
 	  for(var t = 0 ; t < tileCount ; t++) {
@@ -33,6 +32,7 @@ function dd_tile (draw_image) {
 	}
 
 	var ddTile = {} ;
-	ddTile.walk = get_tile (3, 1, 16, 39, 16) ;
+	ddTile.walk  = get_tile (3, 1, 16, 39, 16, 16) ;
+	ddTile.punch = get_tile (2, 1, 32, 39, 112, 16) ;
 	return ddTile ;
 }
