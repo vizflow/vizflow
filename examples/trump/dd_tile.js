@@ -24,7 +24,7 @@ function dd_tile (draw_image) {
 	    // var img = tileContext.createImageData (tileWidth, tileHeight) ;
 	    // console.log (img.data) ;
 	    //bg_clear([1, 2, 3], tileContext) ;
-	    tile[t] = { image: tileCanvas, render: draw_image } ;
+	    tile[t] = tileCanvas ;
 	  }	
 
 	  return tile ;
@@ -32,7 +32,14 @@ function dd_tile (draw_image) {
 	}
 
 	var ddTile = {} ;
+
 	ddTile.walk  = get_tile (3, 1, 16, 39, 16, 16) ;
+
 	ddTile.punch = get_tile (2, 1, 32, 39, 112, 16) ;
+	ddTile.punch = [ddTile.punch[0], ddTile.walk[0], ddTile.punch[1], ddTile.walk[0]] ;
+
+  ddTile.kick = get_tile(3, 1, 30, 40, 464, 2) ;
+  //ddTile.kick = [ddTile.walk[0], ddTile.kick[0]] ;
+
 	return ddTile ;
 }

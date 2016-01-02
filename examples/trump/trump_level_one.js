@@ -1,6 +1,6 @@
 function trump_level_one() {
   var spriteImageIndex = 0 ; 
-  var dur        = 100 ;
+  var dur        = 200 ;
   var vizWidth   = 200 ;
   var vizHeight  = 320 ;
   
@@ -29,21 +29,56 @@ function trump_level_one() {
   }  
 
   var ddTile = dd_tile (draw_image) ;
-  //vizContext.drawImage(ddTile.punch[1].image, 0, 0) ;
-  //return ;
+  // vizContext.drawImage(ddTile.punch[1].image, 0, 0) ;
+  // return ;
 
-  var item = [{image: ddTile.punch[0].image, render: draw_image}] ;
+  var item = [{image: ddTile.walk[0], render: draw_image}] ;
   $Z.item(item)   ; // load the user data into the visualization engine to initialize the time equals zero (t = 0) state
 	$Z.prep([viz_prep]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
 	$Z.run()        ; // run the interactive visualization (infinite loop by default)
 
-  var counter = 0 ;
-  function loop() {  	
-    //console.log(ddTile.punch[counter % ddTile.punch.length].image)
-	  var stepTransition = step_transition( ddTile.punch[counter % ddTile.punch.length].image ) ;
-	  item[0].transition = [stepTransition] ;
-	  counter++ ;
+  // var counter = 0 ;
+  // function loop() {  	
+  //   //console.log(ddTile.punch[counter % ddTile.punch.length].image)
+	 //  var stepTransition = step_transition( ddTile.kick[counter % ddTile.kick.length].image ) ;
+	 //  item[0].transition = [stepTransition] ;
+	 //  counter++ ;
+  // }
+
+  // setInterval(loop, dur * 2) ;	
+
+  function keydown(e) {
+    document.onkeydown = null ;
+    var transition = [] ;
+    switch (e.keyCode) {
+      case 37: // left
+        transition = create_sequence(ddTile.kick, step_transition, end_transition) ;
+        break;
+      case 38: // up
+        break;
+      case 39: // right
+        transition = create_sequence(ddTile.punch, step_transition, end_transition) ;
+        break;
+      case 40: // down
+        transition = create_sequence(ddTile.walk, step_transition, end_transition) ; ;
+        break;
+    }
+    console.log('keydown: e', e, 'keyCode', e.keyCode, 'transition', transition) ;
+    if(transition.length > 0) {
+      item[0].transition = transition ;
+    }
   }
 
-  setInterval(loop, dur * 2) ;	
+  function end_transition() {
+    // console.log('end_transition')
+    item[0].image = ddTile.walk[0] ;
+    set_keydown() ;
+  }
+
+  function set_keydown() {
+    document.onkeydown = keydown ;
+  }
+
+  set_keydown() ;
+
 }
