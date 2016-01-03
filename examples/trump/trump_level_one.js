@@ -111,6 +111,7 @@ function trump_level_one() {
         transition = animate(ddSprite.jump, step_transition, end_transition, restFrame) ;
         break;
       case 38: // up
+        set_keydown() ;
         break;
       case 39: // right
         transition = animate(ddSprite.punch, step_transition, end_transition, restFrame) ;
