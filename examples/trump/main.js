@@ -2,7 +2,10 @@ document.body.style.overflowY = 'hidden';
 document.body.style.margin    = 0 ;
 
 // var spriteImageUrl = 'metroid_spritesheet.png' ;
-var spriteImageUrl = 'dd_billy.png' ;
-//var bgImageUrl     = 'blaster_background_1.png' ;
-var img = [ spriteImageUrl ] ;
+// var bgImageUrl     = 'blaster_background_1.png' ;
+
+var ddSpriteImageUrl     = 'dd_billy.png' ;
+var buttonSpriteImageUrl = 'blue_button2.png' ;
+var img                  = [ ddSpriteImageUrl, buttonSpriteImageUrl ] ;
+
 imageLoader.preload ( img, trump_game ) ;

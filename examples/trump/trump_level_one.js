@@ -1,8 +1,9 @@
 function trump_level_one() {
+
   var spriteImageIndex = 0 ; 
-  var dur        = 200 ;
-  var vizWidth   = 240 ;
-  var vizHeight  = 320 ;
+  var dur              = 150 ;
+  var vizWidth         = 240 ;
+  var vizHeight        = 320 ;
   
   // console.log('tile', tile) ;
 
@@ -10,33 +11,38 @@ function trump_level_one() {
   place_viz(vizCanvas) ;
   var vizContext = create_context(vizCanvas) ;
   
-  var buttonPad    = 10 ;
-  var buttonRadius = 25 ;
-  var uiWidth   = vizWidth ;
-  var uiHeight  =  (buttonRadius + buttonPad) * 2 ;
-  var uiY       = vizHeight - uiHeight ;
-  var uiX = 0 ;
-  var uiCanvas  = create_canvas (uiWidth, uiHeight) ;
-  var uiContext = create_context (uiCanvas) ;
+  var buttonSize      = 50 ;
+  var buttonTileCount = 2 ;
+  var buttonRowIndex  = 0 ;
+  var buttonOffsetX   = 0 ;
+  var buttonOffsetY   = 0 ;
+  var buttonPadX      = 0 ;
+  var buttonPad       = 10 ;
+  var buttonImageUrl  = 'blue_button2.png' ;
+  var buttonCanvas    = image2canvas(buttonImageUrl) ;
+  var button          = get_sprite (buttonCanvas.getContext('2d'), buttonTileCount, buttonRowIndex, buttonSize, buttonSize, buttonOffsetX, buttonOffsetY, buttonPadX) ;
 
-  var button = [] ;
+  var uiWidth        = vizWidth ;
+  var uiHeight       = buttonSize + buttonPad * 2 ;
+  var uiY            = vizHeight - uiHeight ;
+  var uiX            = 0 ;
+  var uiCanvas       = create_canvas (uiWidth, uiHeight) ;
+  var uiContext      = create_context (uiCanvas) ;
+
   var Nbutton = 4 ;
-  for (var kButton = 0 ; kButton < Nbutton ; kButton++) {
-    var buttonK = {x: (kButton + 0.5) * (buttonPad + 2 * buttonRadius), y: buttonRadius, radius: buttonRadius, color: '#666'} ; 
-    //console.log (buttonK) ;
-    button.push (buttonK) ;
-    draw_circle (uiContext, button[kButton]) ; // left
+  for(var kButton = 0 ; kButton < Nbutton ; kButton++) {
+    uiContext.drawImage(button[0], kButton * (buttonPad + buttonSize) + buttonPad * 0.5, buttonPad) ;
   }
 
-  var uiData = uiContext.getImageData (0, 0, uiWidth, uiHeight).data ;
-  //console.log ('uiData', uiData) ;
+  // var uiData = uiContext.getImageData (0, 0, uiWidth, uiHeight).data ;
+  // console.log ('uiData', uiData) ;
 
   // vizCanvas.style.background = 'url("' + bgDataUri + '")' ;
   // vizCanvas.style.backgroundSize = '200px' ;
   
   var step_transition = step_transition_func('image', dur) ;
-  //console.log(stepTransition)
-  //console.log(tile)
+  // console.log(stepTransition) ;
+  // console.log(tile) ;
 
   function viz_prep() {
     vizContext.clearRect(0, 0, vizCanvas.width, vizCanvas.height) ;
@@ -82,7 +88,7 @@ function trump_level_one() {
     ctx.closePath() ;
   }
 
-  var ddSprite = dd_sprite (draw_image) ;
+  var ddSprite = dd_sprite () ;
   // vizContext.drawImage(ddSprite.punch[1].image, 0, 0) ;
   // return ;
 
