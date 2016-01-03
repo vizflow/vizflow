@@ -49,12 +49,12 @@ function dd_sprite (draw_image) {
 	ddSprite.punch     = get_sprite (punchTileCount, punchRowIndex, punchTileWidth, ddSprite.height, punchOffsetX, punchPadX) ;
 	ddSprite.punch     = [ddSprite.punch[0], ddSprite.walk[0], ddSprite.punch[1]] ;
 
-  var kickTileCount = 3 ;
-	var kickRowIndex  = 1 ;
-	var kickTileWidth = 30 ;
-	var kickOffsetX   = 464 ;
-	var kickPadX      = 2 ;
-  ddSprite.kick     = get_sprite(kickTileCount, kickRowIndex, kickTileWidth, ddSprite.height, kickOffsetX, kickPadX) ;
+  var jumpTileCount = 3 ;
+	var jumpRowIndex  = 1 ;
+	var jumpTileWidth = 30 ;
+	var jumpOffsetX   = 464 ;
+	var jumpPadX      = 2 ;
+  ddSprite.jump     = get_sprite(jumpTileCount, jumpRowIndex, jumpTileWidth, ddSprite.height, jumpOffsetX, jumpPadX) ;
 
 	return ddSprite ;
 }

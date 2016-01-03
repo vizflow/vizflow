@@ -20,7 +20,7 @@ function trump_level_one() {
   function viz_prep() {
     vizContext.clearRect(0, 0, vizCanvas.width, vizCanvas.height) ;
     var floor = { x: 0, y: 240, width: 200, height: 20, color: '#000'} ;
-  draw_rect.call(floor, vizContext) ;
+    draw_rect(vizContext, floor) ;
 
     return true ;
   }
@@ -30,13 +30,29 @@ function trump_level_one() {
     vizContext.drawImage(frame.image, frame.x, frame.y) ;
   }  
   
-  function draw_rect(context) {
-    var rect = this ;
+  function draw_rect(context, rect) {
+    if (rect === undefined) {
+      rect = this ;
+    }
     context.beginPath() ;
     context.rect(rect.x, rect.y, rect.width, rect.height) ;
     context.fillStyle = rect.color ;
     context.fill() ;
     context.closePath() ;
+  }
+
+  function draw_circle(ctx, circ) {
+    if (circ === undefined) {
+      circ = this ;  
+    }
+    ctx.beginPath() ;
+    var x = circ.x ;
+    var y = circ.y ;
+    var r = circ.radius ;
+    ctx.arc(x, y, r, 0, Math.PI * 2, true) ;
+    ctx.fillStyle = circ.color ;
+    ctx.fill() ;
+    ctx.closePath() ;
   }
 
   var ddSprite = dd_sprite (draw_image) ;
@@ -53,7 +69,7 @@ function trump_level_one() {
   // var counter = 0 ;
   // function loop() {  	
   //   //console.log(ddSprite.punch[counter % ddSprite.punch.length].image)
-	 //  var stepTransition = step_transition( ddSprite.kick[counter % ddSprite.kick.length].image ) ;
+	 //  var stepTransition = step_transition( ddSprite.jump[counter % ddSprite.jump.length].image ) ;
 	 //  item[0].transition = [stepTransition] ;
 	 //  counter++ ;
   // }
@@ -65,7 +81,7 @@ function trump_level_one() {
     var transition = [] ;
     switch (e.keyCode) {
       case 37: // left
-        transition = animate(ddSprite.kick, step_transition, end_transition, restFrame) ;
+        transition = animate(ddSprite.jump, step_transition, end_transition, restFrame) ;
         break;
       case 38: // up
         break;
