@@ -31,15 +31,30 @@ function dd_sprite (draw_image) {
 
 	}
 
-	var ddSprite = {} ;
+	var ddSprite    = {} ;
+	ddSprite.height = 39 ;
 
-	ddSprite.walk  = get_sprite (3, 1, 16, 39, 16, 16) ;
+	var walkTileCount = 3 ;
+	var walkRowIndex  = 1 ;
+	var walkTileWidth = 16 ;
+	var walkOffsetX   = 16 ;
+	var walkPadX      = 16 ;
+	ddSprite.walk     = get_sprite (walkTileCount, walkRowIndex, walkTileWidth, ddSprite.height, walkOffsetX, walkPadX) ;
 
-	ddSprite.punch = get_sprite (2, 1, 32, 39, 112, 16) ;
-	ddSprite.punch = [ddSprite.punch[0], ddSprite.walk[0], ddSprite.punch[1]] ;
+  var punchTileCount = 2 ;
+	var punchRowIndex  = 1 ;
+	var punchTileWidth = 32 ;
+	var punchOffsetX   = 112 ;
+	var punchPadX      = 16 ;
+	ddSprite.punch     = get_sprite (punchTileCount, punchRowIndex, punchTileWidth, ddSprite.height, punchOffsetX, punchPadX) ;
+	ddSprite.punch     = [ddSprite.punch[0], ddSprite.walk[0], ddSprite.punch[1]] ;
 
-  ddSprite.kick = get_sprite(3, 1, 30, 40, 464, 2) ;
-  //ddSprite.kick = [ddSprite.walk[0], ddSprite.kick[0]] ;
+  var kickTileCount = 3 ;
+	var kickRowIndex  = 1 ;
+	var kickTileWidth = 30 ;
+	var kickOffsetX   = 464 ;
+	var kickPadX      = 2 ;
+  ddSprite.kick     = get_sprite(kickTileCount, kickRowIndex, kickTileWidth, ddSprite.height, kickOffsetX, kickPadX) ;
 
 	return ddSprite ;
 }
