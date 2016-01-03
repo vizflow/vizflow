@@ -1,4 +1,4 @@
-function dd_tile (draw_image) {
+function dd_sprite (draw_image) {
   //var tileWidth  = 16 ;
   //var tileHeight = 39 ;
 	//var rowIndex   = 1 ;
@@ -11,12 +11,12 @@ function dd_tile (draw_image) {
   var spriteContext = create_context(spriteCanvas) ;
   var bgColor = [64, 136, 252] ;
 
-	function get_tile (tileCount, rowIndex, tileWidth, tileHeight, offsetX, padX) {
+	function get_sprite (tileCount, rowIndex, tileWidth, tileHeight, offsetX, padX) {
 	  var tile       = [] ;
 
 	  for(var t = 0 ; t < tileCount ; t++) {
 	  	var image       = spriteContext.getImageData(t * tileWidth + offsetX + padX * t, rowIndex * tileHeight + offsetY, tileWidth, tileHeight)	 ;
-	    //console.log ('dd_tile get_tile:', 'image', image.data) ;
+	    //console.log ('dd_sprite get_sprite:', 'image', image.data) ;
 	    bg_clear(bgColor, image) ;
 	    var tileCanvas  = create_canvas(tileWidth, tileHeight) ;
 	    var tileContext = create_context(tileCanvas) ;
@@ -31,15 +31,15 @@ function dd_tile (draw_image) {
 
 	}
 
-	var ddTile = {} ;
+	var ddSprite = {} ;
 
-	ddTile.walk  = get_tile (3, 1, 16, 39, 16, 16) ;
+	ddSprite.walk  = get_sprite (3, 1, 16, 39, 16, 16) ;
 
-	ddTile.punch = get_tile (2, 1, 32, 39, 112, 16) ;
-	ddTile.punch = [ddTile.punch[0], ddTile.walk[0], ddTile.punch[1], ddTile.walk[0]] ;
+	ddSprite.punch = get_sprite (2, 1, 32, 39, 112, 16) ;
+	ddSprite.punch = [ddSprite.punch[0], ddSprite.walk[0], ddSprite.punch[1]] ;
 
-  ddTile.kick = get_tile(3, 1, 30, 40, 464, 2) ;
-  //ddTile.kick = [ddTile.walk[0], ddTile.kick[0]] ;
+  ddSprite.kick = get_sprite(3, 1, 30, 40, 464, 2) ;
+  //ddSprite.kick = [ddSprite.walk[0], ddSprite.kick[0]] ;
 
-	return ddTile ;
+	return ddSprite ;
 }

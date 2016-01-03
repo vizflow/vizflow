@@ -25,22 +25,23 @@ function trump_level_one() {
 
   function draw_image() {
     var tile = this ;
-    vizContext.drawImage(tile.image, 0 , 0) ;
+    vizContext.drawImage(tile.image, 0, 0) ;
   }  
 
-  var ddTile = dd_tile (draw_image) ;
-  // vizContext.drawImage(ddTile.punch[1].image, 0, 0) ;
+  var ddSprite = dd_sprite (draw_image) ;
+  // vizContext.drawImage(ddSprite.punch[1].image, 0, 0) ;
   // return ;
 
-  var item = [{image: ddTile.walk[0], render: draw_image}] ;
+  var restFrame = ddSprite.walk[0] ;
+  var item = [{image: restFrame, render: draw_image}] ;
   $Z.item(item)   ; // load the user data into the visualization engine to initialize the time equals zero (t = 0) state
 	$Z.prep([viz_prep]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
 	$Z.run()        ; // run the interactive visualization (infinite loop by default)
 
   // var counter = 0 ;
   // function loop() {  	
-  //   //console.log(ddTile.punch[counter % ddTile.punch.length].image)
-	 //  var stepTransition = step_transition( ddTile.kick[counter % ddTile.kick.length].image ) ;
+  //   //console.log(ddSprite.punch[counter % ddSprite.punch.length].image)
+	 //  var stepTransition = step_transition( ddSprite.kick[counter % ddSprite.kick.length].image ) ;
 	 //  item[0].transition = [stepTransition] ;
 	 //  counter++ ;
   // }
@@ -52,15 +53,15 @@ function trump_level_one() {
     var transition = [] ;
     switch (e.keyCode) {
       case 37: // left
-        transition = create_sequence(ddTile.kick, step_transition, end_transition) ;
+        transition = animate(ddSprite.kick, step_transition, end_transition, restFrame) ;
         break;
       case 38: // up
         break;
       case 39: // right
-        transition = create_sequence(ddTile.punch, step_transition, end_transition) ;
+        transition = animate(ddSprite.punch, step_transition, end_transition, restFrame) ;
         break;
       case 40: // down
-        transition = create_sequence(ddTile.walk, step_transition, end_transition) ; ;
+        transition = animate(ddSprite.walk, step_transition, end_transition, restFrame) ; ;
         break;
     }
     console.log('keydown: e', e, 'keyCode', e.keyCode, 'transition', transition) ;
@@ -71,7 +72,7 @@ function trump_level_one() {
 
   function end_transition() {
     // console.log('end_transition')
-    item[0].image = ddTile.walk[0] ;
+    //item[0].image = ddSprite.walk[0] ;
     set_keydown() ;
   }
 
