@@ -21,18 +21,52 @@ function trump_level_one() {
   var buttonImageUrl  = 'blue_button2.png' ;
   var buttonCanvas    = image2canvas(buttonImageUrl) ;
   var button          = get_sprite (buttonCanvas.getContext('2d'), buttonTileCount, buttonRowIndex, buttonSize, buttonSize, buttonOffsetX, buttonOffsetY, buttonPadX) ;
+  var buttonData      = button[0].getContext('2d').getImageData(0, 0, buttonSize, buttonSize) ; // ImageData object
+  var Nbutton         = 4 ;
+  var buttonY         = buttonPad ;
+  var buttonX         = [] ;
 
-  var uiWidth        = vizWidth ;
-  var uiHeight       = buttonSize + buttonPad * 2 ;
-  var uiY            = vizHeight - uiHeight ;
-  var uiX            = 0 ;
-  var uiCanvas       = create_canvas (uiWidth, uiHeight) ;
-  var uiContext      = create_context (uiCanvas) ;
+  for(var kButton = 0 ; kButton < Nbutton ; kButton++) {
+    buttonX.push(kButton * (buttonPad + buttonSize) + buttonPad * 0.5) ;
+  }  
+
+  var uiWidth         = vizWidth ;
+  var uiHeight        = buttonSize + buttonPad * 2 ;
+  var uiY             = vizHeight - uiHeight ;
+  var uiX             = 0 ;
+  var uiCanvas        = create_canvas (uiWidth, uiHeight) ;
+  var uiContext       = create_context (uiCanvas) ;
+  var hiddenUICanvas  = create_canvas (uiWidth, uiHeight) ;
+  var hiddenUIContext = create_context (hiddenUICanvas) ;
 
   var Nbutton = 4 ;
   for(var kButton = 0 ; kButton < Nbutton ; kButton++) {
-    uiContext.drawImage(button[0], kButton * (buttonPad + buttonSize) + buttonPad * 0.5, buttonPad) ;
+
+    uiContext.drawImage(button[0], buttonX[kButton], buttonY) ; // draw visible button
+
+    var imagek     = image2index(buttonData, kButton) ; // ImageData object
+
+    // console.log('imagek', imagek) ;
+
+    var tempCanvas = create_canvas(buttonSize, buttonSize) ;
+
+    tempCanvas
+      .getContext('2d')
+      .clearRect(0, 0, tempCanvas.width, tempCanvas.height) ;
+
+    tempCanvas
+      .getContext('2d')
+      .putImageData(imagek, 0, 0) ;
+
+    hiddenUIContext.drawImage(tempCanvas, buttonX[kButton], buttonY) ; // draw color-indexed button for color picking
+
   }
+
+  // console.log('hiddenUICanvas data', hiddenUIContext.getImageData(0, 0, hiddenUICanvas.width, hiddenUICanvas.height)) ;
+
+  var hiddenCanvas  = create_canvas(vizWidth, vizHeight) ;
+  var hiddenContext = hiddenCanvas.getContext('2d') ;
+  hiddenContext.drawImage(hiddenUICanvas, uiX, uiY) ; // draw ui
 
   // var uiData = uiContext.getImageData (0, 0, uiWidth, uiHeight).data ;
   // console.log ('uiData', uiData) ;
@@ -143,5 +177,56 @@ function trump_level_one() {
   }
 
   set_keydown() ;
+
+  function click(e) {
+
+    var position = set_canvas_position(vizCanvas) ;
+
+    var clickedX = Math.round( (e.clientX - position.left) / position.scale ) ;
+    var clickedY = Math.round( (e.clientY - position.top)  / position.scale ) ;
+
+    // console.log('mouseX', mouseX, 'mouseY', mouseY, 'position', position) ;
+
+    var col         = hiddenContext.getImageData(clickedX, clickedY, 1, 1).data ;
+    var buttonIndex = col[0] - 1 ; // color indexing is 1-based
+
+
+    if(buttonIndex >= 0) { // user clicked on a button
+      
+
+      switch (buttonIndex) {
+        case 0: // walk left
+          transition = animate(ddSprite.walk, step_transition, end_transition, restFrame) ;
+          break;
+        case 1: // walk right
+          transition = animate(ddSprite.walk, step_transition, end_transition, restFrame) ;
+          break;
+        case 2: // punch
+          transition = animate(ddSprite.punch, step_transition, end_transition, restFrame) ;
+          break;
+        case 3: // jump
+          transition = animate(ddSprite.jump, step_transition, end_transition, restFrame) ; ;
+          break;
+      }
+
+      item[0].transition = transition ;
+
+    }
+
+
+    // console.log('click: col', col) ;
+    // var code = "#" + rgb2hex(col[0]) + rgb2hex(col[1]) + rgb2hex(col[2]) ;
+    // var node = code2node[code] ;
+
+    // if(node === undefined)
+    //   return ;
+
+    // if(data[node].type === 2) data[node].type = 3 ;
+    // else if(data[node].type === 3) data[node].type = 2 ;
+
+
+  } 
+
+  vizCanvas.addEventListener('click', click, false) ;  
 
 }

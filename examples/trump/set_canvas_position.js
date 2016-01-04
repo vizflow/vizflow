@@ -26,4 +26,6 @@ function set_canvas_position(canvas) {
   canvas.style.height = position.height ;
   canvas.style.left   = position.left ;
   canvas.style.top    = position.top ;
+
+  return position ;
 }
