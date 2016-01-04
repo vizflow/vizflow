@@ -37,7 +37,6 @@ function trump_level_one() {
   var hiddenUICanvas  = create_canvas (uiWidth, uiHeight) ;
   var hiddenUIContext = create_context (hiddenUICanvas) ;
 
-  var Nbutton     = 4 ;
   for(var kButton = 0 ; kButton < Nbutton ; kButton++) {
 
     uiContext.drawImage(button[0], buttonX[kButton], buttonY) ; // draw visible button
@@ -111,7 +110,7 @@ function trump_level_one() {
     ctx.fillStyle = circ.color ;
     ctx.fill() ;
     ctx.closePath() ;
-    
+
   }
 
   var ddSprite  = dd_sprite () ;
@@ -129,18 +128,23 @@ function trump_level_one() {
     var transition     = [] ;
 
     switch (e.keyCode) {
+
       case 37: // left
         transition = animate(ddSprite.jump, step_transition, end_transition, restFrame) ;
         break;
+
       case 38: // up
         set_keydown() ;
         break;
+
       case 39: // right
         transition = animate(ddSprite.punch, step_transition, end_transition, restFrame) ;
         break;
+
       case 40: // down
         transition = animate(ddSprite.walk, step_transition, end_transition, restFrame) ; ;
         break;
+
     }
 
     if(transition.length > 0) {
@@ -172,18 +176,23 @@ function trump_level_one() {
     if(buttonIndex >= 0) { // user clicked on a button
 
       switch (buttonIndex) {
+
         case 0: // walk left
           transition = animate(ddSprite.walk,  step_transition, end_transition, restFrame) ;
           break;
+
         case 1: // walk right
           transition = animate(ddSprite.walk,  step_transition, end_transition, restFrame) ;
           break;
+
         case 2: // punch
           transition = animate(ddSprite.punch, step_transition, end_transition, restFrame) ;
           break;
+
         case 3: // jump
           transition = animate(ddSprite.jump,  step_transition, end_transition, restFrame) ; ;
           break;
+          
       }
 
       item[0].transition = transition ;

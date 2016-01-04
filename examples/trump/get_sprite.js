@@ -19,7 +19,7 @@ function get_sprite (spriteContext, tileCount, rowIndex, tileWidth, tileHeight, 
     //bg_clear([1, 2, 3], tileContext) ;
     tile[t] = tileCanvas ;
 
-  }	
+  }
 
   return tile ;
 

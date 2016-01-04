@@ -20,6 +20,7 @@ function dd_sprite () {
 	var walkOffsetY   = 2 ;
 	var walkPadX      = 16 ;
 	ddSprite.walk     = get_sprite (spriteContext, walkTileCount, walkRowIndex, walkTileWidth, ddSprite.height, walkOffsetX, walkOffsetY, walkPadX, bgColor) ;
+	ddSprite.walk.push(ddSprite.walk[1]) ;
 
   var punchTileCount = 2 ;
 	var punchRowIndex  = 1 ;
