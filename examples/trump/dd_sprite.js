@@ -1,14 +1,9 @@
 function dd_sprite () {
-  //var tileWidth  = 16 ;
-  //var tileHeight = 39 ;
-	//var rowIndex   = 1 ;
-  //var offsetX    = 16 ;
-  //var tileCount  = 2 ;
   
-  var imgUrl       = 'dd_billy.png' ;
-  var spriteCanvas = image2canvas(imgUrl) ;
+  var imgUrl        = 'dd_billy.png' ;
+  var spriteCanvas  = image2canvas(imgUrl) ;
   var spriteContext = create_context(spriteCanvas) ;
-  var bgColor = [64, 136, 252] ;
+  var bgColor       = [64, 136, 252] ;
 
 	var ddSprite    = {} ;
 	ddSprite.height = 39 ;
@@ -40,4 +35,5 @@ function dd_sprite () {
   ddSprite.jump     = get_sprite(spriteContext, jumpTileCount, jumpRowIndex, jumpTileWidth, ddSprite.height, jumpOffsetX, jumpOffsetY, jumpPadX, bgColor) ;
 
 	return ddSprite ;
+	
 }

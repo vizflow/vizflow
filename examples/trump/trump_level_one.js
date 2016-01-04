@@ -1,4 +1,4 @@
-function trump_level_one() {
+function trump_level_one () {
 
   var spriteImageIndex = 0 ; 
   var dur              = 150 ;
@@ -62,7 +62,7 @@ function trump_level_one() {
   
   var step_transition = step_transition_func('image', dur) ;
 
-  function viz_prep() {
+  function viz_prep () {
 
     vizContext.clearRect(0, 0, vizCanvas.width, vizCanvas.height) ;
 
@@ -75,7 +75,7 @@ function trump_level_one() {
 
   }
 
-  function draw_image(frame) {
+  function draw_image (frame) {
 
     if (frame === undefined) {
       frame = this ;
@@ -84,7 +84,7 @@ function trump_level_one() {
 
   }  
   
-  function draw_rect(context, rect) {
+  function draw_rect (context, rect) {
 
     if (rect === undefined) {
       rect = this ;
@@ -97,11 +97,12 @@ function trump_level_one() {
 
   }
 
-  function draw_circle(ctx, circ) {
+  function draw_circle (ctx, circ) {
 
     if (circ === undefined) {
       circ = this ;  
     }
+
     ctx.beginPath() ;
     var x = circ.x ;
     var y = circ.y ;
@@ -114,6 +115,9 @@ function trump_level_one() {
   }
 
   var ddSprite  = dd_sprite () ;
+  var ddSpriteL  = horizontal_flip(ddSprite) ;
+  ddSprite = ddSpriteL ;
+
   var restFrame = ddSprite.walk[0] ;
   var billy     = {image: restFrame, render: draw_image, x: 0, y: 241 - ddSprite.height} ;
   var item      = [billy] ;
@@ -122,7 +126,7 @@ function trump_level_one() {
 	$Z.prep([viz_prep]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
 	$Z.run()        ;     // run the interactive visualization (infinite loop by default)
 
-  function keydown(e) {
+  function keydown (e) {
 
     document.onkeydown = null ;
     var transition     = [] ;
@@ -132,46 +136,43 @@ function trump_level_one() {
       case 37: // left
         transition = animate(ddSprite.jump, step_transition, end_transition, restFrame) ;
         break;
-
       case 38: // up
         set_keydown() ;
         break;
-
       case 39: // right
         transition = animate(ddSprite.punch, step_transition, end_transition, restFrame) ;
         break;
-
       case 40: // down
         transition = animate(ddSprite.walk, step_transition, end_transition, restFrame) ; ;
         break;
 
     }
 
-    if(transition.length > 0) {
+    if (transition.length > 0) {
       item[0].transition = transition ;
     }
 
   }
 
-  function end_transition() {
+  function end_transition () {
     set_keydown() ;
   }
 
-  function set_keydown() {
+  function set_keydown () {
     document.onkeydown = keydown ;
   }
 
   set_keydown() ;
 
-  function click(e) {
+  function click (e) {
 
-    var position = set_canvas_position(vizCanvas) ;
+    var position = set_canvas_position( vizCanvas ) ;
 
     var clickedX = Math.round( (e.clientX - position.left) / position.scale ) ;
     var clickedY = Math.round( (e.clientY - position.top)  / position.scale ) ;
 
-    var col         = hiddenContext.getImageData(clickedX, clickedY, 1, 1).data ;
-    var buttonIndex = col[0] - 1 ; // color indexing is 1-based
+    var color       = hiddenContext.getImageData(clickedX, clickedY, 1, 1).data ;
+    var buttonIndex = color[0] - 1 ; // color indexing used by image2index is 1-based
 
     if(buttonIndex >= 0) { // user clicked on a button
 
@@ -180,19 +181,16 @@ function trump_level_one() {
         case 0: // walk left
           transition = animate(ddSprite.walk,  step_transition, end_transition, restFrame) ;
           break;
-
         case 1: // walk right
           transition = animate(ddSprite.walk,  step_transition, end_transition, restFrame) ;
           break;
-
         case 2: // punch
           transition = animate(ddSprite.punch, step_transition, end_transition, restFrame) ;
           break;
-
         case 3: // jump
           transition = animate(ddSprite.jump,  step_transition, end_transition, restFrame) ; ;
           break;
-          
+
       }
 
       item[0].transition = transition ;
