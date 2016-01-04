@@ -114,9 +114,10 @@ function trump_level_one () {
 
   }
 
-  var ddSprite  = dd_sprite () ;
-  var ddSpriteL  = horizontal_flip(ddSprite) ;
-  ddSprite = ddSpriteL ;
+  var ddSpriteR  = dd_sprite () ;
+  var ddSpriteL  = horizontal_flip(ddSpriteR) ;
+  var ddSprite   = ddSpriteR ;
+
 
   var restFrame = ddSprite.walk[0] ;
   var billy     = {image: restFrame, render: draw_image, x: 0, y: 241 - ddSprite.height} ;
@@ -134,16 +135,20 @@ function trump_level_one () {
     switch (e.keyCode) {
 
       case 37: // left
-        transition = animate(ddSprite.jump, step_transition, end_transition, restFrame) ;
+        ddSprite = ddSpriteL ;
+        restFrame = ddSprite.walk[0] ;
+        transition = animate(ddSprite.walk, step_transition, end_transition, restFrame) ;
         break;
       case 38: // up
-        set_keydown() ;
+        transition = animate(ddSprite.jump, step_transition, end_transition, restFrame) ;
         break;
       case 39: // right
-        transition = animate(ddSprite.punch, step_transition, end_transition, restFrame) ;
+        ddSprite = ddSpriteR ;
+        restFrame = ddSprite.walk[0] ;
+        transition = animate(ddSprite.walk, step_transition, end_transition, restFrame) ;
         break;
       case 40: // down
-        transition = animate(ddSprite.walk, step_transition, end_transition, restFrame) ; ;
+        transition = animate(ddSprite.punch, step_transition, end_transition, restFrame) ; ;
         break;
 
     }
@@ -179,9 +184,13 @@ function trump_level_one () {
       switch (buttonIndex) {
 
         case 0: // walk left
+          ddSprite   = ddSpriteL ;
+          restFrame = ddSprite.walk[0] ;
           transition = animate(ddSprite.walk,  step_transition, end_transition, restFrame) ;
           break;
         case 1: // walk right
+          ddSprite   = ddSpriteR ;
+          restFrame = ddSprite.walk[0] ;
           transition = animate(ddSprite.walk,  step_transition, end_transition, restFrame) ;
           break;
         case 2: // punch

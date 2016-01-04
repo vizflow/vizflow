@@ -1,4 +1,4 @@
-function get_sprite (spriteContext, tileCount, rowIndex, tileWidth, tileHeight, offsetX, offsetY, padX, bgColor) {
+function get_sprite (spriteContext, tileCount, rowIndex, tileWidth, tileHeight, offsetX, offsetY, padX, bgColor, tilePadXl, tilePadXr) {
 
   var tile = [] ;
 
@@ -11,9 +11,17 @@ function get_sprite (spriteContext, tileCount, rowIndex, tileWidth, tileHeight, 
     	bg_clear(bgColor, image) ;
     }
 
-    var tileCanvas  = create_canvas(tileWidth, tileHeight) ;
-    var tileContext = create_context(tileCanvas) ;
-    tileContext.putImageData(image, 0, 0);
+    if (tilePadXl === undefined) {
+      tilePadXl = 0 ;
+    }
+
+    if (tilePadXr === undefined) {
+      tilePadXr = 0 ;
+    }
+
+    var tileCanvas  = create_canvas(tileWidth + tilePadXl + tilePadXr, tileHeight) ;
+    var tileContext = tileCanvas.getContext('2d') ;
+    tileContext.putImageData(image, tilePadXl, 0);
     // var img = tileContext.createImageData (tileWidth, tileHeight) ;
     // console.log (img.data) ;
     //bg_clear([1, 2, 3], tileContext) ;

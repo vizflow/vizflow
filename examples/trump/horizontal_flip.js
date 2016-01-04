@@ -31,7 +31,6 @@ function flip_sprite (sprite) {
 
 }
 
-
 function flip_image (canvas) {
 
   var context   = canvas.getContext ('2d') ;
