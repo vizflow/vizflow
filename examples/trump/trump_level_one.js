@@ -69,7 +69,7 @@ function trump_level_one () {
     var floor = { x: 0, y: 240, width: vizWidth, height: 20, color: '#000'} ;
     draw_rect(vizContext, floor) ;
 
-    vizContext.drawImage(uiCanvas, uiX, uiY) ; // draw ui
+    // vizContext.drawImage(uiCanvas, uiX, uiY) ; // draw ui
 
     return true ;
 
@@ -121,8 +121,12 @@ function trump_level_one () {
 
   var restFrame = ddSprite.walk[0] ;
   // var positionObject = {x: 0, y: 241 - ddSprite.height} ;
-  var billy     = {image: restFrame, render: draw_image, x: 120, y: 241 - ddSprite.height } ;
-  var item      = [billy] ;
+  var billy           = {image: restFrame, render: draw_image, x: 120, y: 241 - ddSprite.height } ;
+  var walkLeftButton  = {image: button[0], render: draw_image, x: buttonX[0], y: buttonY + uiY} ;
+  var walkRightButton = {image: button[0], render: draw_image, x: buttonX[1], y: buttonY + uiY} ;
+  var punchButton     = {image: button[0], render: draw_image, x: buttonX[2], y: buttonY + uiY} ;
+  var jumpButton      = {image: button[0], render: draw_image, x: buttonX[3], y: buttonY + uiY} ;
+  var item            = [billy, walkLeftButton, walkRightButton, punchButton, jumpButton] ;
 
   $Z.item(item)   ;     // load the user data into the visualization engine to initialize the time equals zero (t = 0) state
 	$Z.prep([viz_prep]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
@@ -201,11 +205,14 @@ function trump_level_one () {
 
   function set_keydown () {
     document.onkeydown = keydown ;
+    vizCanvas.addEventListener('click', click, false) ;
   }
 
   set_keydown() ;
 
   function click (e) {
+
+    vizCanvas.removeEventListener ('click', click, false) ;
 
     var position = set_canvas_position( vizCanvas ) ;
 
@@ -222,24 +229,20 @@ function trump_level_one () {
       switch (buttonIndex) {
 
         case 0: // walk left
+          walkLeftButton.transition = animate([button[1]], step_transition, end_transition, button[0]) ;
           state = 'l' ;
-          //ddSprite   = ddSpriteL ;
-          //restFrame = ddSprite.walk[0] ;
-          //transition = animate(ddSprite.walk,  step_transition, end_transition, restFrame) ;
           break;
         case 1: // walk right
+          walkRightButton.transition = animate([button[1]], step_transition, end_transition, button[0]) ;
           state = 'r' ;
-          // ddSprite   = ddSpriteR ;
-          // restFrame = ddSprite.walk[0] ;
-          // transition = animate(ddSprite.walk,  step_transition, end_transition, restFrame) ;
           break;
         case 2: // punch
+          punchButton.transition = animate([button[1]], step_transition, end_transition, button[0]) ;
           state = 'p' ;
-          // transition = animate(ddSprite.punch, step_transition, end_transition, restFrame) ;
           break;
         case 3: // jump
+          jumpButton.transition = animate([button[1]], step_transition, end_transition, button[0]) ;
           state = 'j' ;
-          // transition = animate(ddSprite.jump,  step_transition, end_transition, restFrame) ; ;
           break;
 
       }
