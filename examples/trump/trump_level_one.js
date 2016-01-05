@@ -119,10 +119,11 @@ function trump_level_one () {
   var ddSprite   = ddSpriteR ;
 
   var restFrame = ddSprite.walk[0] ;
-  var billy     = {image: restFrame, render: draw_image, x: 120, y: 241 - ddSprite.height } ;
+  // var positionObject = {x: 0, y: 241 - ddSprite.height} ;
+  var billy           = {image: restFrame, render: draw_image, x: 120, y: 241 - ddSprite.height } ;
 
   var trumpSprite = trump_sprite() ; 
-  var trump       = {image: trumpSprite.blink[0], render: draw_image, x: 80, y: 140} ;
+  var trump = {image: trumpSprite.blink[0], render: draw_image, x: 80, y: 140} ;
 
   var walkLeftButton  = {image: button[0], render: draw_image, x: buttonX[0], y: buttonY + uiY} ;
   var walkRightButton = {image: button[0], render: draw_image, x: buttonX[1], y: buttonY + uiY} ;
