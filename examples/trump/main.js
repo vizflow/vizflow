@@ -6,7 +6,8 @@ document.body.style.margin    = 0 ;
 
 var ddSpriteImageUrl     = 'dd_billy.png' ;
 var buttonSpriteImageUrl = 'blue_button2.png' ;
-var trumpSpriteImageUrl  = 'trump1.png' ;
-var img                  = [ ddSpriteImageUrl, buttonSpriteImageUrl, trumpSpriteImageUrl ] ;
+var trumpSpriteImageUrl  = 'trump_spritesheet.png' ;
+var backgroundImageUrl   = 'trump_bg1.png' ;
+var img                  = [ ddSpriteImageUrl, buttonSpriteImageUrl, trumpSpriteImageUrl, backgroundImageUrl ] ;
 
 imageLoader.preload ( img, trump_game ) ;

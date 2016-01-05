@@ -60,16 +60,16 @@ function trump_level_one () {
   var hiddenContext = hiddenCanvas.getContext('2d') ;
   hiddenContext.drawImage(hiddenUICanvas, uiX, uiY) ; // draw ui
   
+  var backgroundimageUrl = 'trump_bg1.png' ;
+  var background = image2canvas(backgroundImageUrl) ;
+
   var step_transition = step_transition_func('image', dur) ;
 
   function viz_prep () {
 
-    vizContext.clearRect(0, 0, vizCanvas.width, vizCanvas.height) ;
+    // vizContext.clearRect(0, 0, vizCanvas.width, vizCanvas.height) ;
 
-    var floor = { x: 0, y: 240, width: vizWidth, height: 20, color: '#000'} ;
-    draw_rect(vizContext, floor) ;
-
-    // vizContext.drawImage(uiCanvas, uiX, uiY) ; // draw ui
+    vizContext.drawImage (background, 0, 0) ;
 
     return true ;
 
@@ -121,10 +121,10 @@ function trump_level_one () {
 
   var restFrame = ddSprite.walk[0] ;
   // var positionObject = {x: 0, y: 241 - ddSprite.height} ;
-  var billy           = {image: restFrame, render: draw_image, x: 120, y: 241 - ddSprite.height } ;
+  var billy           = {image: restFrame, render: draw_image, x: 120, y: 225 - ddSprite.height } ;
 
   var trumpSprite = trump_sprite() ; 
-  var trump = {image: trumpSprite.blink[0], render: draw_image, x: 80, y: 140} ;
+  var trump = {image: trumpSprite.blink[0], render: draw_image, x: 80, y: 120} ;
 
   var walkLeftButton  = {image: button[0], render: draw_image, x: buttonX[0], y: buttonY + uiY} ;
   var walkRightButton = {image: button[0], render: draw_image, x: buttonX[1], y: buttonY + uiY} ;
@@ -194,12 +194,14 @@ function trump_level_one () {
         transition = animate(ddSprite.jump, step_transition, end_transition, restFrame) ;
         break ;
       case 'p' :
-        trump.transition = animate (trumpSprite.blink, step_transition, end_transition, trumpSprite.blink[0]) ;
+        trump.transition = animate (trumpSprite.blink, step_transition, end_transition, trumpSprite.blink[0])
         transition = animate(ddSprite.punch, step_transition, end_transition, restFrame) ;
         break ;
     }
     if (transition.length > 0) {
       billy.transition = transition ;
+    } else {
+      set_keydown() ;
     }
   }
 
@@ -252,6 +254,10 @@ function trump_level_one () {
       }
 
       update_billy(state) ;
+
+    } else { 
+
+      vizCanvas.addEventListener('click', click, false) ;  
 
     }
 
