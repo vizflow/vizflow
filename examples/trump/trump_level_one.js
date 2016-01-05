@@ -118,19 +118,19 @@ function trump_level_one () {
   var ddSpriteL  = horizontal_flip(ddSpriteR) ;
   var ddSprite   = ddSpriteR ;
 
-
   var restFrame = ddSprite.walk[0] ;
-  // var positionObject = {x: 0, y: 241 - ddSprite.height} ;
-  var billy           = {image: restFrame, render: draw_image, x: 120, y: 241 - ddSprite.height } ;
+  var billy     = {image: restFrame, render: draw_image, x: 120, y: 241 - ddSprite.height } ;
 
   var trumpSprite = trump_sprite() ; 
-  var trump = {image: trumpSprite.blink[0], render: draw_image, x: 80, y: 140} ;
+  var trump       = {image: trumpSprite.blink[0], render: draw_image, x: 80, y: 140} ;
 
   var walkLeftButton  = {image: button[0], render: draw_image, x: buttonX[0], y: buttonY + uiY} ;
   var walkRightButton = {image: button[0], render: draw_image, x: buttonX[1], y: buttonY + uiY} ;
   var punchButton     = {image: button[0], render: draw_image, x: buttonX[2], y: buttonY + uiY} ;
   var jumpButton      = {image: button[0], render: draw_image, x: buttonX[3], y: buttonY + uiY} ;
   var item            = [trump, billy, walkLeftButton, walkRightButton, punchButton, jumpButton] ;
+
+  console.log('collision', collision_draw(item, vizWidth, vizHeight)) ;
 
   $Z.item(item)   ;     // load the user data into the visualization engine to initialize the time equals zero (t = 0) state
 	$Z.prep([viz_prep]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
@@ -152,17 +152,12 @@ function trump_level_one () {
         break;
       case 38: // up
         state = 'j' ;
-        //transition = animate(ddSprite.jump, step_transition, end_transition, restFrame) ;
         break;
       case 39: // right
         state = 'r' ;
-        //ddSprite = ddSpriteR ;
-        //restFrame = ddSprite.walk[0] ;
-        //transition = animate(ddSprite.walk, step_transition, end_transition, restFrame) ;
         break;
       case 40: // down
         state = 'p' ;
-        // transition = animate(ddSprite.punch, step_transition, end_transition, restFrame) ; ;
         break;
 
     }
