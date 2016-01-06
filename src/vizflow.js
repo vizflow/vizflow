@@ -6,6 +6,7 @@
 
 var _item   = []       ; // initialize the array of items (change to an object pool later to reduce garbage collection)
 var _prep   = []       ; // array of actions to perform before rendering the items on each frame (e.g. collision detection, background clearing)
+var _detect = []       ; // array of detectors to perform before rendering the items on each frame (e.g. collision detection, background clearing)
 var _action = []       ; // array of actions to perform before rendering the items on each frame (e.g. collision detection, background clearing)
 var iter    = 0        ; // default initial iteration count
 var verbose = false    ; // default verbosity value
@@ -16,6 +17,7 @@ var maxIter = Infinity ; // default iteration limit
 import step            from './step'            ;
 import item            from './item'            ;
 import prep            from './prep'            ;
+import detect          from './detect'          ;
 import action          from './action'          ;
 import pipe            from './pipe'            ;
 import done            from './done'            ;
@@ -53,6 +55,7 @@ window.$Z = { // define the "bling Z" object for running interactive vizualizati
 	_action,    // array of actions (internal use only as marked by underscore)
 	_prep,      // array of preprocessing tasks to perform (internal use only as marked by underscore)
 	item,       // getter/setter function for interfacing with the item/data array
+	detect,     // getter/setter function for interfacing with the _detect array
 	action,     // getter/setter function for interfacing with the _action array
 	prep,       // getter/setter function for interfacing with the _prep array
 	update,     // default update function for items using arrays of transition objects containing interpolation functions
