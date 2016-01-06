@@ -1,4 +1,4 @@
-function collision_draw(item, width, height) {
+function collision_detect(item, width, height) {
 	
   var Npel         = width * height ;
   var Nchannel     = 2 ; // max 2 items per collision pixel
@@ -16,9 +16,9 @@ function collision_draw(item, width, height) {
   for ( var kItem = 0 ; kItem < Nitem ; kItem++ ) {
 
     var imageK = item[kItem]
-    	.image
+    	.collisionImage
     	.getContext('2d')
-    	.getImageData(0, 0, item[kItem].image.width, item[kItem].image.height) ;
+    	.getImageData(0, 0, item[kItem].collisionImage.width, item[kItem].collisionImage.height) ;
 
 	  for ( var kPel = 0 ; kPel < Npel ; kPel++ ) {
 
@@ -26,9 +26,9 @@ function collision_draw(item, width, height) {
 	  	var j = kPel % width ;
 
 	  	if (    ( i < item[kItem].y ) 
-	  		   || ( i > item[kItem].y + item[kItem].image.height - 1 )
+	  		   || ( i > item[kItem].y + item[kItem].collisionImage.height - 1 )
 	  		   || ( j < item[kItem].x )
-	  		   || ( j > item[kItem].x + item[kItem].image.width - 1 ) 
+	  		   || ( j > item[kItem].x + item[kItem].collisionImage.width - 1 ) 
 	  		 ) {
 	  		continue ;
 	  	}
@@ -37,7 +37,7 @@ function collision_draw(item, width, height) {
 
       var iItem    = i - item[kItem].y ;
       var jItem    = j - item[kItem].x ;
-      var kPelItem = iItem * item[kItem].image.width + jItem ;
+      var kPelItem = iItem * item[kItem].collisionImage.width + jItem ;
 
       var a = imageK.data[4 * kPelItem + 3] ; // use alpha channel to test for presence of color
 

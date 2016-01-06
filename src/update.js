@@ -34,7 +34,13 @@ export default function update() { // default update function for handling anima
 				children.push(trans.child) ;
 			}
 			if(trans.end !== undefined) {
-				trans.end() ;
+				if ( trans.end.arguments === undefined ) { // assume it is an array 
+					for( var kEnd = 0 ; kEnd < trans.end.length ; kEnd++ ) {
+						trans.end[kEnd]() ;
+					}
+				} else { 
+   				trans.end() ;
+				}
 			}
 		}
 		
