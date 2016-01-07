@@ -1,7 +1,7 @@
 function trump_level_one () {
 
   var spriteImageIndex = 0 ; 
-  var dur              = 80 ;
+  var dur              = 17 * 5 ;
   var vizWidth         = 240 ;
   var vizHeight        = 320 ;
 

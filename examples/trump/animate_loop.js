@@ -49,7 +49,7 @@ function animate_loop (loopConfig, sprite, create_transition, callback, restFram
 
 	if (Nstep > 0) { // need tail
 		for (var kTail = 0 ; kTail < Nstep ; kTail++) {
-			tail.push (sprite[kTail]) ;
+			tail.push (animation[kTail]) ;
 		}
 
 		kPos = kTail - 1 ;
