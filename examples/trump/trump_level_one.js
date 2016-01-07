@@ -1,7 +1,7 @@
 function trump_level_one () {
 
   var spriteImageIndex = 0 ; 
-  var dur              = 17 * 5 ;
+  var dur              = 17 * 4 ;
   var vizWidth         = 240 ;
   var vizHeight        = 320 ;
 
@@ -119,29 +119,31 @@ function trump_level_one () {
   var ddSpriteL  = horizontal_flip(ddSpriteR) ;
   var ddSprite   = ddSpriteR ;
 
-  var restFrame = ddSprite.walk[0] ;
+  var restFrame    = ddSprite.walk[0] ;
   var clearedFrame = create_canvas(restFrame.width, restFrame.height) ; 
   // var positionObject = {x: 0, y: 241 - ddSprite.height} ;
 
   var billyLoop = {totalDur : 2 * dur, frameDur : dur, position : 0} ; // position is from 0 to 1
-  var billy           = {image: restFrame, collisionImage: clearedFrame, render: draw_image, x: 20, y: 225 - ddSprite.height } ;
+  var billy     = {image: restFrame, collisionImage: clearedFrame, render: draw_image, x: 20, y: 225 - ddSprite.height } ;
 
   var trumpSprite = trump_sprite() ; 
-  var trump = {image: trumpSprite.blink[0], collisionImage: trumpSprite.blink[0], render: draw_image, x: 80, y: 140} ;
+  var trump       = {image: trumpSprite.blink[0], collisionImage: trumpSprite.blink[0], render: draw_image, x: 80, y: 140} ;
 
   var walkLeftButton  = {image: button[0], render: draw_image, x: buttonX[0], y: buttonY + uiY} ;
   var walkRightButton = {image: button[0], render: draw_image, x: buttonX[1], y: buttonY + uiY} ;
   var punchButton     = {image: button[0], render: draw_image, x: buttonX[2], y: buttonY + uiY} ;
   var jumpButton      = {image: button[0], render: draw_image, x: buttonX[3], y: buttonY + uiY} ;
 
-  var health           = 40 ;
-  var healthBarHeight  = 5 ;
-  var healthBarRect    = {x: 190, y: 10, width: health, height: healthBarHeight, color: '#600'} ; 
-  var draw_bar = function () {
+  var health          = 40 ;
+  var healthBarHeight = 5 ;
+  var healthBarRect   = {x: 190, y: 10, width: health, height: healthBarHeight, color: '#600'} ; 
+
+  var draw_bar        = function () {
     healthBarRect.width = this.width ;
    // console.log ('draw_bar:this', this) ;
     draw_rect (vizContext, healthBarRect) ;
   }
+
   var trumpHealthBar   = {render: draw_bar, width: health} ;
 
   var item = [trump, billy, walkLeftButton, walkRightButton, punchButton, jumpButton, trumpHealthBar] ;
@@ -196,9 +198,10 @@ function trump_level_one () {
 	$Z.run()        ;     // run the interactive visualization (infinite loop by default)
 
   var x_transition = $Z.transition.rounded_linear_transition_func ( 'x', dur * (ddSprite.walk.length + 1) ) ; // function accepting an x end-value and returning a transition object
-  var xMove        = 20 ; 
+  var xMove        = 15 ; 
 
   function keydown (e) {
+
     document.onkeydown = null ;
     var transition     = [] ;
     var state ;
@@ -221,6 +224,7 @@ function trump_level_one () {
     }
 
     update_billy(state) ;
+
   }
 
   function update_billy(state) {
