@@ -228,29 +228,35 @@ function trump_level_one () {
   }
 
   function update_billy(state) {
+    var minNstep = 2 ; // minimum number of frames to animate per user input for walking animations
     var transition = [] ;
-    switch(state) {
+     switch(state) {
       case 'l' :
         ddSprite   = ddSpriteL ;
         restFrame  = ddSprite.walk[0] ;
-        billyLoop = animate_loop (billyLoop, ddSprite.walk, image_transition, undefined, restFrame) ;
-        // console.log ('billyLoop.animation', billyLoop.animation) ;
+        billyLoop  = animate_loop (billyLoop, ddSprite.walk, image_transition, undefined, restFrame) ;
+        add_transition_end(billyLoop.animation[0], minNstep - 1, set_keydown) ;
+        //console.log('billyLoop.animation', billyLoop.animation)
         transition = billyLoop.animation ;
-        var xNew = Math.max(0, billy.x - xMove) ;
+
+        var xNew   = Math.max(0, billy.x - xMove) ;
         var xTransition = x_transition(xNew) ;
+
         transition.push(xTransition) ;
-        setTimeout (set_keydown, billyLoop.frameDur *2) ;
+
         break ;
       case 'r' :
         ddSprite   = ddSpriteR ;
         restFrame  = ddSprite.walk[0] ;
         billyLoop = animate_loop (billyLoop, ddSprite.walk, image_transition, undefined, restFrame) ;
-        // console.log ('billyLoop.animation', billyLoop.animation) ;
+        add_transition_end(billyLoop.animation[0], minNstep - 1, set_keydown) ;
         transition = billyLoop.animation ;
+
         var xNew   = Math.min(vizWidth - restFrame.width, billy.x + xMove) ;
         var xTransition = x_transition(xNew) ;
+
         transition.push(xTransition) ;
-        setTimeout (set_keydown, billyLoop.frameDur *2) ;
+
         break ;
       case 'j' :
         transition = animate(ddSprite.jump, image_transition, set_keydown, restFrame) ;

@@ -1,5 +1,5 @@
 function animate_loop (loopConfig, sprite, create_transition, callback, restFrame) {
-	var loopOutput = {} ; // initialize output variable
+	var loopOutput      = {} ; // initialize output variable
 	loopOutput.frameDur = loopConfig.frameDur;
 	loopOutput.totalDur = loopConfig.totalDur ;
 	loopOutput.position = loopConfig.position ;
@@ -60,7 +60,7 @@ function animate_loop (loopConfig, sprite, create_transition, callback, restFram
 
 	// console.log('animate_loop: loop', loop, 'body', body, 'head', head, 'tail', tail) ;
 	
-	loopOutput.position = kPos / Nframe ;
+	loopOutput.position  = kPos / Nframe ;
 	loopOutput.animation = animate (loop, create_transition, callback) ;
 
 	return loopOutput ;
