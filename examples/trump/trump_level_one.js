@@ -149,7 +149,7 @@ function trump_level_one () {
   function detect_punch() {
     var collision = collision_detect([billy, trump], vizWidth, vizHeight) ;
     if (collision.list.length > 0) { // a collision between billy and trump occurred
-     // console.log ('detect_punch: collision', collision) ;
+      console.log ('detect_punch: collision', collision) ;
       set_punch_action() ;
     }
   }
