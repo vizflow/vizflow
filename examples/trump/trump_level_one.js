@@ -61,10 +61,11 @@ function trump_level_one () {
   hiddenContext.drawImage(hiddenUICanvas, uiX, uiY) ; // draw ui
   
   var backgroundimageUrl = 'trump_bg1.png' ;
-  var background = image2canvas(backgroundImageUrl) ;
+  var background         = image2canvas(backgroundImageUrl) ;
 
-  var step_transition = step_transition_func('image', dur) ;
-
+  var image_transition           = step_transition_func('image', dur) ;
+  var collision_image_transition = step_transition_func('collisionImage', dur) ;
+  
   function viz_prep () {
 
     // vizContext.clearRect(0, 0, vizCanvas.width, vizCanvas.height) ;
@@ -119,9 +120,10 @@ function trump_level_one () {
   var ddSprite   = ddSpriteR ;
 
   var restFrame = ddSprite.walk[0] ;
+  var clearedFrame = create_canvas(restFrame.width, restFrame.height) ; 
   // var positionObject = {x: 0, y: 241 - ddSprite.height} ;
 
-  var billy           = {image: restFrame, collisionImage: ddSprite.punch[0], render: draw_image, x: 20, y: 225 - ddSprite.height } ;
+  var billy           = {image: restFrame, collisionImage: clearedFrame, render: draw_image, x: 20, y: 225 - ddSprite.height } ;
 
   var trumpSprite = trump_sprite() ; 
   var trump = {image: trumpSprite.blink[0], collisionImage: trumpSprite.blink[0], render: draw_image, x: 80, y: 140} ;
@@ -130,11 +132,24 @@ function trump_level_one () {
   var walkRightButton = {image: button[0], render: draw_image, x: buttonX[1], y: buttonY + uiY} ;
   var punchButton     = {image: button[0], render: draw_image, x: buttonX[2], y: buttonY + uiY} ;
   var jumpButton      = {image: button[0], render: draw_image, x: buttonX[3], y: buttonY + uiY} ;
-  var item            = [trump, billy, walkLeftButton, walkRightButton, punchButton, jumpButton] ;
+
+  var health           = 40 ;
+  var healthBarHeight  = 5 ;
+  var healthBarRect    = {x: 190, y: 10, width: health, height: healthBarHeight, color: '#600'} ; 
+  var draw_bar = function () {
+    healthBarRect.width = this.width ;
+   // console.log ('draw_bar:this', this) ;
+    draw_rect (vizContext, healthBarRect) ;
+  }
+  var trumpHealthBar   = {render: draw_bar, width: health} ;
+
+  var item = [trump, billy, walkLeftButton, walkRightButton, punchButton, jumpButton, trumpHealthBar] ;
+
 
   function detect_punch() {
     var collision = collision_detect([billy, trump], vizWidth, vizHeight) ;
     if (collision.list.length > 0) { // a collision between billy and trump occurred
+     // console.log ('detect_punch: collision', collision) ;
       set_punch_action() ;
     }
   }
@@ -147,11 +162,31 @@ function trump_level_one () {
     $Z.action([punch_action]) ;    
   }
 
+  var health_transition = $Z.transition.linear_transition_func ( 'width', dur * 4 ) ; 
+  var healthDrop = 10 ;
+
   function punch_action() {
-    $Z.detect([]) ; // turn off collision detection until after the trump character finishes animating
-    $Z.action([]) ; // turn off other actions
-    var transition = animate (trumpSprite.blink, step_transition, undefined, trumpSprite.blink[0]) ;
+
+    punch_reset () ;
+
+    var transition   = animate (trumpSprite.blink, image_transition, undefined, trumpSprite.blink[0]) ;
     trump.transition = transition ;
+
+    health -= healthDrop ;
+    
+    if (health < 0) {
+      health = 0 ;
+    }
+
+    //trumpHealthBar.width = health ;
+    trumpHealthBar.transition = health_transition (health) ;
+    console.log ('trumpHealthBar', trumpHealthBar) ;
+
+  }
+
+  function punch_reset () {
+   $Z.detect([]) ; // turn off collision detection until after the trump character finishes animating
+   $Z.action([]) ; // turn off other actions
   }
 
   $Z.item(item)   ;     // load the user data into the visualization engine to initialize the time equals zero (t = 0) state
@@ -192,7 +227,7 @@ function trump_level_one () {
       case 'l' :
         ddSprite   = ddSpriteL ;
         restFrame  = ddSprite.walk[0] ;
-        transition = animate(ddSprite.walk, step_transition, set_keydown, restFrame) ;
+        transition = animate(ddSprite.walk, image_transition, set_keydown, restFrame) ;
         var xNew = Math.max(0, billy.x - xMove) ;
         var xTransition = x_transition(xNew) ;
         transition.push(xTransition) ;
@@ -200,16 +235,19 @@ function trump_level_one () {
       case 'r' :
         ddSprite   = ddSpriteR ;
         restFrame  = ddSprite.walk[0] ;
-        transition = animate(ddSprite.walk, step_transition, set_keydown, restFrame) ;
+        transition = animate(ddSprite.walk, image_transition, set_keydown, restFrame) ;
         var xNew   = Math.min(vizWidth - restFrame.width, billy.x + xMove) ;
         var xTransition = x_transition(xNew) ;
         transition.push(xTransition) ;
         break ;
       case 'j' :
-        transition = animate(ddSprite.jump, step_transition, set_keydown, restFrame) ;
+        transition = animate(ddSprite.jump, image_transition, set_keydown, restFrame) ;
         break ;
       case 'p' :
-        transition = animate(ddSprite.punch, step_transition, set_keydown, restFrame) ;
+        transition = animate(ddSprite.punch, image_transition, set_keydown, restFrame) ;
+        var collisionTransition = animate (ddSprite.punchCollision, collision_image_transition, punch_reset, clearedFrame) ; 
+        transition = transition.concat(collisionTransition) ;
+       // console.log ('update_billy: transition', transition) ;
         set_punch_detect() ;
         break ;
     }
@@ -240,19 +278,19 @@ function trump_level_one () {
       switch (buttonIndex) {
 
         case 0: // walk left
-          walkLeftButton.transition = animate([button[1]], step_transition, undefined, button[0]) ;
+          walkLeftButton.transition = animate([button[1]], image_transition, undefined, button[0]) ;
           state = 'l' ;
           break;
         case 1: // walk right
-          walkRightButton.transition = animate([button[1]], step_transition, undefined, button[0]) ;
+          walkRightButton.transition = animate([button[1]], image_transition, undefined, button[0]) ;
           state = 'r' ;
           break;
         case 2: // punch
-          punchButton.transition = animate([button[1]], step_transition, undefined, button[0]) ;
+          punchButton.transition = animate([button[1]], image_transition, undefined, button[0]) ;
           state = 'p' ;
           break;
         case 3: // jump
-          jumpButton.transition = animate([button[1]], step_transition, undefined, button[0]) ;
+          jumpButton.transition = animate([button[1]], image_transition, undefined, button[0]) ;
           state = 'j' ;
           break;
 

@@ -30,6 +30,14 @@ function dd_sprite () {
 	ddSprite.punch     = get_sprite (spriteContext, punchTileCount, punchRowIndex, punchTileWidth, ddSprite.height, punchOffsetX, punchOffsetY, punchPadX, bgColor, punchTilePadXl, punchTilePadXr) ;
 	ddSprite.punch     = [ddSprite.punch[0], ddSprite.walk[0], ddSprite.punch[1]] ;
 
+	var punchCanvas  = ddSprite.punch[0] ;
+	var tempCanvas   = create_canvas (punchCanvas.width, punchCanvas.height)  ;
+	var clearedFrame = create_canvas (punchCanvas.width, punchCanvas.height)  ;
+	tempCanvas.getContext ('2d').drawImage (punchCanvas, 0, 0) ;
+	tempCanvas.getContext ('2d').clearRect (punchTilePadXl, 0, walkTileWidth * 1.5, ddSprite.height) ;
+	//console.log ('dd_sprite: tempCanvas', tempCanvas.getContext('2d').getImageData(0, 0, tempCanvas.width, tempCanvas.height)) ; 
+	ddSprite.punchCollision = [tempCanvas, clearedFrame, tempCanvas] ;
+
   var jumpTileCount = 3 ;
 	var jumpRowIndex  = 1 ;
 	var jumpTileWidth = 30 ;

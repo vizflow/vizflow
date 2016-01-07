@@ -6,6 +6,10 @@ export default function update() { // default update function for handling anima
 
 	if(el.transition === undefined) return ;
 
+	if (el.transition.constructor !== Array) {
+		el.transition = [el.transition] ;
+	}
+
 	for(let kt = 0 ; kt < el.transition.length ; kt++) {
 
 		let trans = el.transition[kt] ; // transition object for each state variable that is changing

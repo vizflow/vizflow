@@ -1,4 +1,4 @@
-function animate (sprite, transition_function, callback, restFrame) {
+function animate (sprite, create_transition, callback, restFrame) {
   var animation ;
   if (restFrame === undefined) {
     animation = sprite ; 
@@ -9,7 +9,7 @@ function animate (sprite, transition_function, callback, restFrame) {
   var Nframe = animation.length ;
   var transitionArray = [] ;
   for(var kframe = 0 ; kframe < Nframe ; kframe++) {
-    var transition = transition_function( animation[kframe] ) ;
+    var transition = create_transition( animation[kframe] ) ;
     if(kframe === Nframe - 1) {        
       transition.end = callback ;
     }
