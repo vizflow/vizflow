@@ -228,18 +228,20 @@ function trump_level_one () {
       case 'l' :
         ddSprite   = ddSpriteL ;
         restFrame  = ddSprite.walk[0] ;
-        transition = animate(ddSprite.walk, image_transition, set_keydown, restFrame) ;
+        transition = animate(ddSprite.walk, image_transition, undefined, restFrame) ;
         var xNew = Math.max(0, billy.x - xMove) ;
         var xTransition = x_transition(xNew) ;
         transition.push(xTransition) ;
+        set_keydown() ;
         break ;
       case 'r' :
         ddSprite   = ddSpriteR ;
         restFrame  = ddSprite.walk[0] ;
-        transition = animate(ddSprite.walk, image_transition, set_keydown, restFrame) ;
+        transition = animate(ddSprite.walk, image_transition, undefined, restFrame) ;
         var xNew   = Math.min(vizWidth - restFrame.width, billy.x + xMove) ;
         var xTransition = x_transition(xNew) ;
         transition.push(xTransition) ;
+        set_keydown() ;
         break ;
       case 'j' :
         transition = animate(ddSprite.jump, image_transition, set_keydown, restFrame) ;
