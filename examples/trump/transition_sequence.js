@@ -3,5 +3,5 @@ function transition_sequence(transitionArray) {
   for(var k = 0 ; k < transitionArray.length - 1 ; k++) {
     transitionArray[k].child = transitionArray[k + 1] ;
   }
-  return transition ;
+  return [transition] ;
 }
