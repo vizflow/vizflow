@@ -163,7 +163,7 @@ function trump_level_one () {
   }
 
   var health_transition = $Z.transition.linear_transition_func ( 'width', dur * 4 ) ; 
-  var healthDrop = 10 ;
+  var healthDrop = 4 ;
 
   function punch_action() {
 
@@ -175,12 +175,13 @@ function trump_level_one () {
     health -= healthDrop ;
     
     if (health < 0) {
+      alert ('game over') ;
       health = 0 ;
     }
 
     //trumpHealthBar.width = health ;
     trumpHealthBar.transition = health_transition (health) ;
-    console.log ('trumpHealthBar', trumpHealthBar) ;
+    // console.log ('trumpHealthBar', trumpHealthBar) ;
 
   }
 
