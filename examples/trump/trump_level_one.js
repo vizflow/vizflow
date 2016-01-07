@@ -1,7 +1,7 @@
 function trump_level_one () {
 
   var spriteImageIndex = 0 ; 
-  var dur              = 150 ;
+  var dur              = 80 ;
   var vizWidth         = 240 ;
   var vizHeight        = 320 ;
 
@@ -123,6 +123,7 @@ function trump_level_one () {
   var clearedFrame = create_canvas(restFrame.width, restFrame.height) ; 
   // var positionObject = {x: 0, y: 241 - ddSprite.height} ;
 
+  var billyLoop = {totalDur : 2 * dur, frameDur : dur, position : 0} ; // position is from 0 to 1
   var billy           = {image: restFrame, collisionImage: clearedFrame, render: draw_image, x: 20, y: 225 - ddSprite.height } ;
 
   var trumpSprite = trump_sprite() ; 
@@ -194,8 +195,8 @@ function trump_level_one () {
 	$Z.prep([viz_prep]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
 	$Z.run()        ;     // run the interactive visualization (infinite loop by default)
 
-  var x_transition = $Z.transition.linear_transition_func ( 'x', dur * (ddSprite.walk.length + 1) ) ; // function accepting an x end-value and returning a transition object
-  var xMove        = 40 ; 
+  var x_transition = $Z.transition.rounded_linear_transition_func ( 'x', dur * (ddSprite.walk.length + 1) ) ; // function accepting an x end-value and returning a transition object
+  var xMove        = 20 ; 
 
   function keydown (e) {
     document.onkeydown = null ;
@@ -228,20 +229,24 @@ function trump_level_one () {
       case 'l' :
         ddSprite   = ddSpriteL ;
         restFrame  = ddSprite.walk[0] ;
-        transition = animate(ddSprite.walk, image_transition, undefined, restFrame) ;
+        billyLoop = animate_loop (billyLoop, ddSprite.walk, image_transition, undefined, restFrame) ;
+        // console.log ('billyLoop.animation', billyLoop.animation) ;
+        transition = billyLoop.animation ;
         var xNew = Math.max(0, billy.x - xMove) ;
         var xTransition = x_transition(xNew) ;
         transition.push(xTransition) ;
-        set_keydown() ;
+        setTimeout (set_keydown, billyLoop.frameDur *2) ;
         break ;
       case 'r' :
         ddSprite   = ddSpriteR ;
         restFrame  = ddSprite.walk[0] ;
-        transition = animate(ddSprite.walk, image_transition, undefined, restFrame) ;
+        billyLoop = animate_loop (billyLoop, ddSprite.walk, image_transition, undefined, restFrame) ;
+        // console.log ('billyLoop.animation', billyLoop.animation) ;
+        transition = billyLoop.animation ;
         var xNew   = Math.min(vizWidth - restFrame.width, billy.x + xMove) ;
         var xTransition = x_transition(xNew) ;
         transition.push(xTransition) ;
-        set_keydown() ;
+        setTimeout (set_keydown, billyLoop.frameDur *2) ;
         break ;
       case 'j' :
         transition = animate(ddSprite.jump, image_transition, set_keydown, restFrame) ;

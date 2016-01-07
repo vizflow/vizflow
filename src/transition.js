@@ -4,6 +4,10 @@ var transition = { // module containing transition helper functions
     return (1 - t) * this.startValue + t * this.endValue ; // return a value to avoid side-effects
   },
 
+  rounded_linear_interp: function rounded_linear_interp(t) { // attaches to transition object and handles linear interpolation of scalar values
+    return Math.round( (1 - t) * this.startValue + t * this.endValue ) ; // return a value to avoid side-effects
+  },
+
   color_interp: function color_interp(t) {
     var color1 = this.startValue ; // here, "this" revers to whatever context this gets bound to (not this module itself)
     var color2 = this.endValue ;   // here, "this" revers to whatever context this gets bound to (not this module itself)
@@ -42,6 +46,10 @@ var transition = { // module containing transition helper functions
 
   linear_transition_func: function linear_transition_func(varName, duration) {
     return this.build_func(varName, duration, this.linear_interp) ;
+  },
+
+  rounded_linear_transition_func: function rounded_linear_transition_func(varName, duration) {
+    return this.build_func(varName, duration, this.rounded_linear_interp) ;
   },
 
   color_transition_func: function color_transition_func(varName, duration) {
