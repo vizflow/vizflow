@@ -68,12 +68,11 @@ function trump_level_four () {
   var samusSpriteL  = horizontal_flip(samusSpriteR) ;
   var samusSprite   = samusSpriteR ;
 
-  var restFrame    = samusSprite.rest[0] ;
-  var clearedFrame = create_canvas(restFrame.width, restFrame.height) ; 
+  var clearedFrame = create_canvas(samusSprite.rest[0].width, samusSprite.rest[0].height) ; 
   // var positionObject = {x: 0, y: 241 - samusSprite.height} ;
 
   var samusLoop = {totalDur : 2 * viz.dur, frameDur : viz.dur, position : 0} ; // position is from 0 to 1
-  var samus     = {image: restFrame, collisionImage: clearedFrame, render: draw_image, x: 20, y: 225 - samusSprite.height } ;
+  var samus     = {image: samusSprite.rest[0], collisionImage: clearedFrame, render: draw_image, x: 20, y: 225 - samusSprite.height } ;
   var orientation = 'r' ; // r for facing right
 
   var trumpSprite = trump_sprite() ; 
@@ -195,8 +194,8 @@ function trump_level_four () {
       case 'l' :
         orientation = 'l' ;
         samusSprite = samusSpriteL ;
-        restFrame   = samusSprite.walk[0] ;
-        samusLoop   = animate_loop (samusLoop, samusSprite.walk, image_transition, undefined, restFrame) ;
+        //samusSprite.rest[0]   = samusSprite.walk[0] ;
+        samusLoop   = animate_loop (samusLoop, samusSprite.walk, image_transition, undefined) ;
         add_transition_end(samusLoop.animation[0], minNstep - 1, click_reset) ;
         //console.log('samusLoop.animation', samusLoop.animation)
         transition = samusLoop.animation ;
@@ -210,22 +209,22 @@ function trump_level_four () {
       case 'r' :
         orientation   = 'r' ;
         samusSprite   = samusSpriteR ;
-        restFrame     = samusSprite.walk[0] ;
-        samusLoop     = animate_loop (samusLoop, samusSprite.walk, image_transition, undefined, restFrame) ;
+        //samusSprite.rest[0]     = samusSprite.walk[0] ;
+        samusLoop     = animate_loop (samusLoop, samusSprite.walk, image_transition, undefined) ;
         add_transition_end(samusLoop.animation[0], minNstep - 1, click_reset) ;
         transition = samusLoop.animation ;
 
-        var xNew        = Math.min(viz.width - restFrame.width, samus.x + xMove) ;
+        var xNew        = Math.min(viz.width - samusSprite.rest[0].width, samus.x + xMove) ;
         var xTransition = x_transition(xNew) ;
 
         transition.push(xTransition) ;
 
         break ;
       case 'j' :
-        transition = animate(samusSprite.jump, image_transition, click_reset, restFrame) ;
+        transition = animate(samusSprite.jump, image_transition, click_reset, samusSprite.rest[0]) ;
         break ;
       case 'p' :
-        transition = animate(samusSprite.attack, image_transition, click_reset, restFrame) ;
+        transition = animate(samusSprite.attack, image_transition, click_reset, samusSprite.rest[0]) ;
 
         var newBullet = copy_object (bullet) ;
 
@@ -350,6 +349,9 @@ function trump_level_four () {
   function mouseup (event) {
 
     $Z.prep ([viz_prep]) ;
+    samus.transition = [] ;
+    samus.image = samusSprite.rest[0] ;
+    click_reset () ;
 
     //console.log ('mouseup: holding', holding, 'event', event) ;
 

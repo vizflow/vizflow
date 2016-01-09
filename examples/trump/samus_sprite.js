@@ -14,8 +14,8 @@ function samus_sprite () {
 	var walkPadX      = 5 ;
 	var walkOffsetX   = 88 ;
 	var walkOffsetY   = 22 ;
-	var walkTilePadXl = 0 ;
-	var walkTilePadXr = 0 ;
+	var walkTilePadXl = 2 ;
+	var walkTilePadXr = 2 ;
 	var walkConfig    = {
 		context: spriteContext,
 		tileCount: walkTileCount,
@@ -53,8 +53,10 @@ function samus_sprite () {
 	var attackOffsetX   = 53 ;
 	var attackOffsetY   = 22 ;
 	var attackTileWidth = 18 ;
+	var attackTilePadXl = 2 ;
+	var attackTilePadXr = 0 ;
 
-		var attackConfig    = {
+	var attackConfig    = {
 		context: spriteContext,
 		tileCount: attackTileCount,
 		rowIndex: walkRowIndex,
@@ -64,8 +66,8 @@ function samus_sprite () {
 		offsetY: walkOffsetY,
 		padX: walkPadX,
 		bgColor: bgColor,
-		tilePadXl: walkTilePadXl,
-		tilePadXr: walkTilePadXr,
+		tilePadXl: attackTilePadXl,
+		tilePadXr: attackTilePadXr,
 	} ;
 	samusSprite.attack  = get_sprite (attackConfig) ;
 	//samusSprite.attack  = [samusSprite.attack[0], samusSprite.walk[0], samusSprite.attack[1]] ;
