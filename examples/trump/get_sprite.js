@@ -1,28 +1,34 @@
-function get_sprite (spriteContext, tileCount, rowIndex, tileWidth, tileHeight, offsetX, offsetY, padX, bgColor, tilePadXl, tilePadXr) {
+function get_sprite (spriteConfig) {
 
   var tile = [] ;
+  
+  for (var t = 0 ; t < spriteConfig.tileCount ; t++) {
 
-  for (var t = 0 ; t < tileCount ; t++) {
+  	var image = spriteConfig.context.getImageData (
+      t * spriteConfig.tileWidth + spriteConfig.offsetX + spriteConfig.padX * t,
+      spriteConfig.rowIndex * spriteConfig.tileHeight + spriteConfig.offsetY, 
+      spriteConfig.tileWidth, 
+      spriteConfig.tileHeight
+    )	 ;
 
-  	var image       = spriteContext.getImageData(t * tileWidth + offsetX + padX * t, rowIndex * tileHeight + offsetY, tileWidth, tileHeight)	 ;
-    // console.log ('dd_sprite get_sprite:', 'image', image.data, 'bgColor', bgColor) ;
+    // console.log ('dd_sprite get_sprite:', 'image', image.data, 'spriteConfig.bgColor', spriteConfig.bgColor) ;
 
-    if(bgColor !== undefined) { // clear the background color
-    	bg_clear(bgColor, image) ;
+    if(spriteConfig.bgColor !== undefined) { // clear the background color
+    	bg_clear(spriteConfig.bgColor, image) ;
     }
 
-    if (tilePadXl === undefined) {
-      tilePadXl = 0 ;
+    if (spriteConfig.tilePadXl === undefined) {
+      spriteConfig.tilePadXl = 0 ;
     }
 
-    if (tilePadXr === undefined) {
-      tilePadXr = 0 ;
+    if (spriteConfig.tilePadXr === undefined) {
+      spriteConfig.tilePadXr = 0 ;
     }
 
-    var tileCanvas  = create_canvas(tileWidth + tilePadXl + tilePadXr, tileHeight) ;
+    var tileCanvas  = create_canvas(spriteConfig.tileWidth + spriteConfig.tilePadXl + spriteConfig.tilePadXr, spriteConfig.tileHeight) ;
     var tileContext = tileCanvas.getContext('2d') ;
-    tileContext.putImageData(image, tilePadXl, 0);
-    // var img = tileContext.createImageData (tileWidth, tileHeight) ;
+    tileContext.putImageData(image, spriteConfig.tilePadXl, 0);
+    // var img = tileContext.createImageData (spriteConfig.tileWidth, spriteConfig.tileHeight) ;
     // console.log (img.data) ;
     //bg_clear([1, 2, 3], tileContext) ;
     tile[t] = tileCanvas ;
