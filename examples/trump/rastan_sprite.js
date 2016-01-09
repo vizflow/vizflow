@@ -1,22 +1,27 @@
 function rastan_sprite () {
   
-  var imgUrl          = 'rastan_spritesheet.png' ;
+  var imgUrl          = 'rastan_spritesheet.gif' ;
   var spriteCanvas    = image2canvas(imgUrl) ;
   var spriteContext   = create_context(spriteCanvas) ;
   var bgColor         = [255, 163, 177] ;
 	var rastanSprite    = {} ;
-	rastanSprite.height = 39 ;
+	rastanSprite.height = 64 ;
 
 	var walkTileCount = 2 ;
 	var walkRowIndex  = 0 ;
-	var walkTileWidth = 16 ;
-	var walkOffsetX   = 0 ;
-	var walkOffsetY   = 400 ;
-	var walkPadX      = 380 ;
+	var walkTileWidth = 32 ;
+	var walkOffsetX   = 5 ;
+	var walkOffsetY   = 396 ;
+	var walkPadX      = 343 ;
 	var walkTilePadXl = 0 ;	
 	var walkTilePadXr = 0 ;
 	rastanSprite.walk = get_sprite (spriteContext, walkTileCount, walkRowIndex, walkTileWidth, rastanSprite.height, walkOffsetX, walkOffsetY, walkPadX, bgColor, walkTilePadXl, walkTilePadXr) ;
-	rastanSprite.walk.push(rastanSprite.walk[1]) ;
+
+	walkOffsetY       = 474 ;
+	walkPadX         -= 4 ;
+	rastanSprite.walk = rastanSprite.walk.concat(
+		get_sprite (spriteContext, walkTileCount, walkRowIndex, walkTileWidth, rastanSprite.height, walkOffsetX, walkOffsetY, walkPadX, bgColor, walkTilePadXl, walkTilePadXr)
+	) ;
 
  //  var punchTileCount = 2 ;
 	// var punchRowIndex  = 1 ;

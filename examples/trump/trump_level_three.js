@@ -1,4 +1,4 @@
-function trump_level_one () {
+function trump_level_three () {
 
   var spriteImageIndex = 0 ; 
   var dur              = 17 * 4 ;
@@ -68,7 +68,7 @@ function trump_level_one () {
   
   function viz_prep () {
 
-    // vizContext.clearRect(0, 0, vizCanvas.width, vizCanvas.height) ;
+     vizContext.clearRect(0, 0, vizCanvas.width, vizCanvas.height) ;
 
     //vizContext.drawImage (background, 0, 0) ;
 
@@ -115,23 +115,22 @@ function trump_level_one () {
 
   }
 
-  var ddSpriteR  = dd_sprite () ;
-  var ddSpriteL  = horizontal_flip(ddSpriteR) ;
-  var ddSprite   = ddSpriteR ;
+  var rastanSpriteL  = rastan_sprite () ;
+  var rastanSpriteR  = horizontal_flip(rastanSpriteL) ;
+  var rastanSprite   = rastanSpriteR ;
 
-  var restFrame    = ddSprite.walk[0] ;
+  var restFrame    = rastanSprite.walk[0] ;
   var clearedFrame = create_canvas(restFrame.width, restFrame.height) ; 
-  // var positionObject = {x: 0, y: 241 - ddSprite.height} ;
 
-  var billyLoop = {totalDur : 2 * dur, frameDur : dur, position : 0} ; // position is from 0 to 1
-  var billy     = {image: restFrame, collisionImage: clearedFrame, render: draw_image, x: 20, y: 225 - ddSprite.height } ;
+  var rastanLoop = {totalDur : 2 * dur, frameDur : dur, position : 0} ; // position is from 0 to 1
+  var rastan     = {image: restFrame, collisionImage: clearedFrame, render: draw_image, x: 20, y: 225 - rastanSprite.height } ;
 
   var trumpSprite = trump_sprite() ; 
   var trump       = {image: trumpSprite.blink[0], collisionImage: trumpSprite.blink[0], render: draw_image, x: 80, y: 140} ;
 
   var walkLeftButton  = {image: button[0], render: draw_image, x: buttonX[0], y: buttonY + uiY} ;
   var walkRightButton = {image: button[0], render: draw_image, x: buttonX[1], y: buttonY + uiY} ;
-  var punchButton     = {image: button[0], render: draw_image, x: buttonX[2], y: buttonY + uiY} ;
+  var attackButton     = {image: button[0], render: draw_image, x: buttonX[2], y: buttonY + uiY} ;
   var jumpButton      = {image: button[0], render: draw_image, x: buttonX[3], y: buttonY + uiY} ;
 
   var health          = 40 ;
@@ -146,31 +145,30 @@ function trump_level_one () {
 
   var trumpHealthBar   = {render: draw_bar, width: health} ;
 
-  var item = [trump, billy, walkLeftButton, walkRightButton, punchButton, jumpButton, trumpHealthBar] ;
+  var item = [trump, rastan, walkLeftButton, walkRightButton, attackButton, jumpButton, trumpHealthBar] ;
 
-
-  function detect_punch() {
-    var collision = collision_detect([billy, trump], vizWidth, vizHeight) ;
-    if (collision.list.length > 0) { // a collision between billy and trump occurred
-      console.log ('detect_punch: collision', collision) ;
-      set_punch_action() ;
+  function detect_attack() {
+    var collision = collision_detect([rastan, trump], vizWidth, vizHeight) ;
+    if (collision.list.length > 0) { // a collision between rastan and trump occurred
+      console.log ('detect_attack: collision', collision) ;
+      set_attack_action() ;
     }
   }
 
-  function set_punch_detect() {
-    $Z.detect([detect_punch]) ;    
+  function set_attack_detect() {
+    $Z.detect([detect_attack]) ;    
   }
 
-  function set_punch_action() {
-    $Z.action([punch_action]) ;    
+  function set_attack_action() {
+    $Z.action([attack_action]) ;    
   }
 
   var health_transition = $Z.transition.linear_transition_func ( 'width', dur * 4 ) ; 
   var healthDrop = 4 ;
 
-  function punch_action() {
+  function attack_action() {
 
-    punch_reset () ;
+    attack_reset () ;
 
     var transition   = animate (trumpSprite.blink, image_transition, undefined, trumpSprite.blink[0]) ;
     trump.transition = transition ;
@@ -188,7 +186,7 @@ function trump_level_one () {
 
   }
 
-  function punch_reset () {
+  function attack_reset () {
    $Z.detect([]) ; // turn off collision detection until after the trump character finishes animating
    $Z.action([]) ; // turn off other actions
   }
@@ -197,7 +195,7 @@ function trump_level_one () {
 	$Z.prep([viz_prep]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
 	$Z.run()        ;     // run the interactive visualization (infinite loop by default)
 
-  var x_transition = $Z.transition.rounded_linear_transition_func ( 'x', dur * (ddSprite.walk.length + 1) ) ; // function accepting an x end-value and returning a transition object
+  var x_transition = $Z.transition.rounded_linear_transition_func ( 'x', dur * (rastanSprite.walk.length + 1) ) ; // function accepting an x end-value and returning a transition object
   var xMove        = 15 ; 
 
   function keydown (e) {
@@ -223,55 +221,55 @@ function trump_level_one () {
 
     }
 
-    update_billy(state) ;
+    update_rastan(state) ;
 
   }
 
-  function update_billy(state) {
+  function update_rastan(state) {
     var minNstep = 2 ; // minimum number of frames to animate per user input for walking animations
     var transition = [] ;
      switch(state) {
       case 'l' :
-        ddSprite   = ddSpriteL ;
-        restFrame  = ddSprite.walk[0] ;
-        billyLoop  = animate_loop (billyLoop, ddSprite.walk, image_transition, undefined, restFrame) ;
-        add_transition_end(billyLoop.animation[0], minNstep - 1, set_keydown) ;
-        //console.log('billyLoop.animation', billyLoop.animation)
-        transition = billyLoop.animation ;
+        rastanSprite   = rastanSpriteL ;
+        restFrame  = rastanSprite.walk[0] ;
+        rastanLoop  = animate_loop (rastanLoop, rastanSprite.walk, image_transition, undefined, restFrame) ;
+        add_transition_end(rastanLoop.animation[0], minNstep - 1, set_keydown) ;
+        //console.log('rastanLoop.animation', rastanLoop.animation)
+        transition = rastanLoop.animation ;
 
-        var xNew   = Math.max(0, billy.x - xMove) ;
+        var xNew   = Math.max(0, rastan.x - xMove) ;
         var xTransition = x_transition(xNew) ;
 
         transition.push(xTransition) ;
 
         break ;
       case 'r' :
-        ddSprite   = ddSpriteR ;
-        restFrame  = ddSprite.walk[0] ;
-        billyLoop = animate_loop (billyLoop, ddSprite.walk, image_transition, undefined, restFrame) ;
-        add_transition_end(billyLoop.animation[0], minNstep - 1, set_keydown) ;
-        transition = billyLoop.animation ;
+        rastanSprite   = rastanSpriteR ;
+        restFrame  = rastanSprite.walk[0] ;
+        rastanLoop = animate_loop (rastanLoop, rastanSprite.walk, image_transition, undefined, restFrame) ;
+        add_transition_end(rastanLoop.animation[0], minNstep - 1, set_keydown) ;
+        transition = rastanLoop.animation ;
 
-        var xNew   = Math.min(vizWidth - restFrame.width, billy.x + xMove) ;
+        var xNew   = Math.min(vizWidth - restFrame.width, rastan.x + xMove) ;
         var xTransition = x_transition(xNew) ;
 
         transition.push(xTransition) ;
 
         break ;
       case 'j' :
-        transition = animate(ddSprite.jump, image_transition, set_keydown, restFrame) ;
+        transition = animate(rastanSprite.jump, image_transition, set_keydown, restFrame) ;
         break ;
       case 'p' :
-        transition = animate(ddSprite.punch, image_transition, set_keydown, restFrame) ;
-        var collisionTransition = animate (ddSprite.punchCollision, collision_image_transition, punch_reset, clearedFrame) ; 
+        transition = animate(rastanSprite.attack, image_transition, set_keydown, restFrame) ;
+        var collisionTransition = animate (rastanSprite.attackCollision, collision_image_transition, attack_reset, clearedFrame) ; 
         transition = transition.concat(collisionTransition) ;
-       // console.log ('update_billy: transition', transition) ;
-        set_punch_detect() ;
+       // console.log ('update_rastan: transition', transition) ;
+        set_attack_detect() ;
         break ;
     }
     if (transition.length > 0) {
-      // console.log('update_billy: transition', transition)
-      billy.transition = transition ;
+      // console.log('update_rastan: transition', transition)
+      rastan.transition = transition ;
     } else {
       set_keydown() ;
     }
@@ -303,8 +301,8 @@ function trump_level_one () {
           walkRightButton.transition = animate([button[1]], image_transition, undefined, button[0]) ;
           state = 'r' ;
           break;
-        case 2: // punch
-          punchButton.transition = animate([button[1]], image_transition, undefined, button[0]) ;
+        case 2: // attack
+          attackButton.transition = animate([button[1]], image_transition, undefined, button[0]) ;
           state = 'p' ;
           break;
         case 3: // jump
@@ -314,7 +312,7 @@ function trump_level_one () {
 
       }
 
-      update_billy(state) ;
+      update_rastan(state) ;
 
     } else {
 
