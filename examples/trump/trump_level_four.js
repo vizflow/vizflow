@@ -1,6 +1,7 @@
 function trump_level_four () {
 
   var viz = basic_setup () ;
+  viz.dur = 0.5 * viz.dur ;
 
   var backgroundImageUrl = 'trump_bg4.png' ;
   var background         = image2canvas(backgroundImageUrl) ;
@@ -24,7 +25,7 @@ function trump_level_four () {
       frame = this ;
     } 
     viz.context.drawImage(frame.image, frame.x, frame.y) ;
-    $Z.item ([]) ;
+    //$Z.item ([]) ;
 
   }  
   
@@ -63,7 +64,7 @@ function trump_level_four () {
   var samusSpriteL  = horizontal_flip(samusSpriteR) ;
   var samusSprite   = samusSpriteR ;
 
-  var restFrame    = samusSprite.walk[0] ;
+  var restFrame    = samusSprite.rest[0] ;
   var clearedFrame = create_canvas(restFrame.width, restFrame.height) ; 
   // var positionObject = {x: 0, y: 241 - samusSprite.height} ;
 
@@ -75,7 +76,7 @@ function trump_level_four () {
 
   var walkLeftButton  = {image: viz.button[0], render: draw_image, x: viz.buttonX[0], y: viz.buttonY + viz.uiY} ;
   var walkRightButton = {image: viz.button[0], render: draw_image, x: viz.buttonX[1], y: viz.buttonY + viz.uiY} ;
-  var punchButton     = {image: viz.button[0], render: draw_image, x: viz.buttonX[2], y: viz.buttonY + viz.uiY} ;
+  var attackButton     = {image: viz.button[0], render: draw_image, x: viz.buttonX[2], y: viz.buttonY + viz.uiY} ;
   var jumpButton      = {image: viz.button[0], render: draw_image, x: viz.buttonX[3], y: viz.buttonY + viz.uiY} ;
 
   var health          = 40 ;
@@ -90,32 +91,32 @@ function trump_level_four () {
 
   var trumpHealthBar   = {render: draw_bar, width: health} ;
 
-  var item = [samus] ; // walkLeftButton, walkRightButton, punchButton, jumpButton] ;
+  var item = [ samus, walkLeftButton, walkRightButton, attackButton, jumpButton ] ; 
 
 
 
-  function detect_punch() {
+  function detect_attack() {
     var collision = collision_detect([samus, trump], viz.width, viz.height) ;
     if (collision.list.length > 0) { // a collision between samus and trump occurred
-      console.log ('detect_punch: collision', collision) ;
-      set_punch_action() ;
+      console.log ('detect_attack: collision', collision) ;
+      set_attack_action() ;
     }
   }
 
-  function set_punch_detect() {
-    $Z.detect([detect_punch]) ;    
+  function set_attack_detect() {
+    $Z.detect([detect_attack]) ;    
   }
 
-  function set_punch_action() {
-    $Z.action([punch_action]) ;    
+  function set_attack_action() {
+    $Z.action([attack_action]) ;    
   }
 
   var health_transition = $Z.transition.linear_transition_func ( 'width', viz.dur * 4 ) ; 
   var healthDrop = 4 ;
 
-  function punch_action() {
+  function attack_action() {
 
-    punch_reset () ;
+    attack_reset () ;
 
     var transition   = animate (trumpSprite.blink, image_transition, undefined, trumpSprite.blink[0]) ;
     trump.transition = transition ;
@@ -133,7 +134,7 @@ function trump_level_four () {
 
   }
 
-  function punch_reset () {
+  function attack_reset () {
    $Z.detect([]) ; // turn off collision detection until after the trump character finishes animating
    $Z.action([]) ; // turn off other actions
   }
@@ -174,14 +175,15 @@ function trump_level_four () {
 
   function update_samus(state) { 
     console.log ('update_samus: state', state) ;
+    
     var minNstep = 2 ; // minimum number of frames to animate per user input for walking animations
     var transition = [] ;
      switch(state) {
       case 'l' :
-        samusSprite   = samusSpriteL ;
-        restFrame  = samusSprite.walk[0] ;
-        samusLoop  = animate_loop (samusLoop, samusSprite.walk, image_transition, undefined, restFrame) ;
-        add_transition_end(samusLoop.animation[0], minNstep - 1, set_keydown) ;
+        samusSprite = samusSpriteL ;
+        restFrame   = samusSprite.walk[0] ;
+        samusLoop   = animate_loop (samusLoop, samusSprite.walk, image_transition, undefined, restFrame) ;
+        add_transition_end(samusLoop.animation[0], minNstep - 1, click_reset) ;
         //console.log('samusLoop.animation', samusLoop.animation)
         transition = samusLoop.animation ;
 
@@ -195,7 +197,7 @@ function trump_level_four () {
         samusSprite   = samusSpriteR ;
         restFrame  = samusSprite.walk[0] ;
         samusLoop = animate_loop (samusLoop, samusSprite.walk, image_transition, undefined, restFrame) ;
-        add_transition_end(samusLoop.animation[0], minNstep - 1, set_keydown) ;
+        add_transition_end(samusLoop.animation[0], minNstep - 1, click_reset) ;
         transition = samusLoop.animation ;
 
         var xNew   = Math.min(viz.width - restFrame.width, samus.x + xMove) ;
@@ -205,27 +207,38 @@ function trump_level_four () {
 
         break ;
       case 'j' :
-        transition = animate(samusSprite.jump, image_transition, set_keydown, restFrame) ;
+        transition = animate(samusSprite.jump, image_transition, click_reset, restFrame) ;
         break ;
       case 'p' :
-        transition = animate(samusSprite.punch, image_transition, set_keydown, restFrame) ;
-        var collisionTransition = animate (samusSprite.punchCollision, collision_image_transition, punch_reset, clearedFrame) ; 
-        transition = transition.concat(collisionTransition) ;
+        transition = animate(samusSprite.attack, image_transition, click_reset, restFrame) ;
+        // var collisionTransition = animate (samusSprite.attackCollision, collision_image_transition, attack_reset, clearedFrame) ; 
+        // transition = transition.concat(collisionTransition) ;
        // console.log ('update_samus: transition', transition) ;
-        set_punch_detect() ;
+        // set_attack_detect() ;
         break ;
     }
     if (transition.length > 0) {
       // console.log('update_samus: transition', transition)
       samus.transition = transition ;
-    } else {
-      set_keydown() ;
-    }
+    } 
+
+  }
+
+  var clicking = false ;
+
+  function click_reset () {
+    clicking = false ;
   }
 
   function click (e) {
+    
+    if (clicking) {
+      return ;
+    }
 
-    viz.canvas.removeEventListener ('click', click, false) ;
+    clicking = true ;
+
+    //viz.canvas.removeEventListener ('click', click, false) ;
 
     var position = set_canvas_position( viz.canvas ) ;
 
@@ -249,8 +262,8 @@ function trump_level_four () {
           walkRightButton.transition = animate([viz.button[1]], image_transition, undefined, viz.button[0]) ;
           state = 'r' ;
           break;
-        case 2: // punch
-          punchButton.transition = animate([viz.button[1]], image_transition, undefined, viz.button[0]) ;
+        case 2: // attack
+          attackButton.transition = animate([viz.button[1]], image_transition, undefined, viz.button[0]) ;
           state = 'p' ;
           break;
         case 3: // jump
@@ -262,20 +275,40 @@ function trump_level_four () {
 
       update_samus(state) ;
 
-    } else {
-
-      set_keydown() ;
-
     }
 
   } 
 
-  function set_keydown () {
-    document.onkeydown = keydown ;
-    viz.canvas.addEventListener('click', click, false) ;
-    // console.log('set_keydown')
+  function mousedown (event) {
+
+    function run_click () {
+      click (event) ;
+    }
+
+    $Z.prep ([viz_prep, run_click]) ;
+
+    //console.log ('mousedown: holding', holding, 'event', event) ;
+
   }
 
-  set_keydown() ;
+  document.addEventListener('mousedown', mousedown) ;
+
+  function mouseup (event) {
+
+    $Z.prep ([viz_prep]) ;
+
+    //console.log ('mouseup: holding', holding, 'event', event) ;
+
+  }
+
+  document.addEventListener('mouseup', mouseup) ;
+
+  // function set_keydown () {
+  //   document.onkeydown = keydown ;
+  //   viz.canvas.addEventListener('click', click, false) ;
+  //   // console.log('set_keydown')
+  // }
+
+  // set_keydown() ;
 
 }
