@@ -77,6 +77,7 @@ function trump_level_four () {
 
   var trumpSprite = trump_sprite() ; 
   var trump       = {image: trumpSprite.blink[0], collisionImage: trumpSprite.blink[0], render: draw_image, x: 80, y: 140} ;
+  //console.log ('trump', trump) ;
 
   var walkLeftButton  = {image: viz.button[0], render: draw_image, x: viz.buttonX[0], y: viz.buttonY + viz.uiY} ;
   var walkRightButton = {image: viz.button[0], render: draw_image, x: viz.buttonX[1], y: viz.buttonY + viz.uiY} ;
@@ -89,7 +90,14 @@ function trump_level_four () {
 
   var bulletShiftX = 20 ;
   var bulletShiftY = 8 ;
-  var bullet = {x: samus.x + bulletShiftX, y: samus.y + bulletShiftY, image: bulletImage, render: draw_image } ;
+  var bullet = {
+    x: samus.x + bulletShiftX,
+    y: samus.y + bulletShiftY,
+    image: bulletImage,
+    collisionImage: bulletImage,
+    render: draw_image,
+  } ;
+
   //console.log ('bullet', bullet) ;
 
   var draw_bar        = function () {
@@ -100,12 +108,16 @@ function trump_level_four () {
 
   var trumpHealthBar   = {render: draw_bar, width: health} ;
 
-  var item = [ samus, walkLeftButton, walkRightButton, attackButton, jumpButton ] ; 
+  var item = [ trump, samus, walkLeftButton, walkRightButton, attackButton, jumpButton ] ;
+
+  var bulletList = [] ; 
 
   function detect_attack() {
-    var collision = collision_detect([samus, trump], viz.width, viz.height) ;
+    //console.log ('bulletList.concat(trump)', bulletList.concat(trump))
+    var collision = collision_detect(bulletList.concat(trump), viz.width, viz.height) ;
+    //console.log ('detect_attack') ;
     if (collision.list.length > 0) { // a collision between samus and trump occurred
-      console.log ('detect_attack: collision', collision) ;
+      //console.log ('detect_attack: collision', collision) ;
       set_attack_action() ;
     }
   }
@@ -171,7 +183,7 @@ function trump_level_four () {
         state = 'r' ;
         break;
       case 40: // down
-        state = 'p' ;
+        state = 'a' ;
         break;
 
     }
@@ -186,7 +198,7 @@ function trump_level_four () {
   var bulletMove = 150 ;
 
   function update_samus(state) { 
-    console.log ('update_samus: state', state) ;
+    //console.log ('update_samus: state', state) ;
     
     var minNstep = 2 ; // minimum number of frames to animate per user input for walking animations
     var transition = [] ;
@@ -223,7 +235,7 @@ function trump_level_four () {
       case 'j' :
         transition = animate(samusSprite.jump, image_transition, click_reset, samusSprite.rest[0]) ;
         break ;
-      case 'p' :
+      case 'a' :
         transition = animate(samusSprite.attack, image_transition, click_reset, samusSprite.rest[0]) ;
 
         var newBullet = copy_object (bullet) ;
@@ -246,10 +258,19 @@ function trump_level_four () {
 
         create_bullet_transition () ;
 
+        bulletList.push (newBullet) ;
+
         newBullet.transition.end = function () {
 
+            var index = bulletList.indexOf (newBullet) ;
+            bulletList.splice (index, 1) ; // remove bullet from vizflow itemlist  
+
+            if (bulletList.length === 0) {
+              attack_reset () ;
+            }
+
         //  if (newBullet.x < 0 || newBullet > viz.width - 1) {  // bullet offscreen
-            var index = item.indexOf (newBullet) ;
+            index = item.indexOf (newBullet) ;
             item.splice (index, 1) ; // remove bullet from vizflow itemlist  
          // } else {  // add more transitions to bullet
            // create_bullet_transition () ;
@@ -263,7 +284,7 @@ function trump_level_four () {
         // var collisionTransition = animate (samusSprite.attackCollision, collision_image_transition, attack_reset, clearedFrame) ; 
         // transition = transition.concat(collisionTransition) ;
        // console.log ('update_samus: transition', transition) ;
-        // set_attack_detect() ;
+        set_attack_detect() ;
         break ;
     }
     if (transition.length > 0) {
@@ -315,7 +336,7 @@ function trump_level_four () {
           break;
         case 2: // attack
           attackButton.transition = animate([viz.button[1]], image_transition, undefined, viz.button[0]) ;
-          state = 'p' ;
+          state = 'a' ;
           break;
         case 3: // jump
           jumpButton.transition = animate([viz.button[1]], image_transition, undefined, viz.button[0]) ;

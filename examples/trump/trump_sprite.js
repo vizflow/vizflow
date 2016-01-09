@@ -16,7 +16,22 @@ function trump_sprite () {
 	var padX          = 57 ;
 	var framePadXl    = 0 ;
 	var framePadXr    = 0 ;
-	trumpSprite.blink = get_sprite (spriteContext, frameCount, frameRowIndex, frameWidth, trumpSprite.height, frameOffsetX, frameOffsetY, padX, bgColor, framePadXl, framePadXr) ;
+
+	var trumpSpriteConfig    = {
+		context: spriteContext,
+		tileCount: frameCount,
+		rowIndex: frameRowIndex,
+		tileWidth: frameWidth,
+		tileHeight: trumpSprite.height,
+		offsetX: frameOffsetX,
+		offsetY: frameOffsetY,
+		padX: padX,
+		bgColor: bgColor,
+		tilePadXl: framePadXl,
+		tilePadXr: framePadXr,
+	} ;
+
+	trumpSprite.blink = get_sprite (trumpSpriteConfig) ;
 	
 	return trumpSprite ;
 
