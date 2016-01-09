@@ -3,8 +3,12 @@ function trump_level_four () {
   var viz = basic_setup () ;
   viz.dur = 0.5 * viz.dur ;
 
-  var backgroundImageUrl = 'trump_bg4.png' ;
+  var backgroundImageUrl = 'trump_bg4.jpg' ;
   var background         = image2canvas(backgroundImageUrl) ;
+
+  var bulletImageUrl = 'bullet.png' ;
+  var bulletImage    = image2canvas (bulletImageUrl) ;
+
 
   var image_transition           = step_transition_func('image', viz.dur) ;
   var collision_image_transition = step_transition_func('collisionImage', viz.dur) ;
@@ -70,6 +74,7 @@ function trump_level_four () {
 
   var samusLoop = {totalDur : 2 * viz.dur, frameDur : viz.dur, position : 0} ; // position is from 0 to 1
   var samus     = {image: restFrame, collisionImage: clearedFrame, render: draw_image, x: 20, y: 225 - samusSprite.height } ;
+  var orientation = 'r' ; // r for facing right
 
   var trumpSprite = trump_sprite() ; 
   var trump       = {image: trumpSprite.blink[0], collisionImage: trumpSprite.blink[0], render: draw_image, x: 80, y: 140} ;
@@ -83,6 +88,11 @@ function trump_level_four () {
   var healthBarHeight = 5 ;
   var healthBarRect   = {x: 190, y: 10, width: health, height: healthBarHeight, color: '#600'} ; 
 
+  var bulletShiftX = 20 ;
+  var bulletShiftY = 8 ;
+  var bullet = {x: samus.x + bulletShiftX, y: samus.y + bulletShiftY, image: bulletImage, render: draw_image } ;
+  //console.log ('bullet', bullet) ;
+
   var draw_bar        = function () {
     healthBarRect.width = this.width ;
    // console.log ('draw_bar:this', this) ;
@@ -92,8 +102,6 @@ function trump_level_four () {
   var trumpHealthBar   = {render: draw_bar, width: health} ;
 
   var item = [ samus, walkLeftButton, walkRightButton, attackButton, jumpButton ] ; 
-
-
 
   function detect_attack() {
     var collision = collision_detect([samus, trump], viz.width, viz.height) ;
@@ -173,6 +181,11 @@ function trump_level_four () {
 
   }
 
+
+  var bulletDur         = 17 * 20 ;
+  var bullet_transition = $Z.transition.rounded_linear_transition_func ( 'x', bulletDur ) ; // function accepting an x end-value and returning a transition object
+  var bulletMove = 150 ;
+
   function update_samus(state) { 
     console.log ('update_samus: state', state) ;
     
@@ -180,6 +193,7 @@ function trump_level_four () {
     var transition = [] ;
      switch(state) {
       case 'l' :
+        orientation = 'l' ;
         samusSprite = samusSpriteL ;
         restFrame   = samusSprite.walk[0] ;
         samusLoop   = animate_loop (samusLoop, samusSprite.walk, image_transition, undefined, restFrame) ;
@@ -194,13 +208,14 @@ function trump_level_four () {
 
         break ;
       case 'r' :
+        orientation   = 'r' ;
         samusSprite   = samusSpriteR ;
-        restFrame  = samusSprite.walk[0] ;
-        samusLoop = animate_loop (samusLoop, samusSprite.walk, image_transition, undefined, restFrame) ;
+        restFrame     = samusSprite.walk[0] ;
+        samusLoop     = animate_loop (samusLoop, samusSprite.walk, image_transition, undefined, restFrame) ;
         add_transition_end(samusLoop.animation[0], minNstep - 1, click_reset) ;
         transition = samusLoop.animation ;
 
-        var xNew   = Math.min(viz.width - restFrame.width, samus.x + xMove) ;
+        var xNew        = Math.min(viz.width - restFrame.width, samus.x + xMove) ;
         var xTransition = x_transition(xNew) ;
 
         transition.push(xTransition) ;
@@ -211,6 +226,41 @@ function trump_level_four () {
         break ;
       case 'p' :
         transition = animate(samusSprite.attack, image_transition, click_reset, restFrame) ;
+
+        var newBullet = copy_object (bullet) ;
+
+        function create_bullet_transition () {
+        
+          if (orientation === 'r') {
+            newBullet.x          = samus.x + bulletShiftX ;
+            var xNew             = newBullet.x + bulletMove ;
+               //console.log ('newBullet', newBullet) ;
+            newBullet.transition = bullet_transition(xNew) ;
+
+          } else {
+            newBullet.x          = samus.x - bulletShiftX ;
+            var xNew             = newBullet.x - bulletMove ;
+            newBullet.transition = bullet_transition(xNew) ;
+          }
+
+        }
+
+        create_bullet_transition () ;
+
+        newBullet.transition.end = function () {
+
+        //  if (newBullet.x < 0 || newBullet > viz.width - 1) {  // bullet offscreen
+            var index = item.indexOf (newBullet) ;
+            item.splice (index, 1) ; // remove bullet from vizflow itemlist  
+         // } else {  // add more transitions to bullet
+           // create_bullet_transition () ;
+         // }
+        }
+
+        item.push (newBullet) ;
+
+        //$Z.item (item.push(newBullet)) ;
+
         // var collisionTransition = animate (samusSprite.attackCollision, collision_image_transition, attack_reset, clearedFrame) ; 
         // transition = transition.concat(collisionTransition) ;
        // console.log ('update_samus: transition', transition) ;
@@ -220,7 +270,9 @@ function trump_level_four () {
     if (transition.length > 0) {
       // console.log('update_samus: transition', transition)
       samus.transition = transition ;
-    } 
+    } else {
+      click_reset
+    }
 
   }
 
@@ -275,6 +327,8 @@ function trump_level_four () {
 
       update_samus(state) ;
 
+    } else {  // user clicks background
+      clicking = false ;
     }
 
   } 
