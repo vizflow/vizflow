@@ -5,9 +5,10 @@ document.body.style.margin    = 0 ;
 // var bgImageUrl     = 'blaster_background_1.png' ;
 
 var ddSpriteImageUrl     = 'dd_billy.png' ;
+var rastanSpriteImageUrl = 'rastan_spritesheet.gif' ;
 var buttonSpriteImageUrl = 'blue_button2.png' ;
 var trumpSpriteImageUrl  = 'trump_spritesheet.png' ;
 var backgroundImageUrl   = 'trump_bg1.png' ;
-var img                  = [ ddSpriteImageUrl, buttonSpriteImageUrl, trumpSpriteImageUrl, backgroundImageUrl ] ;
+var img                  = [ ddSpriteImageUrl, buttonSpriteImageUrl, trumpSpriteImageUrl, backgroundImageUrl, rastanSpriteImageUrl ] ;
 
 imageLoader.preload ( img, trump_game ) ;

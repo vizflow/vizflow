@@ -10,6 +10,7 @@ function trump_game () {
   //   context.closePath() ;
   // }
 
-  trump_level_one() ;
+  // trump_level_one() ;
+  trump_level_three() ;
 
 }
