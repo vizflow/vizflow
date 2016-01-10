@@ -17,7 +17,7 @@ function trump_sprite () {
 	var framePadXl    = 0 ;
 	var framePadXr    = 0 ;
 
-	var trumpConfig    = {
+	var trumpSpriteConfig    = {
 		context: spriteContext,
 		tileCount: frameCount,
 		rowIndex: frameRowIndex,
@@ -31,7 +31,7 @@ function trump_sprite () {
 		tilePadXr: framePadXr,
 	} ;
 
-	trumpSprite.blink = get_sprite (trumpConfig) ;
+	trumpSprite.blink = get_sprite (trumpSpriteConfig) ;
 	
 	return trumpSprite ;
 

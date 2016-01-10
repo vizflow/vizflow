@@ -1,7 +1,8 @@
 function trump_level_three () {
 
-  viz = viz_setup() ;
-  ui  = ui_setup(viz) ;
+  viz     = viz_setup() ;
+  viz.dur = 17 * 3 ;
+  ui      = ui_setup(viz) ;
   
   var backgroundImageUrl = 'trump_bg1.png' ;
   var background         = image2canvas(backgroundImageUrl) ;
@@ -19,37 +20,41 @@ function trump_level_three () {
 
   }
 
-  var rastanSpriteL = rastan_sprite () ;
-  var rastanSpriteR = horizontal_flip(rastanSpriteL) ;
-  var rastanSprite  = rastanSpriteR ;
+  var playerSpriteL = rastan_sprite () ;
+  var playerSpriteR = horizontal_flip(playerSpriteL) ;
+  var playerSprite  = playerSpriteR ;
 
-  var restFrame    = rastanSprite.walk[0] ;
+  var restFrame    = playerSprite.walk[0] ;
   var clearedFrame = create_canvas(restFrame.width, restFrame.height) ; 
 
-  var rastanLoop = { 
-    totalDur: 2 * viz.dur, 
+  // viz.context.drawImage(playerSprite.walk[2], 0, 0) ;
+  // return
+
+  var playerLoopDur = viz.dur * (playerSprite.walk.length + 1)  ;
+  var playerLoop = { 
+    totalDur: playerLoopDur, 
     frameDur: viz.dur, 
     position: 0, // loop position runs from 0 to 1
   } ; 
 
-  var rastan = { 
+  var player = { 
     viz: viz, 
     image: restFrame, 
     collisionImage: clearedFrame, 
     render: draw.image, 
     x: 20, 
-    y: 225 - rastanSprite.height,
+    y: 225 - playerSprite.height,
   } ;
 
-  var trumpSprite = trump_sprite() ; 
+  var enemySprite = trump_sprite() ; 
 
-  var trump = { 
+  var enemy = { 
     viz: viz, 
-    image: trumpSprite.blink[0], 
-    collisionImage: trumpSprite.blink[0], 
+    image: enemySprite.blink[0], 
+    collisionImage: enemySprite.blink[0], 
     render: draw.image, 
     x: 80, 
-    y: 40,
+    y: 54,
   } ;
 
   var walkLeftButton = { 
@@ -100,27 +105,27 @@ function trump_level_three () {
     draw.rect (viz.context, healthBarRect) ;
   }
 
-  var trumpHealthBar = { 
+  var enemyHealthBar = { 
     viz: viz, 
     render: draw_bar, 
     width: health
   } ;
 
   var item = [ 
-    trump, 
-    rastan, 
+    enemy, 
+    player, 
     walkLeftButton, 
     walkRightButton, 
     attackButton, 
     jumpButton, 
-    //trumpHealthBar, 
+    //enemyHealthBar, 
   ] ;
 
   function detect_attack() {
 
-    var collision = collision_detect( [ rastan, trump ], viz.width, viz.height ) ;
+    var collision = collision_detect( [ player, enemy ], viz.width, viz.height ) ;
 
-    if (collision.list.length > 0) { // a collision between rastan and trump occurred
+    if (collision.list.length > 0) { // a collision between player and enemy occurred
       // console.log ('detect_attack: collision', collision) ;
       set_attack_action() ;
     }
@@ -142,8 +147,8 @@ function trump_level_three () {
 
     attack_reset () ;
 
-    var transition   = animate (trumpSprite.blink, image_transition, undefined, trumpSprite.blink[0]) ;
-    trump.transition = transition ;
+    var transition   = animate (enemySprite.blink, image_transition, undefined, enemySprite.blink[0]) ;
+    enemy.transition = transition ;
 
     health -= healthDrop ;
     
@@ -152,13 +157,13 @@ function trump_level_three () {
       health = 0 ;
     }
 
-    trumpHealthBar.transition = health_transition (health) ;
+    enemyHealthBar.transition = health_transition (health) ;
 
   }
 
   function attack_reset () {
 
-   $Z.detect([]) ; // turn off collision detection until after the trump character finishes animating
+   $Z.detect([]) ; // turn off collision detection until after the enemy character finishes animating
    $Z.action([]) ; // turn off other actions
 
   }
@@ -167,7 +172,7 @@ function trump_level_three () {
 	$Z.prep([viz_prep]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
 	$Z.run()        ;     // run the interactive visualization (infinite loop by default)
 
-  var x_transition = $Z.transition.rounded_linear_transition_func ( 'x', viz.dur * (rastanSprite.walk.length + 1) ) ; // function accepting an x end-value and returning a transition object
+  var x_transition = $Z.transition.rounded_linear_transition_func ( 'x', viz.dur * (playerSprite.walk.length + 1) ) ; // function accepting an x end-value and returning a transition object
   var xMove        = 15 ; 
 
   function keydown (e) {
@@ -196,13 +201,11 @@ function trump_level_three () {
 
     }
 
-    update_rastan(state) ;
+    update_player(state) ;
 
   }
 
-  function update_rastan(state) {
-
-    console.log('update_rastan') ;
+  function update_player(state) {
 
     var minNstep = 2 ; // minimum number of frames to animate per user input for walking animations
     var transition = [] ;
@@ -210,14 +213,22 @@ function trump_level_three () {
      switch(state) {
 
       case 'l' :
-        rastanSprite   = rastanSpriteL ;
-        restFrame  = rastanSprite.walk[0] ;
-        rastanLoop  = animate_loop (rastanLoop, rastanSprite.walk, image_transition, undefined, restFrame) ;
-        add_transition_end(rastanLoop.animation[0], minNstep - 1, set_keydown) ;
-        //console.log('rastanLoop.animation', rastanLoop.animation)
-        transition = rastanLoop.animation ;
+        playerSprite = playerSpriteL ;
+        restFrame    = playerSprite.walk[0] ;
 
-        var xNew   = Math.max(0, rastan.x - xMove) ;
+        playerLoop  = animate_loop (
+          playerLoop, 
+          playerSprite.walk, 
+          image_transition, 
+          undefined, 
+          undefined
+        ) ;
+
+        add_transition_end(playerLoop.animation[0], minNstep - 1, click_reset) ;
+        //console.log('playerLoop', playerLoop, 'playerSprite', playerSprite, 'restFrame', restFrame, 'image_transition', image_transition)
+        transition = playerLoop.animation ;
+
+        var xNew   = Math.max(0, player.x - xMove) ;
         var xTransition = x_transition(xNew) ;
 
         transition.push(xTransition) ;
@@ -226,23 +237,23 @@ function trump_level_three () {
 
       case 'r' :
 
-        rastanSprite = rastanSpriteR ;
-        restFrame    = rastanSprite.walk[0] ;
+        playerSprite = playerSpriteR ;
+        restFrame    = playerSprite.walk[0] ;
 
-        rastanLoop   = animate_loop (
-          rastanLoop, 
-          rastanSprite.walk, 
+        playerLoop   = animate_loop (
+          playerLoop, 
+          playerSprite.walk, 
           image_transition, 
           undefined, 
-          restFrame
+          undefined
         ) ;
 
-        add_transition_end(rastanLoop.animation[0], minNstep - 1, set_keydown) ;
-        transition = rastanLoop.animation ;
+        add_transition_end(playerLoop.animation[0], minNstep - 1, click_reset) ;
+        transition = playerLoop.animation ;
 
         var xNew   = Math.min(
           viz.width - restFrame.width, 
-          rastan.x + xMove
+          player.x + xMove
         ) ;
         var xTransition = x_transition(xNew) ;
 
@@ -251,33 +262,43 @@ function trump_level_three () {
         break ;
 
       case 'j' :
-        transition = animate(rastanSprite.jump, image_transition, set_keydown, restFrame) ;
+        transition = animate(playerSprite.jump, image_transition, click_reset, restFrame) ;
         break ;
 
       case 'p' :
-        transition              = animate(rastanSprite.attack, image_transition, set_keydown, restFrame) ;
-        var collisionTransition = animate (rastanSprite.attackCollision, collision_image_transition, attack_reset, clearedFrame) ; 
+        transition              = animate(playerSprite.attack, image_transition, click_reset, restFrame) ;
+        var collisionTransition = animate (playerSprite.attackCollision, collision_image_transition, attack_reset, clearedFrame) ; 
         transition              = transition.concat(collisionTransition) ;
-       // console.log ('update_rastan: transition', transition) ;
+       // console.log ('update_player: transition', transition) ;
         // set_attack_detect() ;
         break ;
 
     }
 
     if (transition.length > 0) {
-      // console.log('update_rastan: transition', transition)
-      // rastan.transition = transition ;
+      //console.log('update_player: transition', transition)
+      player.transition = transition ;
     } else {
-      set_keydown() ;
+      click_reset() ;
     }
-
-    // console.log(transition) ;
 
   }
 
-  function click (e) {
+  var clicking = false ;
 
-    viz.canvas.removeEventListener ('click', click, false) ;
+  function click_reset () {
+    clicking = false ;
+  }
+
+ function click (e) {
+
+    if (clicking) {
+      return ;
+    }
+
+    clicking = true ;    
+
+    // viz.canvas.removeEventListener ('click', click, false) ;
 
     var position = set_canvas_position( viz.canvas ) ;
 
@@ -285,7 +306,6 @@ function trump_level_three () {
     var clickedY = Math.round( (e.clientY - position.top)  / position.scale ) ;
 
     var color       = ui.hiddenContext.getImageData(clickedX, clickedY, 1, 1).data ;
-
     var buttonIndex = color[0] - 1 ; // color indexing used by image2index is 1-based
 
     if(buttonIndex >= 0) { // user clicked on a ui.button
@@ -298,14 +318,17 @@ function trump_level_three () {
           walkLeftButton.transition  = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
           state = 'l' ;
           break;
+
         case 1: // walk right
           walkRightButton.transition = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
           state = 'r' ;
           break;
+
         case 2: // attack
           attackButton.transition    = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
           state = 'p' ;
           break;
+
         case 3: // jump
           jumpButton.transition      = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
           state = 'j' ;
@@ -313,23 +336,35 @@ function trump_level_three () {
 
       }
 
-      // update_rastan(state) ;
+      update_player(state) ;
 
     } else {
 
-      set_keydown() ;
+      clicking = false ;
 
     }
 
   } 
 
+  function mousedown (event) {
 
-  // function set_keydown () {
-  //   document.onkeydown = keydown ;
-  //   viz.canvas.addEventListener('click', click, false) ;
-  //   // console.log('set_keydown')
-  // }
+    function run_click () {
+      click (event) ;
+    }
 
-  // set_keydown() ;
+    $Z.prep ([viz_prep, run_click]) ;
+
+  }
+
+  function mouseup (event) {
+
+    $Z.prep ([viz_prep]) ;
+    player.transition = [] ;
+    click_reset () ;
+
+  }
+
+  document.addEventListener('mouseup', mouseup) ;
+  document.addEventListener('mousedown', mousedown) ;
 
 }

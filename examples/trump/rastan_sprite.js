@@ -4,7 +4,8 @@ function rastan_sprite () {
   var spriteCanvas    = image2canvas(imgUrl) ;
   var spriteContext   = create_context(spriteCanvas) ;
   var bgColor         = [255, 163, 177] ;
-	var rastanSprite    = {} ;
+
+	var rastanSprite    = {} ; // output variable
 	rastanSprite.height = 64 ;
 
 	var rastanTileCount = 2 ;
@@ -32,9 +33,13 @@ function rastan_sprite () {
 
 	rastanSprite.walk = get_sprite (rastanSpriteConfig) ;
 
-	rastanSpriteConfig.offsetY  = 474 ;
-	rastanSpriteConfig.padX    -= 4 ;
-	rastanSprite.walk = rastanSprite.walk.concat( get_sprite (rastanSpriteConfig) ) ;
+	// rastanSprite.walk = [rastanSprite.walk[1], rastanSprite.walk[0]] ;
+
+	rastanSpriteConfig.offsetY   = 474 ;
+	rastanSpriteConfig.padX     -= 4 ;
+	rastanSpriteConfig.tileCount = 1 ;
+	rastanSprite.walk            = rastanSprite.walk.concat( get_sprite (rastanSpriteConfig) ) ;
+	rastanSprite.walk = [rastanSprite.walk[1], rastanSprite.walk[0], rastanSprite.walk[1], rastanSprite.walk[2]] ;
 
  //  var punchTileCount = 2 ;
 	// var punchRowIndex  = 1 ;

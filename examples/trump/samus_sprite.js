@@ -11,11 +11,11 @@ function samus_sprite () {
 	var walkTileCount = 3 ;
 	var walkRowIndex  = 17 ;
 	var walkTileWidth = 16 ;
-	var walkPadX      = 4 ;
+	var walkPadX      = 5 ;
 	var walkOffsetX   = 88 ;
-	var walkOffsetY   = 24 ;
-	var walkTilePadXl = 0 ;
-	var walkTilePadXr = 0 ;
+	var walkOffsetY   = 22 ;
+	var walkTilePadXl = 2 ;
+	var walkTilePadXr = 2 ;
 	var walkConfig    = {
 		context: spriteContext,
 		tileCount: walkTileCount,
@@ -30,26 +30,55 @@ function samus_sprite () {
 		tilePadXr: walkTilePadXr,
 	} ;
 	samusSprite.walk  = get_sprite (walkConfig) ;
-	samusSprite.walk.push(samusSprite.walk[1]) ;
+	//samusSprite.walk.push(samusSprite.walk[1]) ;
 
- //  var punchTileCount = 2 ;
-	// var punchRowIndex  = 1 ;
-	// var punchTileWidth = 32 ;
-	// var punchOffsetX   = 112 ;
-	// var punchOffsetY   = 2 ;
-	// var punchPadX      = 16 ;
-	// var punchTilePadXl = 16 ;
-	// var punchTilePadXr = 0 ;
-	// samusSprite.punch     = get_sprite (spriteContext, punchTileCount, punchRowIndex, punchTileWidth, samusSprite.height, punchOffsetX, punchOffsetY, punchPadX, bgColor, punchTilePadXl, punchTilePadXr) ;
-	// samusSprite.punch     = [samusSprite.punch[0], samusSprite.walk[0], samusSprite.punch[1]] ;
+	var restOffsetX  = 298 ;
+	var restConfig    = {
+		context: spriteContext,
+		tileCount: 1,
+		rowIndex: walkRowIndex,
+		tileWidth: walkTileWidth,
+		tileHeight: samusSprite.height,
+		offsetX: restOffsetX,
+		offsetY: walkOffsetY,
+		padX: walkPadX,
+		bgColor: bgColor,
+		tilePadXl: walkTilePadXl,
+		tilePadXr: walkTilePadXr,
+	} ;
 
-	// var punchCanvas  = samusSprite.punch[0] ;
-	// var tempCanvas   = create_canvas (punchCanvas.width, punchCanvas.height)  ;
-	// var clearedFrame = create_canvas (punchCanvas.width, punchCanvas.height)  ;
-	// tempCanvas.getContext ('2d').drawImage (punchCanvas, 0, 0) ;
-	// tempCanvas.getContext ('2d').clearRect (punchTilePadXl, 0, walkTileWidth * 1.5, samusSprite.height) ;
+	samusSprite.rest  = get_sprite (restConfig) ;
+
+  var attackTileCount = 1 ;
+	var attackOffsetX   = 53 ;
+	var attackOffsetY   = 22 ;
+	var attackTileWidth = 18 ;
+	var attackTilePadXl = 2 ;
+	var attackTilePadXr = 0 ;
+
+	var attackConfig    = {
+		context: spriteContext,
+		tileCount: attackTileCount,
+		rowIndex: walkRowIndex,
+		tileWidth: attackTileWidth,
+		tileHeight: samusSprite.height,
+		offsetX: attackOffsetX,
+		offsetY: walkOffsetY,
+		padX: walkPadX,
+		bgColor: bgColor,
+		tilePadXl: attackTilePadXl,
+		tilePadXr: attackTilePadXr,
+	} ;
+	samusSprite.attack  = get_sprite (attackConfig) ;
+	//samusSprite.attack  = [samusSprite.attack[0], samusSprite.walk[0], samusSprite.attack[1]] ;
+
+	// var attackCanvas  = samusSprite.attack[0] ;
+	// var tempCanvas   = create_canvas (attackCanvas.width, attackCanvas.height)  ;
+	// var clearedFrame = create_canvas (attackCanvas.width, attackCanvas.height)  ;
+	// tempCanvas.getContext ('2d').drawImage (attackCanvas, 0, 0) ;
+	// tempCanvas.getContext ('2d').clearRect (attackTilePadXl, 0, walkTileWidth * 1.5, samusSprite.height) ;
 	// //console.log ('dd_sprite: tempCanvas', tempCanvas.getContext('2d').getImageData(0, 0, tempCanvas.width, tempCanvas.height)) ; 
-	// samusSprite.punchCollision = [tempCanvas, clearedFrame, tempCanvas] ;
+	// samusSprite.attackCollision = [tempCanvas, clearedFrame, tempCanvas] ;
 
  //  var jumpTileCount = 3 ;
 	// var jumpRowIndex  = 1 ;

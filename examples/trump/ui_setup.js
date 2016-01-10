@@ -7,7 +7,7 @@ function ui_setup (viz) {
   var buttonOffsetY   = 0 ;
   var buttonPadX      = 0 ;
   var buttonPad       = 10 ;
-  var buttonImageUrl  = 'blue_button2.png' ;
+  var buttonImageUrl  = 'button.png' ;
   var buttonCanvas    = image2canvas(buttonImageUrl) ;
 
   var buttonConfig    = {
@@ -19,7 +19,7 @@ function ui_setup (viz) {
     offsetX: buttonOffsetX,
     offsetY: buttonOffsetY,
     padX: buttonPadX,
-    bgColor: undefined,
+    bgColor: [0, 255, 0],
     tilePadXl: 0,
     tilePadXr: 0,
   } ;  
