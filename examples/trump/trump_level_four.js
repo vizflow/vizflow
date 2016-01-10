@@ -3,7 +3,7 @@ function trump_level_four () {
   var viz = basic_setup () ;
   viz.dur = 0.5 * viz.dur ;
 
-  var backgroundImageUrl = 'trump_bg4.jpg' ;
+  var backgroundImageUrl = 'trump_bg4.png' ;
   var background         = image2canvas(backgroundImageUrl) ;
 
   var bulletImageUrl = 'bullet.png' ;
@@ -84,9 +84,9 @@ function trump_level_four () {
   var attackButton     = {image: viz.button[0], render: draw_image, x: viz.buttonX[2], y: viz.buttonY + viz.uiY} ;
   var jumpButton      = {image: viz.button[0], render: draw_image, x: viz.buttonX[3], y: viz.buttonY + viz.uiY} ;
 
-  var health          = 40 ;
+  var health          = 100 ;
   var healthBarHeight = 5 ;
-  var healthBarRect   = {x: 190, y: 10, width: health, height: healthBarHeight, color: '#600'} ; 
+  var healthBarRect   = {x: 120, y: 10, width: health, height: healthBarHeight, color: '#600'} ; 
 
   var bulletShiftX = 20 ;
   var bulletShiftY = 8 ;
@@ -108,7 +108,7 @@ function trump_level_four () {
 
   var trumpHealthBar   = {render: draw_bar, width: health} ;
 
-  var item = [ trump, samus, walkLeftButton, walkRightButton, attackButton, jumpButton ] ;
+  var item = [ trump, samus, walkLeftButton, walkRightButton, attackButton, jumpButton, trumpHealthBar ] ;
 
   var bulletList = [] ; 
 
@@ -131,7 +131,7 @@ function trump_level_four () {
   }
 
   var health_transition = $Z.transition.linear_transition_func ( 'width', viz.dur * 4 ) ; 
-  var healthDrop = 4 ;
+  var healthDrop = 1 ;
 
   function attack_action() {
 

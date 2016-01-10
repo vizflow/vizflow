@@ -6,10 +6,10 @@ document.body.style.margin    = 0 ;
 
 var ddSpriteImageUrl      = 'dd_billy.png' ;
 var metroidSpriteImageUrl = 'metroid_spritesheet.png' ;
-var buttonSpriteImageUrl  = 'blue_button2.png' ;
+var buttonSpriteImageUrl  = 'button.png' ;
 var trumpSpriteImageUrl   = 'trump_spritesheet.png' ;
 var backgroundImageUrl1   = 'trump_bg1.png' ;
-var backgroundImageUrl4   = 'trump_bg4.jpg' ;
+var backgroundImageUrl4   = 'trump_bg4.png' ;
 var bulletImageUrl        = 'bullet.png' ;
 var img                   = [ ddSpriteImageUrl, buttonSpriteImageUrl, trumpSpriteImageUrl, backgroundImageUrl1, backgroundImageUrl4, metroidSpriteImageUrl, bulletImageUrl ] ;
 
