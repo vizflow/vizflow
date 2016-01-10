@@ -7,21 +7,34 @@ function rastan_sprite () {
 	var rastanSprite    = {} ;
 	rastanSprite.height = 64 ;
 
-	var walkTileCount = 2 ;
-	var walkRowIndex  = 0 ;
-	var walkTileWidth = 32 ;
-	var walkOffsetX   = 5 ;
-	var walkOffsetY   = 396 ;
-	var walkPadX      = 343 ;
-	var walkTilePadXl = 0 ;	
-	var walkTilePadXr = 0 ;
-	rastanSprite.walk = get_sprite (spriteContext, walkTileCount, walkRowIndex, walkTileWidth, rastanSprite.height, walkOffsetX, walkOffsetY, walkPadX, bgColor, walkTilePadXl, walkTilePadXr) ;
+	var rastanTileCount = 2 ;
+	var rastanRowIndex  = 0 ;
+	var rastanTileWidth = 32 ;
+	var rastanOffsetX   = 5 ;
+	var rastanOffsetY   = 396 ;
+	var rastanPadX      = 343 ;
+	var rastanTilePadXl = 0 ;	
+	var rastanTilePadXr = 0 ;
 
-	walkOffsetY       = 474 ;
-	walkPadX         -= 4 ;
-	rastanSprite.walk = rastanSprite.walk.concat(
-		get_sprite (spriteContext, walkTileCount, walkRowIndex, walkTileWidth, rastanSprite.height, walkOffsetX, walkOffsetY, walkPadX, bgColor, walkTilePadXl, walkTilePadXr)
-	) ;
+  var rastanSpriteConfig = {
+		context: spriteContext,
+		tileCount: rastanTileCount,
+		rowIndex: rastanRowIndex,
+		tileWidth: rastanTileWidth,
+		tileHeight: rastanSprite.height,
+		offsetX: rastanOffsetX,
+		offsetY: rastanOffsetY,
+		padX: rastanPadX,
+		bgColor: bgColor,
+		tilePadXl: rastanTilePadXl,
+		tilePadXr: rastanTilePadXr,
+  } ;
+
+	rastanSprite.walk = get_sprite (rastanSpriteConfig) ;
+
+	rastanSpriteConfig.offsetY  = 474 ;
+	rastanSpriteConfig.padX    -= 4 ;
+	rastanSprite.walk = rastanSprite.walk.concat( get_sprite (rastanSpriteConfig) ) ;
 
  //  var punchTileCount = 2 ;
 	// var punchRowIndex  = 1 ;
@@ -38,7 +51,7 @@ function rastan_sprite () {
 	// var tempCanvas   = create_canvas (punchCanvas.width, punchCanvas.height)  ;
 	// var clearedFrame = create_canvas (punchCanvas.width, punchCanvas.height)  ;
 	// tempCanvas.getContext ('2d').drawImage (punchCanvas, 0, 0) ;
-	// tempCanvas.getContext ('2d').clearRect (punchTilePadXl, 0, walkTileWidth * 1.5, rastanSprite.height) ;
+	// tempCanvas.getContext ('2d').clearRect (punchTilePadXl, 0, rastanTileWidth * 1.5, rastanSprite.height) ;
 	// //console.log ('dd_sprite: tempCanvas', tempCanvas.getContext('2d').getImageData(0, 0, tempCanvas.width, tempCanvas.height)) ; 
 	// rastanSprite.punchCollision = [tempCanvas, clearedFrame, tempCanvas] ;
 

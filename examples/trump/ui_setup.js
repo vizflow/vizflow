@@ -1,13 +1,5 @@
-function basic_setup () {
-  var spriteImageIndex = 0 ; 
-  var dur              = 17 * 4 ;
-  var vizWidth         = 240 ;
-  var vizHeight        = 320 ;
+function ui_setup (viz) {
 
-  var vizCanvas = create_canvas(vizWidth, vizHeight) ; 
-  place_viz(vizCanvas) ;
-  var vizContext = create_context(vizCanvas) ;
-  
   var buttonSize      = 50 ;
   var buttonTileCount = 2 ;
   var buttonRowIndex  = 0 ;
@@ -17,6 +9,7 @@ function basic_setup () {
   var buttonPad       = 10 ;
   var buttonImageUrl  = 'blue_button2.png' ;
   var buttonCanvas    = image2canvas(buttonImageUrl) ;
+
   var buttonConfig    = {
     context: buttonCanvas.getContext('2d'),
     tileCount: buttonTileCount,
@@ -30,6 +23,7 @@ function basic_setup () {
     tilePadXl: 0,
     tilePadXr: 0,
   } ;  
+
   var button          = get_sprite (buttonConfig) ;
   var buttonData      = button[0].getContext('2d').getImageData(0, 0, buttonSize, buttonSize) ; // ImageData object
   var Nbutton         = 4 ;
@@ -40,16 +34,16 @@ function basic_setup () {
     buttonX.push(kButton * (buttonPad + buttonSize) + buttonPad * 0.5) ;
   }  
 
-  var uiWidth         = vizWidth ;
+  var uiWidth         = viz.width ;
   var uiHeight        = buttonSize + buttonPad * 2 ;
-  var uiY             = vizHeight - uiHeight ;
+  var uiY             = viz.height - uiHeight ;
   var uiX             = 0 ;
   var uiCanvas        = create_canvas (uiWidth, uiHeight) ;
   var uiContext       = create_context (uiCanvas) ;
   var hiddenUICanvas  = create_canvas (uiWidth, uiHeight) ;
   var hiddenUIContext = create_context (hiddenUICanvas) ;
 
-  for(var kButton = 0 ; kButton < Nbutton ; kButton++) {
+  for( var kButton = 0 ; kButton < Nbutton ; kButton++ ) {
 
     uiContext.drawImage(button[0], buttonX[kButton], buttonY) ; // draw visible button
 
@@ -68,24 +62,23 @@ function basic_setup () {
 
   }
 
-  var hiddenCanvas  = create_canvas(vizWidth, vizHeight) ;
+  var hiddenCanvas  = create_canvas(viz.width, viz.height) ;
   var hiddenContext = hiddenCanvas.getContext('2d') ;
   hiddenContext.drawImage(hiddenUICanvas, uiX, uiY) ; // draw ui
 
-  var output = {
-    height: vizHeight, 
-    width: vizWidth,
-    dur: dur,
-    canvas: vizCanvas, 
-    context: vizCanvas.getContext ('2d'),
+  var ui = {
+
     hiddenCanvas: hiddenCanvas,
     hiddenContext: hiddenContext,
+    buttonConfig: buttonConfig,
     button: button,
     buttonX: buttonX,
     buttonY: buttonY,
-    uiY: uiY,
+    x: uiX,
+    y: uiY,
+
   } ;
 
-  return output ;
+  return ui ;
   
 }
