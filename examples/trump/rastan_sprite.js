@@ -38,8 +38,10 @@ function rastan_sprite () {
 	rastanSpriteConfig.offsetY   = 474 ;
 	rastanSpriteConfig.padX     -= 4 ;
 	rastanSpriteConfig.tileCount = 1 ;
-	rastanSprite.walk            = rastanSprite.walk.concat( get_sprite (rastanSpriteConfig) ) ;
+
+	rastanSprite.walk = rastanSprite.walk.concat( get_sprite (rastanSpriteConfig) ) ;
 	rastanSprite.walk = [rastanSprite.walk[1], rastanSprite.walk[0], rastanSprite.walk[1], rastanSprite.walk[2]] ;
+	rastanSprite.rest = rastanSprite.walk ; // rastan needs no rest... he's a beast
 
  //  var punchTileCount = 2 ;
 	// var punchRowIndex  = 1 ;

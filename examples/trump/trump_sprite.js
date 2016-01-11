@@ -32,6 +32,8 @@ function trump_sprite () {
 	} ;
 
 	trumpSprite.blink = get_sprite (trumpSpriteConfig) ;
+
+	trumpSprite.rest = [trumpSprite.blink[0]] ; // resting bitch face
 	
 	return trumpSprite ;
 
