@@ -1,8 +1,9 @@
 function trump_level_four () {
 
-  var viz = basic_setup () ;
+  var viz = viz_setup() ;
   viz.dur = 0.5 * viz.dur ;
-
+  ui      = ui_setup(viz) ;
+  
   var backgroundImageUrl = 'trump_bg4.png' ;
   var background         = image2canvas(backgroundImageUrl) ;
 
@@ -11,6 +12,8 @@ function trump_level_four () {
 
 
   var image_transition           = step_transition_func('image', viz.dur) ;
+  var blinkDur                   = 3 * viz.dur ;
+  var blink_transition           = step_transition_func('image', blinkDur) ;
   var collision_image_transition = step_transition_func('collisionImage', viz.dur) ;
   
   function viz_prep () {
@@ -23,100 +26,41 @@ function trump_level_four () {
 
   }
 
-  function draw_image (frame) {
+  var player = setup_player (viz) ;
+  console.log ('player', player) ;
 
-    if (frame === undefined) {
-      frame = this ;
-    } 
-    viz.context.drawImage(frame.image, frame.x, frame.y) ;
-    //$Z.item ([]) ;
+  var enemy = setup_enemy (viz) ;
 
-  }  
-  
-  function draw_rect (context, rect) {
+  var button = setup_buttons (viz, ui) ;
 
-    if (rect === undefined) {
-      rect = this ;
-    }
-    context.beginPath() ;
-    context.rect(rect.x, rect.y, rect.width, rect.height) ;
-    context.fillStyle = rect.color ;
-    context.fill() ;
-    context.closePath() ;
-
-  }
-
-  function draw_circle (ctx, circ) {
-
-    if (circ === undefined) {
-      circ = this ;  
-    }
-
-    ctx.beginPath() ;
-    var x = circ.x ;
-    var y = circ.y ;
-    var r = circ.radius ;
-    ctx.arc(x, y, r, 0, Math.PI * 2, true) ;
-    ctx.fillStyle = circ.color ;
-    ctx.fill() ;
-    ctx.closePath() ;
-
-  }
-
-  var samusSpriteR  = samus_sprite () ;
-  // console.log ('samusSpriteR', samusSpriteR) ;
-  var samusSpriteL  = horizontal_flip(samusSpriteR) ;
-  var samusSprite   = samusSpriteR ;
-
-  var clearedFrame = create_canvas(samusSprite.rest[0].width, samusSprite.rest[0].height) ; 
-  // var positionObject = {x: 0, y: 241 - samusSprite.height} ;
-
-  var samusLoop = {totalDur : 2 * viz.dur, frameDur : viz.dur, position : 0} ; // position is from 0 to 1
-  var samus     = {image: samusSprite.rest[0], collisionImage: clearedFrame, render: draw_image, x: 20, y: 225 - samusSprite.height } ;
-  var orientation = 'r' ; // r for facing right
-
-  var trumpSprite = trump_sprite() ; 
-  var trump       = {image: trumpSprite.blink[0], collisionImage: trumpSprite.blink[0], render: draw_image, x: 80, y: 140} ;
-  //console.log ('trump', trump) ;
-
-  var walkLeftButton  = {image: viz.button[0], render: draw_image, x: viz.buttonX[0], y: viz.buttonY + viz.uiY} ;
-  var walkRightButton = {image: viz.button[0], render: draw_image, x: viz.buttonX[1], y: viz.buttonY + viz.uiY} ;
-  var attackButton     = {image: viz.button[0], render: draw_image, x: viz.buttonX[2], y: viz.buttonY + viz.uiY} ;
-  var jumpButton      = {image: viz.button[0], render: draw_image, x: viz.buttonX[3], y: viz.buttonY + viz.uiY} ;
-
-  var health          = 100 ;
+  var enemyHealth     = 100 ;
   var healthBarHeight = 5 ;
-  var healthBarRect   = {x: 120, y: 10, width: health, height: healthBarHeight, color: '#600'} ; 
+
+  var enemyHealthBar = setup_healthbar (viz, enemyHealth, healthBarHeight) ;
+  console.log ('enemyHealthBar.item', enemyHealthBar.item)
 
   var bulletShiftX = 20 ;
   var bulletShiftY = 8 ;
   var bullet = {
-    x: samus.x + bulletShiftX,
-    y: samus.y + bulletShiftY,
+    viz: viz, 
+    x: player.item.x + bulletShiftX,
+    y: player.item.y + bulletShiftY,
     image: bulletImage,
     collisionImage: bulletImage,
-    render: draw_image,
+    render: draw.image,
   } ;
 
   //console.log ('bullet', bullet) ;
 
-  var draw_bar        = function () {
-    healthBarRect.width = this.width ;
-   // console.log ('draw_bar:this', this) ;
-    draw_rect (viz.context, healthBarRect) ;
-  }
-
-  var trumpHealthBar   = {render: draw_bar, width: health} ;
-
-  var item = [ trump, samus, walkLeftButton, walkRightButton, attackButton, jumpButton, trumpHealthBar ] ;
+  var item = [ enemy.item, player.item, button.walkLeft, button.walkRight, button.attack, button.jump, enemyHealthBar.item ] ;
 
   var bulletList = [] ; 
 
   function detect_attack() {
-    //console.log ('bulletList.concat(trump)', bulletList.concat(trump))
-    var collision = collision_detect(bulletList.concat(trump), viz.width, viz.height) ;
+    //console.log ('bulletList.concat(enemy.item)', bulletList.concat(enemy.item))
+    var collision = collision_detect(bulletList.concat(enemy.item), viz.width, viz.height) ;
     //console.log ('detect_attack') ;
-    if (collision.list.length > 0) { // a collision between samus and trump occurred
+    if (collision.list.length > 0) { // a collision between player.item and enemy.item occurred
       //console.log ('detect_attack: collision', collision) ;
       set_attack_action() ;
     }
@@ -132,29 +76,43 @@ function trump_level_four () {
 
   var health_transition = $Z.transition.linear_transition_func ( 'width', viz.dur * 4 ) ; 
   var healthDrop = 1 ;
+  var blinking = false ;
+
+  function blink_reset () {
+    blinking = false ;
+  }
 
   function attack_action() {
+    enemyHealthBar.health -= healthDrop ;
+    
+    if (enemyHealthBar.health < 0) {
+      alert ('game over') ;
+      enemyHealthBar.health = 0 ;
+    }
+
+    //enemyHealthBar.item.width = enemyHealthBar.health ;
+    enemyHealthBar.item.transition = health_transition (enemyHealthBar.health) ;
+    // console.log ('enemyHealthBar.item', enemyHealthBar.item) ;
+
+    if (blinking) {
+      return ;
+    }
+
+    blinking = true ;
 
     attack_reset () ;
 
-    var transition   = animate (trumpSprite.blink, image_transition, undefined, trumpSprite.blink[0]) ;
-    trump.transition = transition ;
+    enemy.item.image = enemy.sprite.blink [1] ;
 
-    health -= healthDrop ;
-    
-    if (health < 0) {
-      alert ('game over') ;
-      health = 0 ;
-    }
+    var transition = animate ([enemy.sprite.blink[0]], blink_transition, blink_reset) ; 
 
-    //trumpHealthBar.width = health ;
-    trumpHealthBar.transition = health_transition (health) ;
-    // console.log ('trumpHealthBar', trumpHealthBar) ;
+    //var transition   = animate (enemy.sprite.blink, blink_transition, undefined, enemy.sprite.blink[0]) ;
+    enemy.item.transition = transition ;
 
   }
 
   function attack_reset () {
-   $Z.detect([]) ; // turn off collision detection until after the trump character finishes animating
+   $Z.detect([]) ; // turn off collision detection until after the enemy.item character finishes animating
    $Z.action([]) ; // turn off other actions
   }
 
@@ -162,7 +120,7 @@ function trump_level_four () {
 	$Z.prep([viz_prep]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
 	$Z.run()        ;     // run the interactive visualization (infinite loop by default)
 
-  var x_transition = $Z.transition.rounded_linear_transition_func ( 'x', viz.dur * (samusSprite.walk.length + 1) ) ; // function accepting an x end-value and returning a transition object
+  var x_transition = $Z.transition.rounded_linear_transition_func ( 'x', viz.dur * (player.sprite.walk.length + 1) ) ; // function accepting an x end-value and returning a transition object
   var xMove        = 15 ; 
 
   function keydown (e) {
@@ -188,7 +146,7 @@ function trump_level_four () {
 
     }
 
-    update_samus(state) ;
+    update_player(state) ;
 
   }
 
@@ -197,59 +155,59 @@ function trump_level_four () {
   var bullet_transition = $Z.transition.rounded_linear_transition_func ( 'x', bulletDur ) ; // function accepting an x end-value and returning a transition object
   var bulletMove = 150 ;
 
-  function update_samus(state) { 
-    //console.log ('update_samus: state', state) ;
+  function update_player(state) { 
+   // console.log ('update_player: state', state) ;
     
     var minNstep = 2 ; // minimum number of frames to animate per user input for walking animations
     var transition = [] ;
      switch(state) {
       case 'l' :
-        orientation = 'l' ;
-        samusSprite = samusSpriteL ;
-        //samusSprite.rest[0]   = samusSprite.walk[0] ;
-        samusLoop   = animate_loop (samusLoop, samusSprite.walk, image_transition, undefined) ;
-        add_transition_end(samusLoop.animation[0], minNstep - 1, click_reset) ;
-        //console.log('samusLoop.animation', samusLoop.animation)
-        transition = samusLoop.animation ;
+        player.orientation = 'l' ;
+        player.sprite = player.spriteL ;
+        //player.sprite.rest[0]   = player.sprite.walk[0] ;
+        player.loop   = animate_loop (player.loop, player.sprite.walk, image_transition, undefined) ;
+        add_transition_end(player.loop.animation[0], minNstep - 1, click_reset) ;
+        console.log('player.loop.animation', player.loop.animation)
+        transition = player.loop.animation ;
 
-        var xNew   = Math.max(0, samus.x - xMove) ;
+        var xNew   = Math.max(0, player.item.x - xMove) ;
         var xTransition = x_transition(xNew) ;
 
         transition.push(xTransition) ;
 
         break ;
       case 'r' :
-        orientation   = 'r' ;
-        samusSprite   = samusSpriteR ;
-        //samusSprite.rest[0]     = samusSprite.walk[0] ;
-        samusLoop     = animate_loop (samusLoop, samusSprite.walk, image_transition, undefined) ;
-        add_transition_end(samusLoop.animation[0], minNstep - 1, click_reset) ;
-        transition = samusLoop.animation ;
+        player.orientation   = 'r' ;
+        player.sprite   = player.spriteR ;
+        //player.sprite.rest[0]     = player.sprite.walk[0] ;
+        player.loop     = animate_loop (player.loop, player.sprite.walk, image_transition, undefined) ;
+        add_transition_end(player.loop.animation[0], minNstep - 1, click_reset) ;
+        transition = player.loop.animation ;
 
-        var xNew        = Math.min(viz.width - samusSprite.rest[0].width, samus.x + xMove) ;
+        var xNew        = Math.min(viz.width - player.sprite.rest[0].width, player.item.x + xMove) ;
         var xTransition = x_transition(xNew) ;
 
         transition.push(xTransition) ;
 
         break ;
       case 'j' :
-        transition = animate(samusSprite.jump, image_transition, click_reset, samusSprite.rest[0]) ;
+        transition = animate(player.sprite.jump, image_transition, click_reset, player.sprite.rest[0]) ;
         break ;
       case 'a' :
-        transition = animate(samusSprite.attack, image_transition, click_reset, samusSprite.rest[0]) ;
+        transition = animate(player.sprite.attack, image_transition, click_reset, player.sprite.rest[0]) ;
 
         var newBullet = copy_object (bullet) ;
 
         function create_bullet_transition () {
         
-          if (orientation === 'r') {
-            newBullet.x          = samus.x + bulletShiftX ;
+          if (player.orientation === 'r') {
+            newBullet.x          = player.item.x + bulletShiftX ;
             var xNew             = newBullet.x + bulletMove ;
                //console.log ('newBullet', newBullet) ;
             newBullet.transition = bullet_transition(xNew) ;
 
           } else {
-            newBullet.x          = samus.x - bulletShiftX ;
+            newBullet.x          = player.item.x - bulletShiftX ;
             var xNew             = newBullet.x - bulletMove ;
             newBullet.transition = bullet_transition(xNew) ;
           }
@@ -281,15 +239,15 @@ function trump_level_four () {
 
         //$Z.item (item.push(newBullet)) ;
 
-        // var collisionTransition = animate (samusSprite.attackCollision, collision_image_transition, attack_reset, clearedFrame) ; 
+        // var collisionTransition = animate (player.sprite.attackCollision, collision_image_transition, attack_reset, clearedFrame) ; 
         // transition = transition.concat(collisionTransition) ;
-       // console.log ('update_samus: transition', transition) ;
+       // console.log ('update_player: transition', transition) ;
         set_attack_detect() ;
         break ;
     }
     if (transition.length > 0) {
-      // console.log('update_samus: transition', transition)
-      samus.transition = transition ;
+      // console.log('update_player: transition', transition)
+      player.item.transition = transition ;
     } else {
       click_reset
     }
@@ -317,35 +275,34 @@ function trump_level_four () {
     var clickedX = Math.round( (e.clientX - position.left) / position.scale ) ;
     var clickedY = Math.round( (e.clientY - position.top)  / position.scale ) ;
 
-    var color       = viz.hiddenContext.getImageData(clickedX, clickedY, 1, 1).data ;
+    var color       = ui.hiddenContext.getImageData(clickedX, clickedY, 1, 1).data ;
     var buttonIndex = color[0] - 1 ; // color indexing used by image2index is 1-based
 
-    if(buttonIndex >= 0) { // user clicked on a viz.button
+    if(buttonIndex >= 0) { // user clicked on a ui.button
 
       var state;
 
       switch (buttonIndex) {
 
         case 0: // walk left
-          walkLeftButton.transition = animate([viz.button[1]], image_transition, undefined, viz.button[0]) ;
+          button.walkLeft.transition = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
           state = 'l' ;
           break;
         case 1: // walk right
-          walkRightButton.transition = animate([viz.button[1]], image_transition, undefined, viz.button[0]) ;
+          button.walkRight.transition = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
           state = 'r' ;
           break;
         case 2: // attack
-          attackButton.transition = animate([viz.button[1]], image_transition, undefined, viz.button[0]) ;
+          button.attack.transition = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
           state = 'a' ;
           break;
         case 3: // jump
-          jumpButton.transition = animate([viz.button[1]], image_transition, undefined, viz.button[0]) ;
+          button.jump.transition = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
           state = 'j' ;
           break;
 
       }
-
-      update_samus(state) ;
+      update_player(state) ;
 
     } else {  // user clicks background
       clicking = false ;
@@ -370,8 +327,8 @@ function trump_level_four () {
   function mouseup (event) {
 
     $Z.prep ([viz_prep]) ;
-    samus.transition = [] ;
-    samus.image = samusSprite.rest[0] ;
+    player.item.transition = [] ;
+    player.item.image = player.sprite.rest[0] ;
     click_reset () ;
 
     //console.log ('mouseup: holding', holding, 'event', event) ;
