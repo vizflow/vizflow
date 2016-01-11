@@ -1,6 +1,6 @@
 function trump_level_four () {
 
-  viz     = viz_setup() ;
+  var viz = viz_setup() ;
   viz.dur = 0.5 * viz.dur ;
   ui      = ui_setup(viz) ;
   
@@ -12,7 +12,7 @@ function trump_level_four () {
 
 
   var image_transition           = step_transition_func('image', viz.dur) ;
-  var blinkDur = 3 * viz.dur ;
+  var blinkDur                   = 3 * viz.dur ;
   var blink_transition           = step_transition_func('image', blinkDur) ;
   var collision_image_transition = step_transition_func('collisionImage', viz.dur) ;
   
@@ -26,19 +26,10 @@ function trump_level_four () {
 
   }
 
-  var player = setup_player () ;
+  var player = setup_player (viz) ;
+  console.log ('player', player) ;
 
-  var enemySprite = trump_sprite() ; 
-  
-  var enemy = {
-    viz: viz, 
-    image: enemySprite.blink[0],
-    collisionImage: enemySprite.blink[0],
-    render: draw.image,       
-    x: 80,
-    y: 50,
-  } ;
-  //console.log ('enemy', enemy) ;
+  var enemy = setup_enemy (viz) ;
 
   var walkLeftButton  = {
     viz: viz, 
@@ -109,15 +100,15 @@ function trump_level_four () {
     width: health
  } ;
 
-  var item = [ enemy, player.item, walkLeftButton, walkRightButton, attackButton, jumpButton, enemyHealthBar ] ;
+  var item = [ enemy.item, player.item, walkLeftButton, walkRightButton, attackButton, jumpButton, enemyHealthBar ] ;
 
   var bulletList = [] ; 
 
   function detect_attack() {
-    //console.log ('bulletList.concat(enemy)', bulletList.concat(enemy))
-    var collision = collision_detect(bulletList.concat(enemy), viz.width, viz.height) ;
+    //console.log ('bulletList.concat(enemy.item)', bulletList.concat(enemy.item))
+    var collision = collision_detect(bulletList.concat(enemy.item), viz.width, viz.height) ;
     //console.log ('detect_attack') ;
-    if (collision.list.length > 0) { // a collision between player.item and enemy occurred
+    if (collision.list.length > 0) { // a collision between player.item and enemy.item occurred
       //console.log ('detect_attack: collision', collision) ;
       set_attack_action() ;
     }
@@ -159,17 +150,17 @@ function trump_level_four () {
 
     attack_reset () ;
 
-    enemy.image = enemySprite.blink [1] ;
+    enemy.item.image = enemy.sprite.blink [1] ;
 
-    var transition = animate ([enemySprite.blink[0]], blink_transition, blink_reset) ; 
+    var transition = animate ([enemy.sprite.blink[0]], blink_transition, blink_reset) ; 
 
-    //var transition   = animate (enemySprite.blink, blink_transition, undefined, enemySprite.blink[0]) ;
-    enemy.transition = transition ;
+    //var transition   = animate (enemy.sprite.blink, blink_transition, undefined, enemy.sprite.blink[0]) ;
+    enemy.item.transition = transition ;
 
   }
 
   function attack_reset () {
-   $Z.detect([]) ; // turn off collision detection until after the enemy character finishes animating
+   $Z.detect([]) ; // turn off collision detection until after the enemy.item character finishes animating
    $Z.action([]) ; // turn off other actions
   }
 

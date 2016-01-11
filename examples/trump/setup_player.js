@@ -1,4 +1,4 @@
-function setup_player () {
+function setup_player (viz) {
 
   var player = {} ;
 
