@@ -4,7 +4,7 @@ function trump_level_three () {
   viz.dur = 17 * 3 ;
   ui      = ui_setup(viz) ;
   
-  var backgroundImageUrl = 'trump_bg1.png' ;
+  var backgroundImageUrl = 'trump_bg3.png' ;
   var background         = image2canvas(backgroundImageUrl) ;
 
   var image_transition           = step_transition_func('image', viz.dur) ;
@@ -12,9 +12,9 @@ function trump_level_three () {
   
   function viz_prep () {
 
-     viz.context.clearRect(0, 0, viz.canvas.width, viz.canvas.height) ;
+    // viz.context.clearRect(0, 0, viz.canvas.width, viz.canvas.height) ;
 
-    //viz.context.drawImage (background, 0, 0) ;
+    viz.context.drawImage (background, 0, 0) ;
 
     return true ;
 
@@ -43,7 +43,7 @@ function trump_level_three () {
     collisionImage: clearedFrame, 
     render: draw.image, 
     x: 20, 
-    y: 225 - playerSprite.height,
+    y: 209 - playerSprite.height,
   } ;
 
   var enemySprite = trump_sprite() ; 
@@ -54,7 +54,7 @@ function trump_level_three () {
     collisionImage: enemySprite.blink[0], 
     render: draw.image, 
     x: 80, 
-    y: 54,
+    y: 39,
   } ;
 
   var walkLeftButton = { 
