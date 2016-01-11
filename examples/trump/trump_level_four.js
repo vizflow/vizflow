@@ -12,6 +12,8 @@ function trump_level_four () {
 
 
   var image_transition           = step_transition_func('image', viz.dur) ;
+  var blinkDur = 3 * viz.dur ;
+  var blink_transition           = step_transition_func('image', blinkDur) ;
   var collision_image_transition = step_transition_func('collisionImage', viz.dur) ;
   
   function viz_prep () {
@@ -154,14 +156,13 @@ function trump_level_four () {
 
   var health_transition = $Z.transition.linear_transition_func ( 'width', viz.dur * 4 ) ; 
   var healthDrop = 1 ;
+  var blinking = false ;
+
+  function blink_reset () {
+    blinking = false ;
+  }
 
   function attack_action() {
-
-    attack_reset () ;
-
-    var transition   = animate (enemySprite.blink, image_transition, undefined, enemySprite.blink[0]) ;
-    enemy.transition = transition ;
-
     health -= healthDrop ;
     
     if (health < 0) {
@@ -172,6 +173,21 @@ function trump_level_four () {
     //enemyHealthBar.width = health ;
     enemyHealthBar.transition = health_transition (health) ;
     // console.log ('enemyHealthBar', enemyHealthBar) ;
+
+    if (blinking) {
+      return ;
+    }
+
+    blinking = true ;
+
+    attack_reset () ;
+
+    enemy.image = enemySprite.blink [1] ;
+
+    var transition = animate ([enemySprite.blink[0]], blink_transition, blink_reset) ; 
+
+    //var transition   = animate (enemySprite.blink, blink_transition, undefined, enemySprite.blink[0]) ;
+    enemy.transition = transition ;
 
   }
 
