@@ -1,24 +1,24 @@
 function setup_healthbar (viz, health, height) {
 	var healthbar = {} ;
 
-  healthbar.rect = {
-    viz: viz, 
-    x: 120,
-    y: 10,
-    width: health,
-    height: height,
-    color: '#600'
-  } ; 
-
   healthbar.item = {
-    viz: viz, 
+	  viz: viz, 
+
+	  rect: {
+	    viz: viz, 
+	    x: 120,
+	    y: 10,
+	    width: health,
+	    height: height,
+	    color: '#600'
+  	},
 
     render: function draw_bar() {
-    	healthbar.rect.width = this.width ;
-      draw.rect (healthbar.rect, viz.context) ;
+    	this.rect.width = this.width ;
+      draw.rect (this.rect, viz.context) ;
     },
 
-    width: health
+    width: health,
  } ;
 
  healthbar.initialHealth = health ;
