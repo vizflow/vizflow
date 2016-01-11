@@ -32,8 +32,7 @@ function setup_element (viz, elementConfig) {
   // var positionObject = {x: 0, y: 241 - element.sprite.height} ;
 
   element.loop = {
-    totalDur : 2 * viz.dur,
-    frameDur : viz.dur,
+    frameDur : elementConfig.frameDuration,
     position : 0
   } ; // position is from 0 to 1
   

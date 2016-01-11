@@ -1,8 +1,5 @@
 function animate_loop (loopConfig, sprite, create_transition, callback, restFrame) {
-	var loopOutput      = {} ; // initialize output variable
-	loopOutput.frameDur = loopConfig.frameDur;
-	loopOutput.totalDur = loopConfig.totalDur ;
-	loopOutput.position = loopConfig.position ;
+	var loopOutput = copy_object(loopConfig) ; // initialize output variable
 	var animation ;
 	if (restFrame === undefined) {
     animation = sprite ; 
@@ -11,14 +8,23 @@ function animate_loop (loopConfig, sprite, create_transition, callback, restFram
   }
   
   var Nframe = animation.length ;
-  var kPos   = Math.round (loopConfig.position * Nframe ) % Nframe ; // assuming loopConfig.position between 0 and 1
+
+  if(loopConfig.Nstep === undefined) {
+  	loopConfig.Nstep = 1 ;
+  	loopOutput.Nstep = 1 ; // run one step of the loop by default
+  }
+
+  var kPos   = loopConfig.position + 1 ; // assuming loopConfig.position between 0 and 1
+  kPos       = kPos % Nframe ;
 	var head   = [] ;
 	var body   = [] ;
 	var tail   = [] ;
 
-	var image_transition = step_transition_func('image', loopConfig.frameDur) ;
+	// var image_transition = step_transition_func('image', loopConfig.frameDur) ;
 
-	var Nstep = Math.floor (loopConfig.totalDur / loopConfig.frameDur) + 1 ;
+	loopOutput.totalDur = loopOutput.Nstep * loopOutput.frameDur ;
+	var Nstep = loopConfig.Nstep ;
+	// var Nstep = Math.floor (loopConfig.totalDur / loopConfig.frameDur) + 1 ;
 	
 	if (kPos > 0) { // create head array
 		var Nhead = Math.min (Nframe - kPos, Nstep) ;
@@ -35,6 +41,8 @@ function animate_loop (loopConfig, sprite, create_transition, callback, restFram
 	}
 
 	if (Nstep > 0) {  // need body or tail
+		kPos = Nstep ;
+
 		if (Nstep >= Nframe) { // create body array
 			var Nbody = Math.floor (Nstep / Nframe) ;
 			for (var kBody = 0 ; kBody < Nbody ; kBody++) {
@@ -43,24 +51,20 @@ function animate_loop (loopConfig, sprite, create_transition, callback, restFram
 			Nstep -= Nbody * Nframe ;
 		} 
 
-		kPos = Nframe - 1 ;
-
 	}
 
 	if (Nstep > 0) { // need tail
+		kPos = Nstep - 1 ;
 		for (var kTail = 0 ; kTail < Nstep ; kTail++) {
 			tail.push (animation[kTail]) ;
 		}
-
-		kPos = kTail - 1 ;
-
 	}
 
 	var loop = head.concat (body.concat( tail )) ;
 
-	// console.log('animate_loop: loop', loop, 'body', body, 'head', head, 'tail', tail) ;
+	//console.log('animate_loop:', 'Nframe', Nframe, 'kpos', kPos, 'loop', loop, 'body', body, 'head', head, 'tail', tail) ;
 	
-	loopOutput.position  = kPos / Nframe ;
+	loopOutput.position  = kPos % Nframe ;
 	loopOutput.animation = animate (loop, create_transition, callback) ;
 
 	return loopOutput ;
