@@ -31,49 +31,13 @@ function trump_level_four () {
 
   var enemy = setup_enemy (viz) ;
 
-  var walkLeftButton  = {
-    viz: viz, 
-    image: ui.button[0],
-    render: draw.image,    
-    x: ui.buttonX[0],
-    y: ui.buttonY + ui.y
-  } ;
-  
-  var walkRightButton = {
-    viz: viz, 
-    image: ui.button[0],
-    render: draw.image,      
-    x: ui.buttonX[1],
-    y: ui.buttonY + ui.y
-  } ;
-  
-  var attackButton = {
-    viz: viz, 
-    image: ui.button[0],
-    render: draw.image,
-    x: ui.buttonX[2],
-    y: ui.buttonY + ui.y
-  } ;
-  
-  var jumpButton = {
-    viz: viz, 
-    image: ui.button[0],
-    render: draw.image,
-    x: ui.buttonX[3],
-    y: ui.buttonY + ui.y
-  } ;
+  var button = setup_buttons (viz, ui) ;
 
-  var health          = 100 ;
+  var enemyHealth     = 100 ;
   var healthBarHeight = 5 ;
-  
-  var healthBarRect = {
-    viz: viz, 
-    x: 120,
-    y: 10,
-    width: health,
-    height: healthBarHeight,
-    color: '#600'
-  } ; 
+
+  var enemyHealthBar = setup_healthbar (viz, enemyHealth, healthBarHeight) ;
+  console.log ('enemyHealthBar.item', enemyHealthBar.item)
 
   var bulletShiftX = 20 ;
   var bulletShiftY = 8 ;
@@ -88,19 +52,7 @@ function trump_level_four () {
 
   //console.log ('bullet', bullet) ;
 
-  function draw_bar() {
-    healthBarRect.width = this.width ;
-   // console.log ('draw_bar:this', this) ;
-    draw.rect (healthBarRect, viz.context) ;
-  }
-
-  var enemyHealthBar = {
-    viz: viz, 
-    render: draw_bar,
-    width: health
- } ;
-
-  var item = [ enemy.item, player.item, walkLeftButton, walkRightButton, attackButton, jumpButton, enemyHealthBar ] ;
+  var item = [ enemy.item, player.item, button.walkLeft, button.walkRight, button.attack, button.jump, enemyHealthBar.item ] ;
 
   var bulletList = [] ; 
 
@@ -131,16 +83,16 @@ function trump_level_four () {
   }
 
   function attack_action() {
-    health -= healthDrop ;
+    enemyHealthBar.health -= healthDrop ;
     
-    if (health < 0) {
+    if (enemyHealthBar.health < 0) {
       alert ('game over') ;
-      health = 0 ;
+      enemyHealthBar.health = 0 ;
     }
 
-    //enemyHealthBar.width = health ;
-    enemyHealthBar.transition = health_transition (health) ;
-    // console.log ('enemyHealthBar', enemyHealthBar) ;
+    //enemyHealthBar.item.width = enemyHealthBar.health ;
+    enemyHealthBar.item.transition = health_transition (enemyHealthBar.health) ;
+    // console.log ('enemyHealthBar.item', enemyHealthBar.item) ;
 
     if (blinking) {
       return ;
@@ -333,19 +285,19 @@ function trump_level_four () {
       switch (buttonIndex) {
 
         case 0: // walk left
-          walkLeftButton.transition = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
+          button.walkLeft.transition = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
           state = 'l' ;
           break;
         case 1: // walk right
-          walkRightButton.transition = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
+          button.walkRight.transition = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
           state = 'r' ;
           break;
         case 2: // attack
-          attackButton.transition = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
+          button.attack.transition = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
           state = 'a' ;
           break;
         case 3: // jump
-          jumpButton.transition = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
+          button.jump.transition = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
           state = 'j' ;
           break;
 
