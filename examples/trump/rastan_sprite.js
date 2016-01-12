@@ -8,6 +8,8 @@ function rastan_sprite () {
 	var rastanSprite    = {} ; // output variable
 	rastanSprite.height = 64 ;
 
+	var centerShift     = 8 ;
+
 	var rastanTileCount = 1 ;
 	var rastanRowIndex  = 0 ;
 	var rastanTileWidth = 32 ;
@@ -15,7 +17,7 @@ function rastan_sprite () {
 	var rastanOffsetY   = 396 ;
 	var rastanPadX      = 343 ;
 	var rastanTilePadXl = 32 ;	
-	var rastanTilePadXr = 16 ;
+	var rastanTilePadXr = 16 + centerShift ;
 
   var rastanSpriteConfig = {
 		context: spriteContext,
@@ -45,7 +47,7 @@ function rastan_sprite () {
 	rastanSprite.walk = [rastanSprite.walk[0], rastanSprite.walk[1], rastanSprite.walk[2], rastanSprite.walk[1]] ;
 	// rastanSprite.walk = [rastanSprite.walk[1], rastanSprite.walk[0], rastanSprite.walk[1], rastanSprite.walk[2]] ;
 	//rastanSprite.walk = [rastanSprite.walk[1], rastanSprite.walk[2], rastanSprite.walk[0], rastanSprite.walk[1]] ; // , rastanSprite.walk[2], rastanSprite.walk[1]] ;
-	rastanSprite.rest = [rastanSprite.walk[0]] ; // rastan needs no rest... he's a beast
+	rastanSprite.rest = [rastanSprite.walk[0]] ; 
 
   /***
     *
@@ -60,7 +62,7 @@ function rastan_sprite () {
 	var attackOffsetY   = 398 ;
 	var attackPadX      = 16 ;
 	var attackTilePadXl = 32 ;
-	var attackTilePadXr = 0 ;
+	var attackTilePadXr = 0 + centerShift ;
 
   var attackConfig1 = {
 		context: spriteContext,
@@ -84,7 +86,7 @@ function rastan_sprite () {
 	var attackConfig3 = copy_object(attackConfig1) ;
 	attackConfig3.offsetX = 154 ;
 	attackConfig3.tileWidth = 32 ;
-	attackConfig3.tilePadXr = 16 ;
+	attackConfig3.tilePadXr = 16 + centerShift ;
 	rastanSprite.attack.push(get_sprite(attackConfig3)[0]) ;
 
 	var attackConfig4       = copy_object(attackConfig3) ;
@@ -95,7 +97,7 @@ function rastan_sprite () {
 	attackConfig5.offsetX = 244 ;
 	attackConfig5.tileWidth = 64 ;
 	attackConfig5.tilePadXl = 0 ;
-	attackConfig5.tilePadXr = 16 ;
+	attackConfig5.tilePadXr = 16 + centerShift ;
 	rastanSprite.attack.push(get_sprite(attackConfig5)[0]) ;
 
 	rastanSprite.attack.push(rastanSprite.attack[4]) ;
@@ -105,16 +107,29 @@ function rastan_sprite () {
 	rastanSprite.attack.push(rastanSprite.attack[1]) ;
 	rastanSprite.attack.push(rastanSprite.attack[0]) ;
 
-	// rastanSprite.walk = rastanSprite.attack ;
-	// rastanSprite.attack = [rastanSprite.attack[0], rastanSprite.walk[0], rastanSprite.attack[1]] ;
+	var attackCanvas  = rastanSprite.attack[4] ;
+	var tempCanvas    = create_canvas (attackCanvas.width, attackCanvas.height)  ;
+	var clearedFrame  = create_canvas (attackCanvas.width, attackCanvas.height)  ;
+	tempCanvas.getContext ('2d').drawImage (attackCanvas, 0, 0) ;
+	tempCanvas.getContext ('2d').clearRect (tempCanvas.width * 0.25, 0, tempCanvas.width * 0.5, rastanSprite.height) ;
+	//console.log ('dd_sprite: tempCanvas', tempCanvas.getContext('2d').getImageData(0, 0, tempCanvas.width, tempCanvas.height)) ; 
+	rastanSprite.attackCollision = [
+		clearedFrame,
+		clearedFrame, 
+		clearedFrame, 
+		clearedFrame, 
+		tempCanvas,
+		tempCanvas,
+		tempCanvas,
+		clearedFrame,
+		clearedFrame,
+		clearedFrame,
+		clearedFrame,
+	] ;
 
-	// var attackCanvas  = rastanSprite.attack[0] ;
-	// var tempCanvas   = create_canvas (attackCanvas.width, attackCanvas.height)  ;
-	// var clearedFrame = create_canvas (attackCanvas.width, attackCanvas.height)  ;
-	// tempCanvas.getContext ('2d').drawImage (attackCanvas, 0, 0) ;
-	// tempCanvas.getContext ('2d').clearRect (attackTilePadXl, 0, rastanTileWidth * 1.5, rastanSprite.height) ;
-	// //console.log ('dd_sprite: tempCanvas', tempCanvas.getContext('2d').getImageData(0, 0, tempCanvas.width, tempCanvas.height)) ; 
-	// rastanSprite.attackCollision = [tempCanvas, clearedFrame, tempCanvas] ;
+	// console.log('rastan sprite', rastanSprite) ;
+
+	 // rastanSprite.walk = rastanSprite.attackCollision ;
 
  //  var jumpTileCount = 3 ;
 	// var jumpRowIndex  = 1 ;

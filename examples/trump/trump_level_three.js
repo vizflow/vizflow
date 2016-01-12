@@ -7,13 +7,13 @@ function trump_level_three () {
   var backgroundImageUrl = 'trump_bg3.png' ;
   var background         = image2canvas(backgroundImageUrl) ;
 
-  var frameDuration              = viz.dur * 3 ;
+  var frameDuration              = viz.dur * 5 ;
   var image_transition           = step_transition_func('image', frameDuration) ;
   var attack_transition          = step_transition_func('image', viz.dur) ;
-  var collision_image_transition = step_transition_func('collisionImage', frameDuration) ;
+  var collision_image_transition = step_transition_func('collisionImage', viz.dur) ;
   
-  var x_transition = $Z.transition.rounded_linear_transition_func ( 'x', frameDuration ) ; // function accepting an x end-value and returning a transition object
-  var xMove        = 6 ; 
+  var x_transition = $Z.transition.rounded_linear_transition_func ( 'x', 2 * frameDuration ) ; // function accepting an x end-value and returning a transition object
+  var xMove        = 15 ; 
 
   function viz_prep () {
 
@@ -36,6 +36,7 @@ function trump_level_three () {
   var enemyConfig = {
     sprite_loader: trump_sprite,
     frameDuration: frameDuration,
+    collisionImage: 'rest', 
     x: 80,    
     y: 209,
   } ;
@@ -45,7 +46,7 @@ function trump_level_three () {
 
   var enemyHealth     = 100 ;
   var healthBarHeight = 5 ;
-  var enemyHealthBar  = setup_healthbar (viz, enemyHealth, healthBarHeight) ;
+  var enemyHealthbar  = setup_healthbar (viz, enemyHealth, healthBarHeight) ;
 
   var item = [ 
     enemy.item, 
@@ -54,60 +55,60 @@ function trump_level_three () {
     button.walkRight, 
     button.attack, 
     button.jump, 
-    enemyHealthBar.item, 
+    enemyHealthbar.item, 
   ] ;
 
   function detect_attack() {
 
     var detectList = [ player.item, enemy.item ] ;
+    //console.log('detect_attack', 'detectList', detectList)
     var collision  = collision_detect( detectList, viz.width, viz.height ) ;
 
     if (collision.list.length > 0) { // a collision between player.item and enemy.item occurred
-      // console.log ('detect_attack: collision', collision) ;
+      //console.log ('detect_attack: collision', collision) ;
       set_attack_action() ;
     }
 
   }
+
+  var health_transition = $Z.transition.linear_transition_func ( 'width', viz.dur * 4 ) ; 
+  var healthDrop        = 1 ;
+
+  function blink_transition() {
+
+    var blinkDur              = ( player.sprite.attack.length + 2 ) * viz.dur ;
+    var blink                 = step_transition_func('image', blinkDur) ;
+    var blinkTransition       = attack_transition(enemy.sprite.blink[1]) ;
+    blinkTransition.child     = blink(enemy.sprite.blink[0]) ;
+    blinkTransition.child.end = detect.reset ;
+    blinkTransition           = [blinkTransition] ;
+
+    return blinkTransition ;
+
+  }
+  //blinkTransition.child.end = blink_reset ;
+  //console.log('blinkTransition', blinkTransition) ;
+
+  var enemyAttack = {
+    action: attack.action,
+    healthbar: enemyHealthbar,
+    healthDrop: healthDrop,
+    create_transition: blink_transition, 
+    health_transition: health_transition,
+    element: enemy,
+  } ;
 
   function set_attack_detect() {
     $Z.detect([detect_attack]) ;    
   }
 
   function set_attack_action() {
-    $Z.action([attack_action]) ;    
+    $Z.action([enemyAttack]) ;    
   }
 
-  var health_transition = $Z.transition.linear_transition_func ( 'width', viz.dur * 4 ) ; 
-  var healthDrop        = 4 ;
-
-  function attack_action() {
-
-    attack_reset () ;
-
-    var transition   = animate (enemy.item.sprite.blink, image_transition, undefined, enemy.item.sprite.blink[0]) ;
-    enemy.item.transition = transition ;
-
-    health -= healthDrop ;
-    
-    if (health < 0) {
-      alert ('game over') ;
-      health = 0 ;
-    }
-
-    enemyHealthBar.item.transition = health_transition (health) ;
-
-  }
-
-  function attack_reset () {
-
-   $Z.detect([]) ; // turn off collision detection until after the enemy.item character finishes animating
-   $Z.action([]) ; // turn off other actions
-
-  }
-
-  $Z.item(item)   ;     // load the user data into the visualization engine to initialize the time equals zero (t = 0) state
+  $Z.item(item)       ; // load the user data into the visualization engine to initialize the time equals zero (t = 0) state
 	$Z.prep([viz_prep]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
-	$Z.run()        ;     // run the interactive visualization (infinite loop by default)
+	$Z.run()            ; // run the interactive visualization (infinite loop by default)
 
   function keydown (e) {
 
@@ -141,6 +142,11 @@ function trump_level_three () {
 
   function update_player(state) {
 
+    if(player.item.transition !== undefined && player.item.transition.length > 0) {
+      // console.log(player.item.transition)
+      return ;
+    }
+
     var minNstep = 1 ; // minimum number of frames to animate per user input for walking animations
     var transition = [] ;
 
@@ -159,13 +165,12 @@ function trump_level_three () {
         ) ;
 
         //console.log('player loop animation', player.loop, 'player sprite walk', player.sprite.walk)
-
-        add_transition_end(player.loop.animation[0], minNstep - 1, click_reset) ;
         //console.log('player.loop', player.loop, 'player.sprite', player.sprite, 'restFrame', restFrame, 'image_transition', image_transition)
-        transition = player.loop.animation ;
-
+        transition      = player.loop.animation ;
         var xNew        = Math.max(0, player.item.x - xMove) ;
         var xTransition = x_transition(xNew) ;
+        xTransition.end = click_reset ;
+        // add_transition_end(player.loop.animation[0], minNstep - 1, click_reset) ;
 
         transition.push(xTransition) ;
 
@@ -183,7 +188,7 @@ function trump_level_three () {
           undefined
         ) ;
 
-        add_transition_end(player.loop.animation[0], minNstep - 1, click_reset) ;
+        // add_transition_end(player.loop.animation[0], minNstep - 1, click_reset) ;
         transition = player.loop.animation ;
 
         var xNew = Math.min(
@@ -191,6 +196,7 @@ function trump_level_three () {
           player.item.x + xMove
         ) ;
         var xTransition = x_transition(xNew) ;
+        xTransition.end = click_reset ;
 
         transition.push(xTransition) ;
         break ;
@@ -203,10 +209,10 @@ function trump_level_three () {
       case 'p' :
 
         transition              = animate(player.sprite.attack, attack_transition, click_reset, player.sprite.rest[0]) ;
-        //var collisionTransition = animate (player.sprite.attackCollision, collision_image_transition, attack_reset, clearedFrame) ; 
-        //transition              = transition.concat(collisionTransition) ;
-       // console.log ('update_player: transition', transition) ;
-        // set_attack_detect() ;
+        var collisionTransition = animate(player.sprite.attackCollision, collision_image_transition, attack.reset, undefined) ; 
+        // console.log('transition', transition, 'collisionTransition', collisionTransition)
+        transition              = transition.concat(collisionTransition) ;
+        set_attack_detect() ;
         break ;
 
     }
@@ -295,6 +301,18 @@ function trump_level_three () {
   function mouseup (event) {
 
     $Z.prep ([viz_prep]) ;
+    // if(player.item.transition !== undefined) {
+    //   if(player.item.transition.length === 0) {
+    //     player.item.transition = image_transition(player.sprite.rest[0]) ;
+    //   } else if(player.item.transition.length === 1) {
+    //     player.item.transition.end = function() { player.item.image = player.sprite.rest[0] ; } ;
+    //   } else if(player.item.transition.length === 2) {
+    //     var transitionWithMaxDuration = player.item.transition.slice(0).sort( function(x, y) { return y.duration - x.duration } )[0] ;
+    //     transitionWithMaxDuration.end = function() { player.item.image = player.sprite.rest[0] ; } ;
+    //   } else {
+    //     console.log('huh')
+    //   }
+    // }
     // player.item.transition = [] ;
     click_reset () ;
 

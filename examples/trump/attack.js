@@ -13,6 +13,10 @@ var attack = {
     	this.element.item.transition = [] ;
     }
 
+    if (this.element.item.transition.length > 0) {
+      return ;
+    }    
+
     if (this.healthbar.item.transition === undefined) {
     	this.healthbar.item.transition = [] ;
     }
@@ -22,25 +26,27 @@ var attack = {
     }
     //console.log ('this.healthbar.item', this.healthbar.item) ;
 
-    if (this.element.reacting) {
-      return ;
-    }
+    //console.log('attack action transition', this, 'this.element', this.element) ;
 
-    this.element.reacting = true ;
+    // $Z.detect([]) ; // turn off collision detection until after the this.element.item character finishes animating
+    //console.log('detection off')
 
     //attack.reset () ;
 
-    this.element.item.image      = this.element.sprite.blink [1] ;
-    //console.log('attack action transition', this) ;
-
-		this.element.item.transition.push (this.transition[0]) ;
+    // this.element.item.transition = 
+    var transition = this.create_transition() ;
+		this.element.item.transition.push (transition[0]) ;
 		//console.log ('attack_action end') ;
 
   },
 
+  set: function attack_set () {
+    $Z.action([this.attackConfig])
+  },
+
   reset: function attack_reset () {
-   $Z.detect([]) ; // turn off collision detection until after the this.element.item character finishes animating
    $Z.action([]) ; // turn off other actions
   },
+
 
 } ;
