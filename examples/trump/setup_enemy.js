@@ -2,6 +2,8 @@ function setup_enemy (viz) {
 	var enemy = {} ;
 
 	enemy.sprite = trump_sprite() ; 
+
+  enemy.reacting = false ;
   
   enemy.item = {
     viz: viz, 

@@ -1,8 +1,8 @@
-export default function action(...args) {
+export default function detect(...args) {
   if(args.length == 0) {
-    return $Z._action.map((action) => action()) ;
+    return $Z._detect.map((detect) => detect()) ;
   } else {
-  	$Z._action = args[0] ;
+  	$Z._detect = args[0] ;
   	return $Z ;
   }
 } ;
