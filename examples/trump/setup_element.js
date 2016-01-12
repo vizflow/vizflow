@@ -26,10 +26,16 @@ function setup_element (viz, elementConfig) {
     elementConfig.y = Math.round(viz.height / 2) - 1 ;
   }
 
-  element.sprite     = element.spriteR ;
+  if(elementConfig.collisionImage === undefined) {
+    elementConfig.collisionImage = 'collision' ;
+  }
 
-  var clearedFrame = create_canvas(element.sprite.rest[0].width, element.sprite.rest[0].height) ; 
-  // var positionObject = {x: 0, y: 241 - element.sprite.height} ;
+  element.sprite = element.spriteR ;
+  
+  if (element.sprite[elementConfig.collisionImage] === undefined) {
+    var clearedFrame = create_canvas(element.sprite.rest[0].width, element.sprite.rest[0].height) ; 
+    element.sprite[elementConfig.collisionImage] = [clearedFrame] ;
+  }
 
   element.loop = {
     frameDur : elementConfig.frameDuration,
@@ -39,13 +45,15 @@ function setup_element (viz, elementConfig) {
   element.item = {
     viz: viz, 
     image: element.sprite.rest[0],
-    collisionImage: clearedFrame,
+    collisionImage: element.sprite[elementConfig.collisionImage][0],
     render: draw.image,
     x: elementConfig.x,
     y: elementConfig.y - element.sprite.height 
   } ;
   
   element.orientation = 'r' ; // r for facing right
+
+  element.callback = elementConfig.callback ;
 
   return element ;
 

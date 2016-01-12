@@ -52,6 +52,7 @@ window.$Z = { // define the "bling Z" object for running interactive vizualizati
 	maxIter,    // default maximum iteration count allowed (max # of frames
 	transition, // module comtaining transition helpers
 	_item,      // default data item array (internal use only as marked by underscore)
+	_detect,    // array of detectors (internal use only as marked by underscore)
 	_action,    // array of actions (internal use only as marked by underscore)
 	_prep,      // array of preprocessing tasks to perform (internal use only as marked by underscore)
 	item,       // getter/setter function for interfacing with the item/data array
