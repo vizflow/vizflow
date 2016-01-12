@@ -32,6 +32,7 @@ function trump_sprite () {
 	} ;
 
 	trumpSprite.blink = get_sprite (trumpSpriteConfig) ;
+	trumpSprite.rest = [trumpSprite.blink[0]] ;
 	
 	return trumpSprite ;
 

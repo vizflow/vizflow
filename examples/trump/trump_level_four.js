@@ -3,6 +3,7 @@ function trump_level_four () {
   var viz = viz_setup() ;
   viz.dur = 0.5 * viz.dur ;
   ui      = ui_setup(viz) ;
+  var frameDuration = viz.dur ;
   
   var backgroundImageUrl = 'trump_bg4.png' ;
   var background         = image2canvas(backgroundImageUrl) ;
@@ -22,10 +23,24 @@ function trump_level_four () {
 
   }
 
-  var player = setup_player (viz) ;
-  //console.log ('player', player) ;
+  var playerConfig = { 
+    sprite_loader: samus_sprite, 
+    orientation: 'r',
+    frameDuration: frameDuration,
+    callback: update_player,
+    y: 225,
+  } ;
+  var player = setup_element(viz, playerConfig) ;
 
-  var enemy = setup_enemy (viz) ;
+  var enemyConfig = {
+    sprite_loader: trump_sprite,
+    frameDuration: frameDuration,
+    collisionImage: 'rest', 
+    x: 80,    
+    y: 220,
+  } ;
+  var enemy = setup_element(viz, enemyConfig) ;
+  //console.log ('enemy', enemy) ;
 
   var button = setup_buttons (viz, ui) ;
 
@@ -63,9 +78,9 @@ function trump_level_four () {
   function detect_attack() {
     //console.log ('bulletList.concat(enemy.item)', bulletList.concat(enemy.item))
     var collision = collision_detect(bulletList.concat(enemy.item), viz.width, viz.height) ;
-   //console.log ('detect_attack', collision) ;
+   //console.log ('detect_attack: collision', collision, 'enemy', enemy, 'bulletList', bulletList) ;
     if (collision.list.length > 0) { // a collision between player.item and enemy.item occurred
-    //  console.log ('detect_attack: collision', collision) ;
+     //console.log ('detect_attack: collision', collision) ;
       set_attack_action() ;
     }
   }
@@ -127,7 +142,7 @@ function trump_level_four () {
 
     }
 
-    update_player(state) ;
+    player.callback(state) ;
 
   }
 
@@ -137,9 +152,9 @@ function trump_level_four () {
   var bulletMove = 150 ;
 
   function update_player(state) { 
-   // console.log ('update_player: state', state) ;
+    //console.log ('player.callback: state', state) ;
     
-    var minNstep = 2 ; // minimum number of frames to animate per user input for walking animations
+    var minNstep = 1 ; // minimum number of frames to animate per user input for walking animations
     var transition = [] ;
      switch(state) {
       case 'l' :
@@ -147,14 +162,16 @@ function trump_level_four () {
         player.sprite = player.spriteL ;
         //player.sprite.rest[0]   = player.sprite.walk[0] ;
         player.loop   = animate_loop (player.loop, player.sprite.walk, image_transition, undefined) ;
+        //console.log ('update player l0', 'player', player, 'click_reset', click_reset, 'player.loop.animation[0]', player.loop.animation[0]) ;
         add_transition_end(player.loop.animation[0], minNstep - 1, click_reset) ;
-       // console.log('player.loop.animation', player.loop.animation)
+        //console.log('player.loop.animation', player.loop.animation)
         transition = player.loop.animation ;
 
         var xNew   = Math.max(0, player.item.x - xMove) ;
         var xTransition = x_transition(xNew) ;
 
         transition.push(xTransition) ;
+       // console.log ('update player l', transition) ;
 
         break ;
       case 'r' :
@@ -178,7 +195,7 @@ function trump_level_four () {
         transition = animate(player.sprite.attack, image_transition, click_reset, player.sprite.rest[0]) ;
 
         var newBullet = copy_object (bullet) ;
-       // console.log ('update_player', 'bullet', bullet, 'newBullet', newBullet) ; 
+       // console.log ('player.callback', 'bullet', bullet, 'newBullet', newBullet) ; 
 
         function create_bullet_transition () {
         
@@ -225,15 +242,15 @@ function trump_level_four () {
 
         // var collisionTransition = animate (player.sprite.attackCollision, collision_image_transition, attack_reset, clearedFrame) ; 
         // transition = transition.concat(collisionTransition) ;
-       // console.log ('update_player: transition', transition) ;
+        //console.log ('player.callback: transition', transition) ;
         set_attack_detect() ;
         break ;
     }
     if (transition.length > 0) {
-      // console.log('update_player: transition', transition)
+      // console.log('player.callback: transition', transition)
       player.item.transition = transition ;
     } else {
-      click_reset
+      click_reset () ;
     }
 
   }
@@ -286,7 +303,8 @@ function trump_level_four () {
           break;
 
       }
-      update_player(state) ;
+      //console.log ('click: state', state, 'player',player) ;
+      player.callback (state) ;
 
     } else {  // user clicks background
       clicking = false ;
