@@ -24,7 +24,7 @@
       case 'r' :
         this.orientation   = 'r' ;
         this.sprite   = this.spriteR ;
-        //this.sprite.rest[0]     = this.sprite.walk[0] ;
+        //console.log ('update_player 27') ;
         this.loop     = animate_loop (this.loop, this.sprite.walk, this.transitionSet.image, undefined) ;
         transition = this.loop.animation ;
 

@@ -48,9 +48,12 @@ function trump_level_four () {
   var enemy = setup_element(viz, enemyConfig) ;
   //console.log ('enemy', enemy) ;
 
+  var enemyHealth     = 100 ;
+  var healthBarHeight = 5 ;
   var health_transition = $Z.transition.linear_transition_func ( 'width', viz.dur * 4 ) ; 
   var healthDrop = 1 ;
   var enemyHealthbar = setup_healthbar (viz, enemyHealth, healthBarHeight) ;
+  // console.log('enemyHealthbar', enemyHealthbar) ;
 
   function blink_reset () {
     //console.log ('blink_reset');
@@ -67,9 +70,6 @@ function trump_level_four () {
   } ;
 
   // element.react = action.set ('hit') ;
-
-  var enemyHealth     = 100 ;
-  var healthBarHeight = 5 ;
 
   //console.log ('enemyHealthbar.item', enemyHealthbar.item)
 
@@ -110,44 +110,12 @@ function trump_level_four () {
 	$Z.prep([viz]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
 	$Z.run()        ;     // run the interactive visualization (infinite loop by default)
 
-  function keydown (e) {
-
-    document.onkeydown = null ;
-    var transition     = [] ;
-    var state ;
-
-    switch (e.keyCode) {
-
-      case 37: // left
-        state = 'l' ;
-        break;
-      case 38: // up
-        state = 'j' ;
-        break;
-      case 39: // right
-        state = 'r' ;
-        break;
-      case 40: // down
-        state = 'a' ;
-        break;
-
-    }
-
-    viz.player.callback(state) ;
-
-  }
-
   document.viz = viz ;
    
-  document.addEventListener('mousedown', mouse.down) ;
-  document.addEventListener('mouseup', mouse.up) ;
+  document.addEventListener('mousedown', inputEvent.down) ;
+  document.addEventListener('mouseup', inputEvent.up) ;
+  document.addEventListener('keydown', inputEvent.down) ;
+  document.addEventListener('keyup', inputEvent.up) ;
 
-  // function set_keydown () {
-  //   document.onkeydown = keydown ;
-  //   viz.canvas.addEventListener('click', click, false) ;
-  //   // console.log('set_keydown')
-  // }
-
-  // set_keydown() ;
 
 }
