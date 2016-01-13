@@ -1,27 +1,14 @@
 function trump_level_four () {
 
-  var viz = viz_setup() ;
+  var viz = setup_viz({backgroundImageUrl: 'trump_bg4.png'}) ;
   viz.ui  = ui_setup(viz) ;
   var frameDuration = viz.dur ;
     
-  var backgroundImageUrl = 'trump_bg4.png' ;
-  var background         = image2canvas(backgroundImageUrl) ;
-
   viz.image_transition       = step_transition_func('image', viz.dur) ;
   var blinkDur                   = 3 * viz.dur ;
   var blink_transition           = step_transition_func('image', blinkDur) ;
   var collision_image_transition = step_transition_func('collisionImage', viz.dur) ;
   
-  function viz_prep () {
-
-    // viz.context.clearRect(0, 0, viz.canvas.width, viz.canvas.height) ;
-
-    viz.context.drawImage (background, 0, 0) ;
-
-    return true ;
-
-  }
-
   var playerConfig = { 
     sprite_loader: samus_sprite, 
     orientation: 'r',
@@ -120,7 +107,7 @@ function trump_level_four () {
   // }
 
   $Z.item(item)   ;     // load the user data into the visualization engine to initialize the time equals zero (t = 0) state
-	$Z.prep([viz_prep]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
+	$Z.prep([viz]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
 	$Z.run()        ;     // run the interactive visualization (infinite loop by default)
 
   function keydown (e) {
@@ -149,54 +136,11 @@ function trump_level_four () {
     viz.player.callback(state) ;
 
   }
+
+  document.viz = viz ;
    
-  function mousedown (event) {
-  
-    function run_click () {
-      //console.log ('run_click', 'viz', viz, 'event', event) ;
-      buttonpress.handler.call (viz, event) ;
-    }
-   
-    $Z.prep ([viz_prep, run_click]) ;
-    //console.log ('mousedown: holding', holding, 'event', event) ;
-  }
-
-  document.addEventListener('mousedown', mousedown) ;
-
-  function mouseup (event) {
-
-    $Z.prep ([viz_prep]) ;
-
-    if (viz.player.restoreRest) {
-      if(viz.player.item.transition !== undefined) {
-        // console.log ('viz.player transition', viz.player.item.transition) ;
-        if(viz.player.item.transition.length === 0) {
-          viz.player.item.transition = viz.image_transition(viz.player.sprite.rest[0]) ;
-        } else if(viz.player.item.transition.length === 1) {
-          // console.log ('mouseup bug 1', viz.player.item.transition[0]) ;
-          viz.player.item.transition[0].child = viz.image_transition(viz.player.sprite.rest[0]) ;
-          //viz.player.item.transition.end = function() { viz.player.item.image = viz.player.sprite.rest[0] ; } ;
-        } else if(viz.player.item.transition.length === 2) {
-          var transitionWithMaxDuration = viz.player.item.transition.slice(0).sort( function(x, y) { return y.duration - x.duration } )[0] ;
-          transitionWithMaxDuration.child = viz.image_transition(viz.player.sprite.rest[0]) ;
-          //transitionWithMaxDuration.end = function() { viz.player.item.image = viz.player.sprite.rest[0] ; } ;
-          // console.log ('mouseup bug 2') ;
-        } else {
-          // console.log('mouseup bug 3') ;
-        }
-      }
-     // xTransition.end = [xTransition.end, function () {
-       // _this.item.image = _this.sprite.rest[0] ;
-      //}]
-    }
-
-    buttonpress.reset () ;
-
-    //console.log ('mouseup', 'event', event) ;
-
-  }
-
-  document.addEventListener('mouseup', mouseup) ;
+  document.addEventListener('mousedown', mouse.down) ;
+  document.addEventListener('mouseup', mouse.up) ;
 
   // function set_keydown () {
   //   document.onkeydown = keydown ;
