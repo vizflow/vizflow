@@ -1,11 +1,8 @@
 function trump_level_three () {
 
-  viz = viz_setup() ;
-  ui  = ui_setup(viz) ;
+  viz     = setup_viz({ backgroundImageUrl: 'trump_bg3.png' }) ;
+  viz.ui  = setup_ui(viz) ;
   
-  var backgroundImageUrl = 'trump_bg3.png' ;
-  var background         = image2canvas(backgroundImageUrl) ;
-
   var frameDuration              = viz.dur * 5 ;
   var image_transition           = step_transition_func('image', frameDuration) ;
   var attack_transition          = step_transition_func('image', viz.dur) ;
@@ -13,16 +10,6 @@ function trump_level_three () {
   
   var x_transition = $Z.transition.rounded_linear_transition_func ( 'x', 2 * frameDuration ) ; // function accepting an x end-value and returning a transition object
   var xMove        = 15 ; 
-
-  function viz_prep () {
-
-    // viz.context.clearRect(0, 0, viz.canvas.width, viz.canvas.height) ;
-
-    viz.context.drawImage (background, 0, 0) ;
-
-    return true ;
-
-  }
 
   var playerConfig = { 
     sprite_loader: rastan_sprite, 
@@ -42,14 +29,14 @@ function trump_level_three () {
   var enemyHealth     = 100 ;
   var healthBarHeight = 5 ;
 
-  var player         = setup_element   (viz, playerConfig) ;
+  viz.player         = setup_element   (viz, playerConfig) ;
   var enemy          = setup_element   (viz, enemyConfig) ;
-  var button         = setup_buttons   (viz, ui) ;
+  var button         = setup_buttons   (viz, viz.ui) ;
   var enemyHealthbar = setup_healthbar (viz, enemyHealth, healthBarHeight) ;
 
   var item = [ 
     enemy.item, 
-    player.item, 
+    viz.player.item, 
     button.walkLeft, 
     button.walkRight, 
     button.attack, 
@@ -62,7 +49,7 @@ function trump_level_three () {
 
   function blink_transition() {
 
-    var blinkDur              = ( player.sprite.attack.length + 2 ) * viz.dur ;
+    var blinkDur              = ( viz.player.sprite.attack.length + 2 ) * viz.dur ;
     var blink                 = step_transition_func('image', blinkDur) ;
     var blinkTransition       = attack_transition(enemy.sprite.blink[1]) ;
     blinkTransition.child     = blink(enemy.sprite.blink[0]) ;
@@ -79,7 +66,7 @@ function trump_level_three () {
     set: detectAction.set,
     detect: detectAction.hit,
     perform: performAction.hit,
-    detectList: [player.item, enemy.item],
+    detectList: [viz.player.item, enemy.item],
     healthbar: enemyHealthbar,
     healthDrop: healthDrop,
     create_transition: blink_transition, 
@@ -89,7 +76,7 @@ function trump_level_three () {
   } ;
 
   $Z.item(item)       ; // load the user data into the visualization engine to initialize the time equals zero (t = 0) state
-	$Z.prep([viz_prep]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
+	$Z.prep([viz]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
 	$Z.run()            ; // run the interactive visualization (infinite loop by default)
 
   function keydown (e) {
@@ -124,8 +111,8 @@ function trump_level_three () {
 
   function update_player(state) {
 
-    if(player.item.transition !== undefined && player.item.transition.length > 0) {
-      // console.log(player.item.transition)
+    if(viz.player.item.transition !== undefined && viz.player.item.transition.length > 0) {
+      // console.log(viz.player.item.transition)
       return ;
     }
 
@@ -136,23 +123,23 @@ function trump_level_three () {
 
       case 'l' :
 
-        player.sprite = player.spriteL ;
+        viz.player.sprite = viz.player.spriteL ;
 
-        player.loop = animate_loop (
-          player.loop, 
-          player.sprite.walk, 
+        viz.player.loop = animate_loop (
+          viz.player.loop, 
+          viz.player.sprite.walk, 
           image_transition, 
           undefined, 
-          undefined
+          undefined,
         ) ;
 
-        //console.log('player loop animation', player.loop, 'player sprite walk', player.sprite.walk)
-        //console.log('player.loop', player.loop, 'player.sprite', player.sprite, 'restFrame', restFrame, 'image_transition', image_transition)
-        transition      = player.loop.animation ;
-        var xNew        = Math.max(0, player.item.x - xMove) ;
+        //console.log('viz.player loop animation', viz.player.loop, 'viz.player sprite walk', viz.player.sprite.walk)
+        //console.log('viz.player.loop', viz.player.loop, 'viz.player.sprite', viz.player.sprite, 'restFrame', restFrame, 'image_transition', image_transition)
+        transition      = viz.player.loop.animation ;
+        var xNew        = Math.max(0, viz.player.item.x - xMove) ;
         var xTransition = x_transition(xNew) ;
         xTransition.end = click_reset ;
-        // add_transition_end(player.loop.animation[0], minNstep - 1, click_reset) ;
+        // add_transition_end(viz.player.loop.animation[0], minNstep - 1, click_reset) ;
 
         transition.push(xTransition) ;
 
@@ -160,22 +147,22 @@ function trump_level_three () {
 
       case 'r' :
 
-        player.sprite = player.spriteR ;
+        viz.player.sprite = viz.player.spriteR ;
 
-        player.loop   = animate_loop (
-          player.loop, 
-          player.sprite.walk, 
+        viz.player.loop   = animate_loop (
+          viz.player.loop, 
+          viz.player.sprite.walk, 
           image_transition, 
           undefined, 
           undefined
         ) ;
 
-        // add_transition_end(player.loop.animation[0], minNstep - 1, click_reset) ;
-        transition = player.loop.animation ;
+        // add_transition_end(viz.player.loop.animation[0], minNstep - 1, click_reset) ;
+        transition = viz.player.loop.animation ;
 
         var xNew = Math.min(
-          viz.width - player.sprite.rest[0].width, 
-          player.item.x + xMove
+          viz.width - viz.player.sprite.rest[0].width, 
+          viz.player.item.x + xMove
         ) ;
         var xTransition = x_transition(xNew) ;
         xTransition.end = click_reset ;
@@ -185,13 +172,13 @@ function trump_level_three () {
 
       case 'j' :
 
-        transition = animate(player.sprite.jump, image_transition, click_reset, player.sprite.rest[0]) ;
+        transition = animate(viz.player.sprite.jump, image_transition, click_reset, viz.player.sprite.rest[0]) ;
         break ;
 
       case 'p' :
-        transition              = animate(player.sprite.attack, attack_transition, click_reset, player.sprite.rest[0]) ;
-        //console.log('p', 'player', player) ;
-        var collisionTransition = animate(player.sprite.attackCollision, collision_image_transition, click_reset, undefined) ; 
+        transition              = animate(viz.player.sprite.attack, attack_transition, click_reset, viz.player.sprite.rest[0]) ;
+        //console.log('p', 'viz.player', viz.player) ;
+        var collisionTransition = animate(viz.player.sprite.attackCollision, collision_image_transition, click_reset, undefined) ; 
         transition              = transition.concat(collisionTransition) ;
         hitConfig.set() ;
         // console.log('transition', transition, 'collisionTransition', collisionTransition) ;
@@ -202,106 +189,78 @@ function trump_level_three () {
 
     if (transition.length > 0) {
       //console.log('update_player: transition', transition)
-      player.item.transition = transition ;
+      viz.player.item.transition = transition ;
     } else {
       click_reset() ;
     }
 
   }
 
-  var clicking = false ;
+ //  var clicking = false ;
 
-  function click_reset () {
-    clicking = false ;
-  }
+ //  function click_reset () {
+ //    clicking = false ;
+ //  }
 
- function click (e) {
+ // function click (e) {
 
-    if (clicking) {
-      return ;
-    }
+ //    if (clicking) {
+ //      return ;
+ //    }
 
-    clicking = true ;    
+ //    clicking = true ;    
 
-    // viz.canvas.removeEventListener ('click', click, false) ;
+ //    // viz.canvas.removeEventListener ('click', click, false) ;
 
-    var position = set_canvas_position( viz.canvas ) ;
+ //    var position = set_canvas_position( viz.canvas ) ;
 
-    var clickedX = Math.round( (e.clientX - position.left) / position.scale ) ;
-    var clickedY = Math.round( (e.clientY - position.top)  / position.scale ) ;
+ //    var clickedX = Math.round( (e.clientX - position.left) / position.scale ) ;
+ //    var clickedY = Math.round( (e.clientY - position.top)  / position.scale ) ;
 
-    var color       = ui.hiddenContext.getImageData(clickedX, clickedY, 1, 1).data ;
-    var buttonIndex = color[0] - 1 ; // color indexing used by image2index is 1-based
+ //    var color       = viz.ui.hiddenContext.getImageData(clickedX, clickedY, 1, 1).data ;
+ //    var buttonIndex = color[0] - 1 ; // color indexing used by image2index is 1-based
 
-    if(buttonIndex >= 0) { // user clicked on a ui.button
+ //    if(buttonIndex >= 0) { // user clicked on a viz.ui.button
 
-      var state;
+ //      var state;
 
-      switch (buttonIndex) {
+ //      switch (buttonIndex) {
 
-        case 0: // walk left
-          button.walkLeft.transition  = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
-          state = 'l' ;
-          break;
+ //        case 0: // walk left
+ //          button.walkLeft.transition  = animate([viz.ui.button[1]], image_transition, undefined, viz.ui.button[0]) ;
+ //          state = 'l' ;
+ //          break;
 
-        case 1: // walk right
-          button.walkRight.transition = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
-          state = 'r' ;
-          break;
+ //        case 1: // walk right
+ //          button.walkRight.transition = animate([viz.ui.button[1]], image_transition, undefined, viz.ui.button[0]) ;
+ //          state = 'r' ;
+ //          break;
 
-        case 2: // attack
-          button.attack.transition    = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
-          state = 'p' ;
-          break;
+ //        case 2: // attack
+ //          button.attack.transition    = animate([viz.ui.button[1]], image_transition, undefined, viz.ui.button[0]) ;
+ //          state = 'p' ;
+ //          break;
 
-        case 3: // jump
-          button.jump.transition      = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
-          state = 'j' ;
-          break;
+ //        case 3: // jump
+ //          button.jump.transition      = animate([viz.ui.button[1]], image_transition, undefined, viz.ui.button[0]) ;
+ //          state = 'j' ;
+ //          break;
 
-      }
+ //      }
 
-      update_player(state) ;
+ //      update_player(state) ;
 
-    } else {
+ //    } else {
 
-      clicking = false ;
+ //      clicking = false ;
 
-    }
+ //    }
 
-  } 
+ //  } 
 
-  function mousedown (event) {
-
-    function run_click () {
-      click (event) ;
-    }
-
-    $Z.prep ([viz_prep, run_click]) ;
-
-  }
-
-  function mouseup (event) {
-
-    $Z.prep ([viz_prep]) ;
-    // if(player.item.transition !== undefined) {
-    //   if(player.item.transition.length === 0) {
-    //     player.item.transition = image_transition(player.sprite.rest[0]) ;
-    //   } else if(player.item.transition.length === 1) {
-    //     player.item.transition.end = function() { player.item.image = player.sprite.rest[0] ; } ;
-    //   } else if(player.item.transition.length === 2) {
-    //     var transitionWithMaxDuration = player.item.transition.slice(0).sort( function(x, y) { return y.duration - x.duration } )[0] ;
-    //     transitionWithMaxDuration.end = function() { player.item.image = player.sprite.rest[0] ; } ;
-    //   } else {
-    //     console.log('huh')
-    //   }
-    // }
-    // player.item.transition = [] ;
-    click_reset () ;
-
-  }
-
-  document.addEventListener('mouseup', mouseup) ;
-  document.addEventListener('mousedown', mousedown) ;
+  document.viz = viz ;
+   
+  document.addEventListener('mousedown', mouse.down) ;
+  document.addEventListener('mouseup', mouse.up) ;
 
 }

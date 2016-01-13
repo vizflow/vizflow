@@ -1,7 +1,7 @@
 function trump_level_four () {
 
   var viz = setup_viz({backgroundImageUrl: 'trump_bg4.png'}) ;
-  viz.ui  = ui_setup(viz) ;
+  viz.ui  = setup_ui(viz) ;
   var frameDuration = viz.dur ;
     
   viz.image_transition       = step_transition_func('image', viz.dur) ;
@@ -58,7 +58,8 @@ function trump_level_four () {
   }
 
   enemy.hit = {
-    action: action.perform,
+    perform: performAction.hit,
+    detect: detectAction.hit,
     healthbar: enemyHealthbar,
     healthDrop: healthDrop,
     transition: animate ([enemy.sprite.blink[0]], blink_transition, blink_reset),
@@ -83,28 +84,6 @@ function trump_level_four () {
     viz.ui.button.jump,
     enemyHealthbar.item,
   ] ;
-
-  function detect_attack() {
-    //console.log ('viz.player.bulletList.concat(enemy.item)', viz.player.bulletList.concat(enemy.item))
-    var collision = collision_detect(viz.player.bulletList.concat(enemy.item), viz.width, viz.height) ;
-   //console.log ('detect_attack: collision', collision, 'enemy', enemy, 'viz.player.bulletList', viz.player.bulletList) ;
-    if (collision.list.length > 0) { // a collision between viz.player.item and enemy.item occurred
-     // console.log ('detect_attack: collision', collision) ;
-     // set_attack_action() ;
-     action.set (enemy.hit) ;
-    }
-  }
-
-  function set_attack_detect() {
-    // console.log ('set_attack_detect') ;
-    $Z.detect([detect_attack]) ;    
-  }
-  viz.player.detect = set_attack_detect ;
-
-  // function set_attack_action() {
-  //  // console.log ('set_attack_action', attackConfig) ;
-  //   $Z.action([attackConfig]) ;    
-  // }
 
   $Z.item(item)   ;     // load the user data into the visualization engine to initialize the time equals zero (t = 0) state
 	$Z.prep([viz]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)

@@ -21,6 +21,7 @@ function setup_viz (vizConfig) {
     canvas: vizCanvas, 
     context: vizCanvas.getContext ('2d'),
     prep: function viz_prep () {
+      //console.log('setup_viz: viz_prep')
       // viz.context.clearRect(0, 0, viz.canvas.width, viz.canvas.height) ;
       this.context.drawImage (background, 0, 0) ;
       return true ;

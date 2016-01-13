@@ -1,4 +1,4 @@
-function ui_setup (viz) {
+function setup_ui (viz) {
 
   var buttonWidth     = 26 ;
   var buttonHeight    = 26 ;
