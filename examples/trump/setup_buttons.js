@@ -2,7 +2,7 @@ function setup_buttons (viz, ui) {
 	var button = {} ;
 	button.walkLeft = {
     viz: viz, 
-    image: ui.button[0],
+    image: ui.buttonSprite[0],
     render: draw.image,    
     x: ui.buttonX[0],
     y: ui.buttonY + ui.y
@@ -10,7 +10,7 @@ function setup_buttons (viz, ui) {
   
   button.walkRight = {
     viz: viz, 
-    image: ui.button[0],
+    image: ui.buttonSprite[0],
     render: draw.image,      
     x: ui.buttonX[1],
     y: ui.buttonY + ui.y
@@ -18,7 +18,7 @@ function setup_buttons (viz, ui) {
   
   button.attack = {
     viz: viz, 
-    image: ui.button[0],
+    image: ui.buttonSprite[0],
     render: draw.image,
     x: ui.buttonX[2],
     y: ui.buttonY + ui.y
@@ -26,7 +26,7 @@ function setup_buttons (viz, ui) {
   
   button.jump = {
     viz: viz, 
-    image: ui.button[0],
+    image: ui.buttonSprite[0],
     render: draw.image,
     x: ui.buttonX[3],
     y: ui.buttonY + ui.y

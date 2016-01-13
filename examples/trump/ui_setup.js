@@ -25,8 +25,8 @@ function ui_setup (viz) {
     tilePadXr: 0,
   } ;  
 
-  var button          = get_sprite (buttonConfig) ;
-  var buttonData      = button[0].getContext('2d').getImageData(0, 0, buttonWidth, buttonHeight) ; // ImageData object
+  var buttonSprite          = get_sprite (buttonConfig) ;
+  var buttonData      = buttonSprite[0].getContext('2d').getImageData(0, 0, buttonWidth, buttonHeight) ; // ImageData object
   var Nbutton         = 4 ;
   var buttonY         = buttonPad ;
   var buttonX         = [] ;
@@ -46,7 +46,7 @@ function ui_setup (viz) {
 
   for( var kButton = 0 ; kButton < Nbutton ; kButton++ ) {
 
-    uiContext.drawImage(button[0], buttonX[kButton], buttonY) ; // draw visible button
+    uiContext.drawImage(buttonSprite[0], buttonX[kButton], buttonY) ; // draw visible buttonSprite
 
     var imagek     = image2index(buttonData, kButton) ; // ImageData object
 
@@ -59,7 +59,7 @@ function ui_setup (viz) {
       .getContext('2d')
       .putImageData(imagek, 0, 0) ;
 
-    hiddenUIContext.drawImage(tempCanvas, buttonX[kButton], buttonY) ; // draw color-indexed button for color picking
+    hiddenUIContext.drawImage(tempCanvas, buttonX[kButton], buttonY) ; // draw color-indexed buttonSprite for color picking
 
   }
 
@@ -72,13 +72,15 @@ function ui_setup (viz) {
     hiddenCanvas: hiddenCanvas,
     hiddenContext: hiddenContext,
     buttonConfig: buttonConfig,
-    button: button,
+    buttonSprite: buttonSprite,
     buttonX: buttonX,
     buttonY: buttonY,
     x: uiX,
     y: uiY,
 
   } ;
+
+  ui.button = setup_buttons (viz, ui) ;
 
   return ui ;
   

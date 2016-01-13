@@ -1,13 +1,13 @@
 function trump_level_four () {
 
   var viz = viz_setup() ;
-  ui      = ui_setup(viz) ;
+  viz.ui  = ui_setup(viz) ;
   var frameDuration = viz.dur ;
-  
+    
   var backgroundImageUrl = 'trump_bg4.png' ;
   var background         = image2canvas(backgroundImageUrl) ;
 
-  var image_transition           = step_transition_func('image', viz.dur) ;
+  viz.image_transition       = step_transition_func('image', viz.dur) ;
   var blinkDur                   = 3 * viz.dur ;
   var blink_transition           = step_transition_func('image', blinkDur) ;
   var collision_image_transition = step_transition_func('collisionImage', viz.dur) ;
@@ -29,9 +29,9 @@ function trump_level_four () {
     callback: update_player,
     y: 225,
   } ;
-  var player          = setup_element(viz, playerConfig) ;
-  player.transitionSet.x = $Z.transition.rounded_linear_transition_func ( 'x', frameDuration ) ; // function accepting an x end-value and returning a transition object
-  player.xMove        = 10 ;
+  viz.player          = setup_element(viz, playerConfig) ;
+  viz.player.transitionSet.x = $Z.transition.rounded_linear_transition_func ( 'x', frameDuration ) ; // function accepting an x end-value and returning a transition object
+  viz.player.xMove        = 10 ;
 
   var bulletShiftX      = 20 ;
   var bulletShiftY      = 8 ;
@@ -48,8 +48,8 @@ function trump_level_four () {
     image: bulletImage,
     transition: bullet_transition,
   }
-  player.bullet = setup_bullet (viz, player, bulletConfig) ;  
-  player.bulletList = [] ;
+  viz.player.bullet = setup_bullet (viz, viz.player, bulletConfig) ;  
+  viz.player.bulletList = [] ;
 
   var enemyConfig = {
     sprite_loader: trump_sprite,
@@ -81,29 +81,27 @@ function trump_level_four () {
 
   // element.react = action.set ('hit') ;
 
-  var button = setup_buttons (viz, ui) ;
-
   var enemyHealth     = 100 ;
   var healthBarHeight = 5 ;
 
   //console.log ('enemyHealthbar.item', enemyHealthbar.item)
 
-  //console.log ('player.bullet', player.bullet) ;
+  //console.log ('viz.player.bullet', viz.player.bullet) ;
   var item = [ 
     enemy.item,
-    player.item,
-    button.walkLeft,
-    button.walkRight,
-    button.attack,
-    button.jump,
+    viz.player.item,
+    viz.ui.button.walkLeft,
+    viz.ui.button.walkRight,
+    viz.ui.button.attack,
+    viz.ui.button.jump,
     enemyHealthbar.item,
   ] ;
 
   function detect_attack() {
-    //console.log ('player.bulletList.concat(enemy.item)', player.bulletList.concat(enemy.item))
-    var collision = collision_detect(player.bulletList.concat(enemy.item), viz.width, viz.height) ;
-   //console.log ('detect_attack: collision', collision, 'enemy', enemy, 'player.bulletList', player.bulletList) ;
-    if (collision.list.length > 0) { // a collision between player.item and enemy.item occurred
+    //console.log ('viz.player.bulletList.concat(enemy.item)', viz.player.bulletList.concat(enemy.item))
+    var collision = collision_detect(viz.player.bulletList.concat(enemy.item), viz.width, viz.height) ;
+   //console.log ('detect_attack: collision', collision, 'enemy', enemy, 'viz.player.bulletList', viz.player.bulletList) ;
+    if (collision.list.length > 0) { // a collision between viz.player.item and enemy.item occurred
      // console.log ('detect_attack: collision', collision) ;
      // set_attack_action() ;
      action.set (enemy.hit) ;
@@ -114,7 +112,7 @@ function trump_level_four () {
     // console.log ('set_attack_detect') ;
     $Z.detect([detect_attack]) ;    
   }
-  player.detect = set_attack_detect ;
+  viz.player.detect = set_attack_detect ;
 
   // function set_attack_action() {
   //  // console.log ('set_attack_action', attackConfig) ;
@@ -148,79 +146,19 @@ function trump_level_four () {
 
     }
 
-    player.callback(state) ;
+    viz.player.callback(state) ;
 
   }
-
-  var clicking = false ;
-
-  function click_reset () {
-    clicking = false ;
-  }
-
-  player.click_reset = click_reset ;
-
-  function click (e) {
-    
-    if (clicking) {
-      return ;
-    }
-
-    clicking = true ;
-
-    //viz.canvas.removeEventListener ('click', click, false) ;
-
-    var position = set_canvas_position( viz.canvas ) ;
-
-    var clickedX = Math.round( (e.clientX - position.left) / position.scale ) ;
-    var clickedY = Math.round( (e.clientY - position.top)  / position.scale ) ;
-
-    var color       = ui.hiddenContext.getImageData(clickedX, clickedY, 1, 1).data ;
-    var buttonIndex = color[0] - 1 ; // color indexing used by image2index is 1-based
-
-    if(buttonIndex >= 0) { // user clicked on a ui.button
-
-      var state;
-
-      switch (buttonIndex) {
-
-        case 0: // walk left
-          button.walkLeft.transition = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
-          state = 'l' ;
-          break;
-        case 1: // walk right
-          button.walkRight.transition = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
-          state = 'r' ;
-          break;
-        case 2: // attack
-          button.attack.transition = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
-          state = 'a' ;
-          break;
-        case 3: // jump
-          button.jump.transition = animate([ui.button[1]], image_transition, undefined, ui.button[0]) ;
-          state = 'j' ;
-          break;
-
-      }
-      //console.log ('click: state', state, 'player',player) ;
-      player.callback (state) ;
-
-    } else {  // user clicks background
-      clicking = false ;
-    }
-
-  } 
-
+   
   function mousedown (event) {
-
+  
     function run_click () {
-      click (event) ;
+      //console.log ('run_click', 'viz', viz, 'event', event) ;
+      buttonpress.handler.call (viz, event) ;
     }
-
+   
     $Z.prep ([viz_prep, run_click]) ;
-
     //console.log ('mousedown: holding', holding, 'event', event) ;
-
   }
 
   document.addEventListener('mousedown', mousedown) ;
@@ -229,19 +167,19 @@ function trump_level_four () {
 
     $Z.prep ([viz_prep]) ;
 
-    if (player.restoreRest) {
-      if(player.item.transition !== undefined) {
-        // console.log ('player transition', player.item.transition) ;
-        if(player.item.transition.length === 0) {
-          player.item.transition = image_transition(player.sprite.rest[0]) ;
-        } else if(player.item.transition.length === 1) {
-          // console.log ('mouseup bug 1', player.item.transition[0]) ;
-          player.item.transition[0].child = image_transition(player.sprite.rest[0]) ;
-          //player.item.transition.end = function() { player.item.image = player.sprite.rest[0] ; } ;
-        } else if(player.item.transition.length === 2) {
-          var transitionWithMaxDuration = player.item.transition.slice(0).sort( function(x, y) { return y.duration - x.duration } )[0] ;
-          transitionWithMaxDuration.child = image_transition(player.sprite.rest[0]) ;
-          //transitionWithMaxDuration.end = function() { player.item.image = player.sprite.rest[0] ; } ;
+    if (viz.player.restoreRest) {
+      if(viz.player.item.transition !== undefined) {
+        // console.log ('viz.player transition', viz.player.item.transition) ;
+        if(viz.player.item.transition.length === 0) {
+          viz.player.item.transition = viz.image_transition(viz.player.sprite.rest[0]) ;
+        } else if(viz.player.item.transition.length === 1) {
+          // console.log ('mouseup bug 1', viz.player.item.transition[0]) ;
+          viz.player.item.transition[0].child = viz.image_transition(viz.player.sprite.rest[0]) ;
+          //viz.player.item.transition.end = function() { viz.player.item.image = viz.player.sprite.rest[0] ; } ;
+        } else if(viz.player.item.transition.length === 2) {
+          var transitionWithMaxDuration = viz.player.item.transition.slice(0).sort( function(x, y) { return y.duration - x.duration } )[0] ;
+          transitionWithMaxDuration.child = viz.image_transition(viz.player.sprite.rest[0]) ;
+          //transitionWithMaxDuration.end = function() { viz.player.item.image = viz.player.sprite.rest[0] ; } ;
           // console.log ('mouseup bug 2') ;
         } else {
           // console.log('mouseup bug 3') ;
@@ -252,9 +190,9 @@ function trump_level_four () {
       //}]
     }
 
-    click_reset () ;
+    buttonpress.reset () ;
 
-    console.log ('mouseup', 'event', event) ;
+    //console.log ('mouseup', 'event', event) ;
 
   }
 
