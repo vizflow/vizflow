@@ -56,6 +56,12 @@ function setup_element (viz, elementConfig) {
 
   element.callback = elementConfig.callback ;
 
+  element.transitionSet = {
+    image: step_transition_func('image', elementConfig.frameDuration),
+  } ;
+
+  element.restoreRest = true ;
+
   return element ;
 
 }

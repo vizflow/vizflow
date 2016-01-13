@@ -1,7 +1,6 @@
 function trump_level_four () {
 
   var viz = viz_setup() ;
-  viz.dur = 0.5 * viz.dur ;
   ui      = ui_setup(viz) ;
   var frameDuration = viz.dur ;
   
@@ -30,7 +29,27 @@ function trump_level_four () {
     callback: update_player,
     y: 225,
   } ;
-  var player = setup_element(viz, playerConfig) ;
+  var player          = setup_element(viz, playerConfig) ;
+  player.transitionSet.x = $Z.transition.rounded_linear_transition_func ( 'x', frameDuration ) ; // function accepting an x end-value and returning a transition object
+  player.xMove        = 10 ;
+
+  var bulletShiftX      = 20 ;
+  var bulletShiftY      = 8 ;
+  var bulletImageUrl    = 'bullet.png' ;
+  var bulletImage       = image2canvas (bulletImageUrl) ;  
+  var bulletDur         = 17 * 20 ;
+  var bullet_transition = $Z.transition.rounded_linear_transition_func ( 'x', bulletDur ) ; // function accepting an x end-value and returning a transition object
+  var bulletMove        = 150 ;
+
+  var bulletConfig   = {
+    move: bulletMove,
+    shiftX: bulletShiftX, 
+    shiftY: bulletShiftY,
+    image: bulletImage,
+    transition: bullet_transition,
+  }
+  player.bullet = setup_bullet (viz, player, bulletConfig) ;  
+  player.bulletList = [] ;
 
   var enemyConfig = {
     sprite_loader: trump_sprite,
@@ -42,27 +61,34 @@ function trump_level_four () {
   var enemy = setup_element(viz, enemyConfig) ;
   //console.log ('enemy', enemy) ;
 
+  var health_transition = $Z.transition.linear_transition_func ( 'width', viz.dur * 4 ) ; 
+  var healthDrop = 1 ;
+  var enemyHealthbar = setup_healthbar (viz, enemyHealth, healthBarHeight) ;
+
+  function blink_reset () {
+    //console.log ('blink_reset');
+    enemy.reacting = false ;
+  }
+
+  enemy.hit = {
+    action: action.perform,
+    healthbar: enemyHealthbar,
+    healthDrop: healthDrop,
+    transition: animate ([enemy.sprite.blink[0]], blink_transition, blink_reset),
+    health_transition: health_transition,
+    element: enemy,
+  } ;
+
+  // element.react = action.set ('hit') ;
+
   var button = setup_buttons (viz, ui) ;
 
   var enemyHealth     = 100 ;
   var healthBarHeight = 5 ;
 
-  var enemyHealthbar = setup_healthbar (viz, enemyHealth, healthBarHeight) ;
   //console.log ('enemyHealthbar.item', enemyHealthbar.item)
 
-  var bulletShiftX   = 20 ;
-  var bulletShiftY   = 8 ;
-  var bulletImageUrl = 'bullet.png' ;
-  var bulletImage    = image2canvas (bulletImageUrl) ;  
-  var bulletConfig   = {
-    shiftX: bulletShiftX, 
-    shiftY: bulletShiftY,
-    image: bulletImage,
-  }
-  var bullet = setup_bullet (viz, player, bulletConfig) ;
-
-  //console.log ('bullet', bullet) ;
-
+  //console.log ('player.bullet', player.bullet) ;
   var item = [ 
     enemy.item,
     player.item,
@@ -73,51 +99,31 @@ function trump_level_four () {
     enemyHealthbar.item,
   ] ;
 
-  var bulletList = [] ; 
-
   function detect_attack() {
-    //console.log ('bulletList.concat(enemy.item)', bulletList.concat(enemy.item))
-    var collision = collision_detect(bulletList.concat(enemy.item), viz.width, viz.height) ;
-   //console.log ('detect_attack: collision', collision, 'enemy', enemy, 'bulletList', bulletList) ;
+    //console.log ('player.bulletList.concat(enemy.item)', player.bulletList.concat(enemy.item))
+    var collision = collision_detect(player.bulletList.concat(enemy.item), viz.width, viz.height) ;
+   //console.log ('detect_attack: collision', collision, 'enemy', enemy, 'player.bulletList', player.bulletList) ;
     if (collision.list.length > 0) { // a collision between player.item and enemy.item occurred
-     //console.log ('detect_attack: collision', collision) ;
-      set_attack_action() ;
+     // console.log ('detect_attack: collision', collision) ;
+     // set_attack_action() ;
+     action.set (enemy.hit) ;
     }
   }
 
-  var health_transition = $Z.transition.linear_transition_func ( 'width', viz.dur * 4 ) ; 
-  var healthDrop = 1 ;
-
-  var enemyAttack = {
-    action: attack.action,
-    healthbar: enemyHealthbar,
-    healthDrop: healthDrop,
-    transition: animate ([enemy.sprite.blink[0]], blink_transition, blink_reset),
-    health_transition: health_transition,
-    element: enemy,
-  }
-
   function set_attack_detect() {
-    //console.log ('set_attack_detect') ;
+    // console.log ('set_attack_detect') ;
     $Z.detect([detect_attack]) ;    
   }
+  player.detect = set_attack_detect ;
 
-  function set_attack_action() {
-   // console.log ('set_attack_action', enemyAttack) ;
-    $Z.action([enemyAttack]) ;    
-  }
-
-  function blink_reset () {
-    //console.log ('blink_reset');
-    enemy.reacting = false ;
-  }
+  // function set_attack_action() {
+  //  // console.log ('set_attack_action', attackConfig) ;
+  //   $Z.action([attackConfig]) ;    
+  // }
 
   $Z.item(item)   ;     // load the user data into the visualization engine to initialize the time equals zero (t = 0) state
 	$Z.prep([viz_prep]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
 	$Z.run()        ;     // run the interactive visualization (infinite loop by default)
-
-  var x_transition = $Z.transition.rounded_linear_transition_func ( 'x', viz.dur * (player.sprite.walk.length + 1) ) ; // function accepting an x end-value and returning a transition object
-  var xMove        = 15 ; 
 
   function keydown (e) {
 
@@ -146,120 +152,13 @@ function trump_level_four () {
 
   }
 
-
-  var bulletDur         = 17 * 20 ;
-  var bullet_transition = $Z.transition.rounded_linear_transition_func ( 'x', bulletDur ) ; // function accepting an x end-value and returning a transition object
-  var bulletMove = 150 ;
-
-  function update_player(state) { 
-    //console.log ('player.callback: state', state) ;
-    
-    var minNstep = 1 ; // minimum number of frames to animate per user input for walking animations
-    var transition = [] ;
-     switch(state) {
-      case 'l' :
-        player.orientation = 'l' ;
-        player.sprite = player.spriteL ;
-        //player.sprite.rest[0]   = player.sprite.walk[0] ;
-        player.loop   = animate_loop (player.loop, player.sprite.walk, image_transition, undefined) ;
-        //console.log ('update player l0', 'player', player, 'click_reset', click_reset, 'player.loop.animation[0]', player.loop.animation[0]) ;
-        add_transition_end(player.loop.animation[0], minNstep - 1, click_reset) ;
-        //console.log('player.loop.animation', player.loop.animation)
-        transition = player.loop.animation ;
-
-        var xNew   = Math.max(0, player.item.x - xMove) ;
-        var xTransition = x_transition(xNew) ;
-
-        transition.push(xTransition) ;
-       // console.log ('update player l', transition) ;
-
-        break ;
-      case 'r' :
-        player.orientation   = 'r' ;
-        player.sprite   = player.spriteR ;
-        //player.sprite.rest[0]     = player.sprite.walk[0] ;
-        player.loop     = animate_loop (player.loop, player.sprite.walk, image_transition, undefined) ;
-        add_transition_end(player.loop.animation[0], minNstep - 1, click_reset) ;
-        transition = player.loop.animation ;
-
-        var xNew        = Math.min(viz.width - player.sprite.rest[0].width, player.item.x + xMove) ;
-        var xTransition = x_transition(xNew) ;
-
-        transition.push(xTransition) ;
-
-        break ;
-      case 'j' :
-        transition = animate(player.sprite.jump, image_transition, click_reset, player.sprite.rest[0]) ;
-        break ;
-      case 'a' :
-        transition = animate(player.sprite.attack, image_transition, click_reset, player.sprite.rest[0]) ;
-
-        var newBullet = copy_object (bullet) ;
-       // console.log ('player.callback', 'bullet', bullet, 'newBullet', newBullet) ; 
-
-        function create_bullet_transition () {
-        
-          if (player.orientation === 'r') {
-            newBullet.x          = player.item.x + bulletShiftX ;
-            var xNew             = newBullet.x + bulletMove ;
-               //console.log ('newBullet', newBullet) ;
-            newBullet.transition = bullet_transition(xNew) ;
-
-          } else {
-            newBullet.x          = player.item.x - bulletShiftX ;
-            var xNew             = newBullet.x - bulletMove ;
-            newBullet.transition = bullet_transition(xNew) ;
-          }
-
-        }
-
-        create_bullet_transition () ;
-
-        bulletList.push (newBullet) ;
-
-        newBullet.transition.end = function () {
-         // console.log ('bulletend') ;
-
-            var index = bulletList.indexOf (newBullet) ;
-            bulletList.splice (index, 1) ; // remove bullet from vizflow itemlist  
-
-            if (bulletList.length === 0) {
-              attack.reset () ;
-            }
-
-        //  if (newBullet.x < 0 || newBullet > viz.width - 1) {  // bullet offscreen
-            index = item.indexOf (newBullet) ;
-            item.splice (index, 1) ; // remove bullet from vizflow itemlist  
-         // } else {  // add more transitions to bullet
-           // create_bullet_transition () ;
-         // }
-         // console.log ('bulletend', 'end')
-        }
-
-        item.push (newBullet) ;
-
-        //$Z.item (item.push(newBullet)) ;
-
-        // var collisionTransition = animate (player.sprite.attackCollision, collision_image_transition, attack_reset, clearedFrame) ; 
-        // transition = transition.concat(collisionTransition) ;
-        //console.log ('player.callback: transition', transition) ;
-        set_attack_detect() ;
-        break ;
-    }
-    if (transition.length > 0) {
-      // console.log('player.callback: transition', transition)
-      player.item.transition = transition ;
-    } else {
-      click_reset () ;
-    }
-
-  }
-
   var clicking = false ;
 
   function click_reset () {
     clicking = false ;
   }
+
+  player.click_reset = click_reset ;
 
   function click (e) {
     
@@ -329,11 +228,33 @@ function trump_level_four () {
   function mouseup (event) {
 
     $Z.prep ([viz_prep]) ;
-    player.item.transition = [] ;
-    player.item.image = player.sprite.rest[0] ;
+
+    if (player.restoreRest) {
+      if(player.item.transition !== undefined) {
+        // console.log ('player transition', player.item.transition) ;
+        if(player.item.transition.length === 0) {
+          player.item.transition = image_transition(player.sprite.rest[0]) ;
+        } else if(player.item.transition.length === 1) {
+          // console.log ('mouseup bug 1', player.item.transition[0]) ;
+          player.item.transition[0].child = image_transition(player.sprite.rest[0]) ;
+          //player.item.transition.end = function() { player.item.image = player.sprite.rest[0] ; } ;
+        } else if(player.item.transition.length === 2) {
+          var transitionWithMaxDuration = player.item.transition.slice(0).sort( function(x, y) { return y.duration - x.duration } )[0] ;
+          transitionWithMaxDuration.child = image_transition(player.sprite.rest[0]) ;
+          //transitionWithMaxDuration.end = function() { player.item.image = player.sprite.rest[0] ; } ;
+          // console.log ('mouseup bug 2') ;
+        } else {
+          // console.log('mouseup bug 3') ;
+        }
+      }
+     // xTransition.end = [xTransition.end, function () {
+       // _this.item.image = _this.sprite.rest[0] ;
+      //}]
+    }
+
     click_reset () ;
 
-    //console.log ('mouseup: holding', holding, 'event', event) ;
+    console.log ('mouseup', 'event', event) ;
 
   }
 
