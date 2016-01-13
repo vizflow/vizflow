@@ -1,7 +1,7 @@
 function viz_setup () {
 
   var spriteImageIndex = 0 ; 
-  var dur              = 17 * 4 ;
+  var dur              = 17 ;
   var vizWidth         = 240 ;
   var vizHeight        = 320 ;
 

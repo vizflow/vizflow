@@ -1,8 +1,7 @@
 function trump_level_three () {
 
-  viz     = viz_setup() ;
-  viz.dur = 17 ;
-  ui      = ui_setup(viz) ;
+  viz = viz_setup() ;
+  ui  = ui_setup(viz) ;
   
   var backgroundImageUrl = 'trump_bg3.png' ;
   var background         = image2canvas(backgroundImageUrl) ;
@@ -31,7 +30,6 @@ function trump_level_three () {
     frameDuration: frameDuration,
     y: 209,
   } ;
-  var player = setup_element(viz, playerConfig) ;
 
   var enemyConfig = {
     sprite_loader: trump_sprite,
@@ -40,13 +38,14 @@ function trump_level_three () {
     x: 80,    
     y: 209,
   } ;
-  var enemy = setup_element(viz, enemyConfig) ;
-
-  var button = setup_buttons(viz, ui) ;
 
   var enemyHealth     = 100 ;
   var healthBarHeight = 5 ;
-  var enemyHealthbar  = setup_healthbar (viz, enemyHealth, healthBarHeight) ;
+
+  var player         = setup_element   (viz, playerConfig) ;
+  var enemy          = setup_element   (viz, enemyConfig) ;
+  var button         = setup_buttons   (viz, ui) ;
+  var enemyHealthbar = setup_healthbar (viz, enemyHealth, healthBarHeight) ;
 
   var item = [ 
     enemy.item, 
@@ -58,19 +57,6 @@ function trump_level_three () {
     enemyHealthbar.item, 
   ] ;
 
-  function detect_attack() {
-
-    var detectList = [ player.item, enemy.item ] ;
-    //console.log('detect_attack', 'detectList', detectList)
-    var collision  = collision_detect( detectList, viz.width, viz.height ) ;
-
-    if (collision.list.length > 0) { // a collision between player.item and enemy.item occurred
-      //console.log ('detect_attack: collision', collision) ;
-      set_attack_action() ;
-    }
-
-  }
-
   var health_transition = $Z.transition.linear_transition_func ( 'width', viz.dur * 4 ) ; 
   var healthDrop        = 1 ;
 
@@ -80,7 +66,7 @@ function trump_level_three () {
     var blink                 = step_transition_func('image', blinkDur) ;
     var blinkTransition       = attack_transition(enemy.sprite.blink[1]) ;
     blinkTransition.child     = blink(enemy.sprite.blink[0]) ;
-    blinkTransition.child.end = detect.reset ;
+    blinkTransition.child.end = detectAction.reset ;
     blinkTransition           = [blinkTransition] ;
 
     return blinkTransition ;
@@ -89,22 +75,18 @@ function trump_level_three () {
   //blinkTransition.child.end = blink_reset ;
   //console.log('blinkTransition', blinkTransition) ;
 
-  var enemyAttack = {
-    action: attack.action,
+  var hitConfig = {
+    set: detectAction.set,
+    detect: detectAction.hit,
+    perform: performAction.hit,
+    detectList: [player.item, enemy.item],
     healthbar: enemyHealthbar,
     healthDrop: healthDrop,
     create_transition: blink_transition, 
     health_transition: health_transition,
     element: enemy,
+    viz: viz,
   } ;
-
-  function set_attack_detect() {
-    $Z.detect([detect_attack]) ;    
-  }
-
-  function set_attack_action() {
-    $Z.action([enemyAttack]) ;    
-  }
 
   $Z.item(item)       ; // load the user data into the visualization engine to initialize the time equals zero (t = 0) state
 	$Z.prep([viz_prep]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
@@ -207,12 +189,13 @@ function trump_level_three () {
         break ;
 
       case 'p' :
-
         transition              = animate(player.sprite.attack, attack_transition, click_reset, player.sprite.rest[0]) ;
-        var collisionTransition = animate(player.sprite.attackCollision, collision_image_transition, attack.reset, undefined) ; 
-        // console.log('transition', transition, 'collisionTransition', collisionTransition)
+        //console.log('p', 'player', player) ;
+        var collisionTransition = animate(player.sprite.attackCollision, collision_image_transition, click_reset, undefined) ; 
         transition              = transition.concat(collisionTransition) ;
-        set_attack_detect() ;
+        hitConfig.set() ;
+        // console.log('transition', transition, 'collisionTransition', collisionTransition) ;
+        //set_attack_detect() ;
         break ;
 
     }

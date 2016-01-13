@@ -1,7 +1,7 @@
-var attack = {
+var performAction = {
 	
-	action: function attack_action() {
-		//console.log ('attack action this', this) ;
+	hit: function peform_action_hit () {
+		//console.log ('perform action hit: this', this) ;
     this.healthbar.health -= this.healthDrop ;
     
     if (this.healthbar.health < 0) {
@@ -26,26 +26,27 @@ var attack = {
     }
     //console.log ('this.healthbar.item', this.healthbar.item) ;
 
-    //console.log('attack action transition', this, 'this.element', this.element) ;
+    //console.log('action action transition', this, 'this.element', this.element) ;
 
     // $Z.detect([]) ; // turn off collision detection until after the this.element.item character finishes animating
     //console.log('detection off')
 
-    //attack.reset () ;
+    //action.reset () ;
 
     // this.element.item.transition = 
     var transition = this.create_transition() ;
+    //console.log('trans', transition) ;
 		this.element.item.transition.push (transition[0]) ;
-		//console.log ('attack_action end') ;
+		//console.log ('perform action hit end') ;
 
   },
 
-  set: function attack_set () {
-    $Z.action([this.attackConfig])
+  set: function perform_action_set () {
+    $Z.perform([this])
   },
 
-  reset: function attack_reset () {
-   $Z.action([]) ; // turn off other actions
+  reset: function perform_action_reset () {
+   $Z.perform([]) ; // turn off other actions
   },
 
 
