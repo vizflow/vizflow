@@ -130,7 +130,7 @@ function trump_level_three () {
           viz.player.sprite.walk, 
           image_transition, 
           undefined, 
-          undefined,
+          undefined
         ) ;
 
         //console.log('viz.player loop animation', viz.player.loop, 'viz.player sprite walk', viz.player.sprite.walk)
