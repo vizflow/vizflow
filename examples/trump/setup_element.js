@@ -37,6 +37,10 @@ function setup_element (viz, elementConfig) {
     element.sprite[elementConfig.collisionImage] = [clearedFrame] ;
   }
 
+  if (elementConfig.frameDuration === undefined) {
+    elementConfig.frameDuration = viz.frameDuration ;
+  }
+
   element.loop = {
     frameDur : elementConfig.frameDuration,
     position : 0
@@ -57,7 +61,7 @@ function setup_element (viz, elementConfig) {
 
   var imageTransitionFunc ;
 
-  if(elementConfig.frameDuration === undefined || elementConfig.frameDuration === viz.frameDuration) {
+  if(elementConfig.frameDuration === viz.frameDuration) {
     imageTransitionFunc = viz.image_transition ;
   } else {
     imageTransitionFunc = step_transition_func('image', elementConfig.frameDuration) ;

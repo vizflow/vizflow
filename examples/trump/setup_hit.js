@@ -37,7 +37,7 @@ function setup_hit(viz, element, setupHitConfig) {
   var health_transition = $Z.transition.linear_transition_func ( 'width', viz.dur * 4 ) ; 
   var healthDrop        = 1 ;
 
-  var hit = {
+  var hit = { // action config object
 
     set: detectAction.set,
     reset: hit_reset,
