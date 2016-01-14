@@ -4,13 +4,13 @@
 
 // define some default values for the $Z object's attributes: 
 
-var _item   = []       ; // initialize the array of items (change to an object pool later to reduce garbage collection)
-var _prep   = []       ; // array of actions to perform before rendering the items on each frame (e.g. collision detection, background clearing)
-var _detect = []       ; // array of detectors to perform before rendering the items on each frame (e.g. collision detection, background clearing)
-var _action = []       ; // array of actions to perform before rendering the items on each frame (e.g. collision detection, background clearing)
-var iter    = 0        ; // default initial iteration count
-var verbose = false    ; // default verbosity value
-var maxIter = Infinity ; // default iteration limit
+var _item    = []       ; // initialize the array of items (change to an object pool later to reduce garbage collection)
+var _prep    = []       ; // array of actions to perform before rendering the items on each frame (e.g. collision detection, background clearing)
+var _detect  = []       ; // array of detectors to perform before rendering the items on each frame (e.g. collision detection, background clearing)
+var _perform = []       ; // array of actions to perform before rendering the items on each frame (e.g. collision detection, background clearing)
+var iter     = 0        ; // default initial iteration count
+var verbose  = false    ; // default verbosity value
+var maxIter  = Infinity ; // default iteration limit
 
 // import the helper functions and wrappers attached to the $Z object:
 
@@ -18,7 +18,7 @@ import step            from './step'            ;
 import item            from './item'            ;
 import prep            from './prep'            ;
 import detect          from './detect'          ;
-import action          from './action'          ;
+import perform         from './perform'          ;
 import pipe            from './pipe'            ;
 import done            from './done'            ;
 import exit            from './exit'            ;
@@ -53,11 +53,11 @@ window.$Z = { // define the "bling Z" object for running interactive vizualizati
 	transition, // module comtaining transition helpers
 	_item,      // default data item array (internal use only as marked by underscore)
 	_detect,    // array of detectors (internal use only as marked by underscore)
-	_action,    // array of actions (internal use only as marked by underscore)
+	_perform,   // array of actions (internal use only as marked by underscore)
 	_prep,      // array of preprocessing tasks to perform (internal use only as marked by underscore)
 	item,       // getter/setter function for interfacing with the item/data array
 	detect,     // getter/setter function for interfacing with the _detect array
-	action,     // getter/setter function for interfacing with the _action array
+	perform,    // getter/setter function for interfacing with the _perform array
 	prep,       // getter/setter function for interfacing with the _prep array
 	update,     // default update function for items using arrays of transition objects containing interpolation functions
 	pipe,       // function for dynamically chaining promises using a for-loop
@@ -65,7 +65,7 @@ window.$Z = { // define the "bling Z" object for running interactive vizualizati
 	done,       // function to check for the end of the simulation or game, returns true if the simulation or game has ended
 	exit,       // function to execute after the simulation or game has ended to trigger the exit sequence
 	task,       // array of functions defining the sequence of asynchronous tasks to perform for each step or frame of the visualization
-	run         // function that executes each of the asynchronous tasks sequentially using Promise.then() chaining
+	run,        // function that executes each of the asynchronous tasks sequentially using Promise.then() chaining
 } ;
 
 export default {}

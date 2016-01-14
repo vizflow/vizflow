@@ -1,4 +1,4 @@
-function ui_setup (viz) {
+function setup_ui (viz) {
 
   var buttonWidth     = 26 ;
   var buttonHeight    = 26 ;
@@ -8,10 +8,10 @@ function ui_setup (viz) {
   var buttonOffsetY   = 0 ;
   var buttonPadX      = 0 ;
   var buttonPad       = Math.floor( ( viz.width - (buttonWidth * 4) ) / 4 ) ;
-  var buttonImageUrl  = 'button.png' ;
+  var buttonImageUrl  = 'button_spritesheet.png' ;
   var buttonCanvas    = image2canvas(buttonImageUrl) ;
 
-  var buttonConfig    = {
+  var leftButtonConfig    = {
     context: buttonCanvas.getContext('2d'),
     tileCount: buttonTileCount,
     rowIndex: buttonRowIndex,
@@ -25,13 +25,29 @@ function ui_setup (viz) {
     tilePadXr: 0,
   } ;  
 
-  var buttonSprite          = get_sprite (buttonConfig) ;
-  var buttonData      = buttonSprite[0].getContext('2d').getImageData(0, 0, buttonWidth, buttonHeight) ; // ImageData object
-  var Nbutton         = 4 ;
-  var buttonY         = buttonPad ;
-  var buttonX         = [] ;
+  rightButtonConfig          = copy_object(leftButtonConfig) ;
+  rightButtonConfig.rowIndex = 1 ;
 
-  for(var kButton = 0 ; kButton < Nbutton ; kButton++) {
+  attackButtonConfig          = copy_object(leftButtonConfig) ;
+  attackButtonConfig.rowIndex = 2 ;
+
+  jumpButtonConfig          = copy_object(leftButtonConfig) ;
+  jumpButtonConfig.rowIndex = 3 ;
+
+  var buttonSprite = {
+    left:   get_sprite(leftButtonConfig),
+    right:  get_sprite(rightButtonConfig),
+    attack: get_sprite(attackButtonConfig),
+    jump:   get_sprite(jumpButtonConfig),
+  } ;
+
+  var buttonKey = ['left', 'right', 'attack', 'jump'] ;
+
+  var Nbutton = 4 ;
+  var buttonY = buttonPad ;
+  var buttonX = [] ;
+
+  for(var kButton = 0 ; kButton < Nbutton ; kButton++) { // compute the horizontal positions for the buttons based on the available width of the vizualization 
     buttonX.push(kButton * (buttonPad + buttonWidth) + buttonPad * 0.5) ;
   }  
 
@@ -46,8 +62,9 @@ function ui_setup (viz) {
 
   for( var kButton = 0 ; kButton < Nbutton ; kButton++ ) {
 
-    uiContext.drawImage(buttonSprite[0], buttonX[kButton], buttonY) ; // draw visible buttonSprite
+    uiContext.drawImage(buttonSprite[buttonKey[kButton]][0], buttonX[kButton], buttonY) ; // draw visible buttonSprite
 
+    var buttonData = buttonSprite[buttonKey[kButton]][0].getContext('2d').getImageData(0, 0, buttonWidth, buttonHeight) ; // ImageData object
     var imagek     = image2index(buttonData, kButton) ; // ImageData object
 
     var tempCanvas = create_canvas(buttonWidth, buttonHeight) ;
@@ -71,7 +88,7 @@ function ui_setup (viz) {
 
     hiddenCanvas: hiddenCanvas,
     hiddenContext: hiddenContext,
-    buttonConfig: buttonConfig,
+    leftButtonConfig: leftButtonConfig,
     buttonSprite: buttonSprite,
     buttonX: buttonX,
     buttonY: buttonY,

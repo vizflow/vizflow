@@ -8,13 +8,13 @@ function setup_element (viz, elementConfig) {
 
   if(elementConfig.orientation === 'l') {
 
-    element.spriteL    = elementConfig.sprite_loader () ;
-    element.spriteR    = horizontal_flip(element.spriteL) ;
+    element.spriteL = elementConfig.sprite_loader () ;
+    element.spriteR = horizontal_flip(element.spriteL) ;
 
   } else {
 
-    element.spriteR    = elementConfig.sprite_loader () ;
-    element.spriteL    = horizontal_flip(element.spriteR) ;
+    element.spriteR = elementConfig.sprite_loader () ;
+    element.spriteL = horizontal_flip(element.spriteR) ;
 
   }
 
@@ -25,7 +25,6 @@ function setup_element (viz, elementConfig) {
   if(elementConfig.y === undefined) {
     elementConfig.y = Math.round(viz.height / 2) - 1 ;
   }
-
 
   if(elementConfig.collisionImage === undefined) {
     elementConfig.collisionImage = 'collision' ;
@@ -56,11 +55,36 @@ function setup_element (viz, elementConfig) {
 
   element.callback = elementConfig.callback ;
 
+  var imageTransitionFunc ;
+
+  if(elementConfig.frameDuration === undefined || elementConfig.frameDuration === viz.frameDuration) {
+    imageTransitionFunc = viz.image_transition ;
+  } else {
+    imageTransitionFunc = step_transition_func('image', elementConfig.frameDuration) ;
+  }
+
   element.transitionSet = {
-    image: step_transition_func('image', elementConfig.frameDuration),
+    image: imageTransitionFunc,
   } ;
 
-  element.restoreRest = true ;
+  if(elementConfig.transitionSet !== undefined) {
+    var keys = Object.keys(elementConfig.transitionSet) ;
+    for(var kKey = 0 ; kKey < keys.length ; kKey++) {
+      element.transitionSet[keys[kKey]] = elementConfig.transitionSet[keys[kKey]] ;
+    }
+  }
+
+  if( elementConfig.restoreRest === undefined) {
+    elementConfig.restoreRest = true ;
+  }
+
+  element.restoreRest = elementConfig.restoreRest ;
+
+  if(elementConfig.xMove === undefined) {
+    elementConfig.xMove = 0 ;
+  }
+
+  element.xMove = elementConfig.xMove ;
 
   return element ;
 
