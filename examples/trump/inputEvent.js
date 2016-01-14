@@ -1,6 +1,6 @@
 var inputEvent = {
   
-  down: function mousedown (event) {
+  down: function input_event_down (event) {
      //console.log ('mousedown', 'this', this, 'this.viz', this.viz, 'event', event) ;
 
     var inputHandler ;
@@ -26,7 +26,7 @@ var inputEvent = {
     //console.log ('mousedown: holding', holding, 'event', event) ;
   },
 
-  up: function mouseup (event) {
+  up: function input_event_up (event) {
     // console.log ('mouseup  end', 'event', event) ;
 
     $Z.prep ([this.viz]) ;
