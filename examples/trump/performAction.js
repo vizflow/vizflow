@@ -1,7 +1,7 @@
 var performAction = {
 	
 	hit: function peform_action_hit () {
-		//console.log ('perform action hit: this', this) ;
+		// console.log ('perform action hit: this', this) ;
     this.healthbar.health -= this.healthDrop ;
     
     if (this.healthbar.health < 0) {
@@ -34,10 +34,12 @@ var performAction = {
     //action.reset () ;
 
     // this.element.item.transition = 
-    var transition = this.create_transition() ;
-    //console.log('trans', transition) ;
-		this.element.item.transition.push (transition[0]) ;
-		//console.log ('perform action hit end') ;
+    // console.log('this.element.sprite', this.element.sprite) ;
+    // var transitionFunc = this.element.transitionSet.image ;
+    // var transition     = animate(this.element.sprite.hit, transitionFunc, undefined, this.element.sprite.rest[0]) ;
+    // console.log('trans', this.transition(), 'this.element.item.transition', this.element.item.transition) ;
+		this.element.item.transition.push (this.transition()[0]) ;
+		// console.log ('perform action hit end', 'this.element.item.transition', this.element.item.transition) ;
 
   },
 

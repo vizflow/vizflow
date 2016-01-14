@@ -1,5 +1,11 @@
   function update_player(state) { 
-    // console.log ('this.callback: state', state, 'this', this) ;
+    // console.log ('update_player: this.callback: state', state, 'this', this) ;
+
+    if(this.item.transition !== undefined && this.item.transition.length > 0) {
+      // console.log(viz.player.item.transition)
+      return ;
+    }
+
     var _this = this ; // to be removed later by upgrading transitions in vizflow
     
     var minNstep = 1 ; // minimum number of frames to animate per user input for walking animations
@@ -39,7 +45,6 @@
         transition = animate(this.sprite.jump, this.transitionSet.image, buttonpress.reset, this.sprite.rest[0]) ;
         break ;
       case 'a' :
-        transition = animate(this.sprite.attack, this.transitionSet.image, buttonpress.reset, this.sprite.rest[0]) ;
 
         if (this.bulletList !== undefined) {
 
@@ -70,7 +75,7 @@
               _this.bulletList.splice (index, 1) ; // remove this.bullet from vizflow itemlist  
 
               if (_this.bulletList.length === 0) {
-                action.reset () ;
+                detectAction.reset () ;
               }
 
           //  if (newBullet.x < 0 || newBullet > viz.width - 1) {  // this.bullet offscreen
@@ -87,10 +92,18 @@
         }
         //$Z.item (item.push(newBullet)) ;
 
-        // var collisionTransition = animate (this.sprite.attackCollision, collision_image_transition, attack_reset, clearedFrame) ; 
-        // transition = transition.concat(collisionTransition) ;
-        //console.log ('this.callback: transition', transition) ;
-        this.detect() ;
+        var transitionFunc;
+        if( this.transitionSet.attack === undefined ) {
+          transitionFunc = this.transitionSet.image ;
+        } else {
+          transitionFunc = this.transitionSet.attack ;
+        }
+        transition                     = animate(this.sprite.attack, transitionFunc, buttonpress.reset, this.sprite.rest[0]) ;
+        var collision_image_transition = step_transition_func('collisionImage', transition[0].duration) ;
+        var collisionTransition = animate (this.sprite.attackCollision, collision_image_transition, this.enemy.hit.reset, this.sprite.clearedFrame) ; 
+        transition = transition.concat(collisionTransition) ;
+        // console.log ('this.callback: transition', transition) ;
+        this.enemy.hit.set() ; // the player attack starts the collision detection
         break ;
     }
     if (transition.length > 0) {

@@ -31,9 +31,11 @@ function trump_sprite () {
 		tilePadXr: framePadXr,
 	} ;
 
-	trumpSprite.blink = get_sprite (trumpSpriteConfig) ;
+	trumpSprite.hit = get_sprite (trumpSpriteConfig) ;
 
-	trumpSprite.rest = [trumpSprite.blink[0]] ; // resting bitch face
+	trumpSprite.rest = [trumpSprite.hit[0]] ; // resting bitch face
+
+	trumpSprite.hit = [trumpSprite.hit[1]] ;
 	
 	return trumpSprite ;
 

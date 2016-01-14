@@ -33,14 +33,17 @@ var buttonpress = {
           // this.ui.button.walkLeft.transition = animate([this.ui.button[1]], this.image_transition, undefined, this.ui.buttonSprite[0]) ;
           state = 'l' ;
           break;
+
         case 1: // walk right
           // this.ui.button.walkRight.transition = animate([this.ui.button[1]], this.image_transition, undefined, this.ui.buttonSprite[0]) ;
           state = 'r' ;
           break;
+
         case 2: // attack
           // this.ui.button.attack.transition = animate([this.ui.button[1]], this.image_transition, undefined, this.ui.buttonSprite[0]) ;
           state = 'a' ;
           break;
+
         case 3: // jump
           // this.ui.button.jump.transition = animate([this.ui.button[1]], this.image_transition, undefined, this.ui.buttonSprite[0]) ;
           state = 'j' ;
@@ -51,7 +54,9 @@ var buttonpress = {
       this.player.callback (state) ;
 
     } else {  // user clicks background
+
       buttonpress.busy = false ;
+      
     }
 
   }, 

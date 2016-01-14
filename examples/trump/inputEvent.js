@@ -27,7 +27,7 @@ var inputEvent = {
   },
 
   up: function mouseup (event) {
-    // console.log ('mouseup  end', 'event', event) ;
+    // console.log ('mouseup  end', 'event', event, 'this.viz.player', this.viz.player) ;
 
     $Z.prep ([this.viz]) ;
 

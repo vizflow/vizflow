@@ -127,6 +127,8 @@ function rastan_sprite () {
 		clearedFrame,
 	] ;
 
+	rastanSprite.clearedFrame = clearedFrame ;
+
 	// console.log('rastan sprite', rastanSprite) ;
 
 	 // rastanSprite.walk = rastanSprite.attackCollision ;
