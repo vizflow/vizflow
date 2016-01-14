@@ -102,6 +102,10 @@ function rastan_sprite () {
 
 	rastanSprite.attack.push(rastanSprite.attack[4]) ;
 	rastanSprite.attack.push(rastanSprite.attack[4]) ;
+	rastanSprite.attack.push(rastanSprite.attack[4]) ;
+	rastanSprite.attack.push(rastanSprite.attack[4]) ;
+	rastanSprite.attack.push(rastanSprite.attack[4]) ;
+	rastanSprite.attack.push(rastanSprite.attack[4]) ;
 	rastanSprite.attack.push(rastanSprite.attack[3]) ;
 	rastanSprite.attack.push(rastanSprite.attack[2]) ;
 	rastanSprite.attack.push(rastanSprite.attack[1]) ;
@@ -118,6 +122,10 @@ function rastan_sprite () {
 		clearedFrame, 
 		clearedFrame, 
 		clearedFrame, 
+		tempCanvas,
+		tempCanvas,
+		tempCanvas,
+		tempCanvas,
 		tempCanvas,
 		tempCanvas,
 		tempCanvas,

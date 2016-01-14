@@ -10,7 +10,7 @@ function setup_hit(viz, element, setupHitConfig) {
 
   function hit_transition() {
 
-    var hitDur              = ( viz.player.sprite.attack.length * 0.5 + 2 ) * viz.dur ;
+    var hitDur              = ( viz.player.sprite.attack.length + 30 ) * viz.dur ;
     var hit                 = step_transition_func('image', hitDur) ;
     var hitTransition       = initial_transition(element.sprite.hit[0]) ;
     hitTransition.child     = hit(element.sprite.rest[0]) ;

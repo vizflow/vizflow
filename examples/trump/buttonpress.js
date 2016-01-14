@@ -30,22 +30,27 @@ var buttonpress = {
       switch (buttonIndex) {
 
         case 0: // walk left
-          // this.ui.button.walkLeft.transition = animate([this.ui.button[1]], this.image_transition, undefined, this.ui.buttonSprite[0]) ;
+          //console.log('walk left', 'button', this.ui.button, 'this.ui.button.walkLeft.transition', this.ui.button.walkLeft.transition) ;
+          //console.log('animate([this.ui.buttonSprite.left[1]], this.image_transition, undefined, this.ui.buttonSprite.left[0])', animate([this.ui.buttonSprite.left[1]], this.image_transition, undefined, this.ui.buttonSprite.left[0]));
+          this.ui.button.walkLeft.transition = animate([this.ui.buttonSprite.left[1]], this.image_transition, undefined, this.ui.buttonSprite.left[0]) ;
           state = 'l' ;
           break;
 
         case 1: // walk right
           // this.ui.button.walkRight.transition = animate([this.ui.button[1]], this.image_transition, undefined, this.ui.buttonSprite[0]) ;
+          this.ui.button.walkRight.transition = animate([this.ui.buttonSprite.right[1]], this.image_transition, undefined, this.ui.buttonSprite.right[0]) ;
           state = 'r' ;
           break;
 
         case 2: // attack
           // this.ui.button.attack.transition = animate([this.ui.button[1]], this.image_transition, undefined, this.ui.buttonSprite[0]) ;
+          this.ui.button.attack.transition = animate([this.ui.buttonSprite.attack[1]], this.image_transition, undefined, this.ui.buttonSprite.attack[0]) ;
           state = 'a' ;
           break;
 
         case 3: // jump
           // this.ui.button.jump.transition = animate([this.ui.button[1]], this.image_transition, undefined, this.ui.buttonSprite[0]) ;
+          this.ui.button.jump.transition = animate([this.ui.buttonSprite.jump[1]], this.image_transition, undefined, this.ui.buttonSprite.jump[0]) ;
           state = 'j' ;
           break;
 

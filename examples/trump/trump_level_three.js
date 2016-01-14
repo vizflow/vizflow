@@ -1,7 +1,14 @@
 function trump_level_three () {
 
-  viz        = setup_viz({ backgroundImageUrl: 'trump_bg3.png', frameDurationFactor: 5 }) ; // frame duration is in units of base vizflow framespeed (17 ms) 
-  viz.ui     = setup_ui(viz) ;
+  var vizConfig = { // an object to configure the visualization
+    backgroundImageUrl: 'trump_bg3.png',
+    frameDurationFactor: 5,
+  } ;
+
+  viz           = setup_viz     (vizConfig)   ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
+  viz.ui        = setup_ui      (viz)         ;
+  viz.ui.button = setup_buttons (viz, viz.ui) ;
+  console.log(viz.ui.button) ;
 
   var playerConfig = { 
     sprite_loader: rastan_sprite, 
@@ -11,7 +18,7 @@ function trump_level_three () {
     restoreRest: false,
     transitionSet: {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), // function accepting an x end-value and returning a transition object
-      attack: step_transition_func ( 'image', viz.dur ), // transition object creation function
+      attack: step_transition_func ( 'image', viz.dur * 1.15 ), // transition object creation function
     },
     xMove: 10,
     y: 209,
@@ -29,19 +36,19 @@ function trump_level_three () {
 
   viz.player = setup_element (viz, playerConfig) ;
   var enemy  = setup_element (viz, enemyConfig) ;
-  enemy.hit  = setup_hit(viz, enemy) ;
-  var button = setup_buttons (viz, viz.ui) ;
+  enemy.hit  = setup_hit     (viz, enemy) ;
 
   // console.log('enemyConfig', enemyConfig, 'enemy', enemy, 'enemy trans', enemy.transitionSet.image()) ;
+
   viz.player.enemy = enemy ; // decorate the player object for convenient access to the enemy object 
 
   var item = [ 
     enemy.item, 
     viz.player.item, 
-    button.walkLeft, 
-    button.walkRight, 
-    button.attack, 
-    button.jump, 
+    viz.ui.button.walkLeft, 
+    viz.ui.button.walkRight, 
+    viz.ui.button.attack, 
+    viz.ui.button.jump, 
     enemy.hit.healthbar.item, 
   ] ;
 
@@ -50,9 +57,9 @@ function trump_level_three () {
 	$Z.run()       ; // run the interactive visualization (infinite loop by default)
 
   document.viz = viz ;   
-  document.addEventListener('mousedown', inputEvent.down) ;
-  document.addEventListener('mouseup',   inputEvent.up) ;
-  document.addEventListener('keydown',   inputEvent.down) ;
-  document.addEventListener('keyup',     inputEvent.up) ;
+  document.addEventListener( 'mousedown', inputEvent.down ) ;
+  document.addEventListener( 'mouseup',   inputEvent.up   ) ;
+  document.addEventListener( 'keydown',   inputEvent.down ) ;
+  document.addEventListener( 'keyup',     inputEvent.up   ) ;
 
 }

@@ -13,7 +13,7 @@ function setup_viz (vizConfig) {
   var backgroundImageUrl = vizConfig.backgroundImageUrl ;
   var background         = image2canvas(backgroundImageUrl) ;
 
-  var frameDuration = vizConfig.frameDurationFactor * dur
+  var frameDuration = vizConfig.frameDurationFactor * dur ;
 
   var viz = {
 

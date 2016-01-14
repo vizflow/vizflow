@@ -34,6 +34,8 @@ function setup_buttons (viz, ui) {
     y: ui.buttonY + ui.y
   } ;
 
+  button.transition = step_transition_func('image', viz.frameDuration * 2) ;
+
   return button ;
 
-}
+}2
