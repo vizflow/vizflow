@@ -6,7 +6,7 @@ var buttonpress = {
     buttonpress.busy = false ;
   },
 
-  handler: function buttonpress_handler (e) {
+  screen_handler: function buttonpress_screen_handler (e) {
   
     if (buttonpress.busy) {
       return ;
@@ -55,5 +55,42 @@ var buttonpress = {
     }
 
   }, 
+
+  keyboard_handler: function buttonpress_keyboard_handler (event) {
+
+    if (buttonpress.busy) {
+      return ;  
+    }
+
+    buttonpress.busy = true ;
+
+    var transition     = [] ;
+    var state ;
+
+    switch (event.keyCode) {
+
+      case 37: // left
+        state = 'l' ;
+        break;
+      case 38: // up
+        state = 'j' ;
+        break;
+      case 39: // right
+        state = 'r' ;
+        break;
+      case 40: // down
+        state = 'a' ;
+        break;
+
+    } 
+    //console.log ('state', state) ;
+    if (state === undefined) {  // user clicks background
+      buttonpress.busy = false ;
+    } else {
+     // console.log('buttonpress_keyboard_handler callback', this) ;
+      this.player.callback(state) ;
+    }
+
+  },  
 
 } ;

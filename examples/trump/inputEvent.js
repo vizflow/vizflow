@@ -1,10 +1,23 @@
-var mouse = {
+var inputEvent = {
   
   down: function mousedown (event) {
-    // console.log ('mousedown', 'this', this, 'this.viz', this.viz, 'event', event) ;
+     //console.log ('mousedown', 'this', this, 'this.viz', this.viz, 'event', event) ;
+
+    var inputHandler ;
+
+    switch (event.type) {
+
+      case 'keydown': // left
+        inputHandler = 'keyboard_handler' ;
+        break;
+      case 'mousedown': // up
+        inputHandler = 'screen_handler' ;
+        break;
+
+    }     
   
     function run_click () {
-      buttonpress.handler.call (this.viz, event) ;
+      buttonpress[inputHandler].call (this.viz, event) ;
     }
 
     var runClick = { prep: run_click, viz: this.viz } ;
