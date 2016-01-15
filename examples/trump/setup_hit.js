@@ -33,6 +33,10 @@ function setup_hit(viz, element, setupHitConfig) {
   	setupHitConfig.healthbarHeight = 10 ;
   }
   
+  if(setupHitConfig.detectList === undefined) {
+    setupHitConfig.detectList = [viz.player.item, element.item] ;
+  }
+
   var healthbar         = setup_healthbar (viz, setupHitConfig.elementHealth, setupHitConfig.healthbarHeight) ;
   var health_transition = $Z.transition.linear_transition_func ( 'width', viz.dur * 4 ) ; 
   var healthDrop        = 1 ;
@@ -43,7 +47,7 @@ function setup_hit(viz, element, setupHitConfig) {
     reset: hit_reset,
     detect: detectAction.hit,
     perform: performAction.hit,
-    detectList: [viz.player.item, element.item],
+    detectList: setupHitConfig.detectList,
     healthbar: healthbar,
     healthDrop: healthDrop,
     health_transition: health_transition,

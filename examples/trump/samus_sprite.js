@@ -71,10 +71,10 @@ function samus_sprite () {
 	} ;
 	samusSprite.attack  = get_sprite (attackConfig) ;
 	//samusSprite.attack  = [samusSprite.attack[0], samusSprite.walk[0], samusSprite.attack[1]] ;
+	// samusSprite.clearedFrame = create_canvas (samusSprite.walk[0].width, samusSprite.walk[0].height)  ;
 
 	// var attackCanvas  = samusSprite.attack[0] ;
 	// var tempCanvas   = create_canvas (attackCanvas.width, attackCanvas.height)  ;
-	// var clearedFrame = create_canvas (attackCanvas.width, attackCanvas.height)  ;
 	// tempCanvas.getContext ('2d').drawImage (attackCanvas, 0, 0) ;
 	// tempCanvas.getContext ('2d').clearRect (attackTilePadXl, 0, walkTileWidth * 1.5, samusSprite.height) ;
 	// //console.log ('dd_sprite: tempCanvas', tempCanvas.getContext('2d').getImageData(0, 0, tempCanvas.width, tempCanvas.height)) ; 
