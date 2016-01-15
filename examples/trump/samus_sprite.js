@@ -70,6 +70,18 @@ function samus_sprite () {
 		tilePadXr: attackTilePadXr,
 	} ;
 	samusSprite.attack  = get_sprite (attackConfig) ;
+
+	var jumpTileWidth = 18 ;
+	var jumpOffsetX   = 390 ;
+	var jumpTileCount = 1 ;
+  
+	var jumpSpriteConfig       = copy_object (walkConfig) ;
+	jumpSpriteConfig.tileWidth = 20 ;
+	jumpSpriteConfig.offsetX   = jumpOffsetX ;
+	jumpSpriteConfig.tileCount = jumpTileCount ;
+
+  samusSprite.jump = get_sprite(jumpSpriteConfig) ;
+
 	//samusSprite.attack  = [samusSprite.attack[0], samusSprite.walk[0], samusSprite.attack[1]] ;
 	// samusSprite.clearedFrame = create_canvas (samusSprite.walk[0].width, samusSprite.walk[0].height)  ;
 

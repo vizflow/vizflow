@@ -41,6 +41,10 @@ function setup_element (viz, elementConfig) {
     elementConfig.frameDuration = viz.frameDuration ;
   }
 
+  if (elementConfig.floatDuration === undefined) {
+    elementConfig.floatDuration = viz.frameDuration ;
+  }  
+
   element.loop = {
     frameDur : elementConfig.frameDuration,
     position : 0
@@ -67,8 +71,15 @@ function setup_element (viz, elementConfig) {
     imageTransitionFunc = step_transition_func('image', elementConfig.frameDuration) ;
   }
 
+  if(elementConfig.floatDuration === viz.floatDuration) {
+    floatTransitionFunc = $Z.transition.rounded_linear_transition_func ( 'y', elementConfig.frameDuration ) ;
+  } else {
+    floatTransitionFunc = $Z.transition.rounded_linear_transition_func ( 'y', elementConfig.floatDuration ) ;
+  }
+
   element.transitionSet = {
     image: imageTransitionFunc,
+    float: floatTransitionFunc,
   } ;
 
   if(elementConfig.transitionSet !== undefined) {
@@ -89,6 +100,14 @@ function setup_element (viz, elementConfig) {
   }
 
   element.xMove = elementConfig.xMove ;
+
+  if(elementConfig.yMove === undefined) {
+    elementConfig.yMove = 0 ;
+  }
+
+  element.yMove = elementConfig.yMove ;
+
+  element.config = elementConfig ;  // copy config object to output object for future ref
 
   return element ;
 

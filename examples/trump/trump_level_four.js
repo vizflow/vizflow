@@ -13,12 +13,15 @@ function trump_level_four () {
     sprite_loader: samus_sprite, 
     orientation: 'r',
     frameDuration: viz.frameDuration,
+    floatDuration: 15 * viz.frameDuration ,
     callback: update_player,
     restoreRest: true,
     transitionSet: {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), // function accepting an x end-value and returning a transition object
+      y: $Z.transition.rounded_linear_transition_func ( 'y', viz.frameDuration * 10 ), // function accepting a y end-value and returning a transition object
     },
     xMove: 10,
+    yMove: 100,
     y: 225,
   } ;
 

@@ -42,13 +42,33 @@
 
         break ;
       case 'j' :
-        transition = animate(this.sprite.jump, this.transitionSet.image, buttonpress.reset, this.sprite.rest[0]) ;
+        // console.log ('update player case j:', this.sprite.jump, this.transitionSet.image, buttonpress.reset, this.sprite.rest[0])
+
+        this.restoreRest = false ;
+        
+        transition = animate(this.sprite.jump, this.transitionSet.image) ;
+        
+        var yNew        = this.item.y - this.yMove ;
+        var yTransition = this.transitionSet.y(yNew) ;
+
+        yTransition.child                 = this.transitionSet.float(yNew) ; // just to take up time
+        yTransition.child.child           = this.transitionSet.y(this.config.y - this.sprite.height) ;
+        yTransition.child.child.child     = this.transitionSet.image (this.sprite.rest[0]) ;
+        yTransition.child.child.child.item = this ;
+        yTransition.child.child.child.end = function () {
+          this.item.restoreRest = true ;
+        }
+
+        transition.push(yTransition) ;
+
         break ;
+
       case 'a' :
 
         if (this.bullet !== undefined) { // check if this player char shoots bullets
 
           var newBullet = copy_object (this.bullet) ;
+          newBullet.y   = this.item.y + this.bullet.config.shiftY 
 
           if (this.orientation === 'r') {
             //console.log ('newBullet', newBullet, 'this', this, 'bullet', this.bullet) ;
