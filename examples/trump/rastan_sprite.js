@@ -161,7 +161,7 @@ function rastan_sprite () {
 
 	for ( kJump = 0 ; kJump < Njump ; kJump++ ) {
 		var spriteK = get_sprite( jumpConfig[kJump] ) ;
-		console.log('rastan_sprite: spriteK', spriteK)
+		// console.log('rastan_sprite: spriteK', spriteK) ;
 		rastanSprite.jump.push( spriteK[0] ) ;
 	}
 
@@ -175,6 +175,32 @@ function rastan_sprite () {
 	rastanSprite.jump.push(rastanSprite.jump[2]) ;
 	rastanSprite.jump.push(rastanSprite.jump[1]) ;
 	rastanSprite.jump.push(rastanSprite.jump[0]) ;
+
+	var jumpCanvas = rastanSprite.jump[4] ;
+	var tempCanvas   = create_canvas (jumpCanvas.width, jumpCanvas.height)  ;
+	var clearedFrame = create_canvas (jumpCanvas.width, jumpCanvas.height)  ;
+	tempCanvas.getContext ('2d').drawImage (jumpCanvas, 0, 0) ;
+	tempCanvas.getContext ('2d').clearRect (tempCanvas.width * 0.25, 0, tempCanvas.width * 0.5, rastanSprite.height) ;
+
+	rastanSprite.jumpCollision = [
+		clearedFrame,
+		clearedFrame, 
+		clearedFrame, 
+		clearedFrame, 
+		tempCanvas,
+		tempCanvas,
+		tempCanvas,
+		tempCanvas,
+		tempCanvas,
+		tempCanvas,
+		tempCanvas,
+		clearedFrame,
+		clearedFrame,
+		clearedFrame,
+		clearedFrame,
+	] ;	
+
+	// console.log('attack length', rastanSprite.jump.length)
 
  //  rastanSprite.jump     = get_sprite(spriteContext, jumpTileCount, jumpRowIndex, jumpTileWidth, rastanSprite.height, jumpOffsetX, jumpOffsetY, jumpPadX, bgColor, jumpTilePadXl, jumpTilePadXr) ;
 	// console.log('rastan sprite', rastanSprite) ;

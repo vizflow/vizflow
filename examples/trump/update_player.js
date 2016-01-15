@@ -42,39 +42,79 @@
 
         break ;
       case 'j' :
-        transition = animate(this.sprite.jump, this.transitionSet.image, buttonpress.reset, this.sprite.rest[0]) ;
+         // console.log ('update player case j:', this.sprite.jump, this.transitionSet.image, buttonpress.reset, this.sprite.rest[0])
+
+        this.restoreRest = false ;
+
+        var finalFrame = this.sprite.rest[0] ;
+
+        if(this.transitionSet.attack !== undefined) {
+          transition = animate(this.sprite.jump, this.transitionSet.attack, undefined, finalFrame) ;
+        } else {
+          transition = animate(this.sprite.jump, this.transitionSet.image, undefined, finalFrame) ;
+        }
+
+        if (this.sprite.attackCollision !== undefined) {
+          var collision_image_transition = step_transition_func('collisionImage', transition[0].duration) ;
+          var collisionTransition = animate (this.sprite.jumpCollision, collision_image_transition, this.enemy.hit.reset, this.sprite.clearedFrame) ; 
+          transition.push(collisionTransition[0]) ;
+          this.enemy.hit.set() ; // the player attack starts the collision detection
+        }        
+        
+        var yNew        = this.item.y - this.yMove ;
+        var yTransition = this.transitionSet.y(yNew) ;
+        // console.log('update player', 'yTransition', yTransition) ;
+        yTransition.child                 = this.transitionSet.float(yNew) ; // just to take up time
+        yTransition.child.child           = this.transitionSet.y(this.config.y - this.sprite.height) ;
+        // yTransition.child.child.child     = this.transitionSet.image (finalFrame) ;
+        yTransition.child.child.element = this ;
+        yTransition.child.child.end = function () {
+          // console.log('this', 'this.element', this.element) ;
+          if(this.element.config.restoreRest) {            
+            this.element.restoreRest = true ;
+          } 
+        }
+
+        transition.push(yTransition) ;
+
         break ;
+
       case 'a' :
 
-        if (this.bulletList !== undefined) {
+        if (this.bullet !== undefined) { // check if this player char shoots bullets
 
           var newBullet = copy_object (this.bullet) ;
+          newBullet.y   = this.item.y + this.bullet.config.shiftY 
 
-            if (this.orientation === 'r') {
-              //console.log ('newBullet', newBullet, 'this', this, 'bullet', this.bullet) ;
+          if (this.orientation === 'r') {
+            //console.log ('newBullet', newBullet, 'this', this, 'bullet', this.bullet) ;
 
-              newBullet.x          = this.item.x + this.bullet.config.shiftX ;
-              var xNew             = newBullet.x + this.bullet.config.move ;
-              newBullet.transition = this.bullet.transition(xNew) ;
+            newBullet.x          = this.item.x + this.bullet.config.shiftX ;
+            var xNew             = newBullet.x + this.bullet.config.move ;
+            newBullet.transition = this.bullet.transition(xNew) ;
 
-            } else {
-              newBullet.x          = this.item.x - this.bullet.config.shiftX ;
-              var xNew             = newBullet.x - this.bullet.config.move ;
-              newBullet.transition = this.bullet.transition(xNew) ;
-            }
+          } else {
+
+            newBullet.x          = this.item.x - this.bullet.config.shiftX ;
+            var xNew             = newBullet.x - this.bullet.config.move ;
+            newBullet.transition = this.bullet.transition(xNew) ;
+
+          }
 
           //console.log ('update_player 64') ;
 
-          this.bulletList.push (newBullet) ;
-          //console.log ('update_player 68') ;
+          this.enemy.hit.detectList.push (newBullet) ;
+          // this.enemy.hit.detectList = [this.enemy.item].concat(this.bulletList) ; // optimize later to avoid garbage collection
+          // console.log ('update_player 68') ;
 
           newBullet.transition.end = function () {
-           //console.log ('bulletend', _this.bulletList) ;
+            // console.log ('bulletend', _this.bulletList) ;
 
-              var index = _this.bulletList.indexOf (newBullet) ;
-              _this.bulletList.splice (index, 1) ; // remove this.bullet from vizflow itemlist  
+              var index = _this.enemy.hit.detectList.indexOf (newBullet) ;
+              _this.enemy.hit.detectList.splice (index, 1) ; // remove this.bullet from vizflow itemlist
+              // _this.enemy.hit.detectList = [_this.enemy.item].concat(_this.bulletList) ;  // optimize later to avoid garbage collection
 
-              if (_this.bulletList.length === 0) {
+              if (_this.enemy.hit.detectList.length === 1) { // only the player is on the detect list
                 detectAction.reset () ;
               }
 
@@ -88,20 +128,29 @@
           }
 
           $Z.item().push (newBullet) ;
-          //console.log ('update_player end') ;
+          //console.log ('update_player end bullet if-block') ;
         }
+        // console.log ('update player 93', 'this', this) ;
         //$Z.item (item.push(newBullet)) ;
 
         var transitionFunc;
         if( this.transitionSet.attack === undefined ) {
+          //  console.log ('this.transitionSet.image', this.transitionSet.image) ;
           transitionFunc = this.transitionSet.image ;
         } else {
           transitionFunc = this.transitionSet.attack ;
         }
-        transition                     = animate(this.sprite.attack, transitionFunc, buttonpress.reset, this.sprite.rest[0]) ;
-        var collision_image_transition = step_transition_func('collisionImage', transition[0].duration) ;
-        var collisionTransition = animate (this.sprite.attackCollision, collision_image_transition, this.enemy.hit.reset, this.sprite.clearedFrame) ; 
-        transition = transition.concat(collisionTransition) ;
+        // console.log ('updateplayer 101', this.sprite.attack, transitionFunc, buttonpress.reset, this.sprite.rest[0]) ;
+        var finalFrame = this.sprite.rest[0] ;
+        transition                     = animate(this.sprite.attack, transitionFunc, buttonpress.reset, finalFrame) ;
+        // console.log ('update player 105: ', this.sprite.attack, transitionFunc, buttonpress.reset, this.sprite.rest[0]) ;
+        // console.log ('update player 109' ) ;
+        if (this.sprite.attackCollision !== undefined) {
+          var collision_image_transition = step_transition_func('collisionImage', transition[0].duration) ;
+          var collisionTransition = animate (this.sprite.attackCollision, collision_image_transition, this.enemy.hit.reset, this.sprite.clearedFrame) ; 
+          transition = transition.concat(collisionTransition) ;
+        }
+
         // console.log ('this.callback: transition', transition) ;
         this.enemy.hit.set() ; // the player attack starts the collision detection
         break ;

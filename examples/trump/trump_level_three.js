@@ -8,24 +8,27 @@ function trump_level_three () {
   viz           = setup_viz     (vizConfig)   ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
   viz.ui        = setup_ui      (viz)         ;
   viz.ui.button = setup_buttons (viz, viz.ui) ;
-  console.log(viz.ui.button) ;
-
+  // console.log(viz.ui.button) ;
+  viz.attackDuration = viz.dur * 1.15 ;
+  var Nattack = 15 ;
+// var attackLength = 
   var playerConfig = { 
     sprite_loader: rastan_sprite, 
     orientation: 'l',
     frameDuration: viz.frameDuration,
+    floatDuration: viz.attackDuration * Nattack * 1.85,
     callback: update_player,
     restoreRest: false,
     transitionSet: {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), // function accepting an x end-value and returning a transition object
-      attack: step_transition_func ( 'image', viz.dur * 1.15 ), // transition object creation function
+      attack: step_transition_func ( 'image', viz.attackDuration ), // transition object creation function
+      y: $Z.transition.rounded_linear_transition_func ( 'y', viz.attackDuration * 3 ), // function accepting a y end-value and returning a transition object
     },
-    xMove: 10,
+    xMove: 8,
+    yMove: 35,
     y: 209,
   } ;
-
   // console.log('playerConfig', playerConfig)
-
   var enemyConfig = {
     sprite_loader: trump_sprite,
     frameDuration: viz.frameDuration * 10,
@@ -34,32 +37,13 @@ function trump_level_three () {
     y: 209,
   } ;
 
-  viz.player = setup_element (viz, playerConfig) ;
-  var enemy  = setup_element (viz, enemyConfig) ;
-  enemy.hit  = setup_hit     (viz, enemy) ;
+  viz.player    = setup_element (viz, playerConfig) ;
+  viz.enemy     = setup_element (viz, enemyConfig) ;
+  viz.enemy.hit = setup_hit     (viz, viz.enemy) ;
 
-  // console.log('enemyConfig', enemyConfig, 'enemy', enemy, 'enemy trans', enemy.transitionSet.image()) ;
+  // console.log('enemyConfig', enemyConfig, 'viz.enemy', viz.enemy, 'viz.enemy trans', viz.enemy.transitionSet.image()) ;
+  viz.player.enemy = viz.enemy ; // decorate the player object for convenient access to the viz.enemy object 
 
-  viz.player.enemy = enemy ; // decorate the player object for convenient access to the enemy object 
-
-  var item = [ 
-    enemy.item, 
-    viz.player.item, 
-    viz.ui.button.walkLeft, 
-    viz.ui.button.walkRight, 
-    viz.ui.button.attack, 
-    viz.ui.button.jump, 
-    enemy.hit.healthbar.item, 
-  ] ;
-
-  $Z.item(item)  ; // load the user data into the visualization engine to initialize the time equals zero (t = 0) state
-	$Z.prep([viz]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
-	$Z.run()       ; // run the interactive visualization (infinite loop by default)
-
-  document.viz = viz ;   
-  document.addEventListener( 'mousedown', inputEvent.down ) ;
-  document.addEventListener( 'mouseup',   inputEvent.up   ) ;
-  document.addEventListener( 'keydown',   inputEvent.down ) ;
-  document.addEventListener( 'keyup',     inputEvent.up   ) ;
+  load_game(viz) ;
 
 }

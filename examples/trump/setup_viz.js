@@ -1,5 +1,9 @@
 function setup_viz (vizConfig) {
 
+  if (vizConfig.frameDurationFactor === undefined) {
+    vizConfig.frameDurationFactor = 1 ;
+  }
+
   var spriteImageIndex = 0 ; 
   var dur              = 17 ; // the framespeed that vizflow uses (60 frames per second)
   var vizWidth         = 240 ;
