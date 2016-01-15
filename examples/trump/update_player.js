@@ -50,7 +50,7 @@
         
         var yNew        = this.item.y - this.yMove ;
         var yTransition = this.transitionSet.y(yNew) ;
-
+        console.log('update player', 'yTransition', yTransition) ;
         yTransition.child                 = this.transitionSet.float(yNew) ; // just to take up time
         yTransition.child.child           = this.transitionSet.y(this.config.y - this.sprite.height) ;
         yTransition.child.child.child     = this.transitionSet.image (this.sprite.rest[0]) ;
@@ -122,7 +122,7 @@
         } else {
           transitionFunc = this.transitionSet.attack ;
         }
-        // console.log ('updateplayer 101') ;
+        // console.log ('updateplayer 101', this.sprite.attack, transitionFunc, buttonpress.reset, this.sprite.rest[0]) ;
         transition                     = animate(this.sprite.attack, transitionFunc, buttonpress.reset, this.sprite.rest[0]) ;
         // console.log ('update player 105: ', this.sprite.attack, transitionFunc, buttonpress.reset, this.sprite.rest[0]) ;
         var collision_image_transition = step_transition_func('collisionImage', transition[0].duration) ;

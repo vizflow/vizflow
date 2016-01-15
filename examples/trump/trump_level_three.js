@@ -8,8 +8,7 @@ function trump_level_three () {
   viz           = setup_viz     (vizConfig)   ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
   viz.ui        = setup_ui      (viz)         ;
   viz.ui.button = setup_buttons (viz, viz.ui) ;
-  console.log(viz.ui.button) ;
-
+  // console.log(viz.ui.button) ;
   var playerConfig = { 
     sprite_loader: rastan_sprite, 
     orientation: 'l',
@@ -23,9 +22,7 @@ function trump_level_three () {
     xMove: 10,
     y: 209,
   } ;
-
   // console.log('playerConfig', playerConfig)
-
   var enemyConfig = {
     sprite_loader: trump_sprite,
     frameDuration: viz.frameDuration * 10,
@@ -39,7 +36,6 @@ function trump_level_three () {
   enemy.hit  = setup_hit     (viz, enemy) ;
 
   // console.log('enemyConfig', enemyConfig, 'enemy', enemy, 'enemy trans', enemy.transitionSet.image()) ;
-
   viz.player.enemy = enemy ; // decorate the player object for convenient access to the enemy object 
 
   var item = [ 
