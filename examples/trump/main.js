@@ -14,7 +14,7 @@ var backgroundImageUrl3   = 'trump_bg3.png' ;
 var backgroundImageUrl4   = 'trump_bg4.png' ;
 var bulletImageUrl        = 'bullet.png' ;
 
-var img                   = [ 
+var img = [ 
 	ddSpriteImageUrl, 
 	buttonSpriteImageUrl, 
 	trumpSpriteImageUrl, 
