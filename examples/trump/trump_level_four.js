@@ -46,17 +46,15 @@ function trump_level_four () {
     transition: bullet_transition,
   } ;
 
-  viz.player            = setup_element(viz, playerConfig) ;
-  viz.player.bullet     = setup_bullet (viz, viz.player, bulletConfig) ;  
-  viz.player.bulletList = [] ;
- 
-  viz.enemy = setup_element(viz, enemyConfig) ;
+  viz.player        = setup_element(viz, playerConfig) ;
+  viz.player.bullet = setup_bullet (viz, viz.player, bulletConfig) ;  
+  viz.enemy         = setup_element(viz, enemyConfig) ;
   
   var setupHitConfig = {
-    detectList: [viz.player], 
+    detectList: [viz.enemy.item], 
   } ;
   
-  viz.enemy.hit = setup_hit(viz, viz.enemy, setupHitConfig) ;
+  viz.enemy.hit    = setup_hit(viz, viz.enemy, setupHitConfig) ;
   viz.player.enemy = viz.enemy ; // decorate the player object for convenient access to the viz.enemy object 
 
   load_game(viz) ;
