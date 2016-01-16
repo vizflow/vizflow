@@ -1,5 +1,5 @@
 function fire_bullet (bulletName) {
-	console.log('fire bullet', 'this', this, 'bulletName', bulletName) ;
+	// console.log('fire bullet', 'this', this, 'bulletName', bulletName, 'this[bulletName]', this[bulletName]) ;
   var _this = this ; // to be removed later by upgrading transitions in vizflow
 
   if (this[bulletName] !== undefined) { // check if this player char shoots bullets

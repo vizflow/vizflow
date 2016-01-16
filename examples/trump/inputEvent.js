@@ -31,6 +31,44 @@ var inputEvent = {
 
     $Z.prep ([this.viz]) ;
 
+    // console.log('this.viz.player.item.transition', this.viz.player.item.transition) ;
+
+    var transition = this.viz.player.item.transition ;
+    if (transition !== undefined) {
+      var yIndex ;
+      for(var ktrans = 0 ; ktrans < transition.length ; ktrans++) {
+        if(transition[ktrans].varName === 'y') {
+          yIndex = ktrans ;
+        }
+      }
+      if ( yIndex !== undefined ) {
+        var yNew = this.viz.player.config.y - this.viz.player.sprite.height ;
+        var _this = this ; // to be removed later when vizflow transition .end functions are promoted to objects
+        transition[yIndex] = this.viz.player.transitionSet.y(yNew) ;
+        transition[yIndex].end = function() {
+          // console.log('end this', this, 'player', player, 'player.item.transition', player.item.transition) ;
+          for(var ktrans = 0 ; ktrans < transition.length ; ktrans++) {
+            if(transition[ktrans].varName === 'collisionImage') {
+              var newTransition = step_transition_func('collisionImage', _this.viz.dur)(_this.viz.player.sprite.clearedFrame) ;
+              // console.log('if collisionImage', 'transition[ktrans]', transition[ktrans], 'newTransition', newTransition) ;
+              _this.viz.player.item.transition[ktrans] = newTransition ;
+            }
+            if(transition[ktrans].varName === 'image') {
+              _this.viz.player.item.transition[ktrans] = _this.viz.player.transitionSet.image(_this.viz.player.sprite.walk[0]) ;
+            }
+          }
+        //   if(imageIndex !== undefined) {
+        //     // player.item.transition[imageIndex].duration = 0 ;
+        //     // console.log('player.item.transition[imageIndex].child', player.item.transition[imageIndex].child)
+        //   }
+        //   if(collisionIndex !== undefined) {
+        //     // player.item.transition[collisionImage].duration = 0;
+        //     console.log('player.item.transition[collisionIndex].child', player.item.transition[collisionIndex].child, 'player.sprite.clearedFrame', player.sprite.clearedFrame) ;
+        //   }
+        }
+      }
+    }
+
     if (this.viz.player.restoreRest) {
       if(this.viz.player.item.transition !== undefined) {
         // console.log ('this.viz.player transition', this.viz.player.item.transition) ;

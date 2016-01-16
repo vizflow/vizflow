@@ -47,7 +47,7 @@
 
         if(this.transitionSet.jump !== undefined) {
           var jumpTransition       = step_transition_func('image', viz.dur)(this.sprite.jump[0]) ;
-          jumpTransition.child     = this.transitionSet.jump(this.sprite.rest[0]) ;
+          jumpTransition.child     = animate(this.sprite.jump, this.transitionSet.attack, undefined, this.sprite.rest[0])[0] ;
           transition               = [jumpTransition] ;          
           // transition = animate(this.sprite.jump, this.transitionSet.jump, undefined, finalFrame) ;
         } else {
@@ -55,9 +55,10 @@
         }
 
         if (this.sprite.jumpCollision !== undefined) {
-          var collision_image_transition = step_transition_func('collisionImage', transition[0].duration) ;
-          var collisionTransition = animate (this.sprite.jumpCollision, collision_image_transition, this.enemy.hit.reset, this.sprite.clearedFrame) ; 
-          transition.push(collisionTransition[0]) ;
+          var collisionTransition   = step_transition_func('collisionImage', transition[0].duration)(this.sprite.jumpCollision[0]) ;
+          collisionTransition.child = animate (this.sprite.jumpCollision, step_transition_func('collisionImage', jumpTransition.child.duration), this.enemy.hit.reset, this.sprite.clearedFrame)[0] ; 
+          // console.log('update player collisionTransition', collisionTransition) ;
+          transition.push(collisionTransition) ;
           this.enemy.hit.set() ; // the player attack starts the collision detection
         }        
         

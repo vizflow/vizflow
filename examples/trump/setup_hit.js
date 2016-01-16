@@ -6,7 +6,7 @@ function setup_hit(viz, element, setupHitConfig) {
     detectAction.reset() ;
   }
 
-  var initial_transition = step_transition_func('image', viz.dur) ;
+  var initial_transition = step_transition_func('image', viz.dur * 12) ;
 
   function hit_transition() {
 
