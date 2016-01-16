@@ -31,6 +31,46 @@ var inputEvent = {
 
     $Z.prep ([this.viz]) ;
 
+    // console.log('this.viz.player.item.transition', this.viz.player.item.transition) ;
+
+    var transition = this.viz.player.item.transition ;
+    if (transition !== undefined) {
+      var yIndex ;
+      for(var ktrans = 0 ; ktrans < transition.length ; ktrans++) {
+        if(transition[ktrans].varName === 'y') {
+          yIndex = ktrans ;
+        }
+      }
+      if ( yIndex !== undefined ) {
+        var yNew = this.viz.player.config.y - this.viz.player.sprite.height ;
+        var player = this.viz.player ;
+        transition[yIndex] = this.viz.player.transitionSet.y(yNew) ;
+        transition[yIndex].end = function() {
+          console.log('end this', this, 'player', player, 'player.item.transition', player.item.transition) ;
+          var collisionIndex ;
+          var imageIndex ;
+          for(var ktrans = 0 ; ktrans < transition.length ; ktrans++) {
+            if(transition[ktrans].varName === 'collisionImage') {
+              collisionIndex = ktrans ;
+            }
+            if(transition[ktrans].varName === 'image') {
+              imageIndex = ktrans ;
+            }
+          }
+          if(imageIndex !== undefined) {
+            // player.item.transition[imageIndex].duration = 0 ;
+            // console.log('player.item.transition[imageIndex].child', player.item.transition[imageIndex].child)
+            player.item.transition[imageIndex] = player.transitionSet.image(player.sprite.walk[0]) ;
+          }
+          if(collisionIndex !== undefined) {
+            // player.item.transition[collisionImage].duration = 0;
+            console.log('player.item.transition[collisionIndex].child', player.item.transition[collisionIndex].child, 'player.sprite.clearedFrame', player.sprite.clearedFrame) ;
+            // player.item.transition[collisionIndex].child = player.transitionSet.image(player.sprite.clearedFrame) ;
+          }
+        }
+      }
+    }
+
     if (this.viz.player.restoreRest) {
       if(this.viz.player.item.transition !== undefined) {
         // console.log ('this.viz.player transition', this.viz.player.item.transition) ;

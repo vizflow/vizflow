@@ -27,11 +27,11 @@ function setup_element (viz, elementConfig) {
   }
 
   if(elementConfig.collisionImage === undefined) {
-    elementConfig.collisionImage = 'collision' ;
+    elementConfig.collisionImage = 'rest' ;
   }
 
   element.sprite = element.spriteR ;
-  
+
   if (element.sprite[elementConfig.collisionImage] === undefined) {
     var clearedFrame = create_canvas(element.sprite.rest[0].width, element.sprite.rest[0].height) ; 
     element.sprite[elementConfig.collisionImage] = [clearedFrame] ;

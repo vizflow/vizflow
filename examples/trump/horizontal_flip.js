@@ -5,10 +5,12 @@ function horizontal_flip (spriteSet) {
 
 	for(var k = 0 ; k < key.length ; k++ ) {
 
-    if ( spriteSet[ key[k] ].length !== undefined ) {
+    if ( spriteSet[ key[k] ].constructor === Array ) {
  
       newSet[ key[k] ] = flip_sprite( spriteSet[ key[k] ] ) ;
 
+    } else {
+      newSet [ key[k] ] = spriteSet[ key[k] ] ;
     }
 
 	}	

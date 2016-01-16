@@ -113,7 +113,7 @@ function rastan_sprite () {
 
 	var attackCanvas  = rastanSprite.attack[4] ;
 	var tempCanvas    = create_canvas (attackCanvas.width, attackCanvas.height)  ;
-	var clearedFrame  = create_canvas (attackCanvas.width, attackCanvas.height)  ;
+	var clearedFrame = create_canvas (attackCanvas.width, attackCanvas.height)  ; 
 	tempCanvas.getContext ('2d').drawImage (attackCanvas, 0, 0) ;
 	tempCanvas.getContext ('2d').clearRect (tempCanvas.width * 0.25, 0, tempCanvas.width * 0.5, rastanSprite.height) ;
 	//console.log ('dd_sprite: tempCanvas', tempCanvas.getContext('2d').getImageData(0, 0, tempCanvas.width, tempCanvas.height)) ; 
@@ -134,8 +134,6 @@ function rastan_sprite () {
 		clearedFrame,
 		clearedFrame,
 	] ;
-
-	rastanSprite.clearedFrame = clearedFrame ;
 
 	var jumpConfig  = [] ;
 	var Njump       = 6 ; // number of frames in the jump-attack spritesheet
@@ -218,16 +216,16 @@ function rastan_sprite () {
 
 	var jumpCanvas   = rastanSprite.jump[5] ;
 	var tempCanvas   = create_canvas (jumpCanvas.width, jumpCanvas.height)  ;
-	var clearedFrame = create_canvas (jumpCanvas.width, jumpCanvas.height)  ;
+	var clearedFrame2 = create_canvas (jumpCanvas.width, jumpCanvas.height)  ;
 	tempCanvas.getContext ('2d').drawImage (jumpCanvas, 0, 0) ;
 	tempCanvas.getContext ('2d').clearRect (tempCanvas.width * 0.25, 0, tempCanvas.width * 0.5, rastanSprite.height) ;
 
 	rastanSprite.jumpCollision = [
-		clearedFrame,
-		clearedFrame, 
-		clearedFrame, 
-		clearedFrame, 
-		clearedFrame, 
+		clearedFrame2,
+		clearedFrame2, 
+		clearedFrame2, 
+		clearedFrame2, 
+		clearedFrame2, 
 		tempCanvas,
 		tempCanvas,
 		tempCanvas,
@@ -235,11 +233,11 @@ function rastan_sprite () {
 		tempCanvas,
 		tempCanvas,
 		tempCanvas,
-		clearedFrame,
-		clearedFrame,
-		clearedFrame,
-		clearedFrame,
-		clearedFrame,
+		clearedFrame2,
+		clearedFrame2,
+		clearedFrame2,
+		clearedFrame2,
+		clearedFrame2,
 	] ;	
 
 	// console.log('attack length', rastanSprite.jump.length)
@@ -257,6 +255,12 @@ function rastan_sprite () {
 	// var jumpPadX      = 2 ;
 	// var jumpTilePadXl = 16 ;
 	// var jumpTilePadXr = 0 ;
+
+	// console.log('rastan sprite: attackCanvas check', attackCanvas.width, attackCanvas.height) ;
+
+	rastanSprite.clearedFrame  = create_canvas (attackCanvas.width, attackCanvas.height)  ;
+
+	// console.log('rastan sprite', rastanSprite)
 
 	return rastanSprite ;
 
