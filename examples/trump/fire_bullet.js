@@ -49,6 +49,8 @@ function fire_bullet (bulletName) {
     }
 
     $Z.item().push (newBullet) ;
+    this.enemy.hit.set() ; // the player attack starts the collision detection
+
     //console.log ('update_player end bullet if-block') ;
   }	
 }
