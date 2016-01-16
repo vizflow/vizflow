@@ -215,10 +215,10 @@ function rastan_sprite () {
 	rastanSprite.jump.push(rastanSprite.jump[0]) ;
 
 	var jumpCanvas   = rastanSprite.jump[5] ;
-	var tempCanvas   = create_canvas (jumpCanvas.width, jumpCanvas.height)  ;
 	var clearedFrame2 = create_canvas (jumpCanvas.width, jumpCanvas.height)  ;
+	var tempCanvas   = create_canvas (jumpCanvas.width, jumpCanvas.height)  ;
 	tempCanvas.getContext ('2d').drawImage (jumpCanvas, 0, 0) ;
-	tempCanvas.getContext ('2d').clearRect (tempCanvas.width * 0.25, 0, tempCanvas.width * 0.5, rastanSprite.height) ;
+	tempCanvas.getContext ('2d').clearRect (tempCanvas.width * 0.25, 0, tempCanvas.width * 0.5, jumpCanvas.height) ;
 
 	rastanSprite.jumpCollision = [
 		clearedFrame2,

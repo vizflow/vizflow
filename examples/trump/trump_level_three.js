@@ -22,7 +22,7 @@ function trump_level_three () {
     transitionSet: {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), // function accepting an x end-value and returning a transition object
       attack: step_transition_func ( 'image', viz.attackDuration ), // transition object creation function
-      y: $Z.transition.rounded_linear_transition_func ( 'y', viz.attackDuration * 8 ), // function accepting a y end-value and returning a transition object
+      y: $Z.transition.rounded_linear_transition_func ( 'y', viz.attackDuration * 12 ), // function accepting a y end-value and returning a transition object
     },
     xMove: 8,
     yMove: 55,

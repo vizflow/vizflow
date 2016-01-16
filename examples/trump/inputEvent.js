@@ -43,30 +43,28 @@ var inputEvent = {
       }
       if ( yIndex !== undefined ) {
         var yNew = this.viz.player.config.y - this.viz.player.sprite.height ;
-        var player = this.viz.player ;
+        var _this = this ; // to be removed later when vizflow transition .end functions are promoted to objects
         transition[yIndex] = this.viz.player.transitionSet.y(yNew) ;
         transition[yIndex].end = function() {
-          console.log('end this', this, 'player', player, 'player.item.transition', player.item.transition) ;
-          var collisionIndex ;
-          var imageIndex ;
+          // console.log('end this', this, 'player', player, 'player.item.transition', player.item.transition) ;
           for(var ktrans = 0 ; ktrans < transition.length ; ktrans++) {
             if(transition[ktrans].varName === 'collisionImage') {
-              collisionIndex = ktrans ;
+              var newTransition = step_transition_func('collisionImage', _this.viz.dur)(_this.viz.player.sprite.clearedFrame) ;
+              // console.log('if collisionImage', 'transition[ktrans]', transition[ktrans], 'newTransition', newTransition) ;
+              _this.viz.player.item.transition[ktrans] = newTransition ;
             }
             if(transition[ktrans].varName === 'image') {
-              imageIndex = ktrans ;
+              _this.viz.player.item.transition[ktrans] = _this.viz.player.transitionSet.image(_this.viz.player.sprite.walk[0]) ;
             }
           }
-          if(imageIndex !== undefined) {
-            // player.item.transition[imageIndex].duration = 0 ;
-            // console.log('player.item.transition[imageIndex].child', player.item.transition[imageIndex].child)
-            player.item.transition[imageIndex] = player.transitionSet.image(player.sprite.walk[0]) ;
-          }
-          if(collisionIndex !== undefined) {
-            // player.item.transition[collisionImage].duration = 0;
-            console.log('player.item.transition[collisionIndex].child', player.item.transition[collisionIndex].child, 'player.sprite.clearedFrame', player.sprite.clearedFrame) ;
-            // player.item.transition[collisionIndex].child = player.transitionSet.image(player.sprite.clearedFrame) ;
-          }
+        //   if(imageIndex !== undefined) {
+        //     // player.item.transition[imageIndex].duration = 0 ;
+        //     // console.log('player.item.transition[imageIndex].child', player.item.transition[imageIndex].child)
+        //   }
+        //   if(collisionIndex !== undefined) {
+        //     // player.item.transition[collisionImage].duration = 0;
+        //     console.log('player.item.transition[collisionIndex].child', player.item.transition[collisionIndex].child, 'player.sprite.clearedFrame', player.sprite.clearedFrame) ;
+        //   }
         }
       }
     }
