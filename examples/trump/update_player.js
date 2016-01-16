@@ -5,8 +5,6 @@
       // console.log(viz.player.item.transition)
       return ;
     }
-
-    var _this = this ; // to be removed later by upgrading transitions in vizflow
     
     var minNstep = 1 ; // minimum number of frames to animate per user input for walking animations
     var transition ;
@@ -43,18 +41,20 @@
         break ;
       case 'j' :
          // console.log ('update player case j:', this.sprite.jump, this.transitionSet.image, buttonpress.reset, this.sprite.rest[0])
-
         this.restoreRest = false ;
 
         var finalFrame = this.sprite.rest[0] ;
 
-        if(this.transitionSet.attack !== undefined) {
-          transition = animate(this.sprite.jump, this.transitionSet.attack, undefined, finalFrame) ;
+        if(this.transitionSet.jump !== undefined) {
+          var jumpTransition       = step_transition_func('image', viz.dur)(this.sprite.jump[0]) ;
+          jumpTransition.child     = this.transitionSet.jump(this.sprite.rest[0]) ;
+          transition               = [jumpTransition] ;          
+          // transition = animate(this.sprite.jump, this.transitionSet.jump, undefined, finalFrame) ;
         } else {
           transition = animate(this.sprite.jump, this.transitionSet.image, undefined, finalFrame) ;
         }
 
-        if (this.sprite.attackCollision !== undefined) {
+        if (this.sprite.jumpCollision !== undefined) {
           var collision_image_transition = step_transition_func('collisionImage', transition[0].duration) ;
           var collisionTransition = animate (this.sprite.jumpCollision, collision_image_transition, this.enemy.hit.reset, this.sprite.clearedFrame) ; 
           transition.push(collisionTransition[0]) ;
@@ -63,6 +63,11 @@
         
         var yNew        = this.item.y - this.yMove ;
         var yTransition = this.transitionSet.y(yNew) ;
+        var _this       = this ;
+        yTransition.end = function () {
+          fire_bullet.call(_this, 'jumpBullet') ;
+        } 
+
         // console.log('update player', 'yTransition', yTransition) ;
         yTransition.child                 = this.transitionSet.float(yNew) ; // just to take up time
         yTransition.child.child           = this.transitionSet.y(this.config.y - this.sprite.height) ;
@@ -80,59 +85,8 @@
         break ;
 
       case 'a' :
-
-        if (this.bullet !== undefined) { // check if this player char shoots bullets
-
-          var newBullet = copy_object (this.bullet) ;
-          newBullet.y   = this.item.y + this.bullet.config.shiftY 
-
-          if (this.orientation === 'r') {
-            //console.log ('newBullet', newBullet, 'this', this, 'bullet', this.bullet) ;
-
-            newBullet.x          = this.item.x + this.bullet.config.shiftX ;
-            var xNew             = newBullet.x + this.bullet.config.move ;
-            newBullet.transition = this.bullet.transition(xNew) ;
-
-          } else {
-
-            newBullet.x          = this.item.x - this.bullet.config.shiftX ;
-            var xNew             = newBullet.x - this.bullet.config.move ;
-            newBullet.transition = this.bullet.transition(xNew) ;
-
-          }
-
-          //console.log ('update_player 64') ;
-
-          this.enemy.hit.detectList.push (newBullet) ;
-          // this.enemy.hit.detectList = [this.enemy.item].concat(this.bulletList) ; // optimize later to avoid garbage collection
-          // console.log ('update_player 68') ;
-
-          newBullet.transition.end = function () {
-            // console.log ('bulletend', _this.bulletList) ;
-
-              var index = _this.enemy.hit.detectList.indexOf (newBullet) ;
-              _this.enemy.hit.detectList.splice (index, 1) ; // remove this.bullet from vizflow itemlist
-              // _this.enemy.hit.detectList = [_this.enemy.item].concat(_this.bulletList) ;  // optimize later to avoid garbage collection
-
-              if (_this.enemy.hit.detectList.length === 1) { // only the player is on the detect list
-                detectAction.reset () ;
-              }
-
-          //  if (newBullet.x < 0 || newBullet > viz.width - 1) {  // this.bullet offscreen
-              index = $Z.item().indexOf (newBullet) ;
-              $Z.item().splice (index, 1) ; // remove this.bullet from vizflow itemlist  
-           // } else {  // add more transitions to this.bullet
-             // create_bullet_transition () ;
-           // }
-           // console.log ('bulletend', 'end')
-          }
-
-          $Z.item().push (newBullet) ;
-          //console.log ('update_player end bullet if-block') ;
-        }
-        // console.log ('update player 93', 'this', this) ;
         //$Z.item (item.push(newBullet)) ;
-
+        fire_bullet.call(this, 'bullet') ;
         var transitionFunc;
         if( this.transitionSet.attack === undefined ) {
           //  console.log ('this.transitionSet.image', this.transitionSet.image) ;

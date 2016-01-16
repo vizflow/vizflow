@@ -1,5 +1,5 @@
 function trump_level_four () {
-
+  console.log('level 4') ;
   var vizConfig = { // an object to configure the visualization
     backgroundImageUrl: 'trump_bg4.png',
     frameDurationFactor: 1,
@@ -13,7 +13,8 @@ function trump_level_four () {
     sprite_loader: samus_sprite, 
     orientation: 'r',
     frameDuration: viz.frameDuration,
-    floatDuration: 15 * viz.frameDuration ,
+    floatDuration: 15 * viz.frameDuration,
+    jumpDuration: 40 * viz.frameDuration,
     callback: update_player,
     restoreRest: true,
     transitionSet: {
@@ -49,8 +50,19 @@ function trump_level_four () {
     transition: bullet_transition,
   } ;
 
+  var jumpBulletImageUrl = 'beam1.png' ;
+  var jumpBulletImage    = image2canvas (jumpBulletImageUrl) ;
+  var jumpBulletConfig   = copy_object(bulletConfig) ;
+  var jumpBulletDur         = 17 * 15 ;
+  var jump_bullet_transition = $Z.transition.rounded_linear_transition_func ( 'x', jumpBulletDur ) ; // function accepting an x end-value and returning a transition object
+  jumpBulletConfig.image = jumpBulletImage ;
+  jumpBulletConfig.shiftY = 0 ;
+  jumpBulletConfig.transition = jump_bullet_transition ;
+  jumpBulletConfig.move  = 0 ;
+
   viz.player        = setup_element(viz, playerConfig) ;
   viz.player.bullet = setup_bullet (viz, viz.player, bulletConfig) ;  
+  viz.player.jumpBullet = setup_bullet (viz, viz.player, jumpBulletConfig) ;  
   viz.enemy         = setup_element(viz, enemyConfig) ;
   
   var setupHitConfig = {

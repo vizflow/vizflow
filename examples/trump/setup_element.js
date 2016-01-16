@@ -45,6 +45,10 @@ function setup_element (viz, elementConfig) {
     elementConfig.floatDuration = viz.frameDuration ;
   }  
 
+  if (elementConfig.jumpDuration === undefined) {
+    elementConfig.jumpDuration = viz.frameDuration ;
+  }  
+
   element.loop = {
     frameDur : elementConfig.frameDuration,
     position : 0
@@ -79,9 +83,17 @@ function setup_element (viz, elementConfig) {
     floatTransitionFunc = $Z.transition.rounded_linear_transition_func ( 'y', elementConfig.floatDuration ) ;
   }
 
+  if(elementConfig.jumpDuration === viz.jumpDuration) {
+    jumpTransitionFunc = step_transition_func ( 'image', elementConfig.frameDuration ) ;
+  } else {
+    // console.log('elementConfig', elementConfig) ;
+    jumpTransitionFunc = step_transition_func ( 'image', elementConfig.jumpDuration ) ;
+  }
+
   element.transitionSet = {
     image: imageTransitionFunc,
     float: floatTransitionFunc,
+    jump: jumpTransitionFunc,
   } ;
 
   if(elementConfig.transitionSet !== undefined) {
