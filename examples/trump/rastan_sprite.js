@@ -137,46 +137,86 @@ function rastan_sprite () {
 
 	rastanSprite.clearedFrame = clearedFrame ;
 
-	var jumpConfig = [] ;
-	var Njump      = 5 ; // number of frames in the jump spritesheet
+	var jumpConfig  = [] ;
+	var Njump       = 6 ; // number of frames in the jump-attack spritesheet
+	var jumpOffsetY = 53 ;
+	var rowIndex    = 0 ;
+	var torsoHeight = 39 ;
+	var padX = 0 ;
 
 	for ( kJump = 0 ; kJump < Njump - 1 ; kJump++ ) {
 		jumpConfig.push( copy_object( attackConfig1 ) ) ;
+  	jumpConfig[kJump].offsetY   = jumpOffsetY ;
+  	jumpConfig[kJump].tileHeight = torsoHeight ; 
+  	jumpConfig[kJump].padX      = 0 ;
 	}
 	jumpConfig.push( copy_object( attackConfig5 ) )
+	jumpConfig[kJump].offsetY    = jumpOffsetY ;
+	jumpConfig[kJump].tileHeight = torsoHeight ; 
 
-	jumpConfig[0].offsetX = 71 ;
-	jumpConfig[1].offsetX = 299 ;
-	jumpConfig[2].offsetX = 534 ;
-	jumpConfig[3].offsetX = 71 ;
-	jumpConfig[4].offsetX = 267 ;
+	jumpConfig[0].offsetX = 10 ;
+	jumpConfig[1].offsetX = 49 ;
+	jumpConfig[2].offsetX = 106 ;
+	jumpConfig[3].offsetX = 160 ;
+	jumpConfig[4].offsetX = 193 ;
+	jumpConfig[5].offsetX = 244 ;
 
-	jumpConfig[0].offsetY = 1241 ;
-	jumpConfig[1].offsetY = 1241 ;
-	jumpConfig[2].offsetY = 1241 ;
-	jumpConfig[3].offsetY = 1330 ;
-	jumpConfig[4].offsetY = 1330 ;
+	jumpConfig[0].tileWidth = 32 ;
+	jumpConfig[1].tileWidth = 48 ;
+	jumpConfig[2].tileWidth = 48 ;
+	jumpConfig[3].tileWidth = 32 ;
+	jumpConfig[4].tileWidth = 32 ;
+	jumpConfig[5].tileWidth = 64 ;
+
+	jumpConfig[0].tilePadXr = 16 + centerShift ;
+	jumpConfig[3].tilePadXr = 16 + centerShift ;
+	jumpConfig[4].tilePadXr = 16 + centerShift ;
+	jumpConfig[5].tilePadXr = 16 + centerShift ;
+	jumpConfig[5].tilePadXl = 0 ;
+
+	// console.log('jumpConfig', jumpConfig) ;
 
 	rastanSprite.jump = [] ; // initialize
 
+	var legConfig         = copy_object(attackConfig1) ;
+	legConfig.rowIndex    = 0 ;
+	legConfig.tileCount   = 1 ;
+	legConfig.tileHeight  = 30 ;
+	legConfig.offsetX     = 147 ;
+	legConfig.offsetY     = 813 ;
+	legConfig.tileWidth   = 30 ;
+	legConfig.padX        = 0 ;
+	var legs = get_sprite(legConfig)[0] ;
+
 	for ( kJump = 0 ; kJump < Njump ; kJump++ ) {
-		var spriteK = get_sprite( jumpConfig[kJump] ) ;
+		var spriteK = get_sprite( jumpConfig[kJump] )[0] ;
+		var legsK   = create_canvas(spriteK.width, legConfig.tileHeight) ;
+		legsK.getContext('2d').drawImage(legs, 0, 0) ;
+		var tempImg = create_canvas(spriteK.width, legConfig.tileHeight + torsoHeight) ;
+		var tempCtx = tempImg.getContext('2d') ;
+		//tempCtx.drawImage  ( spriteK, 0, 0 ) ;
+		tempCtx.drawImage ( spriteK, 0, 0 ) ;
+		tempCtx.drawImage ( legs, 0, torsoHeight) ;
+
 		// console.log('rastan_sprite: spriteK', spriteK) ;
-		rastanSprite.jump.push( spriteK[0] ) ;
+		rastanSprite.jump.push(tempImg) ;
 	}
 
-	rastanSprite.jump.push(rastanSprite.jump[4]) ;
-	rastanSprite.jump.push(rastanSprite.jump[4]) ;
-	rastanSprite.jump.push(rastanSprite.jump[4]) ;
-	rastanSprite.jump.push(rastanSprite.jump[4]) ;
-	rastanSprite.jump.push(rastanSprite.jump[4]) ;
+	// console.log('rastan', rastanSprite) ;
+
+	rastanSprite.jump.push(rastanSprite.jump[5]) ;
+	rastanSprite.jump.push(rastanSprite.jump[5]) ;
+	rastanSprite.jump.push(rastanSprite.jump[5]) ;
+	rastanSprite.jump.push(rastanSprite.jump[5]) ;
+	rastanSprite.jump.push(rastanSprite.jump[5]) ;
+	rastanSprite.jump.push(rastanSprite.jump[5]) ;
 	rastanSprite.jump.push(rastanSprite.jump[4]) ;
 	rastanSprite.jump.push(rastanSprite.jump[3]) ;
 	rastanSprite.jump.push(rastanSprite.jump[2]) ;
 	rastanSprite.jump.push(rastanSprite.jump[1]) ;
 	rastanSprite.jump.push(rastanSprite.jump[0]) ;
 
-	var jumpCanvas = rastanSprite.jump[4] ;
+	var jumpCanvas   = rastanSprite.jump[5] ;
 	var tempCanvas   = create_canvas (jumpCanvas.width, jumpCanvas.height)  ;
 	var clearedFrame = create_canvas (jumpCanvas.width, jumpCanvas.height)  ;
 	tempCanvas.getContext ('2d').drawImage (jumpCanvas, 0, 0) ;
@@ -187,6 +227,7 @@ function rastan_sprite () {
 		clearedFrame, 
 		clearedFrame, 
 		clearedFrame, 
+		clearedFrame, 
 		tempCanvas,
 		tempCanvas,
 		tempCanvas,
@@ -194,6 +235,7 @@ function rastan_sprite () {
 		tempCanvas,
 		tempCanvas,
 		tempCanvas,
+		clearedFrame,
 		clearedFrame,
 		clearedFrame,
 		clearedFrame,

@@ -47,7 +47,7 @@
 
         if(this.transitionSet.jump !== undefined) {
           var jumpTransition       = step_transition_func('image', viz.dur)(this.sprite.jump[0]) ;
-          jumpTransition.child     = this.transitionSet.jump(this.sprite.rest[0]) ;
+          jumpTransition.child     = animate(this.sprite.jump, this.transitionSet.attack, undefined, this.sprite.rest[0])[0] ;
           transition               = [jumpTransition] ;          
           // transition = animate(this.sprite.jump, this.transitionSet.jump, undefined, finalFrame) ;
         } else {
