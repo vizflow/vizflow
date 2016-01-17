@@ -2,6 +2,9 @@ var performAction = {
 	
 	hit: function peform_action_hit () {
 		// console.log ('perform action hit: this', this) ;
+    if (this.element.item.transition !== undefined && this.element.item.transition.length > 0) {
+      return ;
+    }        
     this.healthbar.health -= this.healthDrop ;
     
     if (this.healthbar.health < 0) {
@@ -12,10 +15,6 @@ var performAction = {
     if (this.element.item.transition === undefined) {
     	this.element.item.transition = [] ;
     }
-
-    if (this.element.item.transition.length > 0) {
-      return ;
-    }    
 
     if (this.healthbar.item.transition === undefined) {
     	this.healthbar.item.transition = [] ;
@@ -40,7 +39,31 @@ var performAction = {
     // console.log('trans', this.transition(), 'this.element.item.transition', this.element.item.transition) ;
 		this.element.item.transition.push (this.transition()[0]) ;
 		// console.log ('perform action hit end', 'this.element.item.transition', this.element.item.transition) ;
+    // console.log('performAction hit this', this) ;
+    performAction.reset () ; //.call(this) ;
 
+  },
+
+  add: function perform_action_add () {
+    var performActionList = $Z._perform ;
+    var index = performActionList.indexOf (this) ;
+    if (index === -1) {
+      performActionList.push(this) ;
+    } else {
+      performActionList[index] = this ;
+    }    
+    detectAction.remove.call(this) ; // stop detecting this action after staging performance
+
+  },
+
+  remove: function perform_action_remove () {
+    var performActionList = $Z._perform ;
+    var index = performActionList.indexOf (this) ;
+    if (index === -1) {
+      return ; // nothing to do
+    } else {
+      performActionList.splice(index, 1) ;
+    }    
   },
 
   set: function perform_action_set () {
@@ -50,6 +73,5 @@ var performAction = {
   reset: function perform_action_reset () {
    $Z.perform([]) ; // turn off other actions
   },
-
 
 } ;

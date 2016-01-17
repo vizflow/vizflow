@@ -9,7 +9,9 @@ var detectAction = {
 
     if (collision.list.length > 0) { // a collision between player.item and enemy.item occurred
       // console.log ('detect_attack: collision', collision) ;
-      this.perform() ;
+      performAction.add.call(this) ;
+      //performAction.set.call(this) ;
+      //this.perform () ;
     }
 
   },
