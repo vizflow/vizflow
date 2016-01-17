@@ -1,13 +1,12 @@
 function trump_level_three () {
 
   var vizConfig = { // an object to configure the visualization
-    backgroundImageUrl: 'trump_bg3.png',
-    frameDurationFactor: 5,
+      backgroundImageUrl: 'trump_bg3.png', // Ras-Tan background image
+      frameDurationFactor: 5,
   } ;
 
-  viz           = setup_viz     (vizConfig)   ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
-  viz.ui        = setup_ui      (viz)         ;
-  viz.ui.button = setup_buttons (viz, viz.ui) ;
+  var viz = load_viz(vizConfig) ;
+
   // console.log(viz.ui.button) ;
   viz.attackDuration = viz.dur * 1.15 ;
   var Nattack = 15 ;
@@ -22,6 +21,7 @@ function trump_level_three () {
     transitionSet: {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), // function accepting an x end-value and returning a transition object
       attack: step_transition_func ( 'image', viz.attackDuration ), // transition object creation function
+      jump: step_transition_func ( 'image', viz.attackDuration * 0.75 ), // transition object creation function
       y: $Z.transition.rounded_linear_transition_func ( 'y', viz.attackDuration * 12 ), // function accepting a y end-value and returning a transition object
     },
     xMove: 8,

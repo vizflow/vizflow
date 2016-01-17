@@ -40,14 +40,14 @@
 
         break ;
       case 'j' :
-         // console.log ('update player case j:', this.sprite.jump, this.transitionSet.image, buttonpress.reset, this.sprite.rest[0])
+        // console.log ('update player case j:', this.sprite.jump, this.transitionSet.image, buttonpress.reset, this.sprite.rest[0])
         this.restoreRest = false ;
 
         var finalFrame = this.sprite.rest[0] ;
 
         if(this.transitionSet.jump !== undefined) {
-          var jumpTransition       = step_transition_func('image', viz.dur)(this.sprite.jump[0]) ;
-          jumpTransition.child     = animate(this.sprite.jump, this.transitionSet.attack, undefined, this.sprite.rest[0])[0] ;
+          var jumpTransition       = step_transition_func('image', this.item.viz.dur)(this.sprite.jump[0]) ;
+          jumpTransition.child     = animate(this.sprite.jump, this.transitionSet.jump, undefined, this.sprite.rest[0])[0] ;
           transition               = [jumpTransition] ;          
           // transition = animate(this.sprite.jump, this.transitionSet.jump, undefined, finalFrame) ;
         } else {
