@@ -3,7 +3,7 @@ function setup_hit(viz, element, setupHitConfig) {
   function hit_reset () {
     //console.log ('hit_reset');
     element.reacting = false ;
-    detectAction.reset() ;
+    detectAction.remove() ;
   }
 
   var initial_transition = step_transition_func('image', viz.dur * 12) ;
@@ -43,8 +43,8 @@ function setup_hit(viz, element, setupHitConfig) {
 
   var hit = { // action config object
 
-    set: detectAction.set,
-    reset: hit_reset,
+    add: detectAction.add,
+    remove: hit_reset,
     detect: detectAction.hit,
     perform: performAction.hit,
     detectList: setupHitConfig.detectList,

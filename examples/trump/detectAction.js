@@ -14,6 +14,26 @@ var detectAction = {
 
   },
 
+  add: function detect_action_add () {
+    var detectActionList = $Z._detect ;
+    var index = detectActionList.indexOf (this) ;
+    if (index === -1) {
+      detectActionList.push(this) ;
+    } else {
+      detectActionList[index] = this ;
+    }    
+  },
+
+  remove: function detect_action_remove () {
+    var detectActionList = $Z._detect ;
+    var index = detectActionList.indexOf (this) ;
+    if (index === -1) {
+      return ; // nothing to do
+    } else {
+      detectActionList.splice(index, 1) ;
+    }    
+  },
+
   set: function detect_action_set () {
     // console.log('detect action set', 'this', this) ;
     $Z.detect([this]) ;
