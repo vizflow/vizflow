@@ -12,6 +12,22 @@
       case 'l' :
         this.orientation = 'l' ;
         this.sprite = this.spriteL ;
+        if (this.bulletSprite !== undefined) {
+          this.bulletSprite = this.bulletSpriteL ;
+          if (this.bullet !== undefined) {
+            this.bullet.image = this.bulletSprite.bullet[0] ;
+  // viz.player.bullet     = setup_bullet (viz, viz.player, bulletConfig) ;  
+          }
+          if (this.jumpBullet !== undefined) {
+            if (this.jumpBullet.config.shiftX >= 0) { // player was just facing right
+              this.jumpBullet.config.shiftX =  -this.jumpBullet.image.width ;
+            }            
+            // this.jumpBullet = setup_bullet (this.item.viz, this, this.jumpBullet.config) ;  
+            this.jumpBullet.image = this.bulletSprite.jump[0] ;
+
+          }
+        }
+
         //this.sprite.rest[0]   = this.sprite.walk[0] ;
         this.loop   = animate_loop (this.loop, this.sprite.walk, this.transitionSet.image, undefined) ;
         //console.log ('update this l0', 'this', this, 'buttonpress.reset', buttonpress.reset, 'this.loop.animation[0]', this.loop.animation[0]) ;
@@ -28,6 +44,20 @@
       case 'r' :
         this.orientation   = 'r' ;
         this.sprite   = this.spriteR ;
+        if (this.bulletSprite !== undefined) {
+          this.bulletSprite = this.bulletSpriteR ;
+          if (this.bullet !== undefined) {
+            this.bullet.image = this.bulletSprite.bullet[0] ;
+          }
+          if (this.jumpBullet !== undefined) {
+            //console.log ('this.jumpBullet.config.shiftX', this.jumpBullet.config.shiftX, 'this.jumpBullet.image.width', this.jumpBullet.image.width) ;
+            if (this.jumpBullet.config.shiftX < 0) { // player was just facing left
+              this.jumpBullet.config.shiftX = -(this.jumpBullet.config.shiftX + this.jumpBullet.image.width) ;
+            }
+            // this.jumpBullet = setup_bullet (this.item.viz, this, this.jumpBullet.config) ;              
+            this.jumpBullet.image = this.bulletSprite.jump[0] ;
+          }
+        }        
         //console.log ('update_player 27') ;
         this.loop     = animate_loop (this.loop, this.sprite.walk, this.transitionSet.image, undefined) ;
         transition = this.loop.animation ;
@@ -40,20 +70,21 @@
 
         break ;
       case 'j' :
-         // console.log ('update player case j:', this.sprite.jump, this.transitionSet.image, buttonpress.reset, this.sprite.rest[0])
+          // console.log ('update player case j:', this.sprite.jump, this.transitionSet.image, buttonpress.reset, this.sprite.rest[0])
         this.restoreRest = false ;
 
         var finalFrame = this.sprite.rest[0] ;
 
         if(this.transitionSet.jump !== undefined) {
           var jumpTransition       = step_transition_func('image', viz.dur)(this.sprite.jump[0]) ;
-          jumpTransition.child     = animate(this.sprite.jump, this.transitionSet.attack, undefined, this.sprite.rest[0])[0] ;
+          // console.log('update player 50', 'this.transitionSet', this.transitionSet) ;
+          jumpTransition.child     = animate(this.sprite.jump, this.transitionSet.jump, undefined, this.sprite.rest[0])[0] ;
           transition               = [jumpTransition] ;          
           // transition = animate(this.sprite.jump, this.transitionSet.jump, undefined, finalFrame) ;
         } else {
           transition = animate(this.sprite.jump, this.transitionSet.image, undefined, finalFrame) ;
         }
-
+        // console.log('update player 56') ;
         if (this.sprite.jumpCollision !== undefined) {
           var collisionTransition   = step_transition_func('collisionImage', transition[0].duration)(this.sprite.jumpCollision[0]) ;
           collisionTransition.child = animate (this.sprite.jumpCollision, step_transition_func('collisionImage', jumpTransition.child.duration), this.enemy.hit.reset, this.sprite.clearedFrame)[0] ; 
@@ -66,7 +97,7 @@
         var yTransition = this.transitionSet.y(yNew) ;
         var _this       = this ;
         yTransition.end = function () {
-          fire_bullet.call(_this, 'jumpBullet') ;
+        //  fire_bullet.call(_this, 'jumpBullet') ;
         } 
 
         // console.log('update player', 'yTransition', yTransition) ;

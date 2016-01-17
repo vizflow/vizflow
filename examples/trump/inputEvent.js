@@ -43,6 +43,13 @@ var inputEvent = {
       }
       if ( yIndex !== undefined ) {
         var yNew = this.viz.player.config.y - this.viz.player.sprite.height ;
+        var minJumpBulletHeight = this.viz.player.config.yMove * .4 ;
+        var yDist = Math.abs(yNew - this.viz.player.item.y) ;
+        // console.log('yDist', yDist) ;
+        if (yDist > minJumpBulletHeight) {
+          // console.log('input event64') ;
+          fire_bullet.call(this.viz.player, 'jumpBullet') ;
+        }        
         var _this = this ; // to be removed later when vizflow transition .end functions are promoted to objects
         transition[yIndex] = this.viz.player.transitionSet.y(yNew) ;
         transition[yIndex].end = function() {
@@ -54,8 +61,12 @@ var inputEvent = {
               _this.viz.player.item.transition[ktrans] = newTransition ;
             }
             if(transition[ktrans].varName === 'image') {
-              _this.viz.player.item.transition[ktrans] = _this.viz.player.transitionSet.image(_this.viz.player.sprite.walk[0]) ;
+              _this.viz.player.item.transition[ktrans] = _this.viz.player.transitionSet.image(_this.viz.player.sprite.rest[0]) ;
             }
+            if(_this.viz.player.config.restoreRest) {            
+              _this.viz.player.restoreRest = true ;
+            }  
+
           }
         //   if(imageIndex !== undefined) {
         //     // player.item.transition[imageIndex].duration = 0 ;

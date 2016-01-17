@@ -9,7 +9,6 @@ function setup_bullet (viz, player, bulletConfig) {
     collisionImage: bulletConfig.image,
     transition: bulletConfig.transition,
     render: draw.image,
-    config: bulletConfig,
   } ;
 
   return bullet ;

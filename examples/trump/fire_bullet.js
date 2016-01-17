@@ -6,9 +6,9 @@ function fire_bullet (bulletName) {
 
     var newBullet = copy_object (this[bulletName]) ;
     newBullet.y   = this.item.y + this[bulletName].config.shiftY 
+    // console.log ('newBullet', newBullet, 'this', this, 'bullet', this[bulletName], 'shiftX', this[bulletName].config.shiftX) ;
 
     if (this.orientation === 'r') {
-      //console.log ('newBullet', newBullet, 'this', this, 'bullet', this[bulletName]) ;
 
       newBullet.x          = this.item.x + this[bulletName].config.shiftX ;
       var xNew             = newBullet.x + this[bulletName].config.move ;
@@ -16,11 +16,12 @@ function fire_bullet (bulletName) {
 
     } else {
 
-      newBullet.x          = this.item.x - this[bulletName].config.shiftX ;
+      newBullet.x          = this.item.x + this[bulletName].config.shiftX ;
       var xNew             = newBullet.x - this[bulletName].config.move ;
       newBullet.transition = this[bulletName].transition(xNew) ;
 
     }
+    // console.log('fire bullet', 'newBullet', newBullet, 'xNew', xNew, 'this orientation', this.orientation) ;
 
     //console.log ('update_player 64') ;
 

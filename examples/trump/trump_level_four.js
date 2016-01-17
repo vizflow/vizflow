@@ -1,5 +1,5 @@
 function trump_level_four () {
-  console.log('level 4') ;
+  // console.log('level 4') ;
   var vizConfig = { // an object to configure the visualization
     backgroundImageUrl: 'trump_bg4.png',
     frameDurationFactor: 1,
@@ -26,6 +26,8 @@ function trump_level_four () {
     y: 225,
   } ;
 
+  viz.player        = setup_element(viz, playerConfig) ;
+
   var enemyConfig = {
     sprite_loader: trump_sprite,
     frameDuration: viz.frameDuration,
@@ -34,10 +36,24 @@ function trump_level_four () {
     y: 220,
   } ;
 
+  var bulletSpriteSet = bullet_sprite () ;
+
+  if(bulletSpriteSet.orientation === 'l') {
+
+    viz.player.bulletSpriteL = bulletSpriteSet ;
+    viz.player.bulletSpriteR = horizontal_flip(player.bulletSpriteL) ;
+
+  } else {
+
+    viz.player.bulletSpriteR = bulletSpriteSet ;
+    viz.player.bulletSpriteL = horizontal_flip(viz.player.bulletSpriteR) ;
+
+  }  
+
+  viz.player.bulletSprite = viz.player.bulletSpriteR ;
+
   var bulletShiftX      = 20 ;
-  var bulletShiftY      = 8 ;
-  var bulletImageUrl    = 'bullet.png' ;
-  var bulletImage       = image2canvas (bulletImageUrl) ;  
+  var bulletShiftY      = 8 ; 
   var bulletDur         = 17 * 20 ;
   var bullet_transition = $Z.transition.rounded_linear_transition_func ( 'x', bulletDur ) ; // function accepting an x end-value and returning a transition object
   var bulletMove        = 150 ;
@@ -46,23 +62,21 @@ function trump_level_four () {
     move: bulletMove,
     shiftX: bulletShiftX, 
     shiftY: bulletShiftY,
-    image: bulletImage,
+    image: bulletSpriteSet.bullet[0],
     transition: bullet_transition,
   } ;
 
-  var jumpBulletImageUrl = 'beam1.png' ;
-  var jumpBulletImage    = image2canvas (jumpBulletImageUrl) ;
   var jumpBulletConfig   = copy_object(bulletConfig) ;
   var jumpBulletDur         = 17 * 15 ;
   var jump_bullet_transition = $Z.transition.rounded_linear_transition_func ( 'x', jumpBulletDur ) ; // function accepting an x end-value and returning a transition object
-  jumpBulletConfig.image = jumpBulletImage ;
+  jumpBulletConfig.image = bulletSpriteSet.jump[0] ;
   jumpBulletConfig.shiftY = 0 ;
   jumpBulletConfig.transition = jump_bullet_transition ;
   jumpBulletConfig.move  = 0 ;
 
-  viz.player        = setup_element(viz, playerConfig) ;
-  viz.player.bullet = setup_bullet (viz, viz.player, bulletConfig) ;  
+  viz.player.bullet     = setup_bullet (viz, viz.player, bulletConfig) ;  
   viz.player.jumpBullet = setup_bullet (viz, viz.player, jumpBulletConfig) ;  
+
   viz.enemy         = setup_element(viz, enemyConfig) ;
   
   var setupHitConfig = {
