@@ -1,12 +1,12 @@
 function word_image (text) {
 
-  var wordWidth = 100 ;
-  var wordHeight = 20 ;
+  var wordWidth = 70 ;
+  var wordHeight = 14 ;
   var wordImage = create_canvas(wordWidth,wordHeight) ;
   var context = create_context(wordImage) ;
-  context.font = '14px Courier' ;
-  var wordOffsetX = 13 ;
-  var wordOffsetY = 14 ;
+  context.font = '11px Courier' ;
+  var wordOffsetX = 3 ;
+  var wordOffsetY = 11 ;
   context.fillText(text, wordOffsetX, wordOffsetY) ;
   //context.rect(0, 0, wordWidth, wordHeight) ;
   context.stroke () ;    
@@ -22,7 +22,7 @@ function word_image (text) {
     offset += 4 ;
   }
   // console.log('opacity', opacity) ;
-  var tol1 = 75 ;
+  var tol1 = 68 ;
   offset = 0 ;
   for (var kpel = 0 ; kpel < Npel ; kpel++) {
     if (data[offset + 3] < tol1) {

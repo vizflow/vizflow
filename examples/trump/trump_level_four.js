@@ -19,14 +19,14 @@ function trump_level_four () {
     restoreRest: true,
     transitionSet: {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), // function accepting an x end-value and returning a transition object
-      y: $Z.transition.rounded_linear_transition_func ( 'y', viz.frameDuration * 10 ), // function accepting a y end-value and returning a transition object
+      y: $Z.transition.rounded_linear_transition_func ( 'y', viz.frameDuration * 20 ), // function accepting a y end-value and returning a transition object
     },
     xMove: 10,
     yMove: 100,
     y: 225,
   } ;
 
-  viz.player        = setup_element(viz, playerConfig) ;
+  viz.player             = setup_element(viz, playerConfig) ;
   viz.player.orientation = 'r' ; // all players start facing right
 
   var enemyConfig = {
@@ -36,12 +36,12 @@ function trump_level_four () {
     collisionImage: 'rest', 
     orientation: 'l',
     x: 80,    
-    y: 220,
+    y: 240,
   } ;
 
   var bulletSpriteSet = bullet_sprite () ;
 
-  if(bulletSpriteSet.orientation === 'l') {
+  if (bulletSpriteSet.orientation === 'l') {
 
     viz.player.bulletSpriteL = bulletSpriteSet ;
     viz.player.bulletSpriteR = horizontal_flip(player.bulletSpriteL) ;
@@ -71,27 +71,27 @@ function trump_level_four () {
     transition: bullet_transition,
   } ;
 
-  var jumpBulletConfig   = copy_object(bulletConfig) ;
-  var jumpBulletDur         = 17 * 15 ;
-  var jump_bullet_transition = $Z.transition.rounded_linear_transition_func ( 'x', jumpBulletDur ) ; // function accepting an x end-value and returning a transition object
-  jumpBulletConfig.image = bulletSpriteSet.jump[0] ;
-  jumpBulletConfig.shiftY = 0 ;
+  var jumpBulletConfig        = copy_object(bulletConfig) ;
+  var jumpBulletDur           = 17 * 15 ;
+  var jump_bullet_transition  = $Z.transition.rounded_linear_transition_func ( 'x', jumpBulletDur ) ; // function accepting an x end-value and returning a transition object
+  jumpBulletConfig.image      = bulletSpriteSet.jump[0] ;
+  jumpBulletConfig.shiftY     = 0 ;
   jumpBulletConfig.transition = jump_bullet_transition ;
-  jumpBulletConfig.move  = 0 ;
-  jumpBulletConfig.shiftXl = -bulletSpriteSet.jump[0].width + 4 ;
+  jumpBulletConfig.move       = 0 ;
+  jumpBulletConfig.shiftXl    = -bulletSpriteSet.jump[0].width + 4 ;
 
   viz.player.bullet     = setup_bullet (viz, viz.player, bulletConfig) ;  
   viz.player.jumpBullet = setup_bullet (viz, viz.player, jumpBulletConfig) ;  
 
-  viz.enemy         = setup_element(viz, enemyConfig) ;
+  viz.enemy = setup_element(viz, enemyConfig) ;
 
-  var wordConfig   = {
-    move: 100,
-    shiftXl: -25,
+  var wordConfig = {
+    move: 200,
+    shiftXl: 0,
     shiftXr: 0, 
-    shiftY: 107,
+    shiftY: viz.enemy.config.y - 113,
     image: word_image ('schlonged'),
-    transition: $Z.transition.rounded_linear_transition_func ( 'x', viz.dur * 40 ), // sets speed of word block
+    transition: $Z.transition.rounded_linear_transition_func ( 'x', viz.dur * 70 ), // sets speed of word block
   } ;
   viz.enemy.word = setup_word (viz, 'enemy', wordConfig) ;  
   // console.log('enemy', viz.enemy) ;
@@ -102,19 +102,17 @@ function trump_level_four () {
     color: '#900',
   } ;
   
-  viz.enemy.hit    = setup_hit(viz, viz.enemy, setupEnemyHitConfig) ;
-
   var setupPlayerHitConfig = {
     detectList: [viz.player.item],
-    healthbarY: 25,
+    healthbarY: 21,
     color: '#009', 
   } ;
   
-  viz.player.hit    = setup_hit(viz, viz.player, setupPlayerHitConfig) ;
-  //viz.player.hit.detect = function () {} ;
+  viz.player.hit = setup_hit(viz, viz.player, setupPlayerHitConfig) ;
+  viz.enemy.hit  = setup_hit(viz, viz.enemy, setupEnemyHitConfig) ;
 
   viz.player.adversary = viz.enemy ; // decorate the player object for convenient access to the viz.enemy object 
-  viz.enemy.adversary = viz.player ;
+  viz.enemy.adversary  = viz.player ;
 
   load_game(viz) ;
 
@@ -131,7 +129,6 @@ function trump_level_four () {
   //     console.log('trump attack config end', 'trumpAttackConfig', trumpAttackConfig) ;
   //   },
   // } ;
-
 
   // trumpAttackConfig.end =  ;
 

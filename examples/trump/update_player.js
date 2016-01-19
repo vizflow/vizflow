@@ -31,7 +31,7 @@
         //console.log('this.loop.animation', this.loop.animation)
         transition = this.loop.animation ;
 
-        var xNew   = Math.max(0, this.item.x - this.xMove) ;
+        var xNew        = Math.max(0, this.item.x - this.xMove) ;
         var xTransition = this.transitionSet.x(xNew) ;
         xTransition.end = buttonpress.reset ;
 

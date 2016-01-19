@@ -38,12 +38,20 @@ export default function update() { // default update function for handling anima
 				children.push(trans.child) ;
 			}
 			if(trans.end !== undefined) {
-				if ( trans.end.arguments === undefined ) { // assume it is an array 
+				if ( trans.end.constructor === Array ) { // is an array 
 					for( var kEnd = 0 ; kEnd < trans.end.length ; kEnd++ ) {
-						trans.end[kEnd]() ;
+						if (typeof trans.end[kEnd] == 'function') {
+							trans.end[kEnd]() ;
+						} else {
+							trans.end[kend].run() ;
+						}
 					}
 				} else { 
-   				trans.end() ;
+					if (typeof trans.end == 'function') {
+   					trans.end() ;
+   				} else {
+   					trans.end.run() ;
+   				}
 				}
 			}
 		}
