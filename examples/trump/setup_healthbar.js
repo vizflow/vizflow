@@ -1,4 +1,4 @@
-function setup_healthbar (viz, health, height) {
+function setup_healthbar (viz, health, height, y, color) {
 	var healthbar = {} ;
 
   healthbar.item = {
@@ -7,10 +7,10 @@ function setup_healthbar (viz, health, height) {
 	  rect: {
 	    viz: viz, 
 	    x: 120,
-	    y: 10,
+	    y: y,
 	    width: health,
 	    height: height,
-	    color: '#600'
+	    color: color,
   	},
 
     render: function draw_bar() {

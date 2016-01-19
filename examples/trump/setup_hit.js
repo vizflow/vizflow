@@ -10,7 +10,7 @@ function setup_hit(viz, element, setupHitConfig) {
 
   function hit_transition() {
 
-    var hitDur              = ( viz.player.sprite.attack.length + 30 ) * viz.dur ;
+    var hitDur              = ( element.adversary.sprite.attack.length + 30 ) * viz.dur ;
     var hit                 = step_transition_func('image', hitDur) ;
     var hitTransition       = initial_transition(element.sprite.hit[0]) ;
     hitTransition.child     = hit(element.sprite.rest[0]) ;
@@ -34,10 +34,17 @@ function setup_hit(viz, element, setupHitConfig) {
   }
   
   if(setupHitConfig.detectList === undefined) {
-    setupHitConfig.detectList = [viz.player.item, element.item] ;
+    setupHitConfig.detectList = [element.adversary.item, element.item] ;
   }
 
-  var healthbar         = setup_healthbar (viz, setupHitConfig.elementHealth, setupHitConfig.healthbarHeight) ;
+  var healthbar = setup_healthbar (
+    viz, 
+    setupHitConfig.elementHealth, 
+    setupHitConfig.healthbarHeight, 
+    setupHitConfig.healthbarY, 
+    setupHitConfig.color
+  ) ;
+  
   var health_transition = $Z.transition.linear_transition_func ( 'width', viz.dur * 4 ) ; 
   var healthDrop        = 1 ;
 

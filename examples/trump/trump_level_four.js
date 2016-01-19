@@ -52,7 +52,8 @@ function trump_level_four () {
 
   viz.player.bulletSprite = viz.player.bulletSpriteR ;
 
-  var bulletShiftX      = 20 ;
+  var bulletShiftXl     = -viz.player.bulletSprite.bullet[0].width ;
+  var bulletShiftXr     = viz.player.sprite.rest[0].width + viz.player.bulletSprite.bullet[0].width - 4 ;
   var bulletShiftY      = 8 ; 
   var bulletDur         = 17 * 20 ;
   var bullet_transition = $Z.transition.rounded_linear_transition_func ( 'x', bulletDur ) ; // function accepting an x end-value and returning a transition object
@@ -60,7 +61,8 @@ function trump_level_four () {
 
   var bulletConfig   = {
     move: bulletMove,
-    shiftX: bulletShiftX, 
+    shiftXl: bulletShiftXl,
+    shiftXr: bulletShiftXr, 
     shiftY: bulletShiftY,
     image: bulletSpriteSet.bullet[0],
     transition: bullet_transition,
@@ -73,18 +75,42 @@ function trump_level_four () {
   jumpBulletConfig.shiftY = 0 ;
   jumpBulletConfig.transition = jump_bullet_transition ;
   jumpBulletConfig.move  = 0 ;
+  jumpBulletConfig.shiftXl = -bulletSpriteSet.jump[0].width + 4 ;
 
   viz.player.bullet     = setup_bullet (viz, viz.player, bulletConfig) ;  
   viz.player.jumpBullet = setup_bullet (viz, viz.player, jumpBulletConfig) ;  
 
   viz.enemy         = setup_element(viz, enemyConfig) ;
+
+  var wordConfig   = {
+    move: -100,
+    shiftX: -40, 
+    shiftY: 107,
+    image: word_image ('schlonged'),
+    transition: $Z.transition.rounded_linear_transition_func ( 'x', viz.dur * 20 ), // sets speed of word block
+  } ;
+  viz.enemy.word = setup_word (viz, 'enemy', wordConfig) ;  
+  console.log('enemy', viz.enemy) ;
   
-  var setupHitConfig = {
-    detectList: [viz.enemy.item], 
+  var setupEnemyHitConfig = {
+    detectList: [viz.enemy.item],
+    healthbarY: 10, 
+    color: '#900',
   } ;
   
-  viz.enemy.hit    = setup_hit(viz, viz.enemy, setupHitConfig) ;
-  viz.player.enemy = viz.enemy ; // decorate the player object for convenient access to the viz.enemy object 
+  viz.enemy.hit    = setup_hit(viz, viz.enemy, setupEnemyHitConfig) ;
+
+  var setupPlayerHitConfig = {
+    detectList: [viz.player.item],
+    healthbarY: 25,
+    color: '#009', 
+  } ;
+  
+  viz.player.hit    = setup_hit(viz, viz.player, setupPlayerHitConfig) ;
+  viz.player.hit.detect = function () {} ;
+
+  viz.player.adversary = viz.enemy ; // decorate the player object for convenient access to the viz.enemy object 
+  viz.enemy.adversary = viz.player ;
 
   load_game(viz) ;
 

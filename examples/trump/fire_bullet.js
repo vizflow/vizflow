@@ -6,17 +6,17 @@ function fire_bullet (bulletName) {
 
     var newBullet = copy_object (this[bulletName]) ;
     newBullet.y   = this.item.y + this[bulletName].config.shiftY 
-    // console.log ('newBullet', newBullet, 'this', this, 'bullet', this[bulletName], 'shiftX', this[bulletName].config.shiftX) ;
+    console.log ('newBullet', newBullet, 'this', this, 'bullet', this[bulletName], 'shiftX', this[bulletName].config.shiftX) ;
 
     if (this.orientation === 'r') {
 
-      newBullet.x          = this.item.x + this[bulletName].config.shiftX ;
+      newBullet.x          = this.item.x + this[bulletName].config.shiftXr ;
       var xNew             = newBullet.x + this[bulletName].config.move ;
       newBullet.transition = this[bulletName].transition(xNew) ;
 
     } else {
 
-      newBullet.x          = this.item.x + this[bulletName].config.shiftX ;
+      newBullet.x          = this.item.x + this[bulletName].config.shiftXl ;
       var xNew             = newBullet.x - this[bulletName].config.move ;
       newBullet.transition = this[bulletName].transition(xNew) ;
 
@@ -25,18 +25,18 @@ function fire_bullet (bulletName) {
 
     //console.log ('update_player 64') ;
 
-    this.enemy.hit.detectList.push (newBullet) ;
-    // this.enemy.hit.detectList = [this.enemy.item].concat(this.bulletList) ; // optimize later to avoid garbage collection
+    this.adversary.hit.detectList.push (newBullet) ;
+    // this.adversary.hit.detectList = [this.adversary.item].concat(this.bulletList) ; // optimize later to avoid garbage collection
     // console.log ('update_player 68') ;
 
     newBullet.transition.end = function () {
       // console.log ('bulletend', _this.bulletList) ;
 
-        var index = _this.enemy.hit.detectList.indexOf (newBullet) ;
-        _this.enemy.hit.detectList.splice (index, 1) ; // remove this[bulletName] from vizflow itemlist
-        // _this.enemy.hit.detectList = [_this.enemy.item].concat(_this.bulletList) ;  // optimize later to avoid garbage collection
+        var index = _this.adversary.hit.detectList.indexOf (newBullet) ;
+        _this.adversary.hit.detectList.splice (index, 1) ; // remove this[bulletName] from vizflow itemlist
+        // _this.adversary.hit.detectList = [_this.adversary.item].concat(_this.bulletList) ;  // optimize later to avoid garbage collection
 
-        if (_this.enemy.hit.detectList.length === 1) { // only the player is on the detect list
+        if (_this.adversary.hit.detectList.length === 1) { // only the player is on the detect list
           detectAction.reset () ;
         }
 
@@ -50,8 +50,8 @@ function fire_bullet (bulletName) {
     }
 
     $Z.item().push (newBullet) ;
-    this.enemy.hit.add() ; // the player attack starts the collision detection
+    this.adversary.hit.add() ; // the player attack starts the collision detection
 
-    //console.log ('update_player end bullet if-block') ;
+    console.log ('update_player end bullet if-block') ;
   }	
 }

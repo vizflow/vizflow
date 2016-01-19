@@ -7,6 +7,7 @@ function load_game (viz) {
     viz.ui.button.attack,
     viz.ui.button.jump,
     viz.enemy.hit.healthbar.item,
+    viz.player.hit.healthbar.item,
   ] ;
 
   $Z.item(item)   ;     // load the user data into the visualization engine to initialize the time equals zero (t = 0) state

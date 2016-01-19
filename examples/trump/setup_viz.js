@@ -31,7 +31,9 @@ function setup_viz (vizConfig) {
     prep: function viz_prep () {
       //console.log('setup_viz: viz_prep')
       // viz.context.clearRect(0, 0, viz.canvas.width, viz.canvas.height) ;
+      this.context.globalAlpha = .8 ;
       this.context.drawImage (background, 0, 0) ;
+      this.context.globalAlpha = 1 ;
       return true ;
     },
 

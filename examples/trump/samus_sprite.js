@@ -82,6 +82,8 @@ function samus_sprite () {
 
   samusSprite.jump = get_sprite(jumpSpriteConfig) ;
 
+  samusSprite.hit = [samusSprite.jump[0]] ;
+
 	//samusSprite.attack  = [samusSprite.attack[0], samusSprite.walk[0], samusSprite.attack[1]] ;
 	// samusSprite.clearedFrame = create_canvas (samusSprite.walk[0].width, samusSprite.walk[0].height)  ;
 

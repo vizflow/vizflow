@@ -18,10 +18,7 @@
             this.bullet.image = this.bulletSprite.bullet[0] ;
   // viz.player.bullet     = setup_bullet (viz, viz.player, bulletConfig) ;  
           }
-          if (this.jumpBullet !== undefined) {
-            if (this.jumpBullet.config.shiftX >= 0) { // player was just facing right
-              this.jumpBullet.config.shiftX =  -this.jumpBullet.image.width ;
-            }            
+          if (this.jumpBullet !== undefined) {         
             // this.jumpBullet = setup_bullet (this.item.viz, this, this.jumpBullet.config) ;  
             this.jumpBullet.image = this.bulletSprite.jump[0] ;
 
@@ -51,9 +48,6 @@
           }
           if (this.jumpBullet !== undefined) {
             //console.log ('this.jumpBullet.config.shiftX', this.jumpBullet.config.shiftX, 'this.jumpBullet.image.width', this.jumpBullet.image.width) ;
-            if (this.jumpBullet.config.shiftX < 0) { // player was just facing left
-              this.jumpBullet.config.shiftX = -(this.jumpBullet.config.shiftX + this.jumpBullet.image.width) ;
-            }
             // this.jumpBullet = setup_bullet (this.item.viz, this, this.jumpBullet.config) ;              
             this.jumpBullet.image = this.bulletSprite.jump[0] ;
           }
@@ -87,10 +81,10 @@
         // console.log('update player 56') ;
         if (this.sprite.jumpCollision !== undefined) {
           var collisionTransition   = step_transition_func('collisionImage', transition[0].duration)(this.sprite.jumpCollision[0]) ;
-          collisionTransition.child = animate (this.sprite.jumpCollision, step_transition_func('collisionImage', jumpTransition.child.duration), this.enemy.hit.remove, this.sprite.clearedFrame)[0] ; 
+          collisionTransition.child = animate (this.sprite.jumpCollision, step_transition_func('collisionImage', jumpTransition.child.duration), this.adversary.hit.remove, this.sprite.clearedFrame)[0] ; 
           // console.log('update player collisionTransition', collisionTransition) ;
           transition.push(collisionTransition) ;
-          this.enemy.hit.add() ; // the player attack starts the collision detection
+          this.adversary.hit.add() ; // the player attack starts the collision detection
         }        
         
         var yNew        = this.item.y - this.yMove ;
@@ -133,12 +127,12 @@
         // console.log ('update player 109' ) ;
         if (this.sprite.attackCollision !== undefined) {
           var collision_image_transition = step_transition_func('collisionImage', transition[0].duration) ;
-          var collisionTransition = animate (this.sprite.attackCollision, collision_image_transition, this.enemy.hit.remove, this.sprite.clearedFrame) ; 
+          var collisionTransition = animate (this.sprite.attackCollision, collision_image_transition, this.adversary.hit.remove, this.sprite.clearedFrame) ; 
           transition = transition.concat(collisionTransition) ;
         }
 
         // console.log ('this.callback: transition', transition) ;
-        this.enemy.hit.add() ; // the player attack starts the collision detection
+        this.adversary.hit.add() ; // the player attack starts the collision detection
         break ;
     }
     if (transition.length > 0) {
