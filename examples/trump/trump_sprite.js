@@ -36,7 +36,19 @@ function trump_sprite () {
 	trumpSprite.rest = [trumpSprite.hit[0]] ; // resting bitch face
 
 	trumpSprite.hit = [trumpSprite.hit[1]] ;
-	
+
+	trumpSprite.attack = trumpSprite.hit ;
+
+  var attackImgUrl        = 'trump_attack.png' ;
+  var attackSpriteCanvas  = image2canvas(attackImgUrl) ;
+  var attackSpriteContext = create_context(attackSpriteCanvas) ;
+	var attackFrameCount    = 1 ;
+
+	var attackConfig = copy_object(trumpSpriteConfig) ;
+	attackConfig.context = attackSpriteContext ;
+	attackConfig.frameCount = attackFrameCount ;
+	trumpSprite.attack = get_sprite(attackConfig) ;	
+
 	return trumpSprite ;
 
 }

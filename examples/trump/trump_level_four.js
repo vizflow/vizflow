@@ -27,11 +27,14 @@ function trump_level_four () {
   } ;
 
   viz.player        = setup_element(viz, playerConfig) ;
+  viz.player.orientation = 'r' ; // all players start facing right
 
   var enemyConfig = {
     sprite_loader: trump_sprite,
     frameDuration: viz.frameDuration,
+    attackDuration: 20 * viz.frameDuration,
     collisionImage: 'rest', 
+    orientation: 'l',
     x: 80,    
     y: 220,
   } ;
@@ -83,14 +86,15 @@ function trump_level_four () {
   viz.enemy         = setup_element(viz, enemyConfig) ;
 
   var wordConfig   = {
-    move: -100,
-    shiftX: -40, 
+    move: 100,
+    shiftXl: -25,
+    shiftXr: 0, 
     shiftY: 107,
     image: word_image ('schlonged'),
-    transition: $Z.transition.rounded_linear_transition_func ( 'x', viz.dur * 20 ), // sets speed of word block
+    transition: $Z.transition.rounded_linear_transition_func ( 'x', viz.dur * 40 ), // sets speed of word block
   } ;
   viz.enemy.word = setup_word (viz, 'enemy', wordConfig) ;  
-  console.log('enemy', viz.enemy) ;
+  // console.log('enemy', viz.enemy) ;
   
   var setupEnemyHitConfig = {
     detectList: [viz.enemy.item],
@@ -107,11 +111,34 @@ function trump_level_four () {
   } ;
   
   viz.player.hit    = setup_hit(viz, viz.player, setupPlayerHitConfig) ;
-  viz.player.hit.detect = function () {} ;
+  //viz.player.hit.detect = function () {} ;
 
   viz.player.adversary = viz.enemy ; // decorate the player object for convenient access to the viz.enemy object 
   viz.enemy.adversary = viz.player ;
 
   load_game(viz) ;
+
+  // var trumpAttackConfig = {
+  //   varName: 'image', 
+  //   duration: 2000,
+  //   startValue: 0,
+  //   endValue: 0,
+  //   interpFunc: function(t) {}, 
+  //   end: function () {
+  //     // fire_bullet.call(viz.enemy, 'word') ;
+  //     update_enemy.call (viz.enemy) ;
+  //     viz.enemy.item.transition = [copy_object (trumpAttackConfig)] ;
+  //     console.log('trump attack config end', 'trumpAttackConfig', trumpAttackConfig) ;
+  //   },
+  // } ;
+
+
+  // trumpAttackConfig.end =  ;
+
+  // viz.enemy.item.transition = [copy_object (trumpAttackConfig)] ;
+
+  setInterval(function () {
+    update_enemy.call(viz.enemy) ;
+  }, 2000) ;
 
 }

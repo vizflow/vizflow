@@ -5,7 +5,7 @@ function setup_word (viz, elementName, wordConfig) {
   var word = {
     viz: viz, 
     config: wordConfig,
-    x: element.item.x + wordConfig.shiftX,
+    x: element.item.x + wordConfig.shiftXr,
     y: element.item.y + wordConfig.shiftY,
     image: wordConfig.image,
     collisionImage: wordConfig.image,

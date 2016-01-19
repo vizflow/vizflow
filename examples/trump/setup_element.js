@@ -64,7 +64,7 @@ function setup_element (viz, elementConfig) {
     y: elementConfig.y - element.sprite.height 
   } ;
   
-  element.orientation = 'r' ; // r for facing right
+  //element.orientation = 'r' ; // r for facing right
 
   element.callback = elementConfig.callback ;
 
@@ -90,10 +90,18 @@ function setup_element (viz, elementConfig) {
     jumpTransitionFunc = step_transition_func ( 'image', elementConfig.jumpDuration ) ;
   }
 
+  if(elementConfig.attackDuration === viz.attackDuration) {
+    attackTransitionFunc = step_transition_func ( 'image', elementConfig.frameDuration ) ;
+  } else {
+    // console.log('elementConfig', elementConfig) ;
+    attackTransitionFunc = step_transition_func ( 'image', elementConfig.attackDuration ) ;
+  }
+
   element.transitionSet = {
     image: imageTransitionFunc,
     float: floatTransitionFunc,
     jump: jumpTransitionFunc,
+    attack: attackTransitionFunc,
   } ;
 
   if(elementConfig.transitionSet !== undefined) {
@@ -120,6 +128,12 @@ function setup_element (viz, elementConfig) {
   }
 
   element.yMove = elementConfig.yMove ;
+
+  if(elementConfig.transition === undefined) {
+    elementConfig.transition = [] ;
+  }
+
+  element.transition = elementConfig.transition ;
 
   element.config = elementConfig ;  // copy config object to output object for future ref
 

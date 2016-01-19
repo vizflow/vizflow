@@ -6,15 +6,17 @@ function fire_bullet (bulletName) {
 
     var newBullet = copy_object (this[bulletName]) ;
     newBullet.y   = this.item.y + this[bulletName].config.shiftY 
-    console.log ('newBullet', newBullet, 'this', this, 'bullet', this[bulletName], 'shiftX', this[bulletName].config.shiftX) ;
+    // console.log ('newBullet', newBullet, 'this', this, 'bullet', this[bulletName]) ;
 
     if (this.orientation === 'r') {
+      // console.log('this[bulletName].config.shiftXr', this[bulletName].config.shiftXr) ;
 
       newBullet.x          = this.item.x + this[bulletName].config.shiftXr ;
       var xNew             = newBullet.x + this[bulletName].config.move ;
       newBullet.transition = this[bulletName].transition(xNew) ;
 
     } else {
+      console.log('this[bulletName].config.shiftXl', this[bulletName].config.shiftXl) ;
 
       newBullet.x          = this.item.x + this[bulletName].config.shiftXl ;
       var xNew             = newBullet.x - this[bulletName].config.move ;
@@ -52,6 +54,6 @@ function fire_bullet (bulletName) {
     $Z.item().push (newBullet) ;
     this.adversary.hit.add() ; // the player attack starts the collision detection
 
-    console.log ('update_player end bullet if-block') ;
+    // console.log ('update_player end bullet if-block') ;
   }	
 }
