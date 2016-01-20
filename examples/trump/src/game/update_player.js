@@ -81,7 +81,7 @@
         // console.log('update player 56') ;
         if (this.sprite.jumpCollision !== undefined) {
           var collisionTransition   = step_transition_func('collisionImage', transition[0].duration)(this.sprite.jumpCollision[0]) ;
-          collisionTransition.child = animate (this.sprite.jumpCollision, step_transition_func('collisionImage', jumpTransition.child.duration), this.adversary.hit.remove, this.sprite.clearedFrame)[0] ; 
+          collisionTransition.child = animate (this.sprite.jumpCollision, step_transition_func('collisionImage', jumpTransition.child.duration), undefined, this.sprite.clearedFrame)[0] ; 
           // console.log('update player collisionTransition', collisionTransition) ;
           transition.push(collisionTransition) ;
           this.adversary.hit.add() ; // the player attack starts the collision detection
@@ -122,12 +122,12 @@
         }
         // console.log ('updateplayer 101', this.sprite.attack, transitionFunc, buttonpress.reset, this.sprite.rest[0]) ;
         var finalFrame = this.sprite.rest[0] ;
-        transition                     = animate(this.sprite.attack, transitionFunc, buttonpress.reset, finalFrame) ;
+        transition     = animate(this.sprite.attack, transitionFunc, buttonpress.reset, finalFrame) ;
         // console.log ('update player 105: ', this.sprite.attack, transitionFunc, buttonpress.reset, this.sprite.rest[0]) ;
         // console.log ('update player 109' ) ;
         if (this.sprite.attackCollision !== undefined) {
           var collision_image_transition = step_transition_func('collisionImage', transition[0].duration) ;
-          var collisionTransition = animate (this.sprite.attackCollision, collision_image_transition, this.adversary.hit.remove, this.sprite.clearedFrame) ; 
+          var collisionTransition = animate (this.sprite.attackCollision, collision_image_transition, undefined, this.sprite.clearedFrame) ; 
           transition = transition.concat(collisionTransition) ;
         }
 
@@ -140,6 +140,7 @@
       //this.item.transition = transition ;
       var replacementSwitch = true ;
       transitionHelper.add.call(this.item, transition, replacementSwitch) ;
+      // console.log('update player after transitionhelper', 'this.item', this.item) ;
     } else {
       buttonpress.reset () ;
     }

@@ -1,4 +1,5 @@
 function load_game (viz) {
+
   var item = [ 
     viz.enemy.item,
     viz.player.item,
@@ -19,4 +20,5 @@ function load_game (viz) {
   document.addEventListener('mouseup', inputEvent.up) ;
   document.addEventListener('keydown', inputEvent.down) ;
   document.addEventListener('keyup', inputEvent.up) ;
+      
 }

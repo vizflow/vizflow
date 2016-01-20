@@ -41,6 +41,9 @@ function setup_viz (vizConfig) {
   
   } ;
 
+  viz.ui        = setup_ui      (viz)         ;
+  viz.ui.button = setup_buttons (viz, viz.ui) ;
+
   return viz ;
   
 }

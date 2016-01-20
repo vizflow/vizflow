@@ -1,48 +1,58 @@
 function trump_level_three () {
 
+  // ras-tan level
+
   var vizConfig = { // an object to configure the visualization
-    backgroundImageUrl: 'trump_bg3.png',
+    backgroundImageUrl: '/images/trump_bg3.png',
     frameDurationFactor: 5,
   } ;
 
-  viz           = setup_viz     (vizConfig)   ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
-  viz.ui        = setup_ui      (viz)         ;
-  viz.ui.button = setup_buttons (viz, viz.ui) ;
-  // console.log(viz.ui.button) ;
-  viz.attackDuration = viz.dur * 1.15 ;
-  var Nattack = 15 ;
-// var attackLength = 
+  viz = setup_viz (vizConfig)   ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
+
   var playerConfig = { 
     sprite_loader: rastan_sprite, 
     orientation: 'l',
     frameDuration: viz.frameDuration,
-    floatDuration: viz.attackDuration * Nattack * 1.85,
+    floatDuration: viz.dur * 30,
     callback: update_player,
     restoreRest: false,
     transitionSet: {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), // function accepting an x end-value and returning a transition object
-      attack: step_transition_func ( 'image', viz.attackDuration ), // transition object creation function
-      y: $Z.transition.rounded_linear_transition_func ( 'y', viz.attackDuration * 12 ), // function accepting a y end-value and returning a transition object
+      attack: step_transition_func ( 'image', viz.dur ), // transition object creation function
+      y: $Z.transition.rounded_linear_transition_func ( 'y', viz.dur * 14 ), // function accepting a y end-value and returning a transition object
     },
     xMove: 8,
     yMove: 55,
     y: 209,
   } ;
-  // console.log('playerConfig', playerConfig)
+
   var enemyConfig = {
     sprite_loader: trump_sprite,
     frameDuration: viz.frameDuration * 10,
+    attackDuration: 20 * viz.frameDuration,
     collisionImage: 'rest', 
+    orientation: 'l',
     x: 80, 
     y: 209,
   } ;
 
-  viz.player    = setup_element (viz, playerConfig) ;
-  viz.enemy     = setup_element (viz, enemyConfig) ;
-  viz.enemy.hit = setup_hit     (viz, viz.enemy) ;
+  load_characters(viz, playerConfig, enemyConfig) ;
 
-  // console.log('enemyConfig', enemyConfig, 'viz.enemy', viz.enemy, 'viz.enemy trans', viz.enemy.transitionSet.image()) ;
-  viz.player.enemy = viz.enemy ; // decorate the player object for convenient access to the viz.enemy object 
+  var enemyHitConfig = {
+    healthbarY: 10, 
+    color: '#900',
+  } ;
+  
+  var playerHitConfig = {
+    detectList: [viz.player.item], // enemy bullet added later
+    healthbarY: 22,
+    color: '#009', 
+  } ;
+  
+  load_hit(viz, playerHitConfig, enemyHitConfig) ;
+  
+  // load_player_bullet(viz) ;
+  load_enemy_bullet(viz) ;
 
   load_game(viz) ;
 
