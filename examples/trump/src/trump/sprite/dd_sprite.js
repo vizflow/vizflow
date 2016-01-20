@@ -1,6 +1,6 @@
 function dd_sprite () {
   
-  var imgUrl        = 'dd_billy.png' ;
+  var imgUrl        = '/images/dd_billy.png' ;
   var spriteCanvas  = image2canvas(imgUrl) ;
   var spriteContext = create_context(spriteCanvas) ;
   var bgColor       = [64, 136, 252] ;
@@ -18,16 +18,16 @@ function dd_sprite () {
 	var walkTilePadXr = 16 ;
 	var walkConfig    = {
 		context: spriteContext,
-		tileCount: walkTileCount,
+		count: walkTileCount,
 		rowIndex: walkRowIndex,
-		tileWidth: walkTileWidth,
-		tileHeight: ddSprite.height,
+		width: walkTileWidth,
+		height: ddSprite.height,
 		offsetX: walkOffsetX,
 		offsetY: walkOffsetY,
 		padX: walkPadX,
 		bgColor: bgColor,
-		tilePadXl: walkTilePadXl,
-		tilePadXr: walkTilePadXr,
+		padXl: walkTilePadXl,
+		padXr: walkTilePadXr,
 	} ;
 	// console.log ('walk config', walkConfig) ;
 	ddSprite.walk     = get_sprite (walkConfig) ;
@@ -44,16 +44,16 @@ function dd_sprite () {
 
 	var attackConfig    = {
 		context: spriteContext,
-		tileCount: attackTileCount,
+		count: attackTileCount,
 		rowIndex: attackRowIndex,
-		tileWidth: attackTileWidth,
-		tileHeight: ddSprite.height,
+		width: attackTileWidth,
+		height: ddSprite.height,
 		offsetX: attackOffsetX,
 		offsetY: attackOffsetY,
 		padX: attackPadX,
 		bgColor: bgColor,
-		tilePadXl:  attackTilePadXl,
-		tilePadXr: attackTilePadXr,
+		padXl:  attackTilePadXl,
+		padXr: attackTilePadXr,
 	}
 	ddSprite.attack     = get_sprite (attackConfig) ;
 	//ddSprite.attack     = [ddSprite.attack[0], ddSprite.walk[0], ddSprite.attack[1]] ;
@@ -76,16 +76,16 @@ function dd_sprite () {
 	var jumpTilePadXr = 0 ;
 
 	var jumpSpriteConfig = copy_object (walkConfig) ;
-	jumpSpriteConfig.tileCount = jumpTileCount ;
+	jumpSpriteConfig.count = jumpTileCount ;
 	jumpSpriteConfig.rowIndex = jumpRowIndex ;
-	jumpSpriteConfig.tileWidth = jumpTileWidth ;
-	jumpSpriteConfig.tileHeight = ddSprite.height ;
+	jumpSpriteConfig.width = jumpTileWidth ;
+	jumpSpriteConfig.height = ddSprite.height ;
 	jumpSpriteConfig.offsetX = jumpOffsetX ;
 	jumpSpriteConfig.offsetY = jumpOffsetY ;
 	jumpSpriteConfig.padX = jumpPadX ;
 	//jumpSpriteConfig.bgColor = jumpBgColor ;
-	jumpSpriteConfig.tilePadXl = jumpTilePadXl ;
-	jumpSpriteConfig.tilePadXr = jumpTilePadXr ;
+	jumpSpriteConfig.padXl = jumpTilePadXl ;
+	jumpSpriteConfig.padXr = jumpTilePadXr ;
 
   ddSprite.jump     = get_sprite(jumpSpriteConfig) ;
   //console.log('ddSprite', ddSprite) ; 

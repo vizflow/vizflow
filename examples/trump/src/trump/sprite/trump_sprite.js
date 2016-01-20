@@ -1,6 +1,6 @@
 function trump_sprite () {
   
-  var imgUrl        = 'trump_spritesheet2.png' ;
+  var imgUrl        = '/images/trump_spritesheet2.png' ;
   var spriteCanvas  = image2canvas(imgUrl) ;
   var spriteContext = create_context(spriteCanvas) ;
   var bgColor       = undefined ; // [49, 164, 170] ;
@@ -19,16 +19,16 @@ function trump_sprite () {
 
 	var trumpSpriteConfig    = {
 		context: spriteContext,
-		tileCount: frameCount,
+		count: frameCount,
 		rowIndex: frameRowIndex,
-		tileWidth: frameWidth,
-		tileHeight: trumpSprite.height,
+		width: frameWidth,
+		height: trumpSprite.height,
 		offsetX: frameOffsetX,
 		offsetY: frameOffsetY,
 		padX: padX,
 		bgColor: bgColor,
-		tilePadXl: framePadXl,
-		tilePadXr: framePadXr,
+		padXl: framePadXl,
+		padXr: framePadXr,
 	} ;
 
 	trumpSprite.hit = get_sprite (trumpSpriteConfig) ;
@@ -39,7 +39,7 @@ function trump_sprite () {
 
 	trumpSprite.attack = trumpSprite.hit ;
 
-  var attackImgUrl        = 'trump_attack.png' ;
+  var attackImgUrl        = '/images/trump_attack.png' ;
   var attackSpriteCanvas  = image2canvas(attackImgUrl) ;
   var attackSpriteContext = create_context(attackSpriteCanvas) ;
 	var attackFrameCount    = 1 ;

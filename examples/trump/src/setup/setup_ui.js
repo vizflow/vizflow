@@ -8,30 +8,30 @@ function setup_ui (viz) {
   var buttonOffsetY   = 0 ;
   var buttonPadX      = 0 ;
   var buttonPad       = Math.floor( ( viz.width - (buttonWidth * 4) ) / 4 ) ;
-  var buttonImageUrl  = 'button_spritesheet.png' ;
+  var buttonImageUrl  = '/images/button_spritesheet.png' ;
   var buttonCanvas    = image2canvas(buttonImageUrl) ;
 
-  var leftButtonConfig    = {
+  var leftButtonConfig = {
     context: buttonCanvas.getContext('2d'),
-    tileCount: buttonTileCount,
+    count: buttonTileCount,
     rowIndex: buttonRowIndex,
-    tileWidth: buttonWidth,
-    tileHeight: buttonHeight,
+    width: buttonWidth,
+    height: buttonHeight,
     offsetX: buttonOffsetX,
     offsetY: buttonOffsetY,
     padX: buttonPadX,
     bgColor: undefined,
-    tilePadXl: 0,
-    tilePadXr: 0,
+    padXl: 0,
+    padXr: 0,
   } ;  
 
-  rightButtonConfig          = copy_object(leftButtonConfig) ;
+  rightButtonConfig = copy_object(leftButtonConfig) ;
   rightButtonConfig.rowIndex = 1 ;
 
-  attackButtonConfig          = copy_object(leftButtonConfig) ;
+  attackButtonConfig = copy_object(leftButtonConfig) ;
   attackButtonConfig.rowIndex = 2 ;
 
-  jumpButtonConfig          = copy_object(leftButtonConfig) ;
+  jumpButtonConfig = copy_object(leftButtonConfig) ;
   jumpButtonConfig.rowIndex = 3 ;
 
   var buttonSprite = {

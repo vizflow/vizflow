@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <style>
-      canvas  { 
+      image  { 
           image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
           image-rendering: -moz-crisp-edges;          /* Firefox                        */
           image-rendering: -o-crisp-edges;            /* Opera                          */
@@ -15,54 +15,64 @@
     </style>
   </head>
   <body>
-    <script src="build.js"></script>
-    <script src="draw.js"></script>
-    <script src="create_canvas.js"></script>
-    <script src="create_context.js"></script>
-    <script src="set_canvas_position.js"></script>
-    <script src="create_context.js"></script>
-    <script src="setup_viz.js"></script>
-    <script src="place_viz.js"></script>
-    <script src="load_game.js"></script>
-    <script src="setup_element.js"></script>
-    <script src="setup_healthbar.js"></script>
-    <script src="setup_bullet.js"></script>
-    <script src="setup_hit.js"></script>
-    <script src="setup_ui.js"></script>
-    <script src="setup_buttons.js"></script>
-    <script src="setup_word.js"></script>
-    <script src="word_image.js"></script>
-    <script src="image2index.js"></script>
-    <script src="step_transition_func.js"></script>
-    <script src="add_transition_end.js"></script>
-    <script src="imageLoader.js"></script>
-    <script src="image2canvas.js"></script>
-    <script src="trump_level_one.js"></script>
-    <script src="trump_level_three.js"></script>
-    <script src="trump_level_four.js"></script>
-    <script src="trump_game.js"></script>
-    <script src="detectAction.js"></script>
-    <script src="effect.js"></script>
-    <script src="performAction.js"></script>
-    <script src="buttonpress.js"></script>
-    <script src="inputEvent.js"></script>  
-    <script src="bullet_sprite.js"></script>  
-    <script src="get_sprite.js"></script>
-    <script src="dd_sprite.js"></script>
-    <script src="update_player.js"></script>
-    <script src="update_enemy.js"></script>    
-    <script src="fire_bullet.js"></script>
-    <script src="rastan_sprite.js"></script>
-    <script src="samus_sprite.js"></script>
-    <script src="trump_sprite.js"></script>
-    <script src="horizontal_flip.js"></script>
-    <script src="collision_detect.js"></script>
-    <script src="bg_clear.js"></script>
-    <script src="transition_sequence.js"></script>
-    <script src="transitionHelper.js"></script>    
-    <script src="animate.js"></script>
-    <script src="animate_loop.js"></script>
-    <script src="copy_object.js"></script>
-    <script src="main.js"></script>
+
+    <script src="src/build.js"></script>
+
+    <script src="src/setup/setup_element.js"></script>
+    <script src="src/setup/setup_healthbar.js"></script>
+    <script src="src/setup/setup_bullet.js"></script>
+    <script src="src/setup/setup_hit.js"></script>
+    <script src="src/setup/setup_ui.js"></script>
+    <script src="src/setup/setup_buttons.js"></script>
+    <script src="src/setup/setup_word.js"></script>
+    <script src="src/setup/setup_viz.js"></script>
+
+    <script src="src/load/load_game.js"></script>
+
+    <script src="src/module/draw.js"></script>
+    <script src="src/module/imageLoader.js"></script>
+    <script src="src/module/detectAction.js"></script>
+    <script src="src/module/effect.js"></script>
+    <script src="src/module/performAction.js"></script>
+    <script src="src/module/transitionHelper.js"></script>    
+    <script src="src/module/inputEvent.js"></script>  
+
+    <script src="src/game/update_player.js"></script>
+    <script src="src/game/buttonpress.js"></script>
+    <script src="src/game/update_enemy.js"></script>    
+    <script src="src/game/fire_bullet.js"></script>
+    <script src="src/game/collision_detect.js"></script>
+
+    <script src="src/image/image2canvas.js"></script>
+    <script src="src/image/word_image.js"></script>
+    <script src="src/image/image2index.js"></script>
+    <script src="src/image/create_canvas.js"></script>
+    <script src="src/image/create_context.js"></script>
+    <script src="src/image/set_canvas_position.js"></script>
+    <script src="src/image/create_context.js"></script>
+    <script src="src/image/place_viz.js"></script>
+    <script src="src/image/get_sprite.js"></script>
+    <script src="src/image/horizontal_flip.js"></script>
+    <script src="src/image/bg_clear.js"></script>
+
+    <script src="src/animation/transition_sequence.js"></script>
+    <script src="src/animation/animate.js"></script>
+    <script src="src/animation/animate_loop.js"></script>
+    <script src="src/animation/step_transition_func.js"></script>
+    <script src="src/animation/add_transition_end.js"></script>
+
+    <script src="src/trump/sprite/bullet_sprite.js"></script>  
+    <script src="src/trump/sprite/dd_sprite.js"></script>
+    <script src="src/trump/sprite/rastan_sprite.js"></script>
+    <script src="src/trump/sprite/samus_sprite.js"></script>
+    <script src="src/trump/sprite/trump_sprite.js"></script>
+    <script src="src/trump/trump_level_one.js"></script>
+    <script src="src/trump/trump_level_three.js"></script>
+    <script src="src/trump/trump_level_four.js"></script>
+    <script src="src/trump/trump_game.js"></script>
+    <script src="src/trump/main.js"></script>
+
+    <script src="src/util/copy_object.js"></script>
+
   </body>
 </html>

@@ -2,13 +2,13 @@ function get_sprite (spriteConfig) {
 
   var tile = [] ;
   
-  for (var t = 0 ; t < spriteConfig.tileCount ; t++) {
+  for (var t = 0 ; t < spriteConfig.count ; t++) {
 
   	var image = spriteConfig.context.getImageData (
-      t * spriteConfig.tileWidth + spriteConfig.offsetX + spriteConfig.padX * t,
-      spriteConfig.rowIndex * spriteConfig.tileHeight + spriteConfig.offsetY, 
-      spriteConfig.tileWidth, 
-      spriteConfig.tileHeight
+      t * spriteConfig.width + spriteConfig.offsetX + spriteConfig.padX * t,
+      spriteConfig.rowIndex * spriteConfig.height + spriteConfig.offsetY, 
+      spriteConfig.width, 
+      spriteConfig.height
     )	 ;
 
     // console.log ('dd_sprite get_sprite:', 'image', image.data, 'spriteConfig.bgColor', spriteConfig.bgColor) ;
@@ -17,17 +17,17 @@ function get_sprite (spriteConfig) {
     	bg_clear(spriteConfig.bgColor, image) ;
     }
 
-    if (spriteConfig.tilePadXl === undefined) {
-      spriteConfig.tilePadXl = 0 ;
+    if (spriteConfig.padXl === undefined) {
+      spriteConfig.padXl = 0 ;
     }
 
-    if (spriteConfig.tilePadXr === undefined) {
-      spriteConfig.tilePadXr = 0 ;
+    if (spriteConfig.padXr === undefined) {
+      spriteConfig.padXr = 0 ;
     }
 
-    var tileCanvas  = create_canvas(spriteConfig.tileWidth + spriteConfig.tilePadXl + spriteConfig.tilePadXr, spriteConfig.tileHeight) ;
+    var tileCanvas  = create_canvas(spriteConfig.width + spriteConfig.padXl + spriteConfig.padXr, spriteConfig.height) ;
     var tileContext = tileCanvas.getContext('2d') ;
-    tileContext.putImageData(image, spriteConfig.tilePadXl, 0);
+    tileContext.putImageData(image, spriteConfig.padXl, 0);
     // var img = tileContext.createImageData (spriteConfig.tileWidth, spriteConfig.tileHeight) ;
     // console.log (img.data) ;
     //bg_clear([1, 2, 3], tileContext) ;

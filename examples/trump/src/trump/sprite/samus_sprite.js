@@ -1,6 +1,6 @@
 function samus_sprite () {
   
-  var imgUrl        = 'metroid_spritesheet.png' ;
+  var imgUrl        = '/images/metroid_spritesheet.png' ;
   var spriteCanvas  = image2canvas(imgUrl) ;
   var spriteContext = create_context(spriteCanvas) ;
   var bgColor       = [0, 0, 0] ;
@@ -18,16 +18,16 @@ function samus_sprite () {
 	var walkTilePadXr = 2 ;
 	var walkConfig    = {
 		context: spriteContext,
-		tileCount: walkTileCount,
+		count: walkTileCount,
 		rowIndex: walkRowIndex,
-		tileWidth: walkTileWidth,
-		tileHeight: samusSprite.height,
+		width: walkTileWidth,
+		height: samusSprite.height,
 		offsetX: walkOffsetX,
 		offsetY: walkOffsetY,
 		padX: walkPadX,
 		bgColor: bgColor,
-		tilePadXl: walkTilePadXl,
-		tilePadXr: walkTilePadXr,
+		padXl: walkTilePadXl,
+		padXr: walkTilePadXr,
 	} ;
 	samusSprite.walk  = get_sprite (walkConfig) ;
 	//samusSprite.walk.push(samusSprite.walk[1]) ;
@@ -35,16 +35,16 @@ function samus_sprite () {
 	var restOffsetX  = 298 ;
 	var restConfig    = {
 		context: spriteContext,
-		tileCount: 1,
+		count: 1,
 		rowIndex: walkRowIndex,
-		tileWidth: walkTileWidth,
-		tileHeight: samusSprite.height,
+		width: walkTileWidth,
+		height: samusSprite.height,
 		offsetX: restOffsetX,
 		offsetY: walkOffsetY,
 		padX: walkPadX,
 		bgColor: bgColor,
-		tilePadXl: walkTilePadXl,
-		tilePadXr: walkTilePadXr,
+		padXl: walkTilePadXl,
+		padXr: walkTilePadXr,
 	} ;
 
 	samusSprite.rest  = get_sprite (restConfig) ;
@@ -58,16 +58,16 @@ function samus_sprite () {
 
 	var attackConfig    = {
 		context: spriteContext,
-		tileCount: attackTileCount,
+		count: attackTileCount,
 		rowIndex: walkRowIndex,
-		tileWidth: attackTileWidth,
-		tileHeight: samusSprite.height,
+		width: attackTileWidth,
+		height: samusSprite.height,
 		offsetX: attackOffsetX,
 		offsetY: walkOffsetY,
 		padX: walkPadX,
 		bgColor: bgColor,
-		tilePadXl: attackTilePadXl,
-		tilePadXr: attackTilePadXr,
+		padXl: attackTilePadXl,
+		padXr: attackTilePadXr,
 	} ;
 	samusSprite.attack  = get_sprite (attackConfig) ;
 
@@ -76,9 +76,9 @@ function samus_sprite () {
 	var jumpTileCount = 1 ;
   
 	var jumpSpriteConfig       = copy_object (walkConfig) ;
-	jumpSpriteConfig.tileWidth = 20 ;
+	jumpSpriteConfig.width = 20 ;
 	jumpSpriteConfig.offsetX   = jumpOffsetX ;
-	jumpSpriteConfig.tileCount = jumpTileCount ;
+	jumpSpriteConfig.count = jumpTileCount ;
 
   samusSprite.jump = get_sprite(jumpSpriteConfig) ;
 
