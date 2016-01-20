@@ -1,9 +1,9 @@
-function animate (sprite, create_transition, callback, restFrame) {
+function animate (valueList, create_transition, callback, restFrame) {
   var animation ;
   if (restFrame === undefined) {
-    animation = sprite ; 
+    animation = valueList ; 
   } else {
-    animation = sprite.concat (restFrame) ; 
+    animation = valueList.concat (restFrame) ; 
   }
   
   var Nframe = animation.length ;

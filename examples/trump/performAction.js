@@ -20,11 +20,9 @@ var performAction = {
     	this.healthbar.item.transition = [] ;
     }
     //this.healthbar.item.width = this.healthbar.health ;
-    if (this.healthbar.item.transition.length === 0) { // no transitions currently running
       // console.log('perform action hit 24') ;
-    	this.healthbar.item.transition = this.health_transition (this.healthbar.health) ;
-      console.log('PAH 25', 'this', this, 'this.healthbar.health', this.healthbar.health, 'this.healthbar.item.transition', this.healthbar.item.transition) ;
-    }
+    transitionHelper.update_end_value.call(this.healthbar.item, 'width', this.healthbar.health, this.health_transition) ;
+      //console.log('PAH 25', 'this', this, 'this.healthbar.health', this.healthbar.health, 'this.healthbar.item.transition', this.healthbar.item.transition) ;
     // console.log ('this.healthbar.item', this.healthbar.item) ;
 
     //console.log('action action transition', this, 'this.element', this.element) ;
@@ -39,7 +37,11 @@ var performAction = {
     // var transitionFunc = this.element.transitionSet.image ;
     // var transition     = animate(this.element.sprite.hit, transitionFunc, undefined, this.element.sprite.rest[0]) ;
     // console.log('perform action hit 41', 'this.element.item.transition', this.element.item.transition) ;
-		this.element.item.transition.push (this.transition()[0]) ;
+    var transition = this.transition() ; // returns an array of transition objects
+    var replacementSwitch = true ; // interrupt current player transitions due to hit
+    for (var kTrans = 0 ; kTrans < transition.length ; kTrans++) {
+      transitionHelper.add.call(this.element.item, transition[kTrans], replacementSwitch) ;
+    }
 		// console.log ('perform action hit end', 'this.element.item.transition', this.element.item.transition) ;
     // console.log('performAction hit this end', this) ;
     performAction.reset () ; //.call(this) ;

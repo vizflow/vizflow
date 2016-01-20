@@ -29,19 +29,11 @@ var inputEvent = {
   up: function input_event_up (event) {
     // console.log ('mouseup  end', 'event', event) ;
 
-    $Z.prep ([this.viz]) ;
+    $Z.prep ([this.viz]) ; // stop calling click every frame
 
     // console.log('this.viz.player.item.transition', this.viz.player.item.transition) ;
 
     var transition = this.viz.player.item.transition ;
-    if (transition !== undefined) {
-      var yIndex ;
-      for(var ktrans = 0 ; ktrans < transition.length ; ktrans++) {
-        if(transition[ktrans].varName === 'y') {
-          yIndex = ktrans ;
-        }
-      }
-      if ( yIndex !== undefined ) {
         var yNew = this.viz.player.config.y - this.viz.player.sprite.height ;
         var minJumpBulletHeight = this.viz.player.config.yMove * .4 ;
         var yDist = Math.abs(yNew - this.viz.player.item.y) ;
@@ -50,7 +42,10 @@ var inputEvent = {
           // console.log('input event64') ;
           fire_bullet.call(this.viz.player, 'jumpBullet') ;
         }        
-        if (transition[yIndex].endValue !== yNew) { // never cancel downward transition
+        var checkObject = transitionHelper.check_end_value.call(this.viz.player.item, 'y', yNew) ;
+        var yIndex = checkObject.index ;
+        // console.log('input event', 'checkObject', checkObject) ;
+        if (checkObject.check !== undefined && !checkObject.check) { // never cancel downward transition
 
           transition[yIndex] = this.viz.player.transitionSet.y(yNew) ;
           transition[yIndex].end = { 
@@ -87,31 +82,34 @@ var inputEvent = {
         //     console.log('player.item.transition[collisionIndex].child', player.item.transition[collisionIndex].child, 'player.sprite.clearedFrame', player.sprite.clearedFrame) ;
         //   }
         }
-      }
-    }
-
+      
+    
+    // console.log('this.viz.player.restoreRest', this.viz.player.restoreRest) ;
     if (this.viz.player.restoreRest) {
-      if(this.viz.player.item.transition !== undefined) {
-        // console.log ('this.viz.player transition', this.viz.player.item.transition) ;
-        if(this.viz.player.item.transition.length === 0) {
-          this.viz.player.item.transition = this.viz.image_transition(this.viz.player.sprite.rest[0]) ;
-        } else if(this.viz.player.item.transition.length === 1) {
-          // console.log ('mouseup bug 1', this.viz.player.item.transition[0]) ;
-          this.viz.player.item.transition[0].child = this.viz.image_transition(this.viz.player.sprite.rest[0]) ;
-          //this.viz.player.item.transition.end = function() { this.viz.player.item.image = this.viz.player.sprite.rest[0] ; } ;
-        } else if(this.viz.player.item.transition.length === 2) {
-          var transitionWithMaxDuration = this.viz.player.item.transition.slice(0).sort( function(x, y) { return y.duration - x.duration } )[0] ;
-          transitionWithMaxDuration.child = this.viz.image_transition(this.viz.player.sprite.rest[0]) ;
-          //transitionWithMaxDuration.end = function() { this.viz.player.item.image = this.viz.player.sprite.rest[0] ; } ;
-          // console.log ('mouseup bug 2') ;
-        } else {
-          // console.log('mouseup bug 3') ;
-        }
-      }
-     // xTransition.end = [xTransition.end, function () {
-       // _this.item.image = _this.sprite.rest[0] ;
-      //}]
+      var replacementSwitch = true ;
+      transitionHelper.add.call(this.viz.player.item, this.viz.image_transition(this.viz.player.sprite.rest[0]), replacementSwitch) ;
     }
+    //   if(this.viz.player.item.transition !== undefined) {
+    //     // console.log ('this.viz.player transition', this.viz.player.item.transition) ;
+    //     if(this.viz.player.item.transition.length === 0) {
+    //       this.viz.player.item.transition = this.viz.image_transition(this.viz.player.sprite.rest[0]) ;
+    //     } else if(this.viz.player.item.transition.length === 1) {
+    //       // console.log ('mouseup bug 1', this.viz.player.item.transition[0]) ;
+    //       this.viz.player.item.transition[0].child = this.viz.image_transition(this.viz.player.sprite.rest[0]) ;
+    //       //this.viz.player.item.transition.end = function() { this.viz.player.item.image = this.viz.player.sprite.rest[0] ; } ;
+    //     } else if(this.viz.player.item.transition.length === 2) {
+    //       var transitionWithMaxDuration = this.viz.player.item.transition.slice(0).sort( function(x, y) { return y.duration - x.duration } )[0] ;
+    //       transitionWithMaxDuration.child = this.viz.image_transition(this.viz.player.sprite.rest[0]) ;
+    //       //transitionWithMaxDuration.end = function() { this.viz.player.item.image = this.viz.player.sprite.rest[0] ; } ;
+    //       // console.log ('mouseup bug 2') ;
+    //     } else {
+    //       // console.log('mouseup bug 3') ;
+    //     }
+    //   }
+    //  // xTransition.end = [xTransition.end, function () {
+    //    // _this.item.image = _this.sprite.rest[0] ;
+    //   //}]
+    // }
 
     buttonpress.reset () ;
 

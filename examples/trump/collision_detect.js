@@ -15,6 +15,10 @@ function collision_detect(item, width, height) {
 
   for ( var kItem = 0 ; kItem < Nitem ; kItem++ ) {
 
+    if (item[kItem].invincible) {
+      continue ;
+    }
+
     var imageK = item[kItem]
     	.collisionImage
     	.getContext('2d')

@@ -1,10 +1,11 @@
-function animate_loop (loopConfig, sprite, create_transition, callback, restFrame) {
+function animate_loop (loopConfig, valueList, create_transition, callback, restFrame) {
+	// loop config expects: Nstep, position, frameDur
 	var loopOutput = copy_object(loopConfig) ; // initialize output variable
 	var animation ;
 	if (restFrame === undefined) {
-    animation = sprite ; 
+    animation = valueList ; 
   } else {
-    animation = sprite.concat (restFrame) ; 
+    animation = valueList.concat (restFrame) ; 
   }
   
   var Nframe = animation.length ;

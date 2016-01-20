@@ -134,6 +134,12 @@ function setup_element (viz, elementConfig) {
   }
 
   element.transition = elementConfig.transition ;
+  
+  if(elementConfig.invincible === undefined) {
+    elementConfig.invincible = false ;
+  }
+
+  element.item.invincible = elementConfig.invincible ;  
 
   element.config = elementConfig ;  // copy config object to output object for future ref
 

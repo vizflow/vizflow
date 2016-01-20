@@ -2,7 +2,7 @@ function setup_hit(viz, element, setupHitConfig) {
 
   function hit_reset () {
     //console.log ('hit_reset');
-    element.reacting = false ;
+    element.item.invincible = false ;
     detectAction.remove() ;
   }
 
@@ -10,14 +10,25 @@ function setup_hit(viz, element, setupHitConfig) {
 
   function hit_transition() {
 
+    element.item.invincible = true ;
+
     var hitDur              = ( element.adversary.sprite.attack.length + 30 ) * viz.dur ;
     // console.log ('hit transition', 'element', element, 'hitDur', hitDur) ;
     var hit                 = step_transition_func('image', hitDur) ;
     var hitTransition       = initial_transition(element.sprite.hit[0]) ;
     hitTransition.child     = hit(element.sprite.rest[0]) ;
-    hitTransition.child.end = [detectAction.reset, hit_reset] ;
+    // hitTransition.child.end = [detectAction.reset, hit_reset] ;
     hitTransition           = [hitTransition] ;
 
+    var reset = step_transition_func ('dummy', hitDur) (0) ;
+    reset.end = [detectAction.reset, hit_reset] ;
+    hitTransition.push(reset) ;
+
+    var frameDuration = hitDur * .1 ;
+    var Nstep = 2 * (Math.floor(0.5 * hitDur / frameDuration)) - 1 ;
+    var flash = effect.flash.call(element, frameDuration, Nstep) ;
+    //console.log('setup hit', 'flash', flash) ;
+    hitTransition.push(flash.animation[0]) ;
     return hitTransition ;
 
   }

@@ -1,10 +1,10 @@
   function update_player(state) { 
     // console.log ('update_player: this.callback: state', state, 'this', this) ;
 
-    if(this.item.transition !== undefined && this.item.transition.length > 0) {
-      // console.log(viz.player.item.transition)
-      return ;
-    }
+    // if(this.item.transition !== undefined && this.item.transition.length > 0) {
+    //   // console.log(viz.player.item.transition)
+    //   return ;
+    // }
     
     var minNstep = 1 ; // minimum number of frames to animate per user input for walking animations
     var transition ;
@@ -137,7 +137,9 @@
     }
     if (transition.length > 0) {
       // console.log('this.callback: transition', transition)
-      this.item.transition = transition ;
+      //this.item.transition = transition ;
+      var replacementSwitch = true ;
+      transitionHelper.add.call(this.item, transition, replacementSwitch) ;
     } else {
       buttonpress.reset () ;
     }
