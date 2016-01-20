@@ -64,7 +64,7 @@
 
         break ;
       case 'j' :
-          // console.log ('update player case j:', this.sprite.jump, this.transitionSet.image, buttonpress.reset, this.sprite.rest[0])
+        // console.log ('update player case j:', this.sprite.jump, this.transitionSet.image, buttonpress.reset, this.sprite.rest[0])
         this.restoreRest = false ;
 
         var finalFrame = this.sprite.rest[0] ;
@@ -112,6 +112,10 @@
 
       case 'a' :
         //$Z.item (item.push(newBullet)) ;
+        // console.log('update player 116') ;
+        // if (transitionHelper.find('y', this.item.transition) > -1) {
+        //   break ;  // don't allow punch attacks while moving up or down
+        // }  
         fire_bullet.call(this, 'bullet') ;
         var transitionFunc;
         if( this.transitionSet.attack === undefined ) {

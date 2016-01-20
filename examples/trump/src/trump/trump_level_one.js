@@ -1,44 +1,59 @@
 function trump_level_one () {
 
+  // jesus level
+
   var vizConfig = {
-    backgroundImageUrl: 'trump_bg1.png',
-    frameDurationFactor: 1,
+    backgroundImageUrl: '/images/trump_bg1.png',
+    frameDurationFactor: 3,
   } ;
 
   viz           = setup_viz     (vizConfig)   ; // framdeDuration computed
-  viz.ui        = setup_ui      (viz)         ;
-  viz.ui.button = setup_buttons (viz, viz.ui) ;
 
   var playerConfig = {
     sprite_loader: dd_sprite,
     orientation: 'r',
     frameDuration: viz.frameDuration,
+    floatDuration: viz.dur *20,
     callback: update_player,
     restoreRest: true,
     transitionSet: {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), //function accepting an x end-value and returning a transition object
-      attack: step_transition_func ( 'image', viz.dur * 1.15 ), // transition object creation      
-      y: $Z.transition.rounded_linear_transition_func ( 'y', viz.frameDuration * 10 ), // function accepting a y end-value and returning a transition object
+      attack: step_transition_func ( 'image', viz.dur * 4 ), // transition object creation      
+      y: $Z.transition.rounded_linear_transition_func ( 'y', viz.frameDuration * 1 ), // function accepting a y end-value and returning a transition object
     },
     xMove: 5,
-    yMove: 50,
+    yMove: 100,
     y: 225,
   } ;
 
   var enemyConfig = {
     sprite_loader:trump_sprite,
     frameDuration: viz.frameDuration * 10,
+    attackDuration: 20 * viz.frameDuration,
     collisionImage: 'rest',
+    orientation: 'r',
     x: 80,
     y: 209,
   } ;
 
-  viz.player = setup_element (viz, playerConfig) ;
-  viz.enemy  = setup_element (viz, enemyConfig) ;
-  viz.enemy.hit  = setup_hit     (viz, viz.enemy) ;
+  load_characters(viz, playerConfig, enemyConfig) ;
 
-  viz.player.enemy = viz.enemy ; // decorate the player object for convenient access to the enemy object
-
+  var enemyHitConfig = {
+    healthbarY: 10, 
+    color: '#900',
+  } ;
+  
+  var playerHitConfig = {
+    detectList: [viz.player.item], // enemy bullet added later
+    healthbarY: 22,
+    color: '#009', 
+  } ;
+  
+  load_hit(viz, playerHitConfig, enemyHitConfig) ;
+  
+  // load_player_bullet(viz) ;
+  load_enemy_bullet(viz) ;
+  
   load_game(viz) ;
 
 } 
