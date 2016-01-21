@@ -22,7 +22,7 @@ var effect = {
 
 	image: {
 
-		binary_filter: function effect_image_binary_filter (canvas, threshold)	 {
+		binary_opacity_filter: function effect_image_binary_opacity_filter (canvas, threshold)	 {
 
 			var context = canvas.getContext('2d') ;
 			var image   = context.getImageData (0, 0, canvas.width, canvas.height) ;
