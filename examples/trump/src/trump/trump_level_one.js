@@ -19,10 +19,10 @@ function trump_level_one () {
     transitionSet: {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), //function accepting an x end-value and returning a transition object
       attack: step_transition_func ( 'image', viz.dur * 4 ), // transition object creation      
-      y: $Z.transition.rounded_linear_transition_func ( 'y', viz.frameDuration * 1 ), // function accepting a y end-value and returning a transition object
+      y: $Z.transition.rounded_linear_transition_func ( 'y', viz.frameDuration * 5 ), // function accepting a y end-value and returning a transition object
     },
     xMove: 5,
-    yMove: 100,
+    yMove: 50,
     y: 225,
   } ;
 
