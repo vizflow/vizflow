@@ -15,7 +15,7 @@ function animate_loop (loopConfig, valueList, create_transition, callback, restF
   	loopOutput.Nstep = 1 ; // run one step of the loop by default
   }
 
-  var kPos   = loopConfig.position + 1 ; // assuming loopConfig.position between 0 and 1
+  var kPos   = loopConfig.position ; 
   kPos       = kPos % Nframe ;
 	var head   = [] ;
 	var body   = [] ;
@@ -63,10 +63,11 @@ function animate_loop (loopConfig, valueList, create_transition, callback, restF
 
 	var loop = head.concat (body.concat( tail )) ;
 
-	//console.log('animate_loop:', 'Nframe', Nframe, 'kpos', kPos, 'loop', loop, 'body', body, 'head', head, 'tail', tail) ;
+	// console.log('animate_loop:', 'Nframe', Nframe, 'kpos', kPos, 'loop', loop, 'body', body, 'head', head, 'tail', tail) ;
 	
-	loopOutput.position  = kPos % Nframe ;
-	loopOutput.animation = animate (loop, create_transition, callback) ;
+	loopOutput.position              = (loopOutput.position + loopConfig.Nstep) % Nframe ;
+	loopOutput.animation             = animate (loop, create_transition, callback) ;
+	// loopOutput.animation[0].duration = 1 ; // show first frame immediately
 
 	return loopOutput ;
 }

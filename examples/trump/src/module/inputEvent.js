@@ -92,7 +92,16 @@ var inputEvent = {
       
     if (this.viz.player.restoreRest) {
       var replacementSwitch = true ;
-      transitionHelper.add.call(this.viz.player.item, this.viz.image_transition(this.viz.player.sprite.rest[0]), replacementSwitch) ;
+      if (this.viz.player.state === 'r' || this.viz.player.state === 'l') {
+        transitionHelper.add_child.call(this.viz.player.item, 'image', this.viz.player.transitionSet.image(this.viz.player.sprite.rest[0])) ;
+      }
+      if (this.viz.player.state === 'a') {
+        transitionHelper.add_child.call(this.viz.player.item, 'image', this.viz.player.transitionSet.attack(this.viz.player.sprite.rest[0])) ;
+      }
+      if (this.viz.player.state === 'j') {
+        transitionHelper.add_child.call(this.viz.player.item, 'image', this.viz.player.transitionSet.jump(this.viz.player.sprite.rest[0])) ;
+      }
+        //.call(this.viz.player.item, this.viz.image_transition(this.viz.player.sprite.rest[0]), replacementSwitch) ;
     }
     
     buttonpress.reset () ;

@@ -5,7 +5,7 @@
     //   // console.log(viz.player.item.transition)
     //   return ;
     // }
-    
+    this.state = state ;
     var minNstep = 1 ; // minimum number of frames to animate per user input for walking animations
     var transition ;
      switch(state) {
@@ -126,8 +126,11 @@
         }
         // console.log ('updateplayer 101', this.sprite.attack, transitionFunc, buttonpress.reset, this.sprite.rest[0]) ;
         var finalFrame = this.sprite.rest[0] ;
-        transition     = animate(this.sprite.attack, transitionFunc, buttonpress.reset, finalFrame) ;
-        // console.log ('update player 105: ', this.sprite.attack, transitionFunc, buttonpress.reset, this.sprite.rest[0]) ;
+
+        var loop       = animate_loop(this.loop, this.sprite.attack, transitionFunc, buttonpress.reset) ;
+        this.loop.position = loop.position ;
+        transition     = loop.animation ;
+        // console.log ('update player 105: ', 'this.loop', this.loop, 'this.sprite.attack', this.sprite.attack, 'transition', transition) ; //this.sprite.attack, transitionFunc, buttonpress.reset, this.sprite.rest[0]) ;
         // console.log ('update player 109' ) ;
         if (this.sprite.attackCollision !== undefined) {
           var collision_image_transition = step_transition_func('collisionImage', transition[0].duration) ;

@@ -3,7 +3,7 @@ function trump_level_one () {
   // jesus level
 
   var vizConfig = {
-    backgroundImageUrl: '/images/trump_bg1.png',
+    backgroundImageUrl: './images/trump_bg1.png',
     frameDurationFactor: 3,
   } ;
 
@@ -13,12 +13,12 @@ function trump_level_one () {
     sprite_loader: dd_sprite,
     orientation: 'r',
     frameDuration: viz.frameDuration,
-    floatDuration: viz.dur *20,
+    floatDuration: viz.dur * 20,
     callback: update_player,
     restoreRest: true,
     transitionSet: {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), //function accepting an x end-value and returning a transition object
-      attack: step_transition_func ( 'image', viz.dur * 4 ), // transition object creation      
+      attack: step_transition_func ( 'image', viz.dur * 10 ), // transition object creation      
       y: $Z.transition.rounded_linear_transition_func ( 'y', viz.frameDuration * 5 ), // function accepting a y end-value and returning a transition object
     },
     xMove: 5,

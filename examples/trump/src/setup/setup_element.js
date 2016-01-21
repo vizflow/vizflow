@@ -50,8 +50,9 @@ function setup_element (viz, elementConfig) {
   }  
 
   element.loop = {
-    frameDur : elementConfig.frameDuration,
-    position : 0
+    frameDur: elementConfig.frameDuration,
+    position: 0,
+    Nframe: 1,
   } ; // position is from 0 to 1
   
   element.item = {

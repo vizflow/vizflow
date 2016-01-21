@@ -54,6 +54,47 @@ var transitionHelper = {
     }    
   },
 
+  add_child: function transition_helper_add_child(property, newTransition, frameIndex) {
+
+    if(frameIndex === undefined) {
+      frameIndex = 0 ;
+    }
+
+    var transitionList = this.transition ;
+    if (transitionList === undefined) {
+      this.transition = [] ;
+      transitionList = this.transition ;
+    }    
+    var transitionIndex = transitionHelper.find(property, transitionList) ;
+    if (transitionIndex === -1) {
+      this.transition.push(newTransition) ;
+    } else {
+      var transitionK = this.transition[transitionIndex] ; // initialize
+
+      for( var kTrans = 0 ; kTrans < frameIndex ; kTrans++ ) {
+        transitionK = transitionK.child ;
+      }
+
+      transitionK.child = newTransition ; // only restore UI functionality after the minimum number of frames has been rendered  
+      // console.log('transition helper add child end', 'transition index', transitionIndex, 'new transition', newTransition, 'transitionk', transitionK) ;
+    }
+    
+  },  
+
+  add_end: function transition_helper_add_end(property, frameIndex, callback) {
+
+    var transitionIndex = transitionHelper.find(property, transitionList) ;    
+
+    var transitionK = this.transition[transitionIndex] ; // initialize
+
+    for( var kTrans = 0 ; kTrans < frameIndex ; kTrans++ ) {
+      transitionK = transitionK.child ;
+    }
+
+    transitionK.end = callback ; // only restore UI functionality after the minimum number of frames has been rendered  
+    
+  },  
+
   update_end_value: function transition_helper_update_end_value (property, newEndValue, transition_creator) {
     // updates end value of matching transition if it exists otherwise do nothing 
     var transitionList  = this.transition ;
