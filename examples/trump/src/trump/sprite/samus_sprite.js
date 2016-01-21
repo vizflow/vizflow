@@ -1,6 +1,6 @@
 function samus_sprite () {
   
-  var imgUrl        = '/images/metroid_spritesheet.png' ;
+  var imgUrl        = './images/metroid_spritesheet.png' ;
   var spriteCanvas  = image2canvas(imgUrl) ;
   var spriteContext = create_context(spriteCanvas) ;
   var bgColor       = [0, 0, 0] ;

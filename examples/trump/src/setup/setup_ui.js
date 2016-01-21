@@ -8,7 +8,7 @@ function setup_ui (viz) {
   var buttonOffsetY   = 0 ;
   var buttonPadX      = 0 ;
   var buttonPad       = Math.floor( ( viz.width - (buttonWidth * 4) ) / 4 ) ;
-  var buttonImageUrl  = '/images/button_spritesheet.png' ;
+  var buttonImageUrl  = './images/button_spritesheet.png' ;
   var buttonCanvas    = image2canvas(buttonImageUrl) ;
 
   var leftButtonConfig = {

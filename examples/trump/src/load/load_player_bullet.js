@@ -19,8 +19,13 @@ function load_player_bullet(viz) {
   var bulletShiftXr     = viz.player.sprite.rest[0].width + viz.player.bulletSprite.bullet[0].width - 4 ;
   var bulletShiftY      = 8 ; 
   var bulletDur         = viz.dur * 20 ;
-  var bullet_transition = $Z.transition.rounded_linear_transition_func ( 'x', bulletDur ) ; // function accepting an x end-value and returning a transition object
   var bulletMove        = 150 ;
+
+  function bullet_transition(xNew) {
+    var transition = $Z.transition.rounded_linear_transition_func ( 'x', bulletDur )(xNew) ; // function accepting an x end-value and returning a transition object
+    transition.end = bulletHelper.default_end(viz, this) ;
+    return transition ;
+  }
 
   var bulletConfig   = {
     move: bulletMove,
@@ -32,8 +37,15 @@ function load_player_bullet(viz) {
   } ;
 
   var jumpBulletConfig        = copy_object(bulletConfig) ;
-  var jumpBulletDur           = viz.dur * 15 ;
-  var jump_bullet_transition  = $Z.transition.rounded_linear_transition_func ( 'x', jumpBulletDur ) ; // function accepting an x end-value and returning a transition object
+  var jumpBulletDur           = viz.dur * 10 ;
+
+  function jump_bullet_transition(xNew) {
+    var transition = step_transition_func ( 'dummy', jumpBulletDur )(xNew) ; // function accepting an x end-value and returning a transition object
+    // console.log('jump_bullet_transition', transition) ;
+    transition.end = bulletHelper.default_end(viz, this) ;
+    return transition ;
+  }
+
   jumpBulletConfig.image      = bulletSpriteSet.jump[0] ;
   jumpBulletConfig.shiftY     = 0 ;
   jumpBulletConfig.transition = jump_bullet_transition ;

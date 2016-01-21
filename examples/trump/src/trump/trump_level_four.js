@@ -3,7 +3,7 @@ function trump_level_four () {
   // console.log('level 4') ;
 
   var vizConfig = { // an object to configure the visualization
-    backgroundImageUrl: '/images/trump_bg4.png',
+    backgroundImageUrl: './images/trump_bg4.png',
     frameDurationFactor: 1,
   } ;
 

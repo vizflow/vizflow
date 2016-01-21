@@ -18,6 +18,13 @@ function load_game (viz) {
   document.viz = viz ; 
   document.addEventListener('mousedown', inputEvent.down) ;
   document.addEventListener('mouseup', inputEvent.up) ;
+  document.addEventListener('touchstart', function(e) {
+    //console.log('touchstart start', 'this', this) ;
+    e.preventDefault() ;
+    inputEvent.down.call(this, e) ;
+    //console.log('touchstart end') ;
+  }, false);
+  document.addEventListener('touchend', inputEvent.up) ;
   document.addEventListener('keydown', inputEvent.down) ;
   document.addEventListener('keyup', inputEvent.up) ;
       

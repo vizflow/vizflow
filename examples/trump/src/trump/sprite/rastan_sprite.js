@@ -1,6 +1,6 @@
 function rastan_sprite () {
   
-  var imgUrl          = '/images/rastan_spritesheet.gif' ;
+  var imgUrl          = './images/rastan_spritesheet.gif' ;
   var spriteCanvas    = image2canvas(imgUrl) ;
   var spriteContext   = create_context(spriteCanvas) ;
   var bgColor         = undefined ; // [255, 163, 177] ;

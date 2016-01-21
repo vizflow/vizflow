@@ -33,44 +33,48 @@ var buttonpress = {
         case 0: // walk left
           //console.log('walk left', 'button', this.ui.button, 'this.ui.button.walkLeft.transition', this.ui.button.walkLeft.transition) ;
           //console.log('animate([this.ui.buttonSprite.left[1]], this.image_transition, undefined, this.ui.buttonSprite.left[0])', animate([this.ui.buttonSprite.left[1]], this.image_transition, undefined, this.ui.buttonSprite.left[0]));
-          transitionHelper.add.call(
-            this.ui.button.walkLeft, 
-            animate([this.ui.buttonSprite.left[1]], this.ui.button.transition, undefined, this.ui.buttonSprite.left[0]),
-            replacementSwitch
-          ) ;
+          // transitionHelper.add.call(
+          //   this.ui.button.walkLeft, 
+          //   // animate([this.ui.buttonSprite.left[1]], this.ui.button.transition, undefined, this.ui.buttonSprite.left[0]),
+          //   replacementSwitch
+          // ) ;
+          this.ui.button.walkLeft.image = this.ui.buttonSprite.left[1] ;
           state = 'l' ;
           break;
 
         case 1: // walk right
           // this.ui.button.walkRight.transition = animate([this.ui.button[1]], this.image_transition, undefined, this.ui.buttonSprite[0]) ;
           // this.ui.button.walkRight.transition = animate([this.ui.buttonSprite.right[1]], this.image_transition, undefined, this.ui.buttonSprite.right[0]) ;
-          transitionHelper.add.call(
-            this.ui.button.walkRight, 
-            animate([this.ui.buttonSprite.right[1]], this.image_transition, undefined, this.ui.buttonSprite.right[0]),
-            replacementSwitch
-          ) ;          
+          // transitionHelper.add.call(
+          //   this.ui.button.walkRight, 
+          //   animate([this.ui.buttonSprite.right[1]], this.image_transition, undefined, this.ui.buttonSprite.right[0]),
+          //   replacementSwitch
+          // ) ;          
+          this.ui.button.walkRight.image = this.ui.buttonSprite.right[1] ;
           state = 'r' ;
           break;
 
         case 2: // attack
           // this.ui.button.attack.transition = animate([this.ui.button[1]], this.image_transition, undefined, this.ui.buttonSprite[0]) ;
           // this.ui.button.attack.transition = animate([this.ui.buttonSprite.attack[1]], this.image_transition, undefined, this.ui.buttonSprite.attack[0]) ;
-          transitionHelper.add.call(
-            this.ui.button.attack, 
-            animate([this.ui.buttonSprite.attack[1]], this.image_transition, undefined, this.ui.buttonSprite.attack[0]),
-            replacementSwitch
-          ) ;                    
+          // transitionHelper.add.call(
+          //   this.ui.button.attack, 
+          //   animate([this.ui.buttonSprite.attack[1]], this.image_transition, undefined, this.ui.buttonSprite.attack[0]),
+          //   replacementSwitch
+          // ) ;                    
+          this.ui.button.attack.image = this.ui.buttonSprite.attack[1] ;
           state = 'a' ;
           break;
 
         case 3: // jump
           // this.ui.button.jump.transition = animate([this.ui.button[1]], this.image_transition, undefined, this.ui.buttonSprite[0]) ;
           // this.ui.button.jump.transition = animate([this.ui.buttonSprite.jump[1]], this.image_transition, undefined, this.ui.buttonSprite.jump[0]) ;
-          transitionHelper.add.call(
-            this.ui.button.jump, 
-            animate([this.ui.buttonSprite.jump[1]], this.image_transition, undefined, this.ui.buttonSprite.jump[0]),
-            replacementSwitch
-          ) ;                              
+          // transitionHelper.add.call(
+          //   this.ui.button.jump, 
+          //   animate([this.ui.buttonSprite.jump[1]], this.image_transition, undefined, this.ui.buttonSprite.jump[0]),
+          //   replacementSwitch
+          // ) ;                              
+          this.ui.button.jump.image = this.ui.buttonSprite.jump[1] ;
           state = 'j' ;
           break;
 

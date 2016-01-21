@@ -3,7 +3,7 @@ function trump_level_three () {
   // ras-tan level
 
   var vizConfig = { // an object to configure the visualization
-    backgroundImageUrl: '/images/trump_bg3.png',
+    backgroundImageUrl: './images/trump_bg3.png',
     frameDurationFactor: 5,
   } ;
 

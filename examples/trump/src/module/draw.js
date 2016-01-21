@@ -26,11 +26,29 @@ var draw = {
       context = rect.viz.context ;
     }
 
+    var fillStyle = context.fillStyle ;
+
+    if(rect.color === undefined) {
+      rect.color = fillStyle ;
+    }
+
+    var strokeStyle = context.strokeStyle ;
+
+    if(rect.stroke === undefined) {
+      rect.stroke = strokeStyle ;
+    }
+
+    
     context.beginPath() ;
-    context.rect(rect.x, rect.y, rect.width, rect.height) ;
     context.fillStyle = rect.color ;
+    context.strokeStyle = rect.stroke ;
+    context.rect(rect.x, rect.y, rect.width, rect.height) ;
     context.fill() ;
+    context.stroke() ;
     context.closePath() ;
+
+    context.fillStyle = fillStyle ;
+    context.strokeStyle = strokeStyle ;
 
   },
 
@@ -49,9 +67,18 @@ var draw = {
     var y = circ.y ;
     var r = circ.radius ;
     context.arc(x, y, r, 0, Math.PI * 2, true) ;
+
+    var fillStyle = context.fillStyle ;
+
+    if(circ.color === undefined) {
+      circ.color = fillStyle ;
+    }
+
     context.fillStyle = circ.color ;
     context.fill() ;
     context.closePath() ;
+
+    context.fillStyle = fillStyle ;
 
   },
 

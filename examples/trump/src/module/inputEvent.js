@@ -1,17 +1,23 @@
 var inputEvent = {
   
   down: function input_event_down (event) {
-     //console.log ('mousedown', 'this', this, 'this.viz', this.viz, 'event', event) ;
+
+    // console.log ('event down', 'this', this, 'this.viz', this.viz, 'event', event) ;    
 
     var inputHandler ;
 
     switch (event.type) {
 
-      case 'keydown': // left
+      case 'keydown': 
         inputHandler = 'keyboard_handler' ;
         break;
-      case 'mousedown': // up
+      case 'mousedown': 
         inputHandler = 'screen_handler' ;
+        break;
+      case 'touchstart':
+        inputHandler = 'screen_handler' ;
+        event.clientX = event.touches[0].clientX ;
+        event.clientY = event.touches[0].clientY ;
         break;
 
     }     
@@ -30,7 +36,13 @@ var inputEvent = {
   },
 
   up: function input_event_up (event) {
-    // console.log ('mouseup  end', 'event', event) ;
+
+    this.viz.ui.button.walkLeft.image  = this.viz.ui.buttonSprite.left[0] ;
+    this.viz.ui.button.walkRight.image = this.viz.ui.buttonSprite.right[0] ;
+    this.viz.ui.button.attack.image    = this.viz.ui.buttonSprite.attack[0] ;
+    this.viz.ui.button.jump.image      = this.viz.ui.buttonSprite.jump[0] ;
+
+    // console.log ('event up start', 'event', event) ;
 
     $Z.prep ([this.viz]) ; // stop calling click every frame
 
