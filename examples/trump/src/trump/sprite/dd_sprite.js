@@ -31,7 +31,7 @@ function dd_sprite () {
 	} ;
 	// console.log ('walk config', walkConfig) ;
 	ddSprite.walk     = get_sprite (walkConfig) ;
-	//ddSprite.walk.push(ddSprite.walk[1]) ;
+	ddSprite.walk.push(ddSprite.walk[1]) ;
 
   var attackTileCount = 2 ;
 	var attackRowIndex  = 1 ;
@@ -91,17 +91,17 @@ function dd_sprite () {
   var jump      = get_sprite(jumpSpriteConfig) ;
   ddSprite.jump.push(jump[0]) ;
   ddSprite.jump.push(jump[0]) ;
-  ddSprite.jump.push(jump[0]) ;
-  ddSprite.jump.push(jump[0]) ;
-  ddSprite.jump.push(jump[1]) ;
-  ddSprite.jump.push(jump[1]) ;
+  // ddSprite.jump.push(jump[0]) ;
+  // ddSprite.jump.push(jump[0]) ;
+  // ddSprite.jump.push(jump[1]) ;
+  // ddSprite.jump.push(jump[1]) ;
   ddSprite.jump.push(jump[1]) ;
   ddSprite.jump.push(jump[1]) ;  
   ddSprite.jump.push(jump[1]) ;
   ddSprite.jump.push(jump[1]) ;
   ddSprite.jump.push(jump[2]) ;
   ddSprite.jump.push(jump[2]) ;
-  ddSprite.jump.push(jump[2]) ;
+  // ddSprite.jump.push(jump[2]) ;
 
 	var tempCanvas   = create_canvas (jump[1].width, jump[1].height)  ;
 	tempCanvas.getContext ('2d').drawImage (jump[1], 0, 0) ;
@@ -112,17 +112,17 @@ function dd_sprite () {
 	ddSprite.jumpCollision = [] ;
   ddSprite.jumpCollision.push(clearedFrame2) ;
   ddSprite.jumpCollision.push(clearedFrame2) ;
+  // ddSprite.jumpCollision.push(clearedFrame2) ;
+  // ddSprite.jumpCollision.push(clearedFrame2) ;
+  // ddSprite.jumpCollision.push(tempCanvas) ;
+  // ddSprite.jumpCollision.push(tempCanvas) ;
+  ddSprite.jumpCollision.push(tempCanvas) ;
+  ddSprite.jumpCollision.push(tempCanvas) ;
+  ddSprite.jumpCollision.push(tempCanvas) ;
+  ddSprite.jumpCollision.push(tempCanvas) ;
   ddSprite.jumpCollision.push(clearedFrame2) ;
   ddSprite.jumpCollision.push(clearedFrame2) ;
-  ddSprite.jumpCollision.push(tempCanvas) ;
-  ddSprite.jumpCollision.push(tempCanvas) ;
-  ddSprite.jumpCollision.push(tempCanvas) ;
-  ddSprite.jumpCollision.push(tempCanvas) ;
-  ddSprite.jumpCollision.push(tempCanvas) ;
-  ddSprite.jumpCollision.push(tempCanvas) ;
-  ddSprite.jumpCollision.push(clearedFrame2) ;
-  ddSprite.jumpCollision.push(clearedFrame2) ;
-  ddSprite.jumpCollision.push(clearedFrame2) ;
+  // ddSprite.jumpCollision.push(clearedFrame2) ;
 	//ddSprite.walk = ddSprite.jumpCollision ;
   //console.log('ddSprite', ddSprite) ; 
   ddSprite.rest = [ddSprite.walk[0]] ;
