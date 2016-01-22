@@ -23,7 +23,7 @@ function trump_level_one () {
     },
     xMove: 5,
     yMove: 50,
-    y: 225,
+    y: 207,
   } ;
 
   var enemyConfig = {
