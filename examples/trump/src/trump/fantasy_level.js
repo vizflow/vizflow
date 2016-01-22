@@ -1,6 +1,8 @@
-function trump_level_three () {
+function fantasy_level () {
 
-  // ras-tan level
+  // "ras-tan" level
+
+  document.nextLevel = space_level ;
 
   var vizConfig = { // an object to configure the visualization
     backgroundImageUrl: './images/trump_bg3.png',

@@ -8,7 +8,13 @@ var performAction = {
     this.healthbar.health -= this.healthDrop ;
     
     if (this.healthbar.health < 0) {
-      alert ('game over') ;
+      if(document.nextLevel === null) {
+        alert('congratulations! you did it') ;
+        $Z.item([]) ;
+      } else {
+        document.nextLevel() ; 
+      }
+      // alert ('game over') ;
       this.healthbar.health = 0 ;
     }
 
