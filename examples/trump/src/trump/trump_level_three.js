@@ -21,6 +21,7 @@ function trump_level_three () {
       attack: step_transition_func ( 'image', viz.dur ), // transition object creation function
       y: $Z.transition.rounded_linear_transition_func ( 'y', viz.dur * 14 ), // function accepting a y end-value and returning a transition object
     },
+    fullLoopSwitch: true,
     xMove: 8,
     yMove: 55,
     y: 209,
@@ -38,15 +39,19 @@ function trump_level_three () {
 
   load_characters(viz, playerConfig, enemyConfig) ;
 
+  load_audio(viz) ;  
+
   var enemyHitConfig = {
     healthbarY: 10, 
     color: '#900',
+    audio: viz.audio.hit2,    
   } ;
   
   var playerHitConfig = {
     detectList: [viz.player.item], // enemy bullet added later
     healthbarY: 22,
-    color: '#009', 
+    color: '#009',
+    audio: viz.audio.hit2,
   } ;
   
   load_hit(viz, playerHitConfig, enemyHitConfig) ;

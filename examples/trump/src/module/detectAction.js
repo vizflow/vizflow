@@ -4,7 +4,7 @@ var detectAction = {
 
     // console.log('detectAction hit', 'this', this)
 
-    if(this.detectList[0].constructor !== Array) {
+    if(this.detectList[0] !== undefined && this.detectList[0].constructor !== Array) {
       detectAction.collision.call(this, this.detectList) ;
     } else {      
       for (var kList = 0 ; kList < this.detectList.length ; kList++ ) {

@@ -25,7 +25,7 @@ function setup_hit(viz, element, setupHitConfig) {
     hitTransition.push(reset) ;
 
     var frameDuration = hitDur * .1 ;
-    var Nstep = 2 * (Math.floor(0.5 * hitDur / frameDuration)) - 1 ;
+    var Nstep = 2 * (Math.floor(0.5 * hitDur / frameDuration)) ;
     var flash = effect.flash.call(element, frameDuration, Nstep) ;
     //console.log('setup hit', 'flash', flash) ;
     hitTransition.push(flash.animation[0]) ;
@@ -72,7 +72,7 @@ function setup_hit(viz, element, setupHitConfig) {
     remove: hit_reset,
     detect: detectAction.hit,
     perform: performAction.hit,
-    detectList: [], // setupHitConfig.detectList,
+    detectList: [setupHitConfig.detectList],
     healthbar: healthbar,
     healthDrop: healthDrop,
     health_transition: health_transition,

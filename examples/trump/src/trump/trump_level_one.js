@@ -38,15 +38,19 @@ function trump_level_one () {
 
   load_characters(viz, playerConfig, enemyConfig) ;
 
+  load_audio(viz) ;
+
   var enemyHitConfig = {
     healthbarY: 10, 
     color: '#900',
+    audio: viz.audio.hit2,
   } ;
   
   var playerHitConfig = {
-    detectList: [viz.player.item], // enemy bullet added later
+    detectList: [viz.player.item], 
     healthbarY: 22,
     color: '#009', 
+    audio: viz.audio.hit2,
   } ;
   
   load_hit(viz, playerHitConfig, enemyHitConfig) ;

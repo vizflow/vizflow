@@ -48,13 +48,35 @@ function setup_element (viz, elementConfig) {
   if (elementConfig.jumpDuration === undefined) {
     elementConfig.jumpDuration = viz.frameDuration ;
   }  
-
-  element.loop = {
-    frameDur: elementConfig.frameDuration,
-    position: 0,
-    Nframe: 1,
-  } ; // position is from 0 to 1
   
+  if (elementConfig.fullLoopSwitch === undefined) {
+    elementConfig.fullLoopSwitch = false ;
+  }
+
+  if (elementConfig.loop === undefined) {
+    var tempLoop = {
+      frameDur: elementConfig.frameDuration,
+      position: 0,
+      Nstep: 1,
+    } ; 
+    var walkLoop = copy_object(tempLoop) ;
+    var attackLoop = copy_object(tempLoop) ;
+    var jumpLoop = copy_object(tempLoop) ;
+    if (elementConfig.fullLoopSwitch) {
+      attackLoop.Nstep = element.sprite.attack.length ;
+    }
+
+    if (element.sprite.jump !== undefined) {
+      jumpLoop.Nstep = element.sprite.jump.length ;  // jump always one shot 
+    }
+    elementConfig.loop = {
+      walk: walkLoop,
+      attack: attackLoop,
+      jump: jumpLoop,
+    } ;
+  }
+
+  element.loop = elementConfig.loop ;
   element.item = {
     viz: viz, 
     element: element, 
@@ -62,7 +84,7 @@ function setup_element (viz, elementConfig) {
     collisionImage: element.sprite[elementConfig.collisionImage][0],
     render: draw.image,
     x: elementConfig.x,
-    y: elementConfig.y - element.sprite.height 
+    y: elementConfig.y - element.sprite.height, 
   } ;
   
   //element.orientation = 'r' ; // r for facing right

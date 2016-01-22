@@ -42,7 +42,7 @@ var inputEvent = {
     this.viz.ui.button.attack.image    = this.viz.ui.buttonSprite.attack[0] ;
     this.viz.ui.button.jump.image      = this.viz.ui.buttonSprite.jump[0] ;
 
-    // console.log ('event up start', 'event', event) ;
+    console.log ('event up start', 'event', event) ;
 
     $Z.prep ([this.viz]) ; // stop calling click every frame
 
@@ -91,7 +91,6 @@ var inputEvent = {
     }
       
     if (this.viz.player.restoreRest) {
-      var replacementSwitch = true ;
       if (this.viz.player.state === 'r' || this.viz.player.state === 'l') {
         transitionHelper.add_child.call(this.viz.player.item, 'image', this.viz.player.transitionSet.image(this.viz.player.sprite.rest[0])) ;
       }
@@ -105,6 +104,8 @@ var inputEvent = {
     }
     
     buttonpress.reset () ;
+    console.log ('event up start', 'event', event) ;
+
 
   },
 	
