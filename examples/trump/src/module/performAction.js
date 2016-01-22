@@ -42,6 +42,10 @@ var performAction = {
     for (var kTrans = 0 ; kTrans < transition.length ; kTrans++) {
       transitionHelper.add.call(this.element.item, transition[kTrans], replacementSwitch) ;
     }
+
+    if(this.audio !== undefined && this.audio.buffer !== undefined) {
+      this.audio.play() ;
+    }
 		// console.log ('perform action hit end', 'this.element.item.transition', this.element.item.transition) ;
     // console.log('performAction hit this end', this) ;
     performAction.reset () ; //.call(this) ;

@@ -54,5 +54,8 @@ function load_player_bullet(viz) {
 
   viz.player.bullet     = setup_bullet (viz, viz.player, bulletConfig) ;  
   viz.player.jumpBullet = setup_bullet (viz, viz.player, jumpBulletConfig) ;  
+ 
+  viz.player.bullet.audio = viz.audio.bullet1 ;
+  viz.player.jumpBullet.audio = viz.audio.bullet1 ;
 	
 }

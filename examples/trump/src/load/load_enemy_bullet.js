@@ -31,5 +31,6 @@ function load_enemy_bullet(viz) {
 
 	viz.enemy.bullet = setup_word (viz, 'enemy', wordConfig) ; 
   viz.enemy.bullet.remove = false ;
+  viz.enemy.bullet.audio = viz.audio.bullet1 ;
 
 }

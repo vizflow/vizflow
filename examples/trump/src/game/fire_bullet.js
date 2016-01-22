@@ -33,6 +33,7 @@ function fire_bullet (bulletName) {
     // console.log ('update_player 68') ;
 
     $Z.item().push (newBullet) ;
+    this[bulletName].audio.play() ;
     this.adversary.hit.add() ; // the player attack starts the collision detection
 
     // console.log ('update_player end bullet if-block') ;
