@@ -1,6 +1,8 @@
-function trump_level_one () {
+function city_level () {
 
-  // jesus level
+  // "jesus" character level
+
+  document.nextLevel = fantasy_level ;
 
   var vizConfig = {
     backgroundImageUrl: './images/trump_bg1.png',

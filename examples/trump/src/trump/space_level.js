@@ -1,6 +1,8 @@
-function trump_level_four () {
+function space_level () {
 
-  // console.log('level 4') ;
+  // "samusy" level
+
+  document.nextLevel = null ;
 
   var vizConfig = { // an object to configure the visualization
     backgroundImageUrl: './images/trump_bg4.png',
