@@ -23,7 +23,7 @@ function load_player_bullet(viz) {
 
   function bullet_transition(xNew) {
     var transition = $Z.transition.rounded_linear_transition_func ( 'x', bulletDur )(xNew) ; // function accepting an x end-value and returning a transition object
-    transition.end = bulletHelper.default_end(viz, this) ;
+    transition.end = bulletHelper.default_end(viz, this, viz.enemy) ;
     return transition ;
   }
 
@@ -42,7 +42,7 @@ function load_player_bullet(viz) {
   function jump_bullet_transition(xNew) {
     var transition = step_transition_func ( 'dummy', jumpBulletDur )(xNew) ; // function accepting an x end-value and returning a transition object
     // console.log('jump_bullet_transition', transition) ;
-    transition.end = bulletHelper.default_end(viz, this) ;
+    transition.end = bulletHelper.default_end(viz, this, viz.enemy) ;
     return transition ;
   }
 

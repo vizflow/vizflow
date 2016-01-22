@@ -11,8 +11,10 @@ function load_enemy_bullet(viz) {
     down.child = step_transition_func('dummy', viz.dur * wordPause)(0) ;
     var word = this ;
     down.child.end = function() {
+      // console.log('word down end: start', 'wordCount', wordCount)
       wordCount-- ;
-      bulletHelper.default_end(viz, word) ;
+      bulletHelper.default_end(viz, word, viz.player).run() ;
+      // console.log('word down end: end')
     } ;
     left.child = down ;
     wordCount++ ;

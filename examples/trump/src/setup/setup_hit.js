@@ -72,7 +72,7 @@ function setup_hit(viz, element, setupHitConfig) {
     remove: hit_reset,
     detect: detectAction.hit,
     perform: performAction.hit,
-    detectList: setupHitConfig.detectList,
+    detectList: [], // setupHitConfig.detectList,
     healthbar: healthbar,
     healthDrop: healthDrop,
     health_transition: health_transition,
