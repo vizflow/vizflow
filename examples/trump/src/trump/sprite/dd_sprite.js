@@ -3,7 +3,7 @@ function dd_sprite () {
   var imgUrl        = './images/dd_billy.png' ;
   var spriteCanvas  = image2canvas(imgUrl) ;
   var spriteContext = create_context(spriteCanvas) ;
-  var bgColor       = [255, 246, 2] ;
+  var bgColor       = [255, 246, 0] ;
 
 	var ddSprite    = {} ;
 	ddSprite.height = 41 ;
