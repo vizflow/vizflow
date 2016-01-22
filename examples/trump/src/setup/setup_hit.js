@@ -49,6 +49,12 @@ function setup_hit(viz, element, setupHitConfig) {
     setupHitConfig.detectList = [element.adversary.item, element.item] ;
   }
 
+  if(setupHitConfig.audio === undefined) {
+    setupHitConfig.audio = viz.audio.hit1 ;
+  }
+
+  var audio = setupHitConfig.audio ;
+
   var healthbar = setup_healthbar (
     viz, 
     setupHitConfig.elementHealth, 
@@ -66,13 +72,14 @@ function setup_hit(viz, element, setupHitConfig) {
     remove: hit_reset,
     detect: detectAction.hit,
     perform: performAction.hit,
-    detectList: setupHitConfig.detectList,
+    detectList: [], // setupHitConfig.detectList,
     healthbar: healthbar,
     healthDrop: healthDrop,
     health_transition: health_transition,
     transition: hit_transition,
     element: element,
     viz: viz,
+    audio: audio,
 
   } ;	
 

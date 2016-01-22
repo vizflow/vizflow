@@ -38,16 +38,20 @@ function trump_level_four () {
 
   load_characters(viz, playerConfig, enemyConfig) ;
 
+  load_audio(viz) ;
+
   var enemyHitConfig = {
     detectList: [viz.enemy.item],
     healthbarY: 10, 
     color: '#900',
+    audio: viz.audio.hit2,
   } ;
   
   var playerHitConfig = {
     detectList: [viz.player.item],
     healthbarY: 21,
     color: '#009', 
+    audio: viz.audio.hit2,
   } ;
   
   load_hit(viz, playerHitConfig, enemyHitConfig) ;
@@ -56,6 +60,7 @@ function trump_level_four () {
   load_enemy_bullet(viz) ;
 
   load_game(viz) ;
+
 
   setInterval(
     function () {
