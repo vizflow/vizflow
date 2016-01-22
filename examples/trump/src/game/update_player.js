@@ -26,10 +26,11 @@
         }
 
         //this.sprite.rest[0]   = this.sprite.walk[0] ;
-        this.loop   = animate_loop (this.loop.walk, this.sprite.walk, this.transitionSet.image, undefined) ;
+        var loop   = animate_loop (this.loop.walk, this.sprite.walk, this.transitionSet.image, undefined) ;
+        this.loop.walk.position = loop.position ;
         //console.log ('update this l0', 'this', this, 'buttonpress.reset', buttonpress.reset, 'this.loop.animation[0]', this.loop.animation[0]) ;
         //console.log('this.loop.animation', this.loop.animation)
-        transition = this.loop.animation ;
+        transition = loop.animation ;
 
         var xNew        = Math.max(0, this.item.x - this.xMove) ;
         var xTransition = this.transitionSet.x(xNew) ;
@@ -52,9 +53,11 @@
             this.jumpBullet.image = this.bulletSprite.jump[0] ;
           }
         }        
-        //console.log ('update_player 27') ;
-        this.loop     = animate_loop (this.loop.walk, this.sprite.walk, this.transitionSet.image, undefined) ;
-        transition = this.loop.animation ;
+        // console.log ('update_player 27') ;
+        var loop     = animate_loop (this.loop.walk, this.sprite.walk, this.transitionSet.image, undefined) ;
+        // console.log('update player 57') ;
+        this.loop.walk.position = loop.position ;
+        transition = loop.animation ;
 
         var xNew        = Math.min(this.item.viz.width - this.sprite.rest[0].width, this.item.x + this.xMove) ;
         var xTransition = this.transitionSet.x(xNew) ;
@@ -127,9 +130,9 @@
         // console.log ('updateplayer 101', this.sprite.attack, transitionFunc, buttonpress.reset, this.sprite.rest[0]) ;
         var finalFrame = this.sprite.rest[0] ;
 
-        var loop       = animate_loop(this.loop.attack, this.sprite.attack, transitionFunc, buttonpress.reset) ;
-        this.loop.position = loop.position ;
-        transition     = loop.animation ;
+        var loop                  = animate_loop(this.loop.attack, this.sprite.attack, transitionFunc, buttonpress.reset) ;
+        this.loop.attack.position = loop.position ;
+        transition                = loop.animation ;
         // console.log ('update player 105: ', 'this.loop', this.loop, 'this.sprite.attack', this.sprite.attack, 'transition', transition) ; //this.sprite.attack, transitionFunc, buttonpress.reset, this.sprite.rest[0]) ;
         // console.log ('update player 109' ) ;
         if (this.sprite.attackCollision !== undefined) {

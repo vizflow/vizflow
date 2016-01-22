@@ -59,7 +59,7 @@ var inputEvent = {
     }        
     var checkObject = transitionHelper.check_end_value.call(this.viz.player.item, 'y', yNew) ;
     var yIndex = checkObject.index ;
-    // console.log('input event', 'checkObject', checkObject) ;
+    console.log('input event', 'checkObject', checkObject) ;
     if (checkObject.check !== undefined && !checkObject.check) { // never cancel downward transition
 
       transition[yIndex] = this.viz.player.transitionSet.y(yNew) ;
@@ -104,7 +104,7 @@ var inputEvent = {
     }
     
     buttonpress.reset () ;
-    console.log ('event up start', 'event', event) ;
+    console.log ('event up end', 'event', event) ;
 
 
   },
