@@ -6,7 +6,7 @@ function setup_healthbar (viz, health, height, y, color) {
 
 	  rect: {
 	    viz: viz, 
-	    x: 120,
+	    x: 75,
 	    y: y,
 	    width: health,
 	    height: height,

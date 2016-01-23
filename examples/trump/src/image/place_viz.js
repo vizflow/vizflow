@@ -1,13 +1,10 @@
 function place_viz (canvas) {
 
-	document.body.appendChild(canvas) ;
-
-	function resize() {
-	  set_canvas_position( canvas ) ;
+	var y = document.body.getElementsByTagName("canvas");
+	for(ky = 0 ; ky < y.length ; ky++) {
+		console.log('removing', 'canvas', y[ky]) ;
+		y[ky].parentNode.removeChild(y[ky]) ;
 	}
-
-	resize() ;
-	var tResize = 85 ; // how often to check for window resize events (85 is ve 17 ms frames)
-	setInterval( resize, tResize ) ;
+	document.body.appendChild(canvas) ;
 	
 }

@@ -12,6 +12,7 @@ var performAction = {
         alert('congratulations! you did it') ;
         $Z.item([]) ;
       } else {
+        // $Z.maxIter = 0 ; // force exit 
         document.nextLevel() ; 
       }
       // alert ('game over') ;

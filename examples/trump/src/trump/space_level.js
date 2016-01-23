@@ -25,7 +25,7 @@ function space_level () {
     },
     xMove: 10,
     yMove: 100,
-    y: 225,
+    y: 169,
   } ;
 
   var enemyConfig = {
@@ -34,8 +34,8 @@ function space_level () {
     attackDuration: 20 * viz.frameDuration,
     collisionImage: 'rest', 
     orientation: 'l',
-    x: 80,    
-    y: 240,
+    x: 40,
+    y: 193,
   } ;  
 
   load_characters(viz, playerConfig, enemyConfig) ;
@@ -64,12 +64,12 @@ function space_level () {
   load_game(viz) ;
 
 
-  setInterval(
-    function () {
-      update_enemy.call(viz.enemy) ;
-    }, 
-    2000
-  ) ;
+  // setInterval(
+  //   function () {
+  //     update_enemy.call(viz.enemy) ;
+  //   }, 
+  //   2000
+  // ) ;
 
 }
 

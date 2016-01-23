@@ -27,7 +27,7 @@ function fantasy_level () {
     fullLoopSwitch: true,
     xMove: 8,
     yMove: 55,
-    y: 209,
+    y: 157,
   } ;
 
   var enemyConfig = {
@@ -36,8 +36,8 @@ function fantasy_level () {
     attackDuration: 20 * viz.frameDuration,
     collisionImage: 'rest', 
     orientation: 'l',
-    x: 80, 
-    y: 209,
+    x: 40, 
+    y: 193,
   } ;
 
   load_characters(viz, playerConfig, enemyConfig) ;
@@ -52,7 +52,7 @@ function fantasy_level () {
   
   var playerHitConfig = {
     detectList: [viz.player.item], // enemy bullet added later
-    healthbarY: 22,
+    healthbarY: 19,
     color: '#009',
     audio: viz.audio.hit2,
   } ;

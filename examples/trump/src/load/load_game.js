@@ -11,9 +11,10 @@ function load_game (viz) {
     viz.player.hit.healthbar.item,
   ] ;
 
-  $Z.item(item)   ;     // load the user data into the visualization engine to initialize the time equals zero (t = 0) state
+  $Z.item(item)  ;     // load the user data into the visualization engine to initialize the time equals zero (t = 0) state
   $Z.prep([viz]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
-  $Z.run()        ;     // run the interactive visualization (infinite loop by default)
+  $Z.post([viz]) ;
+  $Z.run()       ;     // run the interactive visualization (infinite loop by default)
 
   document.viz = viz ; 
   document.addEventListener('mousedown', inputEvent.down) ;

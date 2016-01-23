@@ -42,7 +42,7 @@ function setup_hit(viz, element, setupHitConfig) {
   }
 
   if(setupHitConfig.healthbarHeight === undefined) {
-  	setupHitConfig.healthbarHeight = 10 ;
+  	setupHitConfig.healthbarHeight = 7 ;
   }
   
   if(setupHitConfig.detectList === undefined) {

@@ -6,21 +6,21 @@ function setup_viz (vizConfig) {
 
   var spriteImageIndex = 0 ; 
   var dur              = 17 ; // the framespeed that vizflow uses (60 frames per second)
-  var vizWidth         = 240 ;
-  var vizHeight        = 320 ;
+  var vizWidth         = 180 ;
+  var vizHeight        = 240 ;
 
-  var ratio = (window.devicePixelRatio || 1) ;
-  var displayWidth = vizWidth * ratio ;
+  var ratio         = (window.devicePixelRatio || 1) ;
+  var displayWidth  = vizWidth * ratio ;
   var displayHeight = vizHeight * ratio ;
 
   var vizCanvas  = create_canvas(vizWidth, vizHeight) ; 
-  var vizContext = create_context(vizCanvas) ;
+  var vizContext = vizCanvas.getContext('2d') ;
   
-  var displayCanvas  = create_canvas(displayWidth, displayHeight) ; 
-  var displayContext = create_context(displayCanvas) ;
-  var displayCopyCanvas = create_canvas(displayWidth, displayHeight) ;
-  var displayCopyContext = displayCopyCanvas.getContext('2d') ;
-  var displayCopyImageData = displayCopyContext.getImageData(0, 0, displayWidth, displayHeight) ;
+  var displayCanvas        = create_canvas(displayWidth, displayHeight) ; 
+  var displayContext       = create_context(displayCanvas) ;
+  var displayCopyCanvas    = create_canvas(displayWidth, displayHeight) ;
+  var displayCopyContext   = displayCopyCanvas.getContext('2d') ;
+
   place_viz(displayCanvas) ;
 
   var backgroundImageUrl = vizConfig.backgroundImageUrl ;
@@ -28,7 +28,7 @@ function setup_viz (vizConfig) {
 
   var frameDuration = vizConfig.frameDurationFactor * dur ;
 
-  var blockOffset = [null, null] ;  // initialize element array(use closure to reduce garbage collection)
+  // var blockOffset = [null, null] ;  // initialize element array(use closure to reduce garbage collection)
 
   // function block_copy (destImageData, context, sx, sy, sw, sh, dx, dy, dw, dh) {
      
@@ -70,6 +70,25 @@ function setup_viz (vizConfig) {
   //   // console.log ('sourceImageData', sourceImageData, 'destImageData', destImageData) ;
   // }
 
+  var sx = 0 ;
+  var sy = 0 ;
+  var sw = vizWidth ;
+  var sh = vizHeight ;
+  var dx = 0 ;
+  var dy = 0 ;
+  var dw = displayWidth ;
+  var dh = displayHeight ;
+
+  function resize() {
+    set_canvas_position( displayCanvas ) ;
+  }
+
+  resize() ;
+
+  // console.log('displayCanvas', displayCanvas)
+
+  var Nskip      = 5 ;
+
   var viz = {
 
     config: vizConfig,
@@ -79,33 +98,37 @@ function setup_viz (vizConfig) {
     frameDuration: frameDuration,
     canvas: vizCanvas,
     context: vizContext,
+    background: background,
     displayCanvas: displayCanvas, 
     displayContext: displayContext,
-    display: function viz_display () {
-      // console.log('viz display start') ;
-      var sx = 0 ;
-      var sy = 0 ;
-      var sw = vizWidth ;
-      var sh = vizHeight ;
-      var dx = 0 ;
-      var dy = 0 ;
-      var dw = displayWidth ;
-      var dh = displayHeight ;
-      // var sourceImageData = block_copy(displayCopyImageData, vizContext, sx, sy, sw, sh, dx, dy, dw, dh) ;
-      // displayContext.putImageData(sourceImageData, 0, 0) ;
-      // displayContext.putImageData(displayCopyImageData, 0, 0) ;
-        // displayCopyContext.drawImage(this.canvas, sx, sy, sw, sh, dx, dy, dw, dh) ;
-      displayContext.drawImage (vizCanvas, sx, sy, sw, sh, dx, dy, dw, dh) ;
-    },
 
     prep: function viz_prep () {
+
+      if($Z.iter % Nskip === 0) {
+        resize() ;
+      }
+
       //console.log('setup_viz: viz_prep')
-      // viz.context.clearRect(0, 0, viz.canvas.width, viz.canvas.height) ;
-      this.display () ;
-      this.context.globalAlpha = .8 ;
-      this.context.drawImage (background, 0, 0) ;
-      this.context.globalAlpha = 1 ;
+
+      // draw current frame to display canvas:
+      // prepare viz canvas for next frame:
+
+      // console.log('this.canvas', this.canvas) ;
+      // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height) ;
+      // this.context.globalAlpha = .8 ;
+      this.context.drawImage (this.background, 0, 0) ;
+      // this.context.globalAlpha = 1 ;
+ 
       return true ;
+ 
+    },
+
+    post: function viz_post () {
+
+      this.displayContext.clearRect(0, 0, this.displayCanvas.width, this.displayCanvas.height) ;
+      // this.displayContext.globalAlpha = 1 ;
+      this.displayContext.drawImage (this.canvas, sx, sy, sw, sh, dx, dy, dw, dh) ;
+    
     },
 
     image_transition: step_transition_func('image', frameDuration),

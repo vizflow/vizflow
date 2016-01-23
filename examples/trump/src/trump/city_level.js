@@ -25,7 +25,7 @@ function city_level () {
     },
     xMove: 7,
     yMove: 50,
-    y: 207,
+    y: 155,
   } ;
 
   var enemyConfig = {
@@ -33,9 +33,9 @@ function city_level () {
     frameDuration: viz.frameDuration * 10,
     attackDuration: 20 * viz.frameDuration,
     collisionImage: 'rest',
-    orientation: 'r',
-    x: 80,
-    y: 209,
+    orientation: 'l',
+    x: 40,
+    y: 193,
   } ;
 
   load_characters(viz, playerConfig, enemyConfig) ;
@@ -50,7 +50,7 @@ function city_level () {
   
   var playerHitConfig = {
     detectList: [viz.player.item], 
-    healthbarY: 22,
+    healthbarY: 19,
     color: '#009', 
     audio: viz.audio.hit2,
   } ;

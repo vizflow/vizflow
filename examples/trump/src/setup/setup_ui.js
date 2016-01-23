@@ -1,7 +1,7 @@
 function setup_ui (viz) {
 
-  var buttonWidth     = 52 ;
-  var buttonHeight    = 52 ;
+  var buttonWidth     = 39 ;
+  var buttonHeight    = 39 ;
   var buttonTileCount = 2 ;
   var buttonRowIndex  = 0 ;
   var buttonOffsetX   = 0 ;
