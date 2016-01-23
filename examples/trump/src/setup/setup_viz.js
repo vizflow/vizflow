@@ -12,9 +12,6 @@ function setup_viz (vizConfig) {
   var vizCanvas  = create_canvas(vizWidth, vizHeight) ; 
   var vizContext = create_context(vizCanvas) ;
   
-  var ratio = (window.devicePixelRatio || 1) ;
-  vizCanvas.getContext('2d').scale(ratio, ratio) ;
-
   place_viz(vizCanvas) ;
 
   var backgroundImageUrl = vizConfig.backgroundImageUrl ;
