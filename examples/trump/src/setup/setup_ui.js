@@ -7,7 +7,7 @@ function setup_ui (viz) {
   var buttonOffsetX   = 0 ;
   var buttonOffsetY   = 0 ;
   var buttonPadX      = 0 ;
-  var buttonPad       = Math.floor( ( viz.width - (buttonWidth * 4) ) / 4 ) - 1 ;
+  var buttonPad       = Math.floor( ( viz.width - (buttonWidth * 4) ) / 4 ) ;
   var buttonImageUrl  = './images/button_spritesheet.png' ;
   var buttonCanvas    = image2canvas(buttonImageUrl) ;
 
@@ -48,7 +48,7 @@ function setup_ui (viz) {
   var buttonX = [] ;
 
   for(var kButton = 0 ; kButton < Nbutton ; kButton++) { // compute the horizontal positions for the buttons based on the available width of the vizualization 
-    buttonX.push(kButton * (buttonPad + buttonWidth) + buttonPad * 0.5) ;
+    buttonX.push(Math.floor( kButton * (buttonPad + buttonWidth) + buttonPad * 0.5)) ;
   }  
 
   var uiWidth         = viz.width ;

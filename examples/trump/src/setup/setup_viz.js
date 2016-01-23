@@ -10,8 +10,8 @@ function setup_viz (vizConfig) {
   var vizHeight        = 240 ;
 
   var ratio         = (window.devicePixelRatio || 1) ;
-  var displayWidth  = vizWidth * ratio ;
-  var displayHeight = vizHeight * ratio ;
+  var displayWidth  = Math.floor(vizWidth * ratio) ;
+  var displayHeight = Math.floor(vizHeight * ratio) ;
 
   var vizCanvas  = create_canvas(vizWidth, vizHeight) ; 
   var vizContext = vizCanvas.getContext('2d') ;
