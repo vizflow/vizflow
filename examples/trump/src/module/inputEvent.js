@@ -72,7 +72,8 @@ var inputEvent = {
           // console.log('end this', this, 'player', player, 'player.item.transition', player.item.transition) ;
           for(var ktrans = 0 ; ktrans < transition.length ; ktrans++) {
             if(transition[ktrans].varName === 'collisionImage') {
-              var newTransition = step_transition_func('collisionImage', this.viz.dur)(this.viz.player.sprite.clearedFrame) ;
+              // console.log ('this.config.collisionImage', this.config.collisionImage//'this.viz.player.sprite[this.config.collisionImage]') ; //, this.viz.player.sprite[this.config.collisionImage], 'this.config.collisionImage', this.config.collisionImage) ;
+              var newTransition = step_transition_func('collisionImage', this.viz.dur)(this.viz.player.sprite[this.viz.player.config.collisionImage][0]) ;
               // console.log('if collisionImage', 'transition[ktrans]', transition[ktrans], 'newTransition', newTransition) ;
               this.viz.player.item.transition[ktrans] = newTransition ;
             }

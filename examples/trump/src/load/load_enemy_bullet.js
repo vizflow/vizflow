@@ -8,13 +8,18 @@ function load_enemy_bullet(viz) {
     'muslims',
   ]
 
-  var wordImage = word_image (wordList[(document.skipIndex * (document.skipIndex - 1)) % wordList.length]) ;
+  var wordImage = [] ;
+  for (var kWord = 0 ; kWord < wordList.length ; kWord++) {
+    wordImage.push(word_image (wordList[kWord])) ;
+  }
+  // var wordImage = word_image (wordList[(document.skipIndex * (document.skipIndex - 1)) % wordList.length]) ;
   var maxNword  = 6 ;
   var wordPause = maxNword * 100 ;
 
   function word_transition(xNew) {
-    this.image = word_image(wordList[(document.skipIndex * (document.skipIndex + 3)) % wordList.length]) ;
-    document.skipIndex++ ;
+    // this.image = word_image(wordList[(document.skipIndex * (document.skipIndex + 3)) % wordList.length]) ;
+    this.image = wordImage[(document.skipIndex * (document.skipIndex + 3)) % wordList.length] ;
+  
     
     var left   = $Z.transition.rounded_linear_transition_func ( 'x', viz.dur * 80 )(xNew) ; // sets speed of word block    
     //var down   = $Z.transition.rounded_linear_transition_func( 'y', viz.dur * 30 )(viz.player.config.y - wordImage.height * wordCount) ;
@@ -28,6 +33,8 @@ function load_enemy_bullet(viz) {
     ///} ;
     // console.log('word transition', 'left', left) ;
     //left.child = down ;
+    left.end = bulletHelper.default_end(viz, this, viz.player) ;
+
     return left ;
   }
 	
@@ -36,7 +43,7 @@ function load_enemy_bullet(viz) {
     shiftXl: 0,
     shiftXr: 0, 
     shiftY: 110,
-    image: wordImage,
+    image: wordImage[0],
     transition: word_transition,
     element: viz.enemy,
   } ;

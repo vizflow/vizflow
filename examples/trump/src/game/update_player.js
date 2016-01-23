@@ -84,8 +84,15 @@
         // console.log('update player 56') ;
         if (this.sprite.jumpCollision !== undefined) {
           var collisionTransition   = step_transition_func('collisionImage', transition[0].duration)(this.sprite.jumpCollision[0]) ;
-          collisionTransition.child = animate (this.sprite.jumpCollision, step_transition_func('collisionImage', jumpTransition.child.duration), undefined, this.sprite.clearedFrame)[0] ; 
+          // collisionTransition.child = animate (this.sprite.jumpCollision, step_transition_func('collisionImage', jumpTransition.child.duration), undefined, this.sprite.clearedFrame)[0] ; 
           // console.log('update player collisionTransition', collisionTransition) ;
+          collisionTransition.child = animate (
+            this.sprite.jumpCollision,
+            step_transition_func('collisionImage', jumpTransition.child.duration), 
+            undefined, 
+            this.sprite[this.config.collisionImage][0]
+            // this.sprite.clearedFrame
+          )[0] ;           
           transition.push(collisionTransition) ;
           this.adversary.hit.add() ; // the player attack starts the collision detection
         }        
@@ -137,7 +144,7 @@
         // console.log ('update player 109' ) ;
         if (this.sprite.attackCollision !== undefined) {
           var collision_image_transition = step_transition_func('collisionImage', transition[0].duration) ;
-          var collisionTransition = animate (this.sprite.attackCollision, collision_image_transition, undefined, this.sprite.clearedFrame) ; 
+          var collisionTransition = animate (this.sprite.attackCollision, collision_image_transition, undefined, this.sprite[this.config.collisionImage][0]) ; 
           transition = transition.concat(collisionTransition) ;
         }
 
