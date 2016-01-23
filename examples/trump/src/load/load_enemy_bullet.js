@@ -2,22 +2,20 @@ function load_enemy_bullet(viz) {
 
   var wordList = [
     'schlonged',
+    'love me',
     'the blacks',
     'mexicans',
     'muslims',
-    'love me',
   ]
 
-  viz.wordCount = 0 ;
-  var wordSkip = 17 ; 
-  var wordImage = word_image (wordList[viz.wordCount]) ;
+  var wordImage = word_image (wordList[(document.skipIndex * (document.skipIndex - 1)) % wordList.length]) ;
   var maxNword  = 6 ;
   var wordPause = maxNword * 100 ;
 
   function word_transition(xNew) {
-    this.image = word_image(wordList[(viz.wordCount * wordSkip) % wordList.length]) ;
-    viz.wordCount++ ;
-    console.log('word transition', 'wordList index', (viz.wordCount * wordSkip) % wordList.length) ;
+    this.image = word_image(wordList[(document.skipIndex * (document.skipIndex + 3)) % wordList.length]) ;
+    document.skipIndex++ ;
+    
     var left   = $Z.transition.rounded_linear_transition_func ( 'x', viz.dur * 80 )(xNew) ; // sets speed of word block    
     //var down   = $Z.transition.rounded_linear_transition_func( 'y', viz.dur * 30 )(viz.player.config.y - wordImage.height * wordCount) ;
     //down.child = step_transition_func('dummy', viz.dur * wordPause)(0) ;

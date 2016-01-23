@@ -1,13 +1,13 @@
 function setup_ui (viz) {
 
-  var buttonWidth     = 39 ;
-  var buttonHeight    = 39 ;
+  var buttonWidth     = 26 ;
+  var buttonHeight    = 26 ;
   var buttonTileCount = 2 ;
   var buttonRowIndex  = 0 ;
   var buttonOffsetX   = 0 ;
   var buttonOffsetY   = 0 ;
   var buttonPadX      = 0 ;
-  var buttonPad       = Math.floor( ( viz.width - (buttonWidth * 4) ) / 4 ) ;
+  var buttonPad       = Math.floor( ( viz.width - (buttonWidth * 4) ) / 4 ) - 1 ;
   var buttonImageUrl  = './images/button_spritesheet.png' ;
   var buttonCanvas    = image2canvas(buttonImageUrl) ;
 

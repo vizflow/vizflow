@@ -27,14 +27,13 @@ function load_game (viz) {
   var tSkip = 0 ;
   var minSkip = 99 ;
   var skipVar = [17, 23, 11, 19, 8, 0, 44, 19, 23, 14, 17, 23] ;
-  var skipIndex = 0 ;
 
   var trumpAttack = { 
     post: function() {
       // console.log('trumpAttack post start', 'tskip', tSkip, 'minskip', minSkip, 'ziter', $Z.iter, 'skipIndex % skipVar.length', skipIndex % skipVar.length) ;
-      if($Z.iter - tSkip >= (minSkip + skipVar[skipIndex % skipVar.length])) {
+      if($Z.iter - tSkip >= (minSkip + skipVar[document.skipIndex % skipVar.length])) {
         tSkip = $Z.iter ;
-        skipIndex++ ;
+        document.skipIndex++ ;
         update_enemy.call(viz.enemy) ;       
       }
       // console.log('trump attack post end') ;

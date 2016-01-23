@@ -11,7 +11,7 @@ function word_image (text) {
   var wordOffsetX = 3 ;
   var wordOffsetY = 11 ;
   wordContext.fillText(text, wordOffsetX, wordOffsetY) ;
-  var threshold = 50 ;
+  var threshold = 60 ;
   effect.image.binary_opacity_filter(wordImage, threshold) ;
 
   // finished drawing black on transparent pixels
