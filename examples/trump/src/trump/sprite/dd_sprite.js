@@ -30,7 +30,7 @@ function dd_sprite () {
 		padXr: walkTilePadXr,
 	} ;
 	// console.log ('walk config', walkConfig) ;
-	ddSprite.walk     = get_sprite (walkConfig) ;
+	ddSprite.walk = get_sprite (walkConfig) ;
 	ddSprite.walk.push(ddSprite.walk[1]) ;
 
   var attackTileCount = 2 ;
