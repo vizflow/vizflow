@@ -29,7 +29,12 @@ var audio = {
 		// console.log('audio play', 'buffer', buffer) ;
 
 		var sourceNode = this.context.createBufferSource() ;
-		sourceNode.buffer = buffer ;
+		if(buffer !== undefined && buffer !== null) {
+			sourceNode.buffer = buffer ;
+		} else {
+			console.log('audio.play: no audio loaded') ;
+		}
+		
 		sourceNode.connect( this.context.destination ) ;
 
 		if ( start === undefined ) {
