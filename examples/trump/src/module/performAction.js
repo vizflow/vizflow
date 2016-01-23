@@ -12,8 +12,9 @@ var performAction = {
         alert('congratulations! you did it') ;
         $Z.item([]) ;
       } else {
-        // $Z.maxIter = 0 ; // force exit 
+        $Z.maxIter = 0 ; // force exit 
         document.nextLevel() ; 
+        $Z.maxIter = Infinity ;
       }
       // alert ('game over') ;
       this.healthbar.health = 0 ;
