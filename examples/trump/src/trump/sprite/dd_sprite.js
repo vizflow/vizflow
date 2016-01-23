@@ -127,6 +127,8 @@ function dd_sprite () {
   //console.log('ddSprite', ddSprite) ; 
   ddSprite.rest = [ddSprite.walk[0]] ;
 
+  ddSprite.hit = [jump[2]] ;
+
  	ddSprite.clearedFrame  = create_canvas (attackCanvas.width, attackCanvas.height)  ;
 
 

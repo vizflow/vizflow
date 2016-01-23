@@ -12,7 +12,7 @@ function setup_hit(viz, element, setupHitConfig) {
 
     element.item.invincible = true ;
 
-    var hitDur              = ( element.adversary.sprite.attack.length + 30 ) * viz.dur ;
+    var hitDur              = ( element.adversary.sprite.attack.length + 20 ) * viz.dur ;
     // console.log ('hit transition', 'element', element, 'hitDur', hitDur) ;
     var hit                 = step_transition_func('image', hitDur) ;
     var hitTransition       = initial_transition(element.sprite.hit[0]) ;
@@ -25,7 +25,7 @@ function setup_hit(viz, element, setupHitConfig) {
     hitTransition.push(reset) ;
 
     var frameDuration = hitDur * .1 ;
-    var Nstep = 2 * (Math.floor(0.5 * hitDur / frameDuration)) ;
+    var Nstep = 2 * (Math.floor(0.25 * hitDur / frameDuration)) ;
     var flash = effect.flash.call(element, frameDuration, Nstep) ;
     //console.log('setup hit', 'flash', flash) ;
     hitTransition.push(flash.animation[0]) ;
@@ -64,8 +64,11 @@ function setup_hit(viz, element, setupHitConfig) {
   ) ;
 
   var health_transition = $Z.transition.linear_transition_func ( 'width', viz.dur * 4 ) ; 
-  var healthDrop        = 10 ;
 
+  if(setupHitConfig.healthdrop === undefined) {    
+    setupHitConfig.healthdrop = 10 ;
+  }
+ 
   var hit = { // action config object
 
     add: detectAction.add,
@@ -74,7 +77,7 @@ function setup_hit(viz, element, setupHitConfig) {
     perform: performAction.hit,
     detectList: [setupHitConfig.detectList],
     healthbar: healthbar,
-    healthDrop: healthDrop,
+    healthdrop: setupHitConfig.healthdrop,
     health_transition: health_transition,
     transition: hit_transition,
     element: element,

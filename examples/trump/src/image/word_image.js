@@ -1,16 +1,17 @@
 function word_image (text) {
 
-  var wordWidth = 70 ;
+  Npx = 11 ; 
+  var pad = -3 ;
+  var wordWidth = Math.round(text.length * (Npx + pad)) ;
   var wordHeight = 16 ;
   var wordImage = create_canvas(wordWidth, wordHeight) ;
 
   var wordContext = create_context(wordImage) ;
-  wordContext.font = '11px Courier' ;
-
+  wordContext.font = Npx + 'px Courier' ;
   var wordOffsetX = 3 ;
   var wordOffsetY = 11 ;
   wordContext.fillText(text, wordOffsetX, wordOffsetY) ;
-  var threshold = 60 ;
+  var threshold = 33 ;
   effect.image.binary_opacity_filter(wordImage, threshold) ;
 
   // finished drawing black on transparent pixels

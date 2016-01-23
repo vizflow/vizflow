@@ -36,28 +36,15 @@ function fantasy_level () {
     attackDuration: 20 * viz.frameDuration,
     collisionImage: 'rest', 
     orientation: 'l',
-    x: 40, 
+    x: 50, 
     y: 193,
   } ;
 
   load_characters(viz, playerConfig, enemyConfig) ;
 
   load_audio(viz) ;  
-
-  var enemyHitConfig = {
-    healthbarY: 10, 
-    color: '#900',
-    audio: viz.audio.hit2,    
-  } ;
   
-  var playerHitConfig = {
-    detectList: [viz.player.item], // enemy bullet added later
-    healthbarY: 19,
-    color: '#009',
-    audio: viz.audio.hit2,
-  } ;
-  
-  load_hit(viz, playerHitConfig, enemyHitConfig) ;
+  load_hit(viz) ;
   
   // load_player_bullet(viz) ;
   load_enemy_bullet(viz) ;

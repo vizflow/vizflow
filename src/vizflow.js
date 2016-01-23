@@ -41,9 +41,9 @@ import postprocess     from './postprocess'     ;
 var task = [       // array of functions defining the sequence of asynchronous (non-blocking) tasks to perform for each step/frame/iteration of the visualization
   preprocess,      // process user inputs and translate them into actionable changes to the data item attributes
   update_items,    // apply changes to the data item attributes as determined by current data item and user input states 
+  render_image,    // draw the data items to the screen somehow (render-agnostic)
   detect_actions,  // apply simulation or game logic e.g. collision detection etc. to determine what actions need to be performed
   perform_actions, // perform any actions e.g. item updates that are necessary for the simulation to continue
-  render_image,    // draw the data items to the screen somehow (render-agnostic)
   postprocess,     // e.g. draw all rendered images to the display element
   step_or_exit     // decides whether to generate another frame or to stop the simulation/game
 ] ; 

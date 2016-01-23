@@ -21,7 +21,10 @@ function fire_bullet (bulletName) {
 
     }
 
-    newBullet.transition = newBullet.transition(xNew) ; // overwriting the previous value of newBullet.transition with the output of the newBullet.transition function call
+    if(newBullet.transition !== undefined) {
+      newBullet.transition = newBullet.transition(xNew) ; // overwriting the previous value of newBullet.transition with the output of the newBullet.transition function call
+    }
+
 
     // console.log('fire bullet', 'transition', newBullet.transition) ;
     // console.log('fire bullet', 'newBullet', newBullet, 'xNew', xNew, 'this orientation', this.orientation) ;

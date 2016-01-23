@@ -5,9 +5,9 @@ var performAction = {
     // if (this.element.item.transition !== undefined && this.element.item.transition.length > 0) {
     //   return ;
     // }        
-    this.healthbar.health -= this.healthDrop ;
+    this.healthbar.health -= this.healthdrop ;
     
-    if (this.healthbar.health < 0) {
+    if (this.healthbar.health < 0 && this.element === this.viz.enemy) {
       if(document.nextLevel === null) {
         alert('congratulations! you did it') ;
         $Z.item([]) ;
@@ -16,6 +16,12 @@ var performAction = {
         document.nextLevel() ; 
       }
       // alert ('game over') ;
+      this.healthbar.health = 0 ;
+    }
+
+    if (this.healthbar.health < 0 && this.element === this.viz.player) {
+      alert('game over') ;
+      $Z.item([]) ;
       this.healthbar.health = 0 ;
     }
 

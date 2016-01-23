@@ -30,11 +30,11 @@ function city_level () {
 
   var enemyConfig = {
     sprite_loader:trump_sprite,
-    frameDuration: viz.frameDuration * 10,
-    attackDuration: 20 * viz.frameDuration,
+    frameDuration: viz.frameDuration * 1,
+    attackDuration: 5 * viz.frameDuration,
     collisionImage: 'rest',
     orientation: 'l',
-    x: 40,
+    x: 50,
     y: 193,
   } ;
 
@@ -42,31 +42,11 @@ function city_level () {
 
   load_audio(viz) ;
 
-  var enemyHitConfig = {
-    healthbarY: 10, 
-    color: '#900',
-    audio: viz.audio.hit2,
-  } ;
-  
-  var playerHitConfig = {
-    detectList: [viz.player.item], 
-    healthbarY: 19,
-    color: '#009', 
-    audio: viz.audio.hit2,
-  } ;
-  
-  load_hit(viz, playerHitConfig, enemyHitConfig) ;
+  load_hit(viz) ;
   
   // load_player_bullet(viz) ;
   load_enemy_bullet(viz) ;
   
   load_game(viz) ;
-
-  // setInterval(
-  //   function () {
-  //     update_enemy.call(viz.enemy) ;
-  //   }, 
-  //   2000
-  // ) ;
 
 } 

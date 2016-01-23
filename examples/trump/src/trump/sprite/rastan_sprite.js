@@ -260,6 +260,8 @@ function rastan_sprite () {
 
 	rastanSprite.clearedFrame  = create_canvas (attackCanvas.width, attackCanvas.height)  ;
 
+	rastanSprite.hit = [rastanSprite.walk[1]] ;
+
 	// console.log('rastan sprite', rastanSprite)
 
 	return rastanSprite ;

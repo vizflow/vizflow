@@ -11,11 +11,6 @@ function load_game (viz) {
     viz.player.hit.healthbar.item,
   ] ;
 
-  $Z.item(item)  ;     // load the user data into the visualization engine to initialize the time equals zero (t = 0) state
-  $Z.prep([viz]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
-  $Z.post([viz]) ;
-  $Z.run()       ;     // run the interactive visualization (infinite loop by default)
-
   document.viz = viz ; 
   document.addEventListener('mousedown', inputEvent.down) ;
   document.addEventListener('mouseup', inputEvent.up) ;
@@ -28,5 +23,28 @@ function load_game (viz) {
   document.addEventListener('touchend', inputEvent.up) ;
   document.addEventListener('keydown', inputEvent.down) ;
   document.addEventListener('keyup', inputEvent.up) ;
-      
+
+  var tSkip = 0 ;
+  var minSkip = 99 ;
+  var skipVar = [17, 23, 11, 19, 8, 0, 44, 19, 23, 14, 17, 23] ;
+  var skipIndex = 0 ;
+
+  var trumpAttack = { 
+    post: function() {
+      // console.log('trumpAttack post start', 'tskip', tSkip, 'minskip', minSkip, 'ziter', $Z.iter, 'skipIndex % skipVar.length', skipIndex % skipVar.length) ;
+      if($Z.iter - tSkip >= (minSkip + skipVar[skipIndex % skipVar.length])) {
+        tSkip = $Z.iter ;
+        skipIndex++ ;
+        update_enemy.call(viz.enemy) ;       
+      }
+      // console.log('trump attack post end') ;
+    },
+  } ;
+
+  $Z.item(item)  ;     // load the user data into the visualization engine to initialize the time equals zero (t = 0) state
+  $Z.prep([viz]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
+  // $Z.post([viz]) ;
+  $Z.post([viz, trumpAttack]) ;
+  $Z.run()       ;     // run the interactive visualization (infinite loop by default)
+
 }
