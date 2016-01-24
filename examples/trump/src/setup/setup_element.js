@@ -9,11 +9,13 @@ function setup_element (viz, elementConfig) {
   if(elementConfig.orientation === 'l') {
 
     element.spriteL = elementConfig.sprite_loader () ;
+    element.spriteL = spriteset_foreach(element.spriteL, adjust_image_ratio) ;  
     element.spriteR = horizontal_flip(element.spriteL) ;
 
   } else {
 
     element.spriteR = elementConfig.sprite_loader () ;
+    element.spriteR = spriteset_foreach(element.spriteR, adjust_image_ratio) ;
     element.spriteL = horizontal_flip(element.spriteR) ;
 
   }

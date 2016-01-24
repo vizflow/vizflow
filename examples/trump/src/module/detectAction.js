@@ -19,7 +19,7 @@ var detectAction = {
 
   collision: function detect_action_collision(detectList) {
 
-    var collision  = collision_detect( detectList, this.viz.width, this.viz.height ) ;
+    var collision  = {list: []} ; //collision_detect( detectList, this.viz.width, this.viz.height ) ;
     // console.log('detect_action_collision 1') ;
 
     if (collision.list.length > 0) { // a collision between player.item and enemy.item occurred

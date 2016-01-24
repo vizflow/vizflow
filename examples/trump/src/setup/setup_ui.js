@@ -44,12 +44,17 @@ function setup_ui (viz) {
   var buttonKey = ['left', 'right', 'attack', 'jump'] ;
 
   var Nbutton = 4 ;
-  var buttonY = buttonPad ;
   var buttonX = [] ;
 
-  for(var kButton = 0 ; kButton < Nbutton ; kButton++) { // compute the horizontal positions for the buttons based on the available width of the vizualization 
-    buttonX.push(Math.floor( kButton * (buttonPad + buttonWidth) + buttonPad * 0.5)) ;
-  }  
+  // for(var kButton = 0 ; kButton < Nbutton ; kButton++) { // compute the horizontal positions for the buttons based on the available width of the vizualization 
+  //   buttonX.push(Math.floor( kButton * (buttonPad + buttonWidth) + buttonPad * 0.5)) ;
+  // }  
+  buttonSprite  = spriteset_foreach(buttonSprite, adjust_image_ratio) ;
+  var ratio     = 2 ; //(window.devicePixelRatio || 1) ;
+  buttonWidth  *= ratio ;
+  buttonHeight *= ratio ;
+  buttonPad     = Math.floor( ( viz.width - (buttonWidth * 4) ) / 4 ) ;
+  var buttonY = buttonPad ;
 
   var uiWidth         = viz.width ;
   var uiHeight        = buttonHeight + buttonPad * 2 ;
@@ -61,6 +66,7 @@ function setup_ui (viz) {
   var hiddenUIContext = create_context (hiddenUICanvas) ;
 
   for( var kButton = 0 ; kButton < Nbutton ; kButton++ ) {
+    buttonX.push(Math.floor( kButton * (buttonPad + buttonWidth) + buttonPad * 0.5)) ;
 
     uiContext.drawImage(buttonSprite[buttonKey[kButton]][0], buttonX[kButton], buttonY) ; // draw visible buttonSprite
 
