@@ -1,15 +1,16 @@
 function setup_healthbar (viz, health, height, y, color) {
 	var healthbar = {} ;
+	var xPad = 10 ;
 
   healthbar.item = {
 	  viz: viz, 
 
 	  rect: {
 	    viz: viz, 
-	    x: 75,
-	    y: y,
-	    width: health,
-	    height: height,
+	    x: viz.width - (health + xPad) * document.ratio,
+	    y: y * document.ratio,
+	    width: health *document.ratio,
+	    height: height * document.ratio,
 	    color: color,
   	},
 
@@ -18,7 +19,7 @@ function setup_healthbar (viz, health, height, y, color) {
       draw.rect (this.rect, viz.context) ;
     },
 
-    width: health,
+    width: health * document.ratio,
  } ;
 
  healthbar.initialHealth = health ;

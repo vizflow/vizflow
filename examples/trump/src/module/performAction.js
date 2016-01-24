@@ -35,7 +35,7 @@ var performAction = {
     }
     //this.healthbar.item.width = this.healthbar.health ;
       // console.log('perform action hit 24') ;
-    transitionHelper.update_end_value.call(this.healthbar.item, 'width', this.healthbar.health, this.health_transition) ;
+    transitionHelper.update_end_value.call(this.healthbar.item, 'width', this.healthbar.health * document.ratio, this.health_transition) ;
       //console.log('PAH 25', 'this', this, 'this.healthbar.health', this.healthbar.health, 'this.healthbar.item.transition', this.healthbar.item.transition) ;
     // console.log ('this.healthbar.item', this.healthbar.item) ;
 
