@@ -38,7 +38,7 @@ function setup_viz (vizConfig) {
 
   var Nskip  = 50 ;
   var lastResize = 0 ;
-  var Ncollision = 2 ; // period for collision detection
+  var Ncollision = 12 ; // period for collision detection
   var lastCollision = 0 ;
 
   var viz = {
