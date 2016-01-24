@@ -4,31 +4,22 @@ function setup_viz (vizConfig) {
     vizConfig.frameDurationFactor = 1 ;
   }
 
-  var spriteImageIndex = 0 ; 
-  var dur              = 17 ; // the framespeed that vizflow uses (60 frames per second)
-  var ratio            = document.ratio ; //(window.devicePixelRatio || 1) ; 
-  var vizWidth         = 180 ;
-  var vizHeight        = 240 ;
+  var dur           = 17 ; // the framespeed that vizflow uses (60 frames per second)
+  var ratio         = document.ratio ; //(window.devicePixelRatio || 1) ; 
+  var vizWidth      = 180 ;
+  var vizHeight     = 240 ;
+  var displayWidth  = Math.floor(vizWidth * ratio) ;
+  var displayHeight = Math.floor(vizHeight * ratio) ;
 
-  var displayWidth     = Math.floor(vizWidth * ratio) ;
-  var displayHeight    = Math.floor(vizHeight * ratio) ;
+  var vizCanvas      = create_canvas(vizWidth, vizHeight) ;         // model canvas (indepdenent of device pixel ratio)
+  var displayCanvas  = create_canvas(displayWidth, displayHeight) ; // hidden display canvas (resized by devicePixelRatio, but not actually drawn to the screen)
+  var finalCanvas    = create_canvas(displayWidth, displayHeight) ; // actual display canvas (drawn to screen once per step/cycle/frame of the animation engine)
 
-  var vizCanvas  = create_canvas(vizWidth, vizHeight) ; 
-  var vizContext = vizCanvas.getContext('2d') ;
-  
-  var displayCanvas  = create_canvas(displayWidth, displayHeight) ; 
+  var vizContext     = vizCanvas.getContext('2d') ;
   var displayContext = displayCanvas.getContext('2d') ;
-
-  var finalCanvas  = create_canvas(displayWidth, displayHeight) ; 
-  var finalContext = create_context(finalCanvas) ;
+  var finalContext   = create_context(finalCanvas) ;
 
   place_viz(finalCanvas) ;
-
-  var backgroundImageUrl = vizConfig.backgroundImageUrl ;
-  var background         = image2canvas(backgroundImageUrl) ;
-  background             = adjust_image_ratio(background) ;
-
-  var frameDuration = vizConfig.frameDurationFactor * dur ;
 
   function resize() {
     set_canvas_position( finalCanvas ) ;
@@ -36,30 +27,40 @@ function setup_viz (vizConfig) {
 
   resize() ;
 
+  var backgroundImageUrl = vizConfig.backgroundImageUrl ;
+  var background         = image2canvas(backgroundImageUrl) ;
+  background             = adjust_image_ratio(background) ;
+
+  var frameDuration = vizConfig.frameDurationFactor * dur ;
+
+
   // console.log('displayCanvas', displayCanvas)
 
   var Nskip  = 50 ;
+  var lastResize = 0 ;
+  var Ncollision = 2 ; // period for collision detection
+  var lastCollision = 0 ;
 
   var viz = {
 
-    config: vizConfig,
-    width: vizWidth,
-    height: vizHeight, 
-    dur: dur,
-    frameDuration: frameDuration,
-    background: background,
-    canvas: vizCanvas,
-    context: vizContext,
-    displayCanvas: displayCanvas, 
+    config:         vizConfig,
+    width:          vizWidth,
+    height:         vizHeight, 
+    dur:            dur,
+    frameDuration:  frameDuration,
+    background:     background,
+    canvas:         vizCanvas,
+    context:        vizContext,
+    displayCanvas:  displayCanvas, 
     displayContext: displayContext,
-    finalCanvas: finalCanvas, 
-    finalContext: finalContext,
-
+    finalCanvas:    finalCanvas, 
+    finalContext:   finalContext,
 
     prep: function viz_prep () {
 
-      if($Z.iter % Nskip === 0) {
+      if( ($Z.iter - lastResize) > Nskip) {
         resize() ;
+        lastResize = $Z.iter ;
       }
 
       //console.log('setup_viz: viz_prep')
@@ -82,7 +83,12 @@ function setup_viz (vizConfig) {
       // this.displayContext.clearRect(0, 0, this.displayCanvas.width, this.displayCanvas.height) ;
       // this.displayContext.globalAlpha = 1 ;
       this.finalContext.drawImage (this.displayCanvas, 0, 0) ; // use a single drawImage call for rendering the current frame to the visible Canvas (GPU-acceleated performance)
-      // this.collision = collision_detect(this) ;
+
+      if( ($Z.iter - lastCollision) > Ncollision ) { // throttle collision detection if needed
+        this.collision = collision_detect(viz) ;
+        // console.log('viz_post', '$Z.iter', $Z.iter) ;
+        lastCollision = $Z.iter ;
+      }
     
     },
 
@@ -96,22 +102,3 @@ function setup_viz (vizConfig) {
   return viz ;
   
 }
-
-  // var ratio         = (window.devicePixelRatio || 1) ;
-  // var displayWidth  = Math.floor(vizWidth * ratio) ;
-  // var displayHeight = Math.floor(vizHeight * ratio) ;
-
-  // var displayCopyCanvas    = create_canvas(displayWidth, displayHeight) ;
-  // var displayCopyContext   = displayCopyCanvas.getContext('2d') ;
-
-
-  // var blockOffset = [null, null] ;  // initialize element array(use closure to reduce garbage collection)
-
-  // var sx = 0 ;
-  // var sy = 0 ;
-  // var sw = vizWidth ;
-  // var sh = vizHeight ;
-  // var dx = 0 ;
-  // var dy = 0 ;
-  // var dw = displayWidth ;
-  // var dh = displayHeight ;

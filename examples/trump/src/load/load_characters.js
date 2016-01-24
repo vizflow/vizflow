@@ -1,7 +1,7 @@
-function load_characters(viz, playerConfig, enemyConfig) {
+function load_characters(viz) {
 
-  viz.player = setup_element(viz, playerConfig) ;
-  viz.enemy  = setup_element(viz, enemyConfig) ;
+  viz.player = setup_element(viz, viz.playerConfig) ;
+  viz.enemy  = setup_element(viz, viz.enemyConfig) ;
 
   viz.player.orientation = 'r' ; // all players start facing right
 

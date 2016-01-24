@@ -12,6 +12,7 @@ function setup_healthbar (viz, health, height, y, color) {
 	    width: health,
 	    height: height,
 	    color: color,
+	    inert: true,
   	},
 
     render: function draw_bar() {

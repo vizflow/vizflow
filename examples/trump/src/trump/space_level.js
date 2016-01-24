@@ -6,12 +6,12 @@ function space_level () {
 
   var vizConfig = { // an object to configure the visualization
     backgroundImageUrl: './images/trump_bg4.png',
-    frameDurationFactor: 1,
+    frameDurationFactor: 2,
   } ;
 
-  viz = setup_viz(vizConfig)   ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
+  viz = setup_viz(vizConfig) ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
 
-  var playerConfig = { 
+  viz.playerConfig = { 
     sprite_loader: samus_sprite, 
     orientation: 'r',
     frameDuration: viz.frameDuration,
@@ -20,7 +20,7 @@ function space_level () {
     callback: update_player,
     restoreRest: true,
     transitionSet: {
-      x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), // function accepting an x end-value and returning a transition object
+      x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ),      // function accepting an x end-value and returning a transition object
       y: $Z.transition.rounded_linear_transition_func ( 'y', viz.frameDuration * 20 ), // function accepting a y end-value and returning a transition object
     },
     xMove: 10,
@@ -28,7 +28,7 @@ function space_level () {
     y: 169,
   } ;
 
-  var enemyConfig = {
+  viz.enemyConfig = {
     sprite_loader: trump_sprite,
     frameDuration: viz.frameDuration,
     attackDuration: 20 * viz.frameDuration,
@@ -38,16 +38,15 @@ function space_level () {
     y: 193,
   } ;  
 
-  load_characters(viz, playerConfig, enemyConfig) ;
+  load_characters    (viz) ;
+  load_audio         (viz) ;
+  load_hit           (viz) ;
 
-  load_audio(viz) ;
-  
-  load_hit(viz) ;
+  viz.enemy.hit.detectList = [viz.enemy] ;
 
-  load_player_bullet(viz) ;
-  load_enemy_bullet(viz) ;
-
-  load_game(viz) ;
+  load_player_bullet (viz) ;
+  load_enemy_bullet  (viz) ;
+  load_game          (viz) ;
 
 }
 

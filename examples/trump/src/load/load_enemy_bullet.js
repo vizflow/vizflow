@@ -17,9 +17,9 @@ function load_enemy_bullet(viz) {
   var wordPause = maxNword * 100 ;
 
   function word_transition(xNew) {
+    // console.log('word transition start') ;
     // this.image = word_image(wordList[(document.skipIndex * (document.skipIndex + 3)) % wordList.length]) ;
     this.image = wordImage[(document.skipIndex * (document.skipIndex + 3)) % wordList.length] ;
-  
     
     var left   = $Z.transition.rounded_linear_transition_func ( 'x', viz.dur * 80 )(xNew) ; // sets speed of word block    
     //var down   = $Z.transition.rounded_linear_transition_func( 'y', viz.dur * 30 )(viz.player.config.y - wordImage.height * wordCount) ;
@@ -34,6 +34,7 @@ function load_enemy_bullet(viz) {
     // console.log('word transition', 'left', left) ;
     //left.child = down ;
     left.end = bulletHelper.default_end(viz, this, viz.player) ;
+    // console.log('word transition end') ;
 
     return left ;
   }

@@ -2,7 +2,7 @@ function setup_hit(viz, element, setupHitConfig) {
 
   function hit_reset () {
     //console.log ('hit_reset');
-    element.item.invincible = false ;
+    element.item.inert = false ;
     detectAction.remove() ;
   }
 
@@ -10,7 +10,7 @@ function setup_hit(viz, element, setupHitConfig) {
 
   function hit_transition() {
 
-    element.item.invincible = true ;
+    element.item.inert = true ;
 
     var hitDur              = ( element.adversary.sprite.attack.length + 20 ) * viz.dur ;
     // console.log ('hit transition', 'element', element, 'hitDur', hitDur) ;

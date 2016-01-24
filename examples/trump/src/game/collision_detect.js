@@ -1,29 +1,34 @@
 function collision_detect(viz) {
 
-  var item   = viz.item ;
+  var item   = $Z.item() ;
   var width  = viz.width ;
   var height = viz.height ;
 	
   var Npel         = width * height ;
   var Nchannel     = 2 ; // max 2 items per collision pixel
   var Nval         = Npel * Nchannel ;
+
   var Nitem        = item.length ;
   var img          = [] ;
+//  img.fill.call({ length: Nval }, 4);  ;
   var initialValue = -1 ;
 
   var collision   = {} ; // initialize output object
-  collision.index = {} ;
-  for ( var kVal = 0 ; kVal < Nval ; kVal++ ) {
-   	img.push(initialValue) ; // initialize
-  }
 
-  collision.hash = {} ; // initialize
+  collision.index = {} ;
+  // for ( var kVal = 0 ; kVal < Nval ; kVal++ ) {
+  //  	  img.push(initialValue) ; // initialize
+  // }
+
+  collision.detect = {} ; // initialize
+
+  // console.log('collision_detect', 'item', item) ;
 
   for ( var kItem = 0 ; kItem < Nitem ; kItem++ ) {
 
-    collision.hash[item[kItem]] = {} ; // initialize
+    collision.detect[item[kItem]] = {} ; // initialize
 
-    if (item[kItem].invincible) {
+    if (item[kItem].inert === undefined || item[kItem].inert) {
       continue ;
     }
 
@@ -51,13 +56,14 @@ function collision_detect(viz) {
       var jItem    = j - item[kItem].x ;
       var kPelItem = iItem * item[kItem].collisionImage.width + jItem ;
 
-      var a = imageK.data[4 * kPelItem + 3] ; // use alpha channel to test for presence of color
+      var a = imageK.data[4 * kPelItem + 3] ; // use alpha channel to test for presence of nonempty pixel
 
       if (a > 0) {
 
       	for ( var kChannel = 0 ; kChannel < Nchannel - 1 ; kChannel++ ) {
 
-			  	if (img[offset + kChannel] > initialValue) { // collision!
+			  	// if (img[offset + kChannel] > initialValue) { // collision!
+          if (img[offset + kChannel] !== undefined) { // collision!
 
 			  		img[offset + kChannel + 1] = kItem ; // store the collision data
 			  		collision.index[img[offset + kChannel] * Nitem + kItem] = true ;
@@ -78,19 +84,23 @@ function collision_detect(viz) {
 
   var key = Object.keys(collision.index) ;
 
-  collision.list = [] ;
+  collision.count = 0 ;
+
+  // collision.list = [] ;
 
   for (var kKey = 0 ; kKey < key.length ; kKey++) {
   	var i = Math.floor(key[kKey] / Nitem) ;
   	var j = key[kKey] % Nitem ;
 
-  	collision.list.push([i, j]) ;
+  	// collision.list.push([i, j]) ;
 
-    collision.hash[item[i]][item[j]] = true ;
-    collision.hash[item[j]][item[i]] = true ;
+    collision.detect[item[i]][item[j]] = true ;
+    collision.detect[item[j]][item[i]] = true ;
+    collision.count++ ;
 
   }
 
+  // console.log('collision_detect', 'collision.detect', collision.detect) ;
   return collision ;
 
 }

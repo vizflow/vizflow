@@ -15,7 +15,7 @@ function load_hit(viz, playerHitConfig, enemyHitConfig) {
 	    healthbarY: 19,
 	    color: '#009', 
 	    audio: viz.audio.hit2,
-	    detectList: [],
+	    detectList: [viz.player],
 	  } ;
 	}
     

@@ -11,7 +11,7 @@ function fantasy_level () {
 
   viz = setup_viz (vizConfig)   ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
 
-  var playerConfig = { 
+  viz.playerConfig = { 
     sprite_loader: rastan_sprite, 
     orientation: 'l',
     frameDuration: viz.frameDuration,
@@ -30,7 +30,7 @@ function fantasy_level () {
     y: 157,
   } ;
 
-  var enemyConfig = {
+  viz.enemyConfig = {
     sprite_loader: trump_sprite,
     frameDuration: viz.frameDuration * 10,
     attackDuration: 20 * viz.frameDuration,
@@ -40,15 +40,12 @@ function fantasy_level () {
     y: 193,
   } ;
 
-  load_characters(viz, playerConfig, enemyConfig) ;
-
-  load_audio(viz) ;  
-  
-  load_hit(viz) ;
+  load_characters   (viz) ;
+  load_audio        (viz) ;  
+  load_hit          (viz) ;
   
   // load_player_bullet(viz) ;
-  load_enemy_bullet(viz) ;
-
-  load_game(viz) ;
+  load_enemy_bullet (viz) ;
+  load_game         (viz) ;
 
 }

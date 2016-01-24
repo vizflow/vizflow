@@ -9,9 +9,9 @@ function city_level () {
     frameDurationFactor: 5,
   } ;
 
-  viz           = setup_viz     (vizConfig)   ; // framdeDuration computed
+  viz = setup_viz(vizConfig)   ; // framdeDuration computed
 
-  var playerConfig = {
+  viz.playerConfig = {
     sprite_loader: dd_sprite,
     orientation: 'r',
     frameDuration: viz.frameDuration,
@@ -28,7 +28,7 @@ function city_level () {
     y: 155,
   } ;
 
-  var enemyConfig = {
+  viz.enemyConfig = {
     sprite_loader:trump_sprite,
     frameDuration: viz.frameDuration * 1,
     attackDuration: 5 * viz.frameDuration,
@@ -38,15 +38,12 @@ function city_level () {
     y: 193,
   } ;
 
-  load_characters(viz, playerConfig, enemyConfig) ;
-
-  load_audio(viz) ;
-
-  load_hit(viz) ;
+  load_characters   (viz) ;
+  load_audio        (viz) ;
+  load_hit          (viz) ;
   
   // load_player_bullet(viz) ;
-  load_enemy_bullet(viz) ;
-  
-  load_game(viz) ;
+  load_enemy_bullet (viz) ;
+  load_game         (viz) ;
 
 } 

@@ -42,9 +42,9 @@ function setup_element (viz, elementConfig) {
 
   element.sprite = element.spriteR ;
 
-  if (element.sprite[elementConfig.collisionImage] === undefined) {
-    var clearedFrame = create_canvas(element.sprite.rest[0].width, element.sprite.rest[0].height) ; 
-    element.sprite[elementConfig.collisionImage] = [clearedFrame] ;
+  if (element.sprite['original'][elementConfig.collisionImage] === undefined) {
+    var clearedFrame = create_canvas(element.sprite.original.rest[0].width, element.sprite.rest[0].height) ; 
+    element.sprite['original'][elementConfig.collisionImage] = [clearedFrame] ;
   }
 
   if (elementConfig.frameDuration === undefined) {
@@ -91,7 +91,7 @@ function setup_element (viz, elementConfig) {
     viz: viz, 
     element: element, 
     image: element.sprite.rest[0],
-    collisionImage: element.sprite[elementConfig.collisionImage][0],
+    collisionImage: element.sprite['original'][elementConfig.collisionImage][0],
     render: draw.image,
     x: elementConfig.x,
     y: elementConfig.y - element.sprite.height, 
@@ -168,11 +168,11 @@ function setup_element (viz, elementConfig) {
 
   element.transition = elementConfig.transition ;
   
-  if(elementConfig.invincible === undefined) {
-    elementConfig.invincible = false ;
+  if(elementConfig.inert === undefined) {
+    elementConfig.inert = false ;
   }
 
-  element.item.invincible = elementConfig.invincible ;  
+  element.item.inert = elementConfig.inert ;  
 
   element.config = elementConfig ;  // copy config object to output object for future ref
 

@@ -9,6 +9,7 @@
     var minNstep = 1 ; // minimum number of frames to animate per user input for walking animations
     var transition ;
      switch(state) {
+
       case 'l' :
         this.orientation = 'l' ;
         this.sprite = this.spriteL ;
@@ -39,6 +40,7 @@
         transition.push(xTransition) ;
 
         break ;
+
       case 'r' :
         this.orientation   = 'r' ;
         this.sprite   = this.spriteR ;
@@ -66,6 +68,7 @@
         transition.push(xTransition) ;
 
         break ;
+
       case 'j' :
         // console.log ('update player case j:', this.sprite.jump, this.transitionSet.image, buttonpress.reset, this.sprite.rest[0])
         this.restoreRest = false ;
@@ -83,7 +86,7 @@
         }
         // console.log('update player 56') ;
         if (this.sprite.jumpCollision !== undefined) {
-          var collisionTransition   = step_transition_func('collisionImage', transition[0].duration)(this.sprite.jumpCollision[0]) ;
+          var collisionTransition   = step_transition_func('collisionImage', transition[0].duration)(this.sprite.original.jumpCollision[0]) ;
           // collisionTransition.child = animate (this.sprite.jumpCollision, step_transition_func('collisionImage', jumpTransition.child.duration), undefined, this.sprite.clearedFrame)[0] ; 
           // console.log('update player collisionTransition', collisionTransition) ;
           collisionTransition.child = animate (
@@ -137,21 +140,30 @@
         // console.log ('updateplayer 101', this.sprite.attack, transitionFunc, buttonpress.reset, this.sprite.rest[0]) ;
         var finalFrame = this.sprite.rest[0] ;
 
-        var loop                  = animate_loop(this.loop.attack, this.sprite.attack, transitionFunc, buttonpress.reset) ;
+        var loop = animate_loop(
+          this.loop.attack,
+          this.sprite.attack,
+          transitionFunc,
+          buttonpress.reset
+        ) ;
+
         this.loop.attack.position = loop.position ;
         transition                = loop.animation ;
         // console.log ('update player 105: ', 'this.loop', this.loop, 'this.sprite.attack', this.sprite.attack, 'transition', transition) ; //this.sprite.attack, transitionFunc, buttonpress.reset, this.sprite.rest[0]) ;
         // console.log ('update player 109' ) ;
         if (this.sprite.attackCollision !== undefined) {
           var collision_image_transition = step_transition_func('collisionImage', transition[0].duration) ;
-          var collisionTransition = animate (this.sprite.attackCollision, collision_image_transition, undefined, this.sprite[this.config.collisionImage][0]) ; 
-          transition = transition.concat(collisionTransition) ;
+          var collisionTransition        = animate (this.sprite.attackCollision, collision_image_transition, undefined, this.sprite[this.config.collisionImage][0]) ; 
+          transition                     = transition.concat(collisionTransition) ;
         }
 
         // console.log ('this.callback: transition', transition) ;
+        // console.log('update player', 'detect list', this.adversary.hit.detectList) ;
         this.adversary.hit.add() ; // the player attack starts the collision detection
         break ;
+        
     }
+
     if (transition.length > 0) {
       // console.log('this.callback: transition', transition)
       //this.item.transition = transition ;

@@ -3,12 +3,16 @@ var detectAction = {
   hit: function detect_action_hit () { // here "this" means the "hit config object" used to set up the "hit" action
 
     // console.log('detectAction hit', 'this', this)
+      // console.log('this', this, 'detectList', this.detectList)
 
     if(this.detectList[0] !== undefined && this.detectList[0].constructor !== Array) {
+      // console.log('detectaction.hit', 'this, this.detectList', this, this.detectList) ;
       detectAction.collision.call(this, this.detectList) ;
     } else {      
       for (var kList = 0 ; kList < this.detectList.length ; kList++ ) {
-        detectAction.collision.call(this, this.detectList[kList]) ;
+        if(this.detectList[kList].length > 0) {
+          detectAction.collision.call(this, this.detectList[kList]) ;
+        }
       }
     }
 
@@ -19,12 +23,20 @@ var detectAction = {
 
   collision: function detect_action_collision(detectList) {
 
-    var collision  = {list: []} ; //collision_detect( detectList, this.viz.width, this.viz.height ) ;
-    // console.log('detect_action_collision 1') ;
+    // console.log('detect_action_collision 1', 'detectList', detectList, 'this.viz.collision', this.viz.collision) ;
 
-    if (collision.list.length > 0) { // a collision between player.item and enemy.item occurred
-      // console.log ('detect_attack: collision', collision) ;
-      performAction.add.call(this) ;
+    if (this.viz.collision !== undefined && this.viz.collision.count > 0) { // a collision between at least two of the items in the detectList occurred
+      // console.log ('detect_action: collision', this.viz.collision) ;
+      for( var kItem1 = 0 ; kItem1 < detectList.length - 1 ; kItem1++ ) {
+        for ( var kItem2 = kItem1 + 1 ; kItem2 < detectList.length ; kItem2++ ) {
+          //console.log('this.viz.collision[detectList[kItem1]]', this.viz.collision[detectList[kItem1]], 'this.viz.collision[detectList[kItem2]]', this.viz.collision[detectList[kItem2]]) ;
+          if(this.viz.collision.detect[detectList[kItem1]] !== undefined && this.viz.collision.detect[detectList[kItem1]][detectList[kItem2]] === true) {
+            // console.log ('detect_action: collision perform action', this.viz.collision.detect[detectList[kItem1]][detectList[kItem2]], 'kitem1', kItem1, 'kItem2', kItem2) ;
+            performAction.add.call(this) ;
+            return ;
+          }
+        }
+      }
       //performAction.set.call(this) ;
       //this.perform () ;
     }

@@ -7,7 +7,8 @@ function setup_buttons (viz, ui) {
     image: ui.buttonSprite.left[0],
     render: draw.image,    
     x: ui.buttonX[0],
-    y: ui.buttonY + ui.y
+    y: ui.buttonY + ui.y,
+    inert: true,
   } ;
   
   button.walkRight = {
@@ -15,7 +16,8 @@ function setup_buttons (viz, ui) {
     image: ui.buttonSprite.right[0],
     render: draw.image,      
     x: ui.buttonX[1],
-    y: ui.buttonY + ui.y
+    y: ui.buttonY + ui.y,
+    inert: true,
   } ;
   
   button.attack = {
@@ -23,7 +25,8 @@ function setup_buttons (viz, ui) {
     image: ui.buttonSprite.attack[0],
     render: draw.image,
     x: ui.buttonX[2],
-    y: ui.buttonY + ui.y
+    y: ui.buttonY + ui.y, 
+    inert: true,
   } ;
   
   button.jump = {
@@ -31,7 +34,8 @@ function setup_buttons (viz, ui) {
     image: ui.buttonSprite.jump[0],
     render: draw.image,
     x: ui.buttonX[3],
-    y: ui.buttonY + ui.y
+    y: ui.buttonY + ui.y, 
+    inert: true
   } ;
 
   button.transition = step_transition_func('image', viz.frameDuration * 1) ;
