@@ -50,7 +50,7 @@ function setup_ui (viz) {
   //   buttonX.push(Math.floor( kButton * (buttonPad + buttonWidth) + buttonPad * 0.5)) ;
   // }  
   buttonSprite  = spriteset_foreach(buttonSprite, adjust_image_ratio) ;
-  var ratio     = 2 ; //(window.devicePixelRatio || 1) ;
+  var ratio     = document.ratio ; //(window.devicePixelRatio || 1) ;
   buttonWidth  *= ratio ;
   buttonHeight *= ratio ;
   buttonPad     = Math.floor( ( viz.width - (buttonWidth * 4) ) / 4 ) ;

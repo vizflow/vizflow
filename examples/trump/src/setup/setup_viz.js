@@ -6,7 +6,7 @@ function setup_viz (vizConfig) {
 
   var spriteImageIndex = 0 ; 
   var dur              = 17 ; // the framespeed that vizflow uses (60 frames per second)
-  var ratio            = 2 ; //(window.devicePixelRatio || 1) ; 
+  var ratio            = document.ratio ; //(window.devicePixelRatio || 1) ; 
   var vizWidth         = 180 * ratio ;
   var vizHeight        = 240 * ratio ;
 
