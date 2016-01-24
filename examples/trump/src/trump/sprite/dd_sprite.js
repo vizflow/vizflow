@@ -66,6 +66,8 @@ function dd_sprite () {
 	//console.log ('dd_sprite: tempCanvas', tempCanvas.getContext('2d').getImageData(0, 0, tempCanvas.width, tempCanvas.height)) ; 
 	ddSprite.attackCollision = [tempCanvas, clearedFrame, tempCanvas] ;
 
+	// ddSprite.walk = ddSprite.attackCollision ; // debug only
+
   var jumpTileCount = 3 ;
 	var jumpRowIndex  = 1 ;
 	var jumpTileWidth = 30 ;
