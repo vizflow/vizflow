@@ -45,27 +45,28 @@ function setup_ui (viz) {
 
   var Nbutton = 4 ;
   var buttonX = [] ;
+  var buttonY = buttonPad ;
 
   // for(var kButton = 0 ; kButton < Nbutton ; kButton++) { // compute the horizontal positions for the buttons based on the available width of the vizualization 
   //   buttonX.push(Math.floor( kButton * (buttonPad + buttonWidth) + buttonPad * 0.5)) ;
   // }  
-  buttonSprite  = spriteset_foreach(buttonSprite, adjust_image_ratio) ;
-  var ratio     = document.ratio ; //(window.devicePixelRatio || 1) ;
-  buttonWidth  *= ratio ;
-  buttonHeight *= ratio ;
-  buttonPad     = Math.floor( ( viz.width - (buttonWidth * 4) ) / 4 ) ;
-  var buttonY = buttonPad ;
+  // var ratio        = document.ratio ; //(window.devicePixelRatio || 1) ;
+  // buttonWidth  *= ratio ;
+  // buttonHeight *= ratio ;
+  // buttonPad     = Math.floor( ( viz.width - (buttonWidth * 4) ) / 4 ) ;
+  // var buttonY = buttonPad ;
 
   var uiWidth         = viz.width ;
   var uiHeight        = buttonHeight + buttonPad * 2 ;
   var uiY             = viz.height - uiHeight ;
   var uiX             = 0 ;
-  var uiCanvas        = create_canvas (uiWidth, uiHeight) ;
+  var uiCanvas        = create_canvas  (uiWidth, uiHeight) ;
   var uiContext       = create_context (uiCanvas) ;
-  var hiddenUICanvas  = create_canvas (uiWidth, uiHeight) ;
+  var hiddenUICanvas  = create_canvas  (uiWidth, uiHeight) ;
   var hiddenUIContext = create_context (hiddenUICanvas) ;
 
   for( var kButton = 0 ; kButton < Nbutton ; kButton++ ) {
+
     buttonX.push(Math.floor( kButton * (buttonPad + buttonWidth) + buttonPad * 0.5)) ;
 
     uiContext.drawImage(buttonSprite[buttonKey[kButton]][0], buttonX[kButton], buttonY) ; // draw visible buttonSprite
@@ -78,6 +79,7 @@ function setup_ui (viz) {
     tempCanvas
       .getContext('2d')
       .clearRect(0, 0, tempCanvas.width, tempCanvas.height) ;
+
     tempCanvas
       .getContext('2d')
       .putImageData(imagek, 0, 0) ;
@@ -90,12 +92,15 @@ function setup_ui (viz) {
   var hiddenContext = hiddenCanvas.getContext('2d') ;
   hiddenContext.drawImage(hiddenUICanvas, uiX, uiY) ; // draw ui
 
+  buttonSpriteBig = spriteset_foreach(buttonSprite, adjust_image_ratio) ;
+  buttonSpriteBig.original = buttonSprite; 
+
   var ui = {
 
     hiddenCanvas: hiddenCanvas,
     hiddenContext: hiddenContext,
     leftButtonConfig: leftButtonConfig,
-    buttonSprite: buttonSprite,
+    buttonSprite: buttonSpriteBig,
     buttonX: buttonX,
     buttonY: buttonY,
     x: uiX,

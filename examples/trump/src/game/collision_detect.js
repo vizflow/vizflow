@@ -1,4 +1,8 @@
-function collision_detect(item, width, height) {
+function collision_detect(viz) {
+
+  var item   = viz.item ;
+  var width  = viz.width ;
+  var height = viz.height ;
 	
   var Npel         = width * height ;
   var Nchannel     = 2 ; // max 2 items per collision pixel
@@ -13,7 +17,11 @@ function collision_detect(item, width, height) {
    	img.push(initialValue) ; // initialize
   }
 
+  collision.hash = {} ; // initialize
+
   for ( var kItem = 0 ; kItem < Nitem ; kItem++ ) {
+
+    collision.hash[item[kItem]] = {} ; // initialize
 
     if (item[kItem].invincible) {
       continue ;
@@ -29,16 +37,16 @@ function collision_detect(item, width, height) {
 	  	var i = Math.floor (kPel / width) ;
 	  	var j = kPel % width ;
 
-	  	if (    ( i < item[kItem].y ) 
+	  	if (    
+           ( i < item[kItem].y ) 
 	  		   || ( i > item[kItem].y + item[kItem].collisionImage.height - 1 )
 	  		   || ( j < item[kItem].x )
 	  		   || ( j > item[kItem].x + item[kItem].collisionImage.width - 1 ) 
-	  		 ) {
+	  	) {
 	  		continue ;
 	  	}
       
-      var offset = kPel * Nchannel ;
-
+      var offset   = kPel * Nchannel ;
       var iItem    = i - item[kItem].y ;
       var jItem    = j - item[kItem].x ;
       var kPelItem = iItem * item[kItem].collisionImage.width + jItem ;
@@ -77,6 +85,9 @@ function collision_detect(item, width, height) {
   	var j = key[kKey] % Nitem ;
 
   	collision.list.push([i, j]) ;
+
+    collision.hash[item[i]][item[j]] = true ;
+    collision.hash[item[j]][item[i]] = true ;
 
   }
 

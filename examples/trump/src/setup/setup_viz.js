@@ -7,22 +7,31 @@ function setup_viz (vizConfig) {
   var spriteImageIndex = 0 ; 
   var dur              = 17 ; // the framespeed that vizflow uses (60 frames per second)
   var ratio            = document.ratio ; //(window.devicePixelRatio || 1) ; 
-  var vizWidth         = 180 * ratio ;
-  var vizHeight        = 240 * ratio ;
+  var vizWidth         = 180 ;
+  var vizHeight        = 240 ;
+
+  var displayWidth     = Math.floor(vizWidth * ratio) ;
+  var displayHeight    = Math.floor(vizHeight * ratio) ;
 
   var vizCanvas  = create_canvas(vizWidth, vizHeight) ; 
   var vizContext = vizCanvas.getContext('2d') ;
   
-  place_viz(vizCanvas) ;
+  var displayCanvas  = create_canvas(displayWidth, displayHeight) ; 
+  var displayContext = displayCanvas.getContext('2d') ;
+
+  var finalCanvas  = create_canvas(displayWidth, displayHeight) ; 
+  var finalContext = create_context(finalCanvas) ;
+
+  place_viz(finalCanvas) ;
 
   var backgroundImageUrl = vizConfig.backgroundImageUrl ;
   var background         = image2canvas(backgroundImageUrl) ;
-  background = adjust_image_ratio(background) ;
+  background             = adjust_image_ratio(background) ;
 
   var frameDuration = vizConfig.frameDurationFactor * dur ;
 
   function resize() {
-    set_canvas_position( vizCanvas ) ;
+    set_canvas_position( finalCanvas ) ;
   }
 
   resize() ;
@@ -34,15 +43,18 @@ function setup_viz (vizConfig) {
   var viz = {
 
     config: vizConfig,
-    height: vizHeight, 
     width: vizWidth,
+    height: vizHeight, 
     dur: dur,
     frameDuration: frameDuration,
+    background: background,
     canvas: vizCanvas,
     context: vizContext,
-    background: background,
-    // displayCanvas: displayCanvas, 
-    // displayContext: displayContext,
+    displayCanvas: displayCanvas, 
+    displayContext: displayContext,
+    finalCanvas: finalCanvas, 
+    finalContext: finalContext,
+
 
     prep: function viz_prep () {
 
@@ -55,11 +67,11 @@ function setup_viz (vizConfig) {
       // draw current frame to display canvas:
       // prepare viz canvas for next frame:
 
-      // console.log('this.canvas', this.canvas) ;
+      //console.log('this.canvas', this.canvas) ;
       // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height) ;
-      this.context.globalAlpha = .8 ;
-      this.context.drawImage (this.background, 0, 0) ;
-      this.context.globalAlpha = 1 ;
+      this.displayContext.globalAlpha = .8 ;
+      this.displayContext.drawImage (this.background, 0, 0) ;
+      this.displayContext.globalAlpha = 1 ;
  
       return true ;
  
@@ -69,7 +81,8 @@ function setup_viz (vizConfig) {
 
       // this.displayContext.clearRect(0, 0, this.displayCanvas.width, this.displayCanvas.height) ;
       // this.displayContext.globalAlpha = 1 ;
-      // this.displayContext.drawImage (this.canvas, sx, sy, sw, sh, dx, dy, dw, dh) ;
+      this.finalContext.drawImage (this.displayCanvas, 0, 0) ; // use a single drawImage call for rendering the current frame to the visible Canvas (GPU-acceleated performance)
+      // this.collision = collision_detect(this) ;
     
     },
 
@@ -84,23 +97,15 @@ function setup_viz (vizConfig) {
   
 }
 
-
   // var ratio         = (window.devicePixelRatio || 1) ;
   // var displayWidth  = Math.floor(vizWidth * ratio) ;
   // var displayHeight = Math.floor(vizHeight * ratio) ;
 
-  // var displayCanvas        = create_canvas(displayWidth, displayHeight) ; 
-  // var displayContext       = create_context(displayCanvas) ;
   // var displayCopyCanvas    = create_canvas(displayWidth, displayHeight) ;
   // var displayCopyContext   = displayCopyCanvas.getContext('2d') ;
 
 
   // var blockOffset = [null, null] ;  // initialize element array(use closure to reduce garbage collection)
-
-
-
-
-
 
   // var sx = 0 ;
   // var sy = 0 ;

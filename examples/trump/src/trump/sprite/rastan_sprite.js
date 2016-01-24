@@ -110,6 +110,7 @@ function rastan_sprite () {
 	rastanSprite.attack.push(rastanSprite.attack[2]) ;
 	rastanSprite.attack.push(rastanSprite.attack[1]) ;
 	rastanSprite.attack.push(rastanSprite.attack[0]) ;
+	rastanSprite.attack.push(rastanSprite.rest[0]) ;
 
 	var attackCanvas  = rastanSprite.attack[4] ;
 	var tempCanvas    = create_canvas (attackCanvas.width, attackCanvas.height)  ;

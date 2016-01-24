@@ -12,17 +12,17 @@ function load_game (viz) {
   ] ;
 
   document.viz = viz ; 
-  document.addEventListener('mousedown', inputEvent.down) ;
-  document.addEventListener('mouseup', inputEvent.up) ;
-  document.addEventListener('touchstart', function(e) {
+  document.addEventListener('mousedown', inputEvent.down, false) ;
+  document.addEventListener('mouseup', inputEvent.up, false) ;
+  document.addEventListener('touchstart', function(event) {
     //console.log('touchstart start', 'this', this) ;
-    e.preventDefault() ;
-    inputEvent.down.call(this, e) ;
+    event.preventDefault() ;
+    inputEvent.down.call(this, event) ;
     //console.log('touchstart end') ;
   }, false);
-  document.addEventListener('touchend', inputEvent.up) ;
-  document.addEventListener('keydown', inputEvent.down) ;
-  document.addEventListener('keyup', inputEvent.up) ;
+  document.addEventListener('touchend', inputEvent.up, false) ;
+  document.addEventListener('keydown', inputEvent.down, false) ;
+  document.addEventListener('keyup', inputEvent.up, false) ;
 
   var tSkip = 0 ;
   var minSkip = 99 ;

@@ -1,29 +1,37 @@
 var draw = {
 
-  image: function draw_image (frame, context) {
+  image: function draw_image (frame, context, ratio) {
 
     if (frame === undefined) {
       frame = this ;
     } 
 
     if (context === undefined) {
-      context = frame.viz.context ;
+      context = frame.viz.displayContext ;
+    }
+
+    if (ratio === undefined) {
+      ratio = document.ratio ;
     }
 
     // console.log('draw_image', 'frame', frame, 'context', context, 'this', this) ;
 
-    context.drawImage(frame.image, frame.x, frame.y) ;
+    context.drawImage(frame.image, Math.round(frame.x * ratio), Math.round(frame.y * ratio)) ;
 
   },
   
-  rect: function draw_rect (rect, context) {
+  rect: function draw_rect (rect, context, ratio) {
 
     if (rect === undefined) {
       rect = this ;
     }
 
     if(context === undefined) {
-      context = rect.viz.context ;
+      context = rect.viz.displayContext ;
+    }
+
+    if(ratio === undefined) {
+      ratio = document.ratio ;
     }
 
     var fillStyle = context.fillStyle ;
@@ -42,7 +50,7 @@ var draw = {
     context.beginPath() ;
     context.fillStyle = rect.color ;
     context.strokeStyle = rect.stroke ;
-    context.rect(rect.x, rect.y, rect.width, rect.height) ;
+    context.rect(rect.x * ratio, rect.y * ratio, rect.width * ratio, rect.height * ratio) ;
     context.fill() ;
     context.stroke() ;
     context.closePath() ;
@@ -59,7 +67,7 @@ var draw = {
     }
 
     if (context === undefined) {
-      context = circ.viz.context ;
+      context = circ.viz.displayContext ;
     }
 
     context.beginPath() ;

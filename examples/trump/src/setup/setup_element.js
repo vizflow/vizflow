@@ -8,15 +8,23 @@ function setup_element (viz, elementConfig) {
 
   if(elementConfig.orientation === 'l') {
 
-    element.spriteL = elementConfig.sprite_loader () ;
-    element.spriteL = spriteset_foreach(element.spriteL, adjust_image_ratio) ;  
-    element.spriteR = horizontal_flip(element.spriteL) ;
+    var spriteL0             = elementConfig.sprite_loader () ;
+    element.spriteL          = spriteset_foreach(spriteL0, adjust_image_ratio) ;  
+    element.spriteL.original = spriteL0 ;
+
+    var spriteR0             = horizontal_flip(spriteL0) ;
+    element.spriteR          = spriteset_foreach(spriteR0, adjust_image_ratio) ;
+    element.spriteR.original = spriteR0 ;
 
   } else {
 
-    element.spriteR = elementConfig.sprite_loader () ;
-    element.spriteR = spriteset_foreach(element.spriteR, adjust_image_ratio) ;
-    element.spriteL = horizontal_flip(element.spriteR) ;
+    var spriteR0             = elementConfig.sprite_loader () ;
+    element.spriteR          = spriteset_foreach(spriteR0, adjust_image_ratio) ;
+    element.spriteR.original = spriteR0 ;
+    
+    var spriteL0             = horizontal_flip(spriteR0) ;
+    element.spriteL          = spriteset_foreach(spriteL0, adjust_image_ratio) ;
+    element.spriteL.original = spriteL0 ;
 
   }
 

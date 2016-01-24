@@ -7,19 +7,19 @@ function setup_healthbar (viz, health, height, y, color) {
 
 	  rect: {
 	    viz: viz, 
-	    x: viz.width - (health + xPad) * document.ratio,
-	    y: y * document.ratio,
-	    width: health *document.ratio,
-	    height: height * document.ratio,
+	    x: viz.width - (health + xPad),
+	    y: y,
+	    width: health,
+	    height: height,
 	    color: color,
   	},
 
     render: function draw_bar() {
     	this.rect.width = this.width ;
-      draw.rect (this.rect, viz.context) ;
+      draw.rect (this.rect) ;
     },
 
-    width: health * document.ratio,
+    width: health,
  } ;
 
  healthbar.initialHealth = health ;
