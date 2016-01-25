@@ -1,6 +1,6 @@
 function trump_game () {
   document.skipIndex = 0 ;
-  document.ratio     = (window.devicePixelRatio || 1) ;
+  document.ratio     = Math.ceil(window.devicePixelRatio || 1) ;
 
   city_level() ;
   // fantasy_level() ;

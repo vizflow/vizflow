@@ -6,10 +6,14 @@ function load_enemy_bullet(viz) {
     'the blacks',
     'mexicans',
     'muslims',
+    'the wall',
+    'amazing',
+    'best ever',
+    'the poll',
   ]
 
   var wordImage = [] ;
-  for (var kWord = 0 ; kWord < wordList.length ; kWord++) {
+  for ( var kWord = 0 ; kWord < wordList.length ; kWord++ ) {
     wordImage.push(word_image (wordList[kWord])) ;
   }
   // var wordImage = word_image (wordList[(document.skipIndex * (document.skipIndex - 1)) % wordList.length]) ;
