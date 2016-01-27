@@ -43,7 +43,7 @@ function flip_image (canvas) {
   var Npel      = imageData.data.length / 4 ;
 
   for ( var kPel = 0 ; kPel < Npel ; kPel++ ) {
-
+      
     var kFlip      = flip_index (kPel, canvas.width, canvas.height) ;
     var offset     = 4 * kPel ;
     var offsetFlip = 4 * kFlip ;
