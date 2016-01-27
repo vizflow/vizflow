@@ -28,7 +28,7 @@ function fire_bullet (bulletName) {
     // console.log('fire bullet', 'transition', newBullet.transition) ;
     // console.log('fire bullet', 'newBullet', newBullet, 'xNew', xNew, 'this orientation', this.orientation) ;
     // console.log('this.adversary.item, newBullet', this.adversary.item, newBullet) ;
-    this.adversary.hit.detectList.push (newBullet) ;
+    // this.adversary.hit.detectList.push (newBullet) ;
 
     // this.adversary.hit.detectList = [this.adversary.item].concat(this.bulletList) ; // optimize later to avoid garbage collection
     // console.log ('fire_bullet 33', 'this.adversary.hit.detectList', this.adversary.hit.detectList) ;

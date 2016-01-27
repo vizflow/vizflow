@@ -7,7 +7,7 @@ function load_enemy_bullet(viz) {
     'mexicans',
     'muslims',
     'the wall',
-    'amazing',
+    'it\'s amazing',
     'best ever',
     'the poll',
   ]
@@ -19,11 +19,12 @@ function load_enemy_bullet(viz) {
   // var wordImage = word_image (wordList[(document.skipIndex * (document.skipIndex - 1)) % wordList.length]) ;
   var maxNword  = 6 ;
   var wordPause = maxNword * 100 ;
+  var skip = 17 ;
 
   function word_transition(xNew) {
     // console.log('word transition start') ;
     // this.image = word_image(wordList[(document.skipIndex * (document.skipIndex + 3)) % wordList.length]) ;
-    this.image = wordImage[(document.skipIndex * (document.skipIndex + 3)) % wordList.length] ;
+    this.image = wordImage[(document.skipIndex * skip) % wordList.length] ;
     
     var left   = $Z.transition.rounded_linear_transition_func ( 'x', viz.dur * 80 )(xNew) ; // sets speed of word block    
     //var down   = $Z.transition.rounded_linear_transition_func( 'y', viz.dur * 30 )(viz.player.config.y - wordImage.height * wordCount) ;
