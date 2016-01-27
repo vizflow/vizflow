@@ -30,13 +30,13 @@ function load_game (viz) {
 
   var trumpAttack = { 
     post: function() {
-      // console.log('trumpAttack post start', 'tskip', tSkip, 'minskip', minSkip, 'ziter', $Z.iter, 'skipIndex % skipVar.length', skipIndex % skipVar.length) ;
+      console.log('trumpAttack post start', 'tskip', tSkip, 'minskip', minSkip, 'ziter', $Z.iter, 'skipIndex % skipVar.length', skipIndex % skipVar.length) ;
       if($Z.iter - tSkip >= (minSkip + skipVar[document.skipIndex % skipVar.length])) {
         tSkip = $Z.iter ;
         document.skipIndex++ ;
         update_enemy.call(viz.enemy) ;       
       }
-      // console.log('trump attack post end') ;
+      console.log('trump attack post end') ;
     },
   } ;
 

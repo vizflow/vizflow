@@ -1,5 +1,7 @@
 function setup_viz (vizConfig) {
 
+  // console.log('setup viz start') ;
+
   if (vizConfig.frameDurationFactor === undefined) {
     vizConfig.frameDurationFactor = 1 ;
   }
@@ -33,8 +35,7 @@ function setup_viz (vizConfig) {
 
   var frameDuration = vizConfig.frameDurationFactor * dur ;
 
-
-  // console.log('displayCanvas', displayCanvas)
+  // console.log('displayCanvas', displayCanvas) ;
 
   var Nskip  = 50 ;
   var lastResize = 0 ;
@@ -96,8 +97,12 @@ function setup_viz (vizConfig) {
   
   } ;
 
+  // console.log('setup viz after obj') ;
+
   viz.ui        = setup_ui      (viz)         ;
   viz.ui.button = setup_buttons (viz, viz.ui) ;
+
+  // console.log('setup viz end') ;
 
   return viz ;
   

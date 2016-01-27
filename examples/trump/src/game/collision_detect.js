@@ -32,7 +32,7 @@ function collision_detect(viz) {
       continue ;
     }
 
-    console.log('collision_detection', 'item[kItem].collisionImage', item[kItem].collisionImage) ;
+    // console.log('collision_detection', 'item[kItem].collisionImage', item[kItem].collisionImage) ;
 
     var imageK = item[kItem]
     	.collisionImage

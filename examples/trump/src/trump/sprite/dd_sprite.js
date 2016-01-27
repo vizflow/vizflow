@@ -54,7 +54,7 @@ function dd_sprite () {
 		bgColor: bgColor,
 		padXl:  attackTilePadXl,
 		padXr: attackTilePadXr,
-	}
+	} ;
 	ddSprite.attack     = get_sprite (attackConfig) ;
 	//ddSprite.attack     = [ddSprite.attack[0], ddSprite.walk[0], ddSprite.attack[1]] ;
 
