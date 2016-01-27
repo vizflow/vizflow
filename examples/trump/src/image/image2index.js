@@ -1,6 +1,6 @@
 function image2index(img0, index) {
 
-  var img  = new ImageData(img0.width, img0.height) ; // duplicate original image to avoid mutating it
+  var img = new_image_data(img0.width, img0.height) ; // var img  = new ImageData(img0.width, img0.height) ; // duplicate original image to avoid mutating it
 
   var Npel = img.data.length / 4 ;
 

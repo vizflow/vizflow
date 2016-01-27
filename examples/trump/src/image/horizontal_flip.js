@@ -39,7 +39,7 @@ function flip_image (canvas) {
 
   var context   = canvas.getContext ('2d') ;
   var imageData = context.getImageData (0, 0, canvas.width, canvas.height) ;
-  var imageFlip = new ImageData (canvas.width, canvas.height) ;
+  var imageFlip = new_image_data(canvas.width, canvas.height) ; // new ImageData (canvas.width, canvas.height) ;
   var Npel      = imageData.data.length / 4 ;
 
   for ( var kPel = 0 ; kPel < Npel ; kPel++ ) {
