@@ -19,7 +19,7 @@ function load_enemy_bullet(viz) {
   // var wordImage = word_image (wordList[(document.skipIndex * (document.skipIndex - 1)) % wordList.length]) ;
   var maxNword  = 6 ;
   var wordPause = maxNword * 100 ;
-  var skip = 17 ;
+  var skip      = 17 ;
 
   function word_transition(xNew) {
     // console.log('word transition start') ;
