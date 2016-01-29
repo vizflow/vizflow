@@ -85,20 +85,6 @@
           transition = animate(this.sprite.jump, this.transitionSet.image, undefined, finalFrame) ;
         }
         // console.log('update player 56') ;
-        if (this.sprite.jumpCollision !== undefined) {
-          var collisionTransition   = step_transition_func('collisionImage', transition[0].duration)(this.sprite.original.jumpCollision[0]) ;
-          // collisionTransition.child = animate (this.sprite.jumpCollision, step_transition_func('collisionImage', jumpTransition.child.duration), undefined, this.sprite.clearedFrame)[0] ; 
-          // console.log('update player collisionTransition', collisionTransition) ;
-          collisionTransition.child = animate (
-            this.sprite.original.jumpCollision,
-            step_transition_func('collisionImage', jumpTransition.child.duration), 
-            undefined, 
-            this.sprite['original'][this.config.collisionImage][0]
-            // this.sprite.clearedFrame
-          )[0] ;           
-          transition.push(collisionTransition) ;
-          this.adversary.hit.add() ; // the player attack starts the collision detection
-        }        
         
         var yNew        = this.item.y - this.yMove ;
         var yTransition = this.transitionSet.y(yNew) ;
@@ -151,15 +137,9 @@
         transition                = loop.animation ;
         // console.log ('update player 105: ', 'this.loop', this.loop, 'this.sprite.attack', this.sprite.attack, 'transition', transition) ; //this.sprite.attack, transitionFunc, buttonpress.reset, this.sprite.rest[0]) ;
         // console.log ('update player 109' ) ;
-        if (this.sprite.attackCollision !== undefined) {
-          var collision_image_transition = step_transition_func('collisionImage', transition[0].duration) ;
-          var collisionTransition        = animate (this.sprite.original.attackCollision, collision_image_transition, undefined, this.sprite.original[this.config.collisionImage][0]) ; 
-          transition                     = transition.concat(collisionTransition) ;
-        }
 
         // console.log ('this.callback: transition', transition) ;
         // console.log('update player', 'detect list', this.adversary.hit.detectList) ;
-        this.adversary.hit.add() ; // the player attack starts the collision detection
         break ;
 
     }

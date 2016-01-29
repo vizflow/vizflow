@@ -28,16 +28,16 @@ function fire_bullet (bulletName) {
     // console.log('fire bullet', 'transition', newBullet.transition) ;
     // console.log('fire bullet', 'newBullet', newBullet, 'xNew', xNew, 'this orientation', this.orientation) ;
     // console.log('this.adversary.item, newBullet', this.adversary.item, newBullet) ;
-    // this.adversary.hit.detectList.push (newBullet) ;
+    // this.adversary.item.hit.detectList.push (newBullet) ;
 
-    // this.adversary.hit.detectList = [this.adversary.item].concat(this.bulletList) ; // optimize later to avoid garbage collection
-    // console.log ('fire_bullet 33', 'this.adversary.hit.detectList', this.adversary.hit.detectList) ;
+    // this.adversary.item.hit.detectList = [this.adversary.item].concat(this.bulletList) ; // optimize later to avoid garbage collection
+    // console.log ('fire_bullet 33', 'this.adversary.item.hit.detectList', this.adversary.item.hit.detectList) ;
 
     $Z.item().push (newBullet) ;
     this[bulletName].audio.play() ;
-    // console.log ('fire_bullet 38', 'this.adversary.hit.detectList', this.adversary.hit.detectList) ;
+    // console.log ('fire_bullet 38', 'this.adversary.item.hit.detectList', this.adversary.item.hit.detectList) ;
 
-    this.adversary.hit.add() ; // the player attack starts the collision detection
+    // this.adversary.item.hit.add() ; // the player attack starts the collision detection
 
     // console.log ('fire_bullet end bullet if-block') ;
   }	

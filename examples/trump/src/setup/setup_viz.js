@@ -39,7 +39,6 @@ function setup_viz (vizConfig) {
 
   var Nskip  = 50 ;
   var lastResize = 0 ;
-  var Ncollision = 12 ; // period for collision detection
   var lastCollision = 0 ;
 
   var viz = {
@@ -79,14 +78,18 @@ function setup_viz (vizConfig) {
  
     },
 
+    collision: null,
+
+    collision_detect: collision_detect,
+
     post: function viz_post () {
 
       // this.displayContext.clearRect(0, 0, this.displayCanvas.width, this.displayCanvas.height) ;
       // this.displayContext.globalAlpha = 1 ;
       this.finalContext.drawImage (this.displayCanvas, 0, 0) ; // use a single drawImage call for rendering the current frame to the visible Canvas (GPU-acceleated performance)
 
-      if( ($Z.iter - lastCollision) > Ncollision ) { // throttle collision detection if needed
-        this.collision = collision_detect(viz) ;
+      if( ($Z.iter - lastCollision) > this.frameDuration ) { // throttle collision detection if needed
+        this.collision_detect() ;
         // console.log('viz_post', '$Z.iter', $Z.iter) ;
         lastCollision = $Z.iter ;
       }

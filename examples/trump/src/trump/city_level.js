@@ -9,7 +9,7 @@ function city_level () {
     frameDurationFactor: 5,
   } ;
 
-  viz = setup_viz(vizConfig)   ; // framdeDuration computed
+  viz = setup_viz(vizConfig) ; // framdeDuration computed
 
   viz.playerConfig = {
     sprite_loader: dd_sprite,
@@ -44,6 +44,6 @@ function city_level () {
   
   // load_player_bullet(viz) ;
   load_enemy_bullet (viz) ;
-  load_game         (viz) ;
+  load_viz          (viz) ;
 
 } 

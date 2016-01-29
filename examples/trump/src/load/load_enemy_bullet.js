@@ -6,10 +6,11 @@ function load_enemy_bullet(viz) {
     'the blacks',
     'mexicans',
     'muslims',
-    'the wall',
+    'build a wall',
     'it\'s amazing',
     'best ever',
     'the poll',
+    'gonna win',
   ]
 
   var wordImage = [] ;

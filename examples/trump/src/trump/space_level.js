@@ -46,7 +46,7 @@ function space_level () {
 
   load_player_bullet (viz) ;
   load_enemy_bullet  (viz) ;
-  load_game          (viz) ;
+  load_viz           (viz) ;
 
 }
 

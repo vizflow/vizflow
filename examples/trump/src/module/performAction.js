@@ -66,30 +66,48 @@ var performAction = {
 
   },
 
-  add: function perform_action_add () {
+  add: function perform_action_add (action) {
+
+    if(action === undefined) {
+      action = this ;
+    }
+
     var performActionList = $Z._perform ;
-    var index = performActionList.indexOf (this) ;
+    var index = performActionList.indexOf (action) ;
     if (index === -1) {
-      performActionList.push(this) ;
+      performActionList.push(action) ;
     } else {
-      performActionList[index] = this ;
+      performActionList[index] = action ;
     }    
-    detectAction.remove.call(this) ; // stop detecting this action after staging performance
+    detectAction.remove(action) ; // stop detecting this action after staging performance
 
   },
 
-  remove: function perform_action_remove () {
+  remove: function perform_action_remove (action) {
+
+    if(action === undefined) {
+      action = this ;
+    }
+
     var performActionList = $Z._perform ;
-    var index = performActionList.indexOf (this) ;
+    var index = performActionList.indexOf (action) ;
+
     if (index === -1) {
       return ; // nothing to do
     } else {
       performActionList.splice(index, 1) ;
     }    
+
   },
 
-  set: function perform_action_set () {
-    $Z.perform([this])
+  set: function perform_action_set (action) {
+
+    if(action === undefined) {
+      action = this ;
+    }
+
+    $Z.perform([action]) ;
+
   },
 
   reset: function perform_action_reset () {

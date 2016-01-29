@@ -1,6 +1,10 @@
 function collision_detect(viz) {
 
-  var item   = $Z.item() ;
+  if(viz === undefined) {
+    viz = this ;
+  }
+
+  var item   = viz.item ;
   var width  = viz.width ;
   var height = viz.height ;
 	
@@ -20,35 +24,36 @@ function collision_detect(viz) {
   //  	  img.push(initialValue) ; // initialize
   // }
 
-  collision.detect = {} ; // initialize
+  // collision.detect = {} ; // initialize
 
   // console.log('collision_detect', 'item', item) ;
 
   for ( var kItem = 0 ; kItem < Nitem ; kItem++ ) {
 
-    collision.detect[item[kItem]] = {} ; // initialize
+    // collision.detect[item[kItem]] = {} ; // initialize
 
     if (item[kItem].inert === undefined || item[kItem].inert) {
       continue ;
     }
 
-    // console.log('collision_detection', 'item[kItem].collisionImage', item[kItem].collisionImage) ;
+    // console.log('collision_detection', 'item[kItem].image', item[kItem].image) ;
 
     var imageK = item[kItem]
-    	.collisionImage
+    	.image
     	.getContext('2d')
-    	.getImageData(0, 0, item[kItem].collisionImage.width, item[kItem].collisionImage.height) ;
+    	.getImageData(0, 0, item[kItem].image.width, item[kItem].image.height) ;
 
 	  for ( var kPel = 0 ; kPel < Npel ; kPel++ ) {
 
 	  	var i = Math.floor (kPel / width) ;
 	  	var j = kPel % width ;
 
-	  	if (    
+	  	if 
+      (    
            ( i < item[kItem].y ) 
-	  		   || ( i > item[kItem].y + item[kItem].collisionImage.height - 1 )
+	  		   || ( i > item[kItem].y + item[kItem].image.height - 1 )
 	  		   || ( j < item[kItem].x )
-	  		   || ( j > item[kItem].x + item[kItem].collisionImage.width - 1 ) 
+	  		   || ( j > item[kItem].x + item[kItem].image.width - 1 ) 
 	  	) {
 	  		continue ;
 	  	}
@@ -56,7 +61,7 @@ function collision_detect(viz) {
       var offset   = kPel * Nchannel ;
       var iItem    = i - item[kItem].y ;
       var jItem    = j - item[kItem].x ;
-      var kPelItem = iItem * item[kItem].collisionImage.width + jItem ;
+      var kPelItem = iItem * item[kItem].image.width + jItem ;
 
       var a = imageK.data[4 * kPelItem + 3] ; // use alpha channel to test for presence of nonempty pixel
 
@@ -88,21 +93,21 @@ function collision_detect(viz) {
 
   collision.count = 0 ;
 
-  // collision.list = [] ;
+  collision.list = [] ;
 
   for (var kKey = 0 ; kKey < key.length ; kKey++) {
   	var i = Math.floor(key[kKey] / Nitem) ;
   	var j = key[kKey] % Nitem ;
 
-  	// collision.list.push([i, j]) ;
+  	collision.list.push([i, j]) ;
 
-    collision.detect[item[i]][item[j]] = true ;
-    collision.detect[item[j]][item[i]] = true ;
+    // collision.detect[item[i]][item[j]] = true ;
+    // collision.detect[item[j]][item[i]] = true ;
     collision.count++ ;
 
   }
 
   // console.log('collision_detect', 'collision.detect', collision.detect) ;
-  return collision ;
+  this.collision = collision ;
 
 }
