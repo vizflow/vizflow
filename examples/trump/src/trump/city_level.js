@@ -26,6 +26,7 @@ function city_level () {
     xMove: 7,
     yMove: 50,
     y: 155,
+    type: 'player',
   } ;
 
   viz.enemyConfig = {
@@ -36,6 +37,7 @@ function city_level () {
     orientation: 'l',
     x: 50,
     y: 193,
+    type: 'enemy',
   } ;
 
   load_characters   (viz) ;

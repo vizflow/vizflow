@@ -139,7 +139,6 @@
         // console.log ('update player 109' ) ;
 
         // console.log ('this.callback: transition', transition) ;
-        // console.log('update player', 'detect list', this.adversary.hit.detectList) ;
         break ;
 
     }

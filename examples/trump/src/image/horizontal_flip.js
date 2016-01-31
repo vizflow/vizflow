@@ -25,10 +25,10 @@ function horizontal_flip (spriteSet) {
 
 function flip_sprite (sprite) {
 
-	var spriteFlip = [] ;
+	var spriteFlip = new Array(sprite.length) ;
 
 	for ( var kFrame = 0 ; kFrame < sprite.length ; kFrame++ ) {
-		spriteFlip.push ( flip_image ( sprite[kFrame] ) ) ;
+		spriteFlip[kFrame] = flip_image ( sprite[kFrame] ) ;
 	}
 
   return spriteFlip ;

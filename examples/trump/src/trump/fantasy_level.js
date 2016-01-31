@@ -28,6 +28,7 @@ function fantasy_level () {
     xMove: 8,
     yMove: 55,
     y: 157,
+    type: 'player',
   } ;
 
   viz.enemyConfig = {
@@ -38,14 +39,9 @@ function fantasy_level () {
     orientation: 'l',
     x: 50, 
     y: 193,
+    type: 'enemy',
   } ;
 
-  load_characters   (viz) ;
-  load_audio        (viz) ;  
-  load_hit          (viz) ;
-  
-  // load_player_bullet(viz) ;
-  load_enemy_bullet (viz) ;
-  load_viz          (viz) ;
+  viz.load() ;
 
 }

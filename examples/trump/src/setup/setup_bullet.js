@@ -6,10 +6,10 @@ function setup_bullet (viz, player, bulletConfig) {
     x: player.item.x + bulletConfig.shiftXr,
     y: player.item.y + bulletConfig.shiftY,
     image: bulletConfig.image,
-    collisionImage: bulletConfig.image,
     transition: bulletConfig.transition,
     render: draw.image,
     inert: false,
+    type: 'playerBullet',
   } ;
 
   return bullet ;

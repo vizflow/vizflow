@@ -13,9 +13,9 @@ function load_enemy_bullet(viz) {
     'gonna win',
   ]
 
-  var wordImage = [] ;
+  var wordImage = new Array(wordList.length) ;
   for ( var kWord = 0 ; kWord < wordList.length ; kWord++ ) {
-    wordImage.push(word_image (wordList[kWord])) ;
+    wordImage[kWord] = word_image (wordList[kWord]) ;
   }
   // var wordImage = word_image (wordList[(document.skipIndex * (document.skipIndex - 1)) % wordList.length]) ;
   var maxNword  = 6 ;
@@ -55,7 +55,7 @@ function load_enemy_bullet(viz) {
     element: viz.enemy,
   } ;
 
-	viz.enemy.bullet        = setup_word (viz, 'enemy', wordConfig) ; 
+	viz.enemy.bullet        = setup_word (viz, wordConfig) ; 
   viz.enemy.bullet.remove = false ;
   viz.enemy.bullet.audio  = viz.audio.bullet1 ;
 

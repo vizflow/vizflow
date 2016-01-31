@@ -36,16 +36,7 @@ function setup_element (viz, elementConfig) {
     elementConfig.y = Math.round(viz.height / 2) - 1 ;
   }
 
-  if(elementConfig.collisionImage === undefined) {
-    elementConfig.collisionImage = 'rest' ;
-  }
-
   element.sprite = element.spriteR ;
-
-  if (element.sprite['original'][elementConfig.collisionImage] === undefined) {
-    var clearedFrame = create_canvas(element.sprite.original.rest[0].width, element.sprite.rest[0].height) ; 
-    element.sprite['original'][elementConfig.collisionImage] = [clearedFrame] ;
-  }
 
   if (elementConfig.frameDuration === undefined) {
     elementConfig.frameDuration = viz.frameDuration ;
@@ -69,9 +60,9 @@ function setup_element (viz, elementConfig) {
       position: 0,
       Nstep: 1,
     } ; 
-    var walkLoop = copy_object(tempLoop) ;
+    var walkLoop   = copy_object(tempLoop) ;
     var attackLoop = copy_object(tempLoop) ;
-    var jumpLoop = copy_object(tempLoop) ;
+    var jumpLoop   = copy_object(tempLoop) ;
     if (elementConfig.fullLoopSwitch) {
       attackLoop.Nstep = element.sprite.attack.length ;
     }
@@ -87,14 +78,16 @@ function setup_element (viz, elementConfig) {
   }
 
   element.loop = elementConfig.loop ;
+
   element.item = {
     viz: viz, 
     element: element, 
     image: element.sprite.rest[0],
-    collisionImage: element.sprite['original'][elementConfig.collisionImage][0],
+    actionSet: {},
     render: draw.image,
     x: elementConfig.x,
     y: elementConfig.y - element.sprite.height, 
+    type: elementConfig.type,
   } ;
   
   //element.orientation = 'r' ; // r for facing right
@@ -131,9 +124,9 @@ function setup_element (viz, elementConfig) {
   }
 
   element.transitionSet = {
-    image: imageTransitionFunc,
-    float: floatTransitionFunc,
-    jump: jumpTransitionFunc,
+    image:  imageTransitionFunc,
+    float:  floatTransitionFunc,
+    jump:   jumpTransitionFunc,
     attack: attackTransitionFunc,
   } ;
 

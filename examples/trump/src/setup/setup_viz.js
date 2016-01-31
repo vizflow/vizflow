@@ -38,8 +38,6 @@ function setup_viz (vizConfig) {
   // console.log('displayCanvas', displayCanvas) ;
 
   var Nskip  = 50 ;
-  var lastResize = 0 ;
-  var lastCollision = 0 ;
 
   var viz = {
 
@@ -55,12 +53,20 @@ function setup_viz (vizConfig) {
     displayContext: displayContext,
     finalCanvas:    finalCanvas, 
     finalContext:   finalContext,
+    Nskip: Nskip,
+    lastCollision: 0,
+    lastResize: 0,
+    trumpAttack: {
+      tSkip: 0,
+      minSkip: 99,
+      skipVar: [17, 23, 11, 19, 8, 0, 44, 19, 23, 14, 17, 23],
+    },
 
     prep: function viz_prep () {
 
-      if( ($Z.iter - lastResize) > Nskip) {
+      if( ($Z.iter - this.lastResize) > Nskip) {
         resize() ;
-        lastResize = $Z.iter ;
+        this.lastResize = $Z.iter ;
       }
 
       //console.log('setup_viz: viz_prep')
@@ -80,7 +86,7 @@ function setup_viz (vizConfig) {
 
     collision: null,
 
-    collision_detect: collision_detect,
+    collision_detect: collisionDetection.pixelwise, // pixel-wise collision detection works for any shape and can be used on lower resolution masks compared to the display images
 
     post: function viz_post () {
 
@@ -88,13 +94,23 @@ function setup_viz (vizConfig) {
       // this.displayContext.globalAlpha = 1 ;
       this.finalContext.drawImage (this.displayCanvas, 0, 0) ; // use a single drawImage call for rendering the current frame to the visible Canvas (GPU-acceleated performance)
 
-      if( ($Z.iter - lastCollision) > this.frameDuration ) { // throttle collision detection if needed
-        this.collision_detect() ;
+      if ( ($Z.iter - this.lastCollision) > this.config.frameDurationFactor ) { // throttle collision detection if needed
+        // this.collision_detect() ;
         // console.log('viz_post', '$Z.iter', $Z.iter) ;
-        lastCollision = $Z.iter ;
+        this.lastCollision = $Z.iter ;
       }
     
+      if ( $Z.iter - this.trumpAttack.tSkip >= ( this.trumpAttack.minSkip + this.trumpAttack.skipVar[ document.skipIndex % this.trumpAttack.skipVar.length ] ) ) {
+        this.trumpAttack.tSkip = $Z.iter ;
+        document.skipIndex++ ;
+        update_enemy.call( viz.enemy ) ; // switch to "viz.enemy.update()" #todo
+      }
+
     },
+
+    detect: actionHelper.detect,
+
+    perform: actionHelper.perform,
 
     image_transition: step_transition_func('image', frameDuration),
   

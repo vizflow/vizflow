@@ -1,38 +1,5 @@
 function setup_hit(viz, element, setupHitConfig) {
 
-  function hit_reset () {
-    //console.log ('hit_reset');
-    element.item.inert = false ;
-    detectAction.remove() ;
-  }
-
-  var initial_transition = step_transition_func('image', viz.dur * 12) ;
-
-  function hit_transition() {
-
-    element.item.inert = true ;
-
-    var hitDur              = ( element.adversary.sprite.attack.length + 20 ) * viz.dur ;
-    // console.log ('hit transition', 'element', element, 'hitDur', hitDur) ;
-    var hit                 = step_transition_func('image', hitDur) ;
-    var hitTransition       = initial_transition(element.sprite.hit[0]) ;
-    hitTransition.child     = hit(element.sprite.rest[0]) ;
-    // hitTransition.child.end = [detectAction.reset, hit_reset] ;
-    hitTransition           = [hitTransition] ;
-
-    var reset = step_transition_func ('dummy', hitDur) (0) ;
-    reset.end = [detectAction.reset, hit_reset] ;
-    hitTransition.push(reset) ;
-
-    var frameDuration = hitDur * .1 ;
-    var Nstep = 2 * (Math.floor(0.25 * hitDur / frameDuration)) ;
-    var flash = effect.flash.call(element, frameDuration, Nstep) ;
-    //console.log('setup hit', 'flash', flash) ;
-    hitTransition.push(flash.animation[0]) ;
-    return hitTransition ;
-
-  }
-
   if(setupHitConfig === undefined) {
   	setupHitConfig = {} ;
   }
@@ -45,10 +12,6 @@ function setup_hit(viz, element, setupHitConfig) {
   	setupHitConfig.healthbarHeight = 7 ;
   }
   
-  if(setupHitConfig.detectList === undefined) {
-    setupHitConfig.detectList = [element.adversary.item, element.item] ;
-  }
-
   if(setupHitConfig.audio === undefined) {
     setupHitConfig.audio = viz.audio.hit1 ;
   }
@@ -71,11 +34,9 @@ function setup_hit(viz, element, setupHitConfig) {
  
   var hit = { // action config object
 
-    add: detectAction.add,
-    remove: hit_reset,
-    detect: detectAction.hit,
-    perform: performAction.hit,
-    detectList: [setupHitConfig.detectList],
+    active: true,
+    perform: hitHelper.perform,
+    detect: hitHelper.detect,
     healthbar: healthbar,
     healthdrop: setupHitConfig.healthdrop,
     health_transition: health_transition,
@@ -83,6 +44,13 @@ function setup_hit(viz, element, setupHitConfig) {
     element: element,
     viz: viz,
     audio: audio,
+    type_check: function hit_type_check(sourceItem) {
+      if(sourceItem.type === element.type) {
+        return true ;
+      } else {
+        return false ;
+      }
+    },
 
   } ;	
 

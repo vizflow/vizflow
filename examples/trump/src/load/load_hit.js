@@ -6,6 +6,7 @@ function load_hit(viz, playerHitConfig, enemyHitConfig) {
 	    healthdrop: 10,
 	    color: '#900',
 	    audio: viz.audio.hit2,
+	    sourceType: 'player',
 	  } ;		
 	}
 
@@ -15,7 +16,7 @@ function load_hit(viz, playerHitConfig, enemyHitConfig) {
 	    healthbarY: 19,
 	    color: '#009', 
 	    audio: viz.audio.hit2,
-	    detectList: [viz.player],
+	    sourceType: 'enemy',
 	  } ;
 	}
     

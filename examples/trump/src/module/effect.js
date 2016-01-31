@@ -29,11 +29,11 @@ var effect = {
 			var data    = image.data ;
 			var Npel    = data.length / 4 ;
 			var offset  = 0 ;
-			var opacity = [] ;
+			var opacity = new Array(Npel) ;
 
 			for (var kpel = 0 ; kpel < Npel ; kpel++) {
 			  if (data[offset + 3] > 0) {
-			    opacity.push(data[offset + 3]) ;
+			    opacity[Npel] = data[offset + 3] ;
 			  }
 			  offset += 4 ;
 			}

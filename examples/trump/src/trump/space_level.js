@@ -26,6 +26,7 @@ function space_level () {
     xMove: 10,
     yMove: 100,
     y: 169,
+    type: 'player',
   } ;
 
   viz.enemyConfig = {
@@ -36,18 +37,11 @@ function space_level () {
     orientation: 'l',
     x: 50,
     y: 193,
+    type: 'enemy',
   } ;  
 
-  load_characters    (viz) ;
-  load_audio         (viz) ;
-  load_hit           (viz) ;
-
-  viz.enemy.hit.detectList = [viz.enemy] ;
-
-  load_player_bullet (viz) ;
-  load_enemy_bullet  (viz) ;
-  load_viz           (viz) ;
-
+  viz.load() ;
+  
 }
 
   // var trumpAttackConfig = {
