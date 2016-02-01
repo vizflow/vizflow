@@ -1,4 +1,4 @@
-var draw = {
+var drawHelper = {
 
   image: function draw_image (frame, context, ratio) {
 

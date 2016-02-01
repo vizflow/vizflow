@@ -1,4 +1,4 @@
-var effect = {
+var effectHelper = {
 
 	flash: function effect_flash (frameDuration, Nstep) {
 
@@ -7,7 +7,7 @@ var effect = {
 		var create_transition = step_transition_func('render', frameDuration) ;
 		// console.log('effect flash 5') ;
 		var blank = function () {} ;
-		var valueList = [blank, draw.image] ;
+		var valueList = [blank, drawHelper.image] ;
 		var loopConfig = {
 			Nstep: Nstep,
 			position: 0,

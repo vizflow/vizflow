@@ -5,7 +5,7 @@ function setup_buttons (viz, ui) {
 	button.walkLeft = {
     viz: viz, 
     image: ui.buttonSprite.left[0],
-    render: draw.image,    
+    render: drawHelper.image,    
     x: ui.buttonX[0],
     y: ui.buttonY + ui.y,
     inert: true,
@@ -14,7 +14,7 @@ function setup_buttons (viz, ui) {
   button.walkRight = {
     viz: viz, 
     image: ui.buttonSprite.right[0],
-    render: draw.image,      
+    render: drawHelper.image,      
     x: ui.buttonX[1],
     y: ui.buttonY + ui.y,
     inert: true,
@@ -23,7 +23,7 @@ function setup_buttons (viz, ui) {
   button.attack = {
     viz: viz, 
     image: ui.buttonSprite.attack[0],
-    render: draw.image,
+    render: drawHelper.image,
     x: ui.buttonX[2],
     y: ui.buttonY + ui.y, 
     inert: true,
@@ -32,7 +32,7 @@ function setup_buttons (viz, ui) {
   button.jump = {
     viz: viz, 
     image: ui.buttonSprite.jump[0],
-    render: draw.image,
+    render: drawHelper.image,
     x: ui.buttonX[3],
     y: ui.buttonY + ui.y, 
     inert: true

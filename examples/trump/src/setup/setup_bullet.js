@@ -7,7 +7,7 @@ function setup_bullet (viz, player, bulletConfig) {
     y: player.item.y + bulletConfig.shiftY,
     image: bulletConfig.image,
     transition: bulletConfig.transition,
-    render: draw.image,
+    render: drawHelper.image,
     inert: false,
     type: 'playerBullet',
   } ;

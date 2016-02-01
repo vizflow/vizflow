@@ -1,11 +1,9 @@
 var hitHelper = {
 
-  itemPair: [null, null], // temporary variable used by collision()
-
-  collision: { // temporary variable used by collision()
+  pair: { // temporary variable used by collision()
     width: null, 
     height: null, 
-    item: null, 
+    item: [null, null], 
     detect: collisionDetection.pixelwise,
   },
 
@@ -21,37 +19,70 @@ var hitHelper = {
     image: null,
   },
 
+  type_check: function hit_helper_type_check(sourceItem, hit) {
+
+    if(hit === undefined) {
+      hit = this ;
+    }
+
+    if(sourceItem.type === hit.sourceType) {
+      return true ;
+    } else {
+      return false ;
+    }
+
+  },
+
 	detect: function hit_helper_detect(sourceItem, hit) {
+
+    // console.log('hit helper detect start', 'sourceItem', sourceItem, 'hit', hit) ;
 
 		if(hit === undefined) {
 			hit = this ;
 		}
 
-		var targetItem = hit.element ; // by convention, attach the hit action config object to the target element
+		var targetItem = hit.element.item ; // by convention, attach the hit action config object to the target element
 
-	  hitHelper.collision.width  = viz.width ; // setup temporary variable used later for detailed collision detection (if necessary)
-	  hitHelper.collision.height = viz.height ; 
+	  hitHelper.pair.width  = viz.width ; // setup temporary variable used later for detailed collision detection (if necessary)
+	  hitHelper.pair.height = viz.height ; 
 
 	  var typeCheck = hit.type_check(sourceItem) ; // boolean variable storing the resuls of the type-validity check function contained in the target item's hit config object
 
+    // console.log('hit helper detect', 'typeCheck', typeCheck, 'sourceItem', sourceItem, 'hit', hit) ;
+
 	  if( typeCheck ) { // the target item type matches the source item, so we can perform a detailed collision check for collision image overlap (phase 2)
 
-	    hitHelper.source.image = hit.sourceCollisionImage[sourceItem.image] ; // use the item's current display image as the key for the collision image lookup table 
-	    hitHelper.source.x     = sourceItem.x ; 
-	    hitHelper.source.y     = sourceItem.y ; 
+	    hitHelper.source.image = sourceItem.collision_image('source') ; // use the item's current display image as the key for the collision image lookup table 
+	    hitHelper.target.image = targetItem.collision_image('target') ; // use the item's current display image as the key for the collision image lookup table 
+      // console.log('hit helper detect', 'source item collision image', hitHelper.source.image, 'target item collision image', hitHelper.target.image) ;
 
-	    hitHelper.target.image = hit.targetCollisionImage[targetItem.image] ; // use the item's current display image as the key for the collision image lookup table 
-	    hitHelper.target.x     = targetItem.x ; 
-	    hitHelper.target.y     = targetItem.y ; 
+      if
+      (
+           hitHelper.source.image === undefined 
+        || hitHelper.source.image === null 
+        || hitHelper.target.image === undefined 
+        || hitHelper.target.image === null
+      ) 
+      {
+        // assume the elements are not on a collision frame if the appropriate source and target collision images are not defined
+        return false ;
+      }
 
-	    hitHelper.itemPair[0]  = hitHelper.target ;
-	    hitHelper.itemPair[1]  = hitHelper.source ;
+      hitHelper.source.x = sourceItem.x ; 
+      hitHelper.source.y = sourceItem.y ; 
 
-	    hitHelper.collision.item = hitHelper.itemPair ;
+	    hitHelper.target.x = targetItem.x ; 
+	    hitHelper.target.y = targetItem.y ; 
 
-	    hitHelper.collision.detect() ; // run collision detection again using the actual collision images for detailed collision detection (phase 2)
+	    hitHelper.pair.item[0] = hitHelper.target ;
+	    hitHelper.pair.item[1] = hitHelper.source ;
 
-	    if( hitHelper.collision.list.length > 0 ) { // this means that the displayed images are overlapping (will optimize computational efficiency later #todo)
+      // console.log('before pair detect')
+	    hitHelper.pair.detect() ; // run collision detection again using the actual collision images for detailed collision detection (phase 2)
+      // console.log('after pair detect')
+
+	    if( hitHelper.pair.collision.count > 0 ) { // this means that the displayed images are overlapping (will optimize computational efficiency later #todo)
+        // console.log('hitHelper detect()', 'hitHelper', hitHelper, 'hitHelper.pair.collision', hitHelper.pair.collision) ;
 	      return true ; // all checks passed, stage the hit for execution
 	    }
 
@@ -62,7 +93,7 @@ var hitHelper = {
 	},  
 
   perform: function hit_helper_perform (hit) {
-    // console.log ('perform hit hit: this', this) ;
+    // console.log ('hit helper perform start: this', this) ;
     // if (hit.element.item.transition !== undefined && hit.element.item.transition.length > 0) {
     //   return ;
     // }        
@@ -70,6 +101,8 @@ var hitHelper = {
     if(hit === undefined) {
     	hit = this ;
     }
+
+    hit.element.item.inert = true ;    
 
     hit.healthbar.health -= hit.healthdrop ;
     
@@ -118,6 +151,7 @@ var hitHelper = {
     // var transition     = animate(hit.element.sprite.hit, transitionFunc, undefined, hit.element.sprite.rest[0]) ;
     // console.log('perform hit hit 41', 'hit.element.item.transition', hit.element.item.transition) ;
     var transition = hit.transition() ; // returns an array of transition objects
+    // console.log('hit helper perform: hit transition', transition) ;
     var replacementSwitch = true ; // interrupt current player transitions due to hit
     for (var kTrans = 0 ; kTrans < transition.length ; kTrans++) {
       transitionHelper.add.call(hit.element.item, transition[kTrans], replacementSwitch) ;
@@ -130,14 +164,14 @@ var hitHelper = {
 
   }, 
 
-  reset: function hit_helper_reset (element) {
-    //console.log ('hit_reset');
+  reset: function hit_helper_reset (item) {
+    // console.log ('hit_reset', 'this', this);
 
-    if( element === undefined ) {
-      element = this ;
+    if( item === undefined ) {
+      item = this.item ;
     }
     
-    element.item.inert = false ;
+    item.inert = false ;
   },
 
   transition: function hit_helper_transition(element) {
@@ -145,28 +179,29 @@ var hitHelper = {
     // console.log ('hit transition', 'element', element, 'hitDur', hitDur) ;
 
     if(element === undefined) {
-      element = this ;
+      element = this.element ;
     }
 
-    element.item.inert  = true ;
-
-    var hitDur          = ( element.adversary.sprite.attack.length + 20 ) * viz.dur ;
-    var hit             = step_transition_func('image', hitDur) ;
-    var hitTransition   = step_transition_func('image', viz.dur * 12)(element.sprite.hit[0]) ;
-    hitTransition.child = hit(element.sprite.rest[0]) ;
+    var hitDur         = ( element.adversary.sprite.attack.length + 20 ) * viz.dur ;
+    var hit            = step_transition_func('image', viz.dur * 12)(element.sprite.hit[0]) ;
+    hit.child          = step_transition_func('image', hitDur)(element.sprite.rest[0]) ;
     // hitTransition.child.end = [hitHelper.reset, hit_reset] ;
-    hitTransition       = [hitTransition, undefined, undefined] ;
 
-    var reset           = step_transition_func ('dummy', hitDur) (0) ;
-    reset.end           = [hitHelper.reset] ;
-    hitTransition[1]    = reset ;
+    var reset = step_transition_func ('dummy', hitDur) (0) ;
 
-    var frameDuration   = hitDur * .1 ;
-    var Nstep           = 2 * (Math.floor(0.25 * hitDur / frameDuration)) ;
-    var flash           = effect.flash.call(element, frameDuration, Nstep) ;
-    hitTransition[2]  = flash.animation[0] ;
+    reset.end = { 
 
-    // console.log('setup hit', 'flash', flash) ;
+      item: element.item,
+
+      run: hitHelper.reset,
+
+    } ;
+
+    var frameDuration  = hitDur * .1 ;
+    var Nstep          = 2 * (Math.floor(0.25 * hitDur / frameDuration)) ;
+    var flash          = effectHelper.flash.call(element, frameDuration, Nstep).animation[0] ;
+
+    var hitTransition  = [hit, reset, flash] ;
 
     return hitTransition ;
 

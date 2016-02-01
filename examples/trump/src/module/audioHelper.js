@@ -1,4 +1,4 @@
-var audio = {
+var audioHelper = {
 	buffer: null,
 	context: new AudioContext(),
 
@@ -32,7 +32,7 @@ var audio = {
 		if(buffer !== undefined && buffer !== null) {
 			sourceNode.buffer = buffer ;
 		} else {
-			console.log('audio.play: no audio loaded') ;
+			console.log('audioHelper.play: no audio loaded') ;
 		}
 		
 		sourceNode.connect( this.context.destination ) ;

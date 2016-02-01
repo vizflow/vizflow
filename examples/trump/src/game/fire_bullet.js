@@ -32,8 +32,6 @@ function fire_bullet (bulletName) {
     $Z.item().push (newBullet) ;
     this[bulletName].audio.play() ;
 
-    // this.adversary.item.hit.add() ; // the player attack starts the collision detection
-
     // console.log ('fire_bullet end bullet if-block') ;
   }	
 }

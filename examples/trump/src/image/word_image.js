@@ -12,7 +12,7 @@ function word_image (text) {
   var wordOffsetY = 11 ;
   wordContext.fillText(text, wordOffsetX, wordOffsetY) ;
   var threshold = 60 ;
-  effect.image.binary_opacity_filter(wordImage, threshold) ;
+  effectHelper.image.binary_opacity_filter(wordImage, threshold) ;
 
   // finished drawing black on transparent pixels
 
@@ -26,7 +26,7 @@ function word_image (text) {
   	color: '#FFF',
     stroke: 'rgba(0, 0, 0, 0)',
   }
-  draw.rect (rect, imageContext) ;
+  drawHelper.rect (rect, imageContext) ;
   imageContext.drawImage (wordImage, 0, 0) ;
 
   imageContext.lineWidth = 1; 

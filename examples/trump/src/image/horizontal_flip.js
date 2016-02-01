@@ -29,6 +29,14 @@ function flip_sprite (sprite) {
 
 	for ( var kFrame = 0 ; kFrame < sprite.length ; kFrame++ ) {
 		spriteFlip[kFrame] = flip_image ( sprite[kFrame] ) ;
+    if(sprite[kFrame].sourceCollisionImage !== undefined) {
+      spriteFlip[kFrame].sourceCollisionImage = flip_image( sprite[kFrame].sourceCollisionImage ) ;
+    }
+    if(sprite[kFrame].targetCollisionImage !== undefined) {
+      spriteFlip[kFrame].targetCollisionImage = flip_image( sprite[kFrame].targetCollisionImage ) ;
+    } else { // default target collision image is the same as the original
+      spriteFlip[kFrame].targetCollisionImage = spriteFlip[kFrame] ;
+    }
 	}
 
   return spriteFlip ;

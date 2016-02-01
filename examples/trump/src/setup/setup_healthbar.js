@@ -17,7 +17,7 @@ function setup_healthbar (viz, health, height, y, color) {
 
     render: function draw_bar() {
     	this.rect.width = this.width ;
-      draw.rect (this.rect) ;
+      drawHelper.rect (this.rect) ;
     },
 
     width: health,

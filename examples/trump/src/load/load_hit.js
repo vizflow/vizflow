@@ -16,10 +16,14 @@ function load_hit(viz, playerHitConfig, enemyHitConfig) {
 	    healthbarY: 19,
 	    color: '#009', 
 	    audio: viz.audio.hit2,
-	    sourceType: 'enemy',
+	    sourceType: 'enemyBullet',
 	  } ;
 	}
     
-  viz.player.hit = setup_hit(viz, viz.player, playerHitConfig) ;
-  viz.enemy.hit  = setup_hit(viz, viz.enemy, enemyHitConfig) ;	
+  viz.player.item.actionSet.hit = setup_hit(viz, viz.player, playerHitConfig) ;
+  viz.enemy.item.actionSet.hit  = setup_hit(viz, viz.enemy, enemyHitConfig) ;	
+
+  // load_player_bullet (viz) ;
+  load_enemy_bullet  (viz) ;
+
 }

@@ -55,16 +55,16 @@ function dd_sprite () {
 		padXl:  attackTilePadXl,
 		padXr: attackTilePadXr,
 	} ;
-	ddSprite.attack     = get_sprite (attackConfig) ;
+	ddSprite.attack = get_sprite (attackConfig) ;
 	//ddSprite.attack     = [ddSprite.attack[0], ddSprite.walk[0], ddSprite.attack[1]] ;
 
-	var attackCanvas  = ddSprite.attack[0] ;
-	var tempCanvas   = create_canvas (attackCanvas.width, attackCanvas.height)  ;
-	var clearedFrame = create_canvas (attackCanvas.width, attackCanvas.height)  ;
-	tempCanvas.getContext ('2d').drawImage (attackCanvas, 0, 0) ;
-	tempCanvas.getContext ('2d').clearRect (attackTilePadXl, 0, walkTileWidth * 1.5, ddSprite.height) ;
-	//console.log ('dd_sprite: tempCanvas', tempCanvas.getContext('2d').getImageData(0, 0, tempCanvas.width, tempCanvas.height)) ; 
-	ddSprite.attackCollision = [tempCanvas, clearedFrame, tempCanvas] ;
+	var attackCanvas          = ddSprite.attack[0] ;
+	var attackCollisionCanvas = create_canvas (attackCanvas.width, attackCanvas.height)  ;
+	var clearedFrame          = create_canvas (attackCanvas.width, attackCanvas.height)  ;
+	attackCollisionCanvas.getContext ('2d').drawImage (attackCanvas, 0, 0) ;
+	attackCollisionCanvas.getContext ('2d').clearRect (attackTilePadXl, 0, walkTileWidth * 1.5, ddSprite.height) ;
+	//console.log ('dd_sprite: attackCollisionCanvas', attackCollisionCanvas.getContext('2d').getImageData(0, 0, attackCollisionCanvas.width, attackCollisionCanvas.height)) ; 
+	// ddSprite.attackCollision = [attackCollisionCanvas, clearedFrame, attackCollisionCanvas] ;
 
 	// ddSprite.walk = ddSprite.attackCollision ; // debug only
 
@@ -105,25 +105,25 @@ function dd_sprite () {
   ddSprite.jump.push(jump[2]) ;
   // ddSprite.jump.push(jump[2]) ;
 
-	var tempCanvas   = create_canvas (jump[1].width, jump[1].height)  ;
-	tempCanvas.getContext ('2d').drawImage (jump[1], 0, 0) ;
-	tempCanvas.getContext ('2d').clearRect (0, 0, tempCanvas.width * 0.8, jump[1].height) ;
+	var jumpCollisionCanvas   = create_canvas (jump[1].width, jump[1].height)  ;
+	jumpCollisionCanvas.getContext ('2d').drawImage (jump[1], 0, 0) ;
+	jumpCollisionCanvas.getContext ('2d').clearRect (0, 0, jumpCollisionCanvas.width * 0.8, jump[1].height) ;
 	var clearedFrame2 = create_canvas (jump[0].width, jump[0].height)  ;
-	// console.log('tempCanvas', tempCanvas, 'clearedFrame2', clearedFrame2) ;
+	// console.log('jumpCollisionCanvas', jumpCollisionCanvas, 'clearedFrame2', clearedFrame2) ;
 
-	ddSprite.jumpCollision = [] ;
-  ddSprite.jumpCollision.push(clearedFrame2) ;
-  ddSprite.jumpCollision.push(clearedFrame2) ;
+	// ddSprite.jumpCollision = [] ;
+ //  ddSprite.jumpCollision.push(clearedFrame2) ;
+ //  ddSprite.jumpCollision.push(clearedFrame2) ;
   // ddSprite.jumpCollision.push(clearedFrame2) ;
   // ddSprite.jumpCollision.push(clearedFrame2) ;
-  // ddSprite.jumpCollision.push(tempCanvas) ;
-  // ddSprite.jumpCollision.push(tempCanvas) ;
-  ddSprite.jumpCollision.push(tempCanvas) ;
-  ddSprite.jumpCollision.push(tempCanvas) ;
-  ddSprite.jumpCollision.push(tempCanvas) ;
-  ddSprite.jumpCollision.push(tempCanvas) ;
-  ddSprite.jumpCollision.push(clearedFrame2) ;
-  ddSprite.jumpCollision.push(clearedFrame2) ;
+  // ddSprite.jumpCollision.push(jumpCollisionCanvas) ;
+  // ddSprite.jumpCollision.push(jumpCollisionCanvas) ;
+  // ddSprite.jumpCollision.push(jumpCollisionCanvas) ;
+  // ddSprite.jumpCollision.push(jumpCollisionCanvas) ;
+  // ddSprite.jumpCollision.push(jumpCollisionCanvas) ;
+  // ddSprite.jumpCollision.push(jumpCollisionCanvas) ;
+  // ddSprite.jumpCollision.push(clearedFrame2) ;
+  // ddSprite.jumpCollision.push(clearedFrame2) ;
   // ddSprite.jumpCollision.push(clearedFrame2) ;
 	//ddSprite.walk = ddSprite.jumpCollision ;
   //console.log('ddSprite', ddSprite) ; 
@@ -131,8 +131,19 @@ function dd_sprite () {
 
   ddSprite.hit = [jump[2]] ;
 
- 	ddSprite.clearedFrame  = create_canvas (attackCanvas.width, attackCanvas.height)  ;
+ 	ddSprite.clearedFrame = create_canvas (attackCanvas.width, attackCanvas.height)  ;
 
+ 	// ddSprite.collisionSet = {} ; // use the active image references themselves as keys for the corresponding collision images
+
+ 	jump[1].sourceCollisionImage            = jumpCollisionCanvas ;
+ 	ddSprite.attack[0].sourceCollisionImage = attackCollisionCanvas ;
+ 	ddSprite.attack[1].sourceCollisionImage = attackCollisionCanvas ;
+
+ 	// console.log('jump1', jump[1])
+ 	// console.log('ddSprite', ddSprite, 'copy', copy_object(ddSprite)) ;
+ 	// barf
+ 	// ddSprite.collisionSet[ddSprite.attack[0]] = attackCollisionCanvas ;
+ 	// ddSprite.collisionSet[ddSprite.attack[1]] = attackCollisionCanvas ;
 
 	return ddSprite ;
 

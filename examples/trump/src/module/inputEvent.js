@@ -101,7 +101,6 @@ var inputEvent = {
     buttonpress.reset () ;
     // console.log ('event up end', 'event', event) ;
 
-
   },
 	
 } ;

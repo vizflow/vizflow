@@ -47,11 +47,15 @@ var collisionDetection = {
 
       // collision.detect[item[kItem]] = {} ; // initialize
 
-      if (item[kItem].inert === undefined || item[kItem].inert) {
+      if (item[kItem].inert !== undefined && item[kItem].inert) {
+        continue ;
+      }
+
+      if (item[kItem].image === undefined) { // need a canvas image to do pixelwise collision detection
         continue ;
       }
       
-      // console.log('collision_detection', 'item[kItem].image', item[kItem].image) ;
+      // console.log('collision_detection', 'item', item, 'item[kItem].image', item[kItem].image) ;
 
       var imageK = item[kItem]
         .image

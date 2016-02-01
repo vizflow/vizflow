@@ -30,22 +30,15 @@ function city_level () {
   } ;
 
   viz.enemyConfig = {
-    sprite_loader:trump_sprite,
+    sprite_loader: trump_sprite,
     frameDuration: viz.frameDuration * 1,
     attackDuration: 5 * viz.frameDuration,
-    collisionImage: 'rest',
     orientation: 'l',
     x: 50,
     y: 193,
     type: 'enemy',
   } ;
 
-  load_characters   (viz) ;
-  load_audio        (viz) ;
-  load_hit          (viz) ;
-  
-  // load_player_bullet(viz) ;
-  load_enemy_bullet (viz) ;
-  load_viz          (viz) ;
+  load_viz(viz) ;
 
 } 

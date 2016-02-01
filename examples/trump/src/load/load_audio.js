@@ -2,9 +2,9 @@ function load_audio(viz) {
 
 	viz.audio = {} ;
 
-  viz.audio.hit1    = copy_object(audio) ;
-  viz.audio.hit2    = copy_object(audio) ;
-  viz.audio.bullet1 = copy_object(audio) ;
+  viz.audio.hit1    = copy_object(audioHelper) ;
+  viz.audio.hit2    = copy_object(audioHelper) ;
+  viz.audio.bullet1 = copy_object(audioHelper) ;
 
   viz
   	.audio

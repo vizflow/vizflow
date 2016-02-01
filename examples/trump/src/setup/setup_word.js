@@ -5,7 +5,7 @@ function setup_word (viz, wordConfig) {
     config: wordConfig,
     image: wordConfig.image,
     transition: wordConfig.transition,
-    render: draw.image,
+    render: drawHelper.image,
     type: 'enemyBullet',
   } ;
 

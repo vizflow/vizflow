@@ -34,23 +34,19 @@ function setup_hit(viz, element, setupHitConfig) {
  
   var hit = { // action config object
 
-    active: true,
     perform: hitHelper.perform,
     detect: hitHelper.detect,
     healthbar: healthbar,
     healthdrop: setupHitConfig.healthdrop,
     health_transition: health_transition,
-    transition: hit_transition,
+    transition: hitHelper.transition,
     element: element,
     viz: viz,
     audio: audio,
-    type_check: function hit_type_check(sourceItem) {
-      if(sourceItem.type === element.type) {
-        return true ;
-      } else {
-        return false ;
-      }
-    },
+    sourceType: setupHitConfig.sourceType,
+    type_check: hitHelper.type_check,
+    detectSwitch: true,
+    performSwitch: false,
 
   } ;	
 
