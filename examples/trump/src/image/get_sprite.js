@@ -27,7 +27,43 @@ function get_sprite (spriteConfig) {
 
     var tileCanvas  = create_canvas(spriteConfig.width + spriteConfig.padXl + spriteConfig.padXr, spriteConfig.height) ;
     var tileContext = tileCanvas.getContext('2d') ;
+
+    // var data = image.data ;
+
+    // if(data.length === 64) {
+
+      // console.log('data 1', data) ;
+
+      // for(var kd = 0 ; kd < data.length  / 4 ; kd++) {
+      //   var r = data[kd * 4 + 0] ;
+      //   var g = data[kd * 4 + 1] ;
+      //   var b = data[kd * 4 + 2] ;
+      //   var a = data[kd * 4 + 3] ;
+      //   console.log('get_sprite pre k', kd, 'r', r, 'g', g, 'b', b, 'a', a) ;
+      // }    
+
+    // }
+
+    // console.log('spriteConfig.padXl', spriteConfig.padXl, 'tileCanvas', tileCanvas) ;
+
     tileContext.putImageData(image, spriteConfig.padXl, 0);
+
+    // var data2 = tileContext.getImageData(0, 0, tileCanvas.width, tileCanvas.height).data ;
+
+    // if(data2.length === 64) {
+
+    //   console.log('data 2', data2) ;
+
+    //   // for(var kd = 0 ; kd < data.length  / 4 ; kd++) {
+    //   //   var r = data[kd * 4 + 0] ;
+    //   //   var g = data[kd * 4 + 1] ;
+    //   //   var b = data[kd * 4 + 2] ;
+    //   //   var a = data[kd * 4 + 3] ;
+    //   //   console.log('get_sprite post k', kd, 'r', r, 'g', g, 'b', b, 'a', a) ;
+    //   // }    
+
+    // }
+
     // var img = tileContext.createImageData (spriteConfig.tileWidth, spriteConfig.tileHeight) ;
     // console.log (img.data) ;
     //bg_clear([1, 2, 3], tileContext) ;

@@ -1,5 +1,6 @@
 document.body.style.overflowY = 'hidden';
 document.body.style.margin    = 0 ;
+window.addEventListener("load", function() { window. scrollTo(0, 0); });
 
 // var spriteImageUrl = 'images/metroid_spritesheet.png' ;
 // var bgImageUrl     = 'images/blaster_background_1.png' ;

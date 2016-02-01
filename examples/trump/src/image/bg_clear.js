@@ -10,6 +10,9 @@ function bg_clear (bgColor, img) {
 		var b = img.data[offset + 2] ;
 
 		if (r === bgColor[0] && g === bgColor[1] && b === bgColor[2]) {
+			img.data[offset + 0] = 0 ;
+			img.data[offset + 1] = 0 ;
+			img.data[offset + 2] = 0 ;
 			img.data[offset + 3] = 0 ; // clear background pixels by setting opacity to zero
 		}
 

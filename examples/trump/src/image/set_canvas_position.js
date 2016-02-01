@@ -23,10 +23,12 @@ function set_canvas_position(canvas) {
   }
   // console.log('rw', widthRatio, 'rh', heightRatio, 'pos', position)
   if(canvas.style.width !== position.width || canvas.style.height !== position.height) {
+
     canvas.style.width  = position.width ;
     canvas.style.height = position.height ;
     canvas.style.left   = position.left ;
     canvas.style.top    = position.top ;
+    
   }
   return position ;
 }

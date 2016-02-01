@@ -6,16 +6,16 @@ function dd_sprite () {
   var bgColor       = [255, 255, 0] ;
 
 	var ddSprite    = {} ;
-	ddSprite.height = 41 ;
+	ddSprite.height = 4 ; // 41
 
 	var walkTileCount = 3 ;
 	var walkRowIndex  = 1 ;
-	var walkTileWidth = 18 ;
-	var walkOffsetX   = 16 ;
-	var walkOffsetY   = -3 ;
+	var walkTileWidth = 4 ; // 18 ;
+	var walkOffsetX   = 24 ;// 16 ;
+	var walkOffsetY   = 35 ; // -3 ;
 	var walkPadX      = 14 ;
-	var walkTilePadXl = 16 ;
-	var walkTilePadXr = 16 ;
+	var walkTilePadXl = 0 ; // 16 ;
+	var walkTilePadXr = 0 ;// 16 ;
 	var walkConfig    = {
 		context: spriteContext,
 		count: walkTileCount,

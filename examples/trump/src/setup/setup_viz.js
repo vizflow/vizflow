@@ -27,7 +27,7 @@ function setup_viz (vizConfig) {
     set_canvas_position( finalCanvas ) ;
   }
 
-  resize() ;
+  // resize() ;
 
   var backgroundImageUrl = vizConfig.backgroundImageUrl ;
   var background         = image2canvas(backgroundImageUrl) ;
@@ -65,7 +65,7 @@ function setup_viz (vizConfig) {
     prep: function viz_prep () {
 
       if( ($Z.iter - this.lastResize) > this.resizeSkip) {
-        resize() ;
+        // resize() ;
         this.lastResize = $Z.iter ;
       }
 

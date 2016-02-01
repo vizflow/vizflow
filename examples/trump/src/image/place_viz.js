@@ -6,5 +6,7 @@ function place_viz (canvas) {
 		y[ky].parentNode.removeChild(y[ky]) ;
 	}
 	document.body.appendChild(canvas) ;
+	canvas.parentNode.style.transformOrigin = "0 0"; //scale from top left
+	// canvas.getContext('2d').scale(1, 1) ;
 	
 }
