@@ -9,7 +9,9 @@ function setup_bullet (viz, player, bulletConfig) {
     transition: bulletConfig.transition,
     render: drawHelper.image,
     inert: false,
-    type: 'playerBullet',
+    type: 'player',
+    singleSwitch: true,
+    collision_image: actionHelper.collision_image,
   } ;
 
   return bullet ;

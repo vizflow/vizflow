@@ -5,6 +5,9 @@ function bullet_sprite () {
   var jumpBulletImageUrl = './images/beam1.png' ;
   var jumpBulletImage    = image2canvas (jumpBulletImageUrl) ;
 
+  bulletImage.sourceCollisionImage = bulletImage ;
+  jumpBulletImage.sourceCollisionImage = jumpBulletImage ;
+
 	var bulletSprite    = {
 		bullet: [bulletImage], 
 		jump: [jumpBulletImage],

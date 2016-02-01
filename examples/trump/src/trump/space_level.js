@@ -27,6 +27,7 @@ function space_level () {
     yMove: 100,
     y: 169,
     type: 'player',
+    bulletSwitch: true,
   } ;
 
   viz.enemyConfig = {
@@ -40,7 +41,7 @@ function space_level () {
     type: 'enemy',
   } ;  
 
-  viz.load() ;
+  load_viz(viz) ;
   
 }
 

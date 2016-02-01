@@ -27,6 +27,7 @@ function city_level () {
     yMove: 50,
     y: 155,
     type: 'player',
+    bulletSwitch: false,
   } ;
 
   viz.enemyConfig = {

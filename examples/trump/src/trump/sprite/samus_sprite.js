@@ -47,7 +47,7 @@ function samus_sprite () {
 		padXr: walkTilePadXr,
 	} ;
 
-	samusSprite.rest  = get_sprite (restConfig) ;
+	samusSprite.rest = get_sprite (restConfig) ;
 
   var attackTileCount = 1 ;
 	var attackOffsetX   = 53 ;

@@ -1,6 +1,6 @@
 function load_player_bullet(viz) {
-  var bulletSpriteSet0 = bullet_sprite () ;
-  bulletSpriteSet = spriteset_foreach(bulletSpriteSet0, adjust_image_ratio) ;
+  var bulletSpriteSet0     = bullet_sprite () ;
+  bulletSpriteSet          = spriteset_foreach(bulletSpriteSet0, adjust_image_ratio) ;
   bulletSpriteSet.original = bulletSpriteSet0 ;
  
   if (bulletSpriteSet.orientation === 'l') {

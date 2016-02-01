@@ -113,23 +113,23 @@ function rastan_sprite () {
 	rastanSprite.attack.push(rastanSprite.rest[0]) ;
 
 	var attackCanvas  = rastanSprite.attack[4] ;
-	var tempCanvas    = create_canvas (attackCanvas.width, attackCanvas.height)  ;
+	var attackCollisionCanvas    = create_canvas (attackCanvas.width, attackCanvas.height)  ;
 	var clearedFrame = create_canvas (attackCanvas.width, attackCanvas.height)  ; 
-	tempCanvas.getContext ('2d').drawImage (attackCanvas, 0, 0) ;
-	tempCanvas.getContext ('2d').clearRect (tempCanvas.width * 0.25, 0, tempCanvas.width * 0.5, rastanSprite.height) ;
-	//console.log ('dd_sprite: tempCanvas', tempCanvas.getContext('2d').getImageData(0, 0, tempCanvas.width, tempCanvas.height)) ; 
+	attackCollisionCanvas.getContext ('2d').drawImage (attackCanvas, 0, 0) ;
+	attackCollisionCanvas.getContext ('2d').clearRect (attackCollisionCanvas.width * 0.25, 0, attackCollisionCanvas.width * 0.5, rastanSprite.height) ;
+	//console.log ('dd_sprite: attackCollisionCanvas', attackCollisionCanvas.getContext('2d').getImageData(0, 0, attackCollisionCanvas.width, attackCollisionCanvas.height)) ; 
 	rastanSprite.attackCollision = [
 		clearedFrame,
 		clearedFrame, 
 		clearedFrame, 
 		clearedFrame, 
-		tempCanvas,
-		tempCanvas,
-		tempCanvas,
-		tempCanvas,
-		tempCanvas,
-		tempCanvas,
-		tempCanvas,
+		attackCollisionCanvas,
+		attackCollisionCanvas,
+		attackCollisionCanvas,
+		attackCollisionCanvas,
+		attackCollisionCanvas,
+		attackCollisionCanvas,
+		attackCollisionCanvas,
 		clearedFrame,
 		clearedFrame,
 		clearedFrame,
@@ -217,9 +217,9 @@ function rastan_sprite () {
 
 	var jumpCanvas   = rastanSprite.jump[5] ;
 	var clearedFrame2 = create_canvas (jumpCanvas.width, jumpCanvas.height)  ;
-	var tempCanvas   = create_canvas (jumpCanvas.width, jumpCanvas.height)  ;
-	tempCanvas.getContext ('2d').drawImage (jumpCanvas, 0, 0) ;
-	tempCanvas.getContext ('2d').clearRect (tempCanvas.width * 0.25, 0, tempCanvas.width * 0.5, jumpCanvas.height) ;
+	var jumpCollisionCanvas   = create_canvas (jumpCanvas.width, jumpCanvas.height)  ;
+	jumpCollisionCanvas.getContext ('2d').drawImage (jumpCanvas, 0, 0) ;
+	jumpCollisionCanvas.getContext ('2d').clearRect (jumpCollisionCanvas.width * 0.25, 0, jumpCollisionCanvas.width * 0.5, jumpCanvas.height) ;
 
 	rastanSprite.jumpCollision = [
 		clearedFrame2,
@@ -227,13 +227,13 @@ function rastan_sprite () {
 		clearedFrame2, 
 		clearedFrame2, 
 		clearedFrame2, 
-		tempCanvas,
-		tempCanvas,
-		tempCanvas,
-		tempCanvas,
-		tempCanvas,
-		tempCanvas,
-		tempCanvas,
+		jumpCollisionCanvas,
+		jumpCollisionCanvas,
+		jumpCollisionCanvas,
+		jumpCollisionCanvas,
+		jumpCollisionCanvas,
+		jumpCollisionCanvas,
+		jumpCollisionCanvas,
 		clearedFrame2,
 		clearedFrame2,
 		clearedFrame2,
@@ -262,6 +262,9 @@ function rastan_sprite () {
 	rastanSprite.clearedFrame  = create_canvas (attackCanvas.width, attackCanvas.height)  ;
 
 	rastanSprite.hit = [rastanSprite.walk[1]] ;
+
+	rastanSprite.jump[5].sourceCollisionImage   = jumpCollisionCanvas ;
+	rastanSprite.attack[4].sourceCollisionImage = attackCollisionCanvas ;
 
 	// console.log('rastan sprite', rastanSprite)
 

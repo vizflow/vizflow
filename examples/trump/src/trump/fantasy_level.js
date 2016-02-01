@@ -29,6 +29,7 @@ function fantasy_level () {
     yMove: 55,
     y: 157,
     type: 'player',
+    bulletSwitch: false,
   } ;
 
   viz.enemyConfig = {
@@ -42,6 +43,6 @@ function fantasy_level () {
     type: 'enemy',
   } ;
 
-  viz.load() ;
+  load_viz(viz) ;
 
 }

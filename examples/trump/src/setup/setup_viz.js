@@ -37,7 +37,7 @@ function setup_viz (vizConfig) {
 
   // console.log('displayCanvas', displayCanvas) ;
 
-  var resizeSkip  = 3 * frameDuration ; // how often to check for window resize events
+  var resizeSkip  = 3 * vizConfig.frameDurationFactor ; // how often to check for window resize events
 
   var viz = {
 

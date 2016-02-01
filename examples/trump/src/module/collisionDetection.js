@@ -62,27 +62,27 @@ var collisionDetection = {
         .getContext('2d')
         .getImageData(0, 0, item[kItem].image.width, item[kItem].image.height) ;
 
-      var initialPelIndex =  item[kItem].y * width                      +  item[kItem].x  ;
-      var finalPelIndex   = (item[kItem].y + imageK.height - 1) * width + (item[kItem].x + imageK.width - 1) ;
+      // var initialPelIndex =  item[kItem].y * width                      +  item[kItem].x  ;
+      // var finalPelIndex   = (item[kItem].y + imageK.height - 1) * width + (item[kItem].x + imageK.width - 1) ;
 
-      for ( var i = item[kItem].y ; i < item[kItem].y + imageK.height ; i++ ) {
-        for ( var j = item[kItem].x ; j < item[kItem].x + imageK.width ; j++ ) {
+      for ( var i = Math.max(0, item[kItem].y) ; i < Math.min(height, item[kItem].y + imageK.height) ; i++ ) {
+        for ( var j = Math.max(0, item[kItem].x) ; j < Math.min(width, item[kItem].x + imageK.width) ; j++ ) {
 
           // var i = Math.floor (kPel / width) ;
           // var j = kPel % width ;
 
           var kPel = i * width + j ;
 
-          if 
-          (    
-               ( i < item[kItem].y ) 
-            || ( i > item[kItem].y + item[kItem].image.height - 1 )
-            || ( j < item[kItem].x )
-            || ( j > item[kItem].x + item[kItem].image.width - 1 ) 
-          ) 
-          {
-            continue ;
-          }
+          // if 
+          // (    
+          //      ( i < item[kItem].y ) 
+          //   || ( i > item[kItem].y + item[kItem].image.height - 1 )
+          //   || ( j < item[kItem].x )
+          //   || ( j > item[kItem].x + item[kItem].image.width - 1 ) 
+          // ) 
+          // {
+          //   continue ;
+          // }
           
           var offset   = kPel * Nchannel ;
           var iItem    = i - item[kItem].y ;
@@ -134,7 +134,7 @@ var collisionDetection = {
 
     }
 
-    // console.log('collision_detect', 'collision.detect', collision.detect) ;
+    // console.log('collision_detect', 'collision', collision) ;
 
     viz.collision = collision ; // update the collision output object
 

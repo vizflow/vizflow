@@ -80,12 +80,12 @@ var hitHelper = {
 	    hitHelper.pair.item[0] = hitHelper.target ;
 	    hitHelper.pair.item[1] = hitHelper.source ;
 
-      // console.log('before pair detect')
+      // console.log('before pair detect', 'source x', sourceItem.x, 'target x', targetItem.x) ;
 	    hitHelper.pair.detect() ; // run collision detection again using the actual collision images for detailed collision detection (phase 2)
       // console.log('after pair detect')
 
 	    if( hitHelper.pair.collision.count > 0 ) { // this means that the displayed images are overlapping (will optimize computational efficiency later #todo)
-        // console.log('hitHelper detect()', 'hitHelper', hitHelper, 'hitHelper.pair.collision', hitHelper.pair.collision) ;
+        // console.log('hitHelper detect()', 'hitHelper', hitHelper, 'hitHelper.pair.collision', hitHelper.pair.collision, 'source x', sourceItem.x, 'target x', targetItem.x) ;
 	      return true ; // all checks passed, stage the hit for execution
 	    }
 
@@ -105,7 +105,11 @@ var hitHelper = {
     	hit = this ;
     }
 
-    hit.element.item.inert = true ;    
+    hit.detectSwitch = false ;
+
+    if( hit.sourceItem.singleSwitch ) {
+      hit.sourceItem.inert = true ; // deactivate the bullet after it hits
+    }
 
     hit.healthbar.health -= hit.healthdrop ;
     
@@ -167,14 +171,14 @@ var hitHelper = {
 
   }, 
 
-  reset: function hit_helper_reset (item) {
+  reset: function hit_helper_reset (hit) {
     // console.log ('hit_reset', 'this', this);
 
-    if( item === undefined ) {
-      item = this.item ;
+    if( hit === undefined ) {
+      hit = this.hit ;
     }
     
-    item.inert = false ;
+    hit.detectSwitch = true ;
   },
 
   transition: function hit_helper_transition(element) {
@@ -194,7 +198,7 @@ var hitHelper = {
 
     reset.end = { 
 
-      item: element.item,
+      hit: element.item.actionSet.hit,
 
       run: hitHelper.reset,
 
@@ -209,5 +213,61 @@ var hitHelper = {
     return hitTransition ;
 
   },
+
+  setup: function hit_helper_setup(viz, element, setupHitConfig) {
+
+    if(setupHitConfig === undefined) {
+      setupHitConfig = {} ;
+    }
+
+    if(setupHitConfig.elementHealth === undefined) {
+      setupHitConfig.elementHealth = 100 ;
+    }
+
+    if(setupHitConfig.healthbarHeight === undefined) {
+      setupHitConfig.healthbarHeight = 7 ;
+    }
+    
+    if(setupHitConfig.audio === undefined) {
+      setupHitConfig.audio = viz.audio.hit1 ;
+    }
+
+    var audio = setupHitConfig.audio ;
+
+    var healthbar = setup_healthbar (
+      viz, 
+      setupHitConfig.elementHealth, 
+      setupHitConfig.healthbarHeight, 
+      setupHitConfig.healthbarY, 
+      setupHitConfig.color
+    ) ;
+
+    var health_transition = $Z.transition.linear_transition_func ( 'width', viz.dur * 4 ) ; 
+
+    if(setupHitConfig.healthdrop === undefined) {    
+      setupHitConfig.healthdrop = 10 ;
+    }
+   
+    var hit = { // action config object
+
+      perform: hitHelper.perform,
+      detect: hitHelper.detect,
+      healthbar: healthbar,
+      healthdrop: setupHitConfig.healthdrop,
+      health_transition: health_transition,
+      transition: hitHelper.transition,
+      element: element,
+      viz: viz,
+      audio: audio,
+      sourceType: setupHitConfig.sourceType,
+      type_check: hitHelper.type_check,
+      detectSwitch: true,
+      performSwitch: false,
+
+    } ; 
+
+    return hit ;
+
+  },    
 	
 } ;

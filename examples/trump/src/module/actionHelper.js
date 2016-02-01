@@ -40,7 +40,7 @@ var actionHelper = {
       viz = this ;
     }
 
-    if ( ( $Z.iter - actionHelper.lastCollision ) > viz.config.frameDurationFactor ) { // throttle collision detection if needed
+    if ( ( $Z.iter - actionHelper.lastCollision ) >= viz.config.frameDurationFactor ) { // throttle collision detection if needed
       // this.collision_detect() ;
       // console.log('viz_post', '$Z.iter', $Z.iter) ;
       viz.collision_detect() ;
@@ -52,9 +52,8 @@ var actionHelper = {
 
         if( action.detectSwitch && action.detect(sourceItem) ) { // perform action after passing detailed detection check             
           action.performSwitch = true ; // stage the action for performance
-        } else {
-          action.performSwitch = false ;
-        }
+          action.sourceItem = sourceItem ;
+        } 
 
       }) ;
 
@@ -70,7 +69,7 @@ var actionHelper = {
       viz = this ;
     }
 
-    if ( ( $Z.iter - actionHelper.lastAction ) > viz.config.frameDurationFactor ) { // throttle collision detection if needed
+    if ( ( $Z.iter - actionHelper.lastAction ) >= viz.config.frameDurationFactor ) { // throttle collision detection if needed
 
       // console.log('actionHelper perform start') ;
 
@@ -93,13 +92,13 @@ var actionHelper = {
       if(item === undefined) {
         item = this ;
       }
-      
+
       var property = actionType + 'CollisionImage' ;
       // console.log('collision_image item', item)
       if(actionType === 'source') { // no collision image by default
 
         if(item.image[property] === undefined || item.image[property] === null) {
-          // console.log('element collision image element sprite collisionSet', item.element.sprite.collisionSet) ;
+          // console.log('element collisieon image element sprite collisionSet', item.element.sprite.collisionSet) ;
           return undefined ;
         } else {      
           var collisionImage = item.image[property] ;

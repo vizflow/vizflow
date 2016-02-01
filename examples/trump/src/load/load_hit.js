@@ -12,18 +12,21 @@ function load_hit(viz, playerHitConfig, enemyHitConfig) {
 
 	if (playerHitConfig === undefined) {
 	  playerHitConfig = {
-	  	healthdrop: 2 * enemyHitConfig.healthdrop,
+	  	healthdrop: enemyHitConfig.healthdrop,
 	    healthbarY: 19,
 	    color: '#009', 
 	    audio: viz.audio.hit2,
-	    sourceType: 'enemyBullet',
+	    sourceType: 'enemy',
 	  } ;
 	}
     
-  viz.player.item.actionSet.hit = setup_hit(viz, viz.player, playerHitConfig) ;
-  viz.enemy.item.actionSet.hit  = setup_hit(viz, viz.enemy, enemyHitConfig) ;	
+  viz.player.item.actionSet.hit = hitHelper.setup(viz, viz.player, playerHitConfig) ;
+  viz.enemy.item.actionSet.hit  = hitHelper.setup(viz, viz.enemy, enemyHitConfig) ;	
 
-  // load_player_bullet (viz) ;
+  if(viz.player.config.bulletSwitch) {
+	  load_player_bullet (viz) ;
+  }
+
   load_enemy_bullet  (viz) ;
 
 }
