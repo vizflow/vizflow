@@ -52,9 +52,12 @@ var hitHelper = {
 
 	  if( typeCheck ) { // the target item type matches the source item, so we can perform a detailed collision check for collision image overlap (phase 2)
 
+      // console.log('hit helper detect 1', 'source item collision image', hitHelper.source.image, 'target item collision image', hitHelper.target.image) ;
+      // console.log('sourceItem', sourceItem)
 	    hitHelper.source.image = sourceItem.collision_image('source') ; // use the item's current display image as the key for the collision image lookup table 
+      // console.log('hit helper detect 2', 'source item collision image', hitHelper.source.image, 'target item collision image', hitHelper.target.image) ;
 	    hitHelper.target.image = targetItem.collision_image('target') ; // use the item's current display image as the key for the collision image lookup table 
-      // console.log('hit helper detect', 'source item collision image', hitHelper.source.image, 'target item collision image', hitHelper.target.image) ;
+      // console.log('hit helper detect 3', 'source item collision image', hitHelper.source.image, 'target item collision image', hitHelper.target.image) ;
 
       if
       (

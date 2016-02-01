@@ -7,6 +7,7 @@ function setup_word (viz, wordConfig) {
     transition: wordConfig.transition,
     render: drawHelper.image,
     type: 'enemyBullet',
+    collision_image: actionHelper.collision_image,
   } ;
 
   return word ;  

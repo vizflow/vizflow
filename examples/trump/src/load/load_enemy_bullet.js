@@ -16,6 +16,8 @@ function load_enemy_bullet(viz) {
   var wordImage = new Array(wordList.length) ;
   for ( var kWord = 0 ; kWord < wordList.length ; kWord++ ) {
     wordImage[kWord] = word_image (wordList[kWord]) ;
+    wordImage[kWord].sourceCollisionImage = wordImage[kWord] ;
+    wordImage[kWord] = adjust_image_ratio(wordImage[kWord]) ;
   }
   // var wordImage = word_image (wordList[(document.skipIndex * (document.skipIndex - 1)) % wordList.length]) ;
   var maxNword  = 6 ;

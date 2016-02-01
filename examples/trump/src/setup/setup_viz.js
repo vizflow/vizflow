@@ -97,7 +97,7 @@ function setup_viz (vizConfig) {
       if ( $Z.iter - this.trumpAttack.tSkip >= ( this.trumpAttack.minSkip + this.trumpAttack.skipVar[ document.skipIndex % this.trumpAttack.skipVar.length ] ) ) {
         this.trumpAttack.tSkip = $Z.iter ;
         document.skipIndex++ ;
-        // update_enemy.call( viz.enemy ) ; // switch to "viz.enemy.update()" #todo
+        update_enemy.call( this.enemy ) ; // switch to "viz.enemy.update()" #todo
       }
 
     },

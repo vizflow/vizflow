@@ -83,36 +83,7 @@ function setup_element (viz, elementConfig) {
     viz: viz, 
     element: element, 
     image: element.sprite.rest[0],
-    collision_image: function collision_image(actionType) { // actionType is either 'source' or 'target'
-      // console.log('element collision_image start') ;
-      var item = this ;
-      var property = actionType + 'CollisionImage' ;
-      // console.log('collision_image item', item)
-      if(actionType === 'source') { // no collision image by default
-
-        if(item.image[property] === undefined || item.image[property] === null) {
-          // console.log('element collision image element sprite collisionSet', item.element.sprite.collisionSet) ;
-          return undefined ;
-        } else {      
-          var collisionImage = item.image[property] ;
-          // console.log('element collision_image', 'collisionImage', collisionImage, item.image.collisionImage) ;
-          return collisionImage ;
-        }
-
-      }
-      if(actionType === 'target') { // normal collision image by default
-
-        if(item.image[property] === undefined || item.image[property] === null) {
-          // console.log('element collision image element sprite collisionSet', item.element.sprite.collisionSet) ;
-          return undefined ;
-        } else {      
-          var collisionImage = item.image[property] ;
-          // console.log('element collision_image', 'collisionImage', collisionImage, item.image.collisionImage) ;
-          return collisionImage ;
-        }
-
-      }
-    },
+    collision_image: actionHelper.collision_image,
     actionSet: {},
     render: drawHelper.image,
     x: elementConfig.x,
