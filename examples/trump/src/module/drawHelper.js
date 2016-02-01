@@ -14,6 +14,8 @@ var drawHelper = {
       ratio = document.ratio ;
     }
 
+    // console.log('frame.x', frame.x, 'width', frame.viz.displayCanvas.width) ;
+
     // console.log('draw_image', 'frame', frame, 'context', context, 'this', this) ;
 
     context.drawImage(frame.image, Math.floor(frame.x * ratio), Math.floor(frame.y * ratio)) ;

@@ -17,8 +17,8 @@ function load_player_bullet(viz) {
 
   viz.player.bulletSprite = viz.player.bulletSpriteR ;
 
-  var bulletShiftXl     = -viz.player.bulletSprite.bullet[0].width ;
-  var bulletShiftXr     = viz.player.sprite.rest[0].width + viz.player.bulletSprite.bullet[0].width - 4 ;
+  var bulletShiftXl     = -viz.player.bulletSprite.original.bullet[0].width ;
+  var bulletShiftXr     = viz.player.sprite.original.rest[0].width + viz.player.bulletSprite.original.bullet[0].width - 4 ;
   var bulletShiftY      = 8 ; 
   var bulletDur         = viz.dur * 20 ;
   var bulletMove        = 150 ;

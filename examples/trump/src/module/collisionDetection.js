@@ -65,8 +65,13 @@ var collisionDetection = {
       // var initialPelIndex =  item[kItem].y * width                      +  item[kItem].x  ;
       // var finalPelIndex   = (item[kItem].y + imageK.height - 1) * width + (item[kItem].x + imageK.width - 1) ;
 
-      for ( var i = Math.max(0, item[kItem].y) ; i < Math.min(height, item[kItem].y + imageK.height) ; i++ ) {
-        for ( var j = Math.max(0, item[kItem].x) ; j < Math.min(width, item[kItem].x + imageK.width) ; j++ ) {
+      var iStart = Math.max(0, item[kItem].y) ;
+      var iEnd   = Math.min(height, item[kItem].y + imageK.height) ;
+      var jStart = Math.max(0, item[kItem].x) ;
+      var jEnd   = Math.min(width, item[kItem].x + imageK.width) ;
+
+      for ( var i = iStart ; i < iEnd ; i++ ) {
+        for ( var j = jStart ; j < jEnd ; j++ ) {
 
           // var i = Math.floor (kPel / width) ;
           // var j = kPel % width ;
@@ -85,8 +90,8 @@ var collisionDetection = {
           // }
           
           var offset   = kPel * Nchannel ;
-          var iItem    = i - item[kItem].y ;
-          var jItem    = j - item[kItem].x ;
+          var iItem    = i - iStart ;
+          var jItem    = j - jStart ;
           var kPelItem = iItem * item[kItem].image.width + jItem ;
 
           var a = imageK.data[4 * kPelItem + 3] ; // use alpha channel to test for presence of nonempty pixel

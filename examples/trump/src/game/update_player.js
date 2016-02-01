@@ -33,7 +33,7 @@
         //console.log('this.loop.animation', this.loop.animation)
         transition = loop.animation ;
 
-        var xNew        = Math.max(0, this.item.x - this.xMove) ;
+        var xNew        = Math.max(-Math.floor(this.sprite.original.walk[0].width * 0.5), this.item.x - this.xMove) ;
         var xTransition = this.transitionSet.x(xNew) ;
         xTransition.end = buttonpress.reset ;
 
@@ -61,7 +61,7 @@
         this.loop.walk.position = loop.position ;
         transition = loop.animation ;
 
-        var xNew        = Math.min(this.item.viz.width - this.sprite.rest[0].width, this.item.x + this.xMove) ;
+        var xNew        = Math.min(Math.floor(this.item.viz.width - 0.5 * this.sprite.original.rest[0].width), this.item.x + this.xMove) ;
         var xTransition = this.transitionSet.x(xNew) ;
         xTransition.end = buttonpress.reset ;
 
