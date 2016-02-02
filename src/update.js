@@ -10,6 +10,8 @@ export default function update() { // default update function for handling anima
 		el.transition = [el.transition] ;
 	}
 
+	$Z.currentTime = Date.now() ;
+
 	for(let kt = 0 ; kt < el.transition.length ; kt++) {
 
 		let trans = el.transition[kt] ; // transition object for each state variable that is changing
@@ -17,9 +19,9 @@ export default function update() { // default update function for handling anima
 		let elapsedTime = 0 ;
 
 		if(trans.startTime === undefined) {
-      trans.startTime = Date.now() ;
+      trans.startTime = $Z.currentTime ;
 		} else {
-			elapsedTime = Date.now() - trans.startTime ;
+			elapsedTime = $Z.currentTime - trans.startTime ;
 		}
 
 		let remainingTime = trans.duration - elapsedTime ;
@@ -38,12 +40,20 @@ export default function update() { // default update function for handling anima
 				children.push(trans.child) ;
 			}
 			if(trans.end !== undefined) {
-				if ( trans.end.arguments === undefined ) { // assume it is an array 
+				if ( trans.end.constructor === Array ) { // is an array 
 					for( var kEnd = 0 ; kEnd < trans.end.length ; kEnd++ ) {
-						trans.end[kEnd]() ;
+						if (typeof trans.end[kEnd] == 'function') {
+							trans.end[kEnd]() ;
+						} else {
+							trans.end[kend].run() ;
+						}
 					}
 				} else { 
-   				trans.end() ;
+					if (typeof trans.end == 'function') {
+   					trans.end() ;
+   				} else {
+   					trans.end.run() ;
+   				}
 				}
 			}
 		}
