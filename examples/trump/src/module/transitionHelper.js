@@ -13,20 +13,28 @@ var transitionHelper = {
     return transitionIndex ;    
   },
 	
-  add: function transition_helper_add (newTransition, replacementSwitch) {
+  add: function transition_helper_add (newTransition, replacementSwitch, item) {
+
+    if(item === undefined) {
+      item = this ;
+    }
+
     // assume "this" corresponds to the item whose transition array we are modifying
     if (replacementSwitch === undefined) {
       replacementSwitch = false ;
     }
-    var transitionList = this.transition ;
+
+    var transitionList = item.transition ;
     if (transitionList === undefined) {
-      this.transition = [] ;
-      transitionList = this.transition ;
+      item.transition = [] ;
+      transitionList = item.transition ;
     }
-    // console.log('transitionList', transitionList, 'this', this) ;
+
+    // console.log('transitionList', transitionList, 'item', item) ;
     if (newTransition.constructor !== Array) {
       newTransition = [newTransition] ;
     }
+
     for (kNew = 0 ; kNew < newTransition.length ; kNew ++) {
       var property = newTransition[kNew].varName ;
       var transitionIndex = transitionHelper.find(property, transitionList) ;
@@ -38,6 +46,7 @@ var transitionHelper = {
         } // otherwise do nothing
       }
     }    
+    
   },
 
   remove: function transition_helper_remove (property) {

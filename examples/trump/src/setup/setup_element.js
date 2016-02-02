@@ -87,12 +87,15 @@ function setup_element (viz, elementConfig) {
     viz: viz, 
     element: element, 
     image: element.sprite.rest[0],
-    collision_image: actionHelper.collision_image,
+    collision_image: actionHelper.collision_image, // actionHelper.collision_image expects "this" to be "item"
     actionSet: {},
-    render: drawHelper.image,
+    render: drawHelper.image, // drawHelper.image expects "this" to  be "item"
     x: elementConfig.x,
     y: elementConfig.y - element.sprite.height, 
+    opacity: 1,
     type: elementConfig.type,
+    add_transition: transitionHelper.add, // transitionHelper.add expects "this" to be "item"
+    fade: effectHelper.image.fade, // effectHelper.image.fade expects "this" to be "item"
   } ;
   
   //element.orientation = 'r' ; // r for facing right

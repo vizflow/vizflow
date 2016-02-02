@@ -1,4 +1,4 @@
-var effectHelper = {
+var effectHelper = { // effect module for creating effects i.e. compositions of transitions
 
 	flash: function effect_flash (frameDuration, Nstep) {
 
@@ -55,7 +55,47 @@ var effectHelper = {
 
 		},
 
-	}, 
+		fade: function effect_image_fade(direction, fadeDuration, targetOpacity, replacementSwitch, item) {
+
+			if(item === undefined) {
+				item = this ;
+			}
+
+			if(replacementSwitch === undefined) {
+				replacementSwitch = true ;
+			}
+
+			if(direction === undefined) {
+				var thresh = 0.5 ;
+				if(item.opacity < thresh) {
+					direction = 'in' ;
+				} else {
+					direction = 'out' ;
+				}
+			}
+
+			if(targetOpacity === undefined) {
+				if(direction === 'in') {
+					targetOpacity = 1 ; 
+				} else {
+					targetOpacity = 0 ;
+				}
+			}
+
+			var defaultFadeDuration = 10 * viz.dur ;
+			if(fadeDuration === undefined) {
+				fadeDuration = defaultFadeDuration ;
+			}
+
+			var newTransition = $Z.transition.linear_transition_func('opacity', fadeDuration)(targetOpacity) ;
+
+			// console.log('fade', 'newTransition', newTransition) ;
+
+			item.add_transition(newTransition) ;
+
+		}, // end fade
+
+	}, // end image
 
 
-} ;
+} ; // end effectHelper
