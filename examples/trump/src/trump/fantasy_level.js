@@ -1,7 +1,5 @@
 function fantasy_level () {
 
-  // "ras-tan" level
-
   document.nextLevel = space_level ;
 
   var vizConfig = { // an object to configure the visualization
@@ -9,7 +7,7 @@ function fantasy_level () {
     frameDurationFactor: 5,
   } ;
 
-  viz = setup_viz (vizConfig)   ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
+  viz = setup_viz (vizConfig) ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
 
   viz.playerConfig = { 
     sprite_loader: rastan_sprite, 

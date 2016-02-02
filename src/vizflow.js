@@ -9,7 +9,7 @@ var _prep    = []       ; // array of actions to perform before rendering the it
 var _post    = []       ; // array of actions to perform after rendering the items on each frame (e.g. collision detection, background clearing)
 var _detect  = []       ; // array of detectors to perform before rendering the items on each frame (e.g. collision detection, background clearing)
 var _perform = []       ; // array of actions to perform before rendering the items on each frame (e.g. collision detection, background clearing)
-var _viz     = []       ; // optional visualization configuration object
+var _viz     = null     ; // optional visualization configuration object
 var iter     = 0        ; // default initial iteration count
 var verbose  = false    ; // default verbosity value
 var maxIter  = Infinity ; // default iteration limit
@@ -19,9 +19,9 @@ var maxIter  = Infinity ; // default iteration limit
 import step            from './step'       ;
 import item            from './item'       ;
 import prep            from './prep'       ;
+import post            from './post'       ;
 import detect          from './detect'     ;
 import perform         from './perform'    ;
-import post            from './post'       ;
 import pipe            from './pipe'       ;
 import done            from './done'       ;
 import exit            from './exit'       ;
@@ -58,17 +58,17 @@ window.$Z = { // define the "bling Z" object for running interactive vizualizati
 	maxIter,    // default maximum iteration count allowed (max # of frames
 	transition, // module comtaining transition helpers
 	_item,      // default data item array (internal use only as marked by underscore)
+	_prep,      // array of preprocessing tasks to perform (internal use only as marked by underscore)
+	_post,      // array of postprocessing tasks to perform
 	_detect,    // array of detectors (internal use only as marked by underscore)
 	_perform,   // array of actions (internal use only as marked by underscore)
-	_prep,      // array of preprocessing tasks to perform (internal use only as marked by underscore)
-	_post,      // array of postprocessing tasks to perform (internal use only as marked by underscore)
 	_viz,       // optional global visualization configuration object
 	item,       // getter/setter function for interfacing with the item/data array
-	detect,     // getter/setter function for interfacing with the _detect array
-	perform,    // getter/setter function for interfacing with the _perform array
 	prep,       // getter/setter function for interfacing with the _prep array
 	update,     // default update function for items using arrays of transition objects containing interpolation functions
 	post,       // getter/setter function for interfacing with the _prep array
+	detect,     // getter/setter function for interfacing with the _detect array
+	perform,    // getter/setter function for interfacing with the _perform array
 	pipe,       // function for dynamically chaining promises using a for-loop
 	step,       // function that executes one complete step (frame) of the interactive visualization / simulation / game
 	done,       // function to check for the end of the simulation or game, returns true if the simulation or game has ended

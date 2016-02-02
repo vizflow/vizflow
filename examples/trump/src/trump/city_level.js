@@ -1,7 +1,5 @@
 function city_level () {
 
-  // "jesus" character level
-
   document.nextLevel = fantasy_level ;
 
   var vizConfig = {

@@ -9,6 +9,7 @@ function setup_word (viz, wordConfig) {
     type: 'enemy',
     collision_image: actionHelper.collision_image,
     singleSwitch: true,
+    opacity: 1,
   } ;
 
   return word ;  

@@ -4,8 +4,6 @@ var inputEvent = {
 
     // console.log ('event down', 'this', this, 'this.viz', this.viz, 'event', event) ;    
 
-    viz.player.item.fade() ;
-
     var inputHandler ;
 
     switch (event.type) {

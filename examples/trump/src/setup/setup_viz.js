@@ -15,16 +15,16 @@ function setup_viz (vizConfig) {
 
   var vizCanvas      = create_canvas(vizWidth, vizHeight) ;         // model canvas (indepdenent of device pixel ratio)
   var displayCanvas  = create_canvas(displayWidth, displayHeight) ; // hidden display canvas (resized by devicePixelRatio, but not actually drawn to the screen)
-  var finalCanvas    = create_canvas(displayWidth, displayHeight) ; // actual display canvas (drawn to screen once per step/cycle/frame of the animation engine)
+  var screenCanvas    = create_canvas(displayWidth, displayHeight) ; // actual display canvas (drawn to screen once per step/cycle/frame of the animation engine)
 
   var vizContext     = vizCanvas.getContext('2d') ;
   var displayContext = displayCanvas.getContext('2d') ;
-  var finalContext   = create_context(finalCanvas) ;
+  var screenContext   = create_context(screenCanvas) ;
 
-  place_viz(finalCanvas) ;
+  place_viz(screenCanvas) ;
 
   function resize() {
-    set_canvas_position( finalCanvas ) ;
+    set_canvas_position( screenCanvas ) ;
   }
 
   resize() ;
@@ -51,8 +51,8 @@ function setup_viz (vizConfig) {
     context:        vizContext,
     displayCanvas:  displayCanvas, 
     displayContext: displayContext,
-    finalCanvas:    finalCanvas, 
-    finalContext:   finalContext,
+    screenCanvas:    screenCanvas, 
+    screenContext:   screenContext,
     resizeSkip: resizeSkip,
     lastCollision: 0,
     lastResize: 0,
@@ -61,6 +61,10 @@ function setup_viz (vizConfig) {
       minSkip: 99,
       skipVar: [17, 23, 11, 19, 8, 0, 44, 19, 23, 14, 17, 23],
     },
+
+    collision: null,
+
+    collision_detect: collisionDetection.pixelwise, // pixel-wise collision detection works for any shape and can be used on lower resolution masks compared to the display images
 
     prep: function viz_prep () {
 
@@ -76,23 +80,19 @@ function setup_viz (vizConfig) {
 
       //console.log('this.canvas', this.canvas) ;
       // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height) ;
-      this.displayContext.globalAlpha = .8 ;
+      this.displayContext.globalAlpha = .75 ; // simulates retro CRT display memory 
       this.displayContext.drawImage (this.background, 0, 0) ;
-      this.displayContext.globalAlpha = 1 ;
+      // this.displayContext.globalAlpha = 1 ;
  
       return true ;
  
     },
 
-    collision: null,
-
-    collision_detect: collisionDetection.pixelwise, // pixel-wise collision detection works for any shape and can be used on lower resolution masks compared to the display images
-
     post: function viz_post () {
 
-      // this.displayContext.clearRect(0, 0, this.displayCanvas.width, this.displayCanvas.height) ;
-      // this.displayContext.globalAlpha = 1 ;
-      this.finalContext.drawImage (this.displayCanvas, 0, 0) ; // use a single drawImage call for rendering the current frame to the visible Canvas (GPU-acceleated performance)
+      this.screenCanvas.width = this.screenCanvas.width ; // clearRect(0, 0, this.screenCanvas.width, this.displayCanvas.height) ;
+      this.screenContext.globalAlpha = this.opacity ;
+      this.screenContext.drawImage (this.displayCanvas, 0, 0) ; // use a single drawImage call for rendering the current frame to the visible Canvas (GPU-acceleated performance)
 
       if ( $Z.iter - this.trumpAttack.tSkip >= ( this.trumpAttack.minSkip + this.trumpAttack.skipVar[ document.skipIndex % this.trumpAttack.skipVar.length ] ) ) {
         this.trumpAttack.tSkip = $Z.iter ;
@@ -103,17 +103,20 @@ function setup_viz (vizConfig) {
     },
 
     detect: actionHelper.detect,
-
     perform: actionHelper.perform,
+    image_transition: step_transition_func('image', frameDuration),  
+    opacity: 0,
+    add_transition: transitionHelper.add, 
+    fade: effectHelper.image.fade, 
 
-    image_transition: step_transition_func('image', frameDuration),
-  
   } ;
 
   // console.log('setup viz after obj') ;
 
   viz.ui        = setup_ui      (viz)         ;
   viz.ui.button = setup_buttons (viz, viz.ui) ;
+
+  viz.fade('in', 1500)
 
   // console.log('setup viz end') ;
 

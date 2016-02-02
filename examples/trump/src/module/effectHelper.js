@@ -82,7 +82,7 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 				}
 			}
 
-			var defaultFadeDuration = 10 * viz.dur ;
+			var defaultFadeDuration = 1000 ;
 			if(fadeDuration === undefined) {
 				fadeDuration = defaultFadeDuration ;
 			}
