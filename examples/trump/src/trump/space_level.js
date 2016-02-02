@@ -1,7 +1,5 @@
 function space_level () {
 
-  // "samus" level
-
   document.nextLevel = null ;
 
   var vizConfig = { // an object to configure the visualization

@@ -1,7 +1,5 @@
 function fantasy_level () {
 
-  // fantasy level
-
   document.nextLevel = space_level ;
 
   var vizConfig = { // an object to configure the visualization
