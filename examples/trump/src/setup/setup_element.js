@@ -10,20 +10,24 @@ function setup_element (viz, elementConfig) {
 
     var spriteL0             = elementConfig.sprite_loader () ;
     element.spriteL          = spriteset_foreach(spriteL0, adjust_image_ratio) ;  
+    // element.spriteL          = spriteL0 ;
     element.spriteL.original = spriteL0 ;
 
     var spriteR0             = horizontal_flip(spriteL0) ;
     element.spriteR          = spriteset_foreach(spriteR0, adjust_image_ratio) ;
+    // element.spriteR          = spriteR0 ;
     element.spriteR.original = spriteR0 ;
 
   } else {
 
     var spriteR0             = elementConfig.sprite_loader () ;
     element.spriteR          = spriteset_foreach(spriteR0, adjust_image_ratio) ;
+    // element.spriteR          = spriteR0 ;
     element.spriteR.original = spriteR0 ;
     
     var spriteL0             = horizontal_flip(spriteR0) ;
     element.spriteL          = spriteset_foreach(spriteL0, adjust_image_ratio) ;
+    // element.spriteL          = spriteL0 ;
     element.spriteL.original = spriteL0 ;
 
   }

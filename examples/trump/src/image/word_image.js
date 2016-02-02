@@ -30,7 +30,7 @@ function word_image (text) {
   imageContext.drawImage (wordImage, 0, 0) ;
 
   imageContext.lineWidth = 1; 
-  imageContext.strokeStyle = 'rgba(0, 0, 0, 255)' ;
+  imageContext.strokeStyle = 'rgba(0, 0, 0, 1)' ;
   imageContext.rect(0, 0, wordWidth, wordHeight) ;
   imageContext.stroke () ;    
 

@@ -5,8 +5,8 @@ function get_sprite (spriteConfig) {
   for (var t = 0 ; t < spriteConfig.count ; t++) {
 
   	var image = spriteConfig.context.getImageData (
-      t * spriteConfig.width + spriteConfig.offsetX + spriteConfig.padX * t,
-      spriteConfig.rowIndex * spriteConfig.height + spriteConfig.offsetY, 
+      Math.floor(t * spriteConfig.width + spriteConfig.offsetX + spriteConfig.padX * t),
+      Math.floor(spriteConfig.rowIndex * spriteConfig.height + spriteConfig.offsetY), 
       spriteConfig.width, 
       spriteConfig.height
     )	 ;
