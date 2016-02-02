@@ -62,6 +62,10 @@ function setup_viz (vizConfig) {
       skipVar: [17, 23, 11, 19, 8, 0, 44, 19, 23, 14, 17, 23],
     },
 
+    collision: null,
+
+    collision_detect: collisionDetection.pixelwise, // pixel-wise collision detection works for any shape and can be used on lower resolution masks compared to the display images
+
     prep: function viz_prep () {
 
       if( ($Z.iter - this.lastResize) > this.resizeSkip) {
@@ -83,10 +87,6 @@ function setup_viz (vizConfig) {
       return true ;
  
     },
-
-    collision: null,
-
-    collision_detect: collisionDetection.pixelwise, // pixel-wise collision detection works for any shape and can be used on lower resolution masks compared to the display images
 
     post: function viz_post () {
 

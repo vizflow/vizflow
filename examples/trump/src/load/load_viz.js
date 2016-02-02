@@ -32,13 +32,14 @@ function load_viz (viz) {
   document.addEventListener('keydown', inputEvent.down, false) ;
   document.addEventListener('keyup', inputEvent.up, false) ;
 
-  $Z.item(viz.item)  ;     // load the user data into the visualization engine to initialize the time equals zero (t = 0) state
-  $Z.prep([viz]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
-  $Z.post([viz]) ;
-  $Z.detect([viz]) ;
-  $Z.perform([viz]) ;
+  // $Z.item(viz.item)  ;     // load the user data into the visualization engine to initialize the time equals zero (t = 0) state
+  // $Z.prep([viz]) ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
+  // $Z.post([viz]) ;
+  // $Z.detect([viz]) ;
+  // $Z.perform([viz]) ;
+  $Z.viz(viz) ;
   $Z.run() ;     // run the interactive visualization (infinite loop by default)
 
-  viz.enemy.item.image = viz.enemy.sprite.rest[0].targetCollisionImage ;
+  // viz.enemy.item.image = viz.enemy.sprite.rest[0].targetCollisionImage ;
 
 }

@@ -1,7 +1,7 @@
 document.body.style.overflowY = 'hidden';
 document.body.style.margin    = 0 ;
 document.addEventListener("touchmove", function(e) { e.preventDefault() });
-window.addEventListener("load", function() { window. scrollTo(0, 0); });
+window.addEventListener("load", function() { window.scrollTo(0, 0); });
 
 // var body = document.documentElement;
 // if (body.requestFullscreen) {
