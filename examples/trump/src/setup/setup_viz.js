@@ -30,8 +30,8 @@ function setup_viz (vizConfig) {
   resize() ;
 
   var backgroundImageUrl = vizConfig.backgroundImageUrl ;
-  var background         = image2canvas(backgroundImageUrl) ;
-  background             = adjust_image_ratio(background) ;
+  var image         = image2canvas(vizConfig.loadingImageUrl) ;
+  image             = adjust_image_ratio(image) ;
 
   var frameDuration = vizConfig.frameDurationFactor * dur ;
   var fadeDuration  = 1500 ;
@@ -48,22 +48,22 @@ function setup_viz (vizConfig) {
     dur:            dur,
     frameDuration:  frameDuration,
     fadeDuration:   fadeDuration,
-    background:     background,
+    image:          image,
     canvas:         vizCanvas,
     context:        vizContext,
     displayCanvas:  displayCanvas, 
     displayContext: displayContext,
-    screenCanvas:    screenCanvas, 
-    screenContext:   screenContext,
-    resizeSkip: resizeSkip,
-    lastCollision: 0,
-    lastResize: 0,
-    trumpAttack: {
-      tSkip: 0,
-      minSkip: 99,
-      skipVar: [17, 23, 11, 19, 8, 0, 44, 19, 23, 14, 17, 23],
-      on: false,
-    },
+    screenCanvas:   screenCanvas, 
+    screenContext:  screenContext,
+    resizeSkip:     resizeSkip,
+    lastCollision:  0,
+    lastResize:     0,
+    trumpAttack:    {
+                      tSkip: 0,
+                      minSkip: 99,
+                      skipVar: [17, 23, 11, 19, 8, 0, 44, 19, 23, 14, 17, 23],
+                      on: false,
+                    },
 
     collision: null,
 
@@ -83,8 +83,8 @@ function setup_viz (vizConfig) {
 
       //console.log('this.canvas', this.canvas) ;
       // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height) ;
-      this.displayContext.globalAlpha = .75 ; // simulates retro CRT display memory 
-      this.displayContext.drawImage (this.background, 0, 0) ;
+      this.displayContext.globalAlpha = 0.75 ; // simulates retro CRT display memory 
+      this.displayContext.drawImage (this.image, 0, 0) ;
       // this.displayContext.globalAlpha = 1 ;
  
       return true ;
@@ -111,6 +111,7 @@ function setup_viz (vizConfig) {
     opacity: 0,
     add_transition: transitionHelper.add, 
     fade: effectHelper.image.fade, 
+    fade_switch: effectHelper.image.fade_switch,
 
   } ;
 

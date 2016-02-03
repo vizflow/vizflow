@@ -43,6 +43,7 @@ var transitionHelper = {
       } else {
         if (replacementSwitch) {
           transitionList[transitionIndex] = newTransition[kNew] ;
+          console.log('transitionList', transitionList, 'item transition', item.transition)
         } // otherwise do nothing
       }
     }    

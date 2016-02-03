@@ -4,6 +4,7 @@ function city_level () {
 
   var vizConfig = {
     backgroundImageUrl: './images/trump_bg1.png',
+    loadingImageUrl: './images/trump_bg3.png',
     frameDurationFactor: 5,
   } ;
 

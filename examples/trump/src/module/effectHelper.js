@@ -35,7 +35,7 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 		} else {
 			var callback = undefined ;
 		}
-		
+
 		var loop = animate_loop (loopConfig, valueList, create_transition, callback) ;
 
 		item.add_transition(loop.animation[0]) ;
@@ -124,6 +124,39 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 			item.add_transition(newTransition) ;
 
 		}, // end fade
+
+		fade_switch: function effect_image_fade_switch(fadeConfig, item) {
+
+			if(item === undefined) {
+				item = this ;
+			}
+
+			var defaultFadeDuration = 1000 ;
+			if(fadeConfig.fadeDuration === undefined) {
+				fadeConfig.fadeDuration = defaultFadeDuration ;
+			}
+
+			var fade1  = $Z.transition.linear_transition_func('opacity', fadeConfig.fadeDuration)(0) ;
+			var fade2  = $Z.transition.linear_transition_func('opacity', fadeConfig.fadeDuration)(1) ;
+
+			// fade1.end = function() {
+			// 	console.log('fade1 end start') ;
+			// 	console.log('item config', item, fadeConfig) ;
+			// 	item.image = fadeConfig.image ;
+			// }
+
+			// if( fadeConfig.end !== undefined) {
+			// 	fade2.end = fadeConfig.end ;
+			// }
+
+			// fade1.child = fade2 ;
+
+			console.log('fade', 'fade1', fade1, 'item', item, 'item.transition', item.transition) ;
+
+			var replacementSwitch = true ;
+			item.add_transition(fade1, replacementSwitch) ;
+
+		},
 
 	}, // end image
 
