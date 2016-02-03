@@ -120,7 +120,7 @@ var hitHelper = {
       } else {
         $Z.item([]) ;
         hit.viz.fade({
-          direction: 'out', 
+          opacity: 0, 
           end: function() {
             $Z.exit() ;
             document.nextLevel() ;           
@@ -134,7 +134,7 @@ var hitHelper = {
     if (hit.healthbar.health < 0 && hit.element === hit.viz.player) {
       // alert('game over') ;
       $Z.item([]) ;
-      hit.viz.fade({direction: 'out', duration: hit.viz.fadeDuration}) ;
+      hit.viz.fade({opacity: 0, duration: hit.viz.fadeDuration}) ;
       hit.healthbar.health = 0 ;
       hit.viz.audio.laugh1.play() ;
       hit.viz.trumpAttack.on = false ;

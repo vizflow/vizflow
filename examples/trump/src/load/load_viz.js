@@ -68,16 +68,9 @@ function load_viz (viz) {
     $Z.item(viz.item) ;
 
     viz.enemy.item.flash(viz.frameDuration, Nstep, 'inert') ;
-
-    viz.fade({
-      opacity: 1,
-      duration: viz.fadeDuration,
-      end: function () {
-
-        viz.trumpAttack.on = true ;
-
-      }
-    }) ;
+    transitionHelper.add_end.call(viz.enemy.item, 'render', Nstep - 1, function() {
+      viz.trumpAttack.on = true ;
+    })
 
   }
 

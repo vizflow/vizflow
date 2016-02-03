@@ -93,6 +93,13 @@ var transitionHelper = {
 
   add_end: function transition_helper_add_end(property, frameIndex, callback) {
 
+    var transitionList = this.transition ;
+
+    if ( transitionList === undefined ) {
+      this.transition = [] ;
+      transitionList = this.transition ;
+    }
+
     var transitionIndex = transitionHelper.find(property, transitionList) ;    
 
     var transitionK = this.transition[transitionIndex] ; // initialize
