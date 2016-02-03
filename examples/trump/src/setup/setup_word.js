@@ -10,6 +10,7 @@ function setup_word (viz, wordConfig) {
     collision_image: actionHelper.collision_image,
     singleSwitch: true,
     opacity: 1,
+    inert: false,
   } ;
 
   return word ;  

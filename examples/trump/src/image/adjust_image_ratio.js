@@ -8,5 +8,6 @@ function adjust_image_ratio(canvas) {
 	} else { // use the original image as default target collision image 
 		newCanvas.targetCollisionImage = canvas ;
 	}
+	newCanvas.originalCanvas = canvas ;
 	return newCanvas ; 
 }

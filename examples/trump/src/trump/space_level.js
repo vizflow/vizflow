@@ -32,7 +32,6 @@ function space_level () {
     sprite_loader: trump_sprite,
     frameDuration: viz.frameDuration,
     attackDuration: 20 * viz.frameDuration,
-    collisionImage: 'rest', 
     orientation: 'l',
     x: 50,
     y: 193,

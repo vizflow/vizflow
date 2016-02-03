@@ -42,7 +42,7 @@ var actionHelper = {
 
     if ( ( $Z.iter - actionHelper.lastCollision ) >= viz.config.frameDurationFactor ) { // throttle collision detection if needed
       // this.collision_detect() ;
-      // console.log('viz_post', '$Z.iter', $Z.iter) ;
+      // console.log('action helper detect', '$Z.iter', $Z.iter) ;
       viz.collision_detect() ;
       // console.log('action helper detect', 'viz.collision', viz.collision) ;
 
@@ -74,6 +74,7 @@ var actionHelper = {
       // console.log('actionHelper perform start') ;
 
       actionHelper.collision_foreach( viz, function(action) {
+        // console.log('hit helper perform collision foreach callback start', 'action', action) ;
         if(action.performSwitch) {
           action.performSwitch = false ;
           // console.log('hit helper perform collision foreach callback', 'action', action) ;
@@ -102,7 +103,7 @@ var actionHelper = {
           return undefined ;
         } else {      
           var collisionImage = item.image[property] ;
-          // console.log('element collision_image', 'collisionImage', collisionImage, item.image.collisionImage) ;
+          // console.log('element collision_image', 'property', property, 'item.image[property]', item.image[property]) ;
           return collisionImage ;
         }
 
@@ -114,7 +115,7 @@ var actionHelper = {
           return undefined ;
         } else {      
           var collisionImage = item.image[property] ;
-          // console.log('element collision_image', 'collisionImage', collisionImage, item.image.collisionImage) ;
+          // console.log('element collision_image', 'property', property, 'item.image[property]', item.image[property]) ;
           return collisionImage ;
         }
 

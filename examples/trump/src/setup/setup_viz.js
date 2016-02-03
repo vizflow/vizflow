@@ -116,7 +116,7 @@ function setup_viz (vizConfig) {
   viz.ui        = setup_ui      (viz)         ;
   viz.ui.button = setup_buttons (viz, viz.ui) ;
 
-  viz.fade('in', 1500)
+  viz.fade({direction: 'in', duration: 1500})
 
   // console.log('setup viz end') ;
 

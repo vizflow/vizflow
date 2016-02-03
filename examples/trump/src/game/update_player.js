@@ -27,7 +27,7 @@
         }
 
         //this.sprite.rest[0]   = this.sprite.walk[0] ;
-        var loop   = animate_loop (this.loop.walk, this.sprite.walk, this.transitionSet.image, undefined) ;
+        var loop   = animate_loop (this.loop.walk, this.sprite.walk, this.transitionSet.image) ;
         this.loop.walk.position = loop.position ;
         //console.log ('update this l0', 'this', this, 'buttonpress.reset', buttonpress.reset, 'this.loop.animation[0]', this.loop.animation[0]) ;
         //console.log('this.loop.animation', this.loop.animation)
@@ -56,7 +56,7 @@
           }
         }        
         // console.log ('update_player 27') ;
-        var loop     = animate_loop (this.loop.walk, this.sprite.walk, this.transitionSet.image, undefined) ;
+        var loop     = animate_loop (this.loop.walk, this.sprite.walk, this.transitionSet.image) ;
         // console.log('update player 57') ;
         this.loop.walk.position = loop.position ;
         transition = loop.animation ;

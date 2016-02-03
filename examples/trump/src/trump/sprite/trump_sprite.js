@@ -37,7 +37,7 @@ function trump_sprite () {
 
 	trumpSprite.hit = [trumpSprite.hit[1]] ;
 
-	trumpSprite.attack = trumpSprite.hit ;
+	// trumpSprite.attack = trumpSprite.hit ;
 
   var attackImgUrl        = './images/trump_attack.png' ;
   var attackSpriteCanvas  = image2canvas(attackImgUrl) ;

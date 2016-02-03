@@ -118,9 +118,14 @@ var hitHelper = {
         alert('congratulations! you did it') ;
         $Z.item([]) ;
       } else {
-        $Z.maxIter = 0 ; // force exit 
-        document.nextLevel() ; 
-        $Z.maxIter = Infinity ;
+        $Z.item([]) ;
+        hit.viz.fade({
+          direction: 'out', 
+          end: function() {
+            $Z.exit() ;
+            document.nextLevel() ;           
+          }
+        }) ;
       }
       // alert ('game over') ;
       hit.healthbar.health = 0 ;
@@ -190,12 +195,12 @@ var hitHelper = {
       element = this.element ;
     }
 
-    var hitDur         = ( element.adversary.sprite.attack.length + 20 ) * viz.dur ;
+    var hitDur         = 1000 ; // ( element.adversary.sprite.attack.length + 20 ) * viz.dur ;
     var hit            = step_transition_func('image', viz.dur * 12)(element.sprite.hit[0]) ;
     hit.child          = step_transition_func('image', hitDur)(element.sprite.rest[0]) ;
     // hitTransition.child.end = [hitHelper.reset, hit_reset] ;
 
-    var reset = step_transition_func ('dummy', hitDur) (0) ;
+    var reset = step_transition_func ('hitReset', hitDur) (0) ;
 
     reset.end = { 
 

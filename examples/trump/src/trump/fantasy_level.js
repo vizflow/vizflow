@@ -33,8 +33,7 @@ function fantasy_level () {
   viz.enemyConfig = {
     sprite_loader: trump_sprite,
     frameDuration: viz.frameDuration * 10,
-    attackDuration: 20 * viz.frameDuration,
-    collisionImage: 'rest', 
+    attackDuration: 10 * viz.frameDuration,
     orientation: 'l',
     x: 50, 
     y: 193,

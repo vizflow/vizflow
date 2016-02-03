@@ -55,39 +55,43 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 
 		},
 
-		fade: function effect_image_fade(direction, fadeDuration, targetOpacity, replacementSwitch, item) {
+		fade: function effect_image_fade(fadeConfig, item) {			
 
 			if(item === undefined) {
 				item = this ;
 			}
 
-			if(replacementSwitch === undefined) {
-				replacementSwitch = true ;
+			if(fadeConfig.replacementSwitch === undefined) {
+				fadeConfig.replacementSwitch = true ;
 			}
 
-			if(direction === undefined) {
+			if(fadeConfig.direction === undefined) {
 				var thresh = 0.5 ;
 				if(item.opacity < thresh) {
-					direction = 'in' ;
+					fadeConfig.direction = 'in' ;
 				} else {
-					direction = 'out' ;
+					fadeConfig.direction = 'out' ;
 				}
 			}
 
-			if(targetOpacity === undefined) {
-				if(direction === 'in') {
-					targetOpacity = 1 ; 
+			if(fadeConfig.targetOpacity === undefined) {
+				if(fadeConfig.direction === 'in') {
+					fadeConfig.targetOpacity = 1 ; 
 				} else {
-					targetOpacity = 0 ;
+					fadeConfig.targetOpacity = 0 ;
 				}
 			}
 
 			var defaultFadeDuration = 1000 ;
-			if(fadeDuration === undefined) {
-				fadeDuration = defaultFadeDuration ;
+			if(fadeConfig.fadeDuration === undefined) {
+				fadeConfig.fadeDuration = defaultFadeDuration ;
 			}
 
-			var newTransition = $Z.transition.linear_transition_func('opacity', fadeDuration)(targetOpacity) ;
+			var newTransition = $Z.transition.linear_transition_func('opacity', fadeConfig.fadeDuration)(fadeConfig.targetOpacity) ;
+
+			if( fadeConfig.end !== undefined) {
+				newTransition.end = fadeConfig.end ;
+			}
 
 			// console.log('fade', 'newTransition', newTransition) ;
 
