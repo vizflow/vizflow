@@ -114,7 +114,7 @@ var hitHelper = {
     if (hit.healthbar.health < 0 && hit.element === hit.viz.enemy) {
       hit.viz.trumpAttack.on = false ;
       if(document.nextLevel === null) {
-        alert('congratulations! you did it') ;
+        // alert('congratulations! you did it') ;
         $Z.item([]) ;
         hit.viz.fade({direction: 'out', duration: hit.viz.fadeDuration}) ;
       } else {
@@ -132,8 +132,9 @@ var hitHelper = {
     }
 
     if (hit.healthbar.health < 0 && hit.element === hit.viz.player) {
-      alert('game over') ;
+      // alert('game over') ;
       $Z.item([]) ;
+      hit.viz.fade({direction: 'out', duration: hit.viz.fadeDuration}) ;
       hit.healthbar.health = 0 ;
       hit.viz.audio.laugh1.play() ;
       hit.viz.trumpAttack.on = false ;
