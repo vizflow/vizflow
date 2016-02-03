@@ -34,17 +34,25 @@ function load_viz (viz) {
   viz.item = [] ;
 
   viz.fade({
-    direction: 'in',
+    opacity: 1,
     duration: viz.fadeDuration,
-    end: viz_switch,
-  })
+    child: effectHelper.image.fade_transition({
+      opacity: 0, 
+      end: function() {
+        viz.image = adjust_image_ratio(image2canvas(viz.config.backgroundImageUrl)) ;
+      },
+      child: effectHelper.image.fade_transition({
+        opacity: 1,
+        end: viz_run,
+      })
+    }),
+  }) ;
 
   function viz_run() {
 
     var Nstep = 6 ; // 2 * Math.floor(0.5 * viz.fadeDuration / viz.frameDuration) ;
 
-    console.log('viz_run', 'Nstep', Nstep) ;
-
+    // console.log('viz_run', 'Nstep', Nstep, 'viz', viz) ;
 
     viz.item = [ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop
       viz.enemy.item,
@@ -57,17 +65,19 @@ function load_viz (viz) {
       viz.player.item.actionSet.hit.healthbar.item,
     ] ;
 
+    $Z.item(viz.item) ;
+
     viz.enemy.item.flash(viz.frameDuration, Nstep, 'inert') ;
 
     viz.fade({
-      direction: 'in', 
+      opacity: 1,
       duration: viz.fadeDuration,
       end: function () {
 
         viz.trumpAttack.on = true ;
 
       }
-    })
+    }) ;
 
   }
 
@@ -75,8 +85,13 @@ function load_viz (viz) {
 
     console.log('viz_switch', 'viz', viz) ;
     var image = adjust_image_ratio(image2canvas(viz.config.backgroundImageUrl)) ;
-    console.log('viz_switch', 'image', image, 'viz_run', viz_run) ;
-    viz.fade_switch({image: image, end: viz_run})     
+    console.log('viz', viz, 'image', image, 'viz_run', viz_run) ;
+    viz.fade({
+      opacity: 1,
+      duration: viz.fadeDuration,
+      end: viz_run,
+    }) ;
+    // viz.fade_switch({image: image, end: viz_run})     
 
   }
 

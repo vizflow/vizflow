@@ -116,7 +116,7 @@ var hitHelper = {
       if(document.nextLevel === null) {
         alert('congratulations! you did it') ;
         $Z.item([]) ;
-        hit.viz.fade({direction: 'out', duration: hit.viz.fadeDuration}) ;
+        hit.viz.fade({opacity: 0, duration: hit.viz.fadeDuration}) ;
       } else {
         $Z.item([]) ;
         hit.viz.fade({

@@ -28,6 +28,7 @@ var backgroundImageUrl4   = './images/trump_bg4.png' ;
 var bulletImageUrl        = './images/bullet.png' ;
 var jumpBulletImageUrl    = './images/beam1.png' ;
 var trumpAttackSpriteUrl  = './images/trump_attack.png' ;
+var titleUrl              = './images/trumped1.png' ;
 
 var img = [ 
 	ddSpriteImageUrl, 
@@ -41,6 +42,7 @@ var img = [
 	rastanSpriteImageUrl,
 	jumpBulletImageUrl,
 	trumpAttackSpriteUrl, 
+	titleUrl,
 ] ;
 
 imageLoader.preload ( img, trump_game ) ;
