@@ -71,12 +71,12 @@ function samus_sprite () {
 	} ;
 	samusSprite.attack  = get_sprite (attackConfig) ;
 
-	var jumpTileWidth = 18 ;
+	var jumpTileWidth = 24 ;
 	var jumpOffsetX   = 390 ;
 	var jumpTileCount = 1 ;
   
 	var jumpSpriteConfig       = copy_object (walkConfig) ;
-	jumpSpriteConfig.width = 20 ;
+	jumpSpriteConfig.width = 26 ;
 	jumpSpriteConfig.offsetX   = jumpOffsetX ;
 	jumpSpriteConfig.count = jumpTileCount ;
 

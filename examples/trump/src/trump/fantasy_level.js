@@ -36,7 +36,7 @@ function fantasy_level () {
     attackDuration: 10 * viz.frameDuration,
     orientation: 'l',
     x: 50, 
-    y: 193,
+    y: 167,
     type: 'enemy',
   } ;
 
