@@ -34,7 +34,7 @@ function city_level () {
     attackDuration: 5 * viz.frameDuration,
     orientation: 'l',
     x: 50,
-    y: 193,
+    y: 175,
     type: 'enemy',
   } ;
 
