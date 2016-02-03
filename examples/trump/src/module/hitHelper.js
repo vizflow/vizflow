@@ -105,8 +105,6 @@ var hitHelper = {
     	hit = this ;
     }
 
-    hit.detectSwitch = false ;
-
     if( hit.sourceItem.singleSwitch ) {
       hit.sourceItem.inert = true ; // deactivate the bullet after it hits
     }
@@ -114,9 +112,11 @@ var hitHelper = {
     hit.healthbar.health -= hit.healthdrop ;
     
     if (hit.healthbar.health < 0 && hit.element === hit.viz.enemy) {
+      hit.viz.trumpAttack.on = false ;
       if(document.nextLevel === null) {
         alert('congratulations! you did it') ;
         $Z.item([]) ;
+        hit.viz.fade({direction: 'out', duration: hit.viz.fadeDuration}) ;
       } else {
         $Z.item([]) ;
         hit.viz.fade({
@@ -136,6 +136,7 @@ var hitHelper = {
       $Z.item([]) ;
       hit.healthbar.health = 0 ;
       hit.viz.audio.laugh1.play() ;
+      hit.viz.trumpAttack.on = false ;
     }
 
     if (hit.element.item.transition === undefined) {
@@ -163,13 +164,8 @@ var hitHelper = {
     // var transitionFunc = hit.element.transitionSet.image ;
     // var transition     = animate(hit.element.sprite.hit, transitionFunc, undefined, hit.element.sprite.rest[0]) ;
     // console.log('perform hit hit 41', 'hit.element.item.transition', hit.element.item.transition) ;
-    var transition = hit.transition() ; // returns an array of transition objects
+    hit.transition() ; // returns an array of transition objects
     // console.log('hit helper perform: hit transition', transition) ;
-    var replacementSwitch = true ; // interrupt current player transitions due to hit
-    for (var kTrans = 0 ; kTrans < transition.length ; kTrans++) {
-      transitionHelper.add.call(hit.element.item, transition[kTrans], replacementSwitch) ;
-    }
-
     if(hit.audio !== undefined && hit.audio.buffer !== undefined) {
       hit.audio.play() ;
     }
@@ -187,18 +183,74 @@ var hitHelper = {
     hit.detectSwitch = true ;
   },
 
-  transition: function hit_helper_transition(element) {
+  duration: 300,
+
+  transition: function hit_helper_transition(hit) {
 
     // console.log ('hit transition', 'element', element, 'hitDur', hitDur) ;
 
-    if(element === undefined) {
-      element = this.element ;
+    if(hit === undefined) {
+      hit = this ;
     }
 
-    var hitDur         = 1000 ; // ( element.adversary.sprite.attack.length + 20 ) * viz.dur ;
-    var hit            = step_transition_func('image', viz.dur * 12)(element.sprite.hit[0]) ;
-    hit.child          = step_transition_func('image', hitDur)(element.sprite.rest[0]) ;
+    var element = this.element ;
+
+    var hitDur         = hitHelper.duration ; // ( element.adversary.sprite.attack.length + 20 ) * viz.dur ;
+    var hitTransition            = step_transition_func('image', viz.dur * 12)(element.sprite.hit[0]) ;
+    hitTransition.child          = step_transition_func('image', hitDur)(element.sprite.rest[0]) ;
     // hitTransition.child.end = [hitHelper.reset, hit_reset] ;
+
+    // var reset = step_transition_func ('hitReset', hitDur) (0) ;
+
+    // reset.end = { 
+
+    //   hit: element.item.actionSet.hit,
+
+    //   run: hitHelper.reset,
+
+    // } ;
+
+    // var Nstep          = 2 * (Math.floor(2.5 * hitDur)) ;
+    // var flash          = effectHelper.flash.call(element, hitDur / Nstep, Nstep).animation[0] ;
+
+//    var hitTransition  = [hit, reset, flash] ;
+
+    var replacementSwitch = true ; // interrupt current player transitions due to hit
+    element.item.add_transition(hitTransition, replacementSwitch) ;
+
+    hitHelper.flash(hit) ;
+    hitHelper.detect_switch(hit) ;
+
+  },
+
+  flash: function hit_helper_flash(hit) {
+
+    if(hit === undefined) {
+      hit = this ;
+    }
+
+    var element = hit.element ;
+
+    var hitDur         = hitHelper.duration ;
+    var Nstep          = 6 ; 
+    // console.log('hitDur', hitDur, 'Nstep', Nstep) ;
+    element.item.flash(hitDur / Nstep, Nstep) ;
+    // var flash          = effectHelper.flash.call(element, hitDur / Nstep, Nstep).animation[0] ;
+    // element.item.add_transition(flash) ;
+
+  },
+
+  detect_switch: function hit_helper_flash(hit) {
+
+    if(hit === undefined) {
+      hit = this ;
+    }
+
+    var element = hit.element ;
+
+    hit.detectSwitch = false ;
+
+    var hitDur = hitHelper.duration ;
 
     var reset = step_transition_func ('hitReset', hitDur) (0) ;
 
@@ -210,13 +262,7 @@ var hitHelper = {
 
     } ;
 
-    var frameDuration  = hitDur * .1 ;
-    var Nstep          = 2 * (Math.floor(0.25 * hitDur / frameDuration)) ;
-    var flash          = effectHelper.flash.call(element, frameDuration, Nstep).animation[0] ;
-
-    var hitTransition  = [hit, reset, flash] ;
-
-    return hitTransition ;
+    element.item.add_transition(reset) ;
 
   },
 

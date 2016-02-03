@@ -34,6 +34,7 @@ function setup_viz (vizConfig) {
   background             = adjust_image_ratio(background) ;
 
   var frameDuration = vizConfig.frameDurationFactor * dur ;
+  var fadeDuration  = 1500 ;
 
   // console.log('displayCanvas', displayCanvas) ;
 
@@ -46,6 +47,7 @@ function setup_viz (vizConfig) {
     height:         vizHeight, 
     dur:            dur,
     frameDuration:  frameDuration,
+    fadeDuration:   fadeDuration,
     background:     background,
     canvas:         vizCanvas,
     context:        vizContext,
@@ -60,6 +62,7 @@ function setup_viz (vizConfig) {
       tSkip: 0,
       minSkip: 99,
       skipVar: [17, 23, 11, 19, 8, 0, 44, 19, 23, 14, 17, 23],
+      on: false,
     },
 
     collision: null,
@@ -94,7 +97,7 @@ function setup_viz (vizConfig) {
       this.screenContext.globalAlpha = this.opacity ;
       this.screenContext.drawImage (this.displayCanvas, 0, 0) ; // use a single drawImage call for rendering the current frame to the visible Canvas (GPU-acceleated performance)
 
-      if ( $Z.iter - this.trumpAttack.tSkip >= ( this.trumpAttack.minSkip + this.trumpAttack.skipVar[ document.skipIndex % this.trumpAttack.skipVar.length ] ) ) {
+      if ( this.trumpAttack.on && $Z.iter - this.trumpAttack.tSkip >= ( this.trumpAttack.minSkip + this.trumpAttack.skipVar[ document.skipIndex % this.trumpAttack.skipVar.length ] ) ) {
         this.trumpAttack.tSkip = $Z.iter ;
         document.skipIndex++ ;
         update_enemy.call( this.enemy ) ; // switch to "viz.enemy.update()" #todo
@@ -115,8 +118,6 @@ function setup_viz (vizConfig) {
 
   viz.ui        = setup_ui      (viz)         ;
   viz.ui.button = setup_buttons (viz, viz.ui) ;
-
-  viz.fade({direction: 'in', duration: 1500})
 
   // console.log('setup viz end') ;
 

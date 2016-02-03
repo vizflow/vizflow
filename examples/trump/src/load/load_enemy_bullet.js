@@ -27,7 +27,7 @@ function load_enemy_bullet(viz) {
   function word_transition(xNew) {
     // console.log('word transition start') ;
     // this.image = word_image(wordList[(document.skipIndex * (document.skipIndex + 3)) % wordList.length]) ;
-    this.image = wordImage[(document.skipIndex * skip) % wordList.length] ;
+    this.image = wordImage[(document.skipIndex * $Z.iter) % wordList.length] ;
     
     var left   = $Z.transition.rounded_linear_transition_func ( 'x', viz.dur * 80 )(xNew) ; // sets speed of word block    
     //var down   = $Z.transition.rounded_linear_transition_func( 'y', viz.dur * 30 )(viz.player.config.y - wordImage.height * wordCount) ;

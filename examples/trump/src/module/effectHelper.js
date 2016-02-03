@@ -1,8 +1,21 @@
 var effectHelper = { // effect module for creating effects i.e. compositions of transitions
 
-	flash: function effect_flash (frameDuration, Nstep) {
+	flash: function effect_flash (frameDuration, Nstep, inertSwitch, item) {
 
-		// assume that "this" corresponds to the element item object
+		if(item === undefined) { // assume that "this" corresponds to the element item object
+			item = this ;
+		}
+
+		if(inertSwitch === true || inertSwitch === 'inert' || inertSwitch === 'on') {
+			var inertSwitch = true ;
+		} else {
+			inertSwitch = false ;
+		}
+
+		if(inertSwitch) {
+			item.inert = true ;
+		}
+
 		// console.log('effect flash', 'frameDuration', frameDuration, 'Nstep', Nstep) ;
 		var create_transition = step_transition_func('render', frameDuration) ;
 		// console.log('effect flash 5') ;
@@ -14,9 +27,22 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 			frameDur: frameDuration,
 		} ;
 		// console.log('effect flash 12') ;
-		var loop = animate_loop (loopConfig, valueList, create_transition) ;
-		return loop ;
+
+		if(inertSwitch) {
+			var callback = function() {
+				item.inert = false ;
+			} ;
+		} else {
+			var callback = undefined ;
+		}
+		
+		var loop = animate_loop (loopConfig, valueList, create_transition, callback) ;
+
+		item.add_transition(loop.animation[0]) ;
+
 		// console.log('effect flash', 'loop', loop) ;
+
+		return loop ;
 
 	},
 

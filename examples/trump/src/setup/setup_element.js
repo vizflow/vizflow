@@ -13,7 +13,7 @@ function setup_element (viz, elementConfig) {
 
   } else {
 
-    var spriteR0             = elementConig.sprite_loader () ;
+    var spriteR0             = elementConfig.sprite_loader () ;
     var spriteL0             = horizontal_flip(spriteR0) ;
 
   }
@@ -88,6 +88,7 @@ function setup_element (viz, elementConfig) {
     type: elementConfig.type,
     add_transition: transitionHelper.add, // transitionHelper.add expects "this" to be "item"
     fade: effectHelper.image.fade, // effectHelper.image.fade expects "this" to be "item"
+    flash: effectHelper.flash,
   } ;
   
   //element.orientation = 'r' ; // r for facing right
