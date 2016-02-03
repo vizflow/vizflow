@@ -34,7 +34,7 @@ function space_level () {
     attackDuration: 20 * viz.frameDuration,
     orientation: 'l',
     x: 50,
-    y: 193,
+    y: 178,
     type: 'enemy',
   } ;  
 
