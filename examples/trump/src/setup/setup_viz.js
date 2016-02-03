@@ -15,11 +15,11 @@ function setup_viz (vizConfig) {
 
   var vizCanvas      = create_canvas(vizWidth, vizHeight) ;         // model canvas (indepdenent of device pixel ratio)
   var displayCanvas  = create_canvas(displayWidth, displayHeight) ; // hidden display canvas (resized by devicePixelRatio, but not actually drawn to the screen)
-  var screenCanvas    = create_canvas(displayWidth, displayHeight) ; // actual display canvas (drawn to screen once per step/cycle/frame of the animation engine)
+  var screenCanvas   = create_canvas(displayWidth, displayHeight) ; // actual display canvas (drawn to screen once per step/cycle/frame of the animation engine)
 
   var vizContext     = vizCanvas.getContext('2d') ;
   var displayContext = displayCanvas.getContext('2d') ;
-  var screenContext   = create_context(screenCanvas) ;
+  var screenContext  = create_context(screenCanvas) ;
 
   place_viz(screenCanvas) ;
 
@@ -30,8 +30,8 @@ function setup_viz (vizConfig) {
   resize() ;
 
   var backgroundImageUrl = vizConfig.backgroundImageUrl ;
-  var background         = image2canvas(backgroundImageUrl) ;
-  background             = adjust_image_ratio(background) ;
+  var image         = image2canvas(vizConfig.loadingImageUrl) ;
+  image             = adjust_image_ratio(image) ;
 
   var frameDuration = vizConfig.frameDurationFactor * dur ;
   var fadeDuration  = 1500 ;
@@ -48,22 +48,22 @@ function setup_viz (vizConfig) {
     dur:            dur,
     frameDuration:  frameDuration,
     fadeDuration:   fadeDuration,
-    background:     background,
+    image:          image,
     canvas:         vizCanvas,
     context:        vizContext,
     displayCanvas:  displayCanvas, 
     displayContext: displayContext,
-    screenCanvas:    screenCanvas, 
-    screenContext:   screenContext,
-    resizeSkip: resizeSkip,
-    lastCollision: 0,
-    lastResize: 0,
-    trumpAttack: {
-      tSkip: 0,
-      minSkip: 99,
-      skipVar: [17, 23, 11, 19, 8, 0, 44, 19, 23, 14, 17, 23],
-      on: false,
-    },
+    screenCanvas:   screenCanvas, 
+    screenContext:  screenContext,
+    resizeSkip:     resizeSkip,
+    lastCollision:  0,
+    lastResize:     0,
+    trumpAttack:    {
+                      tSkip: 0,
+                      minSkip: 99,
+                      skipVar: [17, 23, 11, 19, 8, 0, 44, 19, 23, 14, 17, 23],
+                      on: false,
+                    },
 
     collision: null,
 
@@ -83,8 +83,8 @@ function setup_viz (vizConfig) {
 
       //console.log('this.canvas', this.canvas) ;
       // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height) ;
-      this.displayContext.globalAlpha = .75 ; // simulates retro CRT display memory 
-      this.displayContext.drawImage (this.background, 0, 0) ;
+      this.displayContext.globalAlpha = 0.75 ; // simulates retro CRT display memory 
+      this.displayContext.drawImage (this.image, 0, 0) ;
       // this.displayContext.globalAlpha = 1 ;
  
       return true ;

@@ -35,7 +35,7 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 		} else {
 			var callback = undefined ;
 		}
-		
+
 		var loop = animate_loop (loopConfig, valueList, create_transition, callback) ;
 
 		item.add_transition(loop.animation[0]) ;
@@ -87,43 +87,47 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 				item = this ;
 			}
 
-			if(fadeConfig.replacementSwitch === undefined) {
-				fadeConfig.replacementSwitch = true ;
-			}
-
-			if(fadeConfig.direction === undefined) {
+			if(fadeConfig.opacity === undefined) {
 				var thresh = 0.5 ;
 				if(item.opacity < thresh) {
-					fadeConfig.direction = 'in' ;
+					fadeConfig.opacity = 0 ;
 				} else {
-					fadeConfig.direction = 'out' ;
+					fadeConfig.opacity = 1 ;
 				}
 			}
 
-			if(fadeConfig.targetOpacity === undefined) {
-				if(fadeConfig.direction === 'in') {
-					fadeConfig.targetOpacity = 1 ; 
-				} else {
-					fadeConfig.targetOpacity = 0 ;
-				}
-			}
-
-			var defaultFadeDuration = 1000 ;
-			if(fadeConfig.fadeDuration === undefined) {
-				fadeConfig.fadeDuration = defaultFadeDuration ;
-			}
-
-			var newTransition = $Z.transition.linear_transition_func('opacity', fadeConfig.fadeDuration)(fadeConfig.targetOpacity) ;
-
-			if( fadeConfig.end !== undefined) {
-				newTransition.end = fadeConfig.end ;
-			}
+			var newTransition = effectHelper.image.fade_transition(fadeConfig) ;
 
 			// console.log('fade', 'newTransition', newTransition) ;
 
 			item.add_transition(newTransition) ;
 
 		}, // end fade
+
+		fade_transition: function effect_helper_image_fade_transition(fadeConfig) {
+
+			if(fadeConfig.replacementSwitch === undefined) {
+				fadeConfig.replacementSwitch = true ;
+			}
+
+			var defaultFadeDuration = 1000 ;
+			if(fadeConfig.duration === undefined) {
+				fadeConfig.duration = defaultFadeDuration ;
+			}
+
+			var newTransition = $Z.transition.linear_transition_func('opacity', fadeConfig.duration)(fadeConfig.opacity) ;
+
+			if( fadeConfig.end !== undefined) {
+				newTransition.end = fadeConfig.end ;
+			}
+
+			if( fadeConfig.child !== undefined) {
+				newTransition.child = fadeConfig.child ;
+			}
+
+			return newTransition ;
+
+		},
 
 	}, // end image
 
