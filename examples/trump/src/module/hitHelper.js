@@ -130,6 +130,7 @@ var hitHelper = {
       alert('game over') ;
       $Z.item([]) ;
       hit.healthbar.health = 0 ;
+      hit.viz.audio.laugh1.play() ;
     }
 
     if (hit.element.item.transition === undefined) {
