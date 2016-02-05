@@ -104,16 +104,16 @@
           } 
         }
 
-        transition.push(yTransition) ;
-
         if(this.orientation === 'l') {
-          var xNew = Math.max(-Math.floor(this.sprite.original.walk[0].width * 0.5), this.item.x - this.xMove) ; 
+          var xNew = Math.max(-Math.floor(this.sprite.original.walk[0].width * 0.5), this.item.x - this.xJumpMove) ; 
         } else {
-          var xNew = Math.min(Math.floor(this.item.viz.width - 0.5 * this.sprite.original.rest[0].width), this.item.x + this.xMove) ;          
+          var xNew = Math.min(Math.floor(this.item.viz.width - 0.5 * this.sprite.original.rest[0].width), this.item.x + this.xJumpMove) ;          
         }
         var xTransition = this.transitionSet.xJump(xNew) ;
 
-        transition.push(xTransition) ;        
+        transition.push(xTransition) ;  
+
+        transition.push(yTransition) ;
 
         break ;
 
@@ -154,8 +154,8 @@
     if (transition.length > 0) {
       // console.log('this.callback: transition', transition)
       //this.item.transition = transition ;
-      var replacementSwitch = false ;
-      this.item.add_transition(transition, replacementSwitch) ; // replacementSwitch) ;
+      var replacementSwitch = true ;
+      transitionHelper.add.call(this.item, transition, replacementSwitch) ;
       // console.log('update player after transitionhelper', 'this.item', this.item) ;
     } else {
       buttonpress.reset () ;

@@ -124,7 +124,7 @@ function setup_element (viz, elementConfig) {
     attackTransitionFunc = step_transition_func ( 'image', elementConfig.attackDuration ) ;
   }
 
-  xJumpTransitionFunc = $Z.transition.rounded_linear_transition_func ( 'x', elementConfig.frameDuration * 8 ) ;
+  xJumpTransitionFunc = $Z.transition.rounded_linear_transition_func ( 'x', elementConfig.frameDuration * 5 ) ;
 
   element.transitionSet = {
     image:  imageTransitionFunc,
@@ -160,8 +160,10 @@ function setup_element (viz, elementConfig) {
   element.yMove = elementConfig.yMove ;
 
   if(elementConfig.xJumpMove === undefined) {
-    elementConfig.xJumpMove = 7 ;
+    elementConfig.xJumpMove = 20 ;
   }
+
+  element.xJumpMove = elementConfig.xJumpMove ;
 
   element.xMove = elementConfig.xMove ;
   if(elementConfig.transition === undefined) {
