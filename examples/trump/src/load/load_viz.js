@@ -31,7 +31,17 @@ function load_viz (viz) {
 
   $Z.run() ;    // run the interactive visualization (infinite loop by default)
 
-  viz.item = [] ;
+
+  viz.item = [ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop
+    viz.enemy.item,
+    viz.player.item,
+    viz.ui.button.walkLeft,
+    viz.ui.button.walkRight,
+    viz.ui.button.attack,
+    viz.ui.button.jump,
+    viz.enemy.item.actionSet.hit.healthbar.item,
+    viz.player.item.actionSet.hit.healthbar.item,
+  ] ;
 
   viz.fade({
     opacity: 1,
@@ -39,12 +49,14 @@ function load_viz (viz) {
     child: effectHelper.image.fade_transition({
       opacity: 0, 
       end: function() {
+        // console.log(viz.config.backgroundImageUrl) ;
         viz.image = adjust_image_ratio(image2canvas(viz.config.backgroundImageUrl)) ;
+        $Z.item(viz.item) ;
       },
       child: effectHelper.image.fade_transition({
         opacity: 1,
         end: viz_run,
-      })
+      }),
     }),
   }) ;
 
@@ -54,31 +66,18 @@ function load_viz (viz) {
 
     // console.log('viz_run', 'Nstep', Nstep, 'viz', viz) ;
 
-    viz.item = [ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop
-      viz.enemy.item,
-      viz.player.item,
-      viz.ui.button.walkLeft,
-      viz.ui.button.walkRight,
-      viz.ui.button.attack,
-      viz.ui.button.jump,
-      viz.enemy.item.actionSet.hit.healthbar.item,
-      viz.player.item.actionSet.hit.healthbar.item,
-    ] ;
-
-    $Z.item(viz.item) ;
-
     viz.enemy.item.flash(viz.frameDuration, Nstep, 'inert') ;
     transitionHelper.add_end.call(viz.enemy.item, 'render', Nstep - 1, function() {
       viz.trumpAttack.on = true ;
-    })
+    }) ;
 
   }
 
   function viz_switch() {
 
-    console.log('viz_switch', 'viz', viz) ;
+    // console.log('viz_switch', 'viz', viz) ;
     var image = adjust_image_ratio(image2canvas(viz.config.backgroundImageUrl)) ;
-    console.log('viz', viz, 'image', image, 'viz_run', viz_run) ;
+    // console.log('viz', viz, 'image', image, 'viz_run', viz_run) ;
     viz.fade({
       opacity: 1,
       duration: viz.fadeDuration,

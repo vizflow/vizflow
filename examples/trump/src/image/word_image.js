@@ -25,6 +25,7 @@ function word_image (text) {
   	height: wordHeight, 
   	color: '#FFF',
     stroke: 'rgba(0, 0, 0, 0)',
+    opacity: 1,
   }
   drawHelper.rect (rect, imageContext) ;
   imageContext.drawImage (wordImage, 0, 0) ;

@@ -24,7 +24,7 @@ function city_level () {
     },
     xMove: 7,
     yMove: 50,
-    y: 155,
+    y: 168,
     type: 'player',
     bulletSwitch: false,
   } ;
@@ -35,7 +35,7 @@ function city_level () {
     attackDuration: 5 * viz.frameDuration,
     orientation: 'l',
     x: 70,
-    y: 164,
+    y: 177,
     type: 'enemy',
   } ;
 

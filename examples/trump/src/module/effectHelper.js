@@ -46,6 +46,46 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 
 	},
 
+	shake: function effect_shake(item, xKey, yKey) {
+
+		if(item === undefined) {
+			item = this ;
+		}
+
+		if(xKey === undefined) {
+			xKey = 'x' ;
+		}
+
+		if(yKey === undefined) {
+			yKey = 'y' ;
+		}
+
+		var xShakeMove = [-20, 20, -50, 50, -25, 25, -30, 30] ;
+		var yShakeMove = [-75, 75, 50, -50, -40, 40, 25, -25] ;
+
+		var damping = 0.1 ;
+		var dampingFactor = 0.8 ;
+		var Nstep = 10 ;
+
+		xTransition = new Array(Nstep) ;
+		yTransition = new Array(Nstep) ;
+
+		for (kstep = 0 ; kstep < Nstep ; kstep++) {
+			xTransition[kstep] = item.transitionSet[xKey](Math.round(xShakeMove[(kstep + $Z.iter) % xShakeMove.length] * damping)) ;
+			yTransition[kstep] = item.transitionSet[yKey](Math.round(yShakeMove[(kstep + $Z.iter * 3) % xShakeMove.length] * damping)) ;
+			damping *= dampingFactor ;
+		}
+
+		xTransition = transition_sequence(xTransition)[0] ;
+		yTransition = transition_sequence(yTransition)[0] ;
+
+		// console.log('xTransition', xTransition, 'yTransition', yTransition) ;
+
+		var replacementSwitch = true ;
+		item.add_transition([xTransition, yTransition]) ;
+
+	},
+
 	image: {
 
 		binary_opacity_filter: function effect_image_binary_opacity_filter (canvas, threshold)	 {

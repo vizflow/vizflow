@@ -7,7 +7,7 @@ var drawHelper = {
     } 
 
     if (context === undefined) {
-      context = frame.viz.displayContext ;
+      context = frame.viz.modelContext ;
     }
 
     if (ratio === undefined) {
@@ -17,14 +17,20 @@ var drawHelper = {
     // console.log('frame.x', frame.x, 'width', frame.viz.displayCanvas.width) ;
 
     // console.log('draw_image', 'frame', frame, 'context', context, 'this', this) ;
+    var xDraw = (frame.x + viz.xShift) * ratio ;
+    var yDraw = (frame.y + viz.yShift) * ratio ;
+
+    xDraw = Math.floor( xDraw ) ;
+    yDraw = Math.floor( yDraw ) ;
+
     if(frame.opacity !== undefined) {
       // console.log('frame opacity', frame.opacity) ;
       var alpha = context.globalAlpha ;
       context.globalAlpha = frame.opacity ;
-      context.drawImage(frame.image, Math.floor(frame.x * ratio), Math.floor(frame.y * ratio)) ;
+      context.drawImage(frame.image, xDraw, yDraw) ;
       context.globalAlpha = alpha ;      
     } else {
-      context.drawImage(frame.image, Math.floor(frame.x * ratio), Math.floor(frame.y * ratio)) ;      
+      context.drawImage(frame.image, xDraw, yDraw) ;      
     }
 
   },
@@ -36,7 +42,7 @@ var drawHelper = {
     }
 
     if(context === undefined) {
-      context = rect.viz.displayContext ;
+      context = rect.viz.modelContext ;
     }
 
     if(ratio === undefined) {
@@ -55,11 +61,32 @@ var drawHelper = {
       rect.stroke = strokeStyle ;
     }
 
+    var xNew, yNew ;
+    if(context === rect.viz) {
+      xNew = (rect.x + rect.viz.xShift)
+      yNew = (rect.y + rect.viz.yShift)
+    } else {
+      xNew = rect.x ;
+      yNew = rect.y ;
+    }
+    var yNew ;
+    var xDraw = xNew * ratio ;
+    var yDraw = yNew * ratio ;
+    xDraw = Math.floor( xDraw ) ;
+    yDraw = Math.floor( yDraw ) ;
     
     context.beginPath() ;
     context.fillStyle = rect.color ;
     context.strokeStyle = rect.stroke ;
-    context.rect(rect.x * ratio, rect.y * ratio, rect.width * ratio, rect.height * ratio) ;
+
+    if(rect.opacity !== undefined) {
+      console.log('frame', rect) ;
+      // var alpha = context.globalAlpha ;
+      context.globalAlpha = rect.opacity ;
+      // context.globalAlpha = alpha ;      
+    } 
+
+    context.rect(xDraw, yDraw, Math.floor(rect.width * ratio), Math.floor(rect.height * ratio)) ;
     context.fill() ;
     context.stroke() ;
     context.closePath() ;
@@ -82,6 +109,12 @@ var drawHelper = {
     context.beginPath() ;
     var x = circ.x ;
     var y = circ.y ;
+    x = (x + viz.width) * ratio ;
+    y = (y + viz.height) * ratio ;
+
+    x = Math.floor(x) ;
+    y = Math.floor(y) ;
+
     var r = circ.radius ;
     context.arc(x, y, r, 0, Math.PI * 2, true) ;
 

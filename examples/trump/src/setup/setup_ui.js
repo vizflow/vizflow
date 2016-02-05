@@ -7,6 +7,7 @@ function setup_ui (viz) {
   var buttonOffsetX   = 0 ;
   var buttonOffsetY   = 0 ;
   var buttonPadX      = 0 ;
+  var buttonPadY      = 11 ;
   var buttonPad       = Math.floor( ( viz.width - (buttonWidth * 4) ) / 4 ) ;
   var buttonImageUrl  = './images/button_spritesheet.png' ;
   var buttonCanvas    = image2canvas(buttonImageUrl) ;
@@ -57,7 +58,7 @@ function setup_ui (viz) {
   // var buttonY = buttonPad ;
 
   var uiWidth         = viz.width ;
-  var uiHeight        = buttonHeight + buttonPad * 2 ;
+  var uiHeight        = buttonHeight + 2 * buttonPadY ;
   var uiY             = viz.height - uiHeight ;
   var uiX             = 0 ;
   var uiCanvas        = create_canvas  (uiWidth, uiHeight) ;

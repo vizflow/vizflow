@@ -26,7 +26,7 @@ function fantasy_level () {
     fullLoopSwitch: true,
     xMove: 8,
     yMove: 55,
-    y: 157,
+    y: 170,
     type: 'player',
     bulletSwitch: false,
   } ;
@@ -36,8 +36,8 @@ function fantasy_level () {
     frameDuration: viz.frameDuration * 10,
     attackDuration: 10 * viz.frameDuration,
     orientation: 'l',
-    x: 50, 
-    y: 167,
+    x: 70, 
+    y: 178,
     type: 'enemy',
   } ;
 

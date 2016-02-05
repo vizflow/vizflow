@@ -24,7 +24,7 @@ function space_level () {
     },
     xMove: 10,
     yMove: 100,
-    y: 169,
+    y: 187,
     type: 'player',
     bulletSwitch: true,
   } ;
@@ -34,8 +34,8 @@ function space_level () {
     frameDuration: viz.frameDuration,
     attackDuration: 20 * viz.frameDuration,
     orientation: 'l',
-    x: 50,
-    y: 178,
+    x: 70,
+    y: 196,
     type: 'enemy',
   } ;  
 

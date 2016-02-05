@@ -165,7 +165,7 @@ var hitHelper = {
     // var transitionFunc = hit.element.transitionSet.image ;
     // var transition     = animate(hit.element.sprite.hit, transitionFunc, undefined, hit.element.sprite.rest[0]) ;
     // console.log('perform hit hit 41', 'hit.element.item.transition', hit.element.item.transition) ;
-    hit.transition() ; // returns an array of transition objects
+    hit.transition() ; // adds an array of transition objects to the item's transition list
     // console.log('hit helper perform: hit transition', transition) ;
     if(hit.audio !== undefined && hit.audio.buffer !== undefined) {
       hit.audio.play() ;
@@ -196,9 +196,9 @@ var hitHelper = {
 
     var element = this.element ;
 
-    var hitDur         = hitHelper.duration ; // ( element.adversary.sprite.attack.length + 20 ) * viz.dur ;
-    var hitTransition            = step_transition_func('image', viz.dur * 12)(element.sprite.hit[0]) ;
-    hitTransition.child          = step_transition_func('image', hitDur)(element.sprite.rest[0]) ;
+    var hitDur          = hitHelper.duration ; // ( element.adversary.sprite.attack.length + 20 ) * viz.dur ;
+    var hitTransition   = step_transition_func('image', viz.dur * 12)(element.sprite.hit[0]) ;
+    hitTransition.child = step_transition_func('image', hitDur)(element.sprite.rest[0]) ;
     // hitTransition.child.end = [hitHelper.reset, hit_reset] ;
 
     // var reset = step_transition_func ('hitReset', hitDur) (0) ;
@@ -218,6 +218,10 @@ var hitHelper = {
 
     var replacementSwitch = true ; // interrupt current player transitions due to hit
     element.item.add_transition(hitTransition, replacementSwitch) ;
+
+    if(element === hit.viz.enemy) { // perform screen shake on enemy hit
+      hit.viz.shake() ;
+    }
 
     hitHelper.flash(hit) ;
     hitHelper.detect_switch(hit) ;

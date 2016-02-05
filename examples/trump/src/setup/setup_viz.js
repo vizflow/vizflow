@@ -12,11 +12,16 @@ function setup_viz (vizConfig) {
   var vizHeight     = 240 ;
   var displayWidth  = Math.floor(vizWidth * ratio) ;
   var displayHeight = Math.floor(vizHeight * ratio) ;
+  var paddingFactor = 4/3 ;
+  var modelWidth    = Math.floor(vizWidth * paddingFactor * ratio) ;
+  var modelHeight   = Math.floor(vizHeight * paddingFactor * ratio) ;
 
+  var modelCanvas    = create_canvas(modelWidth, modelHeight) ;         // model canvas (indepdenent of device pixel ratio)
   var vizCanvas      = create_canvas(vizWidth, vizHeight) ;         // model canvas (indepdenent of device pixel ratio)
   var displayCanvas  = create_canvas(displayWidth, displayHeight) ; // hidden display canvas (resized by devicePixelRatio, but not actually drawn to the screen)
   var screenCanvas   = create_canvas(displayWidth, displayHeight) ; // actual display canvas (drawn to screen once per step/cycle/frame of the animation engine)
 
+  var modelContext   = modelCanvas.getContext('2d') ;         // model canvas (indepdenent of device pixel ratio)
   var vizContext     = vizCanvas.getContext('2d') ;
   var displayContext = displayCanvas.getContext('2d') ;
   var screenContext  = create_context(screenCanvas) ;
@@ -51,18 +56,30 @@ function setup_viz (vizConfig) {
     image:          image,
     canvas:         vizCanvas,
     context:        vizContext,
+    modelCanvas:    modelCanvas, 
+    modelContext:   modelContext,
     displayCanvas:  displayCanvas, 
     displayContext: displayContext,
     screenCanvas:   screenCanvas, 
     screenContext:  screenContext,
+    xShift:         Math.floor(0.5 * (paddingFactor - 1) * vizWidth),
+    yShift:         Math.floor(0.5 * (paddingFactor - 1) * vizHeight),
     resizeSkip:     resizeSkip,
     lastCollision:  0,
     lastResize:     0,
+    viewportX:      0, 
+    viewportY:      0,
+
     trumpAttack:    {
                       tSkip: 0,
                       minSkip: 99,
                       skipVar: [17, 23, 11, 19, 8, 0, 44, 19, 23, 14, 17, 23],
                       on: false,
+                    },
+
+    transitionSet:  {
+                      x: $Z.transition.rounded_linear_transition_func ( 'viewportX', 0.25 * this.dur ), //function accepting an x end-value and returning a transition object      
+                      y: $Z.transition.rounded_linear_transition_func ( 'viewportY', 0.25 * this.dur ), //function accepting an x end-value and returning a transition object      
                     },
 
     collision: null,
@@ -83,8 +100,8 @@ function setup_viz (vizConfig) {
 
       //console.log('this.canvas', this.canvas) ;
       // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height) ;
-      this.displayContext.globalAlpha = 0.75 ; // simulates retro CRT display memory 
-      this.displayContext.drawImage (this.image, 0, 0) ;
+      this.modelContext.globalAlpha = 0.75 ; // simulates retro CRT display memory 
+      this.modelContext.drawImage (this.image, 0, 0) ;
       // this.displayContext.globalAlpha = 1 ;
  
       return true ;
@@ -93,7 +110,19 @@ function setup_viz (vizConfig) {
 
     post: function viz_post () {
 
-      this.screenCanvas.width = this.screenCanvas.width ; // clearRect(0, 0, this.screenCanvas.width, this.displayCanvas.height) ;
+      var sx = Math.floor((this.viewportX + this.xShift) * ratio) ;
+      var sy = Math.floor((this.viewportY + this.yShift) * ratio)  ; 
+      var sw = this.displayCanvas.width ;
+      var sh = this.displayCanvas.height ;
+      var dx = 0 ;
+      var dy = 0 ;
+      var dw = this.displayCanvas.width ;
+      var dh = this.displayCanvas.height ;
+      this.displayCanvas.width = this.displayCanvas.width ;
+      // console.log('sx, sy, sw, sh, dx, dy, dw, dh', sx, sy, sw, sh, dx, dy, dw, dh) ;
+      this.displayContext.drawImage(this.modelCanvas, sx, sy, sw, sh, dx, dy, dw, dh) ;
+
+      this.screenCanvas.width        = this.screenCanvas.width ; // clearRect(0, 0, this.screenCanvas.width, this.displayCanvas.height) ;
       this.screenContext.globalAlpha = this.opacity ;
       this.screenContext.drawImage (this.displayCanvas, 0, 0) ; // use a single drawImage call for rendering the current frame to the visible Canvas (GPU-acceleated performance)
 
@@ -111,6 +140,7 @@ function setup_viz (vizConfig) {
     opacity: 0,
     add_transition: transitionHelper.add, 
     fade: effectHelper.image.fade, 
+    shake: effectHelper.shake,
 
   } ;
 
