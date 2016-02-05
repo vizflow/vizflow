@@ -62,7 +62,7 @@ var drawHelper = {
     }
 
     var xNew, yNew ;
-    if(context === rect.viz) {
+    if(rect.viz !== undefined) {
       xNew = (rect.x + rect.viz.xShift)
       yNew = (rect.y + rect.viz.yShift)
     } else {
@@ -80,7 +80,7 @@ var drawHelper = {
     context.strokeStyle = rect.stroke ;
 
     if(rect.opacity !== undefined) {
-      console.log('frame', rect) ;
+      // console.log('frame', rect) ;
       // var alpha = context.globalAlpha ;
       context.globalAlpha = rect.opacity ;
       // context.globalAlpha = alpha ;      
