@@ -60,21 +60,24 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 			yKey = 'y' ;
 		}
 
-		var xShakeMove = [-20, 20, -50, 50, -25, 25, -30, 30] ;
-		var yShakeMove = [-75, 75, 50, -50, -40, 40, 25, -25] ;
+		var xShakeMove = [1, -1, -1, 1] ; // [-20, 20, -50, 50, -25, 25, -30, 30] ;
+		var yShakeMove = [1, -1, 1, -1] ; // [-75, 75, 50, -50, -40, 40, 25, -25] ;
 
-		var damping = 0.1 ;
-		var dampingFactor = 0.8 ;
-		var Nstep = 10 ;
+		var damping = 5 ;
+		var dampingFactor = 1 ;
+		var Nstep = 9 ;
 
 		xTransition = new Array(Nstep) ;
 		yTransition = new Array(Nstep) ;
 
-		for (kstep = 0 ; kstep < Nstep ; kstep++) {
-			xTransition[kstep] = item.transitionSet[xKey](Math.round(xShakeMove[(kstep + $Z.iter) % xShakeMove.length] * damping)) ;
-			yTransition[kstep] = item.transitionSet[yKey](Math.round(yShakeMove[(kstep + $Z.iter * 3) % xShakeMove.length] * damping)) ;
+		for (kstep = 0 ; kstep < Nstep - 1 ; kstep++) {
+			xTransition[kstep] = item.transitionSet[xKey](Math.round(Math.random() * xShakeMove[(kstep + $Z.iter) % xShakeMove.length] * damping)) ;
+			yTransition[kstep] = item.transitionSet[yKey](Math.round(Math.random() * yShakeMove[(kstep + $Z.iter * 3) % xShakeMove.length] * damping)) ;
 			damping *= dampingFactor ;
 		}
+
+		xTransition[kstep] = item.transitionSet[xKey](0) ;
+		yTransition[kstep] = item.transitionSet[yKey](0) ;
 
 		xTransition = transition_sequence(xTransition)[0] ;
 		yTransition = transition_sequence(yTransition)[0] ;

@@ -44,7 +44,9 @@ var transitionHelper = {
         if (replacementSwitch) {
           transitionList[transitionIndex] = newTransition[kNew] ;
           // console.log('item', item, 'transitionList', transitionList, 'item transition', item.transition, 'newTransition', newTransition)
-        } // otherwise do nothing
+        } else {
+          transitionList.push(newTransition[kNew]) ;
+        }// otherwise add compound transition
       }
     }    
     

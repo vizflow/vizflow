@@ -35,26 +35,31 @@ export default function update() { // default update function for handling anima
 		} else { // transition has run out of time so finish and remove
       // * update the element's state:
 			el[trans.varName] = trans.endValue ; 
-			removeList.push(kt) ;
-			if(trans.child !== undefined) {
-				children.push(trans.child) ;
-			}
-			if(trans.end !== undefined) {
-				if ( trans.end.constructor === Array ) { // is an array 
-					for( var kEnd = 0 ; kEnd < trans.end.length ; kEnd++ ) {
-						if (typeof trans.end[kEnd] == 'function') {
-							trans.end[kEnd]() ;
-						} else {
-							trans.end[kend].run() ;
-						}
-					}
-				} else { 
-					if (typeof trans.end == 'function') {
-   					trans.end() ;
-   				} else {
-   					trans.end.run() ;
-   				}
+
+			if(trans.pause === undefined || -remainingTime > trans.pause) {
+
+				removeList.push(kt) ;
+				if(trans.child !== undefined) {
+					children.push(trans.child) ;
 				}
+				if(trans.end !== undefined) {
+					if ( trans.end.constructor === Array ) { // is an array 
+						for( var kEnd = 0 ; kEnd < trans.end.length ; kEnd++ ) {
+							if (typeof trans.end[kEnd] == 'function') {
+								trans.end[kEnd]() ;
+							} else {
+								trans.end[kend].run() ;
+							}
+						}
+					} else { 
+						if (typeof trans.end == 'function') {
+	   					trans.end() ;
+	   				} else {
+	   					trans.end.run() ;
+	   				}
+					}
+				}
+
 			}
 		}
 		

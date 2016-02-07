@@ -69,6 +69,8 @@ function setup_viz (vizConfig) {
     lastResize:     0,
     viewportX:      0, 
     viewportY:      0,
+    viewportWidth:  displayCanvas.width,
+    viewportHeight: displayCanvas.height,
 
     trumpAttack:    {
                       tSkip: 0,
@@ -78,8 +80,8 @@ function setup_viz (vizConfig) {
                     },
 
     transitionSet:  {
-                      x: $Z.transition.rounded_linear_transition_func ( 'viewportX', 0.25 * this.dur ), //function accepting an x end-value and returning a transition object      
-                      y: $Z.transition.rounded_linear_transition_func ( 'viewportY', 0.25 * this.dur ), //function accepting an x end-value and returning a transition object      
+                      x: $Z.transition.rounded_linear_transition_func ( 'viewportX', 3 * dur ), //function accepting an x end-value and returning a transition object      
+                      y: $Z.transition.rounded_linear_transition_func ( 'viewportY', 3 * dur ), //function accepting an x end-value and returning a transition object      
                     },
 
     collision: null,
@@ -112,12 +114,12 @@ function setup_viz (vizConfig) {
 
       var sx = Math.floor((this.viewportX + this.xShift) * ratio) ;
       var sy = Math.floor((this.viewportY + this.yShift) * ratio)  ; 
-      var sw = this.displayCanvas.width ;
-      var sh = this.displayCanvas.height ;
+      var sw = this.viewportWidth ;
+      var sh = this.viewportHeight ;
       var dx = 0 ;
       var dy = 0 ;
-      var dw = this.displayCanvas.width ;
-      var dh = this.displayCanvas.height ;
+      var dw = displayCanvas.width ;
+      var dh = displayCanvas.height ;
       this.displayCanvas.width = this.displayCanvas.width ;
       // console.log('sx, sy, sw, sh, dx, dy, dw, dh', sx, sy, sw, sh, dx, dy, dw, dh) ;
       this.displayContext.drawImage(this.modelCanvas, sx, sy, sw, sh, dx, dy, dw, dh) ;

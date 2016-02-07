@@ -184,7 +184,7 @@ var hitHelper = {
     hit.detectSwitch = true ;
   },
 
-  duration: 300,
+  duration: 350,
 
   transition: function hit_helper_transition(hit) {
 
@@ -199,29 +199,47 @@ var hitHelper = {
     var hitDur          = hitHelper.duration ; // ( element.adversary.sprite.attack.length + 20 ) * viz.dur ;
     var hitTransition   = step_transition_func('image', viz.frameDuration * 1.5)(element.sprite.hit[0]) ;
     hitTransition.child = step_transition_func('image', hitDur)(element.sprite.rest[0]) ;
-    // hitTransition.child.end = [hitHelper.reset, hit_reset] ;
 
-    // var reset = step_transition_func ('hitReset', hitDur) (0) ;
+    var viewDelta = -2 * Math.floor(hit.viz.displayCanvas.width * 0.04) ;
+    var newWidth  = hit.viz.displayCanvas.width  + viewDelta ;
+    var newHeight = hit.viz.displayCanvas.height + viewDelta ;
 
-    // reset.end = { 
+    var xNew = Math.floor(hit.viz.viewportX - 0.25 * viewDelta) ;
+    var yNew = Math.floor(hit.viz.viewportY - 0.25 * viewDelta) ;
 
-    //   hit: element.item.actionSet.hit,
+    var zoomDur   = 0.25 * hitDur ;
+    var widthIn   = $Z.transition.rounded_linear_transition_func('viewportWidth', zoomDur)(newWidth) ;
+    var heightIn  = $Z.transition.rounded_linear_transition_func('viewportHeight', zoomDur)(newHeight) ;
+    var xIn       = $Z.transition.rounded_linear_transition_func('viewportX', zoomDur)(xNew) ;
+    var yIn       = $Z.transition.rounded_linear_transition_func('viewportY', zoomDur)(yNew) ;
+    var widthOut  = $Z.transition.rounded_linear_transition_func('viewportWidth', zoomDur)(hit.viz.viewportWidth) ;
+    var heightOut = $Z.transition.rounded_linear_transition_func('viewportHeight', zoomDur)(hit.viz.viewportHeight) ;
+    var xOut      = $Z.transition.rounded_linear_transition_func('viewportX', zoomDur)(hit.viz.viewportX) ;
+    var yOut      = $Z.transition.rounded_linear_transition_func('viewportY', zoomDur)(hit.viz.viewportY) ;
 
-    //   run: hitHelper.reset,
+    widthIn.child  = widthOut ;
+    heightIn.child = heightOut ;
+    xIn.child = xOut ;
+    yIn.child = yOut ;
 
-    // } ;
+    widthIn.pause = 0.45 * hitDur ;
+    heightIn.pause = 0.45 * hitDur ;
+    xIn.pause = 0.45 * hitDur ;
+    yIn.pause = 0.45 * hitDur ;
 
-    // var Nstep          = 2 * (Math.floor(2.5 * hitDur)) ;
-    // var flash          = effectHelper.flash.call(element, hitDur / Nstep, Nstep).animation[0] ;
+    if(element === hit.viz.enemy) { // perform screen shake on enemy hit
+      widthIn.end = function() {
+        hit.viz.shake() ;
+      }
+    }
 
-//    var hitTransition  = [hit, reset, flash] ;
+    hit.viz.add_transition(widthIn) ;
+    hit.viz.add_transition(heightIn) ;
+    hit.viz.add_transition(xIn) ;
+    hit.viz.add_transition(yIn) ;
 
     var replacementSwitch = true ; // interrupt current player transitions due to hit
     element.item.add_transition(hitTransition, replacementSwitch) ;
-
-    if(element === hit.viz.enemy) { // perform screen shake on enemy hit
-      hit.viz.shake() ;
-    }
 
     hitHelper.flash(hit) ;
     hitHelper.detect_switch(hit) ;
