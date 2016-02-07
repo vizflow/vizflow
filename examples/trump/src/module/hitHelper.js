@@ -197,7 +197,7 @@ var hitHelper = {
     var element = this.element ;
 
     var hitDur          = hitHelper.duration ; // ( element.adversary.sprite.attack.length + 20 ) * viz.dur ;
-    var hitTransition   = step_transition_func('image', viz.dur * 12)(element.sprite.hit[0]) ;
+    var hitTransition   = step_transition_func('image', viz.frameDuration * 1.5)(element.sprite.hit[0]) ;
     hitTransition.child = step_transition_func('image', hitDur)(element.sprite.rest[0]) ;
     // hitTransition.child.end = [hitHelper.reset, hit_reset] ;
 
