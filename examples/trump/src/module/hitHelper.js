@@ -105,72 +105,85 @@ var hitHelper = {
     	hit = this ;
     }
 
-    if( hit.sourceItem.singleSwitch ) {
-      hit.sourceItem.inert = true ; // deactivate the bullet after it hits
-    }
+    var hitOccurred = hit.detect(hit.sourceItem) ; 
 
-    hit.healthbar.health -= hit.healthdrop ;
-    
-    if (hit.healthbar.health < 0 && hit.element === hit.viz.enemy) {
-      hit.viz.trumpAttack.on = false ;
-      if(document.nextLevel === null) {
-        // alert('congratulations! you did it') ;
+    if( hitOccurred ) { // i.e. either the player or the enemy was hit since we passed the detailed collision detection step
+
+      if( hit.sourceItem.singleSwitch ) {
+        hit.sourceItem.inert = true ; // deactivate the bullet after it hits
+      }
+
+      hit.healthbar.health -= hit.healthdrop ;
+      
+      if (hit.healthbar.health < 0 && hit.element === hit.viz.enemy) {
+        hit.viz.trumpAttack.on = false ;
+        if(document.nextLevel === null) {
+          // alert('congratulations! you did it') ;
+          $Z.item([]) ;
+          hit.viz.fade({opacity: 0, duration: hit.viz.fadeDuration}) ;
+        } else {
+          $Z.item([]) ;
+          hit.viz.fade({
+            opacity: 0, 
+            end: function() {
+              $Z.exit() ;
+              document.nextLevel() ;           
+            }
+          }) ;
+        }
+        // alert ('game over') ;
+        hit.healthbar.health = 0 ;
+      }
+
+      if (hit.healthbar.health < 0 && hit.element === hit.viz.player) {
+        // alert('game over') ;
         $Z.item([]) ;
         hit.viz.fade({opacity: 0, duration: hit.viz.fadeDuration}) ;
-      } else {
-        $Z.item([]) ;
-        hit.viz.fade({
-          opacity: 0, 
-          end: function() {
-            $Z.exit() ;
-            document.nextLevel() ;           
-          }
-        }) ;
+        hit.healthbar.health = 0 ;
+        hit.viz.audio.laugh1.play() ;
+        hit.viz.trumpAttack.on = false ;
       }
-      // alert ('game over') ;
-      hit.healthbar.health = 0 ;
+
+      if (hit.element.item.transition === undefined) {
+        hit.element.item.transition = [] ;
+      }
+
+      if (hit.healthbar.item.transition === undefined) {
+        hit.healthbar.item.transition = [] ;
+      }
+      //hit.healthbar.item.width = hit.healthbar.health ;
+        // console.log('perform hit hit 24') ;
+      transitionHelper.update_end_value.call(hit.healthbar.item, 'width', hit.healthbar.health, hit.health_transition) ;
+        //console.log('PAH 25', 'this', this, 'hit.healthbar.health', hit.healthbar.health, 'hit.healthbar.item.transition', hit.healthbar.item.transition) ;
+      // console.log ('hit.healthbar.item', hit.healthbar.item) ;
+
+      //console.log('hit hit transition', this, 'hit.element', hit.element) ;
+
+      // $Z.detect([]) ; // turn off collision detection until after the hit.element.item character finishes animating
+      //console.log('detection off')
+
+      //hit.reset () ;
+
+      // hit.element.item.transition = 
+      // console.log('hit.element.sprite', hit.element.sprite) ;
+      // var transitionFunc = hit.element.transitionSet.image ;
+      // var transition     = animate(hit.element.sprite.hit, transitionFunc, undefined, hit.element.sprite.rest[0]) ;
+      // console.log('perform hit hit 41', 'hit.element.item.transition', hit.element.item.transition) ;
+      hit.transition() ; // adds an array of transition objects to the item's transition list
+      // console.log('hit helper perform: hit transition', transition) ;
+      if(hit.audio !== undefined && hit.audio.buffer !== undefined) {
+        hit.audio.play() ;
+      }
+      // console.log ('perform hit hit end', 'hit.element.item.transition', hit.element.item.transition) ;
+
+    } else { // collision occurred, but no hit, so move player 
+
+      var replacementSwitch = true ;
+      var xBump = 25 ;
+      var xNew = Math.max(-hit.viz.player.item.image.width * 0.5, hit.viz.player.item.x - xBump) ; 
+      hit.viz.player.item.add_transition(hit.viz.player.transitionSet.x(xNew)) ;
+
     }
-
-    if (hit.healthbar.health < 0 && hit.element === hit.viz.player) {
-      // alert('game over') ;
-      $Z.item([]) ;
-      hit.viz.fade({opacity: 0, duration: hit.viz.fadeDuration}) ;
-      hit.healthbar.health = 0 ;
-      hit.viz.audio.laugh1.play() ;
-      hit.viz.trumpAttack.on = false ;
-    }
-
-    if (hit.element.item.transition === undefined) {
-      hit.element.item.transition = [] ;
-    }
-
-    if (hit.healthbar.item.transition === undefined) {
-      hit.healthbar.item.transition = [] ;
-    }
-    //hit.healthbar.item.width = hit.healthbar.health ;
-      // console.log('perform hit hit 24') ;
-    transitionHelper.update_end_value.call(hit.healthbar.item, 'width', hit.healthbar.health, hit.health_transition) ;
-      //console.log('PAH 25', 'this', this, 'hit.healthbar.health', hit.healthbar.health, 'hit.healthbar.item.transition', hit.healthbar.item.transition) ;
-    // console.log ('hit.healthbar.item', hit.healthbar.item) ;
-
-    //console.log('hit hit transition', this, 'hit.element', hit.element) ;
-
-    // $Z.detect([]) ; // turn off collision detection until after the hit.element.item character finishes animating
-    //console.log('detection off')
-
-    //hit.reset () ;
-
-    // hit.element.item.transition = 
-    // console.log('hit.element.sprite', hit.element.sprite) ;
-    // var transitionFunc = hit.element.transitionSet.image ;
-    // var transition     = animate(hit.element.sprite.hit, transitionFunc, undefined, hit.element.sprite.rest[0]) ;
-    // console.log('perform hit hit 41', 'hit.element.item.transition', hit.element.item.transition) ;
-    hit.transition() ; // adds an array of transition objects to the item's transition list
-    // console.log('hit helper perform: hit transition', transition) ;
-    if(hit.audio !== undefined && hit.audio.buffer !== undefined) {
-      hit.audio.play() ;
-    }
-    // console.log ('perform hit hit end', 'hit.element.item.transition', hit.element.item.transition) ;
 
   }, 
 

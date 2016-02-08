@@ -31,7 +31,7 @@ function trump_sprite () {
 		padXr: framePadXr,
 	} ;
 
-	trumpSprite.hit = get_sprite (trumpSpriteConfig) ;
+	trumpSprite.hit = spriteHelper.get_sprite (trumpSpriteConfig) ;
 
 	trumpSprite.rest = [trumpSprite.hit[0]] ; // resting bitch face
 
@@ -47,7 +47,7 @@ function trump_sprite () {
 	var attackConfig = copy_object(trumpSpriteConfig) ;
 	attackConfig.context = attackSpriteContext ;
 	attackConfig.frameCount = attackFrameCount ;
-	trumpSprite.attack = get_sprite(attackConfig) ;	
+	trumpSprite.attack = spriteHelper.get_sprite(attackConfig) ;	
 
 	return trumpSprite ;
 

@@ -30,7 +30,7 @@ function dd_sprite () {
 		padXr: walkTilePadXr,
 	} ;
 	// console.log ('walk config', walkConfig) ;
-	ddSprite.walk = get_sprite (walkConfig) ;
+	ddSprite.walk = spriteHelper.get_sprite (walkConfig) ;
 	ddSprite.walk.push(ddSprite.walk[1]) ;
 
   var attackTileCount = 2 ;
@@ -55,7 +55,7 @@ function dd_sprite () {
 		padXl:  attackTilePadXl,
 		padXr: attackTilePadXr,
 	} ;
-	ddSprite.attack = get_sprite (attackConfig) ;
+	ddSprite.attack = spriteHelper.get_sprite (attackConfig) ;
 	//ddSprite.attack     = [ddSprite.attack[0], ddSprite.walk[0], ddSprite.attack[1]] ;
 
 	var attackCanvas          = ddSprite.attack[0] ;
@@ -90,7 +90,7 @@ function dd_sprite () {
 	jumpSpriteConfig.padXr = jumpTilePadXr ;
 
   ddSprite.jump = [] ;
-  var jump      = get_sprite(jumpSpriteConfig) ;
+  var jump      = spriteHelper.get_sprite(jumpSpriteConfig) ;
   ddSprite.jump.push(jump[0]) ;
   ddSprite.jump.push(jump[0]) ;
   // ddSprite.jump.push(jump[0]) ;

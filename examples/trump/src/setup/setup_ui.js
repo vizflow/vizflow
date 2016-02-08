@@ -36,10 +36,10 @@ function setup_ui (viz) {
   jumpButtonConfig.rowIndex = 3 ;
 
   var buttonSprite = {
-    left:   get_sprite(leftButtonConfig),
-    right:  get_sprite(rightButtonConfig),
-    attack: get_sprite(attackButtonConfig),
-    jump:   get_sprite(jumpButtonConfig),
+    left:   spriteHelper.get_sprite(leftButtonConfig),
+    right:  spriteHelper.get_sprite(rightButtonConfig),
+    attack: spriteHelper.get_sprite(attackButtonConfig),
+    jump:   spriteHelper.get_sprite(jumpButtonConfig),
   } ;
 
   var buttonKey = ['left', 'right', 'attack', 'jump'] ;

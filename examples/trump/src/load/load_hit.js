@@ -1,4 +1,4 @@
-function load_hit(viz, playerHitConfig, enemyHitConfig) {
+		function load_hit(viz, playerHitConfig, enemyHitConfig) {
 
 	if (enemyHitConfig === undefined) {
 	  enemyHitConfig = {

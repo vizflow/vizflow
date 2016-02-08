@@ -29,7 +29,7 @@ function samus_sprite () {
 		padXl: walkTilePadXl,
 		padXr: walkTilePadXr,
 	} ;
-	samusSprite.walk  = get_sprite (walkConfig) ;
+	samusSprite.walk  = spriteHelper.get_sprite (walkConfig) ;
 	//samusSprite.walk.push(samusSprite.walk[1]) ;
 
 	var restOffsetX  = 298 ;
@@ -47,7 +47,7 @@ function samus_sprite () {
 		padXr: walkTilePadXr,
 	} ;
 
-	samusSprite.rest = get_sprite (restConfig) ;
+	samusSprite.rest = spriteHelper.get_sprite (restConfig) ;
 
   var attackTileCount = 1 ;
 	var attackOffsetX   = 53 ;
@@ -69,7 +69,7 @@ function samus_sprite () {
 		padXl: attackTilePadXl,
 		padXr: attackTilePadXr,
 	} ;
-	samusSprite.attack  = get_sprite (attackConfig) ;
+	samusSprite.attack  = spriteHelper.get_sprite (attackConfig) ;
 
 	var jumpTileWidth = 24 ;
 	var jumpOffsetX   = 390 ;
@@ -80,7 +80,7 @@ function samus_sprite () {
 	jumpSpriteConfig.offsetX   = jumpOffsetX ;
 	jumpSpriteConfig.count = jumpTileCount ;
 
-  samusSprite.jump = get_sprite(jumpSpriteConfig) ;
+  samusSprite.jump = spriteHelper.get_sprite(jumpSpriteConfig) ;
 
   samusSprite.hit = [samusSprite.jump[0]] ;
 
@@ -102,7 +102,7 @@ function samus_sprite () {
 	// var jumpPadX      = 2 ;
 	// var jumpTilePadXl = 16 ;
 	// var jumpTilePadXr = 0 ;
- //  samusSprite.jump     = get_sprite(spriteContext, jumpTileCount, jumpRowIndex, jumpTileWidth, samusSprite.height, jumpOffsetX, jumpOffsetY, jumpPadX, bgColor, jumpTilePadXl, jumpTilePadXr) ;
+ //  samusSprite.jump     = spriteHelper.get_sprite(spriteContext, jumpTileCount, jumpRowIndex, jumpTileWidth, samusSprite.height, jumpOffsetX, jumpOffsetY, jumpPadX, bgColor, jumpTilePadXl, jumpTilePadXr) ;
 
 	return samusSprite ;
 

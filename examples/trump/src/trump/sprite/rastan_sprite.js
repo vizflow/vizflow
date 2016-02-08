@@ -33,17 +33,17 @@ function rastan_sprite () {
 		padXr: rastanTilePadXr,
   } ;
 
-	rastanSprite.walk = get_sprite (rastanSpriteConfig) ;
+	rastanSprite.walk = spriteHelper.get_sprite (rastanSpriteConfig) ;
 
 	var rastanSpriteConfig2 = copy_object(rastanSpriteConfig) ;
 	rastanSpriteConfig2.offsetX = 377 ; // rastanPadX - 3 * rastanTileWidth;
-	rastanSprite.walk.push(get_sprite(rastanSpriteConfig2)[0]) ;
+	rastanSprite.walk.push(spriteHelper.get_sprite(rastanSpriteConfig2)[0]) ;
 
 	rastanSpriteConfig.offsetY   = 474 ;
 	rastanSpriteConfig.padX     -= 4 ;
 	rastanSpriteConfig.count = 1 ;
 
-	rastanSprite.walk = rastanSprite.walk.concat( get_sprite (rastanSpriteConfig) ) ;
+	rastanSprite.walk = rastanSprite.walk.concat( spriteHelper.get_sprite (rastanSpriteConfig) ) ;
 	rastanSprite.walk = [rastanSprite.walk[0], rastanSprite.walk[1], rastanSprite.walk[2], rastanSprite.walk[1]] ;
 	// rastanSprite.walk = [rastanSprite.walk[1], rastanSprite.walk[0], rastanSprite.walk[1], rastanSprite.walk[2]] ;
 	//rastanSprite.walk = [rastanSprite.walk[1], rastanSprite.walk[2], rastanSprite.walk[0], rastanSprite.walk[1]] ; // , rastanSprite.walk[2], rastanSprite.walk[1]] ;
@@ -77,28 +77,28 @@ function rastan_sprite () {
 		padXl: attackTilePadXl,
 		padXr: attackTilePadXr,
   } ;
-	rastanSprite.attack = get_sprite (attackConfig1) ;
+	rastanSprite.attack = spriteHelper.get_sprite (attackConfig1) ;
 
 	var attackConfig2 = copy_object(attackConfig1) ;
 	attackConfig2.offsetX = 100 ;
-	rastanSprite.attack.push(get_sprite(attackConfig2)[0]) ;
+	rastanSprite.attack.push(spriteHelper.get_sprite(attackConfig2)[0]) ;
 
 	var attackConfig3 = copy_object(attackConfig1) ;
 	attackConfig3.offsetX = 154 ;
 	attackConfig3.width = 32 ;
 	attackConfig3.padXr = 16 + centerShift ;
-	rastanSprite.attack.push(get_sprite(attackConfig3)[0]) ;
+	rastanSprite.attack.push(spriteHelper.get_sprite(attackConfig3)[0]) ;
 
 	var attackConfig4       = copy_object(attackConfig3) ;
 	attackConfig4.offsetX   = 194 ;
-	rastanSprite.attack.push(get_sprite(attackConfig4)[0]) ;
+	rastanSprite.attack.push(spriteHelper.get_sprite(attackConfig4)[0]) ;
 
 	var attackConfig5       = copy_object(attackConfig2) ;
 	attackConfig5.offsetX   = 244 ;
 	attackConfig5.width = 64 ;
 	attackConfig5.padXl = 0 ;
 	attackConfig5.padXr = 16 + centerShift ;
-	rastanSprite.attack.push(get_sprite(attackConfig5)[0]) ;
+	rastanSprite.attack.push(spriteHelper.get_sprite(attackConfig5)[0]) ;
 
 	rastanSprite.attack.push(rastanSprite.attack[4]) ;
 	rastanSprite.attack.push(rastanSprite.attack[4]) ;
@@ -185,10 +185,10 @@ function rastan_sprite () {
 	legConfig.offsetY     = 813 ;
 	legConfig.width   = 30 ;
 	legConfig.padX        = 0 ;
-	var legs = get_sprite(legConfig)[0] ;
+	var legs = spriteHelper.get_sprite(legConfig)[0] ;
 
 	for ( kJump = 0 ; kJump < Njump ; kJump++ ) {
-		var spriteK = get_sprite( jumpConfig[kJump] )[0] ;
+		var spriteK = spriteHelper.get_sprite( jumpConfig[kJump] )[0] ;
 		var legsK   = create_canvas(spriteK.width, legConfig.height) ;
 		legsK.getContext('2d').drawImage(legs, 0, 0) ;
 		var tempImg = create_canvas(spriteK.width, legConfig.height + torsoHeight) ;
@@ -243,7 +243,7 @@ function rastan_sprite () {
 
 	// console.log('attack length', rastanSprite.jump.length)
 
- //  rastanSprite.jump     = get_sprite(spriteContext, jumpTileCount, jumpRowIndex, jumpTileWidth, rastanSprite.height, jumpOffsetX, jumpOffsetY, jumpPadX, bgColor, jumpTilePadXl, jumpTilePadXr) ;
+ //  rastanSprite.jump     = spriteHelper.get_sprite(spriteContext, jumpTileCount, jumpRowIndex, jumpTileWidth, rastanSprite.height, jumpOffsetX, jumpOffsetY, jumpPadX, bgColor, jumpTilePadXl, jumpTilePadXr) ;
 	// console.log('rastan sprite', rastanSprite) ;
 
 	 // rastanSprite.walk = rastanSprite.attackCollision ;
