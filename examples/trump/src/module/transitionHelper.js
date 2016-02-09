@@ -1,6 +1,9 @@
 var transitionHelper = {
 
   find: function transition_helper_find (property, transitionList) {
+    if(this.transition === undefined) {
+      this.transition = [] ;
+    }
     if (transitionList === undefined) {
       transitionList = this.transition ; // means function was attached to an item's context
     }

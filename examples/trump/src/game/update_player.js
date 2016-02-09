@@ -71,6 +71,10 @@
 
       case 'j' :
         // console.log ('update player case j:', this.sprite.jump, this.transitionSet.image, buttonpress.reset, this.sprite.rest[0])
+
+        if(transitionHelper.find('y', this.item.transition) !== -1) {
+          return ; // currently in the process of jumping so do nothing
+        }
         this.restoreRest = false ;
 
         var finalFrame = this.sprite.rest[0] ;
@@ -87,10 +91,6 @@
         
         var yNew        = this.item.y - this.yMove ;
         var yTransition = this.transitionSet.y(yNew) ;
-        var _this       = this ;
-        yTransition.end = function () {
-        //  fire_bullet.call(_this, 'jumpBullet') ;
-        } 
 
         // console.log('update player', 'yTransition', yTransition) ;
         yTransition.child                 = this.transitionSet.float(yNew) ; // just to take up time
