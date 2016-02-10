@@ -33,6 +33,10 @@ var transitionHelper = {
       transitionList = item.transition ;
     }
 
+    if (transitionList.constructor !== Array) {
+      transitionList = [transitionList] ;
+    }
+
     // console.log('transitionList', transitionList, 'item', item) ;
     if (newTransition.constructor !== Array) {
       newTransition = [newTransition] ;

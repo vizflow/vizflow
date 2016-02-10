@@ -5,7 +5,7 @@ function fire_bullet (bulletName) {
 
     var newBullet = copy_object (this[bulletName]) ;
 
-    console.log('newBullet', newBullet)
+    // console.log('newBullet', newBullet)
 
     if(this.bulletHitConfig !== undefined) {
       newBullet.actionSet.hit = hitHelper.setup(this.item.viz, newBullet, this.bulletHitConfig) ;
@@ -33,7 +33,12 @@ function fire_bullet (bulletName) {
     }
 
     if(newBullet.transition !== undefined) {
-      newBullet.transition = newBullet.transition(xNew) ; // overwriting the previous value of newBullet.transition with the output of the newBullet.transition function call
+      newBullet.transition = [newBullet.transition(xNew)] ; // overwriting the previous value of newBullet.transition with the output of the newBullet.transition function call
+    }
+
+    if(newBullet.fade !== undefined) {
+      newBullet.opacity = 0 ;
+      newBullet.fade({duration: newBullet.fadeDuration, opacity: 1}) ;
     }
 
     // console.log('fire bullet', 'transition', newBullet.transition) ;

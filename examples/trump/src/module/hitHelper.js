@@ -35,6 +35,43 @@ var hitHelper = {
 
   },
 
+  load: function hit_helper_load(playerHitConfig, enemyHitConfig, viz) {
+
+    if( viz === undefined ) {
+      viz = this ;
+    }
+
+    if (enemyHitConfig === undefined) {
+      enemyHitConfig = {
+        healthbarY: 10, 
+        healthdrop: 0.1,
+        color: '#900',
+        audio: viz.audio.hit2,
+        sourceType: 'player',
+      } ;   
+    }
+
+    if (playerHitConfig === undefined) {
+      playerHitConfig = {
+        healthdrop: enemyHitConfig.healthdrop,
+        healthbarY: 19,
+        color: '#009', 
+        audio: viz.audio.hit2,
+        sourceType: 'enemy',
+      } ;
+    }
+      
+    viz.player.item.actionSet.hit = hitHelper.setup(viz, viz.player, playerHitConfig) ;
+    viz.enemy.item.actionSet.hit  = hitHelper.setup(viz, viz.enemy, enemyHitConfig) ; 
+
+    if(viz.player.config.bulletSwitch) {
+      load_player_bullet (viz) ;
+    }
+
+    load_enemy_bullet  (viz) ;
+
+  },
+
   setup: function hit_helper_setup(viz, element, setupHitConfig) {
 
     if(setupHitConfig === undefined) {
@@ -132,7 +169,7 @@ var hitHelper = {
     } else {
       targetItem = hit.element.item ; // by convention, attach the hit action config object to the target element
     }
-    console.log('hitHelper detect', targetItem)
+    // console.log('hitHelper detect', targetItem)
 
 	  hitHelper.pair.width  = hit.viz.width ; // setup temporary variable used later for detailed collision detection (if necessary)
 	  hitHelper.pair.height = hit.viz.height ; 
@@ -209,7 +246,7 @@ var hitHelper = {
       // console.log('hitHelper perform', 'element', hit.element) ;
 
       if( hit.sourceItem.singleSwitch ) {
-        console.log('perform inert')
+        // console.log('perform inert')
         hit.sourceItem.inert = true ; // deactivate the bullet after it hits
       }     
 
@@ -223,6 +260,10 @@ var hitHelper = {
 
       if(hit.element.explode !== undefined) {
         hit.element.explode() ;
+      }
+
+      if(hit.sourceItem.explode !== undefined) {
+        hit.sourceItem.explode() ;
       }
 
       if(hit.healthbar !== undefined & !playerCounter) { // i.e. player or enemy was hit while not in their attack frame state

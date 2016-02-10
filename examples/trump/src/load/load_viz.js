@@ -6,7 +6,7 @@ function load_viz (viz) {
 
   load_audio      (viz) ;
   load_characters (viz) ;
-  load_hit        (viz) ;
+  viz.load_hit() ;
 
   document.viz = viz ; 
   document.addEventListener('mousedown', inputEvent.down, false) ;

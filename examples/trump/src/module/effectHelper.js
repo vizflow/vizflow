@@ -38,7 +38,7 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 
 		var loop = animate_loop (loopConfig, valueList, create_transition, callback) ;
 
-		item.add_transition(loop.animation[0]) ;
+		transitionHelper.add.call(item, loop.animation[0]) ;
 
 		// console.log('effect flash', 'loop', loop) ;
 
@@ -171,20 +171,26 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 				item = this ;
 			}
 
+			if(fadeConfig === undefined) {
+				fadeConfig = {} ;
+			}
+
 			if(fadeConfig.opacity === undefined) {
 				var thresh = 0.5 ;
 				if(item.opacity < thresh) {
-					fadeConfig.opacity = 0 ;
-				} else {
 					fadeConfig.opacity = 1 ;
+				} else {
+					fadeConfig.opacity = 0 ;
 				}
 			}
+
+			// console.log('fadeConfig', fadeConfig, 'item.opacity', item.opacity)
 
 			var newTransition = effectHelper.image.fade_transition(fadeConfig) ;
 
 			// console.log('fade', 'newTransition', newTransition) ;
 
-			item.add_transition(newTransition) ;
+			transitionHelper.add.call(item, newTransition) ;
 
 		}, // end fade
 
@@ -213,7 +219,11 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 
 		},
 
-		explode: function effect_helper_image_explode(blocksize, duration, inertSwitch, removeSwitch, item) {
+		explode: function effect_helper_image_explode(blocksize, duration, inertSwitch, removeSwitch, fadeSwitch, item) {
+
+			if(item === undefined) {
+				item = this ;
+			}
 
 			if(blocksize === undefined) {
 				blocksize = 20 ;
@@ -223,16 +233,16 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 				duration = 1000 ;
 			}
 
-			if(item === undefined) {
-				item = this ;
-			}
-
 			if(inertSwitch === undefined) {
 				inertSwitch = true ;
 			}
 
 			if(removeSwitch === undefined) {
 				removeSwitch = true ;
+			}
+
+			if(fadeSwitch === undefined) {
+				fadeSwitch = true ;
 			}
 
 			if(inertSwitch) {
@@ -275,6 +285,7 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 						x: item.x + sx,
 						y: item.y + sy,
 						image: canvas,
+						opacity: 1,
 						render: drawHelper.image,
 						inert: true,
 						transition: [
@@ -283,6 +294,9 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 						],
 					} ;
 					xTrans.end = transitionHelper.remove_end(block[k]) ;
+					if(fadeSwitch) {
+						effectHelper.image.fade.call(block[k], { duration: duration }) ;		
+					}					
 				}
 			}
 

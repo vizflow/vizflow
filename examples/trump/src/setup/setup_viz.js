@@ -143,6 +143,7 @@ function setup_viz (vizConfig) {
     add_transition: transitionHelper.add, 
     fade: effectHelper.image.fade, 
     shake: effectHelper.shake,
+    load_hit: hitHelper.load,
 
   } ;
 

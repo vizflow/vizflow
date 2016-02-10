@@ -19,6 +19,8 @@ var actionHelper = {
           var targetItem = viz.item[viz.collision.list[kCollision][kPair]] ;           // by convention, the target item stores the hit config object for the corresponding action
           var sourceItem = viz.item[viz.collision.list[kCollision][(kPair + 1) % 2]] ; // by convention, the source item is checked by the target item for the appropriateness of its type
 
+          // console.log('collision_foreach', 'viz collision list', viz.collision.list, 'targetItem', targetItem, 'sourceItem', sourceItem) ;
+
           for( var action in targetItem.actionSet ) {
 
             // console.log('collision for each action set', 'action', action, 'func', func, 'sourceItem', sourceItem);

@@ -6,7 +6,7 @@ function trump_game () {
   	document.ratio = minRatio ;
   }
 
-  city_level() ;
-  // fantasy_level() ;
+  // city_level() ;
+  fantasy_level() ;
   // space_level() ;	
 }
