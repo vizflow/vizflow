@@ -1,13 +1,12 @@
-function setup_healthbar (viz, health, height, y, color) {
+function setup_healthbar (viz, health, height, x, y, color) {
 	var healthbar = {} ;
-	var xPad = 10 ;
 
   healthbar.item = {
 	  viz: viz, 
 
 	  rect: {
 	    viz: viz, 
-	    x: viz.width - (health + xPad),
+	    x: x,
 	    y: y,
 	    width: health,
 	    height: height,

@@ -43,8 +43,9 @@ var hitHelper = {
 
     if (enemyHitConfig === undefined) {
       enemyHitConfig = {
-        healthbarY: 10, 
-        healthdrop: 0.1,
+        healthbarY: 2, 
+        healthbarX: Math.floor(viz.width * 0.5) + 1,
+        healthdrop: 1,
         color: '#900',
         audio: viz.audio.hit2,
         sourceType: 'player',
@@ -54,7 +55,8 @@ var hitHelper = {
     if (playerHitConfig === undefined) {
       playerHitConfig = {
         healthdrop: enemyHitConfig.healthdrop,
-        healthbarY: 19,
+        healthbarY: 2,
+        healthbarX: 1,
         color: '#009', 
         audio: viz.audio.hit2,
         sourceType: 'enemy',
@@ -79,7 +81,7 @@ var hitHelper = {
     }
 
     if(setupHitConfig.elementHealth === undefined) {
-      setupHitConfig.elementHealth = 100 ;
+      setupHitConfig.elementHealth = 88 ;
     }
 
     if(setupHitConfig.healthbarHeight === undefined) {
@@ -98,6 +100,7 @@ var hitHelper = {
         viz, 
         setupHitConfig.elementHealth, 
         setupHitConfig.healthbarHeight, 
+        setupHitConfig.healthbarX,
         setupHitConfig.healthbarY, 
         setupHitConfig.color
       ) ;
