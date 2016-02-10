@@ -119,6 +119,9 @@ var transitionHelper = {
 
   update_end_value: function transition_helper_update_end_value (property, newEndValue, transition_creator) {
     // updates end value of matching transition if it exists otherwise do nothing 
+    if (transitionList === undefined) {
+      this.transition = [] ;
+    }    
     var transitionList  = this.transition ;
     var transitionIndex = transitionHelper.find(property, transitionList) ;
     if (transitionIndex > -1) {
@@ -152,6 +155,32 @@ var transitionHelper = {
       }
       return output ;
     }    
+  },
+
+  remove_end: function(item) {
+
+    if(item === undefined) {
+      item = this ;
+    }
+
+    var endObject = {
+
+      item: item,
+
+      run: function () {
+
+        if(this.item.remove === undefined) {
+          this.item.remove = itemHelper.remove ;
+        }
+
+        this.item.remove() ;
+
+      },
+
+    } ;
+
+    return endObject ; 
+
   },
 
   // set: function transition_helper_set () {

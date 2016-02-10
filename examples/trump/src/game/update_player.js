@@ -112,7 +112,6 @@
         var xTransition = this.transitionSet.xJump(xNew) ;
 
         transition.push(xTransition) ;  
-
         transition.push(yTransition) ;
 
         break ;

@@ -89,6 +89,8 @@ function setup_element (viz, elementConfig) {
     add_transition: transitionHelper.add, // transitionHelper.add expects "this" to be "item"
     fade: effectHelper.image.fade, // effectHelper.image.fade expects "this" to be "item"
     flash: effectHelper.flash,
+    inert: false,
+    remove: itemHelper.remove,
   } ;
   
   //element.orientation = 'r' ; // r for facing right

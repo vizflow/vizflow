@@ -14,14 +14,14 @@ var actionHelper = {
 
         // each collision involves a pair of items, each one of which can be considered the "source" and the "target" with respect to some corresponding actions
 
-        for( var kPair = 0 ; kPair < 1 ; kPair++ ) { // either item can be considered the "source" or the "target", so loop over both and perform any corresponding actions that might exist
+        for( var kPair = 0 ; kPair < 2 ; kPair++ ) { // either item can be considered the "source" or the "target", so loop over both and perform any corresponding actions that might exist
 
           var targetItem = viz.item[viz.collision.list[kCollision][kPair]] ;           // by convention, the target item stores the hit config object for the corresponding action
           var sourceItem = viz.item[viz.collision.list[kCollision][(kPair + 1) % 2]] ; // by convention, the source item is checked by the target item for the appropriateness of its type
 
           for( var action in targetItem.actionSet ) {
 
-            // console.log('collision for each action set', 'action', action, 'func', func, 'sourceItem', sourceItem) ;
+            // console.log('collision for each action set', 'action', action, 'func', func, 'sourceItem', sourceItem);
 
             func(targetItem.actionSet[action], sourceItem) ;
 
@@ -50,7 +50,8 @@ var actionHelper = {
 
         // console.log('action helper detect collision for each', 'action', action, 'sourceItem', sourceItem) ;
 
-        if( action.detectSwitch ) { // perform action after passing detailed detection check             
+        if( action.detectSwitch ) { // perform action after passing detailed detection check 
+          // console.log('initial detection passed', 'sourceItem.x', sourceItem.y, 'action element x', action.element.y)
           action.performSwitch = true ; // flag for performance by the visualization/animation engine loop
           action.sourceItem = sourceItem ;
         } 
@@ -89,37 +90,23 @@ var actionHelper = {
   },
 
   collision_image: function action_helper_collision_image(actionType, item) { // actionType is either 'source' or 'target'
-      // console.log('element collision_image start') ;
-      if(item === undefined) {
-        item = this ;
-      }
-
-      var property = actionType + 'CollisionImage' ;
-      // console.log('collision_image item', item)
-      if(actionType === 'source') { // no collision image by default
-
-        if(item.image[property] === undefined || item.image[property] === null) {
-          // console.log('element collisieon image element sprite collisionSet', item.element.sprite.collisionSet) ;
-          return undefined ;
-        } else {      
-          var collisionImage = item.image[property] ;
-          // console.log('element collision_image', 'property', property, 'item.image[property]', item.image[property]) ;
-          return collisionImage ;
-        }
-
-      }
-      if(actionType === 'target') { // normal collision image by default
-
-        if(item.image[property] === undefined || item.image[property] === null) {
-          // console.log('element collision image element sprite collisionSet', item.element.sprite.collisionSet) ;
-          return undefined ;
-        } else {      
-          var collisionImage = item.image[property] ;
-          // console.log('element collision_image', 'property', property, 'item.image[property]', item.image[property]) ;
-          return collisionImage ;
-        }
-
-      }
+    // console.log('element collision_image start') ;
+    if(item === undefined) {
+      item = this ;
     }
+
+    var property = actionType + 'CollisionImage' ;
+
+    // console.log('collision_image item', item)
+    if(item.image[property] === undefined || item.image[property] === null) {
+      // console.log('element collision image element sprite collisionSet', item.element.sprite.collisionSet) ;
+      return undefined ;
+    } else {      
+      var collisionImage = item.image[property] ;
+      // console.log('element collision_image', 'property', property, 'item.image[property]', item.image[property]) ;
+      return collisionImage ;
+    }
+
+  },
 
 } ;

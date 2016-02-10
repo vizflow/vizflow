@@ -41,11 +41,17 @@ var collisionDetection = {
 
     // collision.detect = {} ; // initialize
 
-    // console.log('collision_detect', 'item', item) ;
+    // console.log('collision_detect', 'item', item, 'width', width, 'height', height) ;
+
+    // var canvas = create_canvas(width, height) ;
+    // var context = canvas.getContext('2d') ;
+    // context.globalAlpha = 0.5 ;
 
     for ( var kItem = 0 ; kItem < Nitem ; kItem++ ) {
 
       // collision.detect[item[kItem]] = {} ; // initialize
+
+      // console.log('collisionDetection pixelwise', 'kItem', kItem) ;
 
       if (item[kItem].inert !== undefined && item[kItem].inert) {
         continue ;
@@ -63,13 +69,19 @@ var collisionDetection = {
         var imageK = get_image_data(item[kItem].image.originalCanvas) ;
       }
 
+      // context.drawImage(image, item[kItem].x, item[kItem].y) ;
+
+      // console.log('collision detection pixelwise', 'image', image, 'imageK', imageK) ;
+
       // var initialPelIndex =  item[kItem].y * width                      +  item[kItem].x  ;
       // var finalPelIndex   = (item[kItem].y + imageK.height - 1) * width + (item[kItem].x + imageK.width - 1) ;
 
-      var iStart = Math.max(0, item[kItem].y) ;
-      var iEnd   = Math.min(height, item[kItem].y + imageK.height) ;
-      var jStart = Math.max(0, item[kItem].x) ;
-      var jEnd   = Math.min(width, item[kItem].x + imageK.width) ;
+      var iStart = Math.max(0, Math.min(height, item[kItem].y)) ;
+      var iEnd   = Math.max(0, Math.min(height, item[kItem].y + imageK.height)) ;
+      var jStart = Math.max(0, Math.min(width, item[kItem].x)) ;
+      var jEnd   = Math.max(0, Math.min(width, item[kItem].x + imageK.width)) ;
+
+      // console.log('collision detection', 'kItem', kItem, 'iStart', iStart, 'iEnd', iEnd, 'jStart', jStart, 'jEnd', jEnd, 'item', item) ;
 
       for ( var i = iStart ; i < iEnd ; i++ ) {
         for ( var j = jStart ; j < jEnd ; j++ ) {
@@ -78,30 +90,32 @@ var collisionDetection = {
           // var j = kPel % width ;
 
           var kPel = i * width + j ;
-
-          // if 
-          // (    
-          //      ( i < item[kItem].y ) 
-          //   || ( i > item[kItem].y + item[kItem].image.originalCanvas.height - 1 )
-          //   || ( j < item[kItem].x )
-          //   || ( j > item[kItem].x + item[kItem].image.originalCanvas.width - 1 ) 
-          // ) 
-          // {
-          //   continue ;
-          // }
           
           var offset   = kPel * Nchannel ;
           var iItem    = i - iStart ;
           var jItem    = j - jStart ;
-          var kPelItem = iItem * image.width + jItem ;
+          if(item[kItem].y < 0){
+            iItem += -item[kItem].y ;
+          }
+          if(item[kItem].x < 0) {
+            jItem += -item[kItem].x ;
+          }
+          var kPelItem = Math.floor(iItem * image.width + jItem) ;
 
           var a = imageK.data[4 * kPelItem + 3] ; // use alpha channel to test for presence of nonempty pixel
 
           if (a > 0) {
 
+            // if(item.length === 2 && kItem === 0) {
+            //   console.log('collision detection', 'kItem', kItem, 'kPel', kPel, 'kPelItem', kPelItem, 'iItem', iItem, 'jItem', jItem, 'a', a) ;
+            //   // break ;
+            // }
+
             for ( var kChannel = 0 ; kChannel < Nchannel - 1 ; kChannel++ ) {
 
               if (img[offset + kChannel] !== undefined) { // this means that two objects are occupying the same pixel i.e. a collision occurred
+
+                // console.log('collision occurred', 'kItem', kItem, 'item[kItem]', item[kItem], 'item[img[offset + kChannel]]', item[img[offset + kChannel]]) ;
 
                 img[offset + kChannel + 1] = kItem ; // store the collision data
                 collision.index[img[offset + kChannel] * Nitem + kItem] = true ; // use a single integer index to encode both of the integer indices for the two items that have collided
@@ -121,6 +135,8 @@ var collisionDetection = {
       }
 
     }
+
+    // console.log('collision detection', 'img', img, 'collision', collision, 'item', item) ;
 
     var key = Object.keys(collision.index) ;
 
@@ -143,6 +159,12 @@ var collisionDetection = {
     // console.log('collision_detect', 'collision', collision) ;
 
     viz.collision = collision ; // update the collision output object
+
+    // if(item.length === 2) {
+    //   var dataURL = canvas.toDataURL("image/png") ;
+    //   var win = window.open() ;
+    //   win.document.write('<img src="' + dataURL + '"/>') ;            
+    // }
 
   },
 

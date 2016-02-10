@@ -24,6 +24,7 @@ function space_level () {
     },
     xMove: 10,
     yMove: 100,
+    xJumpMove: 0,
     y: 187,
     type: 'player',
     bulletSwitch: true,

@@ -74,8 +74,8 @@ function setup_viz (vizConfig) {
 
     trumpAttack:    {
                       tSkip: 0,
-                      minSkip: 99,
-                      skipVar: [17, 23, 11, 19, 8, 0, 44, 19, 23, 14, 17, 23],
+                      minSkip: 157,
+                      skipVar: [0, 17, 23, 11, 19, 8, 0, 44, 19, 23, 14, 17, -111, 23],
                       on: false,
                     },
 

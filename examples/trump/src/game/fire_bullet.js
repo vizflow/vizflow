@@ -4,6 +4,13 @@ function fire_bullet (bulletName) {
   if (this[bulletName] !== undefined) { // check if this player char shoots bullets
 
     var newBullet = copy_object (this[bulletName]) ;
+
+    console.log('newBullet', newBullet)
+
+    if(this.bulletHitConfig !== undefined) {
+      newBullet.actionSet.hit = hitHelper.setup(this.item.viz, newBullet, this.bulletHitConfig) ;
+    }
+
     newBullet.y   = this.item.y + this[bulletName].config.shiftY 
     // console.log ('newBullet', newBullet, 'this', this, 'bullet', this[bulletName]) ;
 
@@ -13,8 +20,12 @@ function fire_bullet (bulletName) {
       newBullet.x = this.item.x + this[bulletName].config.shiftXr ;
       var xNew    = newBullet.x + this[bulletName].config.move ;
 
-    } else {
+    } else { 
       // console.log('this[bulletName].config.shiftXl', this[bulletName].config.shiftXl) ;
+
+      if(this === this.item.viz.player) {  // player does not fire bullets to the left in this game
+        return ;
+      }
 
       newBullet.x = this.item.x + this[bulletName].config.shiftXl ;
       var xNew    = newBullet.x - this[bulletName].config.move ;

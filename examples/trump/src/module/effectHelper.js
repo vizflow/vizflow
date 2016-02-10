@@ -60,8 +60,8 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 			yKey = 'y' ;
 		}
 
-		var xShakeMove = [1, -1, -1, 1] ; // [-20, 20, -50, 50, -25, 25, -30, 30] ;
-		var yShakeMove = [1, -1, 1, -1] ; // [-75, 75, 50, -50, -40, 40, 25, -25] ;
+		var xShakeMove = [1, -1, -1, 1] ; 
+		var yShakeMove = [1, -1, 1, -1] ; 
 
 		var damping = 5 ;
 		var dampingFactor = 1 ;
@@ -86,6 +86,47 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 
 		var replacementSwitch = true ;
 		item.add_transition([xTransition, yTransition]) ;
+
+	},
+
+	zoom_inout: function effect_zoom_inout(viz, zoomDur, shakeSwitch) {
+    var viewDelta = -2 * Math.floor(viz.displayCanvas.width * 0.04) ;
+    var newWidth  = viz.displayCanvas.width  + viewDelta ;
+    var newHeight = viz.displayCanvas.height + viewDelta ;
+
+    var xNew = Math.floor(viz.viewportX - 0.25 * viewDelta) ;
+    var yNew = Math.floor(viz.viewportY - 0.25 * viewDelta) ;
+
+    var zoomDur   = 0.25 * zoomDur ;
+    var widthIn   = $Z.transition.rounded_linear_transition_func('viewportWidth', zoomDur)(newWidth) ;
+    var heightIn  = $Z.transition.rounded_linear_transition_func('viewportHeight', zoomDur)(newHeight) ;
+    var xIn       = $Z.transition.rounded_linear_transition_func('viewportX', zoomDur)(xNew) ;
+    var yIn       = $Z.transition.rounded_linear_transition_func('viewportY', zoomDur)(yNew) ;
+    var widthOut  = $Z.transition.rounded_linear_transition_func('viewportWidth', zoomDur)(viz.viewportWidth) ;
+    var heightOut = $Z.transition.rounded_linear_transition_func('viewportHeight', zoomDur)(viz.viewportHeight) ;
+    var xOut      = $Z.transition.rounded_linear_transition_func('viewportX', zoomDur)(viz.viewportX) ;
+    var yOut      = $Z.transition.rounded_linear_transition_func('viewportY', zoomDur)(viz.viewportY) ;
+
+    widthIn.child  = widthOut ;
+    heightIn.child = heightOut ;
+    xIn.child = xOut ;
+    yIn.child = yOut ;
+
+    widthIn.pause = 0.45 * zoomDur ;
+    heightIn.pause = 0.45 * zoomDur ;
+    xIn.pause = 0.45 * zoomDur ;
+    yIn.pause = 0.45 * zoomDur ;
+
+    if(shakeSwitch) {
+	    widthIn.end = function() {
+	      viz.shake() ;
+	    }    
+    }
+
+    viz.add_transition(widthIn) ;
+    viz.add_transition(heightIn) ;
+    viz.add_transition(xIn) ;
+    viz.add_transition(yIn) ;
 
 	},
 
@@ -169,6 +210,84 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 			}
 
 			return newTransition ;
+
+		},
+
+		explode: function effect_helper_image_explode(blocksize, duration, inertSwitch, removeSwitch, item) {
+
+			if(blocksize === undefined) {
+				blocksize = 20 ;
+			}
+
+			if(duration === undefined) {
+				duration = 1000 ;
+			}
+
+			if(item === undefined) {
+				item = this ;
+			}
+
+			if(inertSwitch === undefined) {
+				inertSwitch = true ;
+			}
+
+			if(removeSwitch === undefined) {
+				removeSwitch = true ;
+			}
+
+			if(inertSwitch) {
+				item.inert = true ;
+			}
+
+			if(removeSwitch) {
+				itemHelper.remove(item) ;
+			}
+
+			// console.log('explode start') ;
+
+			var Nrow   = Math.floor(item.image.height / blocksize) ;
+			var Ncol   = Math.floor(item.image.width / blocksize) ;
+			var Nblock = Nrow * Ncol ;
+			var block  = new Array(Nblock) ;
+
+			var sx, sy ;
+			var sw = blocksize ;
+			var sh = blocksize ;
+			var dx = 0 ;
+			var dy = 0 ;
+			var dw = blocksize ;
+			var dh = blocksize ;
+
+			var scale = 200 ;
+			offset = 50 ;
+
+			for(var krow = 0 ; krow < Nrow ; krow++) {
+				for(var kcol = 0 ; kcol < Ncol ; kcol++) {
+					var canvas  = create_canvas(blocksize, blocksize) ;
+					var context = canvas.getContext('2d') ;
+					sx = Math.floor(kcol * blocksize) ;
+					sy = Math.floor(krow * blocksize) ;
+					context.drawImage(item.image, sx, sy, sw, sh, dx, dy, dw, dh) ;
+					var k = krow * Ncol + kcol ;
+					var xTrans = $Z.transition.rounded_linear_transition_func('x', duration)(offset + (Math.random() - 0.5) * 2 * scale + item.x + kcol * blocksize) ;
+					block[k] = { 
+						viz: item.viz,
+						x: item.x + sx,
+						y: item.y + sy,
+						image: canvas,
+						render: drawHelper.image,
+						inert: true,
+						transition: [
+							xTrans,
+							$Z.transition.rounded_linear_transition_func('y', duration)(offset + (Math.random() - 0.5) * 2 * scale + item.y + krow * blocksize),
+						],
+					} ;
+					xTrans.end = transitionHelper.remove_end(block[k]) ;
+				}
+			}
+
+			viz.item = viz.item.concat(block) ;
+			$Z.item(viz.item) ;
 
 		},
 

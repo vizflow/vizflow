@@ -11,6 +11,8 @@ function setup_word (viz, wordConfig) {
     singleSwitch: true,
     opacity: 1,
     inert: false,
+    actionSet: {},
+    explode: effectHelper.image.explode,
   } ;
 
   return word ;  
