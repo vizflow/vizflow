@@ -108,7 +108,7 @@ var spriteHelper = {
 			var row     = [] ; // initialize array to store the sprite
 			var Ntile   = Math.floor(canvas.width / tileWidth[krow]) ;
 			for(var kcol = 0 ; kcol < Ntile ; kcol++) {
-				var tile    = create_canvas(rowHeight[krow], tileWidth[krow]) ;
+				var tile    = create_canvas(tileWidth[krow], rowHeight[krow]) ;
 				var tileCtx = tile.getContext('2d') ;
 				var sx      = kcol * tile.width ;
 				tileCtx.drawImage( canvas, sx, sy, tile.width, tile.height, 0, 0, tile.width, tile.height ) ;
