@@ -6,7 +6,7 @@ function trump_sprite () {
   var bgColor       = undefined ; // [49, 164, 170] ;
 
 	var trumpSprite    = {} ;
-	trumpSprite.height = 160 ;
+	// trumpSprite.height = 160 ;
 
 	var frameCount    = 2 ;
 	var frameRowIndex = 0 ;

@@ -1,6 +1,6 @@
 var spriteHelper = {
 
-	foreach: function spriteset_foreach (spriteSet, func) {
+	foreach: function sprite_helper_foreach (spriteSet, func) {
 
 		var key    = Object.keys(spriteSet) ;
 		var newSet = {} ;
@@ -18,8 +18,6 @@ var spriteHelper = {
 	    }
 
 		}	
-
-	  newSet.height = spriteSet.height ;
 
 	  return newSet ;
 
@@ -91,6 +89,13 @@ var spriteHelper = {
 	},
 
 	is_blank: function(data) {
+    // viz.player.item,
+    // viz.ui.button.walkLeft,
+    // viz.ui.button.walkRight,
+    // viz.ui.button.attack,
+    // viz.ui.button.jump,
+    // viz.enemy.item.actionSet.hit.healthbar.item,
+    // viz.player.item.actionSet.hit.healthbar.item,
 
 		function isZero(val) {
 			return val === 0 ;
@@ -100,7 +105,7 @@ var spriteHelper = {
 
 	},
 
-	get: function sprite_helper_get (canvas, rowName, rowHeight, tileWidth) {
+	get: function sprite_helper_get (canvas, rowName, tileWidth, rowHeight) {
 		var Nrow = rowName.length ;
 		var spriteSet = {} ;
 		var sy        = 0 ;
@@ -129,10 +134,12 @@ var spriteHelper = {
 	  
 	  for (var t = 0 ; t < spriteConfig.count ; t++) {
 
+	  	console.log('spriteConfig.width', spriteConfig.width, 'spriteConfig.height', spriteConfig.height) ;
+
 	  	var image = spriteConfig.context.getImageData (
 	      Math.floor(t * spriteConfig.width + spriteConfig.offsetX + spriteConfig.padX * t),
 	      Math.floor(spriteConfig.rowIndex * spriteConfig.height + spriteConfig.offsetY), 
-	      spriteConfig.width, 
+	      spriteConfig.width,			 
 	      spriteConfig.height
 	    )	 ;
 

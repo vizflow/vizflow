@@ -18,8 +18,8 @@ function setup_element (viz, elementConfig) {
 
   }
 
-  element.spriteL          = spriteset_foreach(spriteL0, adjust_image_ratio) ;  
-  element.spriteR          = spriteset_foreach(spriteR0, adjust_image_ratio) ;
+  element.spriteL          = spriteHelper.foreach(spriteL0, adjust_image_ratio) ;  
+  element.spriteR          = spriteHelper.foreach(spriteR0, adjust_image_ratio) ;
 
   element.spriteL.original = spriteL0 ;
   element.spriteR.original = spriteR0 ;
@@ -83,7 +83,7 @@ function setup_element (viz, elementConfig) {
     actionSet: {},
     render: drawHelper.image, // drawHelper.image expects "this" to  be "item"
     x: elementConfig.x,
-    y: elementConfig.y - element.sprite.height, 
+    y: elementConfig.y, 
     opacity: 1,
     type: elementConfig.type,
     add_transition: transitionHelper.add, // transitionHelper.add expects "this" to be "item"

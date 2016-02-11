@@ -94,7 +94,7 @@
 
         // console.log('update player', 'yTransition', yTransition) ;
         yTransition.child                 = this.transitionSet.float(yNew) ; // just to take up time
-        yTransition.child.child           = this.transitionSet.y(this.config.y - this.sprite.height) ;
+        yTransition.child.child           = this.transitionSet.y(this.config.y) ; // - this.sprite.jump[0].height) ;
         // yTransition.child.child.child     = this.transitionSet.image (finalFrame) ;
         yTransition.child.child.element = this ;
         yTransition.child.child.end = function () {

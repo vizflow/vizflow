@@ -6,7 +6,7 @@ function dd_sprite () {
   var bgColor       = [255, 255, 0] ;
 
 	var ddSprite    = {} ;
-	ddSprite.height = 41 ;
+	// ddSprite.height = 41 ;
 
 	var walkTileCount = 3 ;
 	var walkRowIndex  = 1 ;

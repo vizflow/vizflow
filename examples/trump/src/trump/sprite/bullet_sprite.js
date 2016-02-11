@@ -15,7 +15,7 @@ function bullet_sprite () {
 
 	bulletSprite.orientation = 'r' ;
 
-	bulletSprite.height = bulletImage.height ;
+	// bulletSprite.height = bulletImage.height ;
 
 	return bulletSprite ;
 

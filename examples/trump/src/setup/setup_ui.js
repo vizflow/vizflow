@@ -35,12 +35,14 @@ function setup_ui (viz) {
   jumpButtonConfig = copy_object(leftButtonConfig) ;
   jumpButtonConfig.rowIndex = 3 ;
 
-  var buttonSprite = {
-    left:   spriteHelper.get_sprite(leftButtonConfig),
-    right:  spriteHelper.get_sprite(rightButtonConfig),
-    attack: spriteHelper.get_sprite(attackButtonConfig),
-    jump:   spriteHelper.get_sprite(jumpButtonConfig),
-  } ;
+  var buttonSprite = spriteHelper.get(buttonCanvas, ['left', 'right', 'attack', 'jump'], [26, 26, 26, 26], [26, 26, 26, 26]) ;
+
+  // var buttonSprite = {
+  //   left:   spriteHelper.get_sprite(leftButtonConfig),
+  //   right:  spriteHelper.get_sprite(rightButtonConfig),
+  //   attack: spriteHelper.get_sprite(attackButtonConfig),
+  //   jump:   spriteHelper.get_sprite(jumpButtonConfig),
+  // } ;
 
   var buttonKey = ['left', 'right', 'attack', 'jump'] ;
 
@@ -93,7 +95,7 @@ function setup_ui (viz) {
   var hiddenContext = hiddenCanvas.getContext('2d') ;
   hiddenContext.drawImage(hiddenUICanvas, uiX, uiY) ; // draw ui
 
-  buttonSpriteBig = spriteset_foreach(buttonSprite, adjust_image_ratio) ;
+  buttonSpriteBig = spriteHelper.foreach(buttonSprite, adjust_image_ratio) ;
   buttonSpriteBig.original = buttonSprite; 
 
   var ui = {

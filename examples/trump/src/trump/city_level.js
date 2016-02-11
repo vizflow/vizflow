@@ -11,7 +11,15 @@ function city_level () {
   viz = setup_viz(vizConfig) ; // framdeDuration computed
 
   viz.playerConfig = {
-    sprite_loader: dd_sprite,
+    sprite_loader: function() {
+      var i = image2canvas('./images/jesus_spritesheet.png') ;
+      var rowName = ['attack', 'hit', 'jump', 'rest', 'walk'] ;
+      var width   = [50, 80, 50, 50, 50] ;
+      var height  = [48, 76, 48, 48, 48] ;
+      var spriteSet = spriteHelper.get(i, rowName, width, height) ;
+      console.log('player sprite loader', spriteSet) ;
+      return spriteSet ;
+    },
     orientation: 'r',
     frameDuration: viz.frameDuration,
     floatDuration: viz.dur * 20,
@@ -24,18 +32,26 @@ function city_level () {
     },
     xMove: 7,
     yMove: 50,
-    y: 168,
+    y: 123,
     type: 'player',
     bulletSwitch: false,
   } ;
 
   viz.enemyConfig = {
-    sprite_loader: trump_sprite,
+    sprite_loader: function() {
+      var i = image2canvas('./images/trump_spritesheet_new.png') ;
+      var rowName = ['rest', 'attack'] ;
+      var width   = [105, 105] ;
+      var height  = [150, 150] ;
+      var spriteSet = spriteHelper.get(i, rowName, width, height) ;
+      console.log('enemy sprite loader', spriteSet) ;
+      return spriteSet ;
+    },    
     frameDuration: viz.frameDuration * 1,
     attackDuration: 5 * viz.frameDuration,
     orientation: 'l',
-    x: 70,
-    y: 177,
+    x: 100,
+    y: 17,
     type: 'enemy',
   } ;
 

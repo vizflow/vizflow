@@ -17,7 +17,7 @@ window.addEventListener("load", function() { window.scrollTo(0, 0); });
 // var spriteImageUrl = 'images/metroid_spritesheet.png' ;
 // var bgImageUrl     = 'images/blaster_background_1.png' ;
 
-var ddSpriteImageUrl      = './images/dd_billy.png' ;
+var ddSpriteImageUrl      = './images/jesus_spritesheet.png' ;
 var rastanSpriteImageUrl  = './images/rastan_spritesheet.gif' ;
 var metroidSpriteImageUrl = './images/metroid_spritesheet.png' ;
 var buttonSpriteImageUrl  = './images/button_spritesheet.png' ;

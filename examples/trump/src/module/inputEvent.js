@@ -49,7 +49,7 @@ var inputEvent = {
     // console.log('this.viz.player.item.transition', this.viz.player.item.transition) ;
 
     var transition = this.viz.player.item.transition ;
-    var yNew = this.viz.player.config.y - this.viz.player.sprite.height ;
+    var yNew = this.viz.player.config.y ; // - this.viz.player.item.image.height ;
     var minJumpBulletHeight = this.viz.player.config.yMove * .4 ;
     var yDist = Math.abs(yNew - this.viz.player.item.y) ;
     // console.log('yDist', yDist) ;

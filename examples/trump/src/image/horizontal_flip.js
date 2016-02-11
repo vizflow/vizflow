@@ -17,8 +17,6 @@ function horizontal_flip (spriteSet) {
 
 	}	
 
-  newSet.height = spriteSet.height ;
-
   return newSet ;
 
 }
