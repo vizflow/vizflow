@@ -11,6 +11,7 @@ function setup_word (viz, wordConfig) {
     'best ever',
     'the poll',
     'gonna win',
+    'take his coat',
   ] ;
 
   var wordImage = new Array(wordList.length) ;
@@ -31,10 +32,12 @@ function setup_word (viz, wordConfig) {
     // this.image = word_image(wordList[(document.skipIndex * (document.skipIndex + 3)) % wordList.length]) ;
     this.image = wordImage[$Z.iter % wordList.length] ;
 
+    xNew = -this.image.width ;
+
     var yMove  = 10 ;
     this.y    -= yMove ;
     var yNew   = this.y + yMove ;
-    var down   = $Z.transition.rounded_linear_transition_func('y', viz.dur * 20 )(yNew) ;
+    var down   = $Z.transition.rounded_linear_transition_func('y', viz.dur * 15 )(yNew) ;
     down.pause = 300 ;
     var left   = $Z.transition.rounded_linear_transition_func ( 'x', viz.dur * 80 )(xNew) ; // sets speed of word block    
     //var down   = $Z.transition.rounded_linear_transition_func( 'y', viz.dur * 30 )(viz.player.config.y - wordImage.height * wordCount) ;

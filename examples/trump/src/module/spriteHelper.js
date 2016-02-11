@@ -79,14 +79,51 @@ var spriteHelper = {
 			offsetY += height.shift() ;
 		}
 
-		var dataURL = canvas.toDataURL("image/png") ;
-		console.log('dataUrl', dataURL) ;
-		var win = window.open() ;
-		win.document.write('<img src="' + dataURL + '"/>') ;	  
+		spriteHelper.view(canvas) ;
 
 	},
 
-	get_sprite: function sprite_helper_get_sprite (spriteConfig) {
+	view: function sprite_helper_view (canvas) {
+		var dataURL = canvas.toDataURL("image/png") ;
+		console.log('dataUrl', dataURL) ;
+		var win = window.open() ;
+		win.document.write('<img src="' + dataURL + '"/>') ;	  		
+	},
+
+	is_blank: function(data) {
+
+		function isZero(val) {
+			return val === 0 ;
+		}
+
+		return data.data.every(isZero) ;
+
+	},
+
+	get: function sprite_helper_get (canvas, rowName, rowHeight, tileWidth) {
+		var Nrow = rowName.length ;
+		var spriteSet = {} ;
+		var sy        = 0 ;
+		for(var krow = 0 ; krow < Nrow ; krow++) { // one sprite per row
+			var row     = [] ; // initialize array to store the sprite
+			var Ntile   = Math.floor(canvas.width / tileWidth[krow]) ;
+			for(var kcol = 0 ; kcol < Ntile ; kcol++) {
+				var tile    = create_canvas(rowHeight[krow], tileWidth[krow]) ;
+				var tileCtx = tile.getContext('2d') ;
+				var sx      = kcol * tile.width ;
+				tileCtx.drawImage( canvas, sx, sy, tile.width, tile.height, 0, 0, tile.width, tile.height ) ;
+				if(spriteHelper.is_blank(get_image_data(tile))) {
+					break ;
+				}
+				row.push(tile) ;
+			}
+			spriteSet[rowName[krow]] = row ;
+			sy += rowHeight[krow] ;
+		}
+		return spriteSet ;
+	},
+
+	get_sprite: function sprite_helper_get_sprite (spriteConfig) { // old version
 
 	  var tile = [] ;
 	  
