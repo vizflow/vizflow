@@ -106,6 +106,7 @@ var spriteHelper = {
 	},
 
 	get: function sprite_helper_get (canvas, rowName, tileWidth, rowHeight) {
+		var maxHeight = Math.max.apply(null, rowHeight) ;
 		var Nrow = rowName.length ;
 		var spriteSet = {} ;
 		var sy        = 0 ;
@@ -113,10 +114,10 @@ var spriteHelper = {
 			var row     = [] ; // initialize array to store the sprite
 			var Ntile   = Math.floor(canvas.width / tileWidth[krow]) ;
 			for(var kcol = 0 ; kcol < Ntile ; kcol++) {
-				var tile    = create_canvas(tileWidth[krow], rowHeight[krow]) ;
+				var tile    = create_canvas(tileWidth[krow], maxHeight) ;
 				var tileCtx = tile.getContext('2d') ;
 				var sx      = kcol * tile.width ;
-				tileCtx.drawImage( canvas, sx, sy, tile.width, tile.height, 0, 0, tile.width, tile.height ) ;
+				tileCtx.drawImage( canvas, sx, sy, tile.width, tile.height, 0, maxHeight - rowHeight[krow], tile.width, tile.height ) ;
 				if(spriteHelper.is_blank(get_image_data(tile))) {
 					break ;
 				}

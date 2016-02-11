@@ -17,7 +17,7 @@ function city_level () {
       var width   = [50, 80, 50, 50, 50] ;
       var height  = [48, 76, 48, 48, 48] ;
       var spriteSet = spriteHelper.get(i, rowName, width, height) ;
-      console.log('player sprite loader', spriteSet) ;
+      // console.log('player sprite loader', spriteSet) ;
       return spriteSet ;
     },
     orientation: 'r',
@@ -32,7 +32,7 @@ function city_level () {
     },
     xMove: 7,
     yMove: 50,
-    y: 123,
+    y: 95,
     type: 'player',
     bulletSwitch: false,
   } ;
@@ -44,7 +44,7 @@ function city_level () {
       var width   = [105, 105] ;
       var height  = [150, 150] ;
       var spriteSet = spriteHelper.get(i, rowName, width, height) ;
-      console.log('enemy sprite loader', spriteSet) ;
+      // console.log('enemy sprite loader', spriteSet) ;
       return spriteSet ;
     },    
     frameDuration: viz.frameDuration * 1,
