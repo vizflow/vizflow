@@ -50,7 +50,7 @@ function load_viz (viz) {
       opacity: 0, 
       end: function() {
         // console.log(viz.config.backgroundImageUrl) ;
-        viz.image = adjust_image_ratio(image2canvas(viz.config.backgroundImageUrl)) ;
+        viz.image = adjust_image_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;
         $Z.item(viz.item) ;
       },
       child: effectHelper.image.fade_transition({
@@ -76,7 +76,7 @@ function load_viz (viz) {
   function viz_switch() {
 
     // console.log('viz_switch', 'viz', viz) ;
-    var image = adjust_image_ratio(image2canvas(viz.config.backgroundImageUrl)) ;
+    var image = adjust_image_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;
     // console.log('viz', viz, 'image', image, 'viz_run', viz_run) ;
     viz.fade({
       opacity: 1,

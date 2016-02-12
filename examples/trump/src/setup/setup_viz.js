@@ -35,7 +35,7 @@ function setup_viz (vizConfig) {
   resize() ;
 
   var backgroundImageUrl = vizConfig.backgroundImageUrl ;
-  var image         = image2canvas(vizConfig.loadingImageUrl) ;
+  var image         = imageHelper.image2canvas(vizConfig.loadingImageUrl) ;
   image             = adjust_image_ratio(image) ;
 
   var frameDuration = vizConfig.frameDurationFactor * dur ;

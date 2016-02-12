@@ -1,24 +1,7 @@
 var audioHelper = {
-	buffer: null,
-	context: new AudioContext(),
 
-	load: function audio_load(filename, callback) {
-		if( callback === undefined ) {
-			callback = function() {} ;
-		}
-		var request = new XMLHttpRequest() ;
-		request.open('get', filename, true) ;
-		request.responseType = 'arraybuffer' ;
-		var _this = this ; 
-		request.onload = function () {
-			// console.log('request.response', request.response) ;
-			_this.context.decodeAudioData( request.response, function(buffer) { 
-				_this.buffer = buffer ;
-				callback() ;
-			}) ;
-		}
-		request.send() ;
-	}, 
+	context: undefined,
+	buffer: undefined,
 
 	play: function audio_play( buffer, start, futureSwitch ) {
 
@@ -57,18 +40,18 @@ var audioHelper = {
 
 	},
 
-	b2a: function audio_arrayBufferToBase64( buffer ) {
-		if( buffer === undefined ) {
-			buffer = this.buffer ;
-		}
-    var binary = '';
-    var bytes = new Uint8Array( buffer );
-    var len = bytes.byteLength;
-    for (var i = 0; i < len; i++) {
-        binary += String.fromCharCode( bytes[ i ] );
-    }
-    return window.btoa( binary );
-	}	
+	// b2a: function audio_arrayBufferToBase64( buffer ) {
+	// 	if( buffer === undefined ) {
+	// 		buffer = this.buffer ;
+	// 	}
+ //    var binary = '';
+ //    var bytes = new Uint8Array( buffer );
+ //    var len = bytes.byteLength;
+ //    for (var i = 0; i < len; i++) {
+ //        binary += String.fromCharCode( bytes[ i ] );
+ //    }
+ //    return window.btoa( binary );
+	// },
 
 	// dataUrl: function getData(audioFile, callback) {
 	// 	if(callback === undefined) {

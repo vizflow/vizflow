@@ -82,10 +82,12 @@ var spriteHelper = {
 	},
 
 	view: function sprite_helper_view (canvas) {
+
 		var dataURL = canvas.toDataURL("image/png") ;
 		console.log('dataUrl', dataURL) ;
 		var win = window.open() ;
 		win.document.write('<img src="' + dataURL + '"/>') ;	  		
+
 	},
 
 	is_blank: function(data) {
@@ -97,15 +99,16 @@ var spriteHelper = {
     // viz.enemy.item.actionSet.hit.healthbar.item,
     // viz.player.item.actionSet.hit.healthbar.item,
 
-		function isZero(val) {
+		function is_zero(val) {
 			return val === 0 ;
 		}
 
-		return data.data.every(isZero) ;
+		return data.data.every(is_zero) ;
 
 	},
 
 	get: function sprite_helper_get (canvas, rowName, tileWidth, rowHeight) {
+
 		var maxHeight = Math.max.apply(null, rowHeight) ;
 		var Nrow = rowName.length ;
 		var spriteSet = {} ;
@@ -126,7 +129,9 @@ var spriteHelper = {
 			spriteSet[rowName[krow]] = row ;
 			sy += rowHeight[krow] ;
 		}
+
 		return spriteSet ;
+
 	},
 
 	get_sprite: function sprite_helper_get_sprite (spriteConfig) { // old version

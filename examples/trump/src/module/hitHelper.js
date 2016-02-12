@@ -114,7 +114,7 @@ var hitHelper = {
       var hit = { // action config object
 
         perform: hitHelper.perform,
-        detect: hitHelper.detect,
+        confirm: hitHelper.confirm,
         healthbar: healthbar,
         healthdrop: setupHitConfig.healthdrop,
         health_transition: health_transition,
@@ -136,7 +136,7 @@ var hitHelper = {
       var hit = { // action config object
 
         perform: hitHelper.perform,
-        detect: hitHelper.detect,
+        confirm: hitHelper.confirm,
         // transition: function() { 
         //   // console.log('hit helper',  'this', this) ;
         // },
@@ -158,7 +158,7 @@ var hitHelper = {
 
   },    
 
-  detect: function hit_helper_detect(sourceItem, hit) {
+  confirm: function hit_helper_detect(sourceItem, hit) {
 
     // console.log('hit helper detect start', 'sourceItem', sourceItem, 'hit', hit) ;
 
@@ -219,6 +219,8 @@ var hitHelper = {
 
       hitHelper.pair.detect() ; // run collision detection again using the actual collision images for detailed collision detection (phase 2)
 
+      // console.log('hitHelper pair', hitHelper.pair) ;
+
 	    if( hitHelper.pair.collision.count > 0 ) { // this means that the displayed images are overlapping (will optimize computational efficiency later #todo)
         // console.log('hitHelper detect()', 'source item type', sourceItem.type, 'hitHelper', hitHelper, 'hitHelper.pair.collision', hitHelper.pair.collision, 'source x', sourceItem.x, 'target x', targetItem.x) ;
 	      return true ; // all checks passed, stage the hit for execution
@@ -242,7 +244,7 @@ var hitHelper = {
 
     // console.log('hitHelper perform sourceItem', hit.sourceItem, 'sourceItem type', hit.sourceItem.type) ;
 
-    hit.occurred = hit.detect(hit.sourceItem) ; 
+    hit.occurred = hit.confirm(hit.sourceItem) ; 
 
     if( hit.occurred ) { // i.e. either the player or the enemy was hit since we passed the detailed collision detection step
 
@@ -274,6 +276,9 @@ var hitHelper = {
         hit.healthbar.health -= hit.healthdrop ;
         
         hitHelper.flash(hit) ; // also sets inertSwitch - separate?
+        if(hit.audio !== undefined && hit.audio.buffer !== undefined) {
+          hit.audio.play() ;
+        }
 
         if (hit.healthbar.health < 0 && hit.element === hit.viz.enemy) {
           hit.viz.trumpAttack.on = false ;
@@ -316,11 +321,6 @@ var hitHelper = {
 
     if(hit.transition !== undefined) {
       hit.transition() ;      
-    }    
-
-    // console.log('hit helper perform: hit transition', transition) ;
-    if(hit.audio !== undefined && hit.audio.buffer !== undefined) {
-      hit.audio.play() ;
     }    
 
   }, 

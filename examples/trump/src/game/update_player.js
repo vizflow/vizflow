@@ -114,6 +114,8 @@
         transition.push(xTransition) ;  
         transition.push(yTransition) ;
 
+        viz.audio.jump1.play() ;
+
         break ;
 
       case 'a' :

@@ -12,13 +12,24 @@ function city_level () {
 
   viz.playerConfig = {
     sprite_loader: function() {
-      var i = image2canvas('./images/jesus_spritesheet.png') ;
-      var rowName = ['attack', 'hit', 'jump', 'rest', 'walk'] ;
-      var width   = [50, 80, 50, 50, 50] ;
-      var height  = [48, 76, 48, 48, 48] ;
-      var spriteSet = spriteHelper.get(i, rowName, width, height) ;
-      // console.log('player sprite loader', spriteSet) ;
-      return spriteSet ;
+      var i         = imageHelper.image2canvas('./images/jesus_spritesheet.png') ;
+      var rowName   = ['attack', 'hit', 'jump', 'rest', 'walk'] ;
+      var width     = [50, 80, 50, 50, 50] ;
+      var height    = [48, 76, 48, 48, 48] ;
+      var maxHeight = Math.max.apply(null, height) ;
+      var spriteset = spriteHelper.get(i, rowName, width, height) ;
+
+      var attackCollisionCanvas = imageHelper.clear_rect (spriteset.attack[0], { x: 0, y: 0, width: 36, height: maxHeight } ) ;
+      spriteset.attack[0].sourceCollisionImage = attackCollisionCanvas ;
+      spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
+      spriteset.attack = [spriteset.attack[0], spriteset.walk[1], spriteset.attack[1], spriteset.walk[1]] ;
+
+      var jumpCollisionCanvas = imageHelper.clear_rect ( spriteset.jump[1], { x: 0, y: 0, width: 36, height: maxHeight } ) ;
+      spriteset.jump[1].sourceCollisionImage = jumpCollisionCanvas ;
+
+      // spriteHelper.view(jumpCollisionCanvas) ;
+      // console.log('player sprite loader', spriteset) ;
+      return spriteset ;
     },
     orientation: 'r',
     frameDuration: viz.frameDuration,
@@ -39,13 +50,14 @@ function city_level () {
 
   viz.enemyConfig = {
     sprite_loader: function() {
-      var i = image2canvas('./images/trump_spritesheet_new.png') ;
+      var i = imageHelper.image2canvas('./images/trump_spritesheet_new.png') ;
       var rowName = ['rest', 'attack'] ;
       var width   = [105, 105] ;
       var height  = [150, 150] ;
-      var spriteSet = spriteHelper.get(i, rowName, width, height) ;
-      // console.log('enemy sprite loader', spriteSet) ;
-      return spriteSet ;
+      var spriteset = spriteHelper.get(i, rowName, width, height) ;
+      spriteset.hit = spriteset.attack ;
+      // console.log('enemy sprite loader', spriteset) ;
+      return spriteset ;
     },    
     frameDuration: viz.frameDuration * 1,
     attackDuration: 5 * viz.frameDuration,

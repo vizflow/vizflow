@@ -30,7 +30,7 @@ var jumpBulletImageUrl    = './images/beam1.png' ;
 var trumpAttackSpriteUrl  = './images/trump_attack.png' ;
 var titleUrl              = './images/trumped1.png' ;
 
-var img = [ 
+document.image = [ 
 	ddSpriteImageUrl, 
 	buttonSpriteImageUrl, 
 	trumpSpriteImageUrl, 
@@ -45,4 +45,27 @@ var img = [
 	titleUrl,
 ] ;
 
-imageLoader.preload ( img, trump_game ) ;
+	  
+document.audio = [
+	'./audio/bullet1.wav',
+	'./audio/bullet2.wav',  
+	'./audio/bump1.wav',  
+	'./audio/bump2.wav',  
+	'./audio/explode1.wav',  
+	'./audio/hit1.wav',  
+	'./audio/hit2.wav',  
+	'./audio/hit3.wav',  
+	'./audio/jump1.wav', 
+	'./audio/laser1.wav',  
+	'./audio/laser2.wav',  
+	'./audio/laugh1.wav',  
+	'./audio/missile1.wav',  
+	'./audio/powerup1.wav',  
+	'./audio/powerup2.wav', 
+	'./audio/powerup3.wav', 
+	'./audio/powerup4.wav',
+],
+
+imageLoader.preload ( document.image, function preload_audio() {
+	audioLoader.preload( document.audio, trump_game ) ;
+}) ;

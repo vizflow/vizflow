@@ -1,7 +1,7 @@
 function dd_sprite () {
   
   var imgUrl        = './images/dd_billy.png' ;
-  var spriteCanvas  = image2canvas(imgUrl) ;
+  var spriteCanvas  = imageHelper.image2canvas(imgUrl) ;
   var spriteContext = create_context(spriteCanvas) ;
   var bgColor       = [255, 255, 0] ;
 

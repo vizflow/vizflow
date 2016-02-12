@@ -1,7 +1,7 @@
 function samus_sprite () {
   
   var imgUrl        = './images/metroid_spritesheet.png' ;
-  var spriteCanvas  = image2canvas(imgUrl) ;
+  var spriteCanvas  = imageHelper.image2canvas(imgUrl) ;
   var spriteContext = create_context(spriteCanvas) ;
   var bgColor       = [0, 0, 0] ;
 
@@ -75,10 +75,10 @@ function samus_sprite () {
 	var jumpOffsetX   = 390 ;
 	var jumpTileCount = 1 ;
   
-	var jumpSpriteConfig       = copy_object (walkConfig) ;
-	jumpSpriteConfig.width = 26 ;
-	jumpSpriteConfig.offsetX   = jumpOffsetX ;
-	jumpSpriteConfig.count = jumpTileCount ;
+	var jumpSpriteConfig     = copy_object (walkConfig) ;
+	jumpSpriteConfig.width   = 26 ;
+	jumpSpriteConfig.offsetX = jumpOffsetX ;
+	jumpSpriteConfig.count   = jumpTileCount ;
 
   samusSprite.jump = spriteHelper.get_sprite(jumpSpriteConfig) ;
 

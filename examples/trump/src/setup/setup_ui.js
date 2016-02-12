@@ -10,7 +10,7 @@ function setup_ui (viz) {
   var buttonPadY      = 11 ;
   var buttonPad       = Math.floor( ( viz.width - (buttonWidth * 4) ) / 4 ) ;
   var buttonImageUrl  = './images/button_spritesheet.png' ;
-  var buttonCanvas    = image2canvas(buttonImageUrl) ;
+  var buttonCanvas    = imageHelper.image2canvas(buttonImageUrl) ;
 
   var leftButtonConfig = {
     context: buttonCanvas.getContext('2d'),
