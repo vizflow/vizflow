@@ -5,7 +5,7 @@
 	    healthbarY: 10, 
 	    healthdrop: 10,
 	    color: '#900',
-	    audio: viz.audio.hit2,
+	    audio: viz.audio.hit3,
 	    sourceType: 'player',
 	  } ;		
 	}
@@ -15,7 +15,7 @@
 	  	healthdrop: enemyHitConfig.healthdrop,
 	    healthbarY: 19,
 	    color: '#009', 
-	    audio: viz.audio.hit2,
+	    audio: viz.audio.hit3,
 	    sourceType: 'enemy',
 	  } ;
 	}

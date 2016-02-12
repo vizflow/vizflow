@@ -13,7 +13,7 @@ function load_enemy_bullet(viz) {
   viz.enemy.bullet.audio  = viz.audio.bullet1 ;
 
   viz.enemy.bulletHitConfig = {
-    audio: viz.audio.hit2,
+    audio: viz.audio.hit3,
     sourceType: 'player',
   } ;
 
