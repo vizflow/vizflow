@@ -19,13 +19,13 @@ window.addEventListener("load", function() { window.scrollTo(0, 0); });
 
 var ddSpriteImageUrl      = './images/jesus_spritesheet.png' ;
 var rastanSpriteImageUrl  = './images/rastan_spritesheet.gif' ;
-var metroidSpriteImageUrl = './images/metroid_spritesheet.png' ;
+var metroidSpriteImageUrl = './images/megyn_spritesheet.png' ;
 var buttonSpriteImageUrl  = './images/button_spritesheet.png' ;
 var trumpSpriteImageUrl   = './images/trump_spritesheet_new.png' ;
 var backgroundImageUrl1   = './images/trump_bg1.png' ;
 var backgroundImageUrl3   = './images/trump_bg3.png' ;
 var backgroundImageUrl4   = './images/trump_bg4.png' ;
-var bulletImageUrl        = './images/bullet.png' ;
+var bulletImageUrl        = './images/beam_spritesheet.png' ;
 var jumpBulletImageUrl    = './images/beam1.png' ;
 var trumpAttackSpriteUrl  = './images/trump_attack.png' ;
 var titleUrl              = './images/trumped1.png' ;

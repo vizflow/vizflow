@@ -1,7 +1,24 @@
 function load_player_bullet(viz) {
-  var bulletSpriteSet0     = bullet_sprite () ;
-  bulletSpriteSet          = spriteHelper.foreach(bulletSpriteSet0, adjust_image_ratio) ;
-  bulletSpriteSet.original = bulletSpriteSet0 ;
+  //var bulletSpriteSet0     = bullet_sprite () ;
+  var i         = imageHelper.image2canvas('./images/beam_spritesheet.png') ;
+  var rowName   = ['jump', 'bullet', 'hyper', 'super', 'superfull'] ;
+  var width     = [186, 5, 235, 191, 191] ;
+  var height    = [38, 5, 249, 84, 84] ;
+  var maxHeight = Math.max.apply(null, height) ;
+  var spriteset = spriteHelper.get(i, rowName, width, height) ;
+
+  function set_collision (canvas) {
+    canvas.sourceCollisionImage = canvas ;
+  }
+  spriteHelper.foreach(spriteset, set_collision) ;
+
+  // spriteset.bullet[0].sourceCollisionImage = spriteset.bullet[0] ;
+
+  // console.log('spriteset', spriteset) ;
+  // spriteHelper.view(i) ;
+  
+  bulletSpriteSet          = spriteHelper.foreach(spriteset, adjust_image_ratio) ;
+  bulletSpriteSet.original = spriteset ;
  
   if (bulletSpriteSet.orientation === 'l') {
 
@@ -19,7 +36,7 @@ function load_player_bullet(viz) {
 
   var bulletShiftXl     = -viz.player.bulletSprite.original.bullet[0].width ;
   var bulletShiftXr     = viz.player.sprite.original.rest[0].width + viz.player.bulletSprite.original.bullet[0].width - 4 ;
-  var bulletShiftY      = 8 ; 
+  var bulletShiftY      = 17 - maxHeight ; 
   var bulletDur         = viz.dur * 20 ;
   var bulletMove        = 150 ;
 
@@ -29,6 +46,10 @@ function load_player_bullet(viz) {
     return transition ;
   }
 
+  function bullet_animation(xNew) {
+    return animate (viz.player.bulletSprite.jump, step_transition_func('image', viz.frameDuration))[0] ;
+  }
+
   var bulletConfig   = {
     move: bulletMove,
     shiftXl: bulletShiftXl,
@@ -36,6 +57,7 @@ function load_player_bullet(viz) {
     shiftY: bulletShiftY,
     image: bulletSpriteSet.bullet[0],
     transition: bullet_transition,
+    // animation: undefined,
   } ;
 
   var jumpBulletConfig        = copy_object(bulletConfig) ;
@@ -48,8 +70,9 @@ function load_player_bullet(viz) {
     return transition ;
   }
 
+
   jumpBulletConfig.image      = bulletSpriteSet.jump[0] ;
-  jumpBulletConfig.shiftY     = 0 ;
+  jumpBulletConfig.shiftY     = 40 - maxHeight ;
   jumpBulletConfig.transition = jump_bullet_transition ;
   jumpBulletConfig.move       = 0 ;
   jumpBulletConfig.shiftXl    = -bulletSpriteSet.jump[0].width + 4 ;
