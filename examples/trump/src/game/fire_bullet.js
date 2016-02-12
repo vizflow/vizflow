@@ -36,6 +36,10 @@ function fire_bullet (bulletName) {
       newBullet.transition = [newBullet.transition(xNew)] ; // overwriting the previous value of newBullet.transition with the output of the newBullet.transition function call
     }
 
+    // if (newBullet.animation !== undefined) {
+    //   newBullet.transition.push(newBullet.animation()) ;
+    // }
+
     if(newBullet.fade !== undefined) {
       newBullet.opacity = 0 ;
       newBullet.fade({duration: newBullet.fadeDuration, opacity: 1}) ;
