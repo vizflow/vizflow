@@ -17,7 +17,7 @@
           this.bulletSprite = this.bulletSpriteL ;
           if (this.bullet !== undefined) {
             this.bullet.image = this.bulletSprite.bullet[0] ;
-  // viz.player.bullet     = setup_bullet (viz, viz.player, bulletConfig) ;  
+            // viz.player.bullet     = setup_bullet (viz, viz.player, bulletConfig) ;  
           }
           if (this.jumpBullet !== undefined) {         
             // this.jumpBullet = setup_bullet (this.item.viz, this, this.jumpBullet.config) ;  

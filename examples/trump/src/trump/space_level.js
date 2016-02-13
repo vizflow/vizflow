@@ -43,12 +43,11 @@ function space_level () {
 
   viz.enemyConfig = {
     sprite_loader: function() {
-      var i = imageHelper.image2canvas('./images/trump_spritesheet_new.png') ;
-      var rowName = ['rest', 'attack'] ;
-      var width   = [105, 105] ;
-      var height  = [150, 150] ;
+      var i = imageHelper.image2canvas('./images/trump_spritesheet.png') ;
+      var rowName = ['attack', 'hit', 'rest', 'walk'] ;
+      var width   = [170, 170, 170, 170] ;
+      var height  = [154, 154, 154, 154] ;
       var spriteset = spriteHelper.get(i, rowName, width, height) ;
-      spriteset.hit = spriteset.attack ;
       // console.log('enemy sprite loader', spriteset) ;
       return spriteset ;
     },    
