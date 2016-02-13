@@ -44,7 +44,7 @@ var collisionDetection = {
     // console.log('collision_detect', 'item', item, 'width', width, 'height', height) ;
 
     // var canvas = create_canvas(width, height) ;
-    // var context = canvas.getContext('2d') ;
+    // var context = canvas.context() ;
     // context.globalAlpha = 0.5 ;
 
     for ( var kItem = 0 ; kItem < Nitem ; kItem++ ) {

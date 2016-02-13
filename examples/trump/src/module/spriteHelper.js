@@ -58,7 +58,7 @@ var spriteHelper = {
 		// console.log('totalHeight', totalHeight)
 
 		var canvas  = create_canvas(totalWidth, totalHeight) ;
-		var context = canvas.getContext('2d') ;
+		var context = canvas.context() ;
 
 		var offsetY = 0 ;
 
@@ -118,7 +118,7 @@ var spriteHelper = {
 			var Ntile   = Math.floor(canvas.width / tileWidth[krow]) ;
 			for(var kcol = 0 ; kcol < Ntile ; kcol++) {
 				var tile    = create_canvas(tileWidth[krow], maxHeight) ;
-				var tileCtx = tile.getContext('2d') ;
+				var tileCtx = tile.context() ;
 				var sx      = kcol * tile.width ;
 				tileCtx.drawImage( canvas, sx, sy, tile.width, tile.height, 0, maxHeight - rowHeight[krow], tile.width, tile.height ) ;
 				if(spriteHelper.is_blank(get_image_data(tile))) {
@@ -164,7 +164,7 @@ var spriteHelper = {
 	    }
 
 	    var tileCanvas  = create_canvas(spriteConfig.width + spriteConfig.padXl + spriteConfig.padXr, spriteConfig.height) ;
-	    var tileContext = tileCanvas.getContext('2d') ;
+	    var tileContext = tileCanvas.context() ;
 
 	    // var data = image.data ;
 

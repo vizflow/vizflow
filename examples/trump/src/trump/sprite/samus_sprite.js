@@ -89,9 +89,9 @@ function samus_sprite () {
 
 	// var attackCanvas  = samusSprite.attack[0] ;
 	// var tempCanvas   = create_canvas (attackCanvas.width, attackCanvas.height)  ;
-	// tempCanvas.getContext ('2d').drawImage (attackCanvas, 0, 0) ;
-	// tempCanvas.getContext ('2d').clearRect (attackTilePadXl, 0, walkTileWidth * 1.5, samusSprite.height) ;
-	// //console.log ('dd_sprite: tempCanvas', tempCanvas.getContext('2d').getImageData(0, 0, tempCanvas.width, tempCanvas.height)) ; 
+	// tempCanvas.context().drawImage (attackCanvas, 0, 0) ;
+	// tempCanvas.context().clearRect (attackTilePadXl, 0, walkTileWidth * 1.5, samusSprite.height) ;
+	// //console.log ('dd_sprite: tempCanvas', tempCanvas.context().getImageData(0, 0, tempCanvas.width, tempCanvas.height)) ; 
 	// samusSprite.attackCollision = [tempCanvas, clearedFrame, tempCanvas] ;
 
  //  var jumpTileCount = 3 ;

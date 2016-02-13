@@ -6,5 +6,9 @@ function create_canvas(width, height) {
 	canvas.webkitImageSmoothingEnabled = false;
 	canvas.msImageSmoothingEnabled = false;
 	canvas.imageSmoothingEnabled = false;  
+
+	canvas.context = imageHelper.context2d ;
+
   return canvas ;
+
 }

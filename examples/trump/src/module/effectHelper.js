@@ -134,7 +134,7 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 
 		binary_opacity_filter: function effect_image_binary_opacity_filter (canvas, threshold)	 {
 
-			var context = canvas.getContext('2d') ;
+			var context = canvas.context() ;
 			var image   = context.getImageData (0, 0, canvas.width, canvas.height) ;
 			var data    = image.data ;
 			var Npel    = data.length / 4 ;
@@ -274,7 +274,7 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 			for(var krow = 0 ; krow < Nrow ; krow++) {
 				for(var kcol = 0 ; kcol < Ncol ; kcol++) {
 					var canvas  = create_canvas(blocksize, blocksize) ;
-					var context = canvas.getContext('2d') ;
+					var context = canvas.context() ;
 					sx = Math.floor(kcol * blocksize) ;
 					sy = Math.floor(krow * blocksize) ;
 					context.drawImage(item.image, sx, sy, sw, sh, dx, dy, dw, dh) ;

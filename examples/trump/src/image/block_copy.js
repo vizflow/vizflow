@@ -1,7 +1,7 @@
 function block_copy (sourceImageData, ratio) {
 
   var destImage = create_canvas(sourceImageData.width * ratio, sourceImageData.height * ratio) ;
-  var destImageContext = destImage.getContext('2d') ;
+  var destImageContext = destImage.context() ;
   var destImageData = destImageContext.getImageData(0, 0, destImage.width, destImage.height) ;
    
   var data0 = sourceImageData.data ;

@@ -115,8 +115,8 @@ function rastan_sprite () {
 	var attackCanvas  = rastanSprite.attack[4] ;
 	var attackCollisionCanvas    = create_canvas (attackCanvas.width, attackCanvas.height)  ;
 	var clearedFrame = create_canvas (attackCanvas.width, attackCanvas.height)  ; 
-	attackCollisionCanvas.getContext ('2d').drawImage (attackCanvas, 0, 0) ;
-	attackCollisionCanvas.getContext ('2d').clearRect (attackCollisionCanvas.width * 0.25, 0, attackCollisionCanvas.width * 0.5, rastanSprite.height) ;
+	attackCollisionCanvas.context().drawImage (attackCanvas, 0, 0) ;
+	attackCollisionCanvas.context().clearRect (attackCollisionCanvas.width * 0.25, 0, attackCollisionCanvas.width * 0.5, rastanSprite.height) ;
 	//console.log ('dd_sprite: attackCollisionCanvas', attackCollisionCanvas.getContext('2d').getImageData(0, 0, attackCollisionCanvas.width, attackCollisionCanvas.height)) ; 
 	rastanSprite.attackCollision = [
 		clearedFrame,
@@ -218,8 +218,8 @@ function rastan_sprite () {
 	var jumpCanvas   = rastanSprite.jump[5] ;
 	var clearedFrame2 = create_canvas (jumpCanvas.width, jumpCanvas.height)  ;
 	var jumpCollisionCanvas   = create_canvas (jumpCanvas.width, jumpCanvas.height)  ;
-	jumpCollisionCanvas.getContext ('2d').drawImage (jumpCanvas, 0, 0) ;
-	jumpCollisionCanvas.getContext ('2d').clearRect (jumpCollisionCanvas.width * 0.25, 0, jumpCollisionCanvas.width * 0.5, jumpCanvas.height) ;
+	jumpCollisionCanvas.context().drawImage (jumpCanvas, 0, 0) ;
+	jumpCollisionCanvas.context().clearRect (jumpCollisionCanvas.width * 0.25, 0, jumpCollisionCanvas.width * 0.5, jumpCanvas.height) ;
 
 	rastanSprite.jumpCollision = [
 		clearedFrame2,

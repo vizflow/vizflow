@@ -1,5 +1,5 @@
 function create_context(canvas) {
-	var context                         = canvas.getContext('2d') ;  
+	var context                         = canvas.context() ;  
 	context.mozImageSmoothingEnabled    = false ;
 	context.imageSmoothingEnabled       = false ;
 	context.font                        = "48px Arial" ; 

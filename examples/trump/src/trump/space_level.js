@@ -61,6 +61,10 @@ function space_level () {
   } ;  
 
   load_viz(viz) ;
+
+  viz.player.item.y = 50 ;
+
+  viz.player.item.add_transition( $Z.transition.rounded_linear_transition_func('y', 1000)(150) ) ;
   
 }
 

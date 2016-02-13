@@ -61,8 +61,8 @@ function dd_sprite () {
 	var attackCanvas          = ddSprite.attack[0] ;
 	var attackCollisionCanvas = create_canvas (attackCanvas.width, attackCanvas.height)  ;
 	var clearedFrame          = create_canvas (attackCanvas.width, attackCanvas.height)  ;
-	attackCollisionCanvas.getContext ('2d').drawImage (attackCanvas, 0, 0) ;
-	attackCollisionCanvas.getContext ('2d').clearRect (attackTilePadXl, 0, walkTileWidth * 1.5, ddSprite.height) ;
+	attackCollisionCanvas.context().drawImage (attackCanvas, 0, 0) ;
+	attackCollisionCanvas.context().clearRect (attackTilePadXl, 0, walkTileWidth * 1.5, ddSprite.height) ;
 	//console.log ('dd_sprite: attackCollisionCanvas', attackCollisionCanvas.getContext('2d').getImageData(0, 0, attackCollisionCanvas.width, attackCollisionCanvas.height)) ; 
 	// ddSprite.attackCollision = [attackCollisionCanvas, clearedFrame, attackCollisionCanvas] ;
 
@@ -106,8 +106,8 @@ function dd_sprite () {
   // ddSprite.jump.push(jump[2]) ;
 
 	var jumpCollisionCanvas   = create_canvas (jump[1].width, jump[1].height)  ;
-	jumpCollisionCanvas.getContext ('2d').drawImage (jump[1], 0, 0) ;
-	jumpCollisionCanvas.getContext ('2d').clearRect (0, 0, jumpCollisionCanvas.width * 0.8, jump[1].height) ;
+	jumpCollisionCanvas.context().drawImage (jump[1], 0, 0) ;
+	jumpCollisionCanvas.context().clearRect (0, 0, jumpCollisionCanvas.width * 0.8, jump[1].height) ;
 	var clearedFrame2 = create_canvas (jump[0].width, jump[0].height)  ;
 	// console.log('jumpCollisionCanvas', jumpCollisionCanvas, 'clearedFrame2', clearedFrame2) ;
 

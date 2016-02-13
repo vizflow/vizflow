@@ -50,7 +50,7 @@ function fire_bullet (bulletName) {
     // console.log('this.adversary.item, newBullet', this.adversary.item, newBullet) ;
 
     $Z.item().push (newBullet) ;
-    this[bulletName].audio.play() ;
+    // this[bulletName].audio.play() ;
 
     // console.log ('fire_bullet end bullet if-block') ;
   }	

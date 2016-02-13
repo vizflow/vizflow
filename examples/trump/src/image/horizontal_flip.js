@@ -43,7 +43,7 @@ function flip_sprite (sprite) {
 
 function flip_image (canvas) {
 
-  var context   = canvas.getContext ('2d') ;
+  var context   = canvas.context() ;
   var imageData = context.getImageData (0, 0, canvas.width, canvas.height) ;
   var imageFlip = new_image_data(canvas.width, canvas.height) ; // new ImageData (canvas.width, canvas.height) ;
   var Npel      = imageData.data.length / 4 ;
@@ -62,7 +62,7 @@ function flip_image (canvas) {
   }
 
   var canvasFlip  = create_canvas(canvas.width, canvas.height) ;
-  canvasFlip.getContext('2d').putImageData(imageFlip, 0, 0) ;
+  canvasFlip.context().putImageData(imageFlip, 0, 0) ;
   return canvasFlip ;
 
 }
