@@ -16,15 +16,24 @@ var audioLoader = {
       audioLoader.callback_handler() ;
     } else {
 
-      // var img    = new Image() ;
-      // img.onload = audioLoader.callback_handler ;
-      // img.src    = url ;
+      var AudioContext = window.AudioContext // Default
+        || window.webkitAudioContext // Safari and old versions of Chrome
+        || false; 
 
-	    var audio = { 
-	    	buffer: null, 
-	    	context: new AudioContext(), 
-	    	play: audioHelper.play,
-	    } ;
+      if (AudioContext) {
+          // Do whatever you want using the Web Audio API
+        var audio = { 
+          buffer: null, 
+          context: new AudioContext(), 
+          play: audioHelper.play,
+        } ;
+          // ...
+      } else {
+          // Web Audio API is not supported
+          // Alert the user
+          alert("Web Audio API is not supported by your browser.");
+          return undefined ;
+      }
 
 			var request = new XMLHttpRequest() ;
 			request.open('get', url, true) ;
@@ -42,7 +51,7 @@ var audioLoader = {
 
     }
 
-    return audio ; // return image object
+    return audio ; // return audio object
 
 	},
 

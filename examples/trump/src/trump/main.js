@@ -1,9 +1,9 @@
-window.addEventListener("load", function() { window.scrollTo(0, 0); });
+window.addEventListener( "load", function() { window.scrollTo(0, 0) ; } ) ;
 
-document.body.style.overflowY = 'hidden';
+document.addEventListener("touchmove", function(e) { e.preventDefault() }) ;
+
+document.body.style.overflowY = 'hidden' ;
 document.body.style.margin    = 0 ;
-
-document.addEventListener("touchmove", function(e) { e.preventDefault() });
 
 document.image = [ 
 	'./images/jesus_spritesheet.png', 
@@ -35,8 +35,15 @@ document.audio = [
 	// './audio/powerup2.wav', 
 	// './audio/powerup3.wav', 
 	// './audio/powerup4.wav',
-],
+] ;
 
 imageLoader.preload ( document.image, function preload_audio() {
-	audioLoader.preload( document.audio, trump_game ) ;
+	audioLoader.preload( document.audio, function() {
+		$Z.maxIter = 10 ;
+		console.log('after preload', '$Z.iter', $Z.iter, '$Z.maxIter', $Z.maxIter) ;
+		$Z.run() ;
+		setInterval(function() {
+			console.log('setInterval $Z.iter', $Z.iter, '$Z.maxIter', $Z.maxIter ) ;
+		}, 1000)
+	} ) ;
 }) ;

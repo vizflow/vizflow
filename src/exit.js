@@ -1,5 +1,5 @@
 export default function exit() { // stop the simulation engine and execute the return callback
-	// if($Z.verbose)	console.log('$Z exiting') ;
+	if($Z.verbose)	console.log('$Z exiting') ;
   $Z._item    = []       ; // initialize the array of items (change to an object pool later to reduce garbage collection)
   $Z._prep    = []       ; // array of actions to perform before rendering the items on each frame (e.g. collision detection, background clearing)
   $Z._post    = []       ; // array of actions to perform before rendering the items on each frame (e.g. collision detection, background clearing)

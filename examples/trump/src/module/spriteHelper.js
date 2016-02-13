@@ -90,7 +90,7 @@ var spriteHelper = {
 
 	},
 
-	is_blank: function(data) {
+	is_blank: function sprite_helper_is_blank(data) {
     // viz.player.item,
     // viz.ui.button.walkLeft,
     // viz.ui.button.walkRight,
@@ -103,7 +103,16 @@ var spriteHelper = {
 			return val === 0 ;
 		}
 
-		return data.data.every(is_zero) ;
+		var isZero = true ;
+
+		for(k = 0 ; k < data.data.length ; k++) {
+			if(data.data[k] !== 0) {
+				isZero = false ;
+				break ;
+			}
+		}
+
+		return isZero ;
 
 	},
 
