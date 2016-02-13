@@ -6,6 +6,7 @@ function setup_element (viz, elementConfig) {
     elementConfig.orientation = 'r' ;
   }
 
+  // console.log('setup_element mid') ;
   if(elementConfig.orientation === 'l') {
 
     var spriteL0             = elementConfig.sprite_loader () ;
@@ -102,6 +103,10 @@ function setup_element (viz, elementConfig) {
 
   element.callback = elementConfig.callback ;
 
+  var floatTransitionFunc ;
+  var jumpTransitionFunc ;
+  var attackTransitionFunc ;
+  var xTransitionFunc ;
   var imageTransitionFunc ;
 
   if(elementConfig.frameDuration === viz.frameDuration) {
@@ -118,7 +123,7 @@ function setup_element (viz, elementConfig) {
   }
 
   if(elementConfig.jumpDuration === viz.jumpDuration) {
-    jumpTransitionFunc = step_transition_func ( 'image', elementConfig.frameDuration ) ;
+      jumpTransitionFunc = step_transition_func ( 'image', elementConfig.frameDuration ) ;      
   } else {
     // console.log('elementConfig', elementConfig) ;
     jumpTransitionFunc = step_transition_func ( 'image', elementConfig.jumpDuration ) ;
@@ -132,6 +137,10 @@ function setup_element (viz, elementConfig) {
   }
 
   xJumpTransitionFunc = $Z.transition.rounded_linear_transition_func ( 'x', elementConfig.frameDuration * 5 ) ;
+
+  if (elementConfig.transitionSet !== undefined && elementConfig.transitionSet.jump !== undefined) {
+    jumpTransitionFunc = elementConfig.transitionSet.jump ;
+  }
 
   element.transitionSet = {
     image:  imageTransitionFunc,
