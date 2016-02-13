@@ -45,6 +45,10 @@ function setup_element (viz, elementConfig) {
   if (elementConfig.jumpDuration === undefined) {
     elementConfig.jumpDuration = viz.frameDuration ;
   }  
+
+  if (elementConfig.hitDuration === undefined) {
+    elementConfig.hitDuration = viz.frameDuration ;
+  }    
   
   if (elementConfig.fullLoopSwitch === undefined) {
     elementConfig.fullLoopSwitch = false ;
@@ -87,6 +91,7 @@ function setup_element (viz, elementConfig) {
     opacity: 1,
     type: elementConfig.type,
     add_transition: transitionHelper.add, // transitionHelper.add expects "this" to be "item"
+    add_end: transitionHelper.add_end,
     fade: effectHelper.image.fade, // effectHelper.image.fade expects "this" to be "item"
     flash: effectHelper.flash,
     inert: false,

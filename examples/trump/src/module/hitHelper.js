@@ -349,7 +349,7 @@ var hitHelper = {
       // var hitTransition   = step_transition_func('image', hit.viz.frameDuration * 1.5)(element.sprite.hit[0]) ;
       element.item.image = element.sprite.hit[0] ;
       // console.log('transition hittttt', element.frameDuration) ;
-      hitTransition = animate(element.sprite.hit, step_transition_func('image', element.config.frameDuration), undefined, element.sprite.rest[0])[0] ;
+      hitTransition = animate(element.sprite.hit, step_transition_func('image', element.config.hitDuration), undefined, element.sprite.rest[0])[0] ;
 
       // if(element === hit.viz.enemy) { // perform zoom in-out and screen shake effects on enemy hit
 

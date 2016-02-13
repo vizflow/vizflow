@@ -43,14 +43,14 @@ function fantasy_level () {
       spriteset.jump.push(spriteset.jump[1]) ;
       spriteset.jump.push(spriteset.jump[0]) ;
 
-      spriteset.hit.push(spriteset.hit[2]) ;
+/*      spriteset.hit.push(spriteset.hit[2]) ;
       spriteset.hit.push(spriteset.hit[2]) ;
       spriteset.hit.push(spriteset.hit[1]) ;
       spriteset.hit.push(spriteset.hit[1]) ;
       spriteset.hit.push(spriteset.hit[1]) ;
       spriteset.hit.push(spriteset.hit[0]) ;
       spriteset.hit.push(spriteset.hit[0]) ;
-
+*/
       // console.log('spriteset', spriteset) ;
       var attackCollisionCanvas = imageHelper.clear_rect (spriteset.attack[4], { x: spriteset.attack[4].width * 0.25, y: 0, width: spriteset.attack[4].width * 0.75, height: maxHeight } ) ;
       // spriteHelper.view(attackCollisionCanvas) ;
@@ -68,6 +68,7 @@ function fantasy_level () {
     },
     orientation: 'l',
     frameDuration: viz.frameDuration,
+    hitDuration: viz.frameDuration * 1.5,
     floatDuration: viz.dur * 30,
     callback: update_player,
     restoreRest: false,
@@ -95,8 +96,9 @@ function fantasy_level () {
       // console.log('enemy sprite loader', spriteset) ;
       return spriteset ;
     },    
-    frameDuration: viz.frameDuration * 5,
-    attackDuration: 10 * viz.frameDuration,
+    frameDuration: viz.frameDuration,
+    hitDuration: viz.frameDuration * 5,
+    attackDuration: 2 * viz.frameDuration,
     orientation: 'l',
     x: 50, 
     y: 20,
