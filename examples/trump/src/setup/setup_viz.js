@@ -143,6 +143,20 @@ function setup_viz (vizConfig) {
     add_transition: transitionHelper.add, 
     fade: effectHelper.image.fade, 
     shake: effectHelper.shake,
+    panX: function (dur, xNew) { 
+      var trans = transition_sequence( xNew.map(function(x) {
+        return $Z.transition.rounded_linear_transition_func('viewportX', dur)(x) ;
+      }) ) ;
+      // console.log('panX trans', trans) ;
+      this.add_transition( trans[0] ) ; 
+    },
+    panY: function (dur, yNew) { 
+      var trans = transition_sequence( yNew.map(function(y) {
+        return $Z.transition.rounded_linear_transition_func('viewportY', dur)(y) ;
+      }) ) ;
+      // console.log('panY trans', trans) ;
+      this.add_transition( trans[0] ) ; 
+    },
     load_hit: hitHelper.load,
 
   } ;

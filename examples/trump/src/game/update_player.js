@@ -114,6 +114,9 @@
         transition.push(xTransition) ;  
         transition.push(yTransition) ;
 
+        var panDur = yTransition.duration ; 
+        this.item.viz.panY(panDur, [-12, -12, 0]) ;
+
         viz.audio.jump1.play() ;
 
         break ;
