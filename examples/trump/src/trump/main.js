@@ -8,13 +8,13 @@ document.addEventListener("touchmove", function(e) { e.preventDefault() });
 document.image = [ 
 	'./images/jesus_spritesheet.png', 
 	'./images/button_spritesheet.png', 
-	'./images/trump_spritesheet_new.png', 
+	'./images/trump_spritesheet.png', 
 	'./images/trump_bg1.png', 
 	'./images/trump_bg3.png', 
 	'./images/trump_bg4.png', 
 	'./images/megyn_spritesheet.png', 
 	'./images/beam_spritesheet.png', 
-	'./images/rastan_spritesheet.gif',
+	'./images/rastan_spritesheet.png',
 	'./images/trump_attack.png', 
 	'./images/trumped1.png',
 ] ;
