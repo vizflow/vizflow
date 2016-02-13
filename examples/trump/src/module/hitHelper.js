@@ -376,7 +376,11 @@ var hitHelper = {
         var replacementSwitch = true ;
         var xBump = 25 ;
         var xNew = Math.max(-hit.viz.player.item.image.width * 0.5, hit.viz.player.item.x - xBump) ; 
-        hit.viz.player.item.add_transition(hit.viz.player.transitionSet.x(xNew)) ;
+        var trans = hit.viz.player.transitionSet.x(hit.viz.player.item.x) ;
+        trans.duration = 1 ;
+        trans.child = hit.viz.player.transitionSet.x(xNew) ;
+        trans.child.pause = 3000 ;
+        hit.viz.player.item.add_transition(trans) ;
 
       }    
 

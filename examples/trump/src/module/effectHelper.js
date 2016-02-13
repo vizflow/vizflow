@@ -1,19 +1,9 @@
 var effectHelper = { // effect module for creating effects i.e. compositions of transitions
 
-	flash: function effect_flash (frameDuration, Nstep, inertSwitch, item) {
+	flash: function effect_flash (frameDuration, Nstep, item) {
 
 		if(item === undefined) { // assume that "this" corresponds to the element item object
 			item = this ;
-		}
-
-		if(inertSwitch === true || inertSwitch === 'inert' || inertSwitch === 'on') {
-			var inertSwitch = true ;
-		} else {
-			inertSwitch = false ;
-		}
-
-		if(inertSwitch) {
-			item.inert = true ;
 		}
 
 		// console.log('effect flash', 'frameDuration', frameDuration, 'Nstep', Nstep) ;
@@ -28,15 +18,7 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 		} ;
 		// console.log('effect flash 12') ;
 
-		if(inertSwitch) {
-			var callback = function() {
-				item.inert = false ;
-			} ;
-		} else {
-			var callback = undefined ;
-		}
-
-		var loop = animate_loop (loopConfig, valueList, create_transition, callback) ;
+		var loop = animate_loop (loopConfig, valueList, create_transition) ;
 
 		transitionHelper.add.call(item, loop.animation[0]) ;
 
@@ -219,7 +201,7 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 
 		},
 
-		explode: function effect_helper_image_explode(blocksize, duration, inertSwitch, removeSwitch, fadeSwitch, item) {
+		explode: function effect_helper_image_explode(blocksize, duration, removeSwitch, fadeSwitch, item) {
 
 			if(item === undefined) {
 				item = this ;
@@ -233,20 +215,12 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 				duration = 1000 ;
 			}
 
-			if(inertSwitch === undefined) {
-				inertSwitch = true ;
-			}
-
 			if(removeSwitch === undefined) {
 				removeSwitch = true ;
 			}
 
 			if(fadeSwitch === undefined) {
 				fadeSwitch = true ;
-			}
-
-			if(inertSwitch) {
-				item.inert = true ;
 			}
 
 			if(removeSwitch) {

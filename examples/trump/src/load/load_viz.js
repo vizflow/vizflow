@@ -65,7 +65,7 @@ function load_viz (viz) {
 
     // console.log('viz_run', 'Nstep', Nstep, 'viz', viz) ;
 
-    viz.enemy.item.flash(viz.frameDuration, Nstep, 'inert') ;
+    viz.enemy.item.flash(viz.frameDuration, Nstep) ;
     transitionHelper.add_end.call(viz.enemy.item, 'render', Nstep - 1, function() {
       viz.trumpAttack.on = true ;
     }) ;
