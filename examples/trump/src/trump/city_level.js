@@ -18,6 +18,7 @@ function city_level () {
       var height    = [48, 76, 48, 48, 48] ;
       var maxHeight = Math.max.apply(null, height) ;
       var spriteset = spriteHelper.get(i, rowName, width, height) ;
+      console.log('city level:', 'spriteset', spriteset) ;
 
       var attackCollisionCanvas = imageHelper.clear_rect (spriteset.attack[0], { x: 0, y: 0, width: 36, height: maxHeight } ) ;
       spriteset.attack[0].sourceCollisionImage = attackCollisionCanvas ;

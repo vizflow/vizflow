@@ -99,10 +99,6 @@ var spriteHelper = {
     // viz.enemy.item.actionSet.hit.healthbar.item,
     // viz.player.item.actionSet.hit.healthbar.item,
 
-		function is_zero(val) {
-			return val === 0 ;
-		}
-
 		var isZero = true ;
 
 		for(k = 0 ; k < data.data.length ; k++) {
@@ -125,16 +121,22 @@ var spriteHelper = {
 		for(var krow = 0 ; krow < Nrow ; krow++) { // one sprite per row
 			var row     = [] ; // initialize array to store the sprite
 			var Ntile   = Math.floor(canvas.width / tileWidth[krow]) ;
+			// console.log('spriteHelper get:', 'rowName[krow]', rowName[krow], 'krow', krow, 'Ntile', Ntile) ;
 			for(var kcol = 0 ; kcol < Ntile ; kcol++) {
 				var tile    = create_canvas(tileWidth[krow], maxHeight) ;
 				var tileCtx = tile.context() ;
 				var sx      = kcol * tile.width ;
-				tileCtx.drawImage( canvas, sx, sy, tile.width, tile.height, 0, maxHeight - rowHeight[krow], tile.width, tile.height ) ;
-				if(spriteHelper.is_blank(get_image_data(tile))) {
+				tileCtx.drawImage( canvas, sx, sy, tile.width, rowHeight[krow], 0, maxHeight - rowHeight[krow], tile.width, rowHeight[krow] ) ;
+				// console.log('spiteHelper get:', 'sx, sy, tile.width, tile.height, 0, maxHeight - rowHeight[krow], tile.width, tile.height', sx, sy, tile.width, tile.height, 0, maxHeight - rowHeight[krow], tile.width, tile.height) ;
+				var tileData = get_image_data(tile) ;
+				var isBlank  = spriteHelper.is_blank(tileData) ;
+				// console.log('spriteHelper get:', 'rowName[krow]', rowName[krow], 'kcol', kcol, 'tileData', tileData, 'isBlank', isBlank) ;
+				if(isBlank) {
 					break ;
 				}
 				row.push(tile) ;
 			}
+			// console.log('spriteHelper get:', 'krow', krow, 'row', row, 'tile.width', tile.width, 'tile.height', tile.height, 'maxHeight', maxHeight, 'rowHeight', rowHeight) ;
 			spriteSet[rowName[krow]] = row ;
 			sy += rowHeight[krow] ;
 		}

@@ -38,12 +38,16 @@ document.audio = [
 ] ;
 
 imageLoader.preload ( document.image, function preload_audio() {
-	audioLoader.preload( document.audio, function() {
-		$Z.maxIter = 10 ;
-		console.log('after preload', '$Z.iter', $Z.iter, '$Z.maxIter', $Z.maxIter) ;
-		$Z.run() ;
-		setInterval(function() {
-			console.log('setInterval $Z.iter', $Z.iter, '$Z.maxIter', $Z.maxIter ) ;
-		}, 1000)
-	} ) ;
+	audioLoader.preload( document.audio, trump_game ) ;
 }) ;
+		// function() {
+		// $Z.maxIter = 10 ;
+		// console.log('after preload', '$Z.iter', $Z.iter, '$Z.maxIter', $Z.maxIter) ;
+		// $Z.run() ;
+
+		// // setInterval(function() {
+		// // 	console.log('setInterval $Z.iter', $Z.iter, '$Z.maxIter', $Z.maxIter ) ;
+		// // }, 1000)
+	
+	// } ) ;
+// }) ;

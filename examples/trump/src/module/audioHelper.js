@@ -9,7 +9,7 @@ var audioHelper = {
 			buffer = this.buffer ;
 		}
 
-		// console.log('audio play', 'buffer', buffer) ;
+		// console.log('audio play', 'buffer', buffer, 'this.context', this.context) ;
 
 		var sourceNode = this.context.createBufferSource() ;
 		if(buffer !== undefined && buffer !== null) {
@@ -36,7 +36,13 @@ var audioHelper = {
 			now = 0 ;
 		}
 
-		sourceNode.start( now + 0 )	;
+		sourceNode.start ? sourceNode.start(now + 0) : sourceNode.noteOn(now + 0) ;
+
+		// try {
+		//   sourceNode.start()	;
+		// } catch (e) {
+  //     console.log('audiohelper error', 'e', e); // pass exception object to error handler
+		// }
 
 	},
 
