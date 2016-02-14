@@ -45,6 +45,7 @@ function load_viz (viz) {
   viz.fade({
     opacity: 1,
     duration: viz.fadeDuration,
+    pause: viz.fadeDuration,
     child: effectHelper.image.fade_transition({
       opacity: 0, 
       end: function() {

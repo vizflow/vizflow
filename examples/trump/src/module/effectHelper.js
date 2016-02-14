@@ -170,6 +170,8 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 
 			var newTransition = effectHelper.image.fade_transition(fadeConfig) ;
 
+			newTransition.pause = fadeConfig.pause ;
+
 			// console.log('fade', 'newTransition', newTransition) ;
 
 			transitionHelper.add.call(item, newTransition) ;

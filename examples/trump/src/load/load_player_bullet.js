@@ -35,7 +35,7 @@ function load_player_bullet(viz) {
   viz.player.bulletSprite = viz.player.bulletSpriteR ;
 
   var bulletShiftXl     = -viz.player.bulletSprite.original.bullet[0].width ;
-  var bulletShiftXr     = viz.player.sprite.original.rest[0].width + viz.player.bulletSprite.original.bullet[0].width - 4 ;
+  var bulletShiftXr     = viz.player.sprite.original.rest[0].width + viz.player.bulletSprite.original.bullet[0].width - 16 ;
   var bulletShiftY      = 17 - maxHeight ; 
   var bulletDur         = viz.dur * 20 ;
   var bulletMove        = 150 ;
@@ -70,12 +70,13 @@ function load_player_bullet(viz) {
     return transition ;
   }
 
-
   jumpBulletConfig.image      = bulletSpriteSet.jump[0] ;
-  jumpBulletConfig.shiftY     = 40 - maxHeight ;
+  jumpBulletConfig.shiftY     = 39 - maxHeight ;
   jumpBulletConfig.transition = jump_bullet_transition ;
   jumpBulletConfig.move       = 0 ;
-  jumpBulletConfig.shiftXl    = -bulletSpriteSet.jump[0].width + 4 ;
+  jumpBulletConfig.shiftXl    = -bulletSpriteSet.jump[0].width + 20 ;
+  jumpBulletConfig.shiftXr    = viz.player.sprite.original.rest[0].width + viz.player.bulletSprite.original.bullet[0].width - 20 ;
+
 
   viz.player.bullet     = setup_bullet (viz, viz.player, bulletConfig) ;  
   viz.player.jumpBullet = setup_bullet (viz, viz.player, jumpBulletConfig) ;  

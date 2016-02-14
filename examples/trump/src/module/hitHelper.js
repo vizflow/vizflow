@@ -45,7 +45,7 @@ var hitHelper = {
       enemyHitConfig = {
         healthbarY: 2, 
         healthbarX: Math.floor(viz.width * 0.5) + 1,
-        healthdrop: 1,
+        healthdrop: 2,
         color: '#900',
         audio: viz.audio.hit3,
         sourceType: 'player',
