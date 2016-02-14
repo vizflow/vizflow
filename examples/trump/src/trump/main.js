@@ -16,7 +16,9 @@ document.image = [
 	'./images/beam_spritesheet.png', 
 	'./images/rastan_spritesheet.png',
 	'./images/trump_attack.png', 
-	'./images/trumped1.png',
+	'./images/city_intro.png',
+	'./images/rastan_intro.png',
+	'./images/megyn_title.png',
 ] ;
 	  
 document.audio = [

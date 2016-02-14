@@ -4,7 +4,7 @@ function space_level () {
 
   var vizConfig = { // an object to configure the visualization
     backgroundImageUrl: './images/trump_bg4.png',
-    loadingImageUrl: './images/trumped1.png',
+    loadingImageUrl: './images/megyn_title.png',
     frameDurationFactor: 2,
   } ;
 

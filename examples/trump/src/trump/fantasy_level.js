@@ -4,7 +4,7 @@ function fantasy_level () {
 
   var vizConfig = { // an object to configure the visualization
     backgroundImageUrl: './images/trump_bg3.png',
-    loadingImageUrl: './images/trumped1.png',
+    loadingImageUrl: './images/rastan_intro.png',
     frameDurationFactor: 5,
   } ;
 
