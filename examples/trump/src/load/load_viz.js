@@ -31,28 +31,32 @@ function load_viz (viz) {
 
   $Z.run() ;    // run the interactive visualization (infinite loop by default)
 
-  viz.item = [ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop
-    viz.enemy.item,
-    viz.player.item,
-    viz.ui.button.walkLeft,
-    viz.ui.button.walkRight,
-    viz.ui.button.attack,
-    viz.ui.button.jump,
-    viz.enemy.item.actionSet.hit.healthbar.item,
-    viz.player.item.actionSet.hit.healthbar.item,
-    // viz.player.score,
-  ] ;
-
   viz.fade({
     opacity: 1,
     duration: viz.fadeDuration,
+    pause: viz.fadeDuration,
     child: imageEffectHelper.fade_transition({
+
       opacity: 0, 
+
       end: function() {
         // console.log(viz.config.backgroundImageUrl) ;
         viz.image = adjust_image_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;
-        $Z.item(viz.item) ;
+
+        viz.add_item([ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop
+            viz.enemy.item,
+            viz.player.item,
+            viz.ui.button.walkLeft,
+            viz.ui.button.walkRight,
+            viz.ui.button.attack,
+            viz.ui.button.jump,
+            viz.enemy.item.actionSet.hit.healthbar.item,
+            viz.player.item.actionSet.hit.healthbar.item,
+            viz.player.score,
+        ]) ;
+        
       },
+
       child: imageEffectHelper.fade_transition({
         opacity: 1,
         end: viz_run,

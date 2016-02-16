@@ -13,8 +13,11 @@ var imageHelper = {
 
 		var wordImage = imageHelper.word(wordConfig) ;
 
-    var offsetX = 2 ;
-    var offsetY = 3 ;
+		// imageHelper.view(wordImage) ;
+		// barf
+
+    var offsetX = 10 ;
+    var offsetY = 2 ;
 
     var image        = create_canvas(wordImage.width + 2 * offsetX, wordImage.height + 2 * offsetY) ;
     var imageContext = create_context(image) ;
@@ -59,24 +62,35 @@ var imageHelper = {
 			fontName = wordConfig.font ;
 		}
 
-	  var wordImage    = create_canvas(2 * Npx * wordConfig.text.length, 2 * Npx * wordConfig.text.length) ;
+		// console.log('word image', 'fontName', fontName) ;
+
+	  var wordImage    = create_canvas() ;
 	  var wordContext  = create_context(wordImage) ;
 	  wordContext.font = Npx + 'px ' + fontName ;
-
 	  var wordMeasure = wordContext.measureText(wordConfig.text) ;
+
+	  // console.log('fontName', fontName, 'wordConfig', wordConfig, 'wordMeasure', wordMeasure, 'wordMeasure.width', wordMeasure.width) ;
 
 	  var wordWidth  = Math.ceil(wordMeasure.width) ;
 	  var wordHeight = Npx ;
 
 	  wordImage.width  = wordWidth ;
 	  wordImage.height = wordHeight ;
+	  wordContext.font = Npx + 'px ' + fontName ;
+	  wordContext.textBaseline='bottom' ;
 
-	  wordContext.fillText(wordConfig.text, 0, 0) ;
+	  if(wordConfig.color === undefined) {
+	  	wordConfig.color = 'rgba(0, 0, 0, 1)' ;
+	  }
+
+    wordContext.fillStyle = wordConfig.color ;
+
+	  wordContext.fillText(wordConfig.text, 0, Npx) ;
+
+	  var threshold = 60 ;
+	  imageEffectHelper.binary_opacity_filter(wordImage, threshold) ;
 
 	  return wordImage ; 
-
-	  // var threshold = 60 ;
-	  // imageEffectHelper.binary_opacity_filter(wordImage, threshold) ;
 
 	  // finished drawing black on transparent pixels
 		

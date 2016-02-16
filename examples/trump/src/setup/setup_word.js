@@ -19,13 +19,11 @@ function setup_word (viz, wordConfig) {
   for ( var kWord = 0 ; kWord < wordList.length ; kWord++ ) {
 
     wordImage[kWord] = imageHelper.word_block ({text: wordList[kWord]}) ;
-
-    // imageHelper.view(wordImage[kWord]) ;
-
     wordImage[kWord].sourceCollisionImage = wordImage[kWord] ;
     wordImage[kWord] = adjust_image_ratio(wordImage[kWord]) ;
 
   }
+
 
   // var wordImage = imageHelper.word (wordList[(document.skipIndex * (document.skipIndex - 1)) % wordList.length]) ;
   var maxNword  = 6 ;
@@ -43,9 +41,20 @@ function setup_word (viz, wordConfig) {
     var yMove  = 10 ;
     this.y    -= yMove ;
     var yNew   = this.y + yMove ;
+
     var down   = $Z.transition.rounded_linear_transition_func('y', viz.dur * 15 )(yNew) ;
+
     down.pause = 300 ;
+    
     var left   = $Z.transition.rounded_linear_transition_func ( 'x', viz.dur * 80 )(xNew) ; // sets speed of word block    
+
+    left.end = bulletHelper.default_end(viz, this, viz.player) ;
+    // console.log('word transition end') ;
+
+    down.child = left ;
+
+    return down ;
+
     //var down   = $Z.transition.rounded_linear_transition_func( 'y', viz.dur * 30 )(viz.player.config.y - wordImage.height * wordCount) ;
     //down.child = step_transition_func('dummy', viz.dur * wordPause)(0) ;
     //left.child = step_transition_func('dummy', viz.dur * wordPause)(0) ;
@@ -57,16 +66,11 @@ function setup_word (viz, wordConfig) {
     ///} ;
     // console.log('word transition', 'left', left) ;
     //left.child = down ;
-    left.end = bulletHelper.default_end(viz, this, viz.player) ;
-    // console.log('word transition end') ;
-
-    down.child = left ;
-
-    return down ;
 
   }
 
   var word = {
+
     viz: viz, 
     config: wordConfig,
     image: wordImage[0],
@@ -81,6 +85,7 @@ function setup_word (viz, wordConfig) {
     explode: imageEffectHelper.explode,
     fade: imageEffectHelper.fade,
     fadeDuration: 200,
+
   } ;
 
   return word ;

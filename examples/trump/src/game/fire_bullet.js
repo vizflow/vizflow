@@ -48,6 +48,7 @@ function fire_bullet (bulletName) {
     // console.log('fire bullet', 'transition', newBullet.transition) ;
     // console.log('fire bullet', 'newBullet', newBullet, 'xNew', xNew, 'this orientation', this.orientation) ;
     // console.log('this.adversary.item, newBullet', this.adversary.item, newBullet) ;
+    // imageHelper.view(newBullet.image)
 
     this.item.viz.add_item(newBullet) ;
     // this[bulletName].audio.play() ;

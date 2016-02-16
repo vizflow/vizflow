@@ -71,6 +71,15 @@ function setup_viz (vizConfig) {
     viewportY:      0,
     viewportWidth:  displayCanvas.width,
     viewportHeight: displayCanvas.height,
+    detect: actionHelper.detect,
+    perform: actionHelper.perform,
+    image_transition: step_transition_func('image', frameDuration),  
+    opacity: 0,
+    add_transition: transitionHelper.add, 
+    fade: imageEffectHelper.fade, 
+    shake: effectHelper.shake,    
+    load_hit: hitHelper.load,
+    setup_score: scoreHelper.setup,
     stagingArray: [],
 
     enemyAttack:    {
@@ -96,11 +105,15 @@ function setup_viz (vizConfig) {
         this.lastResize = $Z.iter ;
       }
 
+      if(this.item === undefined) {
+        this.item = [] ;
+      }
+
       this.item = this.item.filter(function(d) { return d.removeSwitch !== true ; }) ; // #todo: figure out a more performant way
 
       for(var kitem = 0 ; kitem < this.stagingArray.length ; kitem++) {
         if( this.item.indexOf(this.stagingArray[kitem]) === -1 ) {
-          this.item.push(this.stagintArray[kitem]) ;
+          this.item.push(this.stagingArray[kitem]) ;
         }        
       }
 
@@ -145,20 +158,17 @@ function setup_viz (vizConfig) {
       this.screenContext.drawImage (this.displayCanvas, 0, 0) ; // use a single drawImage call for rendering the current frame to the visible Canvas (GPU-acceleated performance)
 
       if ( this.enemyAttack.on && $Z.iter - this.enemyAttack.tSkip >= ( this.enemyAttack.minSkip + this.enemyAttack.skipVar[ document.skipIndex % this.enemyAttack.skipVar.length ] ) ) {
+
         this.enemyAttack.tSkip = $Z.iter ;
         document.skipIndex++ ;
         update_enemy.call( this.enemy ) ; // switch to "viz.enemy.update()" #todo
+      
       }
 
     },
 
-    detect: actionHelper.detect,
-    perform: actionHelper.perform,
-    image_transition: step_transition_func('image', frameDuration),  
-    opacity: 0,
-    add_transition: transitionHelper.add, 
-    fade: imageEffectHelper.fade, 
-    shake: effectHelper.shake,
+    zoom: effectHelper.zoom,
+
     panX: function (dur, xNew) { 
       var trans = transition_sequence( xNew.map(function(x) {
         return $Z.transition.rounded_linear_transition_func('viewportX', dur)(x) ;
@@ -166,6 +176,7 @@ function setup_viz (vizConfig) {
       // console.log('panX trans', trans) ;
       this.add_transition( trans[0] ) ; 
     },
+
     panY: function (dur, yNew) { 
       var trans = transition_sequence( yNew.map(function(y) {
         return $Z.transition.rounded_linear_transition_func('viewportY', dur)(y) ;
@@ -184,13 +195,19 @@ function setup_viz (vizConfig) {
         viz.item = [] ;
       }
 
-      for(var kitem = 0 ; kitem < item.length ; kitem++) {
-        this.stagingArray.push(item[kitem]) ;
+      if(item.constructor !== Array) {
+
+        this.stagingArray.push(item) ;        
+      
+      } else {
+
+        for(var kitem = 0 ; kitem < item.length ; kitem++) {
+          this.stagingArray.push(item[kitem]) ;
+        }
+      
       }
 
     },
-
-    load_hit: hitHelper.load,
 
   } ;
 

@@ -45,7 +45,7 @@ var hitHelper = {
       enemyHitConfig = {
         healthbarY: 2, 
         healthbarX: Math.floor(viz.width * 0.5) + 1,
-        healthdrop: 2,
+        healthdrop: 20,
         color: '#900',
         audio: viz.audio.hit3,
         sourceType: 'player',
@@ -253,11 +253,15 @@ var hitHelper = {
 
       var item = hit.element.item === undefined ? hit.element : hit.element.item ;
       
-      var playerCheck   = hit.sourceItem === hit.viz.player.item ;
+      var playerSource  = hit.sourceItem === hit.viz.player.item ;
       var attackCheck   = item.collision_image('source') !== undefined ;
       var playerTarget  = hit.element === hit.viz.player ;
       var playerCounter = attackCheck && playerTarget ;
-      var enemyCheck    = hit.element === hit.viz.enemy ;
+      var enemyTarget   = hit.element === hit.viz.enemy ;
+
+      if(playerSource && enemyTarget) { 
+        hit.viz.player.score.increase('enemyHit') ;
+      }
 
       if(hit.element.explode !== undefined) {
         hit.element.explode() ;
@@ -267,7 +271,7 @@ var hitHelper = {
         hit.sourceItem.explode() ;
       }
 
-      if(hit.healthbar !== undefined & !playerCounter) { // i.e. player or enemy was hit while not in their attack frame state
+      if(hit.healthbar !== undefined & !playerCounter) { // i.e. player or enemy was hit while in their attack frame state
 
         hit.healthbar.health -= hit.healthdrop ;
         
@@ -280,10 +284,17 @@ var hitHelper = {
           hit.viz.enemyAttack.on = false ;
           if(document.nextLevel === null) {
             // alert('congratulations! you did it') ;
-            $Z.item([]) ;
+            // $Z.item([]) ;
             hit.viz.fade({ opacity: 0, duration: hit.viz.fadeDuration }) ;
+            imageEffectHelper.explode.call(hit.element.item) ;
           } else {
-            $Z.item([]) ;
+            // alert ('game over') ;
+            // console.log('hitHelper.perform', 'hit.element.item', hit.element.item)
+            // hit.element.item.explode() ;
+            hit.healthbar.health = 0 ;            
+            var blockSize        = 12 ;
+            // imageEffectHelper.explode.call(hit.element.item, blockSize) ;
+            // $Z.item([]) ;
             // var shakeSwitch = true ;
             // effectHelper.zoom_inout(hit.viz, 3 * hitHelper.duration, shakeSwitch) ;                    
             hit.viz.fade({
@@ -293,18 +304,30 @@ var hitHelper = {
                 document.nextLevel() ;           
               }
             }) ;
+
+            var scale = 0.25 ;
+            hit.viz.zoom({duration: hit.viz.fadeDuration, x: hit.viz.player.item.x + 0.5 * scale * hit.viz.player.item.image.width, y: hit.viz.player.item.y + 0.5 * scale * hit.viz.player.item.image.height, width: hit.viz.width * scale, height: hit.viz.height * scale }) ;
+
           }
-          // alert ('game over') ;
-          hit.healthbar.health = 0 ;
         }
 
         if (hit.healthbar.health < 0 && hit.element === hit.viz.player) {
           // alert('game over') ;
-          $Z.item([]) ;
-          hit.viz.fade({opacity: 0, duration: hit.viz.fadeDuration}) ;
+
+          var blockSize = 8 ;
+          imageEffectHelper.explode.call(hit.element.item, blockSize, hit.viz.fadeDuration) ;
+
+          var scale = .25 ;
+
+          hit.viz.zoom({duration: hit.viz.fadeDuration, x: hit.element.item.x + 0.5 * scale * hit.element.item.image.width, y: hit.element.item.y + 0.5 * scale * hit.element.item.image.height, width: hit.viz.width * scale, height: hit.viz.height * scale }) ;
+          hit.viz.fade({
+            opacity: 0, 
+            duration: hit.viz.fadeDuration,
+          }) ;
           hit.healthbar.health = 0 ;
           hit.viz.audio.laugh1.play() ;
           hit.viz.enemyAttack.on = false ;
+
         }
 
         transitionHelper.update_end_value.call(hit.healthbar.item, 'width', hit.healthbar.health, hit.health_transition) ;

@@ -11,7 +11,7 @@ function space_level () {
   viz = setup_viz(vizConfig) ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
 
   viz.playerConfig = { 
-    
+
     sprite_loader: function() {
       var i         = imageHelper.image2canvas('./images/megyn_spritesheet.png') ;
       var rowName   = ['attack', 'hit', 'jump', 'rest', 'walk'] ;
@@ -40,6 +40,7 @@ function space_level () {
     y: 150,
     type: 'player',
     bulletSwitch: true,
+    
   } ;
 
   viz.enemyConfig = {

@@ -7,4 +7,6 @@ function load_characters(viz) {
   viz.player.adversary = viz.enemy ; // decorate the player object for convenient access to the viz.enemy object 
   viz.enemy.adversary  = viz.player ;
 	
+  viz.setup_score() ;
+
 }

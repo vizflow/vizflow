@@ -100,7 +100,7 @@ var imageEffectHelper = {
 			}
 
 			if(duration === undefined) {
-				duration = 1000 ;
+				duration = 1500 ;
 			}
 
 			if(removeSwitch === undefined) {

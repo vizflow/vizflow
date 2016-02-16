@@ -6,6 +6,10 @@ var itemHelper = {
 			itemConfig.opacity = 1 ;
 		}
 
+		if(itemConfig.inert === undefined) {
+			itemConfig.inert = true ;
+		}
+
 		var item = {
 
 	    viz: viz, 
@@ -22,7 +26,7 @@ var itemHelper = {
 	    add_end: transitionHelper.add_end,
 	    fade: imageEffectHelper.fade, // imageEffectHelper.fade expects "this" to be "item"
 	    flash: effectHelper.flash,
-	    inert: false,
+	    inert: itemConfig.inert,
 	    remove: itemHelper.remove,
   		config: itemConfig,
 

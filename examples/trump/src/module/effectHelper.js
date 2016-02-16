@@ -112,4 +112,29 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 
 	},
 
+	zoom: function effect_helper_zoom(zoomConfig, viz) {
+
+		if(viz === undefined) {
+			viz = this ;
+		}
+
+		viz.add_transition(effectHelper.zoom_transition(zoomConfig)) ;
+	},
+
+	zoom_transition: function effect_helper_zoom_transition(zoomConfig) {
+
+		if(zoomConfig.duration === undefined) {
+			zoomConfig.duration = 1000 ;
+		}
+
+    var zoomDur = zoomConfig.duration ;
+    var width   = $Z.transition.rounded_linear_transition_func('viewportWidth', zoomDur)(zoomConfig.width) ;
+    var height  = $Z.transition.rounded_linear_transition_func('viewportHeight', zoomDur)(zoomConfig.height) ;
+    var x       = $Z.transition.rounded_linear_transition_func('viewportX', zoomDur)(zoomConfig.x) ;
+    var y       = $Z.transition.rounded_linear_transition_func('viewportY', zoomDur)(zoomConfig.y) ;
+
+    return [width, height, x, y] ;
+
+	}
+
 } ; // end effectHelper
