@@ -11,6 +11,7 @@ function space_level () {
   viz = setup_viz(vizConfig) ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
 
   viz.playerConfig = { 
+    
     sprite_loader: function() {
       var i         = imageHelper.image2canvas('./images/megyn_spritesheet.png') ;
       var rowName   = ['attack', 'hit', 'jump', 'rest', 'walk'] ;
@@ -19,7 +20,7 @@ function space_level () {
       var maxHeight = Math.max.apply(null, height) ;
       var spriteset = spriteHelper.get(i, rowName, width, height) ;
 
-      // spriteHelper.view(jumpCollisionCanvas) ;
+      // imageHelper.view(jumpCollisionCanvas) ;
       // console.log('player sprite loader', spriteset) ;
       return spriteset ;
     },
@@ -43,7 +44,7 @@ function space_level () {
 
   viz.enemyConfig = {
     sprite_loader: function() {
-      var i = imageHelper.image2canvas('./images/trump_spritesheet.png') ;
+      var i       = imageHelper.image2canvas('./images/trump_spritesheet.png') ;
       var rowName = ['attack', 'hit', 'rest', 'walk'] ;
       var width   = [170, 170, 170, 170] ;
       var height  = [154, 154, 154, 154] ;

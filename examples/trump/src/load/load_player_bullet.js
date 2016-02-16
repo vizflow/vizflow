@@ -15,7 +15,7 @@ function load_player_bullet(viz) {
   // spriteset.bullet[0].sourceCollisionImage = spriteset.bullet[0] ;
 
   // console.log('spriteset', spriteset) ;
-  // spriteHelper.view(i) ;
+  // imageHelper.view(i) ;
   
   bulletSpriteSet          = spriteHelper.foreach(spriteset, adjust_image_ratio) ;
   bulletSpriteSet.original = spriteset ;

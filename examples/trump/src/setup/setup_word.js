@@ -17,11 +17,17 @@ function setup_word (viz, wordConfig) {
   var wordImage = new Array(wordList.length) ;
 
   for ( var kWord = 0 ; kWord < wordList.length ; kWord++ ) {
-    wordImage[kWord] = word_image (wordList[kWord]) ;
+
+    wordImage[kWord] = imageHelper.word_block ({text: wordList[kWord]}) ;
+
+    // imageHelper.view(wordImage[kWord]) ;
+
     wordImage[kWord].sourceCollisionImage = wordImage[kWord] ;
     wordImage[kWord] = adjust_image_ratio(wordImage[kWord]) ;
+
   }
-  // var wordImage = word_image (wordList[(document.skipIndex * (document.skipIndex - 1)) % wordList.length]) ;
+
+  // var wordImage = imageHelper.word (wordList[(document.skipIndex * (document.skipIndex - 1)) % wordList.length]) ;
   var maxNword  = 6 ;
   var wordPause = maxNword * 100 ;
   var skip      = 17 ;
@@ -29,7 +35,7 @@ function setup_word (viz, wordConfig) {
   function word_transition(xNew) {
 
     // console.log('word transition start') ;
-    // this.image = word_image(wordList[(document.skipIndex * (document.skipIndex + 3)) % wordList.length]) ;
+    // this.image = imageHelper.word(wordList[(document.skipIndex * (document.skipIndex + 3)) % wordList.length]) ;
     this.image = wordImage[$Z.iter % wordList.length] ;
 
     xNew = -this.image.width ;
@@ -72,8 +78,8 @@ function setup_word (viz, wordConfig) {
     opacity: 0,
     inert: false,
     actionSet: {},
-    explode: effectHelper.image.explode,
-    fade: effectHelper.image.fade,
+    explode: imageEffectHelper.explode,
+    fade: imageEffectHelper.fade,
     fadeDuration: 200,
   } ;
 

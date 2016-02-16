@@ -49,7 +49,7 @@ function fire_bullet (bulletName) {
     // console.log('fire bullet', 'newBullet', newBullet, 'xNew', xNew, 'this orientation', this.orientation) ;
     // console.log('this.adversary.item, newBullet', this.adversary.item, newBullet) ;
 
-    $Z.item().push (newBullet) ;
+    this.item.viz.add_item(newBullet) ;
     // this[bulletName].audio.play() ;
 
     // console.log ('fire_bullet end bullet if-block') ;

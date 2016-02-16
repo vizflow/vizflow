@@ -77,16 +77,7 @@ var spriteHelper = {
 			offsetY += height.shift() ;
 		}
 
-		spriteHelper.view(canvas) ;
-
-	},
-
-	view: function sprite_helper_view (canvas) {
-
-		var dataURL = canvas.toDataURL("image/png") ;
-		console.log('dataUrl', dataURL) ;
-		var win = window.open() ;
-		win.document.write('<img src="' + dataURL + '"/>') ;	  		
+		imageHelper.view(canvas) ;
 
 	},
 

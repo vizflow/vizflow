@@ -71,8 +71,9 @@ function setup_viz (vizConfig) {
     viewportY:      0,
     viewportWidth:  displayCanvas.width,
     viewportHeight: displayCanvas.height,
+    stagingArray: [],
 
-    trumpAttack:    {
+    enemyAttack:    {
                       tSkip: 0,
                       minSkip: 357,
                       skipVar: [0, 17, 23, 11, 19, 8, 0, 44, 19, 23, 14, 17, -111, 23],
@@ -94,6 +95,21 @@ function setup_viz (vizConfig) {
         resize() ;
         this.lastResize = $Z.iter ;
       }
+
+      this.item = this.item.filter(function(d) { return d.removeSwitch !== true ; }) ; // #todo: figure out a more performant way
+
+      for(var kitem = 0 ; kitem < this.stagingArray.length ; kitem++) {
+        if( this.item.indexOf(this.stagingArray[kitem]) === -1 ) {
+          this.item.push(this.stagintArray[kitem]) ;
+        }        
+      }
+
+      this.stagingArray = [] ; // #todo: make this more performant
+
+      $Z.item(this.item) ; // update the vizflow item list
+
+      // var index = item.viz.item.indexOf (this) ;  
+      // item.viz.item.splice (index, 1) ; // remove item[itemName] from vizflow itemlist  
 
       //console.log('setup_viz: viz_prep')
 
@@ -128,8 +144,8 @@ function setup_viz (vizConfig) {
       this.screenContext.globalAlpha = this.opacity ;
       this.screenContext.drawImage (this.displayCanvas, 0, 0) ; // use a single drawImage call for rendering the current frame to the visible Canvas (GPU-acceleated performance)
 
-      if ( this.trumpAttack.on && $Z.iter - this.trumpAttack.tSkip >= ( this.trumpAttack.minSkip + this.trumpAttack.skipVar[ document.skipIndex % this.trumpAttack.skipVar.length ] ) ) {
-        this.trumpAttack.tSkip = $Z.iter ;
+      if ( this.enemyAttack.on && $Z.iter - this.enemyAttack.tSkip >= ( this.enemyAttack.minSkip + this.enemyAttack.skipVar[ document.skipIndex % this.enemyAttack.skipVar.length ] ) ) {
+        this.enemyAttack.tSkip = $Z.iter ;
         document.skipIndex++ ;
         update_enemy.call( this.enemy ) ; // switch to "viz.enemy.update()" #todo
       }
@@ -141,7 +157,7 @@ function setup_viz (vizConfig) {
     image_transition: step_transition_func('image', frameDuration),  
     opacity: 0,
     add_transition: transitionHelper.add, 
-    fade: effectHelper.image.fade, 
+    fade: imageEffectHelper.fade, 
     shake: effectHelper.shake,
     panX: function (dur, xNew) { 
       var trans = transition_sequence( xNew.map(function(x) {
@@ -157,6 +173,23 @@ function setup_viz (vizConfig) {
       // console.log('panY trans', trans) ;
       this.add_transition( trans[0] ) ; 
     },
+
+    add_item: function(item, viz) {
+
+      if(viz === undefined) {
+        viz = this ;
+      }
+
+      if(viz.item === undefined) {
+        viz.item = [] ;
+      }
+
+      for(var kitem = 0 ; kitem < item.length ; kitem++) {
+        this.stagingArray.push(item[kitem]) ;
+      }
+
+    },
+
     load_hit: hitHelper.load,
 
   } ;

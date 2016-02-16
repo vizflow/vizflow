@@ -80,25 +80,16 @@ function setup_element (viz, elementConfig) {
 
   element.loop = elementConfig.loop ;
 
-  element.item = {
-    viz: viz, 
-    element: element, 
+  var itemConfig = {
+    element: element,
     image: element.sprite.rest[0],
-    collision_image: actionHelper.collision_image, // actionHelper.collision_image expects "this" to be "item"
-    actionSet: {},
-    render: drawHelper.image, // drawHelper.image expects "this" to  be "item"
     x: elementConfig.x,
     y: elementConfig.y, 
-    opacity: 1,
     type: elementConfig.type,
-    add_transition: transitionHelper.add, // transitionHelper.add expects "this" to be "item"
-    add_end: transitionHelper.add_end,
-    fade: effectHelper.image.fade, // effectHelper.image.fade expects "this" to be "item"
-    flash: effectHelper.flash,
-    inert: false,
-    remove: itemHelper.remove,
-  } ;
-  
+  }
+
+  element.item = itemHelper.setup(itemConfig, viz) ;
+
   //element.orientation = 'r' ; // r for facing right
 
   element.callback = elementConfig.callback ;

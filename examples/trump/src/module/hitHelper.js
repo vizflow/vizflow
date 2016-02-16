@@ -277,7 +277,7 @@ var hitHelper = {
         }
 
         if (hit.healthbar.health < 0 && hit.element === hit.viz.enemy) {
-          hit.viz.trumpAttack.on = false ;
+          hit.viz.enemyAttack.on = false ;
           if(document.nextLevel === null) {
             // alert('congratulations! you did it') ;
             $Z.item([]) ;
@@ -304,7 +304,7 @@ var hitHelper = {
           hit.viz.fade({opacity: 0, duration: hit.viz.fadeDuration}) ;
           hit.healthbar.health = 0 ;
           hit.viz.audio.laugh1.play() ;
-          hit.viz.trumpAttack.on = false ;
+          hit.viz.enemyAttack.on = false ;
         }
 
         transitionHelper.update_end_value.call(hit.healthbar.item, 'width', hit.healthbar.health, hit.health_transition) ;
@@ -371,15 +371,14 @@ var hitHelper = {
 
     } else {
 
-      if(element === hit.viz.enemy && hit.sourceItem === hit.viz.player.item) { // player-enemy collision moves player unless hit occurred 
+      if(element === hit.viz.enemy && hit.sourceItem === hit.viz.player.item) { // player-enemy collision moves player back 
 
         var replacementSwitch = true ;
-        var xBump = 25 ;
-        var xNew = Math.max(-hit.viz.player.item.image.width * 0.5, hit.viz.player.item.x - xBump) ; 
-        var trans = hit.viz.player.transitionSet.x(hit.viz.player.item.x) ;
-        trans.duration = 1 ;
-        trans.child = hit.viz.player.transitionSet.x(xNew) ;
-        trans.child.pause = 3000 ;
+        var xBump             = 25 ;
+        var xNew              = Math.max(-hit.viz.player.item.image.width * 0.5, hit.viz.player.item.x - xBump) ; 
+        var trans             = hit.viz.player.transitionSet.x(hit.viz.player.item.x) ;
+        trans.duration        = 1 ;
+        trans.child           = hit.viz.player.transitionSet.x(xNew) ;
         hit.viz.player.item.add_transition(trans) ;
 
       }    

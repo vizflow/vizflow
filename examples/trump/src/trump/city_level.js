@@ -36,7 +36,7 @@ function city_level () {
       spriteset.jump.push(spriteset.jump[1]) ;
       spriteset.jump.push(spriteset.jump[0]) ;
 */
-      // spriteHelper.view(jumpCollisionCanvas) ;
+      // imageHelper.view(jumpCollisionCanvas) ;
       // console.log('player sprite loader', spriteset) ;
       return spriteset ;
     },
@@ -74,10 +74,10 @@ function city_level () {
   viz.enemyConfig = {
     sprite_loader: function() {
       // console.log('enemy sprite loader', spriteset) ;
-      var i = imageHelper.image2canvas('./images/trump_spritesheet.png') ;
-      var rowName = ['attack', 'hit', 'rest', 'walk'] ;
-      var width   = [170, 170, 170, 170] ;
-      var height  = [154, 154, 154, 154] ;
+      var i         = imageHelper.image2canvas('./images/trump_spritesheet.png') ;
+      var rowName   = ['attack', 'hit', 'rest', 'walk'] ;
+      var width     = [170, 170, 170, 170] ;
+      var height    = [154, 154, 154, 154] ;
       var spriteset = spriteHelper.get(i, rowName, width, height) ;
       
       return spriteset ;

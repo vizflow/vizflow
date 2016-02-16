@@ -40,20 +40,20 @@ function load_viz (viz) {
     viz.ui.button.jump,
     viz.enemy.item.actionSet.hit.healthbar.item,
     viz.player.item.actionSet.hit.healthbar.item,
+    // viz.player.score,
   ] ;
 
   viz.fade({
     opacity: 1,
     duration: viz.fadeDuration,
-    pause: viz.fadeDuration,
-    child: effectHelper.image.fade_transition({
+    child: imageEffectHelper.fade_transition({
       opacity: 0, 
       end: function() {
         // console.log(viz.config.backgroundImageUrl) ;
         viz.image = adjust_image_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;
         $Z.item(viz.item) ;
       },
-      child: effectHelper.image.fade_transition({
+      child: imageEffectHelper.fade_transition({
         opacity: 1,
         end: viz_run,
       }),
@@ -68,7 +68,7 @@ function load_viz (viz) {
 
     viz.enemy.item.flash(viz.frameDuration, Nstep) ;
     transitionHelper.add_end.call(viz.enemy.item, 'render', Nstep - 1, function() {
-      viz.trumpAttack.on = true ;
+      viz.enemyAttack.on = true ;
     }) ;
 
   }
