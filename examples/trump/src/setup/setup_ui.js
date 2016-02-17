@@ -13,7 +13,7 @@ function setup_ui (viz) {
   var buttonCanvas    = imageHelper.image2canvas(buttonImageUrl) ;
 
   var leftButtonConfig = {
-    context: buttonCanvas.getContext('2d'),
+    context: buttonCanvas.context(),
     count: buttonTileCount,
     rowIndex: buttonRowIndex,
     width: buttonWidth,
@@ -63,10 +63,10 @@ function setup_ui (viz) {
   var uiHeight        = buttonHeight + 2 * buttonPadY ;
   var uiY             = viz.height - uiHeight ;
   var uiX             = 0 ;
-  var uiCanvas        = create_canvas  (uiWidth, uiHeight) ;
-  var uiContext       = create_context (uiCanvas) ;
-  var hiddenUICanvas  = create_canvas  (uiWidth, uiHeight) ;
-  var hiddenUIContext = create_context (hiddenUICanvas) ;
+  var uiCanvas        = imageHelper.create  (uiWidth, uiHeight) ;
+  var uiContext       = uiCanvas.context() ;
+  var hiddenUICanvas  = imageHelper.create  (uiWidth, uiHeight) ;
+  var hiddenUIContext = hiddenUICanvas.context() ;
 
   for( var kButton = 0 ; kButton < Nbutton ; kButton++ ) {
 
@@ -74,28 +74,28 @@ function setup_ui (viz) {
 
     uiContext.drawImage(buttonSprite[buttonKey[kButton]][0], buttonX[kButton], buttonY) ; // draw visible buttonSprite
 
-    var buttonData = buttonSprite[buttonKey[kButton]][0].getContext('2d').getImageData(0, 0, buttonWidth, buttonHeight) ; // ImageData object
+    var buttonData = buttonSprite[buttonKey[kButton]][0].context().getImageData(0, 0, buttonWidth, buttonHeight) ; // ImageData object
     var imagek     = image2index(buttonData, kButton) ; // ImageData object
 
-    var tempCanvas = create_canvas(buttonWidth, buttonHeight) ;
+    var tempCanvas = imageHelper.create(buttonWidth, buttonHeight) ;
 
     tempCanvas
-      .getContext('2d')
+      .context()
       .clearRect(0, 0, tempCanvas.width, tempCanvas.height) ;
 
     tempCanvas
-      .getContext('2d')
+      .context()
       .putImageData(imagek, 0, 0) ;
 
     hiddenUIContext.drawImage(tempCanvas, buttonX[kButton], buttonY) ; // draw color-indexed buttonSprite for color picking
 
   }
 
-  var hiddenCanvas  = create_canvas(viz.width, viz.height) ;
-  var hiddenContext = hiddenCanvas.getContext('2d') ;
+  var hiddenCanvas  = imageHelper.create(viz.width, viz.height) ;
+  var hiddenContext = hiddenCanvas.context() ;
   hiddenContext.drawImage(hiddenUICanvas, uiX, uiY) ; // draw ui
 
-  buttonSpriteBig = spriteHelper.foreach(buttonSprite, adjust_image_ratio) ;
+  buttonSpriteBig = spriteHelper.foreach(buttonSprite, imageHelper.adjust_ratio) ;
   buttonSpriteBig.original = buttonSprite; 
 
   var ui = {

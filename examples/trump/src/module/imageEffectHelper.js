@@ -135,7 +135,7 @@ var imageEffectHelper = {
 
 			for(var krow = 0 ; krow < Nrow ; krow++) {
 				for(var kcol = 0 ; kcol < Ncol ; kcol++) {
-					var canvas  = create_canvas(blocksize, blocksize) ;
+					var canvas  = imageHelper.create(blocksize, blocksize) ;
 					var context = canvas.context() ;
 					sx = Math.floor(kcol * blocksize) ;
 					sy = Math.floor(krow * blocksize) ;

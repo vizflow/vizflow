@@ -43,7 +43,7 @@ var collisionDetection = {
 
     // console.log('collision_detect', 'item', item, 'width', width, 'height', height) ;
 
-    // var canvas = create_canvas(width, height) ;
+    // var canvas = imageHelper.create(width, height) ;
     // var context = canvas.context() ;
     // context.globalAlpha = 0.5 ;
 

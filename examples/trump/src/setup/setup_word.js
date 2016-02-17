@@ -20,7 +20,7 @@ function setup_word (viz, wordConfig) {
 
     wordImage[kWord] = imageHelper.word_block ({text: wordList[kWord]}) ;
     wordImage[kWord].sourceCollisionImage = wordImage[kWord] ;
-    wordImage[kWord] = adjust_image_ratio(wordImage[kWord]) ;
+    wordImage[kWord] = imageHelper.adjust_ratio(wordImage[kWord]) ;
 
   }
 

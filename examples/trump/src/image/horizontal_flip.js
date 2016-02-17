@@ -61,7 +61,7 @@ function flip_image (canvas) {
 
   }
 
-  var canvasFlip  = create_canvas(canvas.width, canvas.height) ;
+  var canvasFlip  = imageHelper.create(canvas.width, canvas.height) ;
   canvasFlip.context().putImageData(imageFlip, 0, 0) ;
   return canvasFlip ;
 

@@ -19,8 +19,8 @@ function setup_element (viz, elementConfig) {
 
   }
 
-  element.spriteL          = spriteHelper.foreach(spriteL0, adjust_image_ratio) ;  
-  element.spriteR          = spriteHelper.foreach(spriteR0, adjust_image_ratio) ;
+  element.spriteL          = spriteHelper.foreach(spriteL0, imageHelper.adjust_ratio) ;  
+  element.spriteR          = spriteHelper.foreach(spriteR0, imageHelper.adjust_ratio) ;
 
   element.spriteL.original = spriteL0 ;
   element.spriteR.original = spriteR0 ;

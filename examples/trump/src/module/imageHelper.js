@@ -23,7 +23,7 @@ var imageHelper = {
 		var width  = sprite[text[0]][0].width  ;
 		var height = sprite[text[0]][0].height ;
 
-		var image  = create_canvas(width * text.length, height) ;
+		var image  = imageHelper.create(width * text.length, height) ;
 
 		var offsetX = 0 ;
 		for(var kchar = 0 ; kchar < text.length ; kchar++) {
@@ -46,8 +46,8 @@ var imageHelper = {
     var offsetX = 10 ;
     var offsetY = 2 ;
 
-    var image        = create_canvas(wordImage.width + 2 * offsetX, wordImage.height + 2 * offsetY) ;
-    var imageContext = create_context(image) ;
+    var image        = imageHelper.create(wordImage.width + 2 * offsetX, wordImage.height + 2 * offsetY) ;
+    var imageContext = image.context() ;
     
     var rect = {
       x: 0,
@@ -91,10 +91,10 @@ var imageHelper = {
 
 		// console.log('word image', 'fontName', fontName) ;
 
-	  var wordImage    = create_canvas() ;
-	  var wordContext  = create_context(wordImage) ;
+	  var wordImage    = imageHelper.create() ;
+	  var wordContext  = wordImage.context() ;
 	  wordContext.font = Npx + 'px ' + fontName ;
-	  var wordMeasure = wordContext.measureText(wordConfig.text) ;
+	  var wordMeasure  = wordContext.measureText(wordConfig.text) ;
 
 	  // console.log('fontName', fontName, 'wordConfig', wordConfig, 'wordMeasure', wordMeasure, 'wordMeasure.width', wordMeasure.width) ;
 
@@ -111,7 +111,6 @@ var imageHelper = {
 	  }
 
     wordContext.fillStyle = wordConfig.color ;
-
 	  wordContext.fillText(wordConfig.text, 0, Npx) ;
 
 	  var threshold = 60 ;
@@ -125,7 +124,7 @@ var imageHelper = {
 
 	clear_rect: function image_helper_clear_rect(canvas, rect) {
 
-		var newCanvas  = create_canvas (canvas.width, canvas.height)  ;
+		var newCanvas  = imageHelper.create (canvas.width, canvas.height)  ;
 		var newContext = newCanvas.context() ;
 
 		newContext.drawImage (canvas, 0, 0) ;
@@ -137,7 +136,7 @@ var imageHelper = {
 
 	keep_rect: function image_helper_keep_rect(canvas, rect) {
 
-		var newCanvas  = create_canvas (canvas.width, canvas.height)  ;
+		var newCanvas  = imageHelper.create (canvas.width, canvas.height)  ;
 		var newContext = newCanvas.context() ;
 
 		newContext.drawImage (canvas, rect.x, rect.y, rect.width, rect.height, rect.x, rect.y, rect.width, rect.height) ;
@@ -149,11 +148,27 @@ var imageHelper = {
 	image2canvas: function image_helper_image2canvas(imgUrl) {
 
 	  var image     = imageLoader.cache[imgUrl] ; // temporary variable
-	  var canvas    = create_canvas() ;
-	  var context   = create_context(canvas) ;
+	  var canvas    = imageHelper.create() ;
+	  var context   = canvas.context() ;
 	  canvas.width  = image.width ;
 	  canvas.height = image.height ;
 	  context.drawImage(image, 0, 0) ;
+	  return canvas ;
+
+	},
+
+	create: function image_helper_create(width, height) {
+
+	  var canvas = document.createElement('canvas') ;
+	  canvas.setAttribute('width', width) ;
+	  canvas.setAttribute('height', height) ;
+		canvas.mozImageSmoothingEnabled = false;
+		canvas.webkitImageSmoothingEnabled = false;
+		canvas.msImageSmoothingEnabled = false;
+		canvas.imageSmoothingEnabled = false;  
+
+		canvas.context = imageHelper.context2d ;
+
 	  return canvas ;
 
 	},
@@ -173,6 +188,72 @@ var imageHelper = {
 
 		return context ;
 
+	},
+
+	adjust_ratio: function image_helper_adjust_ratio(canvas) {
+		var newCanvas = hidpi_adjust(get_image_data(canvas)).canvas ;
+		if( canvas.sourceCollisionImage !== undefined ) {
+			newCanvas.sourceCollisionImage = canvas.sourceCollisionImage ; // propagate collision image without magnification since collision detection occurs on the model canvas
+		}
+		if( canvas.targetCollisionImage !== undefined ) {
+			newCanvas.targetCollisionImage = canvas.targetCollisionImage ; // propagate collision image without magnification since collision detection occurs on the model canvas
+		} else { // use the original image as default target collision image 
+			newCanvas.targetCollisionImage = canvas ;
+		}
+		newCanvas.originalCanvas = canvas ;
+		return newCanvas ; 
+	},
+
+	block_copy: function image_helper_block_copy (sourceImageData, ratio) {
+
+	  var destImage = imageHelper.create(sourceImageData.width * ratio, sourceImageData.height * ratio) ;
+	  var destImageContext = destImage.context() ;
+	  var destImageData = destImageContext.getImageData(0, 0, destImage.width, destImage.height) ;
+	   
+	  var data0 = sourceImageData.data ;
+	  var data1 = destImageData.data ;
+
+	  var Npel = sourceImageData.width * sourceImageData.height ;
+	  // console.log('block copy 41') ;
+
+	  for (var kPel = 0 ; kPel < Npel ; kPel++) {
+	    var kx = kPel % sourceImageData.width ;
+	    var ky = Math.floor(kPel / sourceImageData.width) ;
+	    var bx = ratio * kx ;
+	    var by = ratio * ky ;        
+	    var kOff = kPel * 4 ;
+	    // console.log('blockcopy 48') ;
+
+	    var r = data0[kOff + 0] ;
+	    var g = data0[kOff + 1] ;         
+	    var b = data0[kOff + 2] ;
+	    var a = data0[kOff + 3] ;
+	    // console.log('r', r, 'g', g, 'b', b) ;
+	    for (var bkx = 0 ; bkx < ratio ; bkx++) {
+	      for (var bky = 0 ; bky < ratio ; bky++) {
+	        var tempX = bx + bkx ;
+	        var tempY = by + bky ;
+	        var bk = tempY * destImageData.width + tempX ;
+	        var bkOff = bk * 4 ;
+	        data1[bkOff + 0] = r ;
+	        data1[bkOff + 1] = g ;
+	        data1[bkOff + 2] = b ;
+	        data1[bkOff + 3] = a ;  
+	      }
+	    }
+	  }
+
+	  destImageContext.putImageData(destImageData, 0, 0) ;
+	  
+	  var imageObject =  {
+	    data: destImageData,
+	    context: destImageContext,
+	    canvas: destImage,
+	  } ;
+	  return imageObject ;
+	  //console.log('imageObject', imageObject) ;
+	  // destImageData.data = data1 ;
+	  // console.log ('sourceImageData', sourceImageData, 'destImageData', destImageData) ;
 	},
 
 } ;

@@ -17,7 +17,7 @@ function load_player_bullet(viz) {
   // console.log('spriteset', spriteset) ;
   // imageHelper.view(i) ;
   
-  bulletSpriteSet          = spriteHelper.foreach(spriteset, adjust_image_ratio) ;
+  bulletSpriteSet          = spriteHelper.foreach(spriteset, imageHelper.adjust_ratio) ;
   bulletSpriteSet.original = spriteset ;
  
   if (bulletSpriteSet.orientation === 'l') {

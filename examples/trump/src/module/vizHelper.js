@@ -1,6 +1,21 @@
 var vizHelper = {
 
-	setup: function setup_viz (vizConfig) {
+	load_audio: function viz_helper_load_audio(viz) {
+
+		if(viz === undefined) {
+			viz = this ;
+		}
+
+		viz.audio = {} ;
+
+	  viz.audio.hit3    = audioLoader.cache['./audio/hit3.wav'] ;
+	  viz.audio.jump1   = audioLoader.cache['./audio/jump1.wav']
+	  viz.audio.bullet = audioLoader.cache['./audio/bullet2.wav'] ;
+	  viz.audio.laugh1  = audioLoader.cache['./audio/laugh1.wav'] ;
+
+	},
+
+	setup: function viz_helper_setup_viz (vizConfig) {
 
 		if(vizConfig === undefined) {
 			vizConfig = {} ;
@@ -22,15 +37,15 @@ var vizHelper = {
 	  var modelWidth    = Math.floor(vizWidth * paddingFactor * ratio) ;
 	  var modelHeight   = Math.floor(vizHeight * paddingFactor * ratio) ;
 
-	  var modelCanvas    = create_canvas(modelWidth, modelHeight) ;         // model canvas (indepdenent of device pixel ratio)
-	  var vizCanvas      = create_canvas(vizWidth, vizHeight) ;         // model canvas (indepdenent of device pixel ratio)
-	  var displayCanvas  = create_canvas(displayWidth, displayHeight) ; // hidden display canvas (resized by devicePixelRatio, but not actually drawn to the screen)
-	  var screenCanvas   = create_canvas(displayWidth, displayHeight) ; // actual display canvas (drawn to screen once per step/cycle/frame of the animation engine)
+	  var modelCanvas    = imageHelper.create(modelWidth, modelHeight) ;         // model canvas (indepdenent of device pixel ratio)
+	  var vizCanvas      = imageHelper.create(vizWidth, vizHeight) ;         // model canvas (indepdenent of device pixel ratio)
+	  var displayCanvas  = imageHelper.create(displayWidth, displayHeight) ; // hidden display canvas (resized by devicePixelRatio, but not actually drawn to the screen)
+	  var screenCanvas   = imageHelper.create(displayWidth, displayHeight) ; // actual display canvas (drawn to screen once per step/cycle/frame of the animation engine)
 
-	  var modelContext   = modelCanvas.getContext('2d') ;         // model canvas (indepdenent of device pixel ratio)
-	  var vizContext     = vizCanvas.getContext('2d') ;
-	  var displayContext = displayCanvas.getContext('2d') ;
-	  var screenContext  = create_context(screenCanvas) ;
+	  var modelContext   = modelCanvas.context() ;         // model canvas (indepdenent of device pixel ratio)
+	  var vizContext     = vizCanvas.context() ;
+	  var displayContext = displayCanvas.context() ;
+	  var screenContext  = screenCanvas.context() ;
 
 	  place_viz(screenCanvas) ;
 
@@ -42,7 +57,7 @@ var vizHelper = {
 
 	  var backgroundImageUrl = vizConfig.backgroundImageUrl ;
 	  var image         = imageHelper.image2canvas(vizConfig.loadingImageUrl) ;
-	  image             = adjust_image_ratio(image) ;
+	  image             = imageHelper.adjust_ratio(image) ;
 
 	  var frameDuration = vizConfig.frameDurationFactor * dur ;
 	  var fadeDuration  = 1500 ;
@@ -86,6 +101,8 @@ var vizHelper = {
 	    shake: effectHelper.shake,    
 	    load_hit: hitHelper.load,
 	    setup_score: scoreHelper.setup,
+	    load_audio: vizHelper.load_audio,
+	    load_char: gameHelper.load_char,
 	    load: vizHelper.load,
 	    stagingArray: [],
 
@@ -116,11 +133,11 @@ var vizHelper = {
 	        this.item = [] ;
 	      }
 
-	      this.item = this.item.filter(function(d) { return d.removeSwitch !== true ; }) ; // #todo: figure out a more performant way
+	      this.item = this.item.filter( function(d) { return d.removeSwitch !== true ; } ) ; // #todo: figure out a more performant way
 
 	      for(var kitem = 0 ; kitem < this.stagingArray.length ; kitem++) {
 	        if( this.item.indexOf(this.stagingArray[kitem]) === -1 ) {
-	          this.item.push(this.stagingArray[kitem]) ;
+	          this.item.push( this.stagingArray[kitem] ) ;
 	        }        
 	      }
 
@@ -230,14 +247,14 @@ var vizHelper = {
 	  
 	},
 
-	load: function load_viz (viz) {
+	load: function viz_helper_load_viz (viz) {
 
 	  if(viz === undefined) {
 	    viz = this ;
 	  }
 
-	  load_audio      (viz) ;
-	  load_characters (viz) ;
+	  viz.load_audio() ;
+	  viz.load_char() ;
 	  viz.load_hit() ;
 
 	  document.viz = viz ; 
@@ -273,7 +290,7 @@ var vizHelper = {
 
 	      end: function() {
 	        // console.log(viz.config.backgroundImageUrl) ;
-	        viz.image = adjust_image_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;
+	        viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;
 
 	        viz.add_item([ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop
 	            viz.enemy.item,
@@ -312,7 +329,7 @@ var vizHelper = {
 	  function viz_switch() {
 
 	    // console.log('viz_switch', 'viz', viz) ;
-	    var image = adjust_image_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;
+	    var image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;
 	    // console.log('viz', viz, 'image', image, 'viz_run', viz_run) ;
 	    viz.fade({
 	      opacity: 1,
