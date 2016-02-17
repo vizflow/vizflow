@@ -305,8 +305,7 @@ var hitHelper = {
               }
             }) ;
 
-            var scale = 0.25 ;
-            hit.viz.zoom({duration: hit.viz.fadeDuration, x: hit.viz.player.item.x + 0.5 * scale * hit.viz.player.item.image.width, y: hit.viz.player.item.y + 0.5 * scale * hit.viz.player.item.image.height, width: hit.viz.width * scale, height: hit.viz.height * scale }) ;
+            hit.viz.player.zoom(hit.viz.fadeDuration) ;
 
           }
         }

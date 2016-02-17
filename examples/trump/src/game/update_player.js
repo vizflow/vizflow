@@ -8,9 +8,11 @@
     this.state = state ;
     var minNstep = 1 ; // minimum number of frames to animate per user input for walking animations
     var transition ;
+
      switch(state) {
 
       case 'l' :
+
         this.orientation = 'l' ;
         this.sprite = this.spriteL ;
         if (this.bulletSprite !== undefined) {
@@ -42,6 +44,7 @@
         break ;
 
       case 'r' :
+
         this.orientation   = 'r' ;
         this.sprite   = this.spriteR ;
         if (this.bulletSprite !== undefined) {
@@ -107,15 +110,41 @@
         if(this.orientation === 'l') {
           var xNew = Math.max(-Math.floor(this.sprite.original.walk[0].width * 0.5), this.item.x - this.xJumpMove) ; 
         } else {
-          var xNew = Math.min(Math.floor(this.item.viz.width - 0.5 * this.sprite.original.rest[0].width), this.item.x + this.xJumpMove) ;          
+          var xNew = Math.min(Math.floor(this.item.viz.width - 0.5 * this.sprite.original.rest[0].width), this.item.x + this.xJumpMove) ;     
+
+          // check for potential collisions and if so, trigger a zoom effect 
+
+          var playerR = this.item.image.xNew + this.sprite.original.jump[0].width ;
+          var enemyL  = this.item.viz.enemy.item.x ;
+
+          var tol = Infinity ;
+          if(enemyL - playerR < tol) {
+            // console.log('update player zoom') ;
+            var scale = 0.6 ;
+            var duration = 6 * this.config.jumpDuration + this.config.floatDuration ;
+
+            // console.log('update player jump zoom duration', 'duration', duration)
+
+            var newWidth  = this.item.viz.width * scale ;
+            var newHeight = this.item.viz.height * scale ;
+
+            this.item.viz.zoom_inout({
+              duration: duration, 
+              x: this.item.viz.enemy.item.x - 40, 
+              y: -10, 
+              width:  newWidth, 
+              height: newHeight,
+            }) ;
+          }
+
         }
         var xTransition = this.transitionSet.xJump(xNew) ;
 
         transition.push(xTransition) ;  
         transition.push(yTransition) ;
 
-        var panDur = yTransition.duration ; 
-        this.item.viz.panY(panDur, [-12, -12, 0]) ;
+        // var panDur = yTransition.duration ; 
+        // this.item.viz.panY(panDur, [-12, -12, 0]) ;
 
         viz.audio.jump1.play() ;
 

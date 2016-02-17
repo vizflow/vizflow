@@ -8,7 +8,7 @@ function fantasy_level () {
     frameDurationFactor: 5,
   } ;
 
-  viz = setup_viz (vizConfig) ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
+  viz = vizHelper.setup (vizConfig) ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
 
   viz.playerConfig = { 
     sprite_loader: function() {
@@ -105,6 +105,6 @@ function fantasy_level () {
     type: 'enemy',
   } ;
 
-  load_viz(viz) ;
+  viz.load() ;
 
 }

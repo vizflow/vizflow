@@ -19,6 +19,7 @@ document.image = [
 	'./images/city_intro.png',
 	'./images/rastan_intro.png',
 	'./images/megyn_title.png',
+	'./images/0-9.png',
 ] ;
 	  
 document.audio = [
@@ -42,6 +43,7 @@ document.audio = [
 imageLoader.preload ( document.image, function preload_audio() {
 	audioLoader.preload( document.audio, trump_game ) ;
 }) ;
+
 		// function() {
 		// $Z.maxIter = 10 ;
 		// console.log('after preload', '$Z.iter', $Z.iter, '$Z.maxIter', $Z.maxIter) ;

@@ -71,15 +71,53 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 
 	},
 
-	zoom_inout: function effect_zoom_inout(viz, zoomDur, shakeSwitch) {
+	zoom_inout: function effect_zoom_inout(zoomConfig, viz) {
+
+		if(viz === undefined) {
+			viz = this ;
+		}
+
     var viewDelta = -2 * Math.floor(viz.displayCanvas.width * 0.04) ;
-    var newWidth  = viz.displayCanvas.width  + viewDelta ;
-    var newHeight = viz.displayCanvas.height + viewDelta ;
+		if(zoomConfig.width === undefined) {
+	    var newWidth  = viz.displayCanvas.width  + viewDelta ;
+		} else {
+	    newWidth  = zoomConfig.width * document.ratio ;
+		}
 
-    var xNew = Math.floor(viz.viewportX - 0.25 * viewDelta) ;
-    var yNew = Math.floor(viz.viewportY - 0.25 * viewDelta) ;
+		if(zoomConfig.height === undefined) {
+	    var newHeight = viz.displayCanvas.height + viewDelta ;			
+		} else {
+	    newHeight = zoomConfig.height * document.ratio ;						
+		}
 
-    var zoomDur   = 0.25 * zoomDur ;
+		if(zoomConfig.x === undefined) {
+	    var xNew = Math.floor(viz.viewportX - 0.25 * viewDelta) ;
+		} else {			
+	    var xNew = zoomConfig.x * document.ratio ;
+		}
+
+		if(zoomConfig.x === undefined) {
+	    var yNew = Math.floor(viz.viewportY - 0.25 * viewDelta) ;
+		} else {			
+	    var yNew = zoomConfig.y * document.ratio ;
+		}
+
+		if(zoomConfig.duration === undefined) {
+    	var zoomDur = viz.fadeDuration ;						
+		} else {
+			var zoomDur = zoomConfig.duration ;
+		}
+  
+  	var zoomDur = 0.25 * zoomDur ; // for now
+
+		if(zoomConfig.shakeSwitch === undefined) {
+			var shakeSwitch = false ;
+		} else {
+			var shakeSwitch = zoomConfig.shakeSwitch ;
+		}
+
+		// console.log('zoom in out:', 'newWidth', newWidth, 'newHeight', newHeight, 'xNew', xNew, 'yNew', yNew) ;
+
     var widthIn   = $Z.transition.rounded_linear_transition_func('viewportWidth', zoomDur)(newWidth) ;
     var heightIn  = $Z.transition.rounded_linear_transition_func('viewportHeight', zoomDur)(newHeight) ;
     var xIn       = $Z.transition.rounded_linear_transition_func('viewportX', zoomDur)(xNew) ;
@@ -101,7 +139,7 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 
     if(shakeSwitch) {
 	    widthIn.end = function() {
-	      viz.shake() ;
+	      // viz.shake() ;
 	    }    
     }
 

@@ -8,7 +8,7 @@ function space_level () {
     frameDurationFactor: 2,
   } ;
 
-  viz = setup_viz(vizConfig) ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
+  viz = vizHelper.setup(vizConfig) ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
 
   viz.playerConfig = { 
 
@@ -40,10 +40,11 @@ function space_level () {
     y: 150,
     type: 'player',
     bulletSwitch: true,
-    
+
   } ;
 
   viz.enemyConfig = {
+
     sprite_loader: function() {
       var i       = imageHelper.image2canvas('./images/trump_spritesheet.png') ;
       var rowName = ['attack', 'hit', 'rest', 'walk'] ;
@@ -61,11 +62,7 @@ function space_level () {
     type: 'enemy',
   } ;  
 
-  load_viz(viz) ;
-
-  viz.player.item.y = 50 ;
-
-  viz.player.item.add_transition( $Z.transition.rounded_linear_transition_func('y', 1000)(150) ) ;
+  viz.load() ;
   
 }
 

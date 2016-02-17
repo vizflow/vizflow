@@ -29,12 +29,38 @@ var itemHelper = {
 	    inert: itemConfig.inert,
 	    remove: itemHelper.remove,
   		config: itemConfig,
+  		zoom: itemHelper.zoom,
 
 		} ;
 
 		return item ;
 
 	},
+
+	zoom: function item_zoom(scale, duration, item) {
+
+		if(item === undefined) {
+			item = this ;
+		}
+
+		if(scale === undefined) {
+			scale = 0.5 ;
+		}
+
+		if(duration === undefined) {
+			duration = item.viz.fadeDuration ;
+		}
+		// console.log('item helper', 'zoom', 'this', this) ;
+
+		item.viz.zoom_inout({
+	    duration: duration, 
+	    x: item.x, 
+	    y: item.y, 
+	    width:  item.viz.width * scale, 
+	    height: item.viz.height * scale,
+	  }) ;
+
+  },
 
 	remove: function item_helper_remove(item) {
 
