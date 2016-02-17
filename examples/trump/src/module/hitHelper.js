@@ -305,7 +305,7 @@ var hitHelper = {
               }
             }) ;
 
-            hit.viz.player.zoom(hit.viz.fadeDuration) ;
+            hit.viz.player.item.zoom() ;
 
           }
         }

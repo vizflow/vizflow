@@ -52,11 +52,11 @@ var itemHelper = {
 		}
 		// console.log('item helper', 'zoom', 'this', this) ;
 
-		item.viz.zoom_inout({
+		item.viz.zoom({
 	    duration: duration, 
 	    x: item.x, 
 	    y: item.y, 
-	    width:  item.viz.width * scale, 
+	    width: item.viz.width * scale, 
 	    height: item.viz.height * scale,
 	  }) ;
 
