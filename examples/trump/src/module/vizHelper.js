@@ -253,9 +253,17 @@ var vizHelper = {
 	    viz = this ;
 	  }
 
-	  viz.load_audio() ;
-	  viz.load_char() ;
-	  viz.load_hit() ;
+	  if (viz.load_audio !== undefined) {
+	  	viz.load_audio() ;
+	  } ;
+
+	  if (viz.load_char !== undefined) {
+	 		viz.load_char() ;
+	  }
+	  
+	  if (viz.load_hit !== undefined) {
+	  	viz.load_hit() ;
+	  } ;
 
 	  document.viz = viz ; 
 	  document.addEventListener('mousedown', inputEvent.down, false) ;
