@@ -23,12 +23,12 @@ function load_player_bullet(viz) {
   if (bulletSpriteSet.orientation === 'l') {
 
     viz.player.bulletSpriteL = bulletSpriteSet ;
-    viz.player.bulletSpriteR = horizontal_flip(player.bulletSpriteL) ;
+    viz.player.bulletSpriteR = spriteHelper.horizontal_flip(player.bulletSpriteL) ;
 
   } else {
 
     viz.player.bulletSpriteR = bulletSpriteSet ;
-    viz.player.bulletSpriteL = horizontal_flip(viz.player.bulletSpriteR) ;
+    viz.player.bulletSpriteL = spriteHelper.horizontal_flip(viz.player.bulletSpriteR) ;
 
   }  
 

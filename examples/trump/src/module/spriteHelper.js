@@ -215,4 +215,47 @@ var spriteHelper = {
 
 	},
 
+	horizontal_flip: function sprite_helper_horizontal_flip (spriteSet) {
+
+		var key    = Object.keys(spriteSet) ;
+		var newSet = {} ;
+
+		for(var k = 0 ; k < key.length ; k++ ) {
+
+	    // console.log('key[k]', key[k], 'spriteSet', spriteSet)
+
+	    if ( spriteSet[ key[k] ].constructor === Array ) {
+
+	      newSet[ key[k] ] = spriteHelper.flip_sprite( spriteSet[ key[k] ] ) ;
+
+	    } else {
+	      newSet [ key[k] ] = spriteSet[ key[k] ] ;
+	    }
+
+		}	
+
+	  return newSet ;
+
+	},
+
+	flipSprite: function sprite_helper_flip_sprite (sprite) {
+
+		var spriteFlip = new Array(sprite.length) ;
+
+		for ( var kFrame = 0 ; kFrame < sprite.length ; kFrame++ ) {
+			spriteFlip[kFrame] = imageHelper.flip_image ( sprite[kFrame] ) ;
+	    if(sprite[kFrame].sourceCollisionImage !== undefined) {
+	      spriteFlip[kFrame].sourceCollisionImage = imageHelper.flip_image( sprite[kFrame].sourceCollisionImage ) ;
+	    }
+	    if(sprite[kFrame].targetCollisionImage !== undefined) {
+	      spriteFlip[kFrame].targetCollisionImage = imageHelper.flip_image( sprite[kFrame].targetCollisionImage ) ;
+	    } else { // default target collision image is the same as the original
+	      spriteFlip[kFrame].targetCollisionImage = spriteFlip[kFrame] ;
+	    }
+		}
+
+	  return spriteFlip ;
+
+	},	
+
 } ;

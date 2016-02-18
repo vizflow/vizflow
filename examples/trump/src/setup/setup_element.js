@@ -10,12 +10,12 @@ function setup_element (viz, elementConfig) {
   if(elementConfig.orientation === 'l') {
 
     var spriteL0             = elementConfig.sprite_loader () ;
-    var spriteR0             = horizontal_flip(spriteL0) ;
+    var spriteR0             = spriteHelper.horizontal_flip(spriteL0) ;
 
   } else {
 
     var spriteR0             = elementConfig.sprite_loader () ;
-    var spriteL0             = horizontal_flip(spriteR0) ;
+    var spriteL0             = spriteHelper.horizontal_flip(spriteR0) ;
 
   }
 

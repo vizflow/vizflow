@@ -111,6 +111,7 @@ var vizHelper = {
 	    shake: effectHelper.shake,  
 	    input: vizConfig.inputEvent, 
 	    buttonpress: vizConfig.buttonpress,
+	    screen_callback: vizConfig.screen_callback,
 	    setup_item: itemHelper.setup, 
 	    load_hit: vizConfig.hit, // hitHelper.load,
 	    setup_score: scoreHelper.setup,
