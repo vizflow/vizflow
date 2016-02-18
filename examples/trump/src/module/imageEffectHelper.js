@@ -56,6 +56,7 @@ var imageEffectHelper = {
 
 			var newTransition = imageEffectHelper.fade_transition(fadeConfig) ;
 
+			newTransition.end   = fadeConfig.end ;
 			newTransition.pause = fadeConfig.pause ;
 
 			// console.log('fade', 'newTransition', newTransition) ;

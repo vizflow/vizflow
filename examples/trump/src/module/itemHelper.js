@@ -1,6 +1,10 @@
 var itemHelper = {
 
 	setup: function item_helper_setup(itemConfig, viz) {
+		
+		if(viz === undefined) {
+		  viz = this ;
+		}
 
 		if(itemConfig.opacity === undefined) {
 			itemConfig.opacity = 1 ;

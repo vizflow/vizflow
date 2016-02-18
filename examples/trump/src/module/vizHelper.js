@@ -27,6 +27,14 @@ var vizHelper = {
 	    vizConfig.frameDurationFactor = 1 ;
 	  }
 
+	  if (vizConfig.inputEvent === undefined) {
+	  	vizConfig.inputEvent = inputEvent ;
+	  }
+
+		if (vizConfig.buttonpress === undefined) {
+	  	vizConfig.buttonpress = inputEvent.buttonpress ;
+	  }	  
+
 	  var dur           = 17 ; // the framespeed that vizflow uses (60 frames per second)
 	  var ratio         = document.ratio ; //(window.devicePixelRatio || 1) ; 
 	  var vizWidth      = 180 ;
@@ -100,7 +108,10 @@ var vizHelper = {
 	    opacity: 0,
 	    add_transition: transitionHelper.add, 
 	    fade: imageEffectHelper.fade, 
-	    shake: effectHelper.shake,    
+	    shake: effectHelper.shake,  
+	    input: vizConfig.inputEvent, 
+	    buttonpress: vizConfig.buttonpress,
+	    setup_item: itemHelper.setup, 
 	    load_hit: vizConfig.hit, // hitHelper.load,
 	    setup_score: scoreHelper.setup,
 	    load_ui: vizConfig.ui,
@@ -254,23 +265,23 @@ var vizHelper = {
 	  } ;	  
 
 	  document.viz = viz ; 
-	  document.addEventListener('mousedown', inputEvent.down, false) ;
-	  document.addEventListener('mouseup', inputEvent.up, false) ;
+	  document.addEventListener('mousedown', viz.input.down, false) ;
+	  document.addEventListener('mouseup', viz.input.up, false) ;
 
 	  document.addEventListener(
 	    'touchstart', 
 	    function(event) {
 	      //console.log('touchstart start', 'this', this) ;
 	      event.preventDefault() ;
-	      inputEvent.down.call(this, event) ;
+	      viz.input.down.call(this, event) ;
 	      //console.log('touchstart end') ;
 	    }, 
 	    false
 	  ) ;
 
-	  document.addEventListener('touchend', inputEvent.up, false) ;
-	  document.addEventListener('keydown', inputEvent.down, false) ;
-	  document.addEventListener('keyup', inputEvent.up, false) ;
+	  document.addEventListener('touchend', viz.input.up, false) ;
+	  document.addEventListener('keydown', viz.input.down, false) ;
+	  document.addEventListener('keyup', viz.input.up, false) ;
 
 	  $Z.viz(viz) ; // load the vizualization config object into the vizflow   vizualization engine
 
