@@ -113,9 +113,9 @@ var vizHelper = {
 	    buttonpress: vizConfig.buttonpress,
 	    screen_callback: vizConfig.screen_callback,
 	    setup_item: itemHelper.setup, 
-	    load_hit: vizConfig.hit, // hitHelper.load,
+	    load_hit: vizConfig.load_hit, // hitHelper.load,
 	    setup_score: scoreHelper.setup,
-	    load_ui: vizConfig.ui,
+	    load_ui: vizConfig.load_ui,
 	    load_audio: vizHelper.load_audio,
 	    load_char: vizConfig.load_char,
 	    load: vizHelper.load,
@@ -244,7 +244,7 @@ var vizHelper = {
 	},
 
 	load: function viz_helper_load_viz (viz) {
-
+		// console.log('viz helper load start') ;
 	  if(viz === undefined) {
 	    viz = this ;
 	  }
@@ -252,19 +252,22 @@ var vizHelper = {
 	  if (viz.load_audio !== undefined) {
 	  	viz.load_audio() ;
 	  } ;
+	  console.log('viz helper load  255') ;
 
 	  if (viz.load_char !== undefined) {
 	 		viz.load_char() ;
 	  }
+	  console.log('viz helper load  260') ;
 	  
 	  if (viz.load_hit !== undefined) {
 	  	viz.load_hit() ;
 	  } ;
+	  console.log('viz helper load  263') ;
 
 	  if (viz.load_ui !== undefined) {
 	  	viz.load_ui() ;
 	  } ;	  
-
+	  console.log('viz helper load  267') ;
 	  document.viz = viz ; 
 	  document.addEventListener('mousedown', viz.input.down, false) ;
 	  document.addEventListener('mouseup', viz.input.up, false) ;
@@ -284,6 +287,7 @@ var vizHelper = {
 	  document.addEventListener('keydown', viz.input.down, false) ;
 	  document.addEventListener('keyup', viz.input.up, false) ;
 
+	  console.log('viz helper load before $Z.viz', 'viz.run', viz.run) ;
 	  $Z.viz(viz) ; // load the vizualization config object into the vizflow   vizualization engine
 
 	  $Z.run() ;    // run the interactive visualization (infinite loop by default)

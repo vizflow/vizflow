@@ -36,6 +36,7 @@ var hitHelper = {
   },
 
   load: function hit_helper_load(playerHitConfig, enemyHitConfig, viz) {
+    console.log('hit helper load start') ;
 
     if( viz === undefined ) {
       viz = this ;
@@ -51,7 +52,6 @@ var hitHelper = {
         sourceType: 'player',
       } ;   
     }
-
     if (playerHitConfig === undefined) {
       playerHitConfig = {
         healthdrop: enemyHitConfig.healthdrop,
@@ -146,7 +146,7 @@ var hitHelper = {
 
       } ; 
 
-      // console.log('hit', hit) ;
+      console.log('hit helper setup', 'hit', hit) ;
 
     }
 

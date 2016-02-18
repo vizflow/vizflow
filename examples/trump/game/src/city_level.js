@@ -4,9 +4,13 @@ function city_level () {
 
   var vizConfig = {
 
-    backgroundImageUrl: './images/trump_bg1.png',
-    loadingImageUrl: './images/city_intro.png',
+    backgroundImageUrl: './game/image/trump_bg1.png',
+    loadingImageUrl: './game/image/city_intro.png',
     frameDurationFactor: 5,
+    run: fighterHelper.run,
+    load_ui: fighterHelper.load_ui,
+    load_char: fighterHelper.load_char,
+    load_hit: hitHelper.load,
 
   } ;
 
@@ -19,7 +23,7 @@ function city_level () {
 
     sprite_loader: function() {
 
-      var i         = imageHelper.image2canvas('./images/jesus_spritesheet.png') ;
+      var i         = imageHelper.image2canvas('./game/image/jesus_spritesheet.png') ;
       var rowName   = ['attack', 'hit', 'jump', 'rest', 'walk'] ;
       var width     = [50, 50, 50, 50, 50] ;
       var height    = [48, 48, 48, 48, 48] ;
@@ -91,7 +95,7 @@ function city_level () {
     sprite_loader: function() {
 
       // console.log('enemy sprite loader', spriteset) ;
-      var i         = imageHelper.image2canvas('./images/trump_spritesheet.png') ;
+      var i         = imageHelper.image2canvas('./game/image/trump_spritesheet.png') ;
       var rowName   = ['attack', 'hit', 'rest', 'walk'] ;
       var width     = [170, 170, 170, 170] ;
       var height    = [154, 154, 154, 154] ;

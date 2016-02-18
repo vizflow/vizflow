@@ -3,8 +3,8 @@ function fantasy_level () {
   document.nextLevel = space_level ;
 
   var vizConfig = { // an object to configure the visualization
-    backgroundImageUrl: './images/trump_bg3.png',
-    loadingImageUrl: './images/rastan_intro.png',
+    backgroundImageUrl: './game/image/trump_bg3.png',
+    loadingImageUrl: './game/image/rastan_intro.png',
     frameDurationFactor: 5,
   } ;
 
@@ -12,7 +12,7 @@ function fantasy_level () {
 
   viz.playerConfig = { 
     sprite_loader: function() {
-      var i         = imageHelper.image2canvas('./images/rastan_spritesheet.png') ;
+      var i         = imageHelper.image2canvas('./game/image/rastan_spritesheet.png') ;
       var rowName   = ['attack', 'hit', 'jump', 'rest', 'walk'] ;
       var width     = [100, 100, 100, 100, 100] ;
       var height    = [75, 75, 75, 75, 75] ;
@@ -88,7 +88,7 @@ function fantasy_level () {
 
   viz.enemyConfig = {
     sprite_loader: function() {
-      var i = imageHelper.image2canvas('./images/trump_spritesheet.png') ;
+      var i = imageHelper.image2canvas('./game/image/trump_spritesheet.png') ;
       var rowName = ['attack', 'hit', 'rest', 'walk'] ;
       var width   = [170, 170, 170, 170] ;
       var height  = [154, 154, 154, 154] ;

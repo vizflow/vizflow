@@ -6,20 +6,20 @@ document.body.style.overflowY = 'hidden' ;
 document.body.style.margin    = 0 ;
 
 document.image = [ 
-	'./images/jesus_spritesheet.png', 
-	'./images/button_spritesheet.png', 
-	'./images/trump_spritesheet.png', 
-	'./images/trump_bg1.png', 
-	'./images/trump_bg3.png', 
-	'./images/trump_bg4.png', 
-	'./images/megyn_spritesheet.png', 
-	'./images/beam_spritesheet.png', 
-	'./images/rastan_spritesheet.png',
-	'./images/trump_attack.png', 
-	'./images/city_intro.png',
-	'./images/rastan_intro.png',
-	'./images/megyn_title.png',
-	'./images/0-9.png',
+	'./game/image/jesus_spritesheet.png', 
+	'./game/image/button_spritesheet.png', 
+	'./game/image/trump_spritesheet.png', 
+	'./game/image/trump_bg1.png', 
+	'./game/image/trump_bg3.png', 
+	'./game/image/trump_bg4.png', 
+	'./game/image/megyn_spritesheet.png', 
+	'./game/image/beam_spritesheet.png', 
+	'./game/image/rastan_spritesheet.png',
+	'./game/image/trump_attack.png', 
+	'./game/image/city_intro.png',
+	'./game/image/rastan_intro.png',
+	'./game/image/megyn_title.png',
+	'./game/image/0-9.png',
 ] ;
 	  
 document.audio = [

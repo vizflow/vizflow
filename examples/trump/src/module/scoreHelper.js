@@ -20,7 +20,7 @@ var scoreHelper = {
     viz.player.score.counter  = 100 ;
 
     var rowName   = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] ;
-    var canvas    = imageHelper.image2canvas('./images/0-9.png') ;
+    var canvas    = imageHelper.image2canvas('./game/image/0-9.png') ;
     var tileWidth = [29, 29, 29, 29, 29, 29, 29, 29, 29, 29] ;
     var rowHeight = [32, 32, 32, 32, 32, 32, 32, 32, 32, 32] ;
 

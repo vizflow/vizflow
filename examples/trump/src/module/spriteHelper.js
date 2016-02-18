@@ -238,7 +238,7 @@ var spriteHelper = {
 
 	},
 
-	flipSprite: function sprite_helper_flip_sprite (sprite) {
+	flip_sprite: function sprite_helper_flip_sprite (sprite) {
 
 		var spriteFlip = new Array(sprite.length) ;
 
