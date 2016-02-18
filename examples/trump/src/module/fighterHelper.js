@@ -6,7 +6,7 @@ var fighterHelper = {
 		}
     if (y > viz.jesus.y && y <= viz.jesus.y + viz.sprite.original.jesus[0].height) {
     	viz.jesus.select.fade() ;
-      console.log ('load jesus level') ;
+    	city_level() ;
     }
     if (y > viz.rastan.y && y <= viz.rastan.y + viz.sprite.original.rastan[0].height) {
     	viz.rastan.select.fade() ;
