@@ -34,7 +34,7 @@ function space_level () {
     frameDuration: viz.frameDuration,
     floatDuration: 15 * viz.frameDuration,
     jumpDuration: 40 * viz.frameDuration,
-    callback: gameHelper.update_player,
+    callback: fighterHelper.update_player,
     restoreRest: true,
     transitionSet: {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ),      // function accepting an x end-value and returning a transition object

@@ -3,6 +3,7 @@ function fantasy_level () {
   document.nextLevel = space_level ;
 
   var vizConfig = { // an object to configure the visualization
+
     backgroundImageUrl: './game/image/trump_bg3.png',
     loadingImageUrl: './game/image/rastan_intro.png',
     frameDurationFactor: 5,
@@ -12,12 +13,14 @@ function fantasy_level () {
     load_hit: hitHelper.load,
     load_audio: fighterHelper.load_audio,
     buttonpress: buttonpress,    
+
   } ;
 
   viz = vizHelper.setup (vizConfig) ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
 
   viz.playerConfig = { 
     sprite_loader: function() {
+
       var i         = imageHelper.image2canvas('./game/image/rastan_spritesheet.png') ;
       var rowName   = ['attack', 'hit', 'jump', 'rest', 'walk'] ;
       var width     = [100, 100, 100, 100, 100] ;
@@ -72,11 +75,12 @@ function fantasy_level () {
       // console.log('player sprite loader', spriteset) ;
       return spriteset ;
     },
+
     orientation: 'l',
     frameDuration: viz.frameDuration,
     hitDuration: viz.frameDuration * 1.5,
     floatDuration: viz.dur * 30,
-    callback: gameHelper.update_player,
+    callback: fighterHelper.update_player,
     restoreRest: false,
     transitionSet: {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), // function accepting an x end-value and returning a transition object
@@ -93,7 +97,9 @@ function fantasy_level () {
   } ;
 
   viz.enemyConfig = {
+
     sprite_loader: function() {
+
       var i = imageHelper.image2canvas('./game/image/trump_spritesheet.png') ;
       var rowName = ['attack', 'hit', 'rest', 'walk'] ;
       var width   = [170, 170, 170, 170] ;
@@ -101,7 +107,9 @@ function fantasy_level () {
       var spriteset = spriteHelper.get(i, rowName, width, height) ;
       // console.log('enemy sprite loader', spriteset) ;
       return spriteset ;
-    },    
+
+    },
+
     frameDuration: viz.frameDuration,
     hitDuration: viz.frameDuration * 5,
     attackDuration: 2 * viz.frameDuration,
@@ -109,6 +117,7 @@ function fantasy_level () {
     x: 50, 
     y: 20,
     type: 'enemy',
+    
   } ;
 
   viz.load() ;

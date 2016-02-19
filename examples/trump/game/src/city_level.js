@@ -60,7 +60,7 @@ function city_level () {
     floatDuration: floatDuration,
     hitDuration: viz.dur * 15,
     jumpDuration: jumpDuration,
-    callback: gameHelper.update_player,
+    callback: fighterHelper.update_player,
     restoreRest: true,
 
     transitionSet: {
