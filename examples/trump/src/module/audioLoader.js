@@ -78,7 +78,7 @@ var audioLoader = {
     audioLoader.loadingStats.total         = audioList.length ;
     audioLoader.loadingStats.count         = 0 ; // initialize 
     audioLoader.loadingStats.finalCallback = callback ;
-
+    // console.log ('audio loader preload', 'audioList', audioList) ;
     audioList.forEach ( function (url) {
     	audioLoader.load(url) ;
     }) ;

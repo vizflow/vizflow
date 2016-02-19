@@ -23,7 +23,7 @@ var inputEvent = {
     }     
   
     function run_click () {
-      console.log('run click 27', 'inputHandler', inputHandler) ;
+      // console.log('run click 27', 'inputHandler', inputHandler) ;
       this.viz.buttonpress[inputHandler].call (this.viz, event) ;
     }
 
@@ -37,7 +37,7 @@ var inputEvent = {
   },
 
   up: function input_event_up (event) {
-
+    // console.log('input event up', 'this', this) ;
     this.viz.ui.button.walkLeft.image  = this.viz.ui.buttonSprite.left[0] ;
     this.viz.ui.button.walkRight.image = this.viz.ui.buttonSprite.right[0] ;
     this.viz.ui.button.attack.image    = this.viz.ui.buttonSprite.attack[0] ;
@@ -158,7 +158,7 @@ var inputEvent = {
 
       var clickedX = Math.round( (e.clientX - position.left) / position.scale ) ;
       var clickedY = Math.round( (e.clientY - position.top)  / position.scale ) ;
-      console.log('screenhandler', 'clickedX', clickedX, 'clickedY', clickedY, 'this', this) ;
+      // console.log('screenhandler', 'clickedX', clickedX, 'clickedY', clickedY, 'this', this) ;
       this.screen_callback(clickedX, clickedY) ;
     },
 	},

@@ -1,20 +1,5 @@
 var vizHelper = {
 
-	load_audio: function viz_helper_load_audio(viz) {
-
-		if(viz === undefined) {
-			viz = this ;
-		}
-
-		viz.audio = {} ;
-
-	  viz.audio.hit3    = audioLoader.cache['./audio/hit3.wav'] ;
-	  viz.audio.jump1   = audioLoader.cache['./audio/jump1.wav']
-	  viz.audio.bullet = audioLoader.cache['./audio/bullet2.wav'] ;
-	  viz.audio.laugh1  = audioLoader.cache['./audio/laugh1.wav'] ;
-
-	},
-
 	setup: function viz_helper_setup_viz (vizConfig) {
 
 		if(vizConfig === undefined) {
@@ -116,7 +101,7 @@ var vizHelper = {
 	    load_hit: vizConfig.load_hit, // hitHelper.load,
 	    setup_score: scoreHelper.setup,
 	    load_ui: vizConfig.load_ui,
-	    load_audio: vizHelper.load_audio,
+	    load_audio: vizConfig.load_audio,
 	    load_char: vizConfig.load_char,
 	    load: vizHelper.load,
 	    run: vizConfig.run,
@@ -252,22 +237,22 @@ var vizHelper = {
 	  if (viz.load_audio !== undefined) {
 	  	viz.load_audio() ;
 	  } ;
-	  console.log('viz helper load  255') ;
+	  // console.log('viz helper load  255') ;
 
 	  if (viz.load_char !== undefined) {
 	 		viz.load_char() ;
 	  }
-	  console.log('viz helper load  260') ;
+	  // console.log('viz helper load  260') ;
 	  
 	  if (viz.load_hit !== undefined) {
 	  	viz.load_hit() ;
 	  } ;
-	  console.log('viz helper load  263') ;
+	  // console.log('viz helper load  263') ;
 
 	  if (viz.load_ui !== undefined) {
 	  	viz.load_ui() ;
 	  } ;	  
-	  console.log('viz helper load  267') ;
+	  // console.log('viz helper load  267') ;
 	  document.viz = viz ; 
 	  document.addEventListener('mousedown', viz.input.down, false) ;
 	  document.addEventListener('mouseup', viz.input.up, false) ;
@@ -287,7 +272,7 @@ var vizHelper = {
 	  document.addEventListener('keydown', viz.input.down, false) ;
 	  document.addEventListener('keyup', viz.input.up, false) ;
 
-	  console.log('viz helper load before $Z.viz', 'viz.run', viz.run) ;
+	  // console.log('viz helper load before $Z.viz', 'viz.run', viz.run) ;
 	  $Z.viz(viz) ; // load the vizualization config object into the vizflow   vizualization engine
 
 	  $Z.run() ;    // run the interactive visualization (infinite loop by default)

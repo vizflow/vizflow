@@ -1,24 +1,28 @@
 var fighterHelper = {
 
+	selectDur: 150,
+
 	screen_callback: function(x, y, viz) {
 	 	if(viz === undefined) {
 			viz = this ;
 		}
     if (y > viz.jesus.y && y <= viz.jesus.y + viz.sprite.original.jesus[0].height) {
-    	viz.jesus.select.fade() ;
+    	viz.jesus.select.fade({ duration: fighterHelper.selectDur }) ;
     	city_level() ;
     }
     if (y > viz.rastan.y && y <= viz.rastan.y + viz.sprite.original.rastan[0].height) {
-    	viz.rastan.select.fade() ;
-    	viz.jesus.select.fade() ;
-
-      console.log ('load rastan level') ;
+    	viz.rastan.select.fade({
+    		duration: fighterHelper.selectDur,
+    		end: fantasy_level,
+    	}) ;
+    	viz.jesus.select.fade({ duration: fighterHelper.selectDur }) ;
     }
     if (y > viz.megyn.y && y <= viz.megyn.y + viz.sprite.original.megyn[0].height) {
-   		viz.jesus.select.fade() ;
-    	viz.megyn.select.fade() ;
-
-      console.log ('load megyn level') ;
+   		viz.megyn.select.fade({
+   			duration: fighterHelper.selectDur,
+   			end: space_level,
+   		}) ;
+    	viz.jesus.select.fade({ duration: fighterHelper.selectDur }) ;
     }
   }, 
 
@@ -35,7 +39,7 @@ var fighterHelper = {
 		    opacity: 0, 
 
 		    end: function() {
-		      console.log(viz.config.backgroundImageUrl) ;
+		      // console.log(viz.config.backgroundImageUrl) ;
 		      viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;  			
 				},
 		    child: imageEffectHelper.fade_transition({
@@ -68,9 +72,7 @@ var fighterHelper = {
 			      				xTrans.end = function() {
 			      					viz.audio.hit3.play() ;
 			      					viz.shake() ;
-			      					viz.jesus.select.fade({
-			      						duration: 150,
-			      					}) ;
+			      					viz.jesus.select.fade({ duration: fighterHelper.selectDur }) ;
 			      				}
 			      				
 			      				viz.megyn.add_transition(xTrans) ;
@@ -218,17 +220,14 @@ var fighterHelper = {
   	if(viz === undefined) {
   		viz = this ;
   	}
-  	console.log('load char 221') ;
 	  viz.player = setup_element(viz, viz.playerConfig) ;
 	  viz.enemy  = setup_element(viz, viz.enemyConfig) ;
 	  viz.player.orientation = 'r' ; // all players start facing right
 
 	  viz.player.adversary = viz.enemy ; // decorate the player object for convenient access to the viz.enemy object 
 	  viz.enemy.adversary  = viz.player ;
-  	console.log('load char 228') ;
 		
 	  viz.setup_score() ;
-  	console.log('load char 231') ;
 
 		viz.enemyAttack = {
 		  tSkip: 0,
@@ -430,4 +429,19 @@ var fighterHelper = {
 	  return button ;
 
 	},
+
+	load_audio: function viz_helper_load_audio(viz) {
+
+		if(viz === undefined) {
+			viz = this ;
+		}
+
+		viz.audio = {} ;
+
+	  viz.audio.hit3    = audioLoader.cache['./audio/hit3.wav'] ;
+	  viz.audio.jump1   = audioLoader.cache['./audio/jump1.wav'] ;
+	  viz.audio.bullet = audioLoader.cache['./audio/bullet2.wav'] ;
+	  viz.audio.laugh1  = audioLoader.cache['./audio/laugh1.wav'] ;
+	  // console.log('fighter helper load audio end', 'viz.audio', viz.audio) ;
+	},	
 } ;

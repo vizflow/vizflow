@@ -11,6 +11,7 @@ function city_level () {
     load_ui: fighterHelper.load_ui,
     load_char: fighterHelper.load_char,
     load_hit: hitHelper.load,
+    load_audio: fighterHelper.load_audio,
     buttonpress: buttonpress,
   } ;
 

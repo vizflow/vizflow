@@ -6,6 +6,12 @@ function space_level () {
     backgroundImageUrl: './game/image/trump_bg4.png',
     loadingImageUrl: './game/image/megyn_title.png',
     frameDurationFactor: 2,
+    run: fighterHelper.run,
+    load_ui: fighterHelper.load_ui,
+    load_char: fighterHelper.load_char,
+    load_hit: hitHelper.load,
+    load_audio: fighterHelper.load_audio,
+    buttonpress: buttonpress,    
   } ;
 
   viz = vizHelper.setup(vizConfig) ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 

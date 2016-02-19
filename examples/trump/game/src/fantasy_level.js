@@ -6,6 +6,12 @@ function fantasy_level () {
     backgroundImageUrl: './game/image/trump_bg3.png',
     loadingImageUrl: './game/image/rastan_intro.png',
     frameDurationFactor: 5,
+    run: fighterHelper.run,
+    load_ui: fighterHelper.load_ui,
+    load_char: fighterHelper.load_char,
+    load_hit: hitHelper.load,
+    load_audio: fighterHelper.load_audio,
+    buttonpress: buttonpress,    
   } ;
 
   viz = vizHelper.setup (vizConfig) ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 

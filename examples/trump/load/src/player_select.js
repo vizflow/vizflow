@@ -11,6 +11,7 @@ function player_select () {
     run: fighterHelper.load,
     inputEvent: selectInput,
     screen_callback: fighterHelper.screen_callback,
+    load_audio: fighterHelper.load_audio,
 
   } ;
 
