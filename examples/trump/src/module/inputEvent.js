@@ -108,6 +108,11 @@ var inputEvent = {
     
     busy: false,
     
+    reset: function buttonpress_reset () {
+      $Z.prep ([document.viz]) ;
+      this.busy = false ;
+    },
+
     keyboard_handler: function buttonpress_keyboard_handler (event) {
 
       if (inputEvent.buttonpress.busy) {
@@ -146,12 +151,14 @@ var inputEvent = {
     },
 
     screen_handler: function buttonpress_screen_handler (e) {
+
+      // console.log('screen handler', 'this', this, 'this.buttonpress', this.buttonpress) ;
     
-      if (inputEvent.buttonpress.busy) {
+      if (this.buttonpress.busy) {
         return ;
       }
 
-      inputEvent.buttonpress.busy = true ;
+      this.buttonpress.busy = true ;
 
       //this.canvas.removeEventListener ('click', click, false) ;
       var position = set_canvas_position( this.canvas ) ;
@@ -160,6 +167,7 @@ var inputEvent = {
       var clickedY = Math.round( (e.clientY - position.top)  / position.scale ) ;
       // console.log('screenhandler', 'clickedX', clickedX, 'clickedY', clickedY, 'this', this) ;
       this.screen_callback(clickedX, clickedY) ;
+
     },
 	},
 } ;

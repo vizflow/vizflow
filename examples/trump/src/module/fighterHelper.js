@@ -3,13 +3,23 @@ var fighterHelper = {
 	selectDur: 150,
 
 	screen_callback: function(x, y, viz) {
+
 	 	if(viz === undefined) {
 			viz = this ;
 		}
+
+	  // console.log('fighterHelper.screen_callback', 'viz.loading', viz.loading) ;
+
+		if(viz.loading) {
+	    viz.buttonpress.reset() ;
+			return ;
+		}
+
     if (y > viz.jesus.y && y <= viz.jesus.y + viz.sprite.original.jesus[0].height) {
     	viz.jesus.select.fade({ duration: fighterHelper.selectDur }) ;
     	city_level() ;
     }
+
     if (y > viz.rastan.y && y <= viz.rastan.y + viz.sprite.original.rastan[0].height) {
     	viz.rastan.select.fade({
     		duration: fighterHelper.selectDur,
@@ -17,6 +27,7 @@ var fighterHelper = {
     	}) ;
     	viz.jesus.select.fade({ duration: fighterHelper.selectDur }) ;
     }
+
     if (y > viz.megyn.y && y <= viz.megyn.y + viz.sprite.original.megyn[0].height) {
    		viz.megyn.select.fade({
    			duration: fighterHelper.selectDur,
@@ -24,12 +35,19 @@ var fighterHelper = {
    		}) ;
     	viz.jesus.select.fade({ duration: fighterHelper.selectDur }) ;
     }
+
+    viz.buttonpress.reset() ;
+
   }, 
 
 	load: function fighter_helper_load(viz) {
+
  		if(viz === undefined) {
   		viz = this ;
   	}
+
+  	viz.loading = true ; // to prevent UI from activating until menu page finishes loading
+
 		viz.fade({
 		  opacity: 1,
 		  duration: viz.fadeDuration,
@@ -72,7 +90,12 @@ var fighterHelper = {
 			      				xTrans.end = function() {
 			      					viz.audio.hit3.play() ;
 			      					viz.shake() ;
-			      					viz.jesus.select.fade({ duration: fighterHelper.selectDur }) ;
+			      					viz.jesus.select.fade({ 
+			      						duration: fighterHelper.selectDur,
+			      						end: function() {
+			      							viz.loading = false ;
+			      						},
+			      					}) ;
 			      				}
 			      				
 			      				viz.megyn.add_transition(xTrans) ;
