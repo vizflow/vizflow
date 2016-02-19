@@ -1,20 +1,5 @@
 var vizHelper = {
 
-	load_audio: function viz_helper_load_audio(viz) {
-
-		if(viz === undefined) {
-			viz = this ;
-		}
-
-		viz.audio = {} ;
-
-	  viz.audio.hit3    = audioLoader.cache['./audio/hit3.wav'] ;
-	  viz.audio.jump1   = audioLoader.cache['./audio/jump1.wav']
-	  viz.audio.bullet = audioLoader.cache['./audio/bullet2.wav'] ;
-	  viz.audio.laugh1  = audioLoader.cache['./audio/laugh1.wav'] ;
-
-	},
-
 	setup: function viz_helper_setup_viz (vizConfig) {
 
 		if(vizConfig === undefined) {
@@ -26,6 +11,14 @@ var vizHelper = {
 	  if (vizConfig.frameDurationFactor === undefined) {
 	    vizConfig.frameDurationFactor = 1 ;
 	  }
+
+	  if (vizConfig.inputEvent === undefined) {
+	  	vizConfig.inputEvent = inputEvent ;
+	  }
+
+		if (vizConfig.buttonpress === undefined) {
+	  	vizConfig.buttonpress = inputEvent.buttonpress ;
+	  }	  
 
 	  var dur           = 17 ; // the framespeed that vizflow uses (60 frames per second)
 	  var ratio         = document.ratio ; //(window.devicePixelRatio || 1) ; 
@@ -56,7 +49,9 @@ var vizHelper = {
 	  resize() ;
 
 	  var backgroundImageUrl = vizConfig.backgroundImageUrl ;
+	  // console.log('vizHelper, resize, image2canvas start') ;
 	  var image         = imageHelper.image2canvas(vizConfig.loadingImageUrl) ;
+	  // console.log('vizHelper, resize, image2canvas end') ;
 	  image             = imageHelper.adjust_ratio(image) ;
 
 	  var frameDuration = vizConfig.frameDurationFactor * dur ;
@@ -98,20 +93,19 @@ var vizHelper = {
 	    opacity: 0,
 	    add_transition: transitionHelper.add, 
 	    fade: imageEffectHelper.fade, 
-	    shake: effectHelper.shake,    
-	    load_hit: hitHelper.load,
+	    shake: effectHelper.shake,  
+	    input: vizConfig.inputEvent, 
+	    buttonpress: vizConfig.buttonpress,
+	    screen_callback: vizConfig.screen_callback,
+	    setup_item: itemHelper.setup, 
+	    load_hit: vizConfig.load_hit, // hitHelper.load,
 	    setup_score: scoreHelper.setup,
-	    load_audio: vizHelper.load_audio,
-	    load_char: gameHelper.load_char,
+	    load_ui: vizConfig.load_ui,
+	    load_audio: vizConfig.load_audio,
+	    load_char: vizConfig.load_char,
 	    load: vizHelper.load,
+	    run: vizConfig.run,
 	    stagingArray: [],
-
-	    enemyAttack:    {
-	                      tSkip: 0,
-	                      minSkip: 357,
-	                      skipVar: [0, 17, 23, 11, 19, 8, 0, 44, 19, 23, 14, 17, -111, 23],
-	                      on: false,
-	                    },
 
 	    transitionSet:  {
 	                      x: $Z.transition.rounded_linear_transition_func ( 'viewportX', 3 * dur ), //function accepting an x end-value and returning a transition object      
@@ -181,13 +175,13 @@ var vizHelper = {
 	      this.screenContext.globalAlpha = this.opacity ;
 	      this.screenContext.drawImage (this.displayCanvas, 0, 0) ; // use a single drawImage call for rendering the current frame to the visible Canvas (GPU-acceleated performance)
 
-	      if ( this.enemyAttack.on && $Z.iter - this.enemyAttack.tSkip >= ( this.enemyAttack.minSkip + this.enemyAttack.skipVar[ document.skipIndex % this.enemyAttack.skipVar.length ] ) ) {
+	      // if ( this.enemyAttack.on && $Z.iter - this.enemyAttack.tSkip >= ( this.enemyAttack.minSkip + this.enemyAttack.skipVar[ document.skipIndex % this.enemyAttack.skipVar.length ] ) ) {
 
-	        this.enemyAttack.tSkip = $Z.iter ;
-	        document.skipIndex++ ;
-	        this.enemy.update() ; // switch to "viz.enemy.update()" #todo
+	      //   this.enemyAttack.tSkip = $Z.iter ;
+	      //   document.skipIndex++ ;
+	      //   this.enemy.update() ; // switch to "viz.enemy.update()" #todo
 	      
-	      }
+	      // }
 
 	    },
 
@@ -236,11 +230,6 @@ var vizHelper = {
 
 	  } ;
 
-	  // console.log('setup viz after obj') ;
-
-	  viz.ui        = setup_ui      (viz)         ;
-	  viz.ui.button = setup_buttons (viz, viz.ui) ;
-
 	  // console.log('setup viz end') ;
 
 	  return viz ;
@@ -248,97 +237,57 @@ var vizHelper = {
 	},
 
 	load: function viz_helper_load_viz (viz) {
-
+		// console.log('viz helper load start') ;
 	  if(viz === undefined) {
 	    viz = this ;
 	  }
 
-	  viz.load_audio() ;
-	  viz.load_char() ;
-	  viz.load_hit() ;
+	  if (viz.load_audio !== undefined) {
+	  	viz.load_audio() ;
+	  } ;
+	  // console.log('viz helper load  255') ;
 
+	  if (viz.load_char !== undefined) {
+	 		viz.load_char() ;
+	  }
+	  // console.log('viz helper load  260') ;
+	  
+	  if (viz.load_hit !== undefined) {
+	  	viz.load_hit() ;
+	  } ;
+	  // console.log('viz helper load  263') ;
+
+	  if (viz.load_ui !== undefined) {
+	  	viz.load_ui() ;
+	  } ;	  
+	  // console.log('viz helper load  267') ;
 	  document.viz = viz ; 
-	  document.addEventListener('mousedown', inputEvent.down, false) ;
-	  document.addEventListener('mouseup', inputEvent.up, false) ;
+	  document.addEventListener('mousedown', viz.input.down, false) ;
+	  document.addEventListener('mouseup', viz.input.up, false) ;
 
 	  document.addEventListener(
 	    'touchstart', 
 	    function(event) {
 	      //console.log('touchstart start', 'this', this) ;
 	      event.preventDefault() ;
-	      inputEvent.down.call(this, event) ;
+	      viz.input.down.call(this, event) ;
 	      //console.log('touchstart end') ;
 	    }, 
 	    false
 	  ) ;
 
-	  document.addEventListener('touchend', inputEvent.up, false) ;
-	  document.addEventListener('keydown', inputEvent.down, false) ;
-	  document.addEventListener('keyup', inputEvent.up, false) ;
+	  document.addEventListener('touchend', viz.input.up, false) ;
+	  document.addEventListener('keydown', viz.input.down, false) ;
+	  document.addEventListener('keyup', viz.input.up, false) ;
 
+	  // console.log('viz helper load before $Z.viz', 'viz.run', viz.run) ;
 	  $Z.viz(viz) ; // load the vizualization config object into the vizflow   vizualization engine
 
 	  $Z.run() ;    // run the interactive visualization (infinite loop by default)
 
-	  viz.fade({
-	    opacity: 1,
-	    duration: viz.fadeDuration,
-	    pause: viz.fadeDuration,
-	    child: imageEffectHelper.fade_transition({
-
-	      opacity: 0, 
-
-	      end: function() {
-	        // console.log(viz.config.backgroundImageUrl) ;
-	        viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;
-
-	        viz.add_item([ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop
-	            viz.enemy.item,
-	            viz.player.item,
-	            viz.ui.button.walkLeft,
-	            viz.ui.button.walkRight,
-	            viz.ui.button.attack,
-	            viz.ui.button.jump,
-	            viz.enemy.item.actionSet.hit.healthbar.item,
-	            viz.player.item.actionSet.hit.healthbar.item,
-	            viz.player.score,
-	        ]) ;
-	        
-	      },
-
-	      child: imageEffectHelper.fade_transition({
-	        opacity: 1,
-	        end: viz_run,
-	      }),
-	    }),
-	  }) ;
-
-	  function viz_run() {
-
-	    var Nstep = 6 ; // 2 * Math.floor(0.5 * viz.fadeDuration / viz.frameDuration) ;
-
-	    // console.log('viz_run', 'Nstep', Nstep, 'viz', viz) ;
-
-	    viz.enemy.item.flash(viz.frameDuration, Nstep) ;
-	    transitionHelper.add_end.call(viz.enemy.item, 'render', Nstep - 1, function() {
-	      viz.enemyAttack.on = true ;
-	    }) ;
-
-	  }
-
-	  function viz_switch() {
-
-	    // console.log('viz_switch', 'viz', viz) ;
-	    var image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;
-	    // console.log('viz', viz, 'image', image, 'viz_run', viz_run) ;
-	    viz.fade({
-	      opacity: 1,
-	      duration: viz.fadeDuration,
-	      end: viz_run,
-	    }) ;
-	    // viz.fade_switch({image: image, end: viz_run})     
-
-	  }
+	  if (viz.run !== undefined) {
+	  	viz.run() ; 
+	  } 
 
 	},
 

@@ -23,7 +23,8 @@ var inputEvent = {
     }     
   
     function run_click () {
-      buttonpress[inputHandler].call (this.viz, event) ;
+      // console.log('run click 27', 'inputHandler', inputHandler) ;
+      this.viz.buttonpress[inputHandler].call (this.viz, event) ;
     }
 
     var runClick = { 
@@ -36,7 +37,7 @@ var inputEvent = {
   },
 
   up: function input_event_up (event) {
-
+    // console.log('input event up', 'this', this) ;
     this.viz.ui.button.walkLeft.image  = this.viz.ui.buttonSprite.left[0] ;
     this.viz.ui.button.walkRight.image = this.viz.ui.buttonSprite.right[0] ;
     this.viz.ui.button.attack.image    = this.viz.ui.buttonSprite.attack[0] ;
@@ -102,5 +103,71 @@ var inputEvent = {
     // console.log ('event up end', 'event', event) ;
 
   },
-	
+
+  buttonpress: {
+    
+    busy: false,
+    
+    reset: function buttonpress_reset () {
+      $Z.prep ([document.viz]) ;
+      this.busy = false ;
+    },
+
+    keyboard_handler: function buttonpress_keyboard_handler (event) {
+
+      if (inputEvent.buttonpress.busy) {
+        return ;  
+      }
+
+      inputEvent.buttonpress.busy = true ;
+
+      var transition     = [] ;
+      var state ;
+
+      switch (event.keyCode) {
+
+        case 37: // left
+          state = 'l' ;
+          break;
+        case 38: // up
+          state = 'u' ;
+          break;
+        case 39: // right
+          state = 'r' ;
+          break;
+        case 40: // down
+          state = 'd' ;
+          break;
+
+      } 
+      //console.log ('state', state) ;
+      if (state === undefined) {  // user clicks background
+        buttonpress.busy = false ;
+      } else {
+       console.log('buttonpress_keyboard_handler callback', this) ;
+        // this.player.callback(state) ;
+      }
+
+    },
+
+    screen_handler: function buttonpress_screen_handler (e) {
+
+      // console.log('screen handler', 'this', this, 'this.buttonpress', this.buttonpress) ;
+    
+      if (this.buttonpress.busy) {
+        return ;
+      }
+
+      this.buttonpress.busy = true ;
+
+      //this.canvas.removeEventListener ('click', click, false) ;
+      var position = set_canvas_position( this.canvas ) ;
+
+      var clickedX = Math.round( (e.clientX - position.left) / position.scale ) ;
+      var clickedY = Math.round( (e.clientY - position.top)  / position.scale ) ;
+      // console.log('screenhandler', 'clickedX', clickedX, 'clickedY', clickedY, 'this', this) ;
+      this.screen_callback(clickedX, clickedY) ;
+
+    },
+	},
 } ;

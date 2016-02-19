@@ -36,6 +36,7 @@ var hitHelper = {
   },
 
   load: function hit_helper_load(playerHitConfig, enemyHitConfig, viz) {
+    // console.log('hit helper load start') ;
 
     if( viz === undefined ) {
       viz = this ;
@@ -51,7 +52,6 @@ var hitHelper = {
         sourceType: 'player',
       } ;   
     }
-
     if (playerHitConfig === undefined) {
       playerHitConfig = {
         healthdrop: enemyHitConfig.healthdrop,
@@ -146,7 +146,7 @@ var hitHelper = {
 
       } ; 
 
-      // console.log('hit', hit) ;
+      // console.log('hit helper setup', 'hit', hit) ;
 
     }
 
@@ -282,32 +282,36 @@ var hitHelper = {
 
         if (hit.healthbar.health < 0 && hit.element === hit.viz.enemy) {
           hit.viz.enemyAttack.on = false ;
-          if(document.nextLevel === null) {
+          // if(document.nextLevel === null) {
             // alert('congratulations! you did it') ;
             // $Z.item([]) ;
-            hit.viz.fade({ opacity: 0, duration: hit.viz.fadeDuration }) ;
+            hit.viz.fade({ 
+              opacity: 0, 
+              duration: hit.viz.fadeDuration,
+              end: function () {window.location.reload() ;},
+            }) ;
             imageEffectHelper.explode.call(hit.element.item) ;
-          } else {
+          // } // else {
             // alert ('game over') ;
             // console.log('hitHelper.perform', 'hit.element.item', hit.element.item)
             // hit.element.item.explode() ;
-            hit.healthbar.health = 0 ;            
-            var blockSize        = 12 ;
+            // hit.healthbar.health = 0 ;            
+            // var blockSize        = 12 ;
             // imageEffectHelper.explode.call(hit.element.item, blockSize) ;
             // $Z.item([]) ;
             // var shakeSwitch = true ;
             // effectHelper.zoom_inout(hit.viz, 3 * hitHelper.duration, shakeSwitch) ;                    
-            hit.viz.fade({
-              opacity: 0, 
-              end: function() {
-                $Z.exit() ;
-                document.nextLevel() ;           
-              }
-            }) ;
+        //     hit.viz.fade({
+        //       opacity: 0, 
+        //       end: function() {
+        //         $Z.exit() ;
+        //         document.nextLevel() ;           
+        //       }
+        //     }) ;
 
-            hit.viz.player.item.zoom() ;
+        //     hit.viz.player.item.zoom() ;
 
-          }
+        //   }
         }
 
         if (hit.healthbar.health < 0 && hit.element === hit.viz.player) {

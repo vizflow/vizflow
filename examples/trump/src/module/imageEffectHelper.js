@@ -44,6 +44,8 @@ var imageEffectHelper = {
 			}
 
 			if(fadeConfig.opacity === undefined) {
+			// console.log('fadeConfig', fadeConfig, 'item.opacity', item.opacity)
+
 				var thresh = 0.5 ;
 				if(item.opacity < thresh) {
 					fadeConfig.opacity = 1 ;
@@ -52,10 +54,9 @@ var imageEffectHelper = {
 				}
 			}
 
-			// console.log('fadeConfig', fadeConfig, 'item.opacity', item.opacity)
-
 			var newTransition = imageEffectHelper.fade_transition(fadeConfig) ;
 
+			newTransition.end   = fadeConfig.end ;
 			newTransition.pause = fadeConfig.pause ;
 
 			// console.log('fade', 'newTransition', newTransition) ;

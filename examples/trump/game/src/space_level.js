@@ -3,9 +3,15 @@ function space_level () {
   document.nextLevel = null ;
 
   var vizConfig = { // an object to configure the visualization
-    backgroundImageUrl: './images/trump_bg4.png',
-    loadingImageUrl: './images/megyn_title.png',
+    backgroundImageUrl: './game/image/trump_bg4.png',
+    loadingImageUrl: './game/image/megyn_title.png',
     frameDurationFactor: 2,
+    run: fighterHelper.run,
+    load_ui: fighterHelper.load_ui,
+    load_char: fighterHelper.load_char,
+    load_hit: hitHelper.load,
+    load_audio: fighterHelper.load_audio,
+    buttonpress: buttonpress,    
   } ;
 
   viz = vizHelper.setup(vizConfig) ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
@@ -13,7 +19,7 @@ function space_level () {
   viz.playerConfig = { 
 
     sprite_loader: function() {
-      var i         = imageHelper.image2canvas('./images/megyn_spritesheet.png') ;
+      var i         = imageHelper.image2canvas('./game/image/megyn_spritesheet.png') ;
       var rowName   = ['attack', 'hit', 'jump', 'rest', 'walk'] ;
       var width     = [40, 40, 40, 40, 40] ;
       var height    = [40, 40, 40, 40, 40] ;
@@ -46,7 +52,7 @@ function space_level () {
   viz.enemyConfig = {
 
     sprite_loader: function() {
-      var i       = imageHelper.image2canvas('./images/trump_spritesheet.png') ;
+      var i       = imageHelper.image2canvas('./game/image/trump_spritesheet.png') ;
       var rowName = ['attack', 'hit', 'rest', 'walk'] ;
       var width   = [170, 170, 170, 170] ;
       var height  = [154, 154, 154, 154] ;

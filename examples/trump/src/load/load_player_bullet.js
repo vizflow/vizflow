@@ -1,6 +1,6 @@
 function load_player_bullet(viz) {
   //var bulletSpriteSet0     = bullet_sprite () ;
-  var i         = imageHelper.image2canvas('./images/beam_spritesheet.png') ;
+  var i         = imageHelper.image2canvas('./game/image/beam_spritesheet.png') ;
   var rowName   = ['jump', 'bullet', 'hyper', 'super', 'superfull'] ;
   var width     = [186, 5, 235, 191, 191] ;
   var height    = [38, 5, 249, 84, 84] ;
@@ -23,12 +23,12 @@ function load_player_bullet(viz) {
   if (bulletSpriteSet.orientation === 'l') {
 
     viz.player.bulletSpriteL = bulletSpriteSet ;
-    viz.player.bulletSpriteR = horizontal_flip(player.bulletSpriteL) ;
+    viz.player.bulletSpriteR = spriteHelper.horizontal_flip(player.bulletSpriteL) ;
 
   } else {
 
     viz.player.bulletSpriteR = bulletSpriteSet ;
-    viz.player.bulletSpriteL = horizontal_flip(viz.player.bulletSpriteR) ;
+    viz.player.bulletSpriteL = spriteHelper.horizontal_flip(viz.player.bulletSpriteR) ;
 
   }  
 
