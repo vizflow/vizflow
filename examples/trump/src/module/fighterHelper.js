@@ -15,25 +15,37 @@ var fighterHelper = {
 			return ;
 		}
 
-    if (y > viz.jesus.y && y <= viz.jesus.y + viz.sprite.original.jesus[0].height) {
+    if (y > viz.jesus.y && y <= viz.jesus.y + viz.sprite.original.jesus[0].height) { // user selected the city level
+
     	viz.jesus.select.fade({ duration: fighterHelper.selectDur }) ;
     	city_level() ;
+
     }
 
-    if (y > viz.rastan.y && y <= viz.rastan.y + viz.sprite.original.rastan[0].height) {
+    if (y > viz.rastan.y && y <= viz.rastan.y + viz.sprite.original.rastan[0].height) { // user selected the fantasy level
+
     	viz.rastan.select.fade({
     		duration: fighterHelper.selectDur,
     		end: fantasy_level,
     	}) ;
-    	viz.jesus.select.fade({ duration: fighterHelper.selectDur }) ;
+
+    	viz.jesus.select.fade({ 
+    		duration: fighterHelper.selectDur,
+    	}) ;
+
     }
 
-    if (y > viz.megyn.y && y <= viz.megyn.y + viz.sprite.original.megyn[0].height) {
+    if (y > viz.megyn.y && y <= viz.megyn.y + viz.sprite.original.megyn[0].height) { // user selected the space level
+
    		viz.megyn.select.fade({
    			duration: fighterHelper.selectDur,
    			end: space_level,
    		}) ;
-    	viz.jesus.select.fade({ duration: fighterHelper.selectDur }) ;
+
+    	viz.jesus.select.fade({
+    	 duration: fighterHelper.selectDur,
+      }) ;
+
     }
 
     viz.buttonpress.reset() ;
@@ -63,6 +75,7 @@ var fighterHelper = {
 		    child: imageEffectHelper.fade_transition({
 		      opacity: 1,
 		      end: function() {
+
 		    		fighterHelper.load_select(viz) ;
 			      viz.add_item([ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop
 			         viz.choose,
@@ -111,9 +124,9 @@ var fighterHelper = {
 		      
 		    		    		
 		      	// console.log('fighter helper load') ;
-		      },
-		    }),				
-			}),
+		      }, // end end: function() ...
+		    }),	// end fade child child
+			}), // end fade child
 		}) ; 
 	},
 
@@ -260,12 +273,15 @@ var fighterHelper = {
 	  } ;
   
 	  var vizPost = viz.post ;
+
 	  viz.post =  function () {
 	  	vizPost.call (this) ;
 	    if ( this.enemyAttack.on && $Z.iter - this.enemyAttack.tSkip >= ( this.enemyAttack.minSkip + this.enemyAttack.skipVar[ document.skipIndex % this.enemyAttack.skipVar.length ] ) ) {
 
 	      this.enemyAttack.tSkip = $Z.iter ;
+
 	      document.skipIndex++ ;
+
 	      fighterHelper.update_enemy.call( this.enemy ) ; // switch to "viz.enemy.update()" #todo
 	    
       } 	  	
@@ -299,7 +315,7 @@ var fighterHelper = {
 	  var buttonPadX      = 0 ;
 	  var buttonPadY      = 11 ;
 	  var buttonPad       = Math.floor( ( viz.width - (buttonWidth * 4) ) / 4 ) ;
-	  var buttonImageUrl  = './game/image/button_spritesheet.png' ;
+	  var buttonImageUrl  = './image/button_spritesheet.png' ;
 	  var buttonCanvas    = imageHelper.image2canvas(buttonImageUrl) ;
 
 	  var leftButtonConfig = {
@@ -461,10 +477,13 @@ var fighterHelper = {
 
 		viz.audio = {} ;
 
-	  viz.audio.hit3    = audioLoader.cache['./audio/hit3.wav'] ;
-	  viz.audio.jump1   = audioLoader.cache['./audio/jump1.wav'] ;
-	  viz.audio.bullet = audioLoader.cache['./audio/bullet2.wav'] ;
-	  viz.audio.laugh1  = audioLoader.cache['./audio/laugh1.wav'] ;
+	  viz.audio.hit3     = audioLoader.cache['./audio/hit3.wav'] ;
+	  viz.audio.jump1    = audioLoader.cache['./audio/jump1.wav'] ;
+	  viz.audio.bullet   = audioLoader.cache['./audio/bullet2.wav'] ;
+	  viz.audio.laugh1   = audioLoader.cache['./audio/laugh1.wav'] ;
+	  viz.audio.bump1    = audioLoader.cache['./audio/bump1.wav'] ;
+	  viz.audio.powerup0 = audioLoader.cache['./audio/powerup0.wav'] ;
+	  viz.audio.powerup3 = audioLoader.cache['./audio/powerup3.wav'] ;
 	  // console.log('fighter helper load audio end', 'viz.audio', viz.audio) ;
 	},	
 	
@@ -487,6 +506,7 @@ var fighterHelper = {
 			run: function() {
 				// console.log('enemy bullet run')
 				fire_bullet.call(enemy.element, 'bullet') ;
+				fire_powerup.call(enemy.element, 'powerup') ;
 			}
 		}) ;		
 
@@ -696,5 +716,26 @@ var fighterHelper = {
     }
 
   },
+
+	load_enemy_bullet: function fighter_helper_load_enemy_bullet(viz) {
+		
+	  var wordConfig = {
+	    move: viz.width,
+	    shiftXl: 0,
+	    shiftXr: 0, 
+	    shiftY: 110,
+	    element: viz.enemy,
+	  } ;
+
+		viz.enemy.bullet        = setup_word (viz, wordConfig) ; 
+	  viz.enemy.bullet.remove = false ;
+	  viz.enemy.bullet.audio  = viz.audio.bullet1 ;
+
+	  viz.enemy.bulletResponseConfig = {
+	    audio: viz.audio.hit3,
+	    sourceType: 'player',
+	  } ;
+
+	},
 
 } ;

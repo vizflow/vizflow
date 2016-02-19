@@ -98,7 +98,7 @@ var vizHelper = {
 	    buttonpress: vizConfig.buttonpress,
 	    screen_callback: vizConfig.screen_callback,
 	    setup_item: itemHelper.setup, 
-	    load_hit: vizConfig.load_hit, // hitHelper.load,
+	    load_response: vizConfig.load_response, // hitHelper.load,
 	    setup_score: scoreHelper.setup,
 	    load_ui: vizConfig.load_ui,
 	    load_audio: vizConfig.load_audio,
@@ -108,13 +108,13 @@ var vizHelper = {
 	    stagingArray: [],
 
 	    transitionSet:  {
-	                      x: $Z.transition.rounded_linear_transition_func ( 'viewportX', 3 * dur ), //function accepting an x end-value and returning a transition object      
-	                      y: $Z.transition.rounded_linear_transition_func ( 'viewportY', 3 * dur ), //function accepting an x end-value and returning a transition object      
-	                    },
+	      x: $Z.transition.rounded_linear_transition_func ( 'viewportX', 3 * dur ), //function accepting an x end-value and returning a transition object      
+	      y: $Z.transition.rounded_linear_transition_func ( 'viewportY', 3 * dur ), //function accepting an x end-value and returning a transition object      
+	    },
 
 	    collision: null,
 
-	    collision_detect: collisionDetection.pixelwise, // pixel-wise collision detection works for any shape and can be used on lower resolution masks compared to the display images
+	    collision_detect: collisionDetect.pixelwise, // pixel-wise collision detection works for any shape and can be used on lower resolution masks compared to the display images
 
 	    prep: function viz_prep () {
 
@@ -252,8 +252,8 @@ var vizHelper = {
 	  }
 	  // console.log('viz helper load  260') ;
 	  
-	  if (viz.load_hit !== undefined) {
-	  	viz.load_hit() ;
+	  if (viz.load_response !== undefined) {
+	  	viz.load_response() ;
 	  } ;
 	  // console.log('viz helper load  263') ;
 

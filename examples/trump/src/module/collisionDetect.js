@@ -1,4 +1,4 @@
-var collisionDetection = {
+var collisionDetect = {
 
   Nval: null,
 
@@ -18,19 +18,19 @@ var collisionDetection = {
     var Nchannel = 2 ; // max 2 items per collision pixel
     var Nval     = Npel * Nchannel ;
 
-    if(collisionDetection.Nval !== Nval) {
+    if(collisionDetect.Nval !== Nval) {
 
-      collisionDetection.image = new Array(Nval) ; 
+      collisionDetect.image = new Array(Nval) ; 
 
     } else {
 
-      for(var kPel = 0 ; kPel < collisionDetection.image.length ; kPel++) {
-        collisionDetection.image[kPel] = undefined ; // initialize
+      for(var kPel = 0 ; kPel < collisionDetect.image.length ; kPel++) {
+        collisionDetect.image[kPel] = undefined ; // initialize
       }
 
     }
 
-    var img = collisionDetection.image ;
+    var img = collisionDetect.image ;
 
     var collision = {} ; // initialize output object
 
@@ -51,7 +51,7 @@ var collisionDetection = {
 
       // collision.detect[item[kItem]] = {} ; // initialize
 
-      // console.log('collisionDetection pixelwise', 'kItem', kItem) ;
+      // console.log('collisionDetect pixelwise', 'kItem', kItem) ;
 
       if (item[kItem].inert !== undefined && item[kItem].inert) {
         continue ;

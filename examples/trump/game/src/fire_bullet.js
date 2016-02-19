@@ -7,11 +7,11 @@ function fire_bullet (bulletName) {
 
     // console.log('newBullet', newBullet)
 
-    if(this.bulletHitConfig !== undefined) {
-      newBullet.actionSet.hit = hitHelper.setup(this.item.viz, newBullet, this.bulletHitConfig) ;
+    if(this.bulletResponseConfig !== undefined) {
+      newBullet.actionSet.hit = hitHelper.setup(this.item.viz, newBullet, this.bulletResponseConfig) ;
     }
 
-    newBullet.y   = this.item.y + this[bulletName].config.shiftY 
+    newBullet.y   = this.item.y + this[bulletName].config.shiftY ;
     // console.log ('newBullet', newBullet, 'this', this, 'bullet', this[bulletName]) ;
 
     if (this.orientation === 'r') {

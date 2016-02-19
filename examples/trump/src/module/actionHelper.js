@@ -16,7 +16,7 @@ var actionHelper = {
 
         for( var kPair = 0 ; kPair < 2 ; kPair++ ) { // either item can be considered the "source" or the "target", so loop over both and perform any corresponding actions that might exist
 
-          var targetItem = viz.item[viz.collision.list[kCollision][kPair]] ;           // by convention, the target item stores the hit config object for the corresponding action
+          var targetItem = viz.item[viz.collision.list[kCollision][kPair]] ;           // by convention, the target item stores the response config object for the corresponding action
           var sourceItem = viz.item[viz.collision.list[kCollision][(kPair + 1) % 2]] ; // by convention, the source item is checked by the target item for the appropriateness of its type
 
           // console.log('collision_foreach', 'viz collision list', viz.collision.list, 'targetItem', targetItem, 'sourceItem', sourceItem) ;
@@ -77,10 +77,10 @@ var actionHelper = {
       // console.log('actionHelper perform start') ;
 
       actionHelper.collision_foreach( viz, function(action) {
-        // console.log('hit helper perform collision foreach callback start', 'action', action) ;
+        // console.log('action helper perform collision foreach callback start', 'action', action) ;
         if(action.performSwitch) {
           action.performSwitch = false ;
-          // console.log('hit helper perform collision foreach callback', 'action', action) ;
+          // console.log('action helper perform collision foreach callback', 'action', action) ;
           action.perform() ;
         }
       }) ;

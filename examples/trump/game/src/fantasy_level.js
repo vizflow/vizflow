@@ -4,13 +4,13 @@ function fantasy_level () {
 
   var vizConfig = { // an object to configure the visualization
 
-    backgroundImageUrl: './game/image/trump_bg3.png',
-    loadingImageUrl: './game/image/rastan_intro.png',
+    backgroundImageUrl: './image/trump_bg3.png',
+    loadingImageUrl: './image/rastan_intro.png',
     frameDurationFactor: 5,
     run: fighterHelper.run,
     load_ui: fighterHelper.load_ui,
     load_char: fighterHelper.load_char,
-    load_hit: hitHelper.load,
+    load_response: hitHelper.load,
     load_audio: fighterHelper.load_audio,
     buttonpress: buttonpress,    
 
@@ -21,7 +21,7 @@ function fantasy_level () {
   viz.playerConfig = { 
     sprite_loader: function() {
 
-      var i         = imageHelper.image2canvas('./game/image/rastan_spritesheet.png') ;
+      var i         = imageHelper.image2canvas('./image/rastan_spritesheet.png') ;
       var rowName   = ['attack', 'hit', 'jump', 'rest', 'walk'] ;
       var width     = [100, 100, 100, 100, 100] ;
       var height    = [75, 75, 75, 75, 75] ;
@@ -52,13 +52,13 @@ function fantasy_level () {
       spriteset.jump.push(spriteset.jump[1]) ;
       spriteset.jump.push(spriteset.jump[0]) ;
 
-/*      spriteset.hit.push(spriteset.hit[2]) ;
-      spriteset.hit.push(spriteset.hit[2]) ;
-      spriteset.hit.push(spriteset.hit[1]) ;
-      spriteset.hit.push(spriteset.hit[1]) ;
-      spriteset.hit.push(spriteset.hit[1]) ;
-      spriteset.hit.push(spriteset.hit[0]) ;
-      spriteset.hit.push(spriteset.hit[0]) ;
+/*      spriteset.response.push(spriteset.response[2]) ;
+      spriteset.response.push(spriteset.response[2]) ;
+      spriteset.response.push(spriteset.response[1]) ;
+      spriteset.response.push(spriteset.response[1]) ;
+      spriteset.response.push(spriteset.response[1]) ;
+      spriteset.response.push(spriteset.response[0]) ;
+      spriteset.response.push(spriteset.response[0]) ;
 */
       // console.log('spriteset', spriteset) ;
       var attackCollisionCanvas = imageHelper.clear_rect (spriteset.attack[4], { x: spriteset.attack[4].width * 0.25, y: 0, width: spriteset.attack[4].width * 0.75, height: maxHeight } ) ;
@@ -100,7 +100,7 @@ function fantasy_level () {
 
     sprite_loader: function() {
 
-      var i = imageHelper.image2canvas('./game/image/trump_spritesheet.png') ;
+      var i = imageHelper.image2canvas('./image/trump_spritesheet.png') ;
       var rowName = ['attack', 'hit', 'rest', 'walk'] ;
       var width   = [170, 170, 170, 170] ;
       var height  = [154, 154, 154, 154] ;
