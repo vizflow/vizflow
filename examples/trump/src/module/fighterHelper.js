@@ -264,11 +264,11 @@ var fighterHelper = {
 	  	vizPost.call (this) ;
 	    if ( this.enemyAttack.on && $Z.iter - this.enemyAttack.tSkip >= ( this.enemyAttack.minSkip + this.enemyAttack.skipVar[ document.skipIndex % this.enemyAttack.skipVar.length ] ) ) {
 
-      this.enemyAttack.tSkip = $Z.iter ;
-      document.skipIndex++ ;
-      update_enemy.call( this.enemy ) ; // switch to "viz.enemy.update()" #todo
-    
-	      } 	  	
+	      this.enemyAttack.tSkip = $Z.iter ;
+	      document.skipIndex++ ;
+	      fighterHelper.update_enemy.call( this.enemy ) ; // switch to "viz.enemy.update()" #todo
+	    
+      } 	  	
 	  }
 
 	},
@@ -603,8 +603,8 @@ var fighterHelper = {
         yTransition.child.child.element = player ;
         yTransition.child.child.end = function () {
           // console.log('player', 'player.element', player.element) ;
-          if(player.element.config.restoreRest) {            
-            player.element.restoreRest = true ;
+          if(this.element.config.restoreRest) {            
+            this.element.restoreRest = true ;
           } 
         }
 
