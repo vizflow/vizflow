@@ -6,6 +6,7 @@ document.body.style.overflowY = 'hidden' ;
 document.body.style.margin    = 0 ;
 
 document.image = [ 
+
 	'./images/jesus_spritesheet.png', 
 	'./images/button_spritesheet.png', 
 	'./images/trump_spritesheet.png', 
@@ -20,9 +21,12 @@ document.image = [
 	'./images/rastan_intro.png',
 	'./images/megyn_title.png',
 	'./images/0-9.png',
+	'./images/powerup.png',
+
 ] ;
 	  
 document.audio = [
+
 	'./audio/bullet2.wav',
 	'./audio/hit3.wav',  
 	'./audio/jump1.wav', 
@@ -38,20 +42,9 @@ document.audio = [
 	// './audio/powerup2.wav', 
 	// './audio/powerup3.wav', 
 	// './audio/powerup4.wav',
+
 ] ;
 
 imageLoader.preload ( document.image, function preload_audio() {
 	audioLoader.preload( document.audio, trump_game ) ;
 }) ;
-
-		// function() {
-		// $Z.maxIter = 10 ;
-		// console.log('after preload', '$Z.iter', $Z.iter, '$Z.maxIter', $Z.maxIter) ;
-		// $Z.run() ;
-
-		// // setInterval(function() {
-		// // 	console.log('setInterval $Z.iter', $Z.iter, '$Z.maxIter', $Z.maxIter ) ;
-		// // }, 1000)
-	
-	// } ) ;
-// }) ;

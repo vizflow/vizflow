@@ -55,7 +55,7 @@ function city_level () {
     floatDuration: floatDuration,
     hitDuration: viz.dur * 15,
     jumpDuration: jumpDuration,
-    callback: update_player,
+    callback: gameHelper.update_player,
     restoreRest: true,
 
     transitionSet: {
@@ -87,7 +87,7 @@ function city_level () {
   } ;
 
   viz.enemyConfig = {
-
+s
     sprite_loader: function() {
 
       // console.log('enemy sprite loader', spriteset) ;

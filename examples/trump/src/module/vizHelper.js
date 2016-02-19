@@ -185,7 +185,7 @@ var vizHelper = {
 
 	        this.enemyAttack.tSkip = $Z.iter ;
 	        document.skipIndex++ ;
-	        update_enemy.call( this.enemy ) ; // switch to "viz.enemy.update()" #todo
+	        this.enemy.update() ; // switch to "viz.enemy.update()" #todo
 	      
 	      }
 

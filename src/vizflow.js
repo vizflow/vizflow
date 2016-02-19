@@ -31,6 +31,7 @@ import postprocess     from './postprocess'     ;
 // define the vizflow object ($Z): 
 
 window.$Z = { // define the "bling Z" object for running interactive vizualizations
+
 	requestAnimFrame: (
 		window.requestAnimationFrame       || 
 	  window.webkitRequestAnimationFrame || 
@@ -41,7 +42,8 @@ window.$Z = { // define the "bling Z" object for running interactive vizualizati
 	  	window.setTimeout(callback, 17) ;
 	  }
 	),
-	task: [       // array of functions defining the sequence of asynchronous (non-blocking) tasks to perform for each step/frame/iteration of the visualization
+
+	task: [    			   // array of functions defining the sequence of asynchronous (non-blocking) tasks to perform for each step/frame/iteration of the visualization
 	  preprocess,      // process user inputs and translate them into actionable changes to the data item attributes
 	  update_items,    // apply changes to the data item attributes as determined by current data item and user input states 
 	  render_image,    // draw the data items to the screen somehow (render-agnostic)
@@ -50,15 +52,18 @@ window.$Z = { // define the "bling Z" object for running interactive vizualizati
 	  perform_actions, // perform any actions e.g. item updates that are necessary for the simulation to continue
 	  step_or_exit,    // decides whether to generate another frame or to stop the simulation/game
 	],
-  verbose: false,     // toggles console log statements
+
+  verbose: false,    // toggles console log statements
 	iter:    0,        // initialize loop iteration index (simulation step counter)
 	maxIter: Infinity, // default maximum iteration count allowed (max # of frames
+
 	_item:    [], // default data item array (internal use only as marked by underscore)
 	_prep:    [], // array of preprocessing tasks to perform (internal use only as marked by underscore)
 	_post:    [], // array of postprocessing tasks to perform
 	_detect:  [], // array of detectors (internal use only as marked by underscore)
 	_perform: [], // array of actions (internal use only as marked by underscore)
 	_viz:     {}, // optional global visualization configuration object
+	
 	transition, // module comtaining transition helpers
 	item,       // getter/setter function for interfacing with the item/data array
 	prep,       // getter/setter function for interfacing with the _prep array
@@ -72,6 +77,7 @@ window.$Z = { // define the "bling Z" object for running interactive vizualizati
 	exit,       // function to execute after the simulation or game has ended to trigger the exit sequence
 	run,        // function that executes each of the asynchronous tasks sequentially using Promise.then() chaining
 	viz,        // function that load the visualization configuration object (viz)
+
 } ;
 
 export default {}

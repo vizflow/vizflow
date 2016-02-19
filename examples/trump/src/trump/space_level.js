@@ -28,7 +28,7 @@ function space_level () {
     frameDuration: viz.frameDuration,
     floatDuration: 15 * viz.frameDuration,
     jumpDuration: 40 * viz.frameDuration,
-    callback: update_player,
+    callback: gameHelper.update_player,
     restoreRest: true,
     transitionSet: {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ),      // function accepting an x end-value and returning a transition object
@@ -65,21 +65,3 @@ function space_level () {
   viz.load() ;
   
 }
-
-  // var trumpAttackConfig = {
-  //   varName: 'image', 
-  //   duration: 2000,
-  //   startValue: 0,
-  //   endValue: 0,
-  //   interpFunc: function(t) {}, 
-  //   end: function () {
-  //     // fire_bullet.call(viz.enemy, 'word') ;
-  //     update_enemy.call (viz.enemy) ;
-  //     viz.enemy.item.transition = [copy_object (trumpAttackConfig)] ;
-  //     console.log('trump attack config end', 'trumpAttackConfig', trumpAttackConfig) ;
-  //   },
-  // } ;
-
-  // trumpAttackConfig.end =  ;
-
-  // viz.enemy.item.transition = [copy_object (trumpAttackConfig)] ;

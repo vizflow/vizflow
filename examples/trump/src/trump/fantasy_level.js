@@ -70,7 +70,7 @@ function fantasy_level () {
     frameDuration: viz.frameDuration,
     hitDuration: viz.frameDuration * 1.5,
     floatDuration: viz.dur * 30,
-    callback: update_player,
+    callback: gameHelper.update_player,
     restoreRest: false,
     transitionSet: {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), // function accepting an x end-value and returning a transition object
