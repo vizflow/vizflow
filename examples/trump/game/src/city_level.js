@@ -92,7 +92,7 @@ function city_level () {
   } ;
 
   viz.enemyConfig = {
-s
+
     sprite_loader: function() {
 
       // console.log('enemy sprite loader', spriteset) ;
