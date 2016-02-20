@@ -81,7 +81,7 @@ function setup_word (viz, wordConfig) {
     singleSwitch: true,
     opacity: 0,
     inert: false,
-    actionSet: {},
+    responseSet: {},
     explode: imageEffectHelper.explode,
     fade: imageEffectHelper.fade,
     fadeDuration: 200,

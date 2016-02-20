@@ -10,7 +10,7 @@ function city_level () {
     run: fighterHelper.run,
     load_ui: fighterHelper.load_ui,
     load_char: fighterHelper.load_char,
-    load_response: hitHelper.load,
+    load_response: fighterHelper.load_response,
     load_audio: fighterHelper.load_audio,
     buttonpress: buttonpress,
 
@@ -25,21 +25,43 @@ function city_level () {
 
     sprite_loader: function() {
 
-      var i         = imageHelper.image2canvas('./image/jesus_spritesheet.png') ;
-      var rowName   = ['attack', 'hit', 'jump', 'rest', 'walk'] ;
-      var width     = [50, 50, 50, 50, 50] ;
-      var height    = [48, 48, 48, 48, 48] ;
+      var i = imageHelper.image2canvas('./image/jesus_spritesheet.png') ;
+
+      var rowName = [
+        'attack', 
+        'hit', 
+        'jump', 
+        'rest', 
+        'walk',
+      ] ;
+
+      var width = [
+        50, 
+        50, 
+        50, 
+        50, 
+        50,
+      ] ;
+
+      var height = [
+        48, 
+        48, 
+        48, 
+        48, 
+        48,
+      ] ;
+
       var maxHeight = Math.max.apply(null, height) ;
       var spriteset = spriteHelper.get(i, rowName, width, height) ;
 
       // console.log('city level:', 'spriteset', spriteset) ;
 
-      var attackCollisionCanvas = imageHelper.clear_rect (spriteset.attack[0], { x: 0, y: 0, width: 36, height: maxHeight } ) ;
+      var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0], { x: 0, y: 0, width: 36, height: maxHeight } ) ;
       spriteset.attack[0].sourceCollisionImage = attackCollisionCanvas ;
       spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
-      spriteset.attack = [spriteset.attack[0], spriteset.walk[1], spriteset.attack[1], spriteset.walk[1]] ;
+      spriteset.attack                         = [spriteset.attack[0], spriteset.walk[1], spriteset.attack[1], spriteset.walk[1]] ;
 
-      var jumpCollisionCanvas = imageHelper.clear_rect ( spriteset.jump[1], { x: 0, y: 0, width: 36, height: maxHeight } ) ;
+      var jumpCollisionCanvas                = imageHelper.clear_rect ( spriteset.jump[1], { x: 0, y: 0, width: 36, height: maxHeight } ) ;
       spriteset.jump[1].sourceCollisionImage = jumpCollisionCanvas ;
 
 /*      spriteset.jump.push(spriteset.jump[1]) ;

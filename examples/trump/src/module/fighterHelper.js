@@ -154,8 +154,8 @@ var fighterHelper = {
 		          viz.ui.button.walkRight,
 		          viz.ui.button.attack,
 		          viz.ui.button.jump,
-		          viz.enemy.item.actionSet.hit.healthbar.item,
-		          viz.player.item.actionSet.hit.healthbar.item,
+		          viz.enemy.item.responseSet.hit.healthbar.item,
+		          viz.player.item.responseSet.hit.healthbar.item,
 		          viz.player.score,
 		      ]) ;
 		      
@@ -502,11 +502,14 @@ var fighterHelper = {
 		enemy.item.add_transition(transition, replacementSwitch) ;
 
 		enemy.item.add_end('image', 1, {
+
 			element: enemy,
+
 			run: function() {
 				// console.log('enemy bullet run')
-				fire_bullet.call(enemy.element, 'bullet') ;
-				fire_powerup.call(enemy.element, 'powerup') ;
+				this.element.fire_bullet('bullet') ;
+				this.element.fire_powerup() ;
+
 			}
 		}) ;		
 
@@ -677,7 +680,7 @@ var fighterHelper = {
         // if (transitionHelper.find('y', player.item.transition) > -1) {
         //   break ;  // don't allow punch attacks while moving up or down
         // }  
-        fire_bullet.call(player, 'bullet') ;
+        player.fire_bullet('bullet') ;
         var transitionFunc;
         if( player.transitionSet.attack === undefined ) {
           //  console.log ('player.transitionSet.image', player.transitionSet.image) ;
@@ -717,6 +720,91 @@ var fighterHelper = {
 
   },
 
+  load_response: function fighter_helper_load_response(playerResponseConfig, enemyResponseConfig, viz) {
+    // console.log('response helper load start') ;
+
+    if( viz === undefined ) {
+      viz = this ;
+    }
+
+    if ( enemyResponseConfig === undefined ) {
+
+      enemyResponseConfig = {
+        healthbarY: 2, 
+        healthbarX: Math.floor(viz.width * 0.5) + 1,
+        healthdrop: 20,
+        color: '#900',
+        audio: viz.audio.hit3,
+        sourceType: 'player',
+      } ;   
+
+    }
+
+    if ( playerResponseConfig === undefined ) {
+
+      playerResponseConfig = {
+        healthdrop: enemyResponseConfig.healthdrop,
+        healthbarY: 2,
+        healthbarX: 1,
+        color: '#009', 
+        audio: viz.audio.hit3,
+        sourceType: 'enemy',
+      } ;
+
+    }
+      
+    viz.player.item.responseSet.hit = hitHelper.setup_response(viz, viz.player, playerResponseConfig) ;
+    viz.enemy.item.responseSet.hit  = hitHelper.setup_response(viz, viz.enemy, enemyResponseConfig) ; 
+
+    if(viz.player.config.bulletSwitch) {
+      fighterHelper.load_player_bullet (viz) ;
+    }
+
+    fighterHelper.load_enemy_bullet (viz) ;
+    fighterHelper.load_powerup      (viz) ;
+
+  },	  
+
+  load_powerup: function fighter_helper_load_powerup(viz, powerupConfig) {
+
+    if( viz === undefined ) {
+      viz = this ;
+    }
+
+    if ( powerupConfig === undefined ) {
+
+      powerupConfig = {
+
+        x: 50,
+        y: 50,
+        inert: true,
+
+      } ;
+
+    }
+
+    var rowName = ['cell'] ;
+    var canvas  = imageHelper.image2canvas('./image/powerup.png') ;
+    var width   = [20] ;
+    var height  = [22] ;
+
+    viz.player.powerup         = itemHelper.setup(powerupConfig, viz) ;
+    viz.player.powerup.sprite  = spriteHelper.get(canvas, rowName, width, height) ;
+    // console.log('vizplayerpowerupsprite', viz.player.powerup.sprite) ;
+    viz.player.powerup.image   = viz.player.powerup.sprite.cell[0] ;
+
+    viz.player.powerup.drop    = powerupHelper.drop ;
+    viz.player.powerup.stop    = powerupHelper.stop ;
+    viz.player.powerup.deliver = powerupHelper.deliver ;
+
+    viz.enemy.fire_powerup = powerupHelper.fire ;
+
+    viz.player.powerupResponseConfig = {
+    	sourceType: 'powerup',
+    } ;
+
+  },
+
 	load_enemy_bullet: function fighter_helper_load_enemy_bullet(viz) {
 		
 	  var wordConfig = {
@@ -731,11 +819,102 @@ var fighterHelper = {
 	  viz.enemy.bullet.remove = false ;
 	  viz.enemy.bullet.audio  = viz.audio.bullet1 ;
 
+	 	viz.enemy.fire_bullet   = bulletHelper.fire ;
+
 	  viz.enemy.bulletResponseConfig = {
 	    audio: viz.audio.hit3,
 	    sourceType: 'player',
 	  } ;
 
+	},
+
+	load_player_bullet: function fighter_helper_load_player_bullet(viz) {
+	  //var bulletSpriteSet0     = bullet_sprite () ;
+	  var i         = imageHelper.image2canvas('./image/beam_spritesheet.png') ;
+	  var rowName   = ['jump', 'bullet', 'hyper', 'super', 'superfull'] ;
+	  var width     = [186, 5, 235, 191, 191] ;
+	  var height    = [38, 5, 249, 84, 84] ;
+	  var maxHeight = Math.max.apply(null, height) ;
+	  var spriteset = spriteHelper.get(i, rowName, width, height) ;
+
+	  function set_collision (canvas) {
+	    canvas.sourceCollisionImage = canvas ;
+	  }
+	  spriteHelper.foreach(spriteset, set_collision) ;
+
+	  // spriteset.bullet[0].sourceCollisionImage = spriteset.bullet[0] ;
+
+	  // console.log('spriteset', spriteset) ;
+	  // imageHelper.view(i) ;
+	  
+	  bulletSpriteSet          = spriteHelper.foreach(spriteset, imageHelper.adjust_ratio) ;
+	  bulletSpriteSet.original = spriteset ;
+	 
+	  if (bulletSpriteSet.orientation === 'l') {
+
+	    viz.player.bulletSpriteL = bulletSpriteSet ;
+	    viz.player.bulletSpriteR = spriteHelper.horizontal_flip(player.bulletSpriteL) ;
+
+	  } else {
+
+	    viz.player.bulletSpriteR = bulletSpriteSet ;
+	    viz.player.bulletSpriteL = spriteHelper.horizontal_flip(viz.player.bulletSpriteR) ;
+
+	  }  
+
+	  viz.player.bulletSprite = viz.player.bulletSpriteR ;
+
+	  var bulletShiftXl     = -viz.player.bulletSprite.original.bullet[0].width ;
+	  var bulletShiftXr     = viz.player.sprite.original.rest[0].width + viz.player.bulletSprite.original.bullet[0].width - 16 ;
+	  var bulletShiftY      = 17 - maxHeight ; 
+	  var bulletDur         = viz.dur * 20 ;
+	  var bulletMove        = 150 ;
+
+	  function bullet_transition(xNew) {
+	    var transition = $Z.transition.rounded_linear_transition_func ( 'x', bulletDur )(xNew) ; // function accepting an x end-value and returning a transition object
+	    transition.end = bulletHelper.default_end(viz, this, viz.enemy) ;
+	    return transition ;
+	  }
+
+	  function bullet_animation(xNew) {
+	    return animate (viz.player.bulletSprite.jump, step_transition_func('image', viz.frameDuration))[0] ;
+	  }
+
+	  var bulletConfig = {
+	    move: bulletMove,
+	    shiftXl: bulletShiftXl,
+	    shiftXr: bulletShiftXr, 
+	    shiftY: bulletShiftY,
+	    image: bulletSpriteSet.bullet[0],
+	    transition: bullet_transition,
+	    // animation: undefined,
+	  } ;
+
+	  var jumpBulletConfig        = copy_object(bulletConfig) ;
+	  var jumpBulletDur           = viz.dur * 10 ;
+
+	  function jump_bullet_transition(xNew) {
+	    var transition = step_transition_func ( 'dummy', jumpBulletDur )(xNew) ; // function accepting an x end-value and returning a transition object
+	    // console.log('jump_bullet_transition', transition) ;
+	    transition.end = bulletHelper.default_end(viz, this, viz.enemy) ;
+	    return transition ;
+	  }
+
+	  jumpBulletConfig.image      = bulletSpriteSet.jump[0] ;
+	  jumpBulletConfig.shiftY     = 39 - maxHeight ;
+	  jumpBulletConfig.transition = jump_bullet_transition ;
+	  jumpBulletConfig.move       = 0 ;
+	  jumpBulletConfig.shiftXl    = -bulletSpriteSet.jump[0].width + 20 ;
+	  jumpBulletConfig.shiftXr    = viz.player.sprite.original.rest[0].width + viz.player.bulletSprite.original.bullet[0].width - 20 ;
+
+	  viz.player.bullet     = setup_bullet (viz, viz.player, bulletConfig) ;  
+	  viz.player.jumpBullet = setup_bullet (viz, viz.player, jumpBulletConfig) ;  
+	 
+	  viz.player.bullet.audio = viz.audio.bullet ;
+	  viz.player.jumpBullet.audio = viz.audio.bullet ;
+
+	  viz.player.fire_bullet = bulletHelper.fire ;
+		
 	},
 
 } ;

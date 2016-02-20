@@ -16,16 +16,16 @@ var actionHelper = {
 
         for( var kPair = 0 ; kPair < 2 ; kPair++ ) { // either item can be considered the "source" or the "target", so loop over both and perform any corresponding actions that might exist
 
-          var targetItem = viz.item[viz.collision.list[kCollision][kPair]] ;           // by convention, the target item stores the response config object for the corresponding action
+          var targetItem = viz.item[viz.collision.list[kCollision][kPair]] ;           // by convention, the target item stores the response config object for the corresponding response
           var sourceItem = viz.item[viz.collision.list[kCollision][(kPair + 1) % 2]] ; // by convention, the source item is checked by the target item for the appropriateness of its type
 
           // console.log('collision_foreach', 'viz collision list', viz.collision.list, 'targetItem', targetItem, 'sourceItem', sourceItem) ;
 
-          for( var action in targetItem.actionSet ) {
+          for( var response in targetItem.responseSet ) {
 
-            // console.log('collision for each action set', 'action', action, 'func', func, 'sourceItem', sourceItem);
+            // console.log('collision for each response set', 'response', response, 'func', func, 'sourceItem', sourceItem);
 
-            func(targetItem.actionSet[action], sourceItem) ;
+            func(targetItem.responseSet[response], sourceItem) ;
 
           }
         }
@@ -48,14 +48,14 @@ var actionHelper = {
       viz.collision_detect() ;
       // console.log('action helper detect', 'viz.collision', viz.collision) ;
 
-      actionHelper.collision_foreach( viz, function(action, sourceItem) {
+      actionHelper.collision_foreach( viz, function(response, sourceItem) {
 
-        // console.log('action helper detect collision for each', 'action', action, 'sourceItem', sourceItem) ;
+        // console.log('action helper detect collision for each', 'response', response, 'sourceItem', sourceItem) ;
 
-        if( action.detectSwitch ) { // perform action after passing detailed detection check 
-          // console.log('initial detection passed', 'sourceItem.x', sourceItem.y, 'action element x', action.element.y)
-          action.performSwitch = true ; // flag for performance by the visualization/animation engine loop
-          action.sourceItem = sourceItem ;
+        if( response.detectSwitch ) { // perform response after passing detailed detection check 
+          // console.log('initial detection passed', 'sourceItem.x', sourceItem.y, 'response element x', response.element.y)
+          response.performSwitch = true ; // flag for performance by the visualization/animation engine loop
+          response.sourceItem = sourceItem ;
         } 
 
       }) ;
@@ -76,12 +76,12 @@ var actionHelper = {
 
       // console.log('actionHelper perform start') ;
 
-      actionHelper.collision_foreach( viz, function(action) {
-        // console.log('action helper perform collision foreach callback start', 'action', action) ;
-        if(action.performSwitch) {
-          action.performSwitch = false ;
-          // console.log('action helper perform collision foreach callback', 'action', action) ;
-          action.perform() ;
+      actionHelper.collision_foreach( viz, function(response) {
+        // console.log('action helper perform collision foreach callback start', 'response', response) ;
+        if(response.performSwitch) {
+          response.performSwitch = false ;
+          // console.log('action helper perform collision foreach callback', 'response', response) ;
+          response.perform() ;
         }
       }) ;
 
@@ -92,7 +92,9 @@ var actionHelper = {
   },
 
   collision_image: function action_helper_collision_image(actionType, item) { // actionType is either 'source' or 'target'
+    
     // console.log('element collision_image start') ;
+
     if(item === undefined) {
       item = this ;
     }

@@ -87,8 +87,8 @@ var spriteHelper = {
     // viz.ui.button.walkRight,
     // viz.ui.button.attack,
     // viz.ui.button.jump,
-    // viz.enemy.item.actionSet.hit.healthbar.item,
-    // viz.player.item.actionSet.hit.healthbar.item,
+    // viz.enemy.item.responseSet.hit.healthbar.item,
+    // viz.player.item.responseSet.hit.healthbar.item,
 
 		var isZero = true ;
 

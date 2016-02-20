@@ -25,7 +25,7 @@ var itemHelper = {
   		image: itemConfig.image,
 	    collision_image: actionHelper.collision_image, // actionHelper.collision_image() expects "this" to be "item"
 	    render: drawHelper.image, // drawHelper.image expects "this" to  be "item"
-		  actionSet: {},
+		  responseSet: {},
 	    add_transition: transitionHelper.add, // transitionHelper.add expects "this" to be "item"
 	    add_end: transitionHelper.add_end,
 	    fade: imageEffectHelper.fade, // imageEffectHelper.fade expects "this" to be "item"

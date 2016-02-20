@@ -1,43 +1,12 @@
 var powerupHelper = {
 
-  setup: function powerup_helper_setup(powerupConfig, viz) {
-
-    if( viz === undefined ) {
-      viz = this ;
-    }
-
-    if ( powerupConfig === undefined ) {
-
-      powerupConfig = {
-
-        x: viz.width * 0.5,
-        y: -20,
-        inert: true,
-
-      } ;
-
-    }
-
-    var rowName = ['cell'] ;
-    var canvas  = imageHelper.image2canvas('./image/powerup.png') ;
-    var width   = [22] ;
-    var height  = [20] ;
-
-    viz.player.powerup         = itemHelper.setup(powerupConfig, viz) ;
-    viz.player.powerup.sprite  = spriteHelper.get(canvas, rowName, width, height) ;
-    viz.player.powerup.image   = viz.player.powerup.sprite.cell[0] ;
-
-    viz.player.powerup.drop    = powerupHelper.drop ;
-    viz.player.powerup.stop    = powerupHelper.stop ;
-    viz.player.powerup.deliver = powerupHelper.deliver ;
-
-  },
-
   drop: function(item) {
 
     if(item === undefined) {
       item = this ;
     }
+
+    console.log('powerupHelper drop:', 'item', item)
 
     var dropDur = 3000 ;
     var yTrans  = $Z.transition.rounded_linear_transition_func('y', dropDur) ;
@@ -45,7 +14,7 @@ var powerupHelper = {
     yTrans.end = {
       item: item,
       run: item.stop,
-    }
+    } ;
 
     item.add_transition(yTrans) ;
 
@@ -67,7 +36,7 @@ var powerupHelper = {
 
     item.viz.audio.bump1.play() ;
 
-  },
+  },  
 
   deliver: function(item) {
 
@@ -83,19 +52,19 @@ var powerupHelper = {
    
     var powerupResponse = {
 
+      type: 'enemy',
       viz: viz, 
+      image: powerupResponseConfig.image,
       config: powerupResponseConfig,
-      image: spriteset.pack[0],
       transition: powerupHelper.deliver,
       render: drawHelper.image,
-      type: 'powerup',
       collision_image: actionHelper.collision_image,
+      explode: imageEffectHelper.explode,
+      fade: imageEffectHelper.fade,
       singleSwitch: true,
       opacity: 0,
       inert: false,
-      actionSet: {},
-      explode: imageEffectHelper.explode,
-      fade: imageEffectHelper.fade,
+      responseSet: {},
       fadeDuration: 200,
 
     } ;
@@ -103,6 +72,43 @@ var powerupHelper = {
     return powerupResponse ;
     
   },
+
+  fire: function powerup_helper_fire (name) {
+
+    if(name === undefined) {
+      name = 'powerup' ;
+    }
+
+    // console.log('fire powerup', 'this', this, 'name', name, 'this.adversary[name]', this.adversary[name]) ;
+
+    // if (this[name] !== undefined) { // check if this character shoots powerups
+
+    var newPowerup = copy_object ( this.adversary[name] ) ;
+
+    // console.log('newPowerup', newPowerup)
+
+    if(this.powerupResponseConfig !== undefined) {
+      // newPowerup.responseSet.hit = powerupHelper.setup_response(this.item.viz, newPowerup, this.powerupResponseConfig) ;
+    }
+
+    // newPowerup.y = this.item.y + this[name].config.shiftY ;
+    // console.log ('newPowerup', newPowerup, 'this', this, 'powerup', this[name]) ;
+
+    // console.log('fire powerup', 'transition', newPowerup.transition) ;
+    console.log('fire powerup', 'newPowerup', newPowerup, 'this', this) ;
+    // console.log('this.adversary.item, newPowerup', this.adversary.item, newPowerup) ;
+    // imageHelper.view(newPowerup.image)
+
+    this.item.viz.add_item(newPowerup) ;
+
+    if(newPowerup.drop !== undefined) {
+      newPowerup.drop() ; // overwriting the previous value of newPowerup.transition with the output of the newPowerup.transition function call
+    }
+
+    // this[name].audio.play() ;
+    // console.log ('fire_powerup end powerup if-block') ;
+
+  },  
 	
 } ;
 

@@ -10,7 +10,7 @@ function fantasy_level () {
     run: fighterHelper.run,
     load_ui: fighterHelper.load_ui,
     load_char: fighterHelper.load_char,
-    load_response: hitHelper.load,
+    load_response: fighterHelper.load_response,
     load_audio: fighterHelper.load_audio,
     buttonpress: buttonpress,    
 

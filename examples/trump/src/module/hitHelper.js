@@ -35,46 +35,7 @@ var hitHelper = {
 
   },
 
-  load: function hit_helper_load(playerResponseConfig, enemyResponseConfig, viz) {
-    // console.log('response helper load start') ;
-
-    if( viz === undefined ) {
-      viz = this ;
-    }
-
-    if (enemyResponseConfig === undefined) {
-      enemyResponseConfig = {
-        healthbarY: 2, 
-        healthbarX: Math.floor(viz.width * 0.5) + 1,
-        healthdrop: 20,
-        color: '#900',
-        audio: viz.audio.hit3,
-        sourceType: 'player',
-      } ;   
-    }
-    if (playerResponseConfig === undefined) {
-      playerResponseConfig = {
-        healthdrop: enemyResponseConfig.healthdrop,
-        healthbarY: 2,
-        healthbarX: 1,
-        color: '#009', 
-        audio: viz.audio.hit3,
-        sourceType: 'enemy',
-      } ;
-    }
-      
-    viz.player.item.actionSet.hit = hitHelper.setup(viz, viz.player, playerResponseConfig) ;
-    viz.enemy.item.actionSet.hit  = hitHelper.setup(viz, viz.enemy, enemyResponseConfig) ; 
-
-    if(viz.player.config.bulletSwitch) {
-      load_player_bullet (viz) ;
-    }
-
-    fighterHelper.load_enemy_bullet (viz) ;
-
-  },
-
-  setup: function hit_helper_setup(viz, element, setupResponseConfig) {
+  setup_response: function hit_helper_setup(viz, element, setupResponseConfig) {
 
     if(setupResponseConfig === undefined) {
       setupResponseConfig = {} ;
@@ -273,16 +234,16 @@ var hitHelper = {
         response.sourceItem.explode() ;
       }
 
-      if(hit.healthbar !== undefined & !playerCounter) { // i.e. player or enemy was response while in their attack frame state
+      if(response.healthbar !== undefined & !playerCounter) { // i.e. player or enemy was response while in their attack frame state
 
-        hit.healthbar.health -= response.healthdrop ;
+        response.healthbar.health -= response.healthdrop ;
         
         hitHelper.flash(response) ; // also sets inertSwitch - separate?
         if(response.audio !== undefined && response.audio.buffer !== undefined) {
           response.audio.play() ;
         }
 
-        if (hit.healthbar.health < 0 && response.element === response.viz.enemy) {
+        if (response.healthbar.health < 0 && response.element === response.viz.enemy) {
           response.viz.enemyAttack.on = false ;
           // if(document.nextLevel === null) {
             // alert('congratulations! you did it') ;
@@ -290,14 +251,14 @@ var hitHelper = {
             response.viz.fade({ 
               opacity: 0, 
               duration: response.viz.fadeDuration,
-              end: function () {window.location.reload() ;},
+              end: function () { window.location.reload() ; },
             }) ;
             imageEffectHelper.explode.call(response.element.item) ;
           // } // else {
             // alert ('game over') ;
             // console.log('hitHelper.perform', 'response.element.item', response.element.item)
             // response.element.item.explode() ;
-            // hit.healthbar.health = 0 ;            
+            // response.healthbar.health = 0 ;            
             // var blockSize        = 12 ;
             // imageEffectHelper.explode.call(response.element.item, blockSize) ;
             // $Z.item([]) ;
@@ -316,7 +277,7 @@ var hitHelper = {
         //   }
         }
 
-        if (hit.healthbar.health < 0 && response.element === response.viz.player) {
+        if (response.healthbar.health < 0 && response.element === response.viz.player) {
           // alert('game over') ;
 
           var blockSize = 8 ;
@@ -329,13 +290,13 @@ var hitHelper = {
             opacity: 0, 
             duration: response.viz.fadeDuration,
           }) ;
-          hit.healthbar.health = 0 ;
+          response.healthbar.health = 0 ;
           response.viz.audio.laugh1.play() ;
           response.viz.enemyAttack.on = false ;
 
         }
 
-        transitionHelper.update_end_value.call(hit.healthbar.item, 'width', hit.healthbar.health, response.health_transition) ;
+        transitionHelper.update_end_value.call(response.healthbar.item, 'width', response.healthbar.health, response.health_transition) ;
 
       }
 
@@ -353,7 +314,7 @@ var hitHelper = {
     // console.log ('hit_reset', 'this', this);
 
     if( response === undefined ) {
-      response = this.hit ;
+      response = this.response ;
     }
     
     response.detectSwitch = true ;
@@ -452,7 +413,7 @@ var hitHelper = {
 
     reset.end = { 
 
-      response: element.item.actionSet.hit,
+      response: element.item.responseSet.hit,
 
       run: hitHelper.reset,
 
