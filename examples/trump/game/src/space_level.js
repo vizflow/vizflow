@@ -3,6 +3,7 @@ function space_level () {
   document.nextLevel = null ;
 
   var vizConfig = { // an object to configure the visualization
+
     backgroundImageUrl: './image/trump_bg4.png',
     loadingImageUrl: './image/megyn_title.png',
     frameDurationFactor: 2,
@@ -12,17 +13,22 @@ function space_level () {
     load_response: fighterHelper.load_response,
     load_audio: fighterHelper.load_audio,
     buttonpress: buttonpress,    
+
   } ;
 
   viz = vizHelper.setup(vizConfig) ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
+
+  viz.plaformY   = 190 ;
+  var tileHeight = 40 ;
+  var tileWidth  = 40 ;
 
   viz.playerConfig = { 
 
     sprite_loader: function() {
       var i         = imageHelper.image2canvas('./image/megyn_spritesheet.png') ;
       var rowName   = ['attack', 'hit', 'jump', 'rest', 'walk'] ;
-      var width     = [40, 40, 40, 40, 40] ;
-      var height    = [40, 40, 40, 40, 40] ;
+      var width     = [tileWidth, tileWidth, tileWidth, tileWidth, tileWidth] ;
+      var height    = [tileHeight, tileHeight, tileHeight, tileHeight, tileHeight] ;
       var maxHeight = Math.max.apply(null, height) ;
       var spriteset = spriteHelper.get(i, rowName, width, height) ;
 
@@ -30,6 +36,7 @@ function space_level () {
       // console.log('player sprite loader', spriteset) ;
       return spriteset ;
     },
+
     orientation: 'r',
     frameDuration: viz.frameDuration,
     floatDuration: 15 * viz.frameDuration,
@@ -43,30 +50,40 @@ function space_level () {
     xMove: 10,
     yMove: 100,
     xJumpMove: 0,
-    y: 150,
+    y: viz.platformY - tileHeight,
     type: 'player',
     bulletSwitch: true,
 
   } ;
 
+
+  var enemyTileHeight = 154 ;
+  var enemyTileWidth  = 170 ;
+
   viz.enemyConfig = {
 
     sprite_loader: function() {
-      var i       = imageHelper.image2canvas('./image/trump_spritesheet.png') ;
-      var rowName = ['attack', 'hit', 'rest', 'walk'] ;
-      var width   = [170, 170, 170, 170] ;
-      var height  = [154, 154, 154, 154] ;
-      var spriteset = spriteHelper.get(i, rowName, width, height) ;
+
       // console.log('enemy sprite loader', spriteset) ;
+      var i         = imageHelper.image2canvas('./image/trump_spritesheet.png') ;
+      var rowName   = ['attack', 'hit', 'rest', 'walk'] ;
+      var width     = [enemyTileWidth, enemyTileWidth, enemyTileWidth, enemyTileWidth] ;
+      var height    = [enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight] ;
+      var spriteset = spriteHelper.get(i, rowName, width, height) ;
+      
       return spriteset ;
+
     },    
-    frameDuration: viz.frameDuration,
-    attackDuration: 20 * viz.frameDuration,
+
+    frameDuration: viz.frameDuration * 1,
+    attackDuration: 5 * viz.frameDuration,
+    hitDuration: viz.dur * 10,
     orientation: 'l',
-    x: 70,
-    y: 35,
+    x: 60,
+    y: viz.platformY - enemyTileHeight,
     type: 'enemy',
-  } ;  
+
+  } ;
 
   viz.load() ;
   

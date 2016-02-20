@@ -56,7 +56,9 @@ var inputEvent = {
     // console.log('yDist', yDist) ;
     if (yDist > minJumpBulletHeight) {
       // console.log('input event64') ;
-      fire_bullet.call(this.viz.player, 'jumpBullet') ;
+      if(this.viz.player.fire_bullet !== undefined) {
+        this.viz.player.fire_bullet('jumpBullet') ;
+      }
     }        
     var checkObject = transitionHelper.check_end_value.call(this.viz.player.item, 'y', yNew) ;
     var yIndex = checkObject.index ;

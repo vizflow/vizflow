@@ -20,6 +20,9 @@ function city_level () {
 
   var jumpDuration  = 300 ;
   var floatDuration = 200 ;
+  viz.platformY     = 172 ;
+  var tileWidth     = 50 ;
+  var tileHeight    = 48 ; 
 
   viz.playerConfig = {
 
@@ -36,19 +39,19 @@ function city_level () {
       ] ;
 
       var width = [
-        50, 
-        50, 
-        50, 
-        50, 
-        50,
+        tileWidth, 
+        tileWidth, 
+        tileWidth, 
+        tileWidth, 
+        tileWidth,
       ] ;
 
       var height = [
-        48, 
-        48, 
-        48, 
-        48, 
-        48,
+        tileHeight, 
+        tileHeight, 
+        tileHeight, 
+        tileHeight, 
+        tileHeight,
       ] ;
 
       var maxHeight = Math.max.apply(null, height) ;
@@ -108,11 +111,14 @@ function city_level () {
 
     xMove: 7,
     yMove: 50,
-    y: 123,
+    y: viz.platformY - tileHeight,
     type: 'player',
     bulletSwitch: false,
 
   } ;
+
+  var enemyTileHeight = 154 ;
+  var enemyTileWidth  = 170 ;
 
   viz.enemyConfig = {
 
@@ -121,8 +127,8 @@ function city_level () {
       // console.log('enemy sprite loader', spriteset) ;
       var i         = imageHelper.image2canvas('./image/trump_spritesheet.png') ;
       var rowName   = ['attack', 'hit', 'rest', 'walk'] ;
-      var width     = [170, 170, 170, 170] ;
-      var height    = [154, 154, 154, 154] ;
+      var width     = [enemyTileWidth, enemyTileWidth, enemyTileWidth, enemyTileWidth] ;
+      var height    = [enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight] ;
       var spriteset = spriteHelper.get(i, rowName, width, height) ;
       
       return spriteset ;
@@ -134,7 +140,7 @@ function city_level () {
     hitDuration: viz.dur * 10,
     orientation: 'l',
     x: 60,
-    y: 17,
+    y: viz.platformY - enemyTileHeight,
     type: 'enemy',
 
   } ;

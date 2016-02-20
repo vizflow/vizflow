@@ -6,10 +6,10 @@ var powerupHelper = {
       item = this ;
     }
 
-    console.log('powerupHelper drop:', 'item', item)
+    console.log('powerupHelper drop:', 'item', item) ;
 
     var dropDur = 3000 ;
-    var yTrans  = $Z.transition.rounded_linear_transition_func('y', dropDur) ;
+    var yTrans  = $Z.transition.rounded_linear_transition_func('y', dropDur)(item.viz.platformY - item.image.height) ;
 
     yTrans.end = {
       item: item,

@@ -258,6 +258,9 @@ var fighterHelper = {
   	}
 	  viz.player = setup_element(viz, viz.playerConfig) ;
 	  viz.enemy  = setup_element(viz, viz.enemyConfig) ;
+
+	  viz.enemy.update = fighterHelper.update_enemy ;
+
 	  viz.player.orientation = 'r' ; // all players start facing right
 
 	  viz.player.adversary = viz.enemy ; // decorate the player object for convenient access to the viz.enemy object 
@@ -282,7 +285,10 @@ var fighterHelper = {
 
 	      document.skipIndex++ ;
 
-	      fighterHelper.update_enemy.call( this.enemy ) ; // switch to "viz.enemy.update()" #todo
+	      if(this.enemy.update !== undefined) {
+	      	this.enemy.update() ;
+	      	this.enemy.update = undefined ;
+	      }
 	    
       } 	  	
 	  }
@@ -507,7 +513,7 @@ var fighterHelper = {
 
 			run: function() {
 				// console.log('enemy bullet run')
-				this.element.fire_bullet('bullet') ;
+				// this.element.fire_bullet('bullet') ;
 				this.element.fire_powerup() ;
 
 			}
@@ -680,7 +686,10 @@ var fighterHelper = {
         // if (transitionHelper.find('y', player.item.transition) > -1) {
         //   break ;  // don't allow punch attacks while moving up or down
         // }  
-        player.fire_bullet('bullet') ;
+        if(player.fire_bullet !== undefined) {
+        	player.fire_bullet('bullet') ; 
+        }
+
         var transitionFunc;
         if( player.transitionSet.attack === undefined ) {
           //  console.log ('player.transitionSet.image', player.transitionSet.image) ;
@@ -730,12 +739,14 @@ var fighterHelper = {
     if ( enemyResponseConfig === undefined ) {
 
       enemyResponseConfig = {
+
         healthbarY: 2, 
         healthbarX: Math.floor(viz.width * 0.5) + 1,
         healthdrop: 20,
         color: '#900',
         audio: viz.audio.hit3,
         sourceType: 'player',
+
       } ;   
 
     }
@@ -743,12 +754,14 @@ var fighterHelper = {
     if ( playerResponseConfig === undefined ) {
 
       playerResponseConfig = {
+
         healthdrop: enemyResponseConfig.healthdrop,
         healthbarY: 2,
         healthbarX: 1,
         color: '#009', 
         audio: viz.audio.hit3,
         sourceType: 'enemy',
+
       } ;
 
     }
