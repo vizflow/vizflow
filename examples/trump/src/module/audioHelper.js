@@ -1,3 +1,7 @@
+var AudioContext = window.AudioContext // Default
+  || window.webkitAudioContext // Safari and old versions of Chrome
+  || false; 
+
 var audioHelper = {
 
   context: new AudioContext(), // this one AudioContext object instance can be shared by many copies of the audioHelper object instance (via copy_object)
@@ -76,3 +80,5 @@ var audioHelper = {
  //    reader.readAsDataURL(new File([], audioFile));
 	// },
 } ;
+
+// console.log('audioHelper end', 'audioHelper', audioHelper) ;

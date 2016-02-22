@@ -12,16 +12,15 @@ var audioLoader = {
 
   load: function (url) { // class method; callback incrementor - wait until final image is loaded before executing callback
 
+    // console.log('audioLoader load start')
+
     if (audioLoader.cache[url] !== undefined) {
       audioLoader.callback_handler() ;
     } else {
 
-      var AudioContext = window.AudioContext // Default
-        || window.webkitAudioContext // Safari and old versions of Chrome
-        || false; 
-
       if (AudioContext) {
           // Do whatever you want using the Web Audio API
+        // console.log('AudioContext', AudioContext, 'audioHelper', audioHelper)
         var audio = { 
           buffer: null, 
           play: audioHelper.play,
@@ -38,7 +37,7 @@ var audioLoader = {
 			request.open('get', url, true) ;
 			request.responseType = 'arraybuffer' ;
 			request.onload = function () {
-	  			// console.log('request.response', request.response) ;
+	  			// console.log('request.response', request.response, 'audioHelper.context', audioHelper.context, 'AudioContext', AudioContext) ;
 				audioHelper.context.decodeAudioData( request.response, function(buff) { 
 					audio.buffer = buff ;
 			    audioLoader.cache[url] = audio ;
