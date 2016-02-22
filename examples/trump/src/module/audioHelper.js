@@ -1,5 +1,8 @@
 var AudioContext = window.AudioContext // Default
   || window.webkitAudioContext // Safari and old versions of Chrome
+  || window.mozAudioContext 
+  || window.oAudioContext 
+  || window.msAudioContext  
   || false; 
 
 var audioHelper = {
@@ -7,6 +10,8 @@ var audioHelper = {
   context: new AudioContext(), // this one AudioContext object instance can be shared by many copies of the audioHelper object instance (via copy_object)
 
 	buffer: undefined,
+
+	volume: 0.25,
 
 	play: function audio_play( buffer, start, futureSwitch ) {
 
@@ -22,8 +27,15 @@ var audioHelper = {
 		} else {
 			console.log('audioHelper.play: no audio loaded') ;
 		}
+
+		var gainNode = audioHelper.context.createGain(); // create the gain node
+		sourceNode.connect(gainNode); // connect source to filter
+
+		// console.log('audioHeloper play', 'this', this) ;
+
+		gainNode.gain.value = this.volume ;
 		
-		sourceNode.connect( audioHelper.context.destination ) ;
+		gainNode.connect( audioHelper.context.destination ) ; // connect gain filter to destination,
 
 		if ( start === undefined ) {
 			start = 0 ;

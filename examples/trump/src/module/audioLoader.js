@@ -21,10 +21,7 @@ var audioLoader = {
       if (AudioContext) {
           // Do whatever you want using the Web Audio API
         // console.log('AudioContext', AudioContext, 'audioHelper', audioHelper)
-        var audio = { 
-          buffer: null, 
-          play: audioHelper.play,
-        } ;
+        var audio = copy_object(audioHelper) ; // shallow copy
           // ...
       } else {
           // Web Audio API is not supported
