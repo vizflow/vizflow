@@ -2,13 +2,80 @@ var fighterHelper = {
 
 	selectDur: 150,
 
+	loadState: 'jesus', // starting character state
+
+	loadList: ['jesus', 'rastan', 'megyn'],
+
+	loadCallback: {
+		jesus: city_level,
+		rastan: fantasy_level,
+		megyn: space_level,
+	},
+
+	keyboard_callback: function(event, viz) {
+
+			if(viz === undefined) {
+				viz = this ;
+			}
+
+      var transition = [] ;
+      var state ;
+
+      switch (event.keyCode) {
+
+        case 37: // left
+        case 38: // up
+          state    = 'u' ;
+          var newIndex ;
+          var index = fighterHelper.loadList.indexOf( fighterHelper.loadState ) ;
+        	// console.log('fighterHelper.keyboard_callback', 'u', 'index', index, 'fighterHelper.loadState', fighterHelper.loadState)
+					if(index > 0) {
+						newIndex = --index ;
+					} else {
+						newIndex = fighterHelper.loadList.length - 1 ;
+					}
+          newState = fighterHelper.loadList[newIndex] ;
+          // console.log('fighterHelper keyboard_callback', 'index', index, 'newIndex', newIndex, 'newState', newState) ;
+          break;
+        case 39: // right
+        case 40: // down
+          state    = 'd' ;
+          newState = fighterHelper.loadList[(fighterHelper.loadList.indexOf(fighterHelper.loadState) + 1 ) % fighterHelper.loadList.length] ;
+          break;
+        case 13: // enter
+        case 32: // space
+        	state = 'x' ; // execute the game code
+        	fighterHelper.loadCallback[fighterHelper.loadState]() ;
+        	break;
+      } 
+
+      //console.log ('state', state) ;
+      if (state === undefined) {  // user does not hit arrow key
+        viz.buttonpress.reset() ;
+      } else {
+	    	viz[fighterHelper.loadState].select.fade({
+	    	 duration: fighterHelper.selectDur,
+	    	 end: { 
+	    	 	viz: viz,
+	    	 	run: function() { this.viz.buttonpress.reset() },
+	    	 },
+	      }) ;
+	      // console.log('fighterHelper keyboard callback', 'state', state, 'newState', newState)
+	    	viz[newState].select.fade({
+	    	 duration: fighterHelper.selectDur,
+	      }) ;
+	      fighterHelper.loadState = newState ;	      
+      }
+
+	},
+
 	screen_callback: function(x, y, viz) {
 
 	 	if(viz === undefined) {
 			viz = this ;
 		}
 
-	  console.log('fighterHelper.screen_callback', 'viz.loading', viz.loading) ;
+	  // console.log('fighterHelper.screen_callback', 'viz.loading', viz.loading) ;
 
 		if(viz.loading) {
 	    viz.buttonpress.reset() ;
@@ -77,6 +144,7 @@ var fighterHelper = {
 		      end: function() {
 
 		    		fighterHelper.load_select(viz) ;
+
 			      viz.add_item([ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop
 			         viz.choose,
 			         viz.jesus,
@@ -85,36 +153,48 @@ var fighterHelper = {
 			         viz.jesus.select,
 			         viz.rastan.select,
 			         viz.megyn.select,
+
 			      ]) ;
 
 			      viz.choose.fade({
 			      	end: function () {
+
 			      		var xDur = 500 ;
 			      		var x_trans_creator = $Z.transition.rounded_linear_transition_func('x', xDur) ;
 			      		var xTrans = x_trans_creator(viz.jesus.x - viz.sprite.jesus[0].width) ;
+
 			      		xTrans.end = function() {
+
 			      			viz.shake() ;
-			      			viz.audio.hit3.play() ;
+			      			viz.audio.death.play() ;
 			      			var xTrans = x_trans_creator(viz.rastan.x + viz.sprite.rastan[0].width) ;
+
 			      			xTrans.end = function() {
+
 			      				viz.shake() ;
-			      				viz.audio.hit3.play() ;
+			      				viz.audio.death.play() ;
 			      				var xTrans = x_trans_creator(viz.megyn.x - viz.sprite.megyn[0].width) ;
+
 			      				xTrans.end = function() {
-			      					viz.audio.hit3.play() ;
+
+			      					viz.audio.death.play() ;
 			      					viz.shake() ;
-			      					viz.jesus.select.fade({ 
+			      					viz[fighterHelper.loadState].select.fade({ 
 			      						duration: fighterHelper.selectDur,
 			      						end: function() {
+
 			      							viz.loading = false ;
+
 			      						},
 			      					}) ;
 			      				}
 			      				
 			      				viz.megyn.add_transition(xTrans) ;
+
 			      			}
 
 			      			viz.rastan.add_transition(xTrans) ;
+
 			      		}
 
 			      		viz.jesus.add_transition (xTrans) ;
@@ -483,6 +563,7 @@ var fighterHelper = {
 
 		viz.audio = {} ;
 
+	  viz.audio.death    = audioLoader.cache['./audio/death.wav'] ;
 	  viz.audio.hit3     = audioLoader.cache['./audio/hit3.wav'] ;
 	  viz.audio.jump1    = audioLoader.cache['./audio/jump1.wav'] ;
 	  viz.audio.bullet   = audioLoader.cache['./audio/bullet2.wav'] ;

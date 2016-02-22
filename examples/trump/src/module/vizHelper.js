@@ -97,6 +97,7 @@ var vizHelper = {
 	    input: vizConfig.inputEvent, 
 	    buttonpress: vizConfig.buttonpress,
 	    screen_callback: vizConfig.screen_callback,
+	    keyboard_callback: vizConfig.keyboard_callback,
 	    setup_item: itemHelper.setup, 
 	    setup_score: scoreHelper.setup,
 	    load_response: vizConfig.load_response, // hitHelper.load,

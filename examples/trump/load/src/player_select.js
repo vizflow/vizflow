@@ -3,8 +3,10 @@ function player_select () {
   // console.log('player_select start') ;
 
   var selectInput = {
+
     down: inputEvent.down,
     up: null,
+    
   } ;
 
   var vizConfig = {
@@ -14,6 +16,7 @@ function player_select () {
     run: fighterHelper.load,
     inputEvent: selectInput,
     screen_callback: fighterHelper.screen_callback,
+    keyboard_callback: fighterHelper.keyboard_callback,
     load_audio: fighterHelper.load_audio,
 
   } ;

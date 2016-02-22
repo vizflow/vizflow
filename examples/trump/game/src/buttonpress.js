@@ -117,7 +117,7 @@ var buttonpress = {
         break;
 
     } 
-    //console.log ('state', state) ;
+    // console.log ('buttonpress keyboard_handler', 'state', state) ;
     if (state === undefined) {  // user clicks background
       buttonpress.busy = false ;
     } else {

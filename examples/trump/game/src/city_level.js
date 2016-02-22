@@ -18,9 +18,10 @@ function city_level () {
 
   viz = vizHelper.setup(vizConfig) ; // framdeDuration computed
 
+  viz.platformY     = 172 ;
+ 
   var jumpDuration  = 300 ;
   var floatDuration = 200 ;
-  viz.platformY     = 172 ;
   var tileWidth     = 50 ;
   var tileHeight    = 48 ; 
 

@@ -27,6 +27,7 @@ document.image = [
 ] ;
 	  
 document.audio = [
+	'./audio/death.wav',
 	'./audio/bullet2.wav',
 	'./audio/hit3.wav',  
 	'./audio/jump1.wav', 

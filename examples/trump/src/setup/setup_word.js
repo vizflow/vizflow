@@ -1,17 +1,19 @@
 function setup_word (viz, wordConfig) {
  
   var wordList = [
-    'schlonged',
-    'love me',
+    // first half
+    'gonna win',
+    'best ever',
     'the blacks',
     'mexicans',
     'muslims',
+    // second half
+    'the poll',
+    'got schlonged',
     'build a wall',
     'it\'s amazing',
-    'best ever',
-    'the poll',
-    'gonna win',
     'take his coat',
+    'love me',
   ] ;
 
   var wordImage = new Array(wordList.length) ;

@@ -24,7 +24,6 @@ var audioLoader = {
           // Do whatever you want using the Web Audio API
         var audio = { 
           buffer: null, 
-          context: new AudioContext(), 
           play: audioHelper.play,
         } ;
           // ...
@@ -40,7 +39,7 @@ var audioLoader = {
 			request.responseType = 'arraybuffer' ;
 			request.onload = function () {
 	  			// console.log('request.response', request.response) ;
-				audio.context.decodeAudioData( request.response, function(buff) { 
+				audioHelper.context.decodeAudioData( request.response, function(buff) { 
 					audio.buffer = buff ;
 			    audioLoader.cache[url] = audio ;
 					audioLoader.callback_handler() ;

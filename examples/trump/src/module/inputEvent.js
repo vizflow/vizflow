@@ -122,33 +122,8 @@ var inputEvent = {
       }
 
       inputEvent.buttonpress.busy = true ;
-
-      var transition     = [] ;
-      var state ;
-
-      switch (event.keyCode) {
-
-        case 37: // left
-          state = 'l' ;
-          break;
-        case 38: // up
-          state = 'u' ;
-          break;
-        case 39: // right
-          state = 'r' ;
-          break;
-        case 40: // down
-          state = 'd' ;
-          break;
-
-      } 
-      //console.log ('state', state) ;
-      if (state === undefined) {  // user clicks background
-        buttonpress.busy = false ;
-      } else {
-       console.log('buttonpress_keyboard_handler callback', this) ;
-        // this.player.callback(state) ;
-      }
+      this.keyboard_callback(event) ;
+      // this.player.callback(state) ;
 
     },
 

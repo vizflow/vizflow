@@ -19,6 +19,7 @@ function fantasy_level () {
   viz = vizHelper.setup (vizConfig) ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
 
   viz.platformY = 173 ;
+
   var tileHeight = 75 ;
   var tileWidth = 100 ;
 

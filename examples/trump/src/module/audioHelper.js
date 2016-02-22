@@ -1,6 +1,7 @@
 var audioHelper = {
 
-	context: undefined,
+  context: new AudioContext(), // this one AudioContext object instance can be shared by many copies of the audioHelper object instance (via copy_object)
+
 	buffer: undefined,
 
 	play: function audio_play( buffer, start, futureSwitch ) {
@@ -9,16 +10,16 @@ var audioHelper = {
 			buffer = this.buffer ;
 		}
 
-		// console.log('audio play', 'buffer', buffer, 'this.context', this.context) ;
+		// console.log('audio play', 'buffer', buffer, 'audioHelper.context', audioHelper.context) ;
 
-		var sourceNode = this.context.createBufferSource() ;
+		var sourceNode = audioHelper.context.createBufferSource() ;
 		if(buffer !== undefined && buffer !== null) {
 			sourceNode.buffer = buffer ;
 		} else {
 			console.log('audioHelper.play: no audio loaded') ;
 		}
 		
-		sourceNode.connect( this.context.destination ) ;
+		sourceNode.connect( audioHelper.context.destination ) ;
 
 		if ( start === undefined ) {
 			start = 0 ;
@@ -31,7 +32,7 @@ var audioHelper = {
 		var now ;
 
 		if ( futureSwitch ) {
-			now = this.context.currentTime ;
+			now = audioHelper.context.currentTime ;
 		} else {
 			now = 0 ;
 		}
