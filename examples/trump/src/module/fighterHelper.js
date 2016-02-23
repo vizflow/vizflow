@@ -689,7 +689,7 @@ var fighterHelper = {
         break ;
 
       case 'j' :
-        // console.log ('update player case j:', player.sprite[player.sprite.level[player.level]], player.transitionSet.image, buttonpress.reset, player.sprite.rest[0])
+        // console.log ('update player case j:', 'player.sprite.level[player.level]', player.sprite.level[player.level], 'player.sprite[player.sprite.level[player.level]]', player.sprite[player.sprite.level[player.level]]) ;
 
         if(transitionHelper.find('y', player.item.transition) !== -1) {
           return ; // currently in the process of jumping so do nothing
@@ -700,7 +700,7 @@ var fighterHelper = {
 
         if(player.transitionSet[player.sprite.level[player.level]] !== undefined) {
         	transition = [player.transitionSet[player.sprite.level[player.level]]()] ;
-        	// console.log('updateplayer', 'player.level', player.level) ;
+        	 // console.log('updateplayer', 'player.level', player.level) ;
           // var jumpTransition       = step_transition_func('image', player.item.viz.dur)(player.sprite[player.sprite.level[player.level]][0]) ;
           // jumpTransition.child     = animate(player.sprite[player.sprite.level[player.level]], player.transitionSet.jump, undefined, player.sprite.rest[0])[0] ;
           // transition               = [jumpTransition] ;          
@@ -736,7 +736,7 @@ var fighterHelper = {
           var enemyL  = player.item.viz.enemy.item.x ;
 
           var tol = Infinity ;
-          if(enemyL - playerR < tol) {
+          if(Math.abs (enemyL - playerR) < tol) {
             // console.log('update player zoom') ;
             var scale = 0.6 ;
             var duration = 6 * player.config.jumpDuration + player.config.floatDuration ;
@@ -753,16 +753,17 @@ var fighterHelper = {
               width:  newWidth, 
               height: newHeight,
             }) ;
-          }
+          }// else {
+	       		// var panDur = yTransition.duration ; 
+	       		// player.item.viz.panY(panDur, [-12, -12, 0]) ;
+	        // }
 
-        }
+        } 
         var xTransition = player.transitionSet.xJump(xNew) ;
 
         transition.push(xTransition) ;  
         transition.push(yTransition) ;
 
-        // var panDur = yTransition.duration ; 
-        // player.item.viz.panY(panDur, [-12, -12, 0]) ;
 
         viz.audio.jump1.play() ;
 
