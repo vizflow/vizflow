@@ -336,6 +336,7 @@ var fighterHelper = {
   	if(viz === undefined) {
   		viz = this ;
   	}
+
 	  viz.player = setup_element(viz, viz.playerConfig) ;
 	  viz.enemy  = setup_element(viz, viz.enemyConfig) ;
 
@@ -360,6 +361,7 @@ var fighterHelper = {
 	  var vizPost = viz.post ;
 
 	  viz.post =  function () {
+
 	  	vizPost.call (this) ;
 	    if ( this.enemyAttack.on && $Z.iter - this.enemyAttack.tSkip >= ( this.enemyAttack.minSkip + this.enemyAttack.skipVar[ document.skipIndex % this.enemyAttack.skipVar.length ] ) ) {
 
@@ -372,7 +374,8 @@ var fighterHelper = {
 	      	this.enemy.update = undefined ;
 	      }
 	    
-      } 	  	
+      }
+      
 	  }
 
 	},

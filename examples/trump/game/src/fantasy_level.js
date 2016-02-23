@@ -20,61 +20,119 @@ function fantasy_level () {
 
   viz.platformY = 173 ;
 
-  var tileHeight = 75 ;
-  var tileWidth = 100 ;
+  var tileHeight1 = 100 ;
+  var tileHeight2 = 240 ;
+  var tileWidth   = 350 ;
 
   viz.playerConfig = { 
+
     sprite_loader: function() {
 
-      var i         = imageHelper.image2canvas('./image/rastan_spritesheet.png') ;
-      var rowName   = ['attack', 'hit', 'jump', 'rest', 'walk'] ;
-      var width     = [tileWidth, tileWidth, tileWidth, tileWidth, tileWidth] ;
-      var height    = [tileHeight, tileHeight, tileHeight, tileHeight, tileHeight] ;
+      var i = imageHelper.image2canvas('./image/rastan_spritesheet.png') ;
+      
+      var rowName = [
+        'attack0', 
+        'attack1', 
+        'attack2', 
+        'hit0', 
+        'hit1', 
+        'hit2', 
+        'jump0', 
+        'jump1', 
+        'jump2', 
+        'rest0', 
+        'rest1', 
+        'rest2', 
+        'walk0',
+        'walk1',
+        'walk2',
+      ] ;
+      
+      var width = [
+        tileWidth, 
+        tileWidth, 
+        tileWidth, 
+        tileWidth, 
+        tileWidth,
+        tileWidth, 
+        tileWidth, 
+        tileWidth, 
+        tileWidth, 
+        tileWidth,
+        tileWidth, 
+        tileWidth, 
+        tileWidth, 
+        tileWidth, 
+        tileWidth,
+      ] ;
+      
+      var height = [
+        tileHeight1, 
+        tileHeight1, 
+        tileHeight2, 
+        tileHeight1, 
+        tileHeight1, 
+        tileHeight2, 
+        tileHeight1, 
+        tileHeight1, 
+        tileHeight2, 
+        tileHeight1, 
+        tileHeight1, 
+        tileHeight2, 
+        tileHeight1, 
+        tileHeight1, 
+        tileHeight2, 
+      ] ;
+      
       var maxHeight = Math.max.apply(null, height) ;
       var spriteset = spriteHelper.get(i, rowName, width, height) ;
+      var level     = [0, 1, 2] ;
     
-      spriteset.attack.push(spriteset.attack[4]) ;
-      spriteset.attack.push(spriteset.attack[4]) ;
-      spriteset.attack.push(spriteset.attack[4]) ;
-      spriteset.attack.push(spriteset.attack[4]) ;
-      spriteset.attack.push(spriteset.attack[4]) ;
-      spriteset.attack.push(spriteset.attack[4]) ;
-      spriteset.attack.push(spriteset.attack[3]) ;
-      spriteset.attack.push(spriteset.attack[2]) ;
-      spriteset.attack.push(spriteset.attack[1]) ;
-      spriteset.attack.push(spriteset.attack[0]) ;
-      spriteset.attack.push(spriteset.rest[0]) ;
+      for (var klev = 0 ; klev < level.length ; klev++) {
 
-      spriteset.jump.push(spriteset.jump[5]) ;
-      spriteset.jump.push(spriteset.jump[5]) ;
-      spriteset.jump.push(spriteset.jump[5]) ;
-      spriteset.jump.push(spriteset.jump[5]) ;
-      spriteset.jump.push(spriteset.jump[5]) ;
-      spriteset.jump.push(spriteset.jump[5]) ;
-      spriteset.jump.push(spriteset.jump[4]) ;
-      spriteset.jump.push(spriteset.jump[3]) ;
-      spriteset.jump.push(spriteset.jump[2]) ;
-      spriteset.jump.push(spriteset.jump[1]) ;
-      spriteset.jump.push(spriteset.jump[0]) ;
+        spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
+        spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
+        spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
+        spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
+        spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
+        spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
+        spriteset['attack' + klev].push(spriteset['attack' + klev][3]) ;
+        spriteset['attack' + klev].push(spriteset['attack' + klev][2]) ;
+        spriteset['attack' + klev].push(spriteset['attack' + klev][1]) ;
+        spriteset['attack' + klev].push(spriteset['attack' + klev][0]) ;
+        spriteset['attack' + klev].push(spriteset['rest'   + klev][0]) ;
 
-/*      spriteset.response.push(spriteset.response[2]) ;
-      spriteset.response.push(spriteset.response[2]) ;
-      spriteset.response.push(spriteset.response[1]) ;
-      spriteset.response.push(spriteset.response[1]) ;
-      spriteset.response.push(spriteset.response[1]) ;
-      spriteset.response.push(spriteset.response[0]) ;
-      spriteset.response.push(spriteset.response[0]) ;
-*/
+        spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
+        spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
+        spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
+        spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
+        spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
+        spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
+        spriteset['jump' + klev].push(spriteset['jump' + klev][4]) ;
+        spriteset['jump' + klev].push(spriteset['jump' + klev][3]) ;
+        spriteset['jump' + klev].push(spriteset['jump' + klev][2]) ;
+        spriteset['jump' + klev].push(spriteset['jump' + klev][1]) ;
+        spriteset['jump' + klev].push(spriteset['jump' + klev][0]) ;
+
+        var attackCollisionCanvas = imageHelper.clear_rect (spriteset['attack' + klev][4], { x: spriteset['attack' + klev][4].width * 0.25, y: 0, width: spriteset['attack' + klev][4].width * 0.75, height: maxHeight } ) ;
+        imageHelper.view(attackCollisionCanvas) ;
+        spriteset['attack' + klev][4].sourceCollisionImage = attackCollisionCanvas ;
+        // spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
+        // spriteset.attack = [spriteset.attack[0], spriteset.walk[1], spriteset.attack[1], spriteset.walk[1]] ;
+
+        var jumpCollisionCanvas = imageHelper.clear_rect ( spriteset['jump' + klev][5], { x: spriteset['jump' + klev].width * 0.25, y: 0, width: spriteset['jump' + klev].width * 0.75, height: maxHeight } ) ;
+        // imageHelper.view(jumpCollisionCanvas) ;
+        spriteset['jump' + klev][5].sourceCollisionImage = jumpCollisionCanvas ;
+
+      }
+
+      spriteset.attack = spriteset.attack0 ;
+      spriteset.hit    = spriteset.hit0 ;
+      spriteset.jump   = spriteset.jump0 ;
+      spriteset.rest   = spriteset.rest0 ;
+      spriteset.walk   = spriteset.walk0 ;
+
       // console.log('spriteset', spriteset) ;
-      var attackCollisionCanvas = imageHelper.clear_rect (spriteset.attack[4], { x: spriteset.attack[4].width * 0.25, y: 0, width: spriteset.attack[4].width * 0.75, height: maxHeight } ) ;
-      // imageHelper.view(attackCollisionCanvas) ;
-      spriteset.attack[4].sourceCollisionImage = attackCollisionCanvas ;
-      // spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
-      // spriteset.attack = [spriteset.attack[0], spriteset.walk[1], spriteset.attack[1], spriteset.walk[1]] ;
-
-      var jumpCollisionCanvas = imageHelper.clear_rect ( spriteset.jump[5], { x: spriteset.jump[0].width * 0.25, y: 0, width: spriteset.jump[0].width * 0.75, height: maxHeight } ) ;
-      // imageHelper.view(jumpCollisionCanvas) ;
-      spriteset.jump[5].sourceCollisionImage = jumpCollisionCanvas ;
 
       // imageHelper.view(jumpCollisionCanvas) ;
       // console.log('player sprite loader', spriteset) ;
@@ -96,7 +154,8 @@ function fantasy_level () {
     fullLoopSwitch: true,
     xMove: 8,
     yMove: 55,
-    y: viz.platformY - tileHeight,
+    x: -tileWidth * 0.5 + 10,
+    y: viz.platformY - tileHeight2,
     type: 'player',
     bulletSwitch: false,
   } ;

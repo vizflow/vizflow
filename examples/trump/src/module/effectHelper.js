@@ -129,13 +129,13 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 
     widthIn.child  = widthOut ;
     heightIn.child = heightOut ;
-    xIn.child = xOut ;
-    yIn.child = yOut ;
+    xIn.child      = xOut ;
+    yIn.child      = yOut ;
 
-    widthIn.pause = 0.45 * zoomDur ;
+    widthIn.pause  = 0.45 * zoomDur ;
     heightIn.pause = 0.45 * zoomDur ;
-    xIn.pause = 0.45 * zoomDur ;
-    yIn.pause = 0.45 * zoomDur ;
+    xIn.pause      = 0.45 * zoomDur ;
+    yIn.pause      = 0.45 * zoomDur ;
 
     if(shakeSwitch) {
 	    widthIn.end = function() {

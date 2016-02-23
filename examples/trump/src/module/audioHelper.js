@@ -13,6 +13,8 @@ var audioHelper = {
 
 	volume: 0.25,
 
+	loop: false,
+
 	play: function audio_play( buffer, start, futureSwitch ) {
 
 		if ( buffer === undefined ) {
@@ -27,6 +29,8 @@ var audioHelper = {
 		} else {
 			console.log('audioHelper.play: no audio loaded') ;
 		}
+
+		sourceNode.loop = this.loop ;
 
 		var gainNode = audioHelper.context.createGain(); // create the gain node
 		sourceNode.connect(gainNode); // connect source to filter
