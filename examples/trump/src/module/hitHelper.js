@@ -21,20 +21,6 @@ var hitHelper = {
     image: null,
   },
 
-  type_check: function hit_helper_type_check(sourceItem, response) {
-
-    if(response === undefined) {
-      response = this ;
-    }
-
-    if(sourceItem.type === response.sourceType) {
-      return true ;
-    } else {
-      return false ;
-    }
-
-  },
-
   setup_response: function hit_helper_setup(viz, element, setupResponseConfig) {
 
     if(setupResponseConfig === undefined) {
@@ -82,8 +68,8 @@ var hitHelper = {
         viz: viz,
         audio: audio,
         sourceType: setupResponseConfig.sourceType,
-        type_check: hitHelper.type_check,
-        detectSwitch: true,
+        type_check: responseHelper.type_check,
+        responseSwitch: true,
         performSwitch: false,
 
       } ; 
@@ -103,8 +89,8 @@ var hitHelper = {
         viz: viz,
         audio: audio,
         sourceType: setupResponseConfig.sourceType,
-        type_check: hitHelper.type_check,
-        detectSwitch: true,
+        type_check: responseHelper.type_check,
+        responseSwitch: true,
         performSwitch: false,
 
       } ; 
@@ -317,7 +303,7 @@ var hitHelper = {
       response = this.response ;
     }
     
-    response.detectSwitch = true ;
+    response.responseSwitch = true ;
   },
 
   transition: function hit_helper_transition(response) {
@@ -405,7 +391,7 @@ var hitHelper = {
 
     var element = response.element ;
 
-    response.detectSwitch = false ;
+    response.responseSwitch = false ;
 
     var hitDur = hitHelper.duration ;
 

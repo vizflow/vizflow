@@ -105,6 +105,8 @@ var spriteHelper = {
 
 	get: function sprite_helper_get (canvas, rowName, tileWidth, rowHeight) {
 
+		// imageHelper.view(canvas) ;
+
 		var maxHeight = Math.max.apply(null, rowHeight) ;
 		var Nrow = rowName.length ;
 		var spriteSet = {} ;

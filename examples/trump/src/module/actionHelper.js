@@ -52,7 +52,7 @@ var actionHelper = {
 
         // console.log('action helper detect collision for each', 'response', response, 'sourceItem', sourceItem) ;
 
-        if( response.detectSwitch ) { // perform response after passing detailed detection check 
+        if( response.responseSwitch ) { // perform response after passing detailed detection check 
           // console.log('initial detection passed', 'sourceItem.x', sourceItem.y, 'response element x', response.element.y)
           response.performSwitch = true ; // flag for performance by the visualization/animation engine loop
           response.sourceItem = sourceItem ;

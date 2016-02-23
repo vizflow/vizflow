@@ -6,10 +6,11 @@ var powerupHelper = {
       item = this ;
     }
 
-    console.log('powerupHelper drop:', 'item', item) ;
+    // console.log('powerupHelper drop:', 'item', item) ;
 
     var dropDur = 3000 ;
-    var yTrans  = $Z.transition.rounded_linear_transition_func('y', dropDur)(item.viz.platformY - item.image.height) ;
+    var offsetY = 4 ;
+    var yTrans  = $Z.transition.rounded_linear_transition_func('y', dropDur)(item.viz.platformY - (item.image.height / document.ratio) - offsetY) ;
 
     yTrans.end = {
       item: item,
@@ -18,7 +19,7 @@ var powerupHelper = {
 
     item.add_transition(yTrans) ;
 
-    var Nstep         = 5 ;
+    var Nstep         = 12 ;
     var frameDuration = dropDur / Nstep ;
     item.flash(frameDuration, Nstep) ;
 
@@ -33,6 +34,8 @@ var powerupHelper = {
     }
 
     var item = this.item ;
+    item.inert = false ;
+    // console.log ('powerup helper stop', 'item', item) ;
 
     item.viz.audio.bump1.play() ;
 
@@ -48,26 +51,34 @@ var powerupHelper = {
 
   },
 
+  perform: function (powerupResponse){
+    if (powerupResponse === undefined) {
+      powerupResponse = this ;
+    }
+    // console.log('powerup helper, perform start', 'this', this, 'this.element.inert', this.element.inert, 'this.sourceItem', this.sourceItem) ;
+    var typeCheck = powerupResponse.type_check(powerupResponse.sourceItem) ; // boolean variable storing the resuls of the type-validity check function contained in the target item's hit config object
+
+    if (typeCheck === true) {
+      powerupResponse.sourceItem.inert = true ;
+    }
+
+  },
+
   setup_response: function powerup_helper_setup_response (viz, powerupResponseConfig) {
-   
-    var powerupResponse = {
+ 
+    var powerupResponse = { // action config object
 
-      type: 'enemy',
-      viz: viz, 
-      image: powerupResponseConfig.image,
-      config: powerupResponseConfig,
-      transition: powerupHelper.deliver,
-      render: drawHelper.image,
-      collision_image: actionHelper.collision_image,
-      explode: imageEffectHelper.explode,
-      fade: imageEffectHelper.fade,
-      singleSwitch: true,
-      opacity: 0,
-      inert: false,
-      responseSet: {},
-      fadeDuration: 200,
+      perform: powerupHelper.perform,
+      transition: powerupHelper.deliver, 
+      element: viz.player,
+      viz: viz,
+      // audio: audio,
+      sourceType: powerupResponseConfig.sourceType,
+      type_check: responseHelper.type_check,
+      responseSwitch: true,
+      performSwitch: false,
 
-    } ;
+    } ; 
 
     return powerupResponse ;
     
@@ -95,7 +106,7 @@ var powerupHelper = {
     // console.log ('newPowerup', newPowerup, 'this', this, 'powerup', this[name]) ;
 
     // console.log('fire powerup', 'transition', newPowerup.transition) ;
-    console.log('fire powerup', 'newPowerup', newPowerup, 'this', this) ;
+    // console.log('fire powerup', 'newPowerup', newPowerup, 'this', this) ;
     // console.log('this.adversary.item, newPowerup', this.adversary.item, newPowerup) ;
     // imageHelper.view(newPowerup.image)
 

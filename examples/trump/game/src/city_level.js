@@ -22,8 +22,9 @@ function city_level () {
  
   var jumpDuration  = 300 ;
   var floatDuration = 200 ;
-  var tileWidth     = 50 ;
-  var tileHeight    = 48 ; 
+  var tileWidth     = 100 ;
+  var tileHeight    = 68 ; 
+  var maxHeight     = 200 ;
 
   viz.playerConfig = {
 
@@ -33,9 +34,11 @@ function city_level () {
 
       var rowName = [
         'attack', 
-        'hit', 
+        'dragonpunch',
+        'hit',
         'jump', 
-        'rest', 
+        'rest',
+        'superdp', 
         'walk',
       ] ;
 
@@ -45,20 +48,28 @@ function city_level () {
         tileWidth, 
         tileWidth, 
         tileWidth,
+        tileWidth, 
+        tileWidth,        
       ] ;
 
       var height = [
         tileHeight, 
+        maxHeight, 
+        48, 
         tileHeight, 
-        tileHeight, 
-        tileHeight, 
+        tileHeight,
+        maxHeight, 
         tileHeight,
       ] ;
 
-      var maxHeight = Math.max.apply(null, height) ;
+      maxHeight = Math.max.apply(null, height) ;
       var spriteset = spriteHelper.get(i, rowName, width, height) ;
 
       // console.log('city level:', 'spriteset', spriteset) ;
+      // imageHelper.view(spriteset.dragonpunch[0]) ;
+      // imageHelper.view(spriteset.dragonpunch[1]) ;      
+      // imageHelper.view(spriteset.dragonpunch[0]) ;
+      // imageHelper.view(spriteset.hit[0]) ;
 
       var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0], { x: 0, y: 0, width: 36, height: maxHeight } ) ;
       spriteset.attack[0].sourceCollisionImage = attackCollisionCanvas ;
@@ -68,6 +79,21 @@ function city_level () {
       var jumpCollisionCanvas                = imageHelper.clear_rect ( spriteset.jump[1], { x: 0, y: 0, width: 36, height: maxHeight } ) ;
       spriteset.jump[1].sourceCollisionImage = jumpCollisionCanvas ;
 
+      for (var kFrame = 2 ; kFrame <= 5 ; kFrame++) {
+        spriteset.dragonpunch[kFrame].sourceCollisionImage = spriteset.dragonpunch[kFrame] ;
+      }
+      spriteset.dragonpunch[6].sourceCollisionImage = imageHelper.clear_rect (spriteset.dragonpunch[6], { x: 0, y: maxHeight - 40, width: 56 , height: 40} ) ;
+      // imageHelper.view(spriteset.dragonpunch[6].sourceCollisionImage) ;
+      for (var kFrame = 3 ; kFrame <= 7 ; kFrame++) {
+        spriteset.superdp[kFrame].sourceCollisionImage = spriteset.superdp[kFrame] ;
+      }      
+      spriteset.superdp = spriteset.dragonpunch.concat (spriteset.superdp) ;
+
+      spriteset.level = {
+        0: 'jump',
+        1: 'dragonpunch',
+        2: 'superdp',
+      } ;
 /*      spriteset.jump.push(spriteset.jump[1]) ;
       spriteset.jump.push(spriteset.jump[1]) ;
       spriteset.jump.push(spriteset.jump[1]) ;
@@ -95,8 +121,8 @@ function city_level () {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), //function accepting an x end-value and returning a transition object
       attack: step_transition_func ( 'image', viz.dur * 10 ), // transition object creation      
       jump: function() {
-        var dur1 = jumpDuration * 0.125 ;
-        var dur2 = floatDuration ;
+        var dur1 = jumpDuration * .75 ;
+        var dur2 = floatDuration * 1.5 ;
         var dur4 = jumpDuration ; 
         var dur3 = jumpDuration ;
         var trans = step_transition_func('image', dur1) (viz.player.sprite.jump[0]) ;
@@ -112,11 +138,12 @@ function city_level () {
 
     xMove: 7,
     yMove: 50,
-    y: viz.platformY - tileHeight,
+    y: viz.platformY - maxHeight,
     type: 'player',
     bulletSwitch: false,
 
   } ;
+  // console.log('city level', 'viz.platformY', viz.platformY, 'maxHeight', maxHeight) ;
 
   var enemyTileHeight = 154 ;
   var enemyTileWidth  = 170 ;

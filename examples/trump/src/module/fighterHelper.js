@@ -343,6 +343,8 @@ var fighterHelper = {
 
 	  viz.player.orientation = 'r' ; // all players start facing right
 
+	  viz.player.level = 0 ;
+
 	  viz.player.adversary = viz.enemy ; // decorate the player object for convenient access to the viz.enemy object 
 	  viz.enemy.adversary  = viz.player ;
 		
@@ -684,7 +686,7 @@ var fighterHelper = {
         break ;
 
       case 'j' :
-        // console.log ('update player case j:', player.sprite.jump, player.transitionSet.image, buttonpress.reset, player.sprite.rest[0])
+        // console.log ('update player case j:', player.sprite[player.sprite.level[player.level]], player.transitionSet.image, buttonpress.reset, player.sprite.rest[0])
 
         if(transitionHelper.find('y', player.item.transition) !== -1) {
           return ; // currently in the process of jumping so do nothing
@@ -693,13 +695,15 @@ var fighterHelper = {
 
         var finalFrame = player.sprite.rest[0] ;
 
-        if(player.transitionSet.jump !== undefined) {
-          var jumpTransition       = step_transition_func('image', player.item.viz.dur)(player.sprite.jump[0]) ;
-          jumpTransition.child     = animate(player.sprite.jump, player.transitionSet.jump, undefined, player.sprite.rest[0])[0] ;
-          transition               = [jumpTransition] ;          
-          // transition = animate(player.sprite.jump, player.transitionSet.jump, undefined, finalFrame) ;
+        if(player.transitionSet[player.sprite.level[player.level]] !== undefined) {
+        	transition = [player.transitionSet[player.sprite.level[player.level]]()] ;
+        	// console.log('updateplayer', 'player.level', player.level) ;
+          // var jumpTransition       = step_transition_func('image', player.item.viz.dur)(player.sprite[player.sprite.level[player.level]][0]) ;
+          // jumpTransition.child     = animate(player.sprite[player.sprite.level[player.level]], player.transitionSet.jump, undefined, player.sprite.rest[0])[0] ;
+          // transition               = [jumpTransition] ;          
+          // transition = animate(player.sprite[player.sprite.level[player.level]], player.transitionSet.jump, undefined, finalFrame) ;
         } else {
-          transition = animate(player.sprite.jump, player.transitionSet.image, undefined, finalFrame) ;
+          transition = animate(player.sprite[player.sprite.level[player.level]], player.transitionSet.image, undefined, finalFrame) ;
         }
         // console.log('update player 56') ;
         
@@ -708,7 +712,7 @@ var fighterHelper = {
 
         // console.log('update player', 'yTransition', yTransition) ;
         yTransition.child                 = player.transitionSet.float(yNew) ; // just to take up time
-        yTransition.child.child           = player.transitionSet.y(player.config.y) ; // - player.sprite.jump[0].height) ;
+        yTransition.child.child           = player.transitionSet.y(player.config.y) ; // - player.sprite[player.sprite.level[player.level]][0].height) ;
         // yTransition.child.child.child     = player.transitionSet.image (finalFrame) ;
         yTransition.child.child.element = player ;
         yTransition.child.child.end = function () {
@@ -816,7 +820,14 @@ var fighterHelper = {
     if( viz === undefined ) {
       viz = this ;
     }
+    
+    if(viz.player.config.bulletSwitch) {
+      fighterHelper.load_player_bullet (viz) ;
+    }
 
+    fighterHelper.load_enemy_bullet (viz) ;
+    fighterHelper.load_powerup      (viz) ;
+    
     if ( enemyResponseConfig === undefined ) {
 
       enemyResponseConfig = {
@@ -846,16 +857,15 @@ var fighterHelper = {
       } ;
 
     }
-      
+  
+    var powerupResponseConfig = {
+    	sourceType: 'powerup',
+    } ;
+
     viz.player.item.responseSet.hit = hitHelper.setup_response(viz, viz.player, playerResponseConfig) ;
+    viz.player.item.responseSet.powerup = powerupHelper.setup_response(viz, viz.player, powerupResponseConfig) ;
+
     viz.enemy.item.responseSet.hit  = hitHelper.setup_response(viz, viz.enemy, enemyResponseConfig) ; 
-
-    if(viz.player.config.bulletSwitch) {
-      fighterHelper.load_player_bullet (viz) ;
-    }
-
-    fighterHelper.load_enemy_bullet (viz) ;
-    fighterHelper.load_powerup      (viz) ;
 
   },	  
 
@@ -870,8 +880,9 @@ var fighterHelper = {
       powerupConfig = {
 
         x: 50,
-        y: 50,
+        y: -20,
         inert: true,
+        type: 'powerup',
 
       } ;
 
@@ -892,10 +903,6 @@ var fighterHelper = {
     viz.player.powerup.deliver = powerupHelper.deliver ;
 
     viz.enemy.fire_powerup = powerupHelper.fire ;
-
-    viz.player.powerupResponseConfig = {
-    	sourceType: 'powerup',
-    } ;
 
   },
 
