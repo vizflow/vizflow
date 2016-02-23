@@ -55,11 +55,18 @@ var powerupHelper = {
     if (powerupResponse === undefined) {
       powerupResponse = this ;
     }
-    // console.log('powerup helper, perform start', 'this', this, 'this.element.inert', this.element.inert, 'this.sourceItem', this.sourceItem) ;
     var typeCheck = powerupResponse.type_check(powerupResponse.sourceItem) ; // boolean variable storing the resuls of the type-validity check function contained in the target item's hit config object
+    // console.log('powerup helper, perform start', 'this', this, 'this.element.inert', this.element.inert, 'this.sourceItem', this.sourceItem, 'typeCheck', typeCheck) ;
 
     if (typeCheck === true) {
       powerupResponse.sourceItem.inert = true ;
+      var item = powerupResponse.sourceItem ;
+      powerupResponse.sourceItem.fade({
+        end: function() {
+          item.remove() ;
+        }
+      })
+      powerupResponse.element.level++ ;
     }
 
   },
@@ -73,7 +80,7 @@ var powerupHelper = {
       element: viz.player,
       viz: viz,
       // audio: audio,
-      sourceType: powerupResponseConfig.sourceType,
+      sourceType: powerupResponseConfig.sourceType || 'powerup',
       type_check: responseHelper.type_check,
       responseSwitch: true,
       performSwitch: false,
