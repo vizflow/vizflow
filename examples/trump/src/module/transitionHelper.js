@@ -113,13 +113,17 @@ var transitionHelper = {
 
     var transitionK = this.transition[transitionIndex] ; // initialize
 
-    for( var kTrans = 0 ; kTrans < frameIndex ; kTrans++ ) {
-      transitionK = transitionK.child ;
-    }
-
+    transitionK = transitionHelper.get_child(transitionK, frameIndex) ;
     transitionK.end = callback ; // only restore UI functionality after the minimum number of frames has been rendered  
     
   },  
+
+  get_child: function transition_helper_get_child (transition, frameIndex) {
+    for( var kTrans = 0 ; kTrans < frameIndex ; kTrans++ ) {
+      transition = transition.child ;
+    }
+    return transition ;    
+  },
 
   update_end_value: function transition_helper_update_end_value (property, newEndValue, transition_creator) {
     // updates end value of matching transition if it exists otherwise do nothing 

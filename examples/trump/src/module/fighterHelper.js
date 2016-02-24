@@ -217,7 +217,7 @@ var fighterHelper = {
  		if(viz === undefined) {
   		viz = this ;
   	}
-
+  	// console.log('fighter helper run start') ;
 		viz.fade({
 		  opacity: 1,
 		  duration: viz.fadeDuration,
@@ -628,7 +628,7 @@ var fighterHelper = {
 
         healthbarY: 2, 
         healthbarX: Math.floor(viz.width * 0.5) + 1,
-        healthdrop: 1,
+        healthdrop: 0.1,
         color: '#900',
         audio: viz.audio.hit3,
         sourceType: 'player',
@@ -696,6 +696,9 @@ var fighterHelper = {
     viz.player.powerup.stop    = powerupHelper.stop ;
     viz.player.powerup.deliver = powerupHelper.deliver ;
     viz.player.powerup.Nmax    = 2 ;
+    if (viz.player.bulletSprite !== undefined && viz.player.bulletSprite.bullet3 !== undefined) {
+    	viz.player.powerup.Nmax = 3
+    }
     viz.player.powerup.count   = 0 ;
 
   },

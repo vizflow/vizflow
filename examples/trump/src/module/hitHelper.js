@@ -202,14 +202,14 @@ var hitHelper = {
 
       var item = response.element.item === undefined ? response.element : response.element.item ;
       
-      var playerSource  = response.sourceItem === response.viz.player.item ;
+      var playerSource  = response.sourceItem.type === 'player' ;
       var attackCheck   = item.collision_image('source') !== undefined ;
       var playerTarget  = response.element === response.viz.player ;
       var playerCounter = attackCheck && playerTarget ;
       var enemyTarget   = response.element === response.viz.enemy ;
 
       if(playerSource && enemyTarget) { 
-        response.viz.player.score.increase('enemyResponse') ;
+        response.viz.player.score.increase('enemyHit') ;
       }
 
       if(response.element.explode !== undefined) {
