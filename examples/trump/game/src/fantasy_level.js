@@ -22,6 +22,7 @@ function fantasy_level () {
 
   var tileHeight1 = 100 ;
   var tileHeight2 = 240 ;
+  var tileHeight3 = 123 ;
   var tileWidth   = 350 ;
 
   viz.playerConfig = { 
@@ -68,19 +69,19 @@ function fantasy_level () {
       
       var height = [
         tileHeight1, 
-        tileHeight1, 
+        tileHeight3, 
         tileHeight2, 
         tileHeight1, 
-        tileHeight1, 
+        tileHeight3, 
         tileHeight2, 
         tileHeight1, 
-        tileHeight1, 
+        tileHeight3, 
         tileHeight2, 
         tileHeight1, 
-        tileHeight1, 
+        tileHeight3, 
         tileHeight2, 
         tileHeight1, 
-        tileHeight1, 
+        tileHeight3, 
         tileHeight2, 
       ] ;
       
@@ -155,7 +156,7 @@ function fantasy_level () {
     xMove: 8,
     yMove: 55,
     x: -tileWidth * 0.5 + 10,
-    y: viz.platformY - tileHeight2,
+    y: viz.platformY - 220,
     type: 'player',
     bulletSwitch: false,
   } ;

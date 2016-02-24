@@ -102,8 +102,8 @@ var playerHelper = {
 
         var finalFrame = player.sprite.rest[0] ;
 
-        if(player.config.jump !== undefined) {
-        	transition = player.config.jump() ;
+        if(player.config['jump' + player.level] !== undefined) {
+        	transition = player.config['jump' + player.level]() ;
         } else if (player.transitionSet.jump !== undefined) {
 	        transition = animate(player.sprite.jump, player.transitionSet.jump, undefined, finalFrame) ;
         } else {
