@@ -28,15 +28,15 @@ function city_level () {
   function dragonpunch_trans (t, viz) {
     var dur1 = t * 1.5 ;
     var dur2 = t ;
-    var dur3 = t ;
-    var dur4 = t ;
-    var dur5 = t ;
-    var dur6 = t ;
-    var dur7 = t ;
-    var dur8 = t * 1.5;
-    var dur9 = t ;
-    var dur10 = t * 3;
-    var dur11 = t ;
+    var dur3 = t * 0.5 ;
+    var dur4 = t * 0.5 ;
+    var dur5 = t * 0.5 ;
+    var dur6 = t * 0.5 ;
+    var dur7 = t * 0.5 ;
+    var dur8 = t * 0.5;
+    var dur9 = t * 0.5;
+    var dur10 = t * 7;
+    var dur11 = t * 2;
     var trans1 = step_transition_func('image', dur1) (viz.player.sprite.dragonpunch[0]) ;
     var trans2 = step_transition_func('image', dur2) (viz.player.sprite.dragonpunch[1]) ;
     var trans3 = step_transition_func('image', dur3) (viz.player.sprite.dragonpunch[2]) ;
@@ -169,18 +169,27 @@ function city_level () {
       },
 
       superdp: function () {
-        console.log ('superdp') ;
-        var jumpTime = jumpDuration * 2 + floatDuration ;
-        var Nframe   = (viz.player.sprite.dragonpunch.length + viz.player.sprite.superdp.length) +1 ;
-        var t        = jumpTime / Nframe ; // if all frames were same speed to equal total jumpDuration        
-        var trans0 = dragonpunch_trans(t, viz) ;
-        var dur1 = t * 1.5 ;
+        // console.log ('superdp') ;
+        var jumpTime  = jumpDuration * 2 + floatDuration ;
+        var Nframe    = (viz.player.sprite.dragonpunch.length + viz.player.sprite.superdp.length) +1 ;
+        var t         = jumpTime / Nframe ; // if all frames were same speed to equal total jumpDuration        
+        var trans0    = dragonpunch_trans(t, viz) ;
+        trans0[8].end = function () {
+          viz.zoom_inout ({
+            duration: jumpDuration * 10,
+            x: Math.max(0, Math.min(20, viz.player.item.x)),
+            y: Math.max(0, viz.player.item.y) + 30,
+            width: 90,
+            height: 120,
+          }) ;
+        }  
+        var dur1 = t * 25 ;
         var dur2 = t ;
-        var dur3 = t ;
-        var dur4 = t ;
-        var dur5 = t ;
-        var dur6 = t ;
-        var dur7 = t ;
+        var dur3 = t * 5 ;
+        var dur4 = t * 5 ;
+        var dur5 = t * 5 ;
+        var dur6 = t * 5 ;
+        var dur7 = t * 5 ;
         var dur8 = t ;
         var trans1 = step_transition_func('image', dur1) (viz.player.sprite.superdp[0]) ;
         var trans2 = step_transition_func('image', dur2) (viz.player.sprite.superdp[1]) ;

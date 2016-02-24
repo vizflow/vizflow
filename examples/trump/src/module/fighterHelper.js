@@ -835,7 +835,7 @@ var fighterHelper = {
 
         healthbarY: 2, 
         healthbarX: Math.floor(viz.width * 0.5) + 1,
-        healthdrop: 20,
+        healthdrop: .1 ,
         color: '#900',
         audio: viz.audio.hit3,
         sourceType: 'player',
