@@ -96,7 +96,7 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 	    var xNew = zoomConfig.x * document.ratio ;
 		}
 
-		if(zoomConfig.x === undefined) {
+		if(zoomConfig.y === undefined) {
 	    var yNew = Math.floor(viz.viewportY - 0.25 * viewDelta) ;
 		} else {			
 	    var yNew = zoomConfig.y * document.ratio ;
@@ -116,6 +116,9 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 			var shakeSwitch = zoomConfig.shakeSwitch ;
 		}
 
+		xNew = Math.max(0, Math.min(viz.width  * document.ratio, xNew)) ;
+		yNew = Math.max(0, Math.min(viz.height * document.ratio, yNew)) ;
+		
 		// console.log('zoom in out:', 'newWidth', newWidth, 'newHeight', newHeight, 'xNew', xNew, 'yNew', yNew) ;
 
     var widthIn   = $Z.transition.rounded_linear_transition_func('viewportWidth', zoomDur)(newWidth) ;

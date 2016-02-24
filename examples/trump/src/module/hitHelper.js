@@ -222,7 +222,9 @@ var hitHelper = {
 
       if(response.healthbar !== undefined & !playerCounter) { // i.e. player or enemy was response while in their attack frame state
 
-        response.healthbar.health -= response.healthdrop ;
+        response.healthbar.health -= response.healthdrop * (response.viz.player.level + 1) ;
+
+        
         
         hitHelper.flash(response) ; // also sets inertSwitch - separate?
         if(response.audio !== undefined && response.audio.buffer !== undefined) {

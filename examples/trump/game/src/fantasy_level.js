@@ -114,13 +114,13 @@ function fantasy_level () {
         spriteset['jump' + klev].push(spriteset['jump' + klev][1]) ;
         spriteset['jump' + klev].push(spriteset['jump' + klev][0]) ;
 
-        var attackCollisionCanvas = imageHelper.clear_rect (spriteset['attack' + klev][4], { x: spriteset['attack' + klev][4].width * 0.25, y: 0, width: spriteset['attack' + klev][4].width * 0.75, height: maxHeight } ) ;
-        imageHelper.view(attackCollisionCanvas) ;
+        var attackCollisionCanvas = imageHelper.clear_rect (spriteset['attack' + klev][4], { x: spriteset['attack' + klev][4].width * 0.4, y: 0, width: spriteset['attack' + klev][4].width * 0.6, height: maxHeight } ) ;
+        // imageHelper.view(attackCollisionCanvas) ;
         spriteset['attack' + klev][4].sourceCollisionImage = attackCollisionCanvas ;
         // spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
         // spriteset.attack = [spriteset.attack[0], spriteset.walk[1], spriteset.attack[1], spriteset.walk[1]] ;
 
-        var jumpCollisionCanvas = imageHelper.clear_rect ( spriteset['jump' + klev][5], { x: spriteset['jump' + klev].width * 0.25, y: 0, width: spriteset['jump' + klev].width * 0.75, height: maxHeight } ) ;
+        var jumpCollisionCanvas = imageHelper.clear_rect ( spriteset['jump' + klev][5], { x: spriteset['jump' + klev].width * 0.4, y: 0, width: spriteset['jump' + klev].width * 0.6, height: maxHeight } ) ;
         // imageHelper.view(jumpCollisionCanvas) ;
         spriteset['jump' + klev][5].sourceCollisionImage = jumpCollisionCanvas ;
 
@@ -143,7 +143,7 @@ function fantasy_level () {
     frameDuration: viz.frameDuration,
     hitDuration: viz.frameDuration * 1.5,
     floatDuration: viz.dur * 30,
-    callback: fighterHelper.update_player,
+    callback: playerHelper.update,
     restoreRest: false,
     transitionSet: {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), // function accepting an x end-value and returning a transition object

@@ -51,14 +51,17 @@ var powerupHelper = {
 
   },
 
-  perform: function (powerupResponse){
+  perform: function (powerupResponse) {
+
     if (powerupResponse === undefined) {
       powerupResponse = this ;
     }
+
     var typeCheck = powerupResponse.type_check(powerupResponse.sourceItem) ; // boolean variable storing the resuls of the type-validity check function contained in the target item's hit config object
     // console.log('powerup helper, perform start', 'this', this, 'this.element.inert', this.element.inert, 'this.sourceItem', this.sourceItem, 'typeCheck', typeCheck) ;
 
     if (typeCheck === true) {
+
       powerupResponse.sourceItem.inert = true ;
       var item = powerupResponse.sourceItem ;
       powerupResponse.sourceItem.fade({
@@ -66,7 +69,9 @@ var powerupHelper = {
           item.remove() ;
         }
       })
-      powerupResponse.element.level++ ;
+      // console.log('before levelup') ;
+      powerupResponse.element.levelup() ;
+      
     }
 
   },
@@ -101,7 +106,7 @@ var powerupHelper = {
 
     // if (this[name] !== undefined) { // check if this character shoots powerups
 
-    var newPowerup = copy_object ( this.adversary[name] ) ;
+    var newPowerup = copy_object ( this[name] ) ;
 
     // console.log('newPowerup', newPowerup)
 
@@ -122,6 +127,8 @@ var powerupHelper = {
     if(newPowerup.drop !== undefined) {
       newPowerup.drop() ; // overwriting the previous value of newPowerup.transition with the output of the newPowerup.transition function call
     }
+
+    this[name].count++ ;
 
     // this[name].audio.play() ;
     // console.log ('fire_powerup end powerup if-block') ;

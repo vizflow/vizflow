@@ -25,7 +25,9 @@ function city_level () {
   var tileWidth     = 100 ;
   var tileHeight    = 68 ; 
   var maxHeight     = 200 ;
+
   function dragonpunch_trans (t, viz) {
+
     var dur1 = t * 1.5 ;
     var dur2 = t ;
     var dur3 = t ;
@@ -37,6 +39,7 @@ function city_level () {
     var dur9 = t ;
     var dur10 = t * 3;
     var dur11 = t ;
+    
     var trans1 = step_transition_func('image', dur1) (viz.player.sprite.dragonpunch[0]) ;
     var trans2 = step_transition_func('image', dur2) (viz.player.sprite.dragonpunch[1]) ;
     var trans3 = step_transition_func('image', dur3) (viz.player.sprite.dragonpunch[2]) ;
@@ -49,7 +52,9 @@ function city_level () {
     var trans10 = step_transition_func('image', dur10) (viz.player.sprite.dragonpunch[9]) ;
     var trans11 = step_transition_func('image', dur11) (viz.player.sprite.rest[0]) ;
     var trans = [trans1, trans2, trans3, trans4, trans5, trans6, trans7, trans8, trans9, trans10, trans11] ;    
+
     return trans ;
+
   }
 
   viz.playerConfig = {
@@ -91,7 +96,7 @@ function city_level () {
       maxHeight = Math.max.apply(null, height) ;
       var spriteset = spriteHelper.get(i, rowName, width, height) ;
 
-      console.log('city level:', 'spriteset', spriteset) ;
+      // console.log('city level:', 'spriteset', spriteset) ;
       // imageHelper.view(spriteset.dragonpunch[0]) ;
       // imageHelper.view(spriteset.dragonpunch[1]) ;      
       // imageHelper.view(spriteset.dragonpunch[0]) ;
@@ -140,7 +145,7 @@ function city_level () {
     jumpDuration: jumpDuration,
     floatDuration: 1.5 * jumpDuration,
 
-    callback: fighterHelper.update_player,
+    callback: playerHelper.update,
     restoreRest: true,
 
     transitionSet: {
