@@ -269,16 +269,31 @@ var hitHelper = {
           var blockSize = 8 ;
           imageEffectHelper.explode.call(response.element.item, blockSize, response.viz.fadeDuration) ;
 
-          var scale = .25 ;
+          var scale = 0.25 ;
 
-          response.viz.zoom({duration: response.viz.fadeDuration, x: response.element.item.x + 0.5 * scale * response.element.item.image.width, y: response.element.item.y + 0.5 * scale * response.element.item.image.height, width: response.viz.width * scale, height: response.viz.height * scale }) ;
+          response.viz.zoom({
+            
+            duration: response.viz.fadeDuration, 
+            x: response.element.item.x + 0.5 * scale * response.element.item.image.width, 
+            y: response.element.item.y + 0.5 * scale * response.element.item.image.height, 
+            width: response.viz.width * scale, 
+            height: response.viz.height * scale,
+
+          }) ;
+          
           response.viz.fade({
             opacity: 0, 
             duration: response.viz.fadeDuration,
+            end: function () { window.location.reload() ; },
           }) ;
+
           response.healthbar.health = 0 ;
           response.viz.audio.laugh1.play() ;
           response.viz.enemyAttack.on = false ;
+
+          if(viz.audio.music !== undefined) {
+            viz.audio.music.fade(response.viz.fadeDuration) ;
+          }
 
         }
 
