@@ -36,6 +36,8 @@ document.audio = [
 	'./audio/bump1.wav',  
 	'./audio/powerup0.wav',  
 	'./audio/powerup3.wav',  
+	'./audio/paQueSeLoGozen.wav',
+	'./audio/85riddim.wav',
 	// './audio/bullet2.wav',  
 	// './audio/bump2.wav',  
 	// './audio/explode1.wav',  

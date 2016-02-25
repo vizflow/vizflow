@@ -39,7 +39,7 @@ var hitHelper = {
 
     if(setupResponseConfig.healthdrop !== undefined) {
 
-      var healthbar = setup_healthbar (
+      var healthbar = fighterHelper.setup_healthbar (
 
         viz, 
         setupResponseConfig.elementHealth, 

@@ -11,11 +11,91 @@ var audioHelper = {
 
 	buffer: undefined,
 
+	source: undefined,
+
+	gain: undefined,
+
 	volume: 0.25,
 
 	loop: false,
 
-	play: function audio_play( buffer, start, futureSwitch ) {
+	setup: function(audio) {
+
+		if(audio === undefined) {
+			audio = this ;
+		}
+
+		var sourceNode = audioHelper.context.createBufferSource() ;
+
+		if(audio.buffer !== undefined && audio.buffer !== null) {
+			sourceNode.buffer = audio.buffer ;
+		} else {
+			console.log('audioHelper.setup: no audio loaded') ;
+		}
+
+		sourceNode.loop = audio.loop ;
+
+		if(audio.gain === undefined) {
+
+			var gainNode   = audioHelper.context.createGain(); // create the gain node
+			gainNode.value = audio.volume ;
+			gainNode.connect( audioHelper.context.destination ) ; // connect gain filter to destination,
+			
+			audio.gain     = gainNode ;
+
+		} else {
+			var gainNode = audio.gain ;
+		}
+
+
+		// audio.source = sourceNode ;
+
+		sourceNode.connect( gainNode ) ; // connect source to filter		
+
+		return sourceNode ;
+
+	},
+
+	fade: function audio_helper_fade_out ( dur, delay, volume, audio ) {
+
+		if( audio === undefined ) {
+			audio = this ;
+		}
+
+		if( dur === undefined ) {
+			dur = 1 ;
+		}
+
+		if( delay === undefined ) {
+			delay = 0 ;
+		}
+
+		if( volume === undefined ) {
+			if( audio.gain === undefined ) {
+				audio.setup() ;
+			}
+			if( audio.gain.value > 0 ) {
+				volume = 0 ; // fade out if current gain is higher than zero
+			} else {
+				volume = audio.volume ; // otherwise fade into the current default volume for this sound
+			}
+		}
+
+ 		var gainNode = audio.gain ;
+ 		var now      = audioHelper.context.currentTime ;
+    
+    gainNode.gain.cancelScheduledValues( now ) ;
+
+    gainNode.gain.linearRampToValueAtTime( audio.gain.value, now + delay ) ;
+		gainNode.gain.linearRampToValueAtTime( volume, now + dur + delay ) ;
+	
+	},
+
+	play: function audio_play( buffer, start, futureSwitch, audio ) {
+
+		if(audio === undefined) {
+			audio = this ;
+		}
 
 		if ( buffer === undefined ) {
 			buffer = this.buffer ;
@@ -23,24 +103,14 @@ var audioHelper = {
 
 		// console.log('audio play', 'buffer', buffer, 'audioHelper.context', audioHelper.context) ;
 
-		var sourceNode = audioHelper.context.createBufferSource() ;
-		if(buffer !== undefined && buffer !== null) {
-			sourceNode.buffer = buffer ;
-		} else {
-			console.log('audioHelper.play: no audio loaded') ;
-		}
-
-		sourceNode.loop = this.loop ;
-
-		var gainNode = audioHelper.context.createGain(); // create the gain node
-		sourceNode.connect(gainNode); // connect source to filter
+		var sourceNode = audio.setup() ;
 
 		// console.log('audioHeloper play', 'this', this) ;
 
+		var gainNode = audio.gain ;
+
 		gainNode.gain.value = this.volume ;
 		
-		gainNode.connect( audioHelper.context.destination ) ; // connect gain filter to destination,
-
 		if ( start === undefined ) {
 			start = 0 ;
 		}
@@ -56,6 +126,8 @@ var audioHelper = {
 		} else {
 			now = 0 ;
 		}
+
+		console.log('audioHelper play:', 'sourceNode', sourceNode, 'sourceNode.start', sourceNode.start, 'now', now) ;
 
 		sourceNode.start ? sourceNode.start(now + 0) : sourceNode.noteOn(now + 0) ;
 

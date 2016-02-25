@@ -5,10 +5,12 @@ var audioLoader = {
   cache: {} , // class variable; initialize cache dictionary object
 
   loadingStats: { 
+
   	total: null, 
   	count: null, 
   	finalCallback: null 
-  } , // class variable, initialize loading statistics object
+
+  } , // local variable, initialize loading statistics object
 
   load: function (url) { // class method; callback incrementor - wait until final image is loaded before executing callback
 
@@ -21,7 +23,7 @@ var audioLoader = {
       if (AudioContext) {
           // Do whatever you want using the Web Audio API
         // console.log('AudioContext', AudioContext, 'audioHelper', audioHelper)
-        var audio = copy_object(audioHelper) ; // shallow copy
+        var audio = copy_object(audioHelper) ; // shallow copy, maintains a single AudioContext container for all source files loaded
           // ...
       } else {
           // Web Audio API is not supported

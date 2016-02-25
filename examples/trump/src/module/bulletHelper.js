@@ -82,7 +82,9 @@ var bulletHelper = {
       }
 
       if(newBullet['bullet' + this.level] !== undefined) {
-        newBullet.transition = [newBullet['bullet' + this.level](xNew)] ; // overwriting the previous value of newBullet['bullet' + this.level] with the output of the newBullet['bullet' + this.level] function call
+        newBullet.transition = [newBullet['bullet' + this.level](xNew)] ;
+      } else if( newBullet.transition !== undefined ) {
+        newBullet.transition(xNew) ;  // overwriting the previous value of newBullet['bullet' + this.level] with the output of the newBullet['bullet' + this.level] function call
       }
 
       // if (newBullet.animation !== undefined) {
