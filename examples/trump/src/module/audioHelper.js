@@ -3,7 +3,7 @@ var AudioContext = window.AudioContext // Default
   || window.mozAudioContext 
   || window.oAudioContext 
   || window.msAudioContext  
-  || false; 
+  || false ; 
 
 var audioHelper = {
 
@@ -37,14 +37,16 @@ var audioHelper = {
 
 		if(audio.gain === undefined) {
 
-			var gainNode   = audioHelper.context.createGain(); // create the gain node
+			var gainNode   = audioHelper.context.createGain() ; // create the gain node
 			gainNode.value = audio.volume ;
 			gainNode.connect( audioHelper.context.destination ) ; // connect gain filter to destination,
 
 			audio.gain     = gainNode ;
 
 		} else {
+
 			var gainNode = audio.gain ;
+
 		}
 
 
@@ -128,7 +130,6 @@ var audioHelper = {
 		// console.log('audioHelper play:', 'sourceNode', sourceNode, 'sourceNode.start', sourceNode.start, 'now', now) ;
 
     gainNode.gain.cancelScheduledValues( now ) ;
-
 		gainNode.gain.value = this.volume ;
 		
 		sourceNode.start ? sourceNode.start(now + 0) : sourceNode.noteOn(now + 0) ;
@@ -136,7 +137,7 @@ var audioHelper = {
 		// try {
 		//   sourceNode.start()	;
 		// } catch (e) {
-  //     console.log('audiohelper error', 'e', e); // pass exception object to error handler
+    //   console.log('audiohelper error', 'e', e); // pass exception object to error handler
 		// }
 
 	},

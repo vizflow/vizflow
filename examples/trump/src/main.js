@@ -29,16 +29,16 @@ document.image = [
 document.audio = [
 	'./audio/death.wav',
 	'./audio/bullet2.wav',
-	'./audio/hit2.wav',  
-	'./audio/jump1.wav', 
-	'./audio/laser1.wav',  
-	'./audio/laugh1.wav',  
-	'./audio/bump2.wav',  
-	'./audio/powerup0.wav',  
-	'./audio/powerup3.wav',  
+	'./audio/hit2.wav',
+	'./audio/jump1.wav',
+	'./audio/laser1.wav',
+	'./audio/laugh1.wav',
+	'./audio/bump2.wav',
+	'./audio/powerup0.wav',
+	'./audio/powerup3.wav',
 	'./audio/paQueSeLoGozen.wav',
 	'./audio/85riddim.wav',
-	'./audio/trogdor.wav',
+	'./audio/drwho.wav',
 	// './audio/bullet2.wav',  
 	// './audio/bump2.wav',  
 	// './audio/explode1.wav',  
@@ -49,6 +49,7 @@ document.audio = [
 	// './audio/powerup3.wav', 
 	// './audio/powerup4.wav',
 ] ;
+
 // console.log('main 15') ;
 document.skipIndex = 0 ;
 document.ratio     = ( Math.ceil(window.devicePixelRatio) || 1 ) ;
@@ -60,5 +61,5 @@ if(document.ratio === 1) {
 
 imageLoader.preload ( document.image, function preload_audio() {
 	// console.log('preload_audio 18') ;
-	audioLoader.preload( document.audio, city_level ) ;
+	audioLoader.preload( document.audio, fantasy_level ) ;
 }) ;

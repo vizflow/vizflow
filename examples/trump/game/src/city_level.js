@@ -1,7 +1,5 @@
 function city_level () {
 
-  document.nextLevel = fantasy_level ;
-
   var vizConfig = {
 
     backgroundImageUrl: './image/trump_bg1.png',
@@ -11,7 +9,7 @@ function city_level () {
     load_ui: fighterHelper.load_ui,
     load_char: fighterHelper.load_char,
     load_response: fighterHelper.load_response,
-    load_audio: fighterHelper.load_audio,
+    load_audio: gameHelper.load_audio,
     buttonpress: buttonpress,
     music: './audio/paQueSeLoGozen.wav',
 

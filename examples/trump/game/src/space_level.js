@@ -1,7 +1,5 @@
 function space_level () {
 
-  document.nextLevel = null ;
-
   var vizConfig = { // an object to configure the visualization
 
     backgroundImageUrl: './image/trump_bg4.png',
@@ -11,14 +9,15 @@ function space_level () {
     load_ui: fighterHelper.load_ui,
     load_char: fighterHelper.load_char,
     load_response: fighterHelper.load_response,
-    load_audio: fighterHelper.load_audio,
+    load_audio: gameHelper.load_audio,
     buttonpress: buttonpress,    
+    //music: './audio/drwho.wav',
 
   } ;
 
   viz = vizHelper.setup(vizConfig) ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
 
-  viz.platformY   = 190 ;
+  viz.plaformY   = 190 ;
   var tileHeight = 40 ;
   var tileWidth  = 40 ;
 
@@ -50,7 +49,6 @@ function space_level () {
     xMove: 10,
     yMove: 100,
     xJumpMove: 0,
-    x: 20,
     y: viz.platformY - tileHeight,
     type: 'player',
     bulletSwitch: true,

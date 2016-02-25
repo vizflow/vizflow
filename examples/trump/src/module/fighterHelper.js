@@ -1,23 +1,15 @@
 var fighterHelper = {
 
-	selectDur: 150,
-
-	loadState: 'jesus', // starting character state
-
-	loadList: ['jesus', 'rastan', 'megyn'],
-
-	loadCallback: {
-		jesus: city_level,
-		rastan: fantasy_level,
-		megyn: space_level,
-	},
-
 	run: function fighter_helper_run(viz) {
+
  		if(viz === undefined) {
   		viz = this ;
   	}
+
   	// console.log('fighter helper run start') ;
+
 		viz.fade({
+
 		  opacity: 1,
 		  duration: viz.fadeDuration,
 		  pause: viz.fadeDuration,
@@ -31,6 +23,7 @@ var fighterHelper = {
 		      viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;
 
 		      viz.add_item([ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop
+
 		          viz.enemy.item,
 		          viz.player.item,
 		          viz.ui.button.walkLeft,
@@ -40,6 +33,7 @@ var fighterHelper = {
 		          viz.enemy.item.responseSet.hit.healthbar.item,
 		          viz.player.item.responseSet.hit.healthbar.item,
 		          viz.player.score,
+
 		      ]) ;
 		      
 		    },
@@ -53,6 +47,7 @@ var fighterHelper = {
 
 
 		if ( viz.config.music !== undefined ) {
+
 		  viz.audio.music.loop = true ;
 			viz.audio.music.play() ;
 		  viz.audio.music.gain.gain.value = 0 ;
@@ -60,6 +55,7 @@ var fighterHelper = {
 			var fade  = 4 ; // seconds
 			var delay = 4 ; // seconds
 			viz.audio.music.fade(fade, delay) ;			
+
 		}
 
 		function viz_run() {
@@ -88,157 +84,6 @@ var fighterHelper = {
 		  // viz.fade_switch({image: image, end: viz_run})     
 		}
 	
-	},
-
-	load: function fighter_helper_load(viz) {
-
- 		if(viz === undefined) {
-  		viz = this ;
-  	}
-
-  	viz.loading = true ; // to prevent UI from activating until menu page finishes loading
-
-		viz.fade({
-		  opacity: 1,
-		  duration: viz.fadeDuration,
-		  pause: viz.fadeDuration,
-		  child: imageEffectHelper.fade_transition({
-
-		    opacity: 0, 
-
-		    end: function() {
-		      // console.log(viz.config.backgroundImageUrl) ;
-		      viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;  			
-				},
-		    child: imageEffectHelper.fade_transition({
-
-		      opacity: 1,
-
-		      end: function() {
-
-		    		fighterHelper.load_select(viz) ;
-
-			      viz.add_item([ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop
-			         viz.choose,
-			         viz.jesus,
-			         viz.rastan,
-			         viz.megyn,
-			         viz.jesus.select,
-			         viz.rastan.select,
-			         viz.megyn.select,
-
-			      ]) ;
-
-			      viz.choose.fade({
-
-			      	end: function () {
-
-			      		var xDur = 500 ;
-			      		var x_trans_creator = $Z.transition.rounded_linear_transition_func('x', xDur) ;
-			      		var xTrans = x_trans_creator(viz.jesus.x - viz.sprite.jesus[0].width) ;
-
-			      		xTrans.end = function() {
-
-			      			viz.shake() ;
-			      			viz.audio.death.play() ;
-			      			var xTrans = x_trans_creator(viz.rastan.x + viz.sprite.rastan[0].width) ;
-
-			      			xTrans.end = function() {
-
-			      				viz.shake() ;
-			      				viz.audio.death.play() ;
-			      				var xTrans = x_trans_creator(viz.megyn.x - viz.sprite.megyn[0].width) ;
-
-			      				xTrans.end = function() {
-
-			      					viz.audio.death.play() ;
-			      					viz.shake() ;
-			      					viz[fighterHelper.loadState].select.fade({ 
-			      						duration: fighterHelper.selectDur,
-			      						end: function() {
-
-			      							viz.loading = false ;
-
-			      						},
-			      					}) ;
-			      				}
-			      				
-			      				viz.megyn.add_transition(xTrans) ;
-
-			      			}
-
-			      			viz.rastan.add_transition(xTrans) ;
-
-			      		}
-
-			      		viz.jesus.add_transition (xTrans) ;
-
-			      	},
-			      }) ;
-		      
-		    		    		
-		      	// console.log('fighter helper load') ;
-		      }, // end end: function() ...
-		    }),	// end fade child child
-			}), // end fade child
-		}) ; 
-	
-	},
-
-	load_select: function fighter_helper_load_select (viz) {
-		if(viz === undefined) {
-		  viz = this ;
-  	}
-
-  	viz.sprite = viz.selectorConfig.sprite_loader() ;
-  	viz.load_audio() ;
-
-  	viz.choose = viz.setup_item ({
-  		x: 4,
-  		y: -20,
-  		image: viz.sprite.choose[0],
-  		opacity: 0, 
-  	}) ; 		
-
-  	viz.jesus = viz.setup_item ({
-  		x: 13 + viz.sprite.jesus[0].width,
-  		y: 40,
-  		image: viz.sprite.jesus[0], 
-  	}) ; 		
-
-  	viz.rastan = viz.setup_item ({
-  		x: - viz.sprite.rastan[0].width,
-  		y: 100,
-  		image: viz.sprite.rastan[0], 
-  	}) ; 		
-
-  	viz.megyn = viz.setup_item ({
-  		x: 13 + viz.sprite.megyn[0].width,
-  		y: 160,
-  		image: viz.sprite.megyn[0], 	
-  	}) ; 		
-
-  	viz.jesus.select = viz.setup_item ({
-  		x: 11,
-  		y: 42,
-  		image: viz.sprite.select[0], 
-  		opacity: 0,
-  	}) ; 		
-
-  	viz.rastan.select = viz.setup_item ({
-  		x: 0,
-  		y: 102,
-  		image: imageHelper.flip_image(viz.sprite.select[0]), 
-  		opacity: 0,
-  	}) ; 
-
-  	viz.megyn.select = viz.setup_item ({
-  		x: 11,
-  		y: 162,
-  		image: viz.sprite.select[0], 
-  		opacity: 0,
-  	}) ;   	  
-
 	},
 
   load_char: function fighter_helper_load_characters(viz) {
@@ -295,6 +140,126 @@ var fighterHelper = {
 	  // viz.ui.button = setup_buttons (viz, viz.ui) ;
 	
 	},	
+
+  load_response: function fighter_helper_load_response(playerResponseConfig, enemyResponseConfig, viz) {
+    // console.log('response helper load start') ;
+
+    if( viz === undefined ) {
+      viz = this ;
+    }
+    
+    if(viz.player.config.bulletSwitch) {
+      viz.player.load_bullet(viz) ;
+    }
+
+    fighterHelper.load_enemy_bullet (viz) ;
+    fighterHelper.load_powerup      (viz) ;
+    
+    if ( enemyResponseConfig === undefined ) {
+
+      enemyResponseConfig = {
+
+        healthbarY: 2, 
+        healthbarX: Math.floor(viz.width * 0.5) + 1,
+        healthdrop: 5,
+        color: '#900',
+        audio: viz.audio.hit,
+        sourceType: 'player',
+
+      } ;   
+
+    }
+
+    if ( playerResponseConfig === undefined ) {
+
+      playerResponseConfig = {
+
+        healthdrop: enemyResponseConfig.healthdrop,
+        healthbarY: 2,
+        healthbarX: 1,
+        color: '#009', 
+        audio: viz.audio.hit,
+        sourceType: 'enemy',
+
+      } ;
+
+    }
+  
+    var powerupResponseConfig = {
+    	sourceType: 'powerup',
+    } ;
+
+    viz.player.item.responseSet.hit = hitHelper.setup_response(viz, viz.player, playerResponseConfig) ;
+    viz.player.item.responseSet.powerup = powerupHelper.setup_response(viz, viz.player, powerupResponseConfig) ;
+
+    viz.enemy.item.responseSet.hit  = hitHelper.setup_response(viz, viz.enemy, enemyResponseConfig) ; 
+
+  },	  
+
+  load_powerup: function fighter_helper_load_powerup(viz, powerupConfig) {
+
+    if( viz === undefined ) {
+      viz = this ;
+    }
+
+    if ( powerupConfig === undefined ) {
+
+      powerupConfig = {
+
+        x: 50,
+        y: -20,
+        inert: true,
+        type: 'powerup',
+
+      } ;
+
+    }
+
+    var rowName = ['cell'] ;
+    var canvas  = imageHelper.image2canvas('./image/powerup.png') ;
+    var width   = [20] ;
+    var height  = [22] ;
+
+    viz.player.powerup         = itemHelper.setup(powerupConfig, viz) ;
+    viz.player.powerup.sprite  = spriteHelper.get(canvas, rowName, width, height) ;
+    // console.log('vizplayerpowerupsprite', viz.player.powerup.sprite) ;
+    viz.player.powerup.image   = viz.player.powerup.sprite.cell[0] ;
+
+    viz.player.powerup.drop    = powerupHelper.drop ;
+    viz.player.powerup.stop    = powerupHelper.stop ;
+    viz.player.powerup.deliver = powerupHelper.deliver ;
+    viz.player.powerup.Nmax    = 2 ;
+    if (viz.player.bulletSprite !== undefined && viz.player.bulletSprite.bullet3 !== undefined) {
+    	viz.player.powerup.Nmax = 3 ;
+    }
+    viz.player.powerup.count = 0 ;
+
+  },
+
+	load_enemy_bullet: function fighter_helper_load_enemy_bullet(viz) {
+		
+	  var wordConfig = {
+
+	    move: viz.width,
+	    shiftXl: 20,
+	    shiftXr: 0, 
+	    shiftY: 110,
+	    element: viz.enemy,
+
+	  } ;
+
+		viz.enemy.bullet        = gameHelper.setup_word (viz, wordConfig) ; 
+	  viz.enemy.bullet.remove = false ;
+	  viz.enemy.bullet.audio  = viz.audio.bullet1 ;
+
+	 	viz.enemy.fire_bullet   = bulletHelper.fire ;
+
+	  viz.enemy.bulletResponseConfig = {
+	    audio: viz.audio.hit,
+	    sourceType: 'player',
+	  } ;
+
+	},
 
 	setup_ui: function fighter_helper_setup_ui (viz) {
 
@@ -465,181 +430,6 @@ var fighterHelper = {
 
 	},
 
-	load_audio: function viz_helper_load_audio(viz) {
-
-		if(viz === undefined) {
-			viz = this ;
-		}
-
-		viz.audio = {} ;
-
-	  viz.audio.death    = audioLoader.cache['./audio/death.wav'] ;
-	  viz.audio.hit      = audioLoader.cache['./audio/hit2.wav'] ;
-	  viz.audio.jump1    = audioLoader.cache['./audio/jump1.wav'] ;
-	  viz.audio.bullet   = audioLoader.cache['./audio/bullet2.wav'] ;
-	  viz.audio.laugh1   = audioLoader.cache['./audio/laugh1.wav'] ;
-	  viz.audio.bump     = audioLoader.cache['./audio/bump2.wav'] ;
-	  viz.audio.powerup0 = audioLoader.cache['./audio/powerup0.wav'] ;
-	  viz.audio.powerup3 = audioLoader.cache['./audio/powerup3.wav'] ;
-
-	  viz.audio.powerup3.volume *= 0.5 ;
-
-	  viz.audio.music = audioLoader.cache[viz.config.music] ;
-
-	  // console.log('fighter helper load audio end', 'viz.audio', viz.audio) ;
-	
-	},	
-	
-	update_enemy: function fighter_helper_update_enemy (enemy) {
-
-		if(enemy === undefined) {
-			enemy = this ;
-		}
-
-		// console.log('update_enemy start') ;
-
-	  var transition = animate(enemy.sprite.attack, step_transition_func('image', enemy.config.attackDuration), undefined, enemy.sprite.rest[0])[0] ;
-
-		var replacementSwitch = true ;	
-		
-		enemy.item.add_transition(transition, replacementSwitch) ;
-
-		enemy.item.add_end('image', 1, {
-
-			element: enemy,
-
-			run: function() {
-				// console.log('enemy bullet run')
-				this.element.fire_bullet('bullet') ;
-
-			}
-		}) ;		
-
-		// console.log('update enemy end') ;
-
-	},	
-
-
-  load_response: function fighter_helper_load_response(playerResponseConfig, enemyResponseConfig, viz) {
-    // console.log('response helper load start') ;
-
-    if( viz === undefined ) {
-      viz = this ;
-    }
-    
-    if(viz.player.config.bulletSwitch) {
-      viz.player.load_bullet(viz) ;
-    }
-
-    fighterHelper.load_enemy_bullet (viz) ;
-    fighterHelper.load_powerup      (viz) ;
-    
-    if ( enemyResponseConfig === undefined ) {
-
-      enemyResponseConfig = {
-
-        healthbarY: 2, 
-        healthbarX: Math.floor(viz.width * 0.5) + 1,
-        healthdrop: 0.1,
-        color: '#900',
-        audio: viz.audio.hit,
-        sourceType: 'player',
-
-      } ;   
-
-    }
-
-    if ( playerResponseConfig === undefined ) {
-
-      playerResponseConfig = {
-
-        healthdrop: enemyResponseConfig.healthdrop,
-        healthbarY: 2,
-        healthbarX: 1,
-        color: '#009', 
-        audio: viz.audio.hit,
-        sourceType: 'enemy',
-
-      } ;
-
-    }
-  
-    var powerupResponseConfig = {
-    	sourceType: 'powerup',
-    } ;
-
-    viz.player.item.responseSet.hit = hitHelper.setup_response(viz, viz.player, playerResponseConfig) ;
-    viz.player.item.responseSet.powerup = powerupHelper.setup_response(viz, viz.player, powerupResponseConfig) ;
-
-    viz.enemy.item.responseSet.hit  = hitHelper.setup_response(viz, viz.enemy, enemyResponseConfig) ; 
-
-  },	  
-
-  load_powerup: function fighter_helper_load_powerup(viz, powerupConfig) {
-
-    if( viz === undefined ) {
-      viz = this ;
-    }
-
-    if ( powerupConfig === undefined ) {
-
-      powerupConfig = {
-
-        x: 50,
-        y: -20,
-        inert: true,
-        type: 'powerup',
-
-      } ;
-
-    }
-
-    var rowName = ['cell'] ;
-    var canvas  = imageHelper.image2canvas('./image/powerup.png') ;
-    var width   = [20] ;
-    var height  = [22] ;
-
-    viz.player.powerup         = itemHelper.setup(powerupConfig, viz) ;
-    viz.player.powerup.sprite  = spriteHelper.get(canvas, rowName, width, height) ;
-    // console.log('vizplayerpowerupsprite', viz.player.powerup.sprite) ;
-    viz.player.powerup.image   = viz.player.powerup.sprite.cell[0] ;
-
-    viz.player.powerup.drop    = powerupHelper.drop ;
-    viz.player.powerup.stop    = powerupHelper.stop ;
-    viz.player.powerup.deliver = powerupHelper.deliver ;
-    viz.player.powerup.Nmax    = 2 ;
-    if (viz.player.bulletSprite !== undefined && viz.player.bulletSprite.bullet3 !== undefined) {
-    	viz.player.powerup.Nmax = 3 ;
-    }
-    viz.player.powerup.count = 0 ;
-
-  },
-
-	load_enemy_bullet: function fighter_helper_load_enemy_bullet(viz) {
-		
-	  var wordConfig = {
-
-	    move: viz.width,
-	    shiftXl: 20,
-	    shiftXr: 0, 
-	    shiftY: 110,
-	    element: viz.enemy,
-
-	  } ;
-
-		viz.enemy.bullet        = gameHelper.setup_word (viz, wordConfig) ; 
-	  viz.enemy.bullet.remove = false ;
-	  viz.enemy.bullet.audio  = viz.audio.bullet1 ;
-
-	 	viz.enemy.fire_bullet   = bulletHelper.fire ;
-
-	  viz.enemy.bulletResponseConfig = {
-	    audio: viz.audio.hit,
-	    sourceType: 'player',
-	  } ;
-
-	},
-
 	setup_healthbar: function fighter_helper_setup_healthbar (viz, health, height, x, y, color) {
 		var healthbar = {} ;
 
@@ -671,111 +461,33 @@ var fighterHelper = {
 
 	},
 
-	keyboard_callback: function(event, viz) {
+	update_enemy: function fighter_helper_update_enemy (enemy) {
 
-			if(viz === undefined) {
-				viz = this ;
+		if(enemy === undefined) {
+			enemy = this ;
+		}
+
+		// console.log('update_enemy start') ;
+
+	  var transition = animate(enemy.sprite.attack, step_transition_func('image', enemy.config.attackDuration), undefined, enemy.sprite.rest[0])[0] ;
+
+		var replacementSwitch = true ;	
+		
+		enemy.item.add_transition(transition, replacementSwitch) ;
+
+		enemy.item.add_end('image', 1, {
+
+			element: enemy,
+
+			run: function() {
+				// console.log('enemy bullet run')
+				this.element.fire_bullet('bullet') ;
+
 			}
+		}) ;		
 
-      var transition = [] ;
-      var state ;
+		// console.log('update enemy end') ;
 
-      switch (event.keyCode) {
-
-        case 37: // left
-        case 38: // up
-          state    = 'u' ;
-          var newIndex ;
-          var index = fighterHelper.loadList.indexOf( fighterHelper.loadState ) ;
-        	// console.log('fighterHelper.keyboard_callback', 'u', 'index', index, 'fighterHelper.loadState', fighterHelper.loadState)
-					if(index > 0) {
-						newIndex = --index ;
-					} else {
-						newIndex = fighterHelper.loadList.length - 1 ;
-					}
-          newState = fighterHelper.loadList[newIndex] ;
-          // console.log('fighterHelper keyboard_callback', 'index', index, 'newIndex', newIndex, 'newState', newState) ;
-          break;
-        case 39: // right
-        case 40: // down
-          state    = 'd' ;
-          newState = fighterHelper.loadList[(fighterHelper.loadList.indexOf(fighterHelper.loadState) + 1 ) % fighterHelper.loadList.length] ;
-          break;
-        case 13: // enter
-        case 32: // space
-        	state = 'x' ; // execute the game code
-        	fighterHelper.loadCallback[fighterHelper.loadState]() ;
-        	break;
-      } 
-
-      //console.log ('state', state) ;
-      if (state === undefined) {  // user does not hit arrow key
-        viz.buttonpress.reset() ;
-      } else {
-	    	viz[fighterHelper.loadState].select.fade({
-	    	 duration: fighterHelper.selectDur,
-	    	 end: { 
-	    	 	viz: viz,
-	    	 	run: function() { this.viz.buttonpress.reset() },
-	    	 },
-	      }) ;
-	      // console.log('fighterHelper keyboard callback', 'state', state, 'newState', newState)
-	    	viz[newState].select.fade({
-	    	 duration: fighterHelper.selectDur,
-	      }) ;
-	      fighterHelper.loadState = newState ;	      
-      }
-
-	},
-
-	screen_callback: function(x, y, viz) {
-
-	 	if(viz === undefined) {
-			viz = this ;
-		}
-
-	  // console.log('fighterHelper.screen_callback', 'viz.loading', viz.loading) ;
-
-		if(viz.loading) {
-	    viz.buttonpress.reset() ;
-			return ;
-		}
-
-    if (y > viz.jesus.y && y <= viz.jesus.y + viz.sprite.original.jesus[0].height) { // user selected the city level
-
-    	viz.jesus.select.fade({ duration: fighterHelper.selectDur }) ;
-    	city_level() ;
-
-    }
-
-    if (y > viz.rastan.y && y <= viz.rastan.y + viz.sprite.original.rastan[0].height) { // user selected the fantasy level
-
-    	viz.rastan.select.fade({
-    		duration: fighterHelper.selectDur,
-    		end: fantasy_level,
-    	}) ;
-
-    	viz.jesus.select.fade({ 
-    		duration: fighterHelper.selectDur,
-    	}) ;
-
-    }
-
-    if (y > viz.megyn.y && y <= viz.megyn.y + viz.sprite.original.megyn[0].height) { // user selected the space level
-
-   		viz.megyn.select.fade({
-   			duration: fighterHelper.selectDur,
-   			end: space_level,
-   		}) ;
-
-    	viz.jesus.select.fade({
-    	 duration: fighterHelper.selectDur,
-      }) ;
-
-    }
-
-    viz.buttonpress.reset() ;
-
-  }, 	
+	},	
 
 } ;

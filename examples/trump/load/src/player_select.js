@@ -13,11 +13,11 @@ function player_select () {
 
     loadingImageUrl: './image/titlescreen.png',
     backgroundImageUrl: './image/background.png',
-    run: fighterHelper.load,
+    run: gameHelper.load,
     inputEvent: selectInput,
-    screen_callback: fighterHelper.screen_callback,
-    keyboard_callback: fighterHelper.keyboard_callback,
-    load_audio: fighterHelper.load_audio,
+    screen_callback: gameHelper.screen_callback,
+    keyboard_callback: gameHelper.keyboard_callback,
+    load_audio: gameHelper.load_audio,
 
   } ;
 
