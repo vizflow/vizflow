@@ -53,8 +53,13 @@ var fighterHelper = {
 
 
 		if ( viz.config.music !== undefined ) {
-			musicFadeDuration = 5 ;
-			viz.config.music.fade(musicFadeDuration) ;			
+		  viz.audio.music.loop = true ;
+			viz.audio.music.play() ;
+		  viz.audio.music.gain.gain.value = 0 ;
+		  viz.audio.music.volume = 0.3 ;
+			var fade  = 4 ; // seconds
+			var delay = 4 ; // seconds
+			viz.audio.music.fade(fade, delay) ;			
 		}
 
 		function viz_run() {
@@ -469,13 +474,18 @@ var fighterHelper = {
 		viz.audio = {} ;
 
 	  viz.audio.death    = audioLoader.cache['./audio/death.wav'] ;
-	  viz.audio.hit3     = audioLoader.cache['./audio/hit3.wav'] ;
+	  viz.audio.hit      = audioLoader.cache['./audio/hit2.wav'] ;
 	  viz.audio.jump1    = audioLoader.cache['./audio/jump1.wav'] ;
 	  viz.audio.bullet   = audioLoader.cache['./audio/bullet2.wav'] ;
 	  viz.audio.laugh1   = audioLoader.cache['./audio/laugh1.wav'] ;
-	  viz.audio.bump1    = audioLoader.cache['./audio/bump1.wav'] ;
+	  viz.audio.bump     = audioLoader.cache['./audio/bump2.wav'] ;
 	  viz.audio.powerup0 = audioLoader.cache['./audio/powerup0.wav'] ;
 	  viz.audio.powerup3 = audioLoader.cache['./audio/powerup3.wav'] ;
+
+	  viz.audio.powerup3.volume *= 0.5 ;
+
+	  viz.audio.music = audioLoader.cache[viz.config.music] ;
+
 	  // console.log('fighter helper load audio end', 'viz.audio', viz.audio) ;
 	
 	},	
@@ -532,7 +542,7 @@ var fighterHelper = {
         healthbarX: Math.floor(viz.width * 0.5) + 1,
         healthdrop: 0.1,
         color: '#900',
-        audio: viz.audio.hit3,
+        audio: viz.audio.hit,
         sourceType: 'player',
 
       } ;   
@@ -547,7 +557,7 @@ var fighterHelper = {
         healthbarY: 2,
         healthbarX: 1,
         color: '#009', 
-        audio: viz.audio.hit3,
+        audio: viz.audio.hit,
         sourceType: 'enemy',
 
       } ;
@@ -610,7 +620,7 @@ var fighterHelper = {
 	  var wordConfig = {
 
 	    move: viz.width,
-	    shiftXl: 0,
+	    shiftXl: 20,
 	    shiftXr: 0, 
 	    shiftY: 110,
 	    element: viz.enemy,
@@ -624,7 +634,7 @@ var fighterHelper = {
 	 	viz.enemy.fire_bullet   = bulletHelper.fire ;
 
 	  viz.enemy.bulletResponseConfig = {
-	    audio: viz.audio.hit3,
+	    audio: viz.audio.hit,
 	    sourceType: 'player',
 	  } ;
 

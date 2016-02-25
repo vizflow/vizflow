@@ -19,7 +19,7 @@ var powerupHelper = {
 
     item.add_transition(yTrans) ;
 
-    var Nstep         = 12 ;
+    var Nstep         = 6 ;
     var frameDuration = dropDur / Nstep ;
     item.flash(frameDuration, Nstep) ;
 
@@ -37,7 +37,7 @@ var powerupHelper = {
     item.inert = false ;
     // console.log ('powerup helper stop', 'item', item) ;
 
-    item.viz.audio.bump1.play() ;
+    item.viz.audio.bump.play() ;
 
   },  
 
@@ -48,6 +48,12 @@ var powerupHelper = {
     }
 
     item.viz.audio.powerup0.play() ;
+
+    item.fade({
+      end: function() {
+        item.remove() ;
+      }
+    }) ;
 
   },
 
@@ -64,11 +70,7 @@ var powerupHelper = {
 
       powerupResponse.sourceItem.inert = true ;
       var item = powerupResponse.sourceItem ;
-      powerupResponse.sourceItem.fade({
-        end: function() {
-          item.remove() ;
-        }
-      })
+      powerupResponse.sourceItem.deliver() ;
       // console.log('before levelup') ;
       powerupResponse.element.levelup() ;
       

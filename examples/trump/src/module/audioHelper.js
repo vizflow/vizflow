@@ -15,7 +15,7 @@ var audioHelper = {
 
 	gain: undefined,
 
-	volume: 0.25,
+	volume: 1.0,
 
 	loop: false,
 
@@ -30,7 +30,7 @@ var audioHelper = {
 		if(audio.buffer !== undefined && audio.buffer !== null) {
 			sourceNode.buffer = audio.buffer ;
 		} else {
-			console.log('audioHelper.setup: no audio loaded') ;
+			// console.log('audioHelper.setup: no audio loaded') ;
 		}
 
 		sourceNode.loop = audio.loop ;
@@ -40,7 +40,7 @@ var audioHelper = {
 			var gainNode   = audioHelper.context.createGain(); // create the gain node
 			gainNode.value = audio.volume ;
 			gainNode.connect( audioHelper.context.destination ) ; // connect gain filter to destination,
-			
+
 			audio.gain     = gainNode ;
 
 		} else {
@@ -74,7 +74,7 @@ var audioHelper = {
 			if( audio.gain === undefined ) {
 				audio.setup() ;
 			}
-			if( audio.gain.value > 0 ) {
+			if( audio.gain.gain.value > 0 ) {
 				volume = 0 ; // fade out if current gain is higher than zero
 			} else {
 				volume = audio.volume ; // otherwise fade into the current default volume for this sound
@@ -86,7 +86,7 @@ var audioHelper = {
     
     gainNode.gain.cancelScheduledValues( now ) ;
 
-    gainNode.gain.linearRampToValueAtTime( audio.gain.value, now + delay ) ;
+    gainNode.gain.linearRampToValueAtTime( gainNode.gain.value, now + delay ) ;
 		gainNode.gain.linearRampToValueAtTime( volume, now + dur + delay ) ;
 	
 	},
@@ -109,8 +109,6 @@ var audioHelper = {
 
 		var gainNode = audio.gain ;
 
-		gainNode.gain.value = this.volume ;
-		
 		if ( start === undefined ) {
 			start = 0 ;
 		}
@@ -127,8 +125,12 @@ var audioHelper = {
 			now = 0 ;
 		}
 
-		console.log('audioHelper play:', 'sourceNode', sourceNode, 'sourceNode.start', sourceNode.start, 'now', now) ;
+		// console.log('audioHelper play:', 'sourceNode', sourceNode, 'sourceNode.start', sourceNode.start, 'now', now) ;
 
+    gainNode.gain.cancelScheduledValues( now ) ;
+
+		gainNode.gain.value = this.volume ;
+		
 		sourceNode.start ? sourceNode.start(now + 0) : sourceNode.noteOn(now + 0) ;
 
 		// try {

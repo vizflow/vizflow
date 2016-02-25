@@ -54,20 +54,26 @@ var gameHelper = {
 	    word.y    -= yMove ;
 	    var yNew   = word.y + yMove ;
 
-	    var down   = $Z.transition.rounded_linear_transition_func('y', viz.dur * 15 )(yNew) ;
+	    var downDuration = 500 ;
 
-	    down.pause = 300 ;
-	    
+	    var down   = $Z.transition.rounded_linear_transition_func('y', downDuration )(yNew) ;
+	    down.end   = function() {
+	    	word.inert = false ;
+	    } ;
+
 	    var left   = $Z.transition.rounded_linear_transition_func ( 'x', viz.dur * 80 )(xNew) ; // sets speed of word block    
 
 	    left.end   = bulletHelper.default_end(viz, word, viz.player) ;
 	    // console.log('word transition end') ;
 
+	    down.pause = 300 ;	    
 	    down.child = left ;
 
 	    this.transition = [down] ;
 
-	    this.fade() ;
+	    this.fade({
+	    	duration: downDuration,
+	    }) ;
 
 	    //var down   = $Z.transition.rounded_linear_transition_func( 'y', viz.dur * 30 )(viz.player.config.y - wordImage.height * wordCount) ;
 	    //down.child = step_transition_func('dummy', viz.dur * wordPause)(0) ;
@@ -94,7 +100,7 @@ var gameHelper = {
 	    collision_image: actionHelper.collision_image,
 	    singleSwitch: true,
 	    opacity: 0,
-	    inert: false,
+	    inert: true,
 	    responseSet: {},
 	    explode: imageEffectHelper.explode,
 	    fade: imageEffectHelper.fade,

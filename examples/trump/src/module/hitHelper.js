@@ -224,8 +224,6 @@ var hitHelper = {
 
         response.healthbar.health -= response.healthdrop * (response.viz.player.level + 1) ;
 
-        
-        
         hitHelper.flash(response) ; // also sets inertSwitch - separate?
         if(response.audio !== undefined && response.audio.buffer !== undefined) {
           response.audio.play() ;

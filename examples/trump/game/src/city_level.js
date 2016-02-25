@@ -13,7 +13,7 @@ function city_level () {
     load_response: fighterHelper.load_response,
     load_audio: fighterHelper.load_audio,
     buttonpress: buttonpress,
-    music: audioLoader['./audio/paQueSeLoGozen.wav'],
+    music: './audio/paQueSeLoGozen.wav',
 
   } ;
 

@@ -125,10 +125,10 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
     var heightIn  = $Z.transition.rounded_linear_transition_func('viewportHeight', zoomDur)(newHeight) ;
     var xIn       = $Z.transition.rounded_linear_transition_func('viewportX', zoomDur)(xNew) ;
     var yIn       = $Z.transition.rounded_linear_transition_func('viewportY', zoomDur)(yNew) ;
-    var widthOut  = $Z.transition.rounded_linear_transition_func('viewportWidth', zoomDur)(viz.viewportWidth) ;
-    var heightOut = $Z.transition.rounded_linear_transition_func('viewportHeight', zoomDur)(viz.viewportHeight) ;
-    var xOut      = $Z.transition.rounded_linear_transition_func('viewportX', zoomDur)(viz.viewportX) ;
-    var yOut      = $Z.transition.rounded_linear_transition_func('viewportY', zoomDur)(viz.viewportY) ;
+    var widthOut  = $Z.transition.rounded_linear_transition_func('viewportWidth', zoomDur)(viz.displayCanvas.width) ;
+    var heightOut = $Z.transition.rounded_linear_transition_func('viewportHeight', zoomDur)(viz.displayCanvas.height) ;
+    var xOut      = $Z.transition.rounded_linear_transition_func('viewportX', zoomDur)(0) ;
+    var yOut      = $Z.transition.rounded_linear_transition_func('viewportY', zoomDur)(0) ;
 
     widthIn.child  = widthOut ;
     heightIn.child = heightOut ;
