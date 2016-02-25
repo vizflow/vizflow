@@ -278,9 +278,9 @@ var playerHelper = {
   load_bullet: function player_helper_load_bullet(viz) {
     //var bulletSpriteSet0     = bullet_sprite () ;
     var i         = imageHelper.image2canvas('./image/beam_spritesheet.png') ;
-    var rowName   = ['jump', 'bullet', 'bullet3', 'bullet2', 'bullet1'] ;
-    var width     = [186, 5, 235, 191, 191] ;
-    var height    = [38, 5, 249, 84, 84] ;
+    var rowName   = ['bullet', 'bullet1', 'bullet2', 'bullet3', 'jump'] ;
+    var width     = [5, 186, 200, 200, 20] ;
+    var height    = [5, 10, 34, 110, 12] ;
     var maxHeight = Math.max.apply(null, height) ;
     var spriteset = spriteHelper.get(i, rowName, width, height) ;
 
@@ -325,14 +325,14 @@ var playerHelper = {
       shiftXl: bulletShiftXl,
       shiftXr: bulletShiftXr, 
       shiftY: bulletShiftY,
-      shiftXlist: [20, 20, 20],
-      shiftYlist: [55 - maxHeight, 55 - maxHeight, 135 - maxHeight],
+      shiftXlist: [25, 16, 20],
+      shiftYlist: [19 - maxHeight, 30 - maxHeight, 67 - maxHeight],
       image: bulletSpriteSet.bullet[0],
       // animation: undefined,
     } ;
 
     var jumpBulletConfig        = copy_object(bulletConfig) ;
-    var jumpBulletDur           = viz.dur * 10 ;
+    var jumpBulletDur           = viz.dur * 15 ;
 
     function jump_bullet_transition(xNew) {
       var transition = step_transition_func ( 'dummy', jumpBulletDur )(xNew) ; // function accepting an x end-value and returning a transition object
@@ -342,9 +342,9 @@ var playerHelper = {
     }
 
     jumpBulletConfig.image      = bulletSpriteSet.jump[0] ;
-    jumpBulletConfig.shiftY     = 39 - maxHeight ;
+    jumpBulletConfig.shiftY     = 28 - maxHeight ;
     jumpBulletConfig.transition = jump_bullet_transition ;
-    jumpBulletConfig.move       = 0 ;
+    jumpBulletConfig.move       = 200 ;
     jumpBulletConfig.shiftXl    = -bulletSpriteSet.jump[0].width + 20 ;
     jumpBulletConfig.shiftXr    = viz.player.sprite.original.rest[0].width + viz.player.bulletSprite.original.bullet[0].width - 20 ;
 

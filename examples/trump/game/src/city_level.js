@@ -23,7 +23,7 @@ function city_level () {
  
   var jumpDuration  = 300 ;
   var floatDuration = 200 ;
-  var tileWidth     = 100 ;
+  var tileWidth     = 250 ;
   var tileHeight    = 68 ; 
   var maxHeight     = 200 ;
 
@@ -31,16 +31,12 @@ function city_level () {
 
     var dur1 = t * 1.5 ;
     var dur2 = t ;
-
     var dur3 = t * 0.5 ;
     var dur4 = t * 0.5 ;
     var dur5 = t * 0.5 ;
     var dur6 = t * 0.5 ;
     var dur7 = t * 0.5 ;
-    var dur8 = t * 0.5;
-    var dur9 = t * 0.5;
-    var dur10 = t * 7;
-    var dur11 = t * 2;
+    var dur8 = t * 2;
     var trans1 = step_transition_func('image', dur1) (viz.player.sprite.jump1[0]) ;
     var trans2 = step_transition_func('image', dur2) (viz.player.sprite.jump1[1]) ;
     var trans3 = step_transition_func('image', dur3) (viz.player.sprite.jump1[2]) ;
@@ -48,11 +44,8 @@ function city_level () {
     var trans5 = step_transition_func('image', dur5) (viz.player.sprite.jump1[4]) ;
     var trans6 = step_transition_func('image', dur6) (viz.player.sprite.jump1[5]) ;
     var trans7 = step_transition_func('image', dur7) (viz.player.sprite.jump1[6]) ;
-    var trans8 = step_transition_func('image', dur8) (viz.player.sprite.jump1[7]) ;
-    var trans9 = step_transition_func('image', dur9) (viz.player.sprite.jump1[8]) ;
-    var trans10 = step_transition_func('image', dur10) (viz.player.sprite.jump1[9]) ;
-    var trans11 = step_transition_func('image', dur11) (viz.player.sprite.rest[0]) ;
-    var trans = [trans1, trans2, trans3, trans4, trans5, trans6, trans7, trans8, trans9, trans10, trans11] ;    
+    var trans8 = step_transition_func('image', dur8) (viz.player.sprite.rest[0]) ;
+    var trans = [trans1, trans2, trans3, trans4, trans5, trans6, trans7, trans8] ;    
 
     return trans ;
 
@@ -87,7 +80,7 @@ function city_level () {
       var height = [
         tileHeight, 
         70, 
-        48, 
+        tileHeight, 
         tileHeight, 
         tileHeight,
         maxHeight, 
@@ -166,7 +159,7 @@ function city_level () {
       var Nframe    = (viz.player.sprite.jump1.length + viz.player.sprite.jump2.length) +1 ;
       var t         = jumpTime / Nframe ; // if all frames were same speed to equal total jumpDuration        
       var trans0    = dragonpunch_trans(t, viz) ;
-      trans0[8].end = function () {
+      trans0[6].end = function () {
         viz.zoom_inout ({
           duration: jumpDuration * 10,
           x: Math.max(0, Math.min(20, viz.player.item.x)),
@@ -175,14 +168,19 @@ function city_level () {
           height: 120,
         }) ;
       }  
-      var dur1 = t * 25 ;
+      var dur1 = t * 20 ;
       var dur2 = t ;
-      var dur3 = t * 5 ;
-      var dur4 = t * 5 ;
-      var dur5 = t * 5 ;
-      var dur6 = t * 5 ;
-      var dur7 = t * 5 ;
+      var dur3 = t * 2 ;
+      var dur4 = t * 2 ;
+      var dur5 = t * 2 ;
+      var dur6 = t * 2 ;
+      var dur7 = t * 2 ;
       var dur8 = t ;
+      var dur9 = t ;
+      var dur10 = t ;
+      var dur11 = t ;
+      var dur12 = t ;
+      var dur13 = t ;
       var trans1 = step_transition_func('image', dur1) (viz.player.sprite.jump2[0]) ;
       var trans2 = step_transition_func('image', dur2) (viz.player.sprite.jump2[1]) ;
       var trans3 = step_transition_func('image', dur3) (viz.player.sprite.jump2[2]) ;
@@ -190,8 +188,13 @@ function city_level () {
       var trans5 = step_transition_func('image', dur5) (viz.player.sprite.jump2[4]) ;
       var trans6 = step_transition_func('image', dur6) (viz.player.sprite.jump2[5]) ;
       var trans7 = step_transition_func('image', dur7) (viz.player.sprite.jump2[6]) ;
-      var trans8 = step_transition_func('image', dur8) (viz.player.sprite.rest[0]) ;
-      var trans = trans0.concat([trans1, trans2, trans3, trans4, trans5, trans6, trans7, trans8]) ;    
+      var trans8 = step_transition_func('image', dur7) (viz.player.sprite.jump2[7]) ;
+      var trans9 = step_transition_func('image', dur7) (viz.player.sprite.jump2[8]) ;
+      var trans10 = step_transition_func('image', dur7) (viz.player.sprite.jump2[9]) ;
+      var trans11 = step_transition_func('image', dur7) (viz.player.sprite.jump2[10]) ;
+      var trans12 = step_transition_func('image', dur7) (viz.player.sprite.jump2[11]) ;
+      var trans13 = step_transition_func('image', dur8) (viz.player.sprite.rest[0]) ;
+      var trans = trans0.concat([trans1, trans2, trans3, trans4, trans5, trans6, trans7, trans8, trans9, trans10, trans11, trans12, trans13]) ;    
       return transition_sequence(trans) ;
     },
 
@@ -231,7 +234,7 @@ function city_level () {
     },    
 
     frameDuration: viz.frameDuration * 1,
-    attackDuration: 5 * viz.frameDuration,
+    attackDuration: 55 * viz.frameDuration,
     hitDuration: viz.dur * 10,
     orientation: 'l',
     x: 60,
