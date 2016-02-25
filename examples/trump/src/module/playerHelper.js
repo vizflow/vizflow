@@ -3,6 +3,7 @@ var playerHelper = {
 	setup: function player_helper_setup(viz) {
 
 		viz.player              = setup_element(viz, viz.playerConfig) ;
+    // console.log('playerHelper setup', 'viz.player.item.y', viz.player.item.y, 'viz.playerConfig', viz.playerConfig) ;
 	  viz.player.orientation  = 'r' ; // all players start facing right
 	  viz.player.level        = 0 ;
 	  viz.player.update       = playerHelper.update_player ;

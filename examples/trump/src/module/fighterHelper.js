@@ -6,7 +6,7 @@ var fighterHelper = {
   		viz = this ;
   	}
 
-  	// console.log('fighter helper run start') ;
+  	// console.log('fighter helper run start', 'viz', viz, 'viz.player.item.y', viz.player.item.y) ;
 
 		viz.fade({
 
@@ -19,7 +19,8 @@ var fighterHelper = {
 		    opacity: 0, 
 
 		    end: function() {
-		      // console.log(viz.config.backgroundImageUrl) ;
+		      // console.log('fighter helper run end: start', 'viz', viz) ;
+
 		      viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;
 
 		      viz.add_item([ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop

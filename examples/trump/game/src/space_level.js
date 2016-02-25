@@ -11,13 +11,13 @@ function space_level () {
     load_response: fighterHelper.load_response,
     load_audio: gameHelper.load_audio,
     buttonpress: buttonpress,    
-    //music: './audio/drwho.wav',
+    music: './audio/drwho.wav',
 
   } ;
 
   viz = vizHelper.setup(vizConfig) ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
 
-  viz.plaformY   = 190 ;
+  viz.platformY   = 190 ;
   var tileHeight = 40 ;
   var tileWidth  = 40 ;
 
@@ -83,6 +83,8 @@ function space_level () {
     type: 'enemy',
 
   } ;
+
+  // console.log('space level', )
 
   viz.load() ;
   

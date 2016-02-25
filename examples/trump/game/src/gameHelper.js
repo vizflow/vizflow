@@ -28,7 +28,7 @@ var gameHelper = {
 	  viz.audio.bump     = audioLoader.cache['./audio/bump2.wav'] ;
 	  viz.audio.powerup0 = audioLoader.cache['./audio/powerup0.wav'] ;
 	  viz.audio.powerup3 = audioLoader.cache['./audio/powerup3.wav'] ;
-	  viz.audio.trogdor  = audioLoader.cache['./audio/trogdor.wav'] ;
+	  // viz.audio.trogdor  = audioLoader.cache['./audio/trogdor.wav'] ;
 
 	  viz.audio.powerup3.volume *= 0.5 ;
 
