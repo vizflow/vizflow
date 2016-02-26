@@ -37,7 +37,7 @@ var powerupHelper = {
     item.inert = false ;
     // console.log ('powerup helper stop', 'item', item) ;
 
-    item.viz.audio.bump.play() ;
+    // item.viz.audio.bump.play() ;
 
   },  
 
