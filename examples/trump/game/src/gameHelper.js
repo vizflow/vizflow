@@ -48,6 +48,126 @@ var gameHelper = {
 	
 	},	
 
+	title: function game_helper_title_animation(viz) {
+
+ 		if(viz === undefined) {
+  		viz = this ;
+  	}
+
+  	function title_sprite() {
+
+      var i = imageHelper.image2canvas('./image/title_sprite.png') ;
+
+      var rowName = [
+        'stars', 
+        'elect', 
+        'fight', 
+		  ] ;
+
+      var width = [
+        180, 
+        180, 
+        180, 
+      ] ;
+
+      var height = [
+        240, 
+        20, 
+       	75, 
+      ] ;
+
+      var maxHeight  = Math.max.apply(null, height) ;
+      var spriteset0 = spriteHelper.get(i, rowName, width, height) ;
+      var spriteset  = spriteHelper.foreach(spriteset0, imageHelper.adjust_ratio) ;  
+
+      // spriteset.original = spriteset0 ;
+
+      // imageHelper.view() ;
+
+      return spriteset ;
+
+    }
+
+		var sprite = title_sprite() ;
+
+		document.titleSprite = sprite ;
+
+		var stars = itemHelper.setup({
+			x: 0,
+			y: 0,
+			image: sprite.stars[0],
+			opacity: 1,
+			inert: true,
+			viz: viz,
+		}) ;
+
+		// console.log('gameHelper title_animation:', 'stars', stars, 'stars.viz', stars.viz)
+
+		stars.add() ;
+
+		viz.fade({
+			duration: viz.fadeDuration,
+		}) ;
+
+		var electX =   -1 ;
+		var electY = -140 ;
+		var elect = itemHelper.setup({
+			x: viz.width,
+			y: electY,
+			image: sprite.elect[0],
+			opacity: 0,
+			inert: true,
+			viz: viz,
+		}) ;
+
+		var fight = itemHelper.setup({
+			x: 0,
+			y: -60,
+			image: sprite.fight[0],
+			opacity: 0,
+			inert: true,
+			viz: viz,
+		}) ;
+
+		elect.add() ;
+		fight.add() ;
+
+		var electFactor = 15 ;
+		var electDur    = viz.frameDuration * electFactor ;
+
+		var xTrans = $Z.transition.rounded_linear_transition_func('x', viz.fadeDuration * 1.5)(electX) ;
+
+		var animation = animate(sprite.elect, step_transition_func('image', electDur))[0] ;
+
+		animation.child.child.end = function() {
+			
+			// viz.shake() ;
+
+			fight.fade({
+				duration: viz.fadeDuration * 2, 
+				end: function() { 
+					viz.item = [] ;
+					gameHelper.load(viz) ;
+				}
+			}) ;
+
+		} ;
+
+		elect.add_transition(xTrans) ;
+
+		elect.fade({
+			duration: viz.fadeDuration,
+			child: animation,
+		}) ;
+
+		// stars.fade() ;
+
+		// var elect = itemHelper.setup({
+		// 	image: sprite.elect,
+		// }) ;
+
+	},
+
 	load: function fighter_helper_load(viz) {
 
  		if(viz === undefined) {
@@ -77,7 +197,7 @@ var gameHelper = {
 
 		    		gameHelper.load_select(viz) ;
 
-			      viz.add_item([ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop
+			      itemHelper.add(viz, [ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop
 			      	
 			         viz.choose,
 			         viz.jesus,

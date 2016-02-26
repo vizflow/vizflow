@@ -14,25 +14,26 @@ var itemHelper = {
 			itemConfig.inert = true ;
 		}
 
-		var item = {
+		var item = { // configurable properties: x, y, type, element, opacity, image, inert
 
-	    viz: viz, 
+  		config: itemConfig,
+	    viz: itemConfig.viz || viz, 
 			x: itemConfig.x,
 			y: itemConfig.y,
 			type: itemConfig.type,
 			element: itemConfig.element,
 		  opacity: itemConfig.opacity,
   		image: itemConfig.image,
+	    inert: itemConfig.inert,
+		  responseSet: {}, // add response objects separately
 	    collision_image: actionHelper.collision_image, // actionHelper.collision_image() expects "this" to be "item"
 	    render: drawHelper.image, // drawHelper.image expects "this" to  be "item"
-		  responseSet: {},
+	    add: itemHelper.add,
 	    add_transition: transitionHelper.add, // transitionHelper.add expects "this" to be "item"
 	    add_end: transitionHelper.add_end,
 	    fade: imageEffectHelper.fade, // imageEffectHelper.fade expects "this" to be "item"
 	    flash: effectHelper.flash,
-	    inert: itemConfig.inert,
 	    remove: itemHelper.remove,
-  		config: itemConfig,
   		zoom: itemHelper.zoom,
 
 		} ;
@@ -63,6 +64,36 @@ var itemHelper = {
 	    width: item.viz.width * scale, 
 	    height: item.viz.height * scale,
 	  }) ;
+
+  },
+
+  add: function(viz, item) {
+
+	  if(item === undefined) {
+	    item = this ;
+	  }
+
+	  if(viz === undefined) {
+	  	viz = this.viz ;
+	  }
+
+	  if(viz.item === undefined) {
+	    viz.item = [] ;
+	  }
+
+	  if(item.constructor !== Array) {
+
+	  	// console.log('item helper:', 'viz', viz, 'this', this)
+
+	    viz.stagingArray.push(item) ;        
+	  
+	  } else {
+
+	    for(var kitem = 0 ; kitem < item.length ; kitem++) {
+	      viz.stagingArray.push(item[kitem]) ;
+	    }
+	  
+	  }
 
   },
 

@@ -124,7 +124,7 @@ var powerupHelper = {
     // console.log('this.adversary.item, newPowerup', this.adversary.item, newPowerup) ;
     // imageHelper.view(newPowerup.image)
 
-    this.item.viz.add_item(newPowerup) ;
+    newPowerup.add() ;
 
     if(newPowerup.drop !== undefined) {
       newPowerup.drop() ; // overwriting the previous value of newPowerup.transition with the output of the newPowerup.transition function call

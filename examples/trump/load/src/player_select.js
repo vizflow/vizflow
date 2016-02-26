@@ -11,9 +11,9 @@ function player_select () {
 
   var vizConfig = {
 
-    loadingImageUrl: './image/titlescreen.png',
+    // loadingImageUrl: './image/titlescreen.png',
     backgroundImageUrl: './image/background.png',
-    run: gameHelper.load,
+    run: gameHelper.title,
     inputEvent: selectInput,
     screen_callback: gameHelper.screen_callback,
     keyboard_callback: gameHelper.keyboard_callback,

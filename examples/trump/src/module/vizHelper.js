@@ -50,9 +50,13 @@ var vizHelper = {
 
 	  var backgroundImageUrl = vizConfig.backgroundImageUrl ;
 	  // console.log('vizHelper, resize, image2canvas start') ;
-	  var image         = imageHelper.image2canvas(vizConfig.loadingImageUrl) ;
-	  // console.log('vizHelper, resize, image2canvas end') ;
-	  image             = imageHelper.adjust_ratio(image) ;
+
+	  var image ;
+	  if(vizConfig.loadingImageUrl !== undefined) {
+		  image         = imageHelper.image2canvas(vizConfig.loadingImageUrl) ;
+		  // console.log('vizHelper, resize, image2canvas end') ;
+		  image             = imageHelper.adjust_ratio(image) ;
+	  } 
 
 	  var frameDuration = vizConfig.frameDurationFactor * dur ;
 	  var fadeDuration  = 750 ;
@@ -140,18 +144,19 @@ var vizHelper = {
 
 	      $Z.item(this.item) ; // update the vizflow item list
 
-	      // var index = item.viz.item.indexOf (this) ;  
-	      // item.viz.item.splice (index, 1) ; // remove item[itemName] from vizflow itemlist  
+	      // var clearSwitch = false ;
+	      // if (clearSwitch) {
+	      // 	this.modelContext.clearRect(0, 0, this.canvas.width, this.canvas.height) ;		      	
+	      // }
+	      
+	      var alphaSwitch = true  ; // #todo: move to config object
+	      if (alphaSwitch) {
+	        this.modelContext.globalAlpha = 0.75 ; // simulates retro CRT display memory 
+	      }
 
-	      //console.log('setup_viz: viz_prep')
-
-	      // draw current frame to display canvas:
-	      // prepare viz canvas for next frame:
-
-	      //console.log('this.canvas', this.canvas) ;
-	      // this.context.clearRect(0, 0, this.canvas.width, this.canvas.height) ;
-	      this.modelContext.globalAlpha = 0.75 ; // simulates retro CRT display memory 
-	      this.modelContext.drawImage (this.image, 0, 0) ;
+	      if(this.image !== undefined) {
+	      	this.modelContext.drawImage (this.image, 0, 0) ; // draw background image if there is one
+	      }
 	      // this.displayContext.globalAlpha = 1 ;
 	 
 	      return true ;
@@ -203,30 +208,6 @@ var vizHelper = {
 	      }) ) ;
 	      // console.log('panY trans', trans) ;
 	      this.add_transition( trans[0] ) ; 
-	    },
-
-	    add_item: function(item, viz) {
-
-	      if(viz === undefined) {
-	        viz = this ;
-	      }
-
-	      if(viz.item === undefined) {
-	        viz.item = [] ;
-	      }
-
-	      if(item.constructor !== Array) {
-
-	        this.stagingArray.push(item) ;        
-	      
-	      } else {
-
-	        for(var kitem = 0 ; kitem < item.length ; kitem++) {
-	          this.stagingArray.push(item[kitem]) ;
-	        }
-	      
-	      }
-
 	    },
 
 	  } ;

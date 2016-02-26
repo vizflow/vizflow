@@ -4,7 +4,7 @@ function fantasy_level () {
 
     backgroundImageUrl: './image/trump_bg3.png',
     loadingImageUrl: './image/rastan_intro.png',
-    frameDurationFactor: 5,
+    frameDurationFactor: 4,
     run: fighterHelper.run,
     load_ui: fighterHelper.load_ui,
     load_char: fighterHelper.load_char,

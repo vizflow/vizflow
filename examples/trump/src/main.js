@@ -8,7 +8,6 @@ document.body.style.margin    = 0 ;
 document.image = [ 
 	'./image/select_spritesheet.png',
 	'./image/background.png',
-	'./image/titlescreen.png',
 	'./image/jesus_spritesheet.png', 
 	'./image/button_spritesheet.png', 
 	'./image/trump_spritesheet.png', 
@@ -24,6 +23,7 @@ document.image = [
 	'./image/megyn_title.png',
 	'./image/0-9.png',
 	'./image/powerup.png',
+	'./image/title_sprite.png',
 ] ;
 	  
 document.audio = [

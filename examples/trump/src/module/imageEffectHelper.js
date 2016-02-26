@@ -163,8 +163,7 @@ var imageEffectHelper = {
 				}
 			}
 
-			viz.item = viz.item.concat(block) ;
-			viz.add_item(viz.item) ;
+			itemHelper.add(viz, block) ;
 
 		},	
 } ;

@@ -23,7 +23,7 @@ var fighterHelper = {
 
 		      viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;
 
-		      viz.add_item([ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop
+		      itemHelper.add(viz, [ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop
 
 		          viz.enemy.item,
 		          viz.player.item,

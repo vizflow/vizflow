@@ -2,7 +2,7 @@ var bulletHelper = {
 
   fire: function bullet_helper_fire (bulletName) {
     // console.log('fire bullet', 'this', this, 'bulletName', bulletName, 'this[bulletName]', this[bulletName]) ;
-    console.log('player helper update attack', 'viz.item.length', viz.item.length) ;
+    // console.log('player helper update attack', 'viz.item.length', viz.item.length) ;
 
     if (this[bulletName] !== undefined) { // check if this player char shoots bullets
 
@@ -35,9 +35,9 @@ var bulletHelper = {
 
       }
 
-      if(newBullet['bullet' + this.level] !== undefined && this.item.y === this.config.y ) {
+      if(newBullet['bullet' + this.level] !== undefined && bulletName[0] === 'b' ) {
         newBullet.transition = [newBullet['bullet' + this.level](xNew)] ;
-      } else if (newBullet['jump_bullet_transition'] !== undefined) {
+      } else if (newBullet['jump_bullet_transition'] !== undefined && bulletName[0] === 'j') {
         newBullet.transition = [newBullet['jump_bullet_transition'](xNew)] ;
       } else if( newBullet.transition !== undefined ) {
         newBullet.transition(xNew) ;  // overwriting the previous value of newBullet['bullet' + this.level] with the output of the newBullet['bullet' + this.level] function call
@@ -51,7 +51,7 @@ var bulletHelper = {
       // console.log('this.adversary.item, newBullet', this.adversary.item, newBullet) ;
       // imageHelper.view(newBullet.image)
 
-      this.item.viz.add_item(newBullet) ;
+      itemHelper.add.call(newBullet) ;
       // this[bulletName].audio.play() ;
 
       // console.log ('fire_bullet end bullet if-block') ;
