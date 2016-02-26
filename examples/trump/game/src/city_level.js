@@ -17,7 +17,7 @@ function city_level () {
 
   viz = vizHelper.setup(vizConfig) ; // framdeDuration computed
 
-  viz.platformY     = 172 ;
+  viz.platformY     = 170 ;
  
   var jumpDuration  = 300 ;
   var floatDuration = 200 ;
@@ -206,7 +206,8 @@ function city_level () {
 
     xMove: 7,
     yMove: 50,
-    y: viz.platformY - maxHeight,
+    y: viz.platformY - maxHeight - 2,
+    x: -tileWidth * 0.5 + 5,
     type: 'player',
     bulletSwitch: false,
 

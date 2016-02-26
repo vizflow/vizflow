@@ -19,7 +19,7 @@ var actionHelper = {
           var targetItem = viz.item[viz.collision.list[kCollision][kPair]] ;           // by convention, the target item stores the response config object for the corresponding response
           var sourceItem = viz.item[viz.collision.list[kCollision][(kPair + 1) % 2]] ; // by convention, the source item is checked by the target item for the appropriateness of its type
 
-          // console.log('collision_foreach', 'viz collision list', viz.collision.list, 'targetItem', targetItem, 'sourceItem', sourceItem) ;
+          // console.log('collision_foreach', 'viz collision list', viz.collision.list, 'index1', viz.collision.list[kCollision][0], 'index2', viz.collision.list[kCollision][1], 'viz.item.length', viz.item.length) ;
 
           for( var response in targetItem.responseSet ) {
 
@@ -42,6 +42,8 @@ var actionHelper = {
       viz = this ;
     }
 
+    // console.log('action helper detect:', 'viz.item.length', viz.item.length) ;
+
     if ( ( $Z.iter - actionHelper.lastCollision ) >= viz.config.frameDurationFactor ) { // throttle collision detection if needed
       // this.collision_detect() ;
       // console.log('action helper detect', '$Z.iter', $Z.iter) ;
@@ -55,7 +57,7 @@ var actionHelper = {
         if( response.responseSwitch ) { // perform response after passing detailed detection check 
           // console.log('initial detection passed', 'sourceItem.x', sourceItem.y, 'response element x', response.element.y)
           response.performSwitch = true ; // flag for performance by the visualization/animation engine loop
-          response.sourceItem = sourceItem ;
+          response.sourceItem    = sourceItem ;
         } 
 
       }) ;
@@ -68,17 +70,19 @@ var actionHelper = {
 
   perform: function action_helper_perform(viz) {
 
+    // console.log('actionHelper perform start') ;
+
     if(viz === undefined) {
       viz = this ;
     }
 
     if ( ( $Z.iter - actionHelper.lastAction ) >= viz.config.frameDurationFactor ) { // throttle collision detection if needed
 
-      // console.log('actionHelper perform start') ;
+      // console.log('actionHelper perform:', 'viz.item.length', viz.item.length) ;
 
       actionHelper.collision_foreach( viz, function(response) {
         // console.log('action helper perform collision foreach callback start', 'response', response) ;
-        if(response.performSwitch) {
+        if( response.performSwitch ) {
           response.performSwitch = false ;
           // console.log('action helper perform collision foreach callback', 'response', response) ;
           response.perform() ;

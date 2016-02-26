@@ -31,30 +31,33 @@ var scoreHelper = {
       '8', 
       '9'
     ] ;
+
     var canvas    = imageHelper.image2canvas('./image/0-9.png') ;
+    
     var tileWidth = [
-      29, 
-      29, 
-      29, 
-      29, 
-      29, 
-      29, 
-      29, 
-      29, 
-      29, 
-      29,
+      15, 
+      15, 
+      15, 
+      15, 
+      15, 
+      15, 
+      15, 
+      15, 
+      15, 
+      15,
     ] ;
+
     var rowHeight = [
-      32, 
-      32, 
-      32, 
-      32, 
-      32, 
-      32, 
-      32, 
-      32, 
-      32, 
-      32,
+      16, 
+      16, 
+      16, 
+      16, 
+      16, 
+      16, 
+      16, 
+      16, 
+      16, 
+      16,
     ] ;
 
     viz.player.score.config = {

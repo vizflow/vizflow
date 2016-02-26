@@ -149,12 +149,15 @@ var playerHelper = {
             var newHeight = player.item.viz.height * scale ;
 
             player.item.viz.zoom_inout({
+
               duration: duration, 
               x: player.item.viz.enemy.item.x - 40, 
               y: -10, 
               width:  newWidth, 
               height: newHeight,
+
             }) ;
+
           }// else {
 	       		// var panDur = yTransition.duration ; 
 	       		// player.item.viz.panY(panDur, [-12, -12, 0]) ;
@@ -165,7 +168,6 @@ var playerHelper = {
 
         transition.push(xTransition) ;  
         transition.push(yTransition) ;
-
 
         viz.audio.jump1.play() ;
 
@@ -212,10 +214,13 @@ var playerHelper = {
       // console.log('player.callback: transition', transition)
       //player.item.transition = transition ;
       var replacementSwitch = true ;
+
       transitionHelper.add.call(player.item, transition, replacementSwitch) ;
       // console.log('update player after transitionhelper', 'player.item', player.item) ;
     } else {
+
       buttonpress.reset () ;
+
     }
 
   },
@@ -276,6 +281,72 @@ var playerHelper = {
 
 	},
 
+  setup_bullet: function player_helper_setup_bullet(viz, player, bulletConfig) {
+
+   function bullet_transition(xNew) {
+      this.opacity = 1 ;
+      var bulletDur  = viz.dur * 20 ;
+      var transition = $Z.transition.rounded_linear_transition_func ( 'x', bulletDur )(xNew) ; // function accepting an x end-value and returning a transition object
+      transition.end = bulletHelper.default_end(viz, this, viz.enemy) ;
+      return transition ;
+
+    }
+
+    function beam_transition(xNew) {
+      // viz.player.bullet.fade ({
+      //   opacity: 0,
+      //   duration: viz.frameDuration * viz.player.bulletSprite['bullet' + viz.player.level].length * 1.25,
+      // }) ;
+      this.opacity = 1 ;
+      var transition = animate (viz.player.bulletSprite['bullet' + viz.player.level], step_transition_func('image', viz.frameDuration))[0] ;
+      var child = transitionHelper.get_child (transition, viz.player.bulletSprite['bullet' + viz.player.level].length - 1) ;
+      child.end = bulletHelper.default_end(viz, this, viz.enemy) ;
+      // transitionHelper.add_end.call (this, 'image', viz.player.bulletSprite['bullet' + viz.player.level].length -1, bulletHelper.default_end(viz, this, viz.enemy)) ;    
+      // console.log('bullet helper beam trnsition', 'transition', transition, 'this', this) ;  
+      return transition ;
+    }
+
+
+    function missile_transition(xNew) {
+
+      this.opacity = 1 ;
+      var bulletDur  = viz.dur * 30 ;
+      var drift = 4 ;
+      var transition1 = $Z.transition.rounded_linear_transition_func ( 'x', bulletDur / 3 )(this.x + drift)
+      var transition2 = $Z.transition.rounded_linear_transition_func ( 'x', 2 * bulletDur / 3 )(xNew) ; // function accepting an x end-value and returning a transition object
+      transition2.end = bulletHelper.default_end(viz, this, viz.enemy) ;
+      transition1.child = transition2 ;
+      return transition1 ;
+      
+    }
+
+    var bullet = {
+
+      viz: viz, 
+      config: bulletConfig,
+      x: player.item.x + bulletConfig.shiftXr,
+      y: player.item.y + bulletConfig.shiftY,
+      image: bulletConfig.image,
+      transition: bulletConfig.transition,
+      animation: bulletConfig.animation,
+      render: drawHelper.image,
+      inert: false,
+      type: 'player',
+      singleSwitch: true,
+      collision_image: actionHelper.collision_image,
+      fade: imageEffectHelper.fade,
+      bullet0: bullet_transition,
+      bullet1: beam_transition,
+      bullet2: beam_transition,
+      bullet3: beam_transition,
+      jump_bullet_transition: missile_transition,
+
+    } ;
+
+    return bullet ;
+
+  },  
+
   load_bullet: function player_helper_load_bullet(viz) {
     //var bulletSpriteSet0     = bullet_sprite () ;
     var i         = imageHelper.image2canvas('./image/beam_spritesheet.png') ;
@@ -333,26 +404,27 @@ var playerHelper = {
     } ;
 
     var jumpBulletConfig        = copy_object(bulletConfig) ;
-    var jumpBulletDur           = viz.dur * 15 ;
+    var jumpBulletDur           = viz.dur * 40 ;
 
-    function jump_bullet_transition(xNew) {
-      var transition = step_transition_func ( 'dummy', jumpBulletDur )(xNew) ; // function accepting an x end-value and returning a transition object
-      // console.log('jump_bullet_transition', transition) ;
-      transition.end = bulletHelper.default_end(viz, this, viz.enemy) ;
-      return transition ;
-    }
+    // function jump_bullet_transition(xNew) {
+    //   var transition = step_transition_func ( 'dummy', jumpBulletDur )(xNew) ; // function accepting an x end-value and returning a transition object
+    //   // console.log('jump_bullet_transition', transition) ;
+    //   transition.end = bulletHelper.default_end(viz, this, viz.enemy) ;
+    //   return transition ;
+    // }
 
-    jumpBulletConfig.image      = bulletSpriteSet.jump[0] ;
-    jumpBulletConfig.shiftY     = 28 - maxHeight ;
-    jumpBulletConfig.transition = jump_bullet_transition ;
-    jumpBulletConfig.move       = 200 ;
-    jumpBulletConfig.shiftXl    = -bulletSpriteSet.jump[0].width + 20 ;
-    jumpBulletConfig.shiftXr    = viz.player.sprite.original.rest[0].width + viz.player.bulletSprite.original.bullet[0].width - 20 ;
+    // jumpBulletConfig.transition = jump_bullet_transition ;
 
-    viz.player.bullet     = bulletHelper.setup (viz, viz.player, bulletConfig) ;  
-    viz.player.jumpBullet = bulletHelper.setup (viz, viz.player, jumpBulletConfig) ;  
+    jumpBulletConfig.image   = bulletSpriteSet.jump[0] ;
+    jumpBulletConfig.shiftY  = 28 - maxHeight ;
+    jumpBulletConfig.move    = bulletMove ;
+    jumpBulletConfig.shiftXl = -bulletSpriteSet.jump[0].width + 20 ;
+    jumpBulletConfig.shiftXr = viz.player.sprite.original.rest[0].width + viz.player.bulletSprite.original.bullet[0].width - 20 ;
+
+    viz.player.bullet     = playerHelper.setup_bullet (viz, viz.player, bulletConfig) ;  
+    viz.player.jumpBullet = playerHelper.setup_bullet (viz, viz.player, jumpBulletConfig) ;  
    
-    viz.player.bullet.audio = viz.audio.bullet ;
+    viz.player.bullet.audio     = viz.audio.bullet ;
     viz.player.jumpBullet.audio = viz.audio.bullet ;
 
     viz.player.fire_bullet  = bulletHelper.fire ;

@@ -55,7 +55,7 @@ var vizHelper = {
 	  image             = imageHelper.adjust_ratio(image) ;
 
 	  var frameDuration = vizConfig.frameDurationFactor * dur ;
-	  var fadeDuration  = 1500 ;
+	  var fadeDuration  = 750 ;
 
 	  // console.log('displayCanvas', displayCanvas) ;
 

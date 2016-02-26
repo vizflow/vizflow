@@ -225,6 +225,7 @@ var fighterHelper = {
     viz.player.powerup.sprite  = spriteHelper.get(canvas, rowName, width, height) ;
     // console.log('vizplayerpowerupsprite', viz.player.powerup.sprite) ;
     viz.player.powerup.image   = viz.player.powerup.sprite.cell[0] ;
+    viz.player.powerup.image   = imageHelper.adjust_ratio(viz.player.powerup.image) ;
 
     viz.player.powerup.drop    = powerupHelper.drop ;
     viz.player.powerup.stop    = powerupHelper.stop ;

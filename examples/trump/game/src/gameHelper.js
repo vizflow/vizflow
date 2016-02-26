@@ -12,6 +12,14 @@ var gameHelper = {
 		megyn: space_level,
 	},
 
+	fadeOut: function() {
+		viz.fade({
+		  opacity: 0,
+		  duration: viz.fadeDuration,
+		  end: function() { gameHelper.loadCallback[gameHelper.loadState]() },
+	  }) ;		
+	},
+
 	load_audio: function viz_helper_load_audio(viz) {
 
 		if(viz === undefined) {
@@ -31,6 +39,8 @@ var gameHelper = {
 	  // viz.audio.trogdor  = audioLoader.cache['./audio/trogdor.wav'] ;
 
 	  viz.audio.powerup3.volume *= 0.5 ;
+
+	  viz.audio.death.volume *= 0.25 ;
 
 	  viz.audio.music = audioLoader.cache[viz.config.music] ;
 
@@ -209,6 +219,7 @@ var gameHelper = {
       var transition = [] ;
       var state ;
 
+      var newState ; 
       switch (event.keyCode) {
 
         case 37: // left
@@ -232,9 +243,9 @@ var gameHelper = {
           break;
         case 13: // enter
         case 32: // space
-        	state = 'x' ; // execute the game code
-        	gameHelper.loadCallback[gameHelper.loadState]() ;
-        	break;
+        	state = 'x' ; // run some effects and then execute the game code
+   				gameHelper.fadeOut() ;
+        	return ;
       } 
 
       //console.log ('state', state) ;
@@ -270,18 +281,27 @@ var gameHelper = {
 			return ;
 		}
 
-    if (y > viz.jesus.y && y <= viz.jesus.y + viz.sprite.original.jesus[0].height) { // user selected the city level
+    if (    ( y > viz.jesus.y && y <= viz.jesus.y + viz.sprite.original.jesus[0].height )
+    	   && ( x > 0 && x < viz.width )  
+   	) { // user selected the city level
 
     	viz.jesus.select.fade({ duration: gameHelper.selectDur }) ;
-    	city_level() ;
+
+    	gameHelper.loadState = 'jesus' ;
+    	gameHelper.fadeOut() ;
 
     }
 
-    if (y > viz.rastan.y && y <= viz.rastan.y + viz.sprite.original.rastan[0].height) { // user selected the fantasy level
+    if (		( y > viz.rastan.y && y <= viz.rastan.y + viz.sprite.original.rastan[0].height) 
+    		 && ( x > 0 && x < viz.width)
+		) { // user selected the fantasy level
+
+
+    	gameHelper.loadState = 'rastan' ;
 
     	viz.rastan.select.fade({
     		duration: gameHelper.selectDur,
-    		end: fantasy_level,
+    		end: gameHelper.fadeOut,
     	}) ;
 
     	viz.jesus.select.fade({ 
@@ -290,11 +310,15 @@ var gameHelper = {
 
     }
 
-    if (y > viz.megyn.y && y <= viz.megyn.y + viz.sprite.original.megyn[0].height) { // user selected the space level
+    if (    ( y > viz.megyn.y && y <= viz.megyn.y + viz.sprite.original.megyn[0].height )  
+    	   && ( x > 0 && x < viz.width ) 
+    ) { // user selected the space level
+
+    	gameHelper.loadState = 'megyn' ;
 
    		viz.megyn.select.fade({
    			duration: gameHelper.selectDur,
-   			end: space_level,
+   			end: gameHelper.fadeOut,
    		}) ;
 
     	viz.jesus.select.fade({
