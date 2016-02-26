@@ -13,6 +13,7 @@ var gameHelper = {
 	},
 
 	fadeOut: function() {
+		viz.audio.menu.play() ;
 		viz.fade({
 		  opacity: 0,
 		  duration: viz.fadeDuration,
@@ -38,12 +39,15 @@ var gameHelper = {
 	  viz.audio.powerup3 = audioLoader.cache['./audio/powerup3.wav'] ;
 	  viz.audio.menu     = audioLoader.cache['./audio/pump.wav'] ;
 
-	  console.log('viz audio menu', 'viz.audio.menu', viz.audio.menu)
+	  // console.log('viz audio menu', 'viz.audio.menu', viz.audio.menu)
 
 	  // viz.audio.trogdor  = audioLoader.cache['./audio/trogdor.wav'] ;
 
-	  viz.audio.powerup3.volume *= 0.5 ;
-	  viz.audio.thud.volume			*= 0.25 ;
+	  // viz.audio.powerup3.volume *= 0.5 ;
+	  // viz.audio.thud.volume			*= 0.5 ;
+  	
+  	viz.audio.thud.volume			*= 0.5 ;
+		
 	  viz.audio.music            = audioLoader.cache[viz.config.music] ;
 
 	  // console.log('fighter helper load audio end', 'viz.audio', viz.audio) ;
@@ -160,6 +164,7 @@ var gameHelper = {
 		elect.fade({
 			duration: viz.fadeDuration,
 			child: animation,
+			pause: electDur,
 		}) ;
 
 		// stars.fade() ;
@@ -338,8 +343,6 @@ var gameHelper = {
 				return ; // wait until viz finishes loading to activate ui controls
 			}
 
-			viz.audio.menu.play() ;
-
       var transition = [] ;
       var state ;
 
@@ -373,21 +376,33 @@ var gameHelper = {
       } 
 
       //console.log ('state', state) ;
+      
       if (state === undefined) {  // user does not hit arrow key or loading still in progress
+      
         viz.buttonpress.reset() ;
+      
       } else {
+				
+				viz.audio.menu.play() ;
 	    	viz[gameHelper.loadState].select.fade({
 	    	 duration: gameHelper.selectDur,
 	    	 end: { 
+
 	    	 	viz: viz,
 	    	 	run: function() { this.viz.buttonpress.reset() },
+
 	    	 },
+
 	      }) ;
+
 	      // console.log('fighterHelper keyboard callback', 'state', state, 'newState', newState)
+
 	    	viz[newState].select.fade({
 	    	 duration: gameHelper.selectDur,
 	      }) ;
+
 	      gameHelper.loadState = newState ;	      
+      
       }
 
 	},
@@ -443,8 +458,10 @@ var gameHelper = {
     	gameHelper.loadState = 'megyn' ;
 
    		viz.megyn.select.fade({
+
    			duration: gameHelper.selectDur,
    			end: gameHelper.fadeOut,
+
    		}) ;
 
     	viz.jesus.select.fade({

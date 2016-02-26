@@ -53,9 +53,9 @@ var vizHelper = {
 
 	  var image ;
 	  if(vizConfig.loadingImageUrl !== undefined) {
-		  image         = imageHelper.image2canvas(vizConfig.loadingImageUrl) ;
+		  image = imageHelper.image2canvas(vizConfig.loadingImageUrl) ;
 		  // console.log('vizHelper, resize, image2canvas end') ;
-		  image             = imageHelper.adjust_ratio(image) ;
+		  image = imageHelper.adjust_ratio(image) ;
 	  } 
 
 	  var frameDuration = vizConfig.frameDurationFactor * dur ;
