@@ -27,11 +27,9 @@ document.image = [
 ] ;
 	  
 document.audio = [
-	'./audio/death.wav',
-	'./audio/bullet2.wav',
+	'./audio/thud.wav',
 	'./audio/hit2.wav',
 	'./audio/jump1.wav',
-	'./audio/laser1.wav',
 	'./audio/laugh1.wav',
 	'./audio/bump2.wav',
 	'./audio/powerup0.wav',
@@ -39,6 +37,7 @@ document.audio = [
 	'./audio/paQueSeLoGozen.wav',
 	'./audio/85riddim.wav',
 	'./audio/drwho.wav',
+	'./audio/pump.wav',
 	// './audio/bullet2.wav',  
 	// './audio/bump2.wav',  
 	// './audio/explode1.wav',  

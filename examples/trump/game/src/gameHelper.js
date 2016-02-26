@@ -28,7 +28,7 @@ var gameHelper = {
 
 		viz.audio = {} ;
 
-	  viz.audio.death    = audioLoader.cache['./audio/death.wav'] ;
+	  viz.audio.thud     = audioLoader.cache['./audio/thud.wav'] ;
 	  viz.audio.hit      = audioLoader.cache['./audio/hit2.wav'] ;
 	  viz.audio.jump1    = audioLoader.cache['./audio/jump1.wav'] ;
 	  viz.audio.bullet   = audioLoader.cache['./audio/bullet2.wav'] ;
@@ -36,13 +36,15 @@ var gameHelper = {
 	  viz.audio.bump     = audioLoader.cache['./audio/bump2.wav'] ;
 	  viz.audio.powerup0 = audioLoader.cache['./audio/powerup0.wav'] ;
 	  viz.audio.powerup3 = audioLoader.cache['./audio/powerup3.wav'] ;
+	  viz.audio.menu     = audioLoader.cache['./audio/pump.wav'] ;
+
+	  console.log('viz audio menu', 'viz.audio.menu', viz.audio.menu)
+
 	  // viz.audio.trogdor  = audioLoader.cache['./audio/trogdor.wav'] ;
 
 	  viz.audio.powerup3.volume *= 0.5 ;
-
-	  viz.audio.death.volume *= 0.25 ;
-
-	  viz.audio.music = audioLoader.cache[viz.config.music] ;
+	  viz.audio.thud.volume			*= 0.25 ;
+	  viz.audio.music            = audioLoader.cache[viz.config.music] ;
 
 	  // console.log('fighter helper load audio end', 'viz.audio', viz.audio) ;
 	
@@ -220,18 +222,18 @@ var gameHelper = {
 			      		xTrans.end = function() {
 
 			      			viz.shake() ;
-			      			viz.audio.death.play() ;
+			      			viz.audio.thud.play() ;
 			      			var xTrans = x_trans_creator(viz.rastan.x + viz.sprite.rastan[0].width) ;
 
 			      			xTrans.end = function() {
 
 			      				viz.shake() ;
-			      				viz.audio.death.play() ;
+			      				viz.audio.thud.play() ;
 			      				var xTrans = x_trans_creator(viz.megyn.x - viz.sprite.megyn[0].width) ;
 
 			      				xTrans.end = function() {
 
-			      					viz.audio.death.play() ;
+			      					viz.audio.thud.play() ;
 			      					viz.shake() ;
 			      					viz[gameHelper.loadState].select.fade({ 
 			      						duration: gameHelper.selectDur,
@@ -336,6 +338,8 @@ var gameHelper = {
 				return ; // wait until viz finishes loading to activate ui controls
 			}
 
+			viz.audio.menu.play() ;
+
       var transition = [] ;
       var state ;
 
@@ -400,6 +404,8 @@ var gameHelper = {
 	    viz.buttonpress.reset() ;
 			return ;
 		}
+
+		viz.audio.menu.play() ;
 
     if (    ( y > viz.jesus.y && y <= viz.jesus.y + viz.sprite.original.jesus[0].height )
     	   && ( x > 0 && x < viz.width )  
