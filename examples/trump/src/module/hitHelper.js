@@ -32,7 +32,7 @@ var hitHelper = {
     }
 
     if(setupResponseConfig.healthbarHeight === undefined) {
-      setupResponseConfig.healthbarHeight = 7 ;
+      setupResponseConfig.healthbarHeight = 10 ;
     }
     
     var audio = setupResponseConfig.audio ;
@@ -227,12 +227,12 @@ var hitHelper = {
           response.healthbar.health -= response.healthdrop ;
         }
 
-        response.element.invincible = true ; // i.e. neither player nor enemy does not take damage but not inert w.r.t. collisions/bumps
-
         hitHelper.flash(response) ; // also sets inertSwitch - separate?
-        if(response.audio !== undefined && response.audio.buffer !== undefined) {
+        if(response.audio !== undefined && response.audio.buffer !== undefined && response.element.invincible !== true) {
           response.audio.play() ;
         }
+
+        response.element.invincible = true ; // i.e. neither player nor enemy does not take damage but not inert w.r.t. collisions/bumps
 
         if (response.healthbar.health < 0 && response.element === response.viz.enemy) {
           response.viz.enemyAttack.on = false ;
@@ -404,6 +404,8 @@ var hitHelper = {
         while(collision_check()) {
           response.viz.player.item.x -= xBump ;          
         }
+
+        response.viz.audio.bump.play() ;
 
         // var xNew              = Math.max(-response.viz.player.item.image.width * 0.5, response.viz.player.item.x - xBump) ; 
         // var trans             = response.viz.player.transitionSet.x(response.viz.player.item.x) ;

@@ -80,7 +80,7 @@ var scoreHelper = {
 
       this.value += this[type] ;
       this.set() ;
-      var powerup = [100, 200] ;
+      var powerup = [100, 1000] ;
       if(viz.player.powerup.count < viz.player.powerup.Nmax &&  this.value >= powerup[viz.player.powerup.count] ) {
         viz.player.fire_powerup() ;
       }

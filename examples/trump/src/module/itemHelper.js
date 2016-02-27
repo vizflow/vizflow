@@ -14,7 +14,7 @@ var itemHelper = {
 			itemConfig.inert = true ;
 		}
 
-		var item = { // configurable properties: x, y, type, element, opacity, image, inert
+		var item = { // configurable properties: x, y, type, element, opacity, image, inert, render
 
   		config: itemConfig,
 	    viz: itemConfig.viz || viz, 
@@ -25,9 +25,9 @@ var itemHelper = {
 		  opacity: itemConfig.opacity,
   		image: itemConfig.image,
 	    inert: itemConfig.inert,
+	    render: itemConfig.render || drawHelper.image, // drawHelper.image expects "this" to  be "item"
 		  responseSet: {}, // add response objects separately
 	    collision_image: actionHelper.collision_image, // actionHelper.collision_image() expects "this" to be "item"
-	    render: drawHelper.image, // drawHelper.image expects "this" to  be "item"
 	    add: itemHelper.add,
 	    add_transition: transitionHelper.add, // transitionHelper.add expects "this" to be "item"
 	    remove_transition: transitionHelper.remove,

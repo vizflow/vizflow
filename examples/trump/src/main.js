@@ -50,11 +50,8 @@ document.audio = [
 	'./audio/bullet.wav',  
 	'./audio/explode1.wav',  
 	// './audio/bullet2.wav',  
-	// './audio/bump2.wav',  
-	// './audio/missile1.wav',  
 	// './audio/powerup1.wav',  
 	// './audio/powerup2.wav', 
-	// './audio/powerup3.wav', 
 	// './audio/powerup4.wav',
 ] ;
 
@@ -67,7 +64,47 @@ if(document.ratio === 1) {
 	document.ratio = minRatio ;
 }
 
+// var vizConfig = {
+//   run: function() {
+//   	var item = itemHelper.setup({
+//   		viz: this,
+//   		x: 20,
+//   		y: 20,
+//   		render: function draw_bar() {
+// 	      drawHelper.rect ({
+// 	      	x: 100,
+// 	      	y: 100,
+// 	      	width: 10,
+// 	      	height: 10,
+// 	      	color: '#FF0',
+// 	      }, viz.screenContext) ;
+// 	    },
+//   	}) ;
+//   	this.item = [item] ;
+//   },
+// } ;
+
+// viz = vizHelper.setup(vizConfig) ; // frameDuration computed
+
+// viz.load() ;
+// viz.run() ;
+
+var color = document.body.parentNode.style.backgroundColor ;
+var count = 50 ;
+var delay = 20 ;
+var id = setInterval(function() {
+	document.body.parentNode.style.backgroundColor = 'rgb(' + count % 255 + ', ' + count % 255 + ', ' + count % 255 + ')' ;
+	count++ ;
+}, delay) ;
+
 imageLoader.preload ( document.image, function preload_audio() {
 	// console.log('preload_audio 18') ;
-	audioLoader.preload( document.audio, load_game ) ;
+	audioLoader.preload( 
+		document.audio, 
+		function main_run() {
+			window.clearInterval(id) ;
+			document.body.parentNode.style.backgroundColor = color ;
+			load_game() ;
+		} 
+	) ;
 }) ;

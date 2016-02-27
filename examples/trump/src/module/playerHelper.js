@@ -165,8 +165,8 @@ var playerHelper = {
             }) ;
 
           }// else {
-	       		// var panDur = yTransition.duration ; 
-	       		// player.item.viz.panY(panDur, [-12, -12, 0]) ;
+	       		var panDur = yTransition.duration ; 
+	       		player.item.viz.panY(panDur, [-12, -12, 0]) ;
 	        // }
 
         } 

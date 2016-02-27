@@ -36,7 +36,7 @@ var gameHelper = {
 	  viz.audio.jump1    = audioLoader.cache['./audio/jump1.wav'] ;
 	  viz.audio.bullet   = audioLoader.cache['./audio/bullet2.wav'] ;
 	  viz.audio.laugh1   = audioLoader.cache['./audio/laugh1.wav'] ;
-	  // viz.audio.bump     = audioLoader.cache['./audio/bump2.wav'] ;
+	  viz.audio.bump     = audioLoader.cache['./audio/bump2.wav'] ;
 	  viz.audio.powerup0 = audioLoader.cache['./audio/powerup0.wav'] ;
 	  viz.audio.powerup3 = audioLoader.cache['./audio/powerup3.wav'] ;
 	  viz.audio.menu     = audioLoader.cache['./audio/pump.wav'] ;
@@ -60,6 +60,7 @@ var gameHelper = {
   	viz.audio.thud.volume	 *= 0.75 ;
   	viz.audio.grunt.volume *= 0.75 ;
   	viz.audio.laser.volume *= 0.5 ;		
+  	viz.audio.bump.volume  *= 0.5 ;
 
 	  viz.audio.music = audioLoader.cache[viz.config.music] ;
 
@@ -128,7 +129,7 @@ var gameHelper = {
 
     var vizflow = itemHelper.setup({ 
     	x: (viz.width - vizflowImage.width) * 0.5,
-    	y: 230,
+    	y: 226,
     	image: imageHelper.adjust_ratio(vizflowImage),
     	opacity: 0,
     	inert: true,
@@ -154,7 +155,7 @@ var gameHelper = {
 
 		var fight = itemHelper.setup({
 			x: 0,
-			y: electY + 80,
+			y: electY + 84,
 			image: sprite.fight[0],
 			opacity: 0,
 			inert: true,

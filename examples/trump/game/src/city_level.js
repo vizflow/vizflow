@@ -57,7 +57,7 @@ function city_level () {
 
       var rowName = [
         'attack',
-        'attack2', 
+        'attack1', 
         'jump2',
         'hit',
         'jump0', 
@@ -97,19 +97,24 @@ function city_level () {
       // imageHelper.view(spriteset.jump1[0]) ;
       // imageHelper.view(spriteset.hit[0]) ;
 
-      var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0], { x: 0, y: 0, width: 36, height: maxHeight } ) ;
+      var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0], { x: 0, y: 0, width: spriteset.attack[0].width * 0.6, height: maxHeight } ) ;
       spriteset.attack[0].sourceCollisionImage = attackCollisionCanvas ;
       spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
-      spriteset.attack                         = [spriteset.attack[0], spriteset.walk[1], spriteset.attack[1], spriteset.walk[1]] ;
 
-      var jumpCollisionCanvas                = imageHelper.clear_rect ( spriteset.jump0[1], { x: 0, y: 0, width: 36, height: maxHeight } ) ;
+      var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack1[0], { x: 0, y: 0, width: spriteset.attack1[0].width * 0.6, height: maxHeight } ) ;
+      spriteset.attack[0].sourceCollisionImage = attackCollisionCanvas ;
+      spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
+      // spriteset.attack                         = [spriteset.attack[0], spriteset.walk[1], spriteset.attack[1], spriteset.walk[1]] ;
+
+      var jumpCollisionCanvas                = imageHelper.clear_rect ( spriteset.jump0[1], { x: 0, y: 0, width: spriteset.jump0[0].width * 0.6, height: maxHeight } ) ;
+      // imageHelper.view(jumpCollisionCanvas) ;
       spriteset.jump0[1].sourceCollisionImage = jumpCollisionCanvas ;
 
-      for (var kFrame = 1 ; kFrame <= 2 ; kFrame++) {
-        spriteset.jump2[kFrame].sourceCollisionImage = spriteset.jump2[kFrame] ;
+      for (var kFrame = 1 ; kFrame < spriteset.jump2.length ; kFrame++) {
+        spriteset.jump2[kFrame].sourceCollisionImage = imageHelper.clear_rect (spriteset.jump2[kFrame], { x: 0, y: maxHeight - 45, width: spriteset.jump2[kFrame].width * 0.6, height: spriteset.jump2[kFrame].height} ) ;
       }
-      spriteset.jump2[2].sourceCollisionImage = imageHelper.clear_rect (spriteset.jump2[2], { x: 0, y: maxHeight - 40, width: 56 , height: 40} ) ;
-      // imageHelper.view(spriteset.jump1[6].sourceCollisionImage) ;
+      // imageHelper.view(spriteset.jump2[1].sourceCollisionImage) ;
+      // imageHelper.view(spriteset.jump2[2].sourceCollisionImage) ;
       // for (var kFrame = 2 ; kFrame <= 3 ; kFrame++) {
       //   spriteset.jump2[kFrame].sourceCollisionImage = spriteset.jump2[kFrame] ;
       // }      
