@@ -24,6 +24,7 @@ document.image = [
 	'./image/0-9.png',
 	'./image/powerup.png',
 	'./image/title_sprite.png',
+	'./image/vizflow.png',
 ] ;
 	  
 document.audio = [

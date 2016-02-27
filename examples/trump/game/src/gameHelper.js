@@ -111,8 +111,6 @@ var gameHelper = {
 
 		var sprite = title_sprite() ;
 
-		document.titleSprite = sprite ;
-
 		var stars = itemHelper.setup({
 			x: 0,
 			y: 0,
@@ -126,12 +124,25 @@ var gameHelper = {
 
 		stars.add() ;
 
-		viz.fade({
+		var vizflowImage = imageHelper.image2canvas('./image/vizflow.png') ;
+
+    var vizflow = itemHelper.setup({ 
+    	x: (viz.width - vizflowImage.width) * 0.5,
+    	y: 230,
+    	image: imageHelper.adjust_ratio(vizflowImage),
+    	opacity: 0,
+    	inert: true,
+    	viz: viz,
+    }) ;
+
+    vizflow.add() ;
+
+    viz.fade({
 			duration: viz.fadeDuration,
 		}) ;
 
 		var electX =   -1 ;
-		var electY = -140 ;
+		var electY = -150 ;
 		var elect = itemHelper.setup({
 			x: viz.width,
 			y: electY,
@@ -143,7 +154,7 @@ var gameHelper = {
 
 		var fight = itemHelper.setup({
 			x: 0,
-			y: -60,
+			y: electY + 80,
 			image: sprite.fight[0],
 			opacity: 0,
 			inert: true,
@@ -175,8 +186,12 @@ var gameHelper = {
 			var delay = .2 ;
 			viz.audio.fight.play(delay) ;
 			
+			vizflow.fade({
+  			duration: viz.fadeDuration,
+  		}) ;
+
 			fight.fade({
-				duration: viz.fadeDuration * 2, 
+				duration: viz.fadeDuration, 
 				end: function() { 
 					viz.clearSwitch = true ;
 					viz.shake() ;
