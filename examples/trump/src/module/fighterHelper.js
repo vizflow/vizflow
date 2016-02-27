@@ -175,7 +175,7 @@ var fighterHelper = {
 
       playerResponseConfig = {
 
-        healthdrop: enemyResponseConfig.healthdrop,
+        healthdrop: enemyResponseConfig.healthdrop * 4,
         healthbarY: 12,
         healthbarX: 1,
         color: '#00C', 

@@ -21,6 +21,9 @@ var gameHelper = {
 		  duration: viz.fadeDuration,
 		  end: function() { gameHelper.loadCallback[gameHelper.loadState]() },
 	  }) ;		
+
+	  viz[gameHelper.loadState].select.zoom() ;
+
 	},
 
 	load_audio: function viz_helper_load_audio(viz) {

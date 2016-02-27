@@ -208,7 +208,7 @@ var hitHelper = {
       var playerCounter = attackCheck && playerTarget ;
       var enemyTarget   = response.element === response.viz.enemy ;
 
-      if(playerSource && enemyTarget && response.viz.enemy.invincible !== true) { 
+      if(playerSource && enemyTarget) { 
         response.viz.player.score.increase('enemyHit') ;
       }
 
@@ -223,16 +223,12 @@ var hitHelper = {
 
       if(response.healthbar !== undefined & !playerCounter) { // i.e. player or enemy was response while in their attack frame state
 
-        if(response.element.invincible !== true) {
-          response.healthbar.health -= response.healthdrop ;
-        }
+        response.healthbar.health -= response.healthdrop ;
 
         hitHelper.flash(response) ; // also sets inertSwitch - separate?
-        if(response.audio !== undefined && response.audio.buffer !== undefined && response.element.invincible !== true) {
+        if(response.audio !== undefined && response.audio.buffer !== undefined) {
           response.audio.play() ;
         }
-
-        response.element.invincible = true ; // i.e. neither player nor enemy does not take damage but not inert w.r.t. collisions/bumps
 
         if (response.healthbar.health < 0 && response.element === response.viz.enemy) {
           response.viz.enemyAttack.on = false ;
@@ -323,12 +319,8 @@ var hitHelper = {
     if( response === undefined ) {
       response = this.response ;
     }
-
-    if(response.element.invincible === true) {
-      response.element.invincible = false ;
-    }
     
-    // response.responseSwitch = true ;
+    response.responseSwitch = true ;
   },
 
   transition: function hit_helper_transition(response) {
@@ -349,7 +341,7 @@ var hitHelper = {
       // var hitTransition   = step_transition_func('image', response.viz.frameDuration * 1.5)(element.sprite.hit[0]) ;
       element.item.image = element.sprite.hit[0] ;
       // console.log('transition hittttt', element.frameDuration) ;
-      hitTransition = animate(element.sprite.hit, step_transition_func('image', element.config.hitDuration), undefined, element.sprite.rest[0])[0] ;
+      hitTransition = animate(element.sprite.hit, step_transition_func('image', hitDur), undefined, element.sprite.rest[0])[0] ;
 
       // if(element === response.viz.enemy) { // perform zoom in-out and screen shake effects on enemy response
 
@@ -448,7 +440,7 @@ var hitHelper = {
 
     var element = response.element ;
 
-    // response.responseSwitch = false ;
+    response.responseSwitch = false ;
 
     var hitDur = hitHelper.duration ;
 
