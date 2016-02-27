@@ -82,7 +82,7 @@ var vizHelper = {
 	    displayContext: displayContext,
 	    screenCanvas:   screenCanvas, 
 	    screenContext:  screenContext,
-	    xShift:         Math.floor(0.5 * (paddingFactor - 1) * vizWidth),
+	    xShift:         Math.floor(0.5 * (paddingFactor - 1) * vizWidth + 1),
 	    yShift:         Math.floor(0.5 * (paddingFactor - 1) * vizHeight),
 	    resizeSkip:     resizeSkip,
 	    lastCollision:  0,

@@ -1,6 +1,6 @@
 var hitHelper = {
 
-  duration: 500,
+  duration: 1000,
 
   pair: { // temporary variable used by collision()
     width: null, 

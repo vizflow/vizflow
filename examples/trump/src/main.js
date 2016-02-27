@@ -48,9 +48,9 @@ document.audio = [
 	'./audio/grunt2.wav',  
 	'./audio/missile1.wav',  
 	'./audio/bullet.wav',  
+	'./audio/explode1.wav',  
 	// './audio/bullet2.wav',  
 	// './audio/bump2.wav',  
-	// './audio/explode1.wav',  
 	// './audio/missile1.wav',  
 	// './audio/powerup1.wav',  
 	// './audio/powerup2.wav', 
@@ -69,5 +69,5 @@ if(document.ratio === 1) {
 
 imageLoader.preload ( document.image, function preload_audio() {
 	// console.log('preload_audio 18') ;
-	audioLoader.preload( document.audio, load_game ) ;
+	audioLoader.preload( document.audio, city_level ) ;
 }) ;

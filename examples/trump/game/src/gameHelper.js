@@ -186,13 +186,22 @@ var gameHelper = {
 			var delay = .2 ;
 			viz.audio.fight.play(delay) ;
 			
-			vizflow.fade({
-  			duration: viz.fadeDuration,
-  		}) ;
-
 			fight.fade({
 				duration: viz.fadeDuration, 
 				end: function() { 
+					vizflow.fade({
+		  			duration: viz.fadeDuration * 2,
+		  			end: function() {
+							viz.fade({
+								opacity: 0,
+								duration: viz.fadeDuration * 2,
+								end: function() {
+									viz.item = [] ;
+									gameHelper.load(viz) ;
+								}
+							}) ;
+		  			},
+		  		}) ;
 					viz.clearSwitch = true ;
 					viz.shake() ;
 					viz.audio.thud.play() ;
@@ -204,14 +213,6 @@ var gameHelper = {
 					// 	x: (viz.width - 150) / (2 * document.ratio),
 					// 	y: (viz.height - 200) / (2 * document.ratio),
 					// }) ;
-					viz.fade({
-						opacity: 0,
-						duration: viz.fadeDuration * 2,
-						end: function() {
-							viz.item = [] ;
-							gameHelper.load(viz) ;
-						}
-					}) ;
 				}
 			}) ;
 

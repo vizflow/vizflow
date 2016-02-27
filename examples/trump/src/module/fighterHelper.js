@@ -231,9 +231,11 @@ var fighterHelper = {
     viz.player.powerup.stop    = powerupHelper.stop ;
     viz.player.powerup.deliver = powerupHelper.deliver ;
     viz.player.powerup.Nmax    = 2 ;
-    if (viz.player.bulletSprite !== undefined && viz.player.bulletSprite.bullet3 !== undefined) {
-    	viz.player.powerup.Nmax = 3 ;
-    }
+
+    // if (viz.player.bulletSprite !== undefined && viz.player.bulletSprite.bullet3 !== undefined) {
+    // 	viz.player.powerup.Nmax = 3 ;
+    // }
+
     viz.player.powerup.count = 0 ;
 
   },

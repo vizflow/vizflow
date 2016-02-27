@@ -19,7 +19,7 @@ function city_level () {
 
   viz.platformY     = 170 ;
  
-  var jumpDuration  = 300 ;
+  var jumpDuration  = 250 ;
   var floatDuration = 200 ;
   var tileWidth     = 100 ;
   var tileHeight    = 68 ; 
@@ -29,21 +29,21 @@ function city_level () {
 
     var dur1 = t * 0.5;
     var dur2 = t * 0.5 ;
-    var dur3 = t * 5 ;
+    var dur3 = t * 3 ;
     var dur4 = t ;
     // var dur5 = t * 0.5 ;
     // var dur6 = t * 0.5 ;
     // var dur7 = t * 0.5 ;
     // var dur8 = t * 2;
-    var trans1 = step_transition_func('image', dur1) (viz.player.sprite.jump1[0]) ;
-    var trans2 = step_transition_func('image', dur2) (viz.player.sprite.jump1[1]) ;
-    var trans3 = step_transition_func('image', dur3) (viz.player.sprite.jump1[2]) ;
+    var trans1 = step_transition_func('image', dur1) (viz.player.sprite.jump2[0]) ;
+    var trans2 = step_transition_func('image', dur2) (viz.player.sprite.jump2[1]) ;
+    var trans3 = step_transition_func('image', dur3) (viz.player.sprite.jump2[2]) ;
     // var trans4 = step_transition_func('image', dur4) (viz.player.sprite.jump1[3]) ;
     // var trans5 = step_transition_func('image', dur5) (viz.player.sprite.jump1[4]) ;
     // var trans6 = step_transition_func('image', dur6) (viz.player.sprite.jump1[5]) ;
     // var trans7 = step_transition_func('image', dur7) (viz.player.sprite.jump1[6]) ;
     var trans4 = step_transition_func('image', dur4) (viz.player.sprite.rest[0]) ;
-    var trans = transition_sequence ([trans1, trans2, trans3, copy_object(trans2), copy_object(trans1)], trans4) ;    
+    var trans = transition_sequence ([trans1, trans2, trans3, copy_object(trans2), copy_object(trans1), trans4]) ;    
 
     return trans ;
 
@@ -57,7 +57,7 @@ function city_level () {
 
       var rowName = [
         'attack', 
-        'jump1',
+        'jump2',
         'hit',
         'jump0', 
         'rest',
@@ -103,9 +103,9 @@ function city_level () {
       spriteset.jump0[1].sourceCollisionImage = jumpCollisionCanvas ;
 
       for (var kFrame = 1 ; kFrame <= 2 ; kFrame++) {
-        spriteset.jump1[kFrame].sourceCollisionImage = spriteset.jump1[kFrame] ;
+        spriteset.jump2[kFrame].sourceCollisionImage = spriteset.jump2[kFrame] ;
       }
-      spriteset.jump1[2].sourceCollisionImage = imageHelper.clear_rect (spriteset.jump1[2], { x: 0, y: maxHeight - 40, width: 56 , height: 40} ) ;
+      spriteset.jump2[2].sourceCollisionImage = imageHelper.clear_rect (spriteset.jump2[2], { x: 0, y: maxHeight - 40, width: 56 , height: 40} ) ;
       // imageHelper.view(spriteset.jump1[6].sourceCollisionImage) ;
       // for (var kFrame = 2 ; kFrame <= 3 ; kFrame++) {
       //   spriteset.jump2[kFrame].sourceCollisionImage = spriteset.jump2[kFrame] ;
@@ -144,9 +144,9 @@ function city_level () {
       return [trans] ;
     },
 
-    jump1: function () {
+    jump2: function () {
       var jumpTime = jumpDuration * 1.5 + floatDuration ;
-      var Nframe   = viz.player.sprite.jump1.length +1 ;
+      var Nframe   = viz.player.sprite.jump2.length +1 ;
       var t        = jumpTime / Nframe ; // if all frames were same speed to equal total jumpDuration
       return transition_sequence(dragonpunch_trans (t, viz)) ;
     },
