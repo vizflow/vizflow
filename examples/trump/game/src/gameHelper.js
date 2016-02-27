@@ -14,6 +14,8 @@ var gameHelper = {
 
 	fadeOut: function() {
 		viz.audio.menu.play() ;
+		viz.audio.music.volume = 0 ;
+		viz.audio.music.fade() ;
 		viz.fade({
 		  opacity: 0,
 		  duration: viz.fadeDuration,
@@ -30,11 +32,11 @@ var gameHelper = {
 		viz.audio = {} ;
 
 	  viz.audio.thud     = audioLoader.cache['./audio/thud.wav'] ;
-	  viz.audio.hit      = audioLoader.cache['./audio/hit2.wav'] ;
+	  // viz.audio.hit      = audioLoader.cache['./audio/hit2.wav'] ;
 	  viz.audio.jump1    = audioLoader.cache['./audio/jump1.wav'] ;
 	  viz.audio.bullet   = audioLoader.cache['./audio/bullet2.wav'] ;
 	  viz.audio.laugh1   = audioLoader.cache['./audio/laugh1.wav'] ;
-	  viz.audio.bump     = audioLoader.cache['./audio/bump2.wav'] ;
+	  // viz.audio.bump     = audioLoader.cache['./audio/bump2.wav'] ;
 	  viz.audio.powerup0 = audioLoader.cache['./audio/powerup0.wav'] ;
 	  viz.audio.powerup3 = audioLoader.cache['./audio/powerup3.wav'] ;
 	  viz.audio.menu     = audioLoader.cache['./audio/pump.wav'] ;
@@ -45,7 +47,7 @@ var gameHelper = {
 	  viz.audio.missile  = audioLoader.cache['./audio/missile1.wav'] ;
 	  viz.audio.laser    = audioLoader.cache['./audio/laser2.wav'] ;
 	  viz.audio.grunt    = audioLoader.cache['./audio/grunt.wav'] ;
-	  viz.audio.word     = audioLoader.cache['./audio/grunt2.wav'] ;
+	  // viz.audio.word     = audioLoader.cache['./audio/grunt2.wav'] ;
 	  viz.audio.ah       = audioLoader.cache['./audio/ah.wav'] ;
 
 	  // console.log('viz audio menu', 'viz.audio.menu', viz.audio.menu)
@@ -54,9 +56,12 @@ var gameHelper = {
 
 	  // viz.audio.powerup3.volume *= 0.5 ;
 	  
-	  viz.audio.menu.volume	*= 1 / 3 ;
-  	viz.audio.thud.volume	*= 3 / 4 ;
-	  viz.audio.music       = audioLoader.cache[viz.config.music] ;
+	  viz.audio.menu.volume	 *= 0.5 ;
+  	viz.audio.thud.volume	 *= 0.75 ;
+  	viz.audio.grunt.volume *= 0.75 ;
+  	viz.audio.laser.volume *= 0.5 ;		
+
+	  viz.audio.music = audioLoader.cache[viz.config.music] ;
 
 	  // console.log('fighter helper load audio end', 'viz.audio', viz.audio) ;
 	
@@ -154,11 +159,10 @@ var gameHelper = {
 		var xTrans = $Z.transition.rounded_linear_transition_func('x', viz.fadeDuration * 1.5)(electX) ;
 
 		var fade = 4 ;
-		var delay = 0.25 ;
-		viz.audio.elect.play(delay) ;
+		viz.audio.elect.play() ;
 	  viz.audio.elect.gain.gain.value = 0 ;
 	  viz.audio.elect.volume = 0.75 ;
-		viz.audio.elect.fade(fade, delay) ;
+		viz.audio.elect.fade(fade) ;
 
 		// xTrans.end = function() {
 		//  viz.shake() ;
@@ -168,7 +172,8 @@ var gameHelper = {
 
 		animation.child.child.end = function() {
 
-			viz.audio.fight.play(delay * 1.5) ;
+			var delay = .2 ;
+			viz.audio.fight.play(delay) ;
 			
 			fight.fade({
 				duration: viz.fadeDuration * 2, 
@@ -221,7 +226,7 @@ var gameHelper = {
 
   	viz.audio.music.loop = true ;
   	var delay = 3 ;
-  	viz.audio.music.volume = 0.15 ;
+  	viz.audio.music.volume = 0.5 ;
   	viz.audio.music.play(delay) ;
 
     viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;  			
@@ -579,7 +584,7 @@ var gameHelper = {
 	    	duration: downDuration,
 	    }) ;
 
-	    word.viz.audio.word.play() ;
+	    // word.viz.audio.word.play() ;
 
 	    //var down   = $Z.transition.rounded_linear_transition_func( 'y', viz.dur * 30 )(viz.player.config.y - wordImage.height * wordCount) ;
 	    //down.child = step_transition_func('dummy', viz.dur * wordPause)(0) ;

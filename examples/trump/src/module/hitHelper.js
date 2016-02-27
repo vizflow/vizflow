@@ -1,6 +1,6 @@
 var hitHelper = {
 
-  duration: 150,
+  duration: 500,
 
   pair: { // temporary variable used by collision()
     width: null, 
@@ -340,7 +340,6 @@ var hitHelper = {
       var hitDur          = hitHelper.duration ; // ( element.adversary.sprite.attack.length + 20 ) * viz.dur ;
       // var hitTransition   = step_transition_func('image', response.viz.frameDuration * 1.5)(element.sprite.hit[0]) ;
       element.item.image = element.sprite.hit[0] ;
-      element.item.viz.audio.grunt.play() ;
       // console.log('transition hittttt', element.frameDuration) ;
       hitTransition = animate(element.sprite.hit, step_transition_func('image', element.config.hitDuration), undefined, element.sprite.rest[0])[0] ;
 

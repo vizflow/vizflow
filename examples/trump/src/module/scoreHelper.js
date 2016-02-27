@@ -9,7 +9,7 @@ var scoreHelper = {
     if (scoreConfig === undefined) {
       scoreConfig = {
         x: 2,
-        y: 10,
+        y: 2,
         inert: true,
       } ;
     }

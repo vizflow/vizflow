@@ -350,6 +350,7 @@ var playerHelper = {
       bullet2: beam_transition,
       bullet3: beam_transition,
       jump_bullet_transition: missile_transition,
+      busy: false,
 
     } ;
 

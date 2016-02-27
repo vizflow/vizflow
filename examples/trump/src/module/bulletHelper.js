@@ -6,7 +6,16 @@ var bulletHelper = {
 
     if (this[bulletName] !== undefined) { // check if this player char shoots bullets
 
+      if (this[bulletName].busy === true) {
+        return ; // some bullets only allow one at a time
+      }
+
+      if (this[bulletName].busy === false) { // i.e. only one bullet is allowed at a time
+        this[bulletName].busy = true ;
+      }
+
       var newBullet = copy_object (this[bulletName]) ;
+      newBullet.original = this[bulletName] ;
 
       // console.log('newBullet', newBullet)
 
@@ -74,6 +83,9 @@ var bulletHelper = {
 
         bullet.inert = true ;
         bullet.removeSwitch = true ;
+        if(bullet.original.busy === true) {
+          bullet.original.busy = false ;
+        }
 
       },
 
