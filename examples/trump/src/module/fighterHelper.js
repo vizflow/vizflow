@@ -105,7 +105,7 @@ var fighterHelper = {
 
 		viz.enemyAttack = {
 		  tSkip: 0,
-		  minSkip: 120,
+		  minSkip: 240,
 		  skipVar: [0, 17, 23, 11, 19, 8, 0, 44, 19, 23, 14, 17, -111, 23],
 		  on: false,
 	  } ;

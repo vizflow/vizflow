@@ -597,7 +597,7 @@ var gameHelper = {
 	    this.transition = [down] ;
 
 	    this.fade({
-	    	duration: downDuration,
+	    	duration: downDuration + down.pause,
 	    }) ;
 
 	    // word.viz.audio.word.play() ;

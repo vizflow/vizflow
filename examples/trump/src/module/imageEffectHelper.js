@@ -132,7 +132,7 @@ var imageEffectHelper = {
 			var dh = blocksize ;
 
 			var scale = 200 ;
-			offset = 50 ;
+			offset = 100 ;
 
 			for(var krow = 0 ; krow < Nrow ; krow++) {
 				for(var kcol = 0 ; kcol < Ncol ; kcol++) {

@@ -208,7 +208,7 @@ var hitHelper = {
       var playerCounter = attackCheck && playerTarget ;
       var enemyTarget   = response.element === response.viz.enemy ;
 
-      if(playerSource && enemyTarget) { 
+      if(playerSource && enemyTarget && response.viz.enemy.invincible !== true) { 
         response.viz.player.score.increase('enemyHit') ;
       }
 
@@ -223,7 +223,11 @@ var hitHelper = {
 
       if(response.healthbar !== undefined & !playerCounter) { // i.e. player or enemy was response while in their attack frame state
 
-        response.healthbar.health -= response.healthdrop * (response.viz.player.level + 1) ;
+        if(response.element.invincible !== true) {
+          response.healthbar.health -= response.healthdrop ;
+        }
+
+        response.element.invincible = true ; // i.e. neither player nor enemy does not take damage but not inert w.r.t. collisions/bumps
 
         hitHelper.flash(response) ; // also sets inertSwitch - separate?
         if(response.audio !== undefined && response.audio.buffer !== undefined) {
@@ -319,8 +323,12 @@ var hitHelper = {
     if( response === undefined ) {
       response = this.response ;
     }
+
+    if(response.element.invincible === true) {
+      response.element.invincible = false ;
+    }
     
-    response.responseSwitch = true ;
+    // response.responseSwitch = true ;
   },
 
   transition: function hit_helper_transition(response) {
@@ -392,7 +400,7 @@ var hitHelper = {
           response.viz.player.callback() ;
         }
 
-        var xBump             = viz.player.config.xMove + 1 ;
+        var xBump = viz.player.config.xMove + 1 ;
         while(collision_check()) {
           response.viz.player.item.x -= xBump ;          
         }
@@ -438,7 +446,7 @@ var hitHelper = {
 
     var element = response.element ;
 
-    response.responseSwitch = false ;
+    // response.responseSwitch = false ;
 
     var hitDur = hitHelper.duration ;
 
@@ -452,7 +460,8 @@ var hitHelper = {
 
     } ;
 
-    element.item.add_transition(reset) ;
+    var replacementSwitch = false ;
+    element.item.add_transition(reset, replacementSwitch) ;
 
   },
 	

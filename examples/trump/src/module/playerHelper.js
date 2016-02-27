@@ -279,6 +279,7 @@ var playerHelper = {
 		player.item.image = player.sprite.rest[0] ;
 
     if (player.bulletSprite !== undefined) {
+      player.bullet.singleSwitch = false ; // beams can hit multiple targets
       player.bulletSprite.bullet = player.bulletSprite['bullet' + player.level] ;
       player.bulletSpriteL.bullet = player.bulletSpriteL['bullet' + player.level] ;
       player.bulletSpriteR.bullet = player.bulletSpriteR['bullet' + player.level] ; 
