@@ -53,9 +53,9 @@ var vizHelper = {
 
 	  var image ;
 	  if(vizConfig.loadingImageUrl !== undefined) {
-		  image         = imageHelper.image2canvas(vizConfig.loadingImageUrl) ;
+		  image = imageHelper.image2canvas(vizConfig.loadingImageUrl) ;
 		  // console.log('vizHelper, resize, image2canvas end') ;
-		  image             = imageHelper.adjust_ratio(image) ;
+		  image = imageHelper.adjust_ratio(image) ;
 	  } 
 
 	  var frameDuration = vizConfig.frameDurationFactor * dur ;
@@ -111,6 +111,7 @@ var vizHelper = {
 	    load: vizHelper.load,
 	    run: vizConfig.run,
 	    stagingArray: [],
+	    clearSwitch: false,
 
 	    transitionSet:  {
 	      x: $Z.transition.rounded_linear_transition_func ( 'viewportX', 3 * dur ), //function accepting an x end-value and returning a transition object      
@@ -145,9 +146,9 @@ var vizHelper = {
 	      $Z.item(this.item) ; // update the vizflow item list
 
 	      // var clearSwitch = false ;
-	      // if (clearSwitch) {
-	      // 	this.modelContext.clearRect(0, 0, this.canvas.width, this.canvas.height) ;		      	
-	      // }
+	      if (this.clearSwitch === true) {
+	      	this.modelContext.clearRect(0, 0, this.modelCanvas.width, this.modelCanvas.height) ;		      	
+	      }
 	      
 	      var alphaSwitch = true  ; // #todo: move to config object
 	      if (alphaSwitch) {

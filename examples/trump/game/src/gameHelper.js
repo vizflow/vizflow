@@ -13,6 +13,9 @@ var gameHelper = {
 	},
 
 	fadeOut: function() {
+		viz.audio.menu.play() ;
+		viz.audio.music.volume = 0 ;
+		viz.audio.music.fade() ;
 		viz.fade({
 		  opacity: 0,
 		  duration: viz.fadeDuration,
@@ -29,22 +32,36 @@ var gameHelper = {
 		viz.audio = {} ;
 
 	  viz.audio.thud     = audioLoader.cache['./audio/thud.wav'] ;
-	  viz.audio.hit      = audioLoader.cache['./audio/hit2.wav'] ;
+	  // viz.audio.hit      = audioLoader.cache['./audio/hit2.wav'] ;
 	  viz.audio.jump1    = audioLoader.cache['./audio/jump1.wav'] ;
 	  viz.audio.bullet   = audioLoader.cache['./audio/bullet2.wav'] ;
 	  viz.audio.laugh1   = audioLoader.cache['./audio/laugh1.wav'] ;
-	  viz.audio.bump     = audioLoader.cache['./audio/bump2.wav'] ;
+	  // viz.audio.bump     = audioLoader.cache['./audio/bump2.wav'] ;
 	  viz.audio.powerup0 = audioLoader.cache['./audio/powerup0.wav'] ;
 	  viz.audio.powerup3 = audioLoader.cache['./audio/powerup3.wav'] ;
 	  viz.audio.menu     = audioLoader.cache['./audio/pump.wav'] ;
+	  viz.audio.elect    = audioLoader.cache['./audio/ineh-choh.wav'] ;
+	  viz.audio.fight    = audioLoader.cache['./audio/fight.wav'] ;
+	  viz.audio.explode  = audioLoader.cache['./audio/explode1.wav'] ;
+	  viz.audio.bullet   = audioLoader.cache['./audio/bullet.wav'] ;
+	  viz.audio.missile  = audioLoader.cache['./audio/missile1.wav'] ;
+	  viz.audio.laser    = audioLoader.cache['./audio/laser2.wav'] ;
+	  viz.audio.grunt    = audioLoader.cache['./audio/grunt.wav'] ;
+	  // viz.audio.word     = audioLoader.cache['./audio/grunt2.wav'] ;
+	  viz.audio.ah       = audioLoader.cache['./audio/ah.wav'] ;
 
-	  console.log('viz audio menu', 'viz.audio.menu', viz.audio.menu)
+	  // console.log('viz audio menu', 'viz.audio.menu', viz.audio.menu)
 
 	  // viz.audio.trogdor  = audioLoader.cache['./audio/trogdor.wav'] ;
 
-	  viz.audio.powerup3.volume *= 0.5 ;
-	  viz.audio.thud.volume			*= 0.25 ;
-	  viz.audio.music            = audioLoader.cache[viz.config.music] ;
+	  // viz.audio.powerup3.volume *= 0.5 ;
+	  
+	  viz.audio.menu.volume	 *= 0.5 ;
+  	viz.audio.thud.volume	 *= 0.75 ;
+  	viz.audio.grunt.volume *= 0.75 ;
+  	viz.audio.laser.volume *= 0.5 ;		
+
+	  viz.audio.music = audioLoader.cache[viz.config.music] ;
 
 	  // console.log('fighter helper load audio end', 'viz.audio', viz.audio) ;
 	
@@ -55,6 +72,8 @@ var gameHelper = {
  		if(viz === undefined) {
   		viz = this ;
   	}
+
+  	viz.loading = true ; // to prevent UI from activating until menu page finishes loading
 
   	function title_sprite() {
 
@@ -92,8 +111,6 @@ var gameHelper = {
 
 		var sprite = title_sprite() ;
 
-		document.titleSprite = sprite ;
-
 		var stars = itemHelper.setup({
 			x: 0,
 			y: 0,
@@ -107,12 +124,25 @@ var gameHelper = {
 
 		stars.add() ;
 
-		viz.fade({
+		var vizflowImage = imageHelper.image2canvas('./image/vizflow.png') ;
+
+    var vizflow = itemHelper.setup({ 
+    	x: (viz.width - vizflowImage.width) * 0.5,
+    	y: 230,
+    	image: imageHelper.adjust_ratio(vizflowImage),
+    	opacity: 0,
+    	inert: true,
+    	viz: viz,
+    }) ;
+
+    vizflow.add() ;
+
+    viz.fade({
 			duration: viz.fadeDuration,
 		}) ;
 
 		var electX =   -1 ;
-		var electY = -140 ;
+		var electY = -150 ;
 		var elect = itemHelper.setup({
 			x: viz.width,
 			y: electY,
@@ -124,7 +154,7 @@ var gameHelper = {
 
 		var fight = itemHelper.setup({
 			x: 0,
-			y: -60,
+			y: electY + 80,
 			image: sprite.fight[0],
 			opacity: 0,
 			inert: true,
@@ -134,22 +164,54 @@ var gameHelper = {
 		elect.add() ;
 		fight.add() ;
 
-		var electFactor = 15 ;
+		var electFactor = 25 ;
 		var electDur    = viz.frameDuration * electFactor ;
 
 		var xTrans = $Z.transition.rounded_linear_transition_func('x', viz.fadeDuration * 1.5)(electX) ;
 
+		var fade = 4 ;
+		viz.audio.elect.play() ;
+	  viz.audio.elect.gain.gain.value = 0 ;
+	  viz.audio.elect.volume = 0.75 ;
+		viz.audio.elect.fade(fade) ;
+
+		// xTrans.end = function() {
+		//  viz.shake() ;
+		// }
+
 		var animation = animate(sprite.elect, step_transition_func('image', electDur))[0] ;
 
 		animation.child.child.end = function() {
+
+			var delay = .2 ;
+			viz.audio.fight.play(delay) ;
 			
-			// viz.shake() ;
+			vizflow.fade({
+  			duration: viz.fadeDuration,
+  		}) ;
 
 			fight.fade({
-				duration: viz.fadeDuration * 2, 
+				duration: viz.fadeDuration, 
 				end: function() { 
-					viz.item = [] ;
-					gameHelper.load(viz) ;
+					viz.clearSwitch = true ;
+					viz.shake() ;
+					viz.audio.thud.play() ;
+					// viz.zoom_inout({
+					// 	duration: viz.fadeDuration * 2,
+					// 	shakeSwitch: true,
+					// 	width: 150,
+					// 	height: 200,
+					// 	x: (viz.width - 150) / (2 * document.ratio),
+					// 	y: (viz.height - 200) / (2 * document.ratio),
+					// }) ;
+					viz.fade({
+						opacity: 0,
+						duration: viz.fadeDuration * 2,
+						end: function() {
+							viz.item = [] ;
+							gameHelper.load(viz) ;
+						}
+					}) ;
 				}
 			}) ;
 
@@ -160,6 +222,7 @@ var gameHelper = {
 		elect.fade({
 			duration: viz.fadeDuration,
 			child: animation,
+			pause: electDur,
 		}) ;
 
 		// stars.fade() ;
@@ -176,99 +239,87 @@ var gameHelper = {
   		viz = this ;
   	}
 
-  	viz.loading = true ; // to prevent UI from activating until menu page finishes loading
+  	viz.audio.music.loop = true ;
+  	var delay = 3 ;
+  	viz.audio.music.volume = 0.5 ;
+  	viz.audio.music.play(delay) ;
+
+    viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;  			
 
 		viz.fade({
-		  opacity: 1,
-		  duration: viz.fadeDuration,
-		  pause: viz.fadeDuration,
-		  child: imageEffectHelper.fade_transition({
+		  duration: viz.fadeDuration * 0.5,
+      opacity: 1,
 
-		    opacity: 0, 
+      end: function() {
 
-		    end: function() {
-		      // console.log(viz.config.backgroundImageUrl) ;
-		      viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;  			
-				},
+    		gameHelper.load_select(viz) ;
 
-		    child: imageEffectHelper.fade_transition({
+	      itemHelper.add(viz, [ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop
+	      	
+	         viz.choose,
+	         viz.jesus,
+	         viz.rastan,
+	         viz.megyn,
+	         viz.jesus.select,
+	         viz.rastan.select,
+	         viz.megyn.select,
 
-		      opacity: 1,
+	      ]) ;
 
-		      end: function() {
+	      viz.choose.fade({
 
-		    		gameHelper.load_select(viz) ;
+	      	end: function () {
 
-			      itemHelper.add(viz, [ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop
-			      	
-			         viz.choose,
-			         viz.jesus,
-			         viz.rastan,
-			         viz.megyn,
-			         viz.jesus.select,
-			         viz.rastan.select,
-			         viz.megyn.select,
+	      		var xDur = 500 ;
+	      		var x_trans_creator = $Z.transition.rounded_linear_transition_func('x', xDur) ;
+	      		var xTrans = x_trans_creator(viz.jesus.x - viz.sprite.jesus[0].width) ;
 
-			      ]) ;
+	      		xTrans.end = function() {
 
-			      viz.choose.fade({
+	      			viz.shake() ;
+	      			viz.audio.thud.play() ;
+	      			var xTrans = x_trans_creator(viz.rastan.x + viz.sprite.rastan[0].width) ;
 
-			      	end: function () {
+	      			xTrans.end = function() {
 
-			      		var xDur = 500 ;
-			      		var x_trans_creator = $Z.transition.rounded_linear_transition_func('x', xDur) ;
-			      		var xTrans = x_trans_creator(viz.jesus.x - viz.sprite.jesus[0].width) ;
+	      				viz.shake() ;
+	      				viz.audio.thud.play() ;
+	      				var xTrans = x_trans_creator(viz.megyn.x - viz.sprite.megyn[0].width) ;
 
-			      		xTrans.end = function() {
+	      				xTrans.end = function() {
 
-			      			viz.shake() ;
-			      			viz.audio.thud.play() ;
-			      			var xTrans = x_trans_creator(viz.rastan.x + viz.sprite.rastan[0].width) ;
+	      					viz.audio.thud.play() ;
+	      					viz.shake() ;
+	      					viz[gameHelper.loadState].select.fade({ 
+	      						duration: gameHelper.selectDur,
+	      						end: function() {
 
-			      			xTrans.end = function() {
+	      							viz.loading = false ;
 
-			      				viz.shake() ;
-			      				viz.audio.thud.play() ;
-			      				var xTrans = x_trans_creator(viz.megyn.x - viz.sprite.megyn[0].width) ;
+	      						},
+	      					}) ;
+	      				}
+	      				
+	      				viz.megyn.add_transition(xTrans) ;
 
-			      				xTrans.end = function() {
+	      			}
 
-			      					viz.audio.thud.play() ;
-			      					viz.shake() ;
-			      					viz[gameHelper.loadState].select.fade({ 
-			      						duration: gameHelper.selectDur,
-			      						end: function() {
+	      			viz.rastan.add_transition(xTrans) ;
 
-			      							viz.loading = false ;
+	      		}
 
-			      						},
-			      					}) ;
-			      				}
-			      				
-			      				viz.megyn.add_transition(xTrans) ;
+	      		viz.jesus.add_transition (xTrans) ;
 
-			      			}
+	      	},
 
-			      			viz.rastan.add_transition(xTrans) ;
+	      }) ;
+	    		    		
+	      	// console.log('fighter helper load') ;
 
-			      		}
+      }, // end end: function() ...
 
-			      		viz.jesus.add_transition (xTrans) ;
+    }) ;	// end fade child 
 
-			      	},
-
-			      }) ;
-		    		    		
-		      	// console.log('fighter helper load') ;
-
-		      }, // end end: function() ...
-
-		    }),	// end fade child child
-
-			}), // end fade child
-
-		}) ; 
-	
 	},	
 
 	load_select: function fighter_helper_load_select (viz) {
@@ -338,8 +389,6 @@ var gameHelper = {
 				return ; // wait until viz finishes loading to activate ui controls
 			}
 
-			viz.audio.menu.play() ;
-
       var transition = [] ;
       var state ;
 
@@ -373,21 +422,33 @@ var gameHelper = {
       } 
 
       //console.log ('state', state) ;
+      
       if (state === undefined) {  // user does not hit arrow key or loading still in progress
+      
         viz.buttonpress.reset() ;
+      
       } else {
+				
+				viz.audio.menu.play() ;
 	    	viz[gameHelper.loadState].select.fade({
 	    	 duration: gameHelper.selectDur,
 	    	 end: { 
+
 	    	 	viz: viz,
 	    	 	run: function() { this.viz.buttonpress.reset() },
+
 	    	 },
+
 	      }) ;
+
 	      // console.log('fighterHelper keyboard callback', 'state', state, 'newState', newState)
+
 	    	viz[newState].select.fade({
 	    	 duration: gameHelper.selectDur,
 	      }) ;
+
 	      gameHelper.loadState = newState ;	      
+      
       }
 
 	},
@@ -405,11 +466,11 @@ var gameHelper = {
 			return ;
 		}
 
-		viz.audio.menu.play() ;
-
     if (    ( y > viz.jesus.y && y <= viz.jesus.y + viz.sprite.original.jesus[0].height )
     	   && ( x > 0 && x < viz.width )  
    	) { // user selected the city level
+
+			viz.audio.menu.play() ;
 
     	viz.jesus.select.fade({ duration: gameHelper.selectDur }) ;
 
@@ -422,8 +483,9 @@ var gameHelper = {
     		 && ( x > 0 && x < viz.width)
 		) { // user selected the fantasy level
 
+  		viz.audio.menu.play() ;
 
-    	gameHelper.loadState = 'rastan' ;
+	  	gameHelper.loadState = 'rastan' ;
 
     	viz.rastan.select.fade({
     		duration: gameHelper.selectDur,
@@ -440,11 +502,15 @@ var gameHelper = {
     	   && ( x > 0 && x < viz.width ) 
     ) { // user selected the space level
 
+			viz.audio.menu.play() ;
+
     	gameHelper.loadState = 'megyn' ;
 
    		viz.megyn.select.fade({
+
    			duration: gameHelper.selectDur,
    			end: gameHelper.fadeOut,
+
    		}) ;
 
     	viz.jesus.select.fade({
@@ -532,6 +598,8 @@ var gameHelper = {
 	    this.fade({
 	    	duration: downDuration,
 	    }) ;
+
+	    // word.viz.audio.word.play() ;
 
 	    //var down   = $Z.transition.rounded_linear_transition_func( 'y', viz.dur * 30 )(viz.player.config.y - wordImage.height * wordCount) ;
 	    //down.child = step_transition_func('dummy', viz.dur * wordPause)(0) ;

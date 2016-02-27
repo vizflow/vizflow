@@ -160,11 +160,11 @@ var fighterHelper = {
 
       enemyResponseConfig = {
 
-        healthbarY: 2, 
+        healthbarY: 12, 
         healthbarX: Math.floor(viz.width * 0.5) + 1,
         healthdrop: 1,
-        color: '#900',
-        audio: viz.audio.hit,
+        color: '#C00',
+        audio: viz.audio.grunt,
         sourceType: 'player',
 
       } ;   
@@ -176,9 +176,9 @@ var fighterHelper = {
       playerResponseConfig = {
 
         healthdrop: enemyResponseConfig.healthdrop,
-        healthbarY: 2,
+        healthbarY: 12,
         healthbarX: 1,
-        color: '#009', 
+        color: '#00C', 
         audio: viz.audio.hit,
         sourceType: 'enemy',
 

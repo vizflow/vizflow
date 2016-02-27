@@ -25,11 +25,17 @@ var playerHelper = {
     	player = this ;
     }
 
-    player.state = state ;
+    if(player.busy === true) {
+      return ;
+    }
+
+    if(state !== undefined) {      
+      player.state = state ;
+    }
     var minNstep = 1 ; // minimum number of frames to animate per user input for walking animations
     var transition ;
 
-     switch(state) {
+     switch(player.state) {
 
       case 'l' :
 
@@ -179,6 +185,7 @@ var playerHelper = {
         // if (transitionHelper.find('y', player.item.transition) > -1) {
         //   break ;  // don't allow punch attacks while moving up or down
         // }  
+
         if(player.fire_bullet !== undefined) {
         	player.fire_bullet('bullet') ; 
         }
@@ -190,6 +197,7 @@ var playerHelper = {
         } else {
           transitionFunc = player.transitionSet.attack ;
         }
+
         // console.log ('updateplayer 101', player.sprite.attack, transitionFunc, buttonpress.reset, player.sprite.rest[0]) ;
         var finalFrame = player.sprite.rest[0] ;
 
@@ -201,7 +209,7 @@ var playerHelper = {
         ) ;
 
         player.loop.attack.position = loop.position ;
-        transition                = loop.animation ;
+        transition                  = loop.animation ;
         // console.log ('update player 105: ', 'player.loop', player.loop, 'player.sprite.attack', player.sprite.attack, 'transition', transition) ; //player.sprite.attack, transitionFunc, buttonpress.reset, player.sprite.rest[0]) ;
         // console.log ('update player 109' ) ;
 
@@ -284,26 +292,32 @@ var playerHelper = {
   setup_bullet: function player_helper_setup_bullet(viz, player, bulletConfig) {
 
    function bullet_transition(xNew) {
+
       this.opacity = 1 ;
       var bulletDur  = viz.dur * 20 ;
       var transition = $Z.transition.rounded_linear_transition_func ( 'x', bulletDur )(xNew) ; // function accepting an x end-value and returning a transition object
       transition.end = bulletHelper.default_end(viz, this, viz.enemy) ;
+      viz.audio.bullet.play() ;
       return transition ;
 
     }
 
     function beam_transition(xNew) {
+
       // viz.player.bullet.fade ({
       //   opacity: 0,
       //   duration: viz.frameDuration * viz.player.bulletSprite['bullet' + viz.player.level].length * 1.25,
       // }) ;
+
       this.opacity = 1 ;
       var transition = animate (viz.player.bulletSprite['bullet' + viz.player.level], step_transition_func('image', viz.frameDuration))[0] ;
       var child = transitionHelper.get_child (transition, viz.player.bulletSprite['bullet' + viz.player.level].length - 1) ;
       child.end = bulletHelper.default_end(viz, this, viz.enemy) ;
+      viz.audio.laser.play() ;
       // transitionHelper.add_end.call (this, 'image', viz.player.bulletSprite['bullet' + viz.player.level].length -1, bulletHelper.default_end(viz, this, viz.enemy)) ;    
       // console.log('bullet helper beam trnsition', 'transition', transition, 'this', this) ;  
       return transition ;
+
     }
 
 
@@ -316,6 +330,8 @@ var playerHelper = {
       var transition2 = $Z.transition.rounded_linear_transition_func ( 'x', 2 * bulletDur / 3 )(xNew) ; // function accepting an x end-value and returning a transition object
       transition2.end = bulletHelper.default_end(viz, this, viz.enemy) ;
       transition1.child = transition2 ;
+      viz.audio.missile.play() ;
+
       return transition1 ;
       
     }
@@ -340,6 +356,7 @@ var playerHelper = {
       bullet2: beam_transition,
       bullet3: beam_transition,
       jump_bullet_transition: missile_transition,
+      busy: false,
 
     } ;
 

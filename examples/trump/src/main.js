@@ -24,6 +24,7 @@ document.image = [
 	'./image/0-9.png',
 	'./image/powerup.png',
 	'./image/title_sprite.png',
+	'./image/vizflow.png',
 ] ;
 	  
 document.audio = [
@@ -38,10 +39,18 @@ document.audio = [
 	'./audio/85riddim.wav',
 	'./audio/drwho.wav',
 	'./audio/pump.wav',
+	'./audio/ineh-choh.wav',
+	'./audio/fight.wav',
+	'./audio/inspector.wav',
+	'./audio/laser2.wav',  
+	'./audio/ah.wav',  
+	'./audio/grunt.wav',  
+	'./audio/grunt2.wav',  
+	'./audio/missile1.wav',  
+	'./audio/bullet.wav',  
 	// './audio/bullet2.wav',  
 	// './audio/bump2.wav',  
 	// './audio/explode1.wav',  
-	// './audio/laser2.wav',  
 	// './audio/missile1.wav',  
 	// './audio/powerup1.wav',  
 	// './audio/powerup2.wav', 

@@ -18,6 +18,7 @@ function player_select () {
     screen_callback: gameHelper.screen_callback,
     keyboard_callback: gameHelper.keyboard_callback,
     load_audio: gameHelper.load_audio,
+    music: './audio/inspector.wav',
 
   } ;
 

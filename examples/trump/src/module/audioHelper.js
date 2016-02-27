@@ -93,7 +93,7 @@ var audioHelper = {
 	
 	},
 
-	play: function audio_play( buffer, start, futureSwitch, audio ) {
+	play: function audio_play( start, futureSwitch, buffer, audio ) {
 
 		if(audio === undefined) {
 			audio = this ;
@@ -116,7 +116,7 @@ var audioHelper = {
 		}
 
 		if ( futureSwitch === undefined ) {
-			futureSwitch = false ;
+			futureSwitch = true ;
 		}
 
 		var now ;
@@ -132,7 +132,7 @@ var audioHelper = {
     gainNode.gain.cancelScheduledValues( now ) ;
 		gainNode.gain.value = this.volume ;
 		
-		sourceNode.start ? sourceNode.start(now + 0) : sourceNode.noteOn(now + 0) ;
+		sourceNode.start ? sourceNode.start(now + start) : sourceNode.noteOn(now + start) ;
 
 		// try {
 		//   sourceNode.start()	;
