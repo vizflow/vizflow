@@ -341,7 +341,13 @@ var hitHelper = {
       // var hitTransition   = step_transition_func('image', response.viz.frameDuration * 1.5)(element.sprite.hit[0]) ;
       element.item.image = element.sprite.hit[0] ;
       // console.log('transition hittttt', element.frameDuration) ;
-      hitTransition = animate(element.sprite.hit, step_transition_func('image', hitDur), undefined, element.sprite.rest[0])[0] ;
+      var tran_func;
+      if(element === response.viz.enemy || element.config.hitDuration === undefined) {
+        tran_func = step_transition_func('image', hitDur) ;        
+      } else {
+        tran_func = step_transition_func('image', element.config.hitDuration) ;
+      }
+      hitTransition = animate(element.sprite.hit, tran_func, undefined, element.sprite.rest[0])[0] ;
 
       // if(element === response.viz.enemy) { // perform zoom in-out and screen shake effects on enemy response
 
