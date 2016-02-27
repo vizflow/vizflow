@@ -27,10 +27,10 @@ function city_level () {
 
   function dragonpunch_trans (t, viz) {
 
-    var dur1 = t * 1.5 ;
-    var dur2 = t ;
-    var dur3 = t * 0.5 ;
-    var dur4 = t * 0.5 ;
+    var dur1 = t * 0.5;
+    var dur2 = t * 0.5 ;
+    var dur3 = t * 3 ;
+    var dur4 = t ;
     // var dur5 = t * 0.5 ;
     // var dur6 = t * 0.5 ;
     // var dur7 = t * 0.5 ;
@@ -43,7 +43,7 @@ function city_level () {
     // var trans6 = step_transition_func('image', dur6) (viz.player.sprite.jump1[5]) ;
     // var trans7 = step_transition_func('image', dur7) (viz.player.sprite.jump1[6]) ;
     var trans4 = step_transition_func('image', dur4) (viz.player.sprite.rest[0]) ;
-    var trans = [trans1, trans2, trans3, trans4] ;    
+    var trans = transition_sequence ([trans1, trans2, trans3, copy_object(trans2), copy_object(trans1)], trans4) ;    
 
     return trans ;
 
@@ -133,8 +133,8 @@ function city_level () {
 
     jump0: function() {
       var dur1 = jumpDuration * .75 ;
-      var dur2 = floatDuration * 1.5 ;
-      var dur3 = jumpDuration ; 
+      var dur2 = floatDuration * 2.5 ;
+      var dur3 = jumpDuration * 3 ; 
       var dur4 = jumpDuration ;
       var trans = step_transition_func('image', dur1) (viz.player.sprite.jump0[0]) ;
       trans.child = step_transition_func('image', dur2) (viz.player.sprite.jump0[1]) ;
@@ -145,7 +145,7 @@ function city_level () {
     },
 
     jump1: function () {
-      var jumpTime = jumpDuration * 2 + floatDuration ;
+      var jumpTime = jumpDuration * 1.5 + floatDuration ;
       var Nframe   = viz.player.sprite.jump1.length +1 ;
       var t        = jumpTime / Nframe ; // if all frames were same speed to equal total jumpDuration
       return transition_sequence(dragonpunch_trans (t, viz)) ;
