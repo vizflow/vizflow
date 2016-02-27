@@ -25,11 +25,17 @@ var playerHelper = {
     	player = this ;
     }
 
-    player.state = state ;
+    if(player.busy === true) {
+      return ;
+    }
+
+    if(state !== undefined) {      
+      player.state = state ;
+    }
     var minNstep = 1 ; // minimum number of frames to animate per user input for walking animations
     var transition ;
 
-     switch(state) {
+     switch(player.state) {
 
       case 'l' :
 

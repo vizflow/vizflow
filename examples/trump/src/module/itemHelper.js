@@ -30,6 +30,7 @@ var itemHelper = {
 	    render: drawHelper.image, // drawHelper.image expects "this" to  be "item"
 	    add: itemHelper.add,
 	    add_transition: transitionHelper.add, // transitionHelper.add expects "this" to be "item"
+	    remove_transition: transitionHelper.remove,
 	    add_end: transitionHelper.add_end,
 	    fade: imageEffectHelper.fade, // imageEffectHelper.fade expects "this" to be "item"
 	    flash: effectHelper.flash,

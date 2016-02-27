@@ -365,13 +365,43 @@ var hitHelper = {
 
       if(element === response.viz.enemy && response.sourceItem === response.viz.player.item) { // player-enemy collision moves player back 
 
-        var replacementSwitch = true ;
-        var xBump             = 25 ;
-        var xNew              = Math.max(-response.viz.player.item.image.width * 0.5, response.viz.player.item.x - xBump) ; 
-        var trans             = response.viz.player.transitionSet.x(response.viz.player.item.x) ;
-        trans.duration        = 1 ;
-        trans.child           = response.viz.player.transitionSet.x(xNew) ;
-        response.viz.player.item.add_transition(trans) ;
+        function collision_check() {
+          var col = {
+            item: [response.element.item, response.viz.player.item],
+            width: response.viz.width,
+            height: response.viz.height,
+          } ;
+
+          collisionDetect.pixelwise(col) ;
+          
+          // console.log('hitHelper collision_check', 'col', col) ;
+
+          return col.collision.count > 0 ;
+
+        }
+
+        // var replacementSwitch = true ;
+        // response.viz.player.busy = true ;
+
+        // response.viz.player.item.remove_transition('x') ;
+
+        if(response.viz.player.state === 'j') {
+          response.viz.player.item.remove_transition('x') ;          
+        } else if(response.viz.player.state === 'r') {
+          response.viz.player.state = 'l' ;
+          response.viz.player.callback() ;
+        }
+
+        var xBump             = viz.player.config.xMove + 1 ;
+        while(collision_check()) {
+          response.viz.player.item.x -= xBump ;          
+        }
+
+        // var xNew              = Math.max(-response.viz.player.item.image.width * 0.5, response.viz.player.item.x - xBump) ; 
+        // var trans             = response.viz.player.transitionSet.x(response.viz.player.item.x) ;
+        // trans.duration        = 1 ;
+        // trans.child           = response.viz.player.transitionSet.x(xNew) ;
+        // response.viz.player.item.add_transition(trans) ;
 
       }    
 
