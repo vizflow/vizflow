@@ -29,7 +29,7 @@ function city_level () {
 
     var dur1 = t * 0.5;
     var dur2 = t * 0.5 ;
-    var dur3 = t * 3 ;
+    var dur3 = t * 5 ;
     var dur4 = t ;
     // var dur5 = t * 0.5 ;
     // var dur6 = t * 0.5 ;
