@@ -56,7 +56,8 @@ function city_level () {
       var i = imageHelper.image2canvas('./image/jesus_spritesheet.png') ;
 
       var rowName = [
-        'attack', 
+        'attack',
+        'attack2', 
         'jump2',
         'hit',
         'jump0', 
@@ -66,6 +67,7 @@ function city_level () {
       ] ;
 
       var width = [
+        tileWidth,
         tileWidth, 
         tileWidth, 
         tileWidth, 
@@ -76,6 +78,7 @@ function city_level () {
       ] ;
 
       var height = [
+        tileHeight,
         tileHeight, 
         70, 
         tileHeight, 
@@ -233,7 +236,7 @@ function city_level () {
     },    
 
     frameDuration: viz.frameDuration * 1,
-    attackDuration: 55 * viz.frameDuration,
+    attackDuration: 15 * viz.frameDuration,
     hitDuration: viz.dur * 10,
     orientation: 'l',
     x: 60,
