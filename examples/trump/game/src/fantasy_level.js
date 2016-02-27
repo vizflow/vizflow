@@ -117,6 +117,7 @@ function fantasy_level () {
         var attackCollisionCanvas = imageHelper.clear_rect (spriteset['attack' + klev][4], { x: spriteset['attack' + klev][4].width * 0.4, y: 0, width: spriteset['attack' + klev][4].width * 0.6, height: maxHeight } ) ;
         // imageHelper.view(attackCollisionCanvas) ;
         spriteset['attack' + klev][4].sourceCollisionImage = attackCollisionCanvas ;
+        // imageHelper.view(spriteset['attack' + klev][4].sourceCollisionImage) ;        
         // spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
         // spriteset.attack = [spriteset.attack[0], spriteset.walk[1], spriteset.attack[1], spriteset.walk[1]] ;
 
