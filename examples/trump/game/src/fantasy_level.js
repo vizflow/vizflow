@@ -20,9 +20,9 @@ function fantasy_level () {
   viz.platformY = 173 ;
 
   var tileHeight1 = 100 ;
-  var tileHeight2 = 240 ;
-  var tileHeight3 = 123 ;
-  var tileWidth   = 350 ;
+  var tileHeight2 = 175 ;
+  var tileHeight3 = 110 ;
+  var tileWidth   = 275 ;
 
   viz.playerConfig = { 
 
@@ -155,7 +155,7 @@ function fantasy_level () {
     xMove: 8,
     yMove: 55,
     x: -tileWidth * 0.5 + 10,
-    y: viz.platformY - 220,
+    y: viz.platformY - 156,
     type: 'player',
     bulletSwitch: false,
   } ;
