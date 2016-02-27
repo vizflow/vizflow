@@ -214,6 +214,7 @@ var hitHelper = {
 
       if(response.element.explode !== undefined) {
         response.element.explode() ;
+        viz.audio.explode.play() ;
       }
 
       if(response.sourceItem.explode !== undefined) {
@@ -240,6 +241,7 @@ var hitHelper = {
               end: function () { window.location.reload() ; },
             }) ;
             imageEffectHelper.explode.call(response.element.item) ;
+            viz.audio.ah.play() ;
           // } // else {
             // alert ('game over') ;
             // console.log('hitHelper.perform', 'response.element.item', response.element.item)
@@ -338,6 +340,7 @@ var hitHelper = {
       var hitDur          = hitHelper.duration ; // ( element.adversary.sprite.attack.length + 20 ) * viz.dur ;
       // var hitTransition   = step_transition_func('image', response.viz.frameDuration * 1.5)(element.sprite.hit[0]) ;
       element.item.image = element.sprite.hit[0] ;
+      element.item.viz.audio.grunt.play() ;
       // console.log('transition hittttt', element.frameDuration) ;
       hitTransition = animate(element.sprite.hit, step_transition_func('image', element.config.hitDuration), undefined, element.sprite.rest[0])[0] ;
 

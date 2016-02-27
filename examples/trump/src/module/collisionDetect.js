@@ -148,7 +148,7 @@ var collisionDetect = {
       var i = Math.floor(key[kKey] / Nitem) ;
       var j = key[kKey] % Nitem ;
 
-      console.log('collision detect:', 'i', i, 'j', j, 'item.length', item.length)
+      // console.log('collision detect:', 'i', i, 'j', j, 'item.length', item.length)
 
       collision.list[kKey] = [i, j] ;
 

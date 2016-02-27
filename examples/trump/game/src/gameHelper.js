@@ -40,6 +40,13 @@ var gameHelper = {
 	  viz.audio.menu     = audioLoader.cache['./audio/pump.wav'] ;
 	  viz.audio.elect    = audioLoader.cache['./audio/ineh-choh.wav'] ;
 	  viz.audio.fight    = audioLoader.cache['./audio/fight.wav'] ;
+	  viz.audio.explode  = audioLoader.cache['./audio/explode1.wav'] ;
+	  viz.audio.bullet   = audioLoader.cache['./audio/bullet.wav'] ;
+	  viz.audio.missile  = audioLoader.cache['./audio/missile1.wav'] ;
+	  viz.audio.laser    = audioLoader.cache['./audio/laser2.wav'] ;
+	  viz.audio.grunt    = audioLoader.cache['./audio/grunt.wav'] ;
+	  viz.audio.word     = audioLoader.cache['./audio/grunt2.wav'] ;
+	  viz.audio.ah       = audioLoader.cache['./audio/ah.wav'] ;
 
 	  // console.log('viz audio menu', 'viz.audio.menu', viz.audio.menu)
 
@@ -47,11 +54,9 @@ var gameHelper = {
 
 	  // viz.audio.powerup3.volume *= 0.5 ;
 	  
-	  viz.audio.menu.volume			*= 1/3 ;
-  	
-  	viz.audio.thud.volume			*= 3/4 ;
-		
-	  viz.audio.music            = audioLoader.cache[viz.config.music] ;
+	  viz.audio.menu.volume	*= 1 / 3 ;
+  	viz.audio.thud.volume	*= 3 / 4 ;
+	  viz.audio.music       = audioLoader.cache[viz.config.music] ;
 
 	  // console.log('fighter helper load audio end', 'viz.audio', viz.audio) ;
 	
@@ -62,6 +67,8 @@ var gameHelper = {
  		if(viz === undefined) {
   		viz = this ;
   	}
+
+  	viz.loading = true ; // to prevent UI from activating until menu page finishes loading
 
   	function title_sprite() {
 
@@ -211,8 +218,6 @@ var gameHelper = {
  		if(viz === undefined) {
   		viz = this ;
   	}
-
-  	viz.loading = true ; // to prevent UI from activating until menu page finishes loading
 
   	viz.audio.music.loop = true ;
   	var delay = 3 ;
@@ -573,6 +578,8 @@ var gameHelper = {
 	    this.fade({
 	    	duration: downDuration,
 	    }) ;
+
+	    word.viz.audio.word.play() ;
 
 	    //var down   = $Z.transition.rounded_linear_transition_func( 'y', viz.dur * 30 )(viz.player.config.y - wordImage.height * wordCount) ;
 	    //down.child = step_transition_func('dummy', viz.dur * wordPause)(0) ;
