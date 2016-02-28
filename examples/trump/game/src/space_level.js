@@ -17,7 +17,7 @@ function space_level () {
 
   viz = vizHelper.setup(vizConfig) ; // frameDuration is computed from frameDurationFactor using units of base vizflow framespeed (17 ms) 
 
-  viz.platformY   = 190 ;
+  viz.platformY  = 190 ;
   var tileHeight = 40 ;
   var tileWidth  = 40 ;
 

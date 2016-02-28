@@ -48,9 +48,13 @@ var powerupHelper = {
     }
 
     item.viz.audio.powerup0.play() ;
+    var delay = 0.75 ;
+    item.viz.audio.powerup.play(delay)
+    var dur = 150 ;
 
     item.fade({
       end: function() {
+        duration: dur,
         item.remove() ;
       }
     }) ;

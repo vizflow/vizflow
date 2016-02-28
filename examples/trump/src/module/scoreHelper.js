@@ -17,7 +17,7 @@ var scoreHelper = {
     viz.player.score          = itemHelper.setup(scoreConfig, viz) ;
     viz.player.score.value    = 0 ;
     viz.player.score.enemyHit = 200 ;
-    viz.player.score.counter  = 100 ;
+    viz.player.score.counter  = 500 ;
 
     var rowName = [
       '0', 
@@ -80,7 +80,8 @@ var scoreHelper = {
 
       this.value += this[type] ;
       this.set() ;
-      var powerup = [2000, 5000] ;
+      var level1 = 2000 ;
+      var powerup = [level1, level1 * 3] ;
       if(viz.player.powerup.count < viz.player.powerup.Nmax &&  this.value >= powerup[viz.player.powerup.count] ) {
         viz.player.fire_powerup() ;
       }

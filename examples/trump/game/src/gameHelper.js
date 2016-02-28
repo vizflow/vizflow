@@ -19,7 +19,10 @@ var gameHelper = {
 		viz.fade({
 		  opacity: 0,
 		  duration: viz.fadeDuration,
-		  end: function() { gameHelper.loadCallback[gameHelper.loadState]() },
+		  end: function() {
+		  	viz.audio.wolf.play() ; 
+		  	gameHelper.loadCallback[gameHelper.loadState]() 
+		  },
 	  }) ;		
 
 	  viz.zoom({
@@ -63,6 +66,8 @@ var gameHelper = {
 	  // viz.audio.word     = audioLoader.cache['./audio/grunt2.wav'] ;
 	  viz.audio.ah       = audioLoader.cache['./audio/ah.wav'] ;
 	  viz.audio.sho      = audioLoader.cache['./audio/shoryuken.wav'] ;
+	  viz.audio.powerup  = audioLoader.cache['./audio/powerup.wav'] ;
+	  viz.audio.wolf     = audioLoader.cache['./audio/wolf.wav'] ;
 
 	  // console.log('viz audio menu', 'viz.audio.menu', viz.audio.menu)
 
@@ -79,8 +84,10 @@ var gameHelper = {
   	viz.audio.missile.volume *= 0.6 ;
   	viz.audio.explode.volume *= 0.6 ;
   	viz.audio.laugh1.volume  *= 0.6 ;
-  	viz.audio.sho.volume     *= 0.8 ;
-
+  	viz.audio.sho.volume     *= 0.6 ;
+		viz.audio.wolf.volume    *= 0.6 ;
+  	viz.audio.powerup.volume *= 0.8 ;
+  
 	  viz.audio.music = audioLoader.cache[viz.config.music] ;
 
 	  // console.log('fighter helper load audio end', 'viz.audio', viz.audio) ;
@@ -225,6 +232,13 @@ var gameHelper = {
 					viz.clearSwitch = true ;
 					viz.shake() ;
 					viz.audio.thud.play() ;
+
+			  	viz.audio.music.loop   = true ;
+			  	var delay              = 1.5 ;
+			  	viz.audio.music.volume = 0.5 ;
+
+			  	viz.audio.music.play(delay) ;
+
 					// viz.zoom_inout({
 					// 	duration: viz.fadeDuration * 2,
 					// 	shakeSwitch: true,
@@ -259,12 +273,6 @@ var gameHelper = {
  		if(viz === undefined) {
   		viz = this ;
   	}
-
-  	viz.audio.music.loop   = true ;
-  	var delay              = 3 ;
-  	viz.audio.music.volume = 0.5 ;
-
-  	viz.audio.music.play(delay) ;
 
     viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;  			
 

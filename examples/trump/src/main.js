@@ -6,6 +6,7 @@ document.body.style.overflowY = 'hidden' ;
 document.body.style.margin    = 0 ;
 
 document.image = [ 
+	
 	'./image/select_spritesheet.png',
 	'./image/background.png',
 	'./image/jesus_spritesheet.png', 
@@ -25,6 +26,7 @@ document.image = [
 	'./image/powerup.png',
 	'./image/title_sprite.png',
 	'./image/vizflow.png',
+
 ] ;
 	  
 document.audio = [
@@ -49,53 +51,23 @@ document.audio = [
 	'./audio/missile1.wav',  
 	'./audio/bullet.wav',  
 	'./audio/explode1.wav',  
-	'./audio/shoryuken.wav',  
-	// './audio/bullet2.wav',  
-	// './audio/powerup1.wav',  
-	// './audio/powerup2.wav', 
-	// './audio/powerup4.wav',
+	'./audio/shoryuken.wav', 
+	'./audio/wolf.wav',
+	'./audio/powerup.wav',
+
 ] ;
 
-// console.log('main 15') ;
-// document.ratio     = ( Math.ceil(window.devicePixelRatio) || 1 ) ;
-// var minRatio       = 1 ; 
-
-// if(document.ratio === 1) {
-// 	document.ratio = minRatio ;
-// }
-
-// var vizConfig = {
-//   run: function() {
-//   	var item = itemHelper.setup({
-//   		viz: this,
-//   		x: 20,
-//   		y: 20,
-//   		render: function draw_bar() {
-// 	      drawHelper.rect ({
-// 	      	x: 100,
-// 	      	y: 100,
-// 	      	width: 10,
-// 	      	height: 10,
-// 	      	color: '#FF0',
-// 	      }, viz.screenContext) ;
-// 	    },
-//   	}) ;
-//   	this.item = [item] ;
-//   },
-// } ;
-
-// viz = vizHelper.setup(vizConfig) ; // frameDuration computed
-
-// viz.load() ;
-// viz.run() ;
-
-var color = document.body.parentNode.style.backgroundColor ;
-var count = 50 ;
-var delay = 20 ;
-var id = setInterval(function() {
-	document.body.parentNode.style.backgroundColor = 'rgb(' + count % 255 + ', ' + count % 255 + ', ' + count % 255 + ')' ;
-	count++ ;
-}, delay) ;
+	// './audio/trump/best_ever.wav',  
+	// './audio/trump/build_a_wall.wav',  
+	// './audio/trump/gonna_win.wav',  
+	// './audio/trump/its_amazing.wav',  
+	// './audio/trump/love_me.wav',  
+	// './audio/trump/mexicans.wav',  
+	// './audio/trump/muslims.wav',  
+	// './audio/trump/schlonged.wav',  
+	// './audio/trump/take_his_coat.wav',  
+	// './audio/trump/the_blacks.wav',
+	// './audio/trump/the_poll.wav',
 
 document.skipIndex = 0 ;
 
@@ -104,8 +76,10 @@ imageLoader.preload ( document.image, function preload_audio() {
 	audioLoader.preload( 
 		document.audio, 
 		function main_run() {
-			window.clearInterval(id) ;
-			document.body.parentNode.style.backgroundColor = color ;
+			// window.clearInterval(id) ;
+			// document.body.parentNode.style.backgroundColor = color ;
+			var div = document.getElementById('loading') ;
+			document.body.removeChild(div) ;
 			load_game() ;
 		} 
 	) ;

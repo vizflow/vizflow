@@ -212,6 +212,10 @@ var hitHelper = {
         response.viz.player.score.increase('enemyHit') ;
       }
 
+      if(playerCounter) {
+        response.viz.player.score.increase('counter') ;
+      }
+
       if(response.element.explode !== undefined) {
         response.element.explode() ;
         viz.audio.explode.play() ;
