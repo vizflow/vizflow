@@ -241,7 +241,7 @@ function city_level () {
     },    
 
     frameDuration: viz.frameDuration * 1,
-    attackDuration: 15 * viz.frameDuration,
+    attackDuration: 5 * viz.frameDuration,
     hitDuration: viz.dur * 10,
     orientation: 'l',
     x: 60,
