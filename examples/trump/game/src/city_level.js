@@ -213,7 +213,7 @@ function city_level () {
     },
 
     xMove: 7,
-    yMove: 50,
+    yMove: 60,
     y: viz.platformY - 70,
     x: -tileWidth * 0.5 + 5,
     type: 'player',

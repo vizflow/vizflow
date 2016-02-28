@@ -21,7 +21,7 @@ var hitHelper = {
     image: null,
   },
 
-  setup_response: function hit_helper_setup(viz, element, setupResponseConfig) {
+  setup: function hit_helper_setup(viz, element, setupResponseConfig) {
 
     if(setupResponseConfig === undefined) {
       setupResponseConfig = {} ;
@@ -225,7 +225,7 @@ var hitHelper = {
 
         response.healthbar.health -= response.healthdrop ;
 
-        hitHelper.flash(response) ; // also sets inertSwitch - separate?
+        // hitHelper.flash(response) ; // also sets inertSwitch - separate?
         if(response.audio !== undefined && response.audio.buffer !== undefined) {
           response.audio.play() ;
         }
@@ -336,18 +336,19 @@ var hitHelper = {
     if(response.occurred) {
 
       // console.log('response occurred start') ;
-
-      var hitDur          = hitHelper.duration ; // ( element.adversary.sprite.attack.length + 20 ) * viz.dur ;
+      hitHelper.flash(response) ; // also sets inertSwitch - separate?
+      var hitDur = hitHelper.duration ; // ( element.adversary.sprite.attack.length + 20 ) * viz.dur ;
       // var hitTransition   = step_transition_func('image', response.viz.frameDuration * 1.5)(element.sprite.hit[0]) ;
-      element.item.image = element.sprite.hit[0] ;
+      // element.item.remove_transition('image') ; // supercede any other animation currently running 
       // console.log('transition hittttt', element.frameDuration) ;
       var tran_func;
-      if(element === response.viz.enemy || element.config.hitDuration === undefined) {
-        tran_func = step_transition_func('image', hitDur) ;        
-      } else {
-        tran_func = step_transition_func('image', element.config.hitDuration) ;
-      }
+      // if(element === response.viz.enemy || element.config.hitDuration === undefined) {
+      tran_func = step_transition_func('image', hitDur) ;        
+      // } else {
+      //   tran_func = step_transition_func('image', element.config.hitDuration) ;
+      // }
       hitTransition = animate(element.sprite.hit, tran_func, undefined, element.sprite.rest[0])[0] ;
+      // imageHelper.view(element.sprite.hit[0]) ;
 
       // if(element === response.viz.enemy) { // perform zoom in-out and screen shake effects on enemy response
 
@@ -367,54 +368,8 @@ var hitHelper = {
 
       // console.log('response occurred end', 'hit', response, 'element', element) ;
 
-    } else {
-
-      if(element === response.viz.enemy && response.sourceItem === response.viz.player.item) { // player-enemy collision moves player back 
-
-        function collision_check() {
-          var col = {
-            item: [response.element.item, response.viz.player.item],
-            width: response.viz.width,
-            height: response.viz.height,
-          } ;
-
-          collisionDetect.pixelwise(col) ;
-          
-          // console.log('hitHelper collision_check', 'col', col) ;
-
-          return col.collision.count > 0 ;
-
-        }
-
-        // var replacementSwitch = true ;
-        // response.viz.player.busy = true ;
-
-        // response.viz.player.item.remove_transition('x') ;
-
-        if(response.viz.player.state === 'j') {
-          response.viz.player.item.remove_transition('x') ;          
-        } else if(response.viz.player.state === 'r') {
-          response.viz.player.state = 'l' ;
-          response.viz.player.callback() ;
-        }
-
-        var xBump = viz.player.config.xMove + 1 ;
-        while(collision_check()) {
-          response.viz.player.item.x -= xBump ;          
-        }
-
-        response.viz.audio.bump.play() ;
-
-        // var xNew              = Math.max(-response.viz.player.item.image.width * 0.5, response.viz.player.item.x - xBump) ; 
-        // var trans             = response.viz.player.transitionSet.x(response.viz.player.item.x) ;
-        // trans.duration        = 1 ;
-        // trans.child           = response.viz.player.transitionSet.x(xNew) ;
-        // response.viz.player.item.add_transition(trans) ;
-
-      }    
-
-    }
-
+    } 
+    
     if(element.explode !== undefined) {
       element.explode() ;
     }

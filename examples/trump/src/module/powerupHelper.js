@@ -78,7 +78,7 @@ var powerupHelper = {
 
   },
 
-  setup_response: function powerup_helper_setup_response (viz, powerupResponseConfig) {
+  setup: function powerup_helper_setup (viz, powerupResponseConfig) {
  
     var powerupResponse = { // action config object
 
@@ -113,7 +113,7 @@ var powerupHelper = {
     // console.log('newPowerup', newPowerup)
 
     if(this.powerupResponseConfig !== undefined) {
-      // newPowerup.responseSet.hit = powerupHelper.setup_response(this.item.viz, newPowerup, this.powerupResponseConfig) ;
+      // newPowerup.responseSet.hit = powerupHelper.setup(this.item.viz, newPowerup, this.powerupResponseConfig) ;
     }
 
     // newPowerup.y = this.item.y + this[name].config.shiftY ;

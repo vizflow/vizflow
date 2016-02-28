@@ -51,15 +51,18 @@ var inputEvent = {
 
     var transition = this.viz.player.item.transition ;
     var yNew = this.viz.player.config.y ; // - this.viz.player.item.image.height ;
-    var minJumpBulletHeight = this.viz.player.config.yMove * 0.4 ;
+    var minJumpAttackHeight = this.viz.player.yMove * 0.4 ;
     var yDist = Math.abs(yNew - this.viz.player.item.y) ;
     // console.log('yDist', yDist) ;
-    if (yDist > minJumpBulletHeight) {
+    if (yDist > minJumpAttackHeight) {
       // console.log('input event64') ;
       if(this.viz.player.fire_bullet !== undefined) {
         this.viz.player.fire_bullet('jumpBullet') ;
       }
-    }        
+    } else {
+      this.viz.player.item.remove_transition('image') ;
+      this.viz.player.item.add_transition(step_transition_func('image', viz.dur)(this.viz.player.sprite.rest[0])) ;
+    }
     var checkObject = transitionHelper.check_end_value.call(this.viz.player.item, 'y', yNew) ;
     var yIndex = checkObject.index ;
     // console.log('input event', 'checkObject', checkObject) ;

@@ -288,6 +288,9 @@ var playerHelper = {
       player.bullet.config.shiftXr = player.bullet.config.shiftXlist[player.level - 1] ; 
     }
 
+    var yDelta = 15 ;
+    player.yMove += yDelta ;
+
 	},
 
   setup_bullet: function player_helper_setup_bullet(viz, player, bulletConfig) {

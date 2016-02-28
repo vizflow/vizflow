@@ -47,7 +47,7 @@ function space_level () {
       y: $Z.transition.rounded_linear_transition_func ( 'y', viz.frameDuration * 10 ), // function accepting a y end-value and returning a transition object
     },
     xMove: 10,
-    yMove: 100,
+    yMove: 60,
     xJumpMove: 0,
     y: viz.platformY - tileHeight,
     type: 'player',

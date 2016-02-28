@@ -22,7 +22,9 @@ var gameHelper = {
 		  end: function() { gameHelper.loadCallback[gameHelper.loadState]() },
 	  }) ;		
 
-	  viz[gameHelper.loadState].select.zoom() ;
+	  viz[gameHelper.loadState].select.zoom({
+	  	duration: viz.fadeDuration,
+	  }) ;
 
 	},
 
@@ -244,9 +246,10 @@ var gameHelper = {
   		viz = this ;
   	}
 
-  	viz.audio.music.loop = true ;
-  	var delay = 3 ;
+  	viz.audio.music.loop   = true ;
+  	var delay              = 3 ;
   	viz.audio.music.volume = 0.5 ;
+
   	viz.audio.music.play(delay) ;
 
     viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;  			
@@ -553,6 +556,7 @@ var gameHelper = {
 
 	    wordImage[kWord] = imageHelper.word_block ({text: wordList[kWord]}) ;
 	    wordImage[kWord].sourceCollisionImage = wordImage[kWord] ;
+	    // imageHelper.view(wordImage[kWord]) ;
 	    wordImage[kWord] = imageHelper.adjust_ratio(wordImage[kWord]) ;
 
 	  }
@@ -583,7 +587,7 @@ var gameHelper = {
 	    word.y    -= yMove ;
 	    var yNew   = word.y + yMove ;
 
-	    var downDuration = 500 ;
+	    var downDuration = 300 ;
 
 	    var down   = $Z.transition.rounded_linear_transition_func('y', downDuration )(yNew) ;
 	    down.end   = function() {

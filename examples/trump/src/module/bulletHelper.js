@@ -20,7 +20,7 @@ var bulletHelper = {
       // console.log('newBullet', newBullet)
 
       if(this.bulletResponseConfig !== undefined) {
-        newBullet.responseSet.hit = hitHelper.setup_response(this.item.viz, newBullet, this.bulletResponseConfig) ;
+        newBullet.responseSet.hit = hitHelper.setup(this.item.viz, newBullet, this.bulletResponseConfig) ;
       }
 
       newBullet.y   = this.item.y + this[bulletName].config.shiftY ;

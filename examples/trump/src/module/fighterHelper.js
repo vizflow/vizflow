@@ -190,10 +190,11 @@ var fighterHelper = {
     	sourceType: 'powerup',
     } ;
 
-    viz.player.item.responseSet.hit = hitHelper.setup_response(viz, viz.player, playerResponseConfig) ;
-    viz.player.item.responseSet.powerup = powerupHelper.setup_response(viz, viz.player, powerupResponseConfig) ;
+    viz.player.item.responseSet.hit     = hitHelper.setup(viz, viz.player, playerResponseConfig) ;
+    viz.player.item.responseSet.powerup = powerupHelper.setup(viz, powerupResponseConfig) ;
+    viz.player.item.responseSet.bump    = bumpHelper.setup(viz) ;
 
-    viz.enemy.item.responseSet.hit  = hitHelper.setup_response(viz, viz.enemy, enemyResponseConfig) ; 
+    viz.enemy.item.responseSet.hit  = hitHelper.setup(viz, viz.enemy, enemyResponseConfig) ; 
 
   },	  
 
