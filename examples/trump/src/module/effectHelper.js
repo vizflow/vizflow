@@ -45,7 +45,7 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 		var xShakeMove = [1, -1, -1,  1] ; 
 		var yShakeMove = [1, -1,  1, -1] ; 
 
-		var damping = 3 ;
+		var damping = 1.5 * document.ratio ;
 		var dampingFactor = 1 ;
 		var Nstep = 9 ;
 

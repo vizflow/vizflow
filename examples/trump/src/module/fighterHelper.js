@@ -162,7 +162,7 @@ var fighterHelper = {
 
         healthbarY: 12, 
         healthbarX: Math.floor(viz.width * 0.5) + 1,
-        healthdrop: 1,
+        healthdrop: 3,
         color: '#C00',
         audio: viz.audio.grunt,
         sourceType: 'player',
@@ -175,7 +175,7 @@ var fighterHelper = {
 
       playerResponseConfig = {
 
-        healthdrop: enemyResponseConfig.healthdrop * 4,
+        healthdrop: enemyResponseConfig.healthdrop * 1.5,
         healthbarY: 12,
         healthbarX: 1,
         color: '#00C', 

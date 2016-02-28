@@ -237,7 +237,7 @@ var hitHelper = {
             // $Z.item([]) ;
             response.viz.fade({ 
               opacity: 0, 
-              duration: response.viz.fadeDuration,
+              duration: response.viz.fadeDuration * 5,
               end: function () { window.location.reload() ; },
             }) ;
             imageEffectHelper.explode.call(response.element.item) ;
@@ -268,16 +268,17 @@ var hitHelper = {
         if (response.healthbar.health < 0 && response.element === response.viz.player) {
           // alert('game over') ;
 
-          var blockSize = 8 ;
-          imageEffectHelper.explode.call(response.element.item, blockSize, response.viz.fadeDuration) ;
+          var scale = 0.5 ;
+          var laughDur = response.viz.fadeDuration * 8 ;
 
-          var scale = 0.25 ;
+          var blockSize = 8 ;
+          imageEffectHelper.explode.call(response.element.item, blockSize, laughDur) ;
 
           response.viz.zoom({
             
-            duration: response.viz.fadeDuration, 
-            x: response.element.item.x + 0.5 * scale * response.element.item.image.width, 
-            y: response.element.item.y + 0.5 * scale * response.element.item.image.height, 
+            duration: laughDur, 
+            x: viz.width * 0.25,
+            y: response.element.item.y, 
             width: response.viz.width * scale, 
             height: response.viz.height * scale,
 
@@ -285,7 +286,7 @@ var hitHelper = {
           
           response.viz.fade({
             opacity: 0, 
-            duration: response.viz.fadeDuration,
+            duration: laughDur,
             end: function () { window.location.reload() ; },
           }) ;
 

@@ -149,7 +149,7 @@ function fantasy_level () {
     transitionSet: {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), // function accepting an x end-value and returning a transition object
       attack: step_transition_func ( 'image', viz.dur ), // transition object creation function
-      jump: step_transition_func ( 'image', viz.dur ),
+      jump: step_transition_func ( 'image', viz.dur * 3 ),
       y: $Z.transition.rounded_linear_transition_func ( 'y', viz.dur * 14 ), // function accepting a y end-value and returning a transition object
     },
     fullLoopSwitch: true,

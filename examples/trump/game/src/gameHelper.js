@@ -22,9 +22,17 @@ var gameHelper = {
 		  end: function() { gameHelper.loadCallback[gameHelper.loadState]() },
 	  }) ;		
 
-	  viz[gameHelper.loadState].select.zoom({
+	  viz.zoom({
 	  	duration: viz.fadeDuration,
-	  }) ;
+	  	x: viz.width * 0.25,
+	  	y: viz[gameHelper.loadState].select.y,
+	  	width: viz.width * 0.5,
+	  	height: viz.height * 0.5,	
+	  })
+
+	  // viz[gameHelper.loadState].select.zoom({
+	  // 	duration: viz.fadeDuration,
+	  // }) ;
 
 	},
 
@@ -38,7 +46,7 @@ var gameHelper = {
 
 	  viz.audio.thud     = audioLoader.cache['./audio/thud.wav'] ;
 	  // viz.audio.hit      = audioLoader.cache['./audio/hit2.wav'] ;
-	  viz.audio.jump1    = audioLoader.cache['./audio/jump1.wav'] ;
+	  viz.audio.jump1    = audioLoader.cache['./audio/pump.wav'] ;
 	  viz.audio.bullet   = audioLoader.cache['./audio/bullet2.wav'] ;
 	  viz.audio.laugh1   = audioLoader.cache['./audio/laugh1.wav'] ;
 	  viz.audio.bump     = audioLoader.cache['./audio/bump2.wav'] ;
@@ -63,9 +71,13 @@ var gameHelper = {
 	  
 	  viz.audio.menu.volume	 *= 0.5 ;
   	viz.audio.thud.volume	 *= 0.75 ;
-  	viz.audio.grunt.volume *= 0.75 ;
+  	viz.audio.grunt.volume *= 0.6 ;
   	viz.audio.laser.volume *= 0.5 ;		
   	viz.audio.bump.volume  *= 0.5 ;
+  	viz.audio.bullet.volume *= 0.6 ;
+  	viz.audio.missile.volume *= 0.6 ;
+  	viz.audio.explode.volume *= 0.6 ;
+  	viz.audio.laugh1.volumd *= 0.6
 
 	  viz.audio.music = audioLoader.cache[viz.config.music] ;
 

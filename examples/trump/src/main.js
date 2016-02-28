@@ -56,13 +56,12 @@ document.audio = [
 ] ;
 
 // console.log('main 15') ;
-document.skipIndex = 0 ;
-document.ratio     = ( Math.ceil(window.devicePixelRatio) || 1 ) ;
-var minRatio       = 2 ; 
+// document.ratio     = ( Math.ceil(window.devicePixelRatio) || 1 ) ;
+// var minRatio       = 1 ; 
 
-if(document.ratio === 1) {
-	document.ratio = minRatio ;
-}
+// if(document.ratio === 1) {
+// 	document.ratio = minRatio ;
+// }
 
 // var vizConfig = {
 //   run: function() {
@@ -96,6 +95,8 @@ var id = setInterval(function() {
 	document.body.parentNode.style.backgroundColor = 'rgb(' + count % 255 + ', ' + count % 255 + ', ' + count % 255 + ')' ;
 	count++ ;
 }, delay) ;
+
+document.skipIndex = 0 ;
 
 imageLoader.preload ( document.image, function preload_audio() {
 	// console.log('preload_audio 18') ;

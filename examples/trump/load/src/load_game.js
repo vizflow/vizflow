@@ -1,7 +1,7 @@
 function load_game () {
   
   document.ratio     = ( Math.ceil(window.devicePixelRatio) || 1 ) ;
-  var minRatio       = 2 ; 
+  var minRatio       = 3 ; 
 
   if(document.ratio === 1) {
   	document.ratio = minRatio ;

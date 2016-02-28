@@ -44,7 +44,7 @@ function space_level () {
     restoreRest: true,
     transitionSet: {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ),      // function accepting an x end-value and returning a transition object
-      y: $Z.transition.rounded_linear_transition_func ( 'y', viz.frameDuration * 10 ), // function accepting a y end-value and returning a transition object
+      y: $Z.transition.rounded_linear_transition_func ( 'y', viz.frameDuration * 7 ), // function accepting a y end-value and returning a transition object
     },
     xMove: 10,
     yMove: 60,

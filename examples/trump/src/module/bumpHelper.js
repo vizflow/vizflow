@@ -50,6 +50,10 @@ var bumpHelper = {
 			response = this ;
 		}
 
+    if(viz.player.item.image.sourceCollisionImage !== undefined) {
+      return ;
+    }
+
     var xBump = viz.player.config.xMove + 1 ;
 
     while(bumpHelper.collision_check(response)) {
