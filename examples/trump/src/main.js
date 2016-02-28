@@ -49,6 +49,7 @@ document.audio = [
 	'./audio/missile1.wav',  
 	'./audio/bullet.wav',  
 	'./audio/explode1.wav',  
+	'./audio/shoryuken.wav',  
 	// './audio/bullet2.wav',  
 	// './audio/powerup1.wav',  
 	// './audio/powerup2.wav', 

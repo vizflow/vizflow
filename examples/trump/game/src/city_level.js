@@ -35,9 +35,9 @@ function city_level () {
     // var dur6 = t * 0.5 ;
     // var dur7 = t * 0.5 ;
     // var dur8 = t * 2;
-    var trans1 = step_transition_func('image', dur1) (viz.player.sprite.jump2[0]) ;
-    var trans2 = step_transition_func('image', dur2) (viz.player.sprite.jump2[1]) ;
-    var trans3 = step_transition_func('image', dur3) (viz.player.sprite.jump2[2]) ;
+    var trans1 = step_transition_func('image', dur1) (viz.player.sprite.jump1[0]) ;
+    var trans2 = step_transition_func('image', dur2) (viz.player.sprite.jump1[1]) ;
+    var trans3 = step_transition_func('image', dur3) (viz.player.sprite.jump1[2]) ;
     // var trans4 = step_transition_func('image', dur4) (viz.player.sprite.jump1[3]) ;
     // var trans5 = step_transition_func('image', dur5) (viz.player.sprite.jump1[4]) ;
     // var trans6 = step_transition_func('image', dur6) (viz.player.sprite.jump1[5]) ;
@@ -58,11 +58,11 @@ function city_level () {
       var rowName = [
         'attack',
         'attack1', 
-        'jump2',
+        'jump1',
         'hit',
         'jump0', 
         'rest',
-        // 'jump2', 
+        // 'jump1', 
         'walk',
       ] ;
 
@@ -110,20 +110,20 @@ function city_level () {
       // imageHelper.view(jumpCollisionCanvas) ;
       spriteset.jump0[1].sourceCollisionImage = jumpCollisionCanvas ;
 
-      for (var kFrame = 1 ; kFrame < spriteset.jump2.length ; kFrame++) {
-        spriteset.jump2[kFrame].sourceCollisionImage = imageHelper.clear_rect (spriteset.jump2[kFrame], { x: 0, y: maxHeight - 45, width: spriteset.jump2[kFrame].width * 0.6, height: spriteset.jump2[kFrame].height} ) ;
+      for (var kFrame = 1 ; kFrame < spriteset.jump1.length ; kFrame++) {
+        spriteset.jump1[kFrame].sourceCollisionImage = imageHelper.clear_rect (spriteset.jump1[kFrame], { x: 0, y: maxHeight - 45, width: spriteset.jump1[kFrame].width * 0.6, height: spriteset.jump1[kFrame].height} ) ;
       }
-      // imageHelper.view(spriteset.jump2[1].sourceCollisionImage) ;
-      // imageHelper.view(spriteset.jump2[2].sourceCollisionImage) ;
+      // imageHelper.view(spriteset.jump1[1].sourceCollisionImage) ;
+      // imageHelper.view(spriteset.jump1[2].sourceCollisionImage) ;
       // for (var kFrame = 2 ; kFrame <= 3 ; kFrame++) {
-      //   spriteset.jump2[kFrame].sourceCollisionImage = spriteset.jump2[kFrame] ;
+      //   spriteset.jump1[kFrame].sourceCollisionImage = spriteset.jump1[kFrame] ;
       // }      
       // spriteset.attack = spriteset.attack0 ;
       // spriteset.hit    = spriteset.hit0 ;
       spriteset.jump   = spriteset.jump0 ;
       // spriteset.rest   = spriteset.rest0 ;
       // spriteset.walk   = spriteset.walk0 ;      
-      // spriteset.jump2 = spriteset.jump1.concat (spriteset.jump2) ;
+      // spriteset.jump1 = spriteset.jump1.concat (spriteset.jump1) ;
       // imageHelper.view(jumpCollisionCanvas) ;
       // console.log('player sprite loader', spriteset) ;
       return spriteset ;
@@ -152,57 +152,13 @@ function city_level () {
       return [trans] ;
     },
 
-    jump2: function () {
+    jump1: function () {
       var jumpTime = jumpDuration * 1.5 + floatDuration ;
-      var Nframe   = viz.player.sprite.jump2.length +1 ;
+      var Nframe   = viz.player.sprite.jump1.length +1 ;
       var t        = jumpTime / Nframe ; // if all frames were same speed to equal total jumpDuration
+      viz.audio.sho.play() ;
       return transition_sequence(dragonpunch_trans (t, viz)) ;
     },
-
-    // jump2: function () {
-    //   // console.log ('jump2') ;
-    //   var jumpTime  = jumpDuration * 2 + floatDuration ;
-    //   var Nframe    = (viz.player.sprite.jump1.length + viz.player.sprite.jump2.length) +1 ;
-    //   var t         = jumpTime / Nframe ; // if all frames were same speed to equal total jumpDuration        
-    //   var trans0    = dragonpunch_trans(t, viz) ;
-    //   trans0[6].end = function () {
-    //     viz.zoom_inout ({
-    //       duration: jumpDuration * 10,
-    //       x: Math.max(0, Math.min(20, viz.player.item.x)),
-    //       y: Math.max(0, viz.player.item.y) + 30,
-    //       width: 90,
-    //       height: 120,
-    //     }) ;
-    //   }  
-    //   var dur1 = t * 20 ;
-    //   var dur2 = t ;
-    //   var dur3 = t * 2 ;
-    //   var dur4 = t * 2 ;
-    //   var dur5 = t * 2 ;
-    //   var dur6 = t * 2 ;
-    //   var dur7 = t * 2 ;
-    //   var dur8 = t ;
-    //   var dur9 = t ;
-    //   var dur10 = t ;
-    //   var dur11 = t ;
-    //   var dur12 = t ;
-    //   var dur13 = t ;
-    //   var trans1 = step_transition_func('image', dur1) (viz.player.sprite.jump2[0]) ;
-    //   var trans2 = step_transition_func('image', dur2) (viz.player.sprite.jump2[1]) ;
-    //   var trans3 = step_transition_func('image', dur3) (viz.player.sprite.jump2[2]) ;
-    //   var trans4 = step_transition_func('image', dur4) (viz.player.sprite.jump2[3]) ;
-    //   var trans5 = step_transition_func('image', dur5) (viz.player.sprite.jump2[4]) ;
-    //   var trans6 = step_transition_func('image', dur6) (viz.player.sprite.jump2[5]) ;
-    //   var trans7 = step_transition_func('image', dur7) (viz.player.sprite.jump2[6]) ;
-    //   var trans8 = step_transition_func('image', dur7) (viz.player.sprite.jump2[7]) ;
-    //   var trans9 = step_transition_func('image', dur7) (viz.player.sprite.jump2[8]) ;
-    //   var trans10 = step_transition_func('image', dur7) (viz.player.sprite.jump2[9]) ;
-    //   var trans11 = step_transition_func('image', dur7) (viz.player.sprite.jump2[10]) ;
-    //   var trans12 = step_transition_func('image', dur7) (viz.player.sprite.jump2[11]) ;
-    //   var trans13 = step_transition_func('image', dur8) (viz.player.sprite.rest[0]) ;
-    //   var trans = trans0.concat([trans1, trans2, trans3, trans4, trans5, trans6, trans7, trans8, trans9, trans10, trans11, trans12, trans13]) ;    
-    //   return transition_sequence(trans) ;
-    // },
 
     transitionSet: {
 
@@ -218,8 +174,10 @@ function city_level () {
     x: -tileWidth * 0.5 + 15,
     type: 'player',
     bulletSwitch: false,
+    healthdrop: 3,
 
   } ;
+
   // console.log('city level', 'viz.platformY', viz.platformY, 'maxHeight', maxHeight) ;
 
   var enemyTileHeight = 154 ;

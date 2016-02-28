@@ -175,7 +175,7 @@ var fighterHelper = {
 
       playerResponseConfig = {
 
-        healthdrop: enemyResponseConfig.healthdrop * 1.5,
+        healthdrop: viz.player.config.healthdrop || enemyResponseConfig.healthdrop * 0.5,
         healthbarY: 12,
         healthbarX: 1,
         color: '#00C', 
@@ -231,7 +231,7 @@ var fighterHelper = {
     viz.player.powerup.drop    = powerupHelper.drop ;
     viz.player.powerup.stop    = powerupHelper.stop ;
     viz.player.powerup.deliver = powerupHelper.deliver ;
-    viz.player.powerup.Nmax    = 2 ;
+    viz.player.powerup.Nmax    = 1 ;
 
     // if (viz.player.bulletSprite !== undefined && viz.player.bulletSprite.bullet3 !== undefined) {
     // 	viz.player.powerup.Nmax = 3 ;

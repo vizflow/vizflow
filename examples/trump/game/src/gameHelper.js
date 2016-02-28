@@ -62,6 +62,7 @@ var gameHelper = {
 	  viz.audio.grunt    = audioLoader.cache['./audio/grunt.wav'] ;
 	  // viz.audio.word     = audioLoader.cache['./audio/grunt2.wav'] ;
 	  viz.audio.ah       = audioLoader.cache['./audio/ah.wav'] ;
+	  viz.audio.sho      = audioLoader.cache['./audio/shoryuken.wav'] ;
 
 	  // console.log('viz audio menu', 'viz.audio.menu', viz.audio.menu)
 
@@ -69,15 +70,16 @@ var gameHelper = {
 
 	  // viz.audio.powerup3.volume *= 0.5 ;
 	  
-	  viz.audio.menu.volume	 *= 0.5 ;
-  	viz.audio.thud.volume	 *= 0.75 ;
-  	viz.audio.grunt.volume *= 0.6 ;
-  	viz.audio.laser.volume *= 0.5 ;		
-  	viz.audio.bump.volume  *= 0.5 ;
-  	viz.audio.bullet.volume *= 0.6 ;
+	  viz.audio.menu.volume	   *= 0.5 ;
+  	viz.audio.thud.volume	   *= 0.75 ;
+  	viz.audio.grunt.volume   *= 0.6 ;
+  	viz.audio.laser.volume   *= 0.5 ;		
+  	viz.audio.bump.volume    *= 0.5 ;
+  	viz.audio.bullet.volume  *= 0.6 ;
   	viz.audio.missile.volume *= 0.6 ;
   	viz.audio.explode.volume *= 0.6 ;
-  	viz.audio.laugh1.volumd *= 0.6
+  	viz.audio.laugh1.volume  *= 0.6 ;
+  	viz.audio.sho.volume     *= 0.8 ;
 
 	  viz.audio.music = audioLoader.cache[viz.config.music] ;
 

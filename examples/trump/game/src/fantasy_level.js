@@ -186,6 +186,7 @@ function fantasy_level () {
     x: 60,
     y: viz.platformY - enemyTileHeight,
     type: 'enemy',
+    healthdrop: 5,
 
   } ;
 
