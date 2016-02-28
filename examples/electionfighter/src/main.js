@@ -81,6 +81,7 @@ imageLoader.preload ( document.image, function preload_audio() {
 			var div = document.getElementById('loading') ;
 			document.body.removeChild(div) ;
 			load_game() ;
+			// fantasy_level() ;
 		} 
 	) ;
 }) ;

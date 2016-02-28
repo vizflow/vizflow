@@ -114,6 +114,10 @@ function fantasy_level () {
         spriteset['jump' + klev].push(spriteset['jump' + klev][1]) ;
         spriteset['jump' + klev].push(spriteset['jump' + klev][0]) ;
 
+        var attackCollisionCanvas = imageHelper.clear_rect (spriteset['attack' + klev][3], { x: spriteset['attack' + klev][3].width * 0.45, y: 0, width: spriteset['attack' + klev][3].width * 0.4, height: maxHeight } ) ;
+        // imageHelper.view(attackCollisionCanvas) ;
+        spriteset['attack' + klev][3].sourceCollisionImage = attackCollisionCanvas ;
+
         var attackCollisionCanvas = imageHelper.clear_rect (spriteset['attack' + klev][4], { x: spriteset['attack' + klev][4].width * 0.4, y: 0, width: spriteset['attack' + klev][4].width * 0.6, height: maxHeight } ) ;
         // imageHelper.view(attackCollisionCanvas) ;
         spriteset['attack' + klev][4].sourceCollisionImage = attackCollisionCanvas ;
@@ -121,7 +125,11 @@ function fantasy_level () {
         // spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
         // spriteset.attack = [spriteset.attack[0], spriteset.walk[1], spriteset.attack[1], spriteset.walk[1]] ;
 
-        var jumpCollisionCanvas = imageHelper.clear_rect ( spriteset['jump' + klev][5], { x: spriteset['jump' + klev].width * 0.4, y: 0, width: spriteset['jump' + klev].width * 0.6, height: maxHeight } ) ;
+        var jumpCollisionCanvas = imageHelper.clear_rect ( spriteset['jump' + klev][4], { x: spriteset['jump' + klev][4].width * 0.4, y: 0, width: spriteset['jump' + klev][4].width * 0.3, height: maxHeight } ) ;
+        // imageHelper.view(jumpCollisionCanvas) ;
+        spriteset['jump' + klev][4].sourceCollisionImage = jumpCollisionCanvas ;
+
+        var jumpCollisionCanvas = imageHelper.clear_rect ( spriteset['jump' + klev][5], { x: spriteset['jump' + klev][5].width * 0.4, y: 0, width: spriteset['jump' + klev][5].width * 0.6, height: maxHeight } ) ;
         // imageHelper.view(jumpCollisionCanvas) ;
         spriteset['jump' + klev][5].sourceCollisionImage = jumpCollisionCanvas ;
 
