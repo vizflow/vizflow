@@ -33,60 +33,60 @@ function fantasy_level () {
       var rowName = [
         'attack0', 
         'attack1', 
-        'attack2', 
+        // 'attack2', 
         'hit0', 
         'hit1', 
-        'hit2', 
+        // 'hit2', 
         'jump0', 
         'jump1', 
-        'jump2', 
+        // 'jump2', 
         'rest0', 
         'rest1', 
-        'rest2', 
+        // 'rest2', 
         'walk0',
         'walk1',
-        'walk2',
+        // 'walk2',
       ] ;
       
       var width = [
         tileWidth, 
         tileWidth, 
-        tileWidth, 
-        tileWidth, 
-        tileWidth,
-        tileWidth, 
-        tileWidth, 
-        tileWidth, 
+        // tileWidth, 
         tileWidth, 
         tileWidth,
+        // tileWidth, 
         tileWidth, 
         tileWidth, 
-        tileWidth, 
-        tileWidth, 
+        // tileWidth, 
         tileWidth,
+        tileWidth, 
+        // tileWidth, 
+        tileWidth, 
+        tileWidth, 
+        // tileWidth,
       ] ;
       
       var height = [
         tileHeight1, 
-        tileHeight3, 
         tileHeight2, 
+        // tileHeight2, 
         tileHeight1, 
-        tileHeight3, 
         tileHeight2, 
+        // tileHeight2, 
         tileHeight1, 
-        tileHeight3, 
         tileHeight2, 
+        // tileHeight2, 
         tileHeight1, 
-        tileHeight3, 
         tileHeight2, 
+        // tileHeight2, 
         tileHeight1, 
-        tileHeight3, 
         tileHeight2, 
+        // tileHeight2, 
       ] ;
       
       var maxHeight = Math.max.apply(null, height) ;
       var spriteset = spriteHelper.get(i, rowName, width, height) ;
-      var level     = [0, 1, 2] ;
+      var level     = [0, 1] ;
     
       for (var klev = 0 ; klev < level.length ; klev++) {
 
@@ -149,7 +149,7 @@ function fantasy_level () {
     transitionSet: {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), // function accepting an x end-value and returning a transition object
       attack: step_transition_func ( 'image', viz.dur ), // transition object creation function
-      jump: step_transition_func ( 'image', viz.dur * 3 ),
+      jump: step_transition_func ( 'image', viz.dur ),
       y: $Z.transition.rounded_linear_transition_func ( 'y', viz.dur * 14 ), // function accepting a y end-value and returning a transition object
     },
     fullLoopSwitch: true,
@@ -186,7 +186,6 @@ function fantasy_level () {
     x: 60,
     y: viz.platformY - enemyTileHeight,
     type: 'enemy',
-    healthdrop: 5,
 
   } ;
 
