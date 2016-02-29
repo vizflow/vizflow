@@ -559,9 +559,9 @@ var gameHelper = {
 	    // first half
 	    'gonna win',
 	    'best ever',
-	    'the blacks',
-	    'mexicans',
-	    'muslims',
+	    // 'the blacks',
+	    // 'mexicans',
+	    // 'muslims',
 	    // second half
 	    'the poll',
 	    'got schlonged',

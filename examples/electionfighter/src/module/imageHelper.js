@@ -76,7 +76,7 @@ var imageHelper = {
 		var Npx;
 
 		if(wordConfig.px === undefined) {
-		  Npx = 11 ; 
+		  Npx = 8 ; 
 		} else {
 			Npx = wordConfig.px ;
 		}
@@ -113,7 +113,7 @@ var imageHelper = {
     wordContext.fillStyle = wordConfig.color ;
 	  wordContext.fillText(wordConfig.text, 0, Npx) ;
 
-	  var threshold = 60 ;
+	  var threshold = 45 ;
 	  imageEffectHelper.binary_opacity_filter(wordImage, threshold) ;
 
 	  return wordImage ; 
