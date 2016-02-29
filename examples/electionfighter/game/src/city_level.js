@@ -36,11 +36,13 @@ function city_level () {
     // var dur7 = t * 0.5 ;
     // var dur8 = t * 2;
     var trans1 = step_transition_func('image', dur1) (viz.player.sprite.jump1[0]) ;
+
     var trans2 = step_transition_func('image', dur2) (viz.player.sprite.jump1[1]) ;
-    var trans3 = step_transition_func('image', dur3) (viz.player.sprite.jump1[2]) ;
-    trans3.end = function() {
+    trans2.end = function() {
       viz.audio.sho.play() ;
     }
+
+    var trans3 = step_transition_func('image', dur3) (viz.player.sprite.jump1[2]) ;
     // var trans4 = step_transition_func('image', dur4) (viz.player.sprite.jump1[3]) ;
     // var trans5 = step_transition_func('image', dur5) (viz.player.sprite.jump1[4]) ;
     // var trans6 = step_transition_func('image', dur6) (viz.player.sprite.jump1[5]) ;
