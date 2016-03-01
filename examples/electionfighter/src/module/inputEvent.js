@@ -45,6 +45,11 @@ var inputEvent = {
 
     // console.log ('event up start', 'event', event) ;
 
+    var vol = this.viz.audio.menu.volume ;
+    this.viz.audio.menu.volume = 0.01 ;
+    this.viz.audio.menu.play() ; // in case audio hasn't been triggered yet (e.g. on iOS)
+    this.viz.audio.menu.volume = vol ;
+
     $Z.prep ([this.viz]) ; // stop calling click every frame
 
     // console.log('this.viz.player.item.transition', this.viz.player.item.transition) ;

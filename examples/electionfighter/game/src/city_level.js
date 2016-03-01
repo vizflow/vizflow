@@ -38,11 +38,13 @@ function city_level () {
     var trans1 = step_transition_func('image', dur1) (viz.player.sprite.jump1[0]) ;
 
     var trans2 = step_transition_func('image', dur2) (viz.player.sprite.jump1[1]) ;
-    trans2.end = function() {
+
+    var trans3 = step_transition_func('image', dur3) (viz.player.sprite.jump1[2]) ;
+
+    trans3.end = function() {
       viz.audio.sho.play() ;
     }
 
-    var trans3 = step_transition_func('image', dur3) (viz.player.sprite.jump1[2]) ;
     // var trans4 = step_transition_func('image', dur4) (viz.player.sprite.jump1[3]) ;
     // var trans5 = step_transition_func('image', dur5) (viz.player.sprite.jump1[4]) ;
     // var trans6 = step_transition_func('image', dur6) (viz.player.sprite.jump1[5]) ;
@@ -178,7 +180,7 @@ function city_level () {
     x: -tileWidth * 0.5 + 15,
     type: 'player',
     bulletSwitch: false,
-    healthdrop: 3,
+    healthdrop: 2,
 
   } ;
 

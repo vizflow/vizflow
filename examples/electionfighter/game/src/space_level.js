@@ -52,7 +52,7 @@ function space_level () {
     y: viz.platformY - tileHeight,
     type: 'player',
     bulletSwitch: true,
-    healthdrop: 10,
+    healthdrop: 6,
 
   } ;
 

@@ -167,6 +167,8 @@ function fantasy_level () {
     y: viz.platformY - 156,
     type: 'player',
     bulletSwitch: false,
+    healthdrop: 4,
+
   } ;
 
   var enemyTileHeight = 154 ;

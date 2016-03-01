@@ -97,11 +97,11 @@ var imageEffectHelper = {
 			}
 
 			if(blocksize === undefined) {
-				blocksize = 20 ;
+				blocksize = 24 ;
 			}
 
 			if(duration === undefined) {
-				duration = 1500 ;
+				duration = 3000 ;
 			}
 
 			if(removeSwitch === undefined) {
@@ -132,7 +132,7 @@ var imageEffectHelper = {
 			var dh = blocksize ;
 
 			var scale = 200 ;
-			offset = 100 ;
+			offset = 60 ;
 
 			for(var krow = 0 ; krow < Nrow ; krow++) {
 				for(var kcol = 0 ; kcol < Ncol ; kcol++) {

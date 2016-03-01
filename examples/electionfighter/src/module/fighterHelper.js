@@ -7,7 +7,7 @@ var fighterHelper = {
   	}
 
   	// console.log('fighter helper run start', 'viz', viz, 'viz.player.item.y', viz.player.item.y) ;
-
+		
 		viz.fade({
 
 		  opacity: 1,

@@ -5,7 +5,15 @@ var AudioContext = window.AudioContext // Default
   || window.msAudioContext  
   || false ; 
 
-var audioHelper = {
+
+ // create a dummy sound - and play it immediately in same 'thread'
+ // var oscillator = AudioContext.createOscillator();
+ // oscillator.frequency.value = 40 ;
+ // oscillator.connect(AudioContext.destination);
+ // oscillator.start(0);
+ // oscillator.stop(.1);    // you can set this to zero, but I left it here for testing.
+
+ var audioHelper = {
 
   context: new AudioContext(), // this one AudioContext object instance can be shared by many copies of the audioHelper object instance (via copy_object)
 
@@ -25,30 +33,36 @@ var audioHelper = {
 			audio = this ;
 		}
 
+		// console.log('audioHelper:', 'audioHelper.context', audioHelper.context) ;
+
 		var sourceNode = audioHelper.context.createBufferSource() ;
+
+		// console.log('sourceNode', sourceNode) ;
 
 		if(audio.buffer !== undefined && audio.buffer !== null) {
 			sourceNode.buffer = audio.buffer ;
 		} else {
-			// console.log('audioHelper.setup: no audio loaded') ;
+			console.log('audioHelper.setup: no audio loaded') ;
 		}
 
 		sourceNode.loop = audio.loop ;
 
 		if(audio.gain === undefined) {
 
-			var gainNode   = audioHelper.context.createGain() ; // create the gain node
+			// console.log('before gain create') ;
+
+			var gainNode = audioHelper.context.createGain === undefined ? audioHelper.context.createGainNode() : audioHelper.context.createGain() ; // create the gain node
+
+			// console.log('after gainNode create', 'gainNode', gainNode) ;
+
 			gainNode.value = audio.volume ;
 			gainNode.connect( audioHelper.context.destination ) ; // connect gain filter to destination,
 
-			audio.gain     = gainNode ;
+			audio.gain = gainNode ;
 
 		} else {
-
 			var gainNode = audio.gain ;
-
 		}
-
 
 		// audio.source = sourceNode ;
 

@@ -78,7 +78,7 @@ var bumpHelper = {
 
     var hit = response.viz.player.item.responseSet.hit ;
 
-    hit.healthbar.health -= hit.healthdrop * 0.25 ;
+    hit.healthbar.health -= hit.healthdrop * 0.1 ;
     transitionHelper.update_end_value.call(hit.healthbar.item, 'width', hit.healthbar.health, hit.health_transition) ;
     // } else if(response.viz.player.state === 'r') {
     //   response.viz.player.state = 'l' ;

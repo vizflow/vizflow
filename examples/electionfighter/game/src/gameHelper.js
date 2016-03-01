@@ -21,7 +21,7 @@ var gameHelper = {
 		  duration: viz.fadeDuration,
 		  end: function() {
 		  	viz.audio.wolf.play() ; 
-		  	gameHelper.loadCallback[gameHelper.loadState]() 
+		  	gameHelper.loadCallback[gameHelper.loadState]() ;
 		  },
 	  }) ;		
 
@@ -79,8 +79,9 @@ var gameHelper = {
   	viz.audio.thud.volume	   *= 0.75 ;
   	viz.audio.grunt.volume   *= 0.6 ;
   	viz.audio.laser.volume   *= 0.5 ;		
+  	viz.audio.jump1.volume    *= 0.5 ;
   	viz.audio.bump.volume    *= 0.5 ;
-  	viz.audio.bullet.volume  *= 0.6 ;
+  	viz.audio.bullet.volume  *= 0.7 ;
   	viz.audio.missile.volume *= 0.6 ;
   	viz.audio.explode.volume *= 0.6 ;
   	viz.audio.laugh1.volume  *= 0.6 ;
@@ -500,8 +501,6 @@ var gameHelper = {
     	   && ( x > 0 && x < viz.width )  
    	) { // user selected the city level
 
-			viz.audio.menu.play() ;
-
     	viz.jesus.select.fade({ duration: gameHelper.selectDur }) ;
 
     	gameHelper.loadState = 'jesus' ;
@@ -512,8 +511,6 @@ var gameHelper = {
     if (		( y > viz.rastan.y && y <= viz.rastan.y + viz.sprite.original.rastan[0].height) 
     		 && ( x > 0 && x < viz.width)
 		) { // user selected the fantasy level
-
-  		viz.audio.menu.play() ;
 
 	  	gameHelper.loadState = 'rastan' ;
 
@@ -532,7 +529,6 @@ var gameHelper = {
     	   && ( x > 0 && x < viz.width ) 
     ) { // user selected the space level
 
-			viz.audio.menu.play() ;
 
     	gameHelper.loadState = 'megyn' ;
 

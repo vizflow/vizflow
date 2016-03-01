@@ -113,6 +113,8 @@ var buttonpress = {
         state = 'r' ;
         break;
       case 40: // down
+      case 13: // enter
+      case 32: // space
         state = 'a' ;
         break;
 

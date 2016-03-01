@@ -9,6 +9,11 @@ document.image = [
 	
 	'./image/select_spritesheet.png',
 	'./image/background.png',
+	'./image/city_intro.png',
+	'./image/rastan_intro.png',
+	'./image/megyn_title.png',
+	'./image/vizflow.png',
+	'./image/title_sprite.png',
 	'./image/jesus_spritesheet.png', 
 	'./image/button_spritesheet.png', 
 	'./image/trump_spritesheet.png', 
@@ -19,18 +24,16 @@ document.image = [
 	'./image/beam_spritesheet.png', 
 	'./image/rastan_spritesheet.png',
 	'./image/trump_attack.png', 
-	'./image/city_intro.png',
-	'./image/rastan_intro.png',
-	'./image/megyn_title.png',
 	'./image/0-9.png',
 	'./image/powerup.png',
-	'./image/title_sprite.png',
-	'./image/vizflow.png',
 
 ] ;
 	  
 document.audio = [
 	'./audio/thud.wav',
+	'./audio/wolf.wav',
+	'./audio/pump.wav',
+	'./audio/inspector.wav',
 	'./audio/hit2.wav',
 	'./audio/jump1.wav',
 	'./audio/laugh1.wav',
@@ -40,10 +43,8 @@ document.audio = [
 	'./audio/paQueSeLoGozen.wav',
 	'./audio/85riddim.wav',
 	'./audio/drwho.wav',
-	'./audio/pump.wav',
 	'./audio/ineh-choh.wav',
 	'./audio/fight.wav',
-	'./audio/inspector.wav',
 	'./audio/laser2.wav',  
 	'./audio/ah.wav',  
 	'./audio/grunt.wav',  
@@ -52,7 +53,6 @@ document.audio = [
 	'./audio/bullet.wav',  
 	'./audio/explode1.wav',  
 	'./audio/shoryuken.wav', 
-	'./audio/wolf.wav',
 	'./audio/powerup.wav',
 
 ] ;
@@ -79,7 +79,8 @@ imageLoader.preload ( document.image, function preload_audio() {
 			// window.clearInterval(id) ;
 			// document.body.parentNode.style.backgroundColor = color ;
 			var div = document.getElementById('loading') ;
-			document.body.removeChild(div) ;
+			div.style.visibility = 'hidden' ;
+			// document.body.removeChild(div) ;
 			load_game() ;
 			// fantasy_level() ;
 		} 
