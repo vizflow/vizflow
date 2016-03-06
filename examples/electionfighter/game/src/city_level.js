@@ -58,6 +58,28 @@ function city_level () {
 
   viz.playerConfig = {
 
+    loop: {
+
+      walk: {
+        frameDur: viz.frameDuration,
+        position: 0,
+        Nstep: 1,
+      },
+
+      attack: {
+        frameDur: viz.frameDuration,
+        position: 0,
+        Nstep: 2,
+      },
+
+      jump: {
+        frameDur: viz.frameDuration,
+        position: 0,
+        Nstep: 1,        
+      },
+      
+    },
+
     sprite_loader: function() {
 
       var i = imageHelper.image2canvas('./image/jesus_spritesheet.png') ;
@@ -111,7 +133,7 @@ function city_level () {
       var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack1[0], { x: 0, y: 0, width: spriteset.attack1[0].width * 0.6, height: maxHeight } ) ;
       spriteset.attack1[0].sourceCollisionImage = attackCollisionCanvas ;
       spriteset.attack1[1].sourceCollisionImage = attackCollisionCanvas ;
-      // spriteset.attack                         = [spriteset.attack[0], spriteset.walk[1], spriteset.attack[1], spriteset.walk[1]] ;
+      spriteset.attack                         = [spriteset.attack[0], spriteset.walk[1], spriteset.attack[1], spriteset.walk[1]] ;
 
       var jumpCollisionCanvas                = imageHelper.clear_rect ( spriteset.jump0[1], { x: 0, y: 0, width: spriteset.jump0[0].width * 0.6, height: maxHeight } ) ;
       // imageHelper.view(jumpCollisionCanvas) ;

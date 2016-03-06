@@ -1,18 +1,26 @@
 var buttonpress = {
 
-	busy: false,
+	busy: { 
 
-	reset: function buttonpress_reset () {
-    buttonpress.busy = false ;
+    'u': false, 
+    'l': false, 
+    'd': false, 
+    'r': false,
+
+  },
+
+	reset: function buttonpress_reset (state) {
+    console.log('buttonpress reset:', 'state', state) ;
+    buttonpress.busy[state] = false ;
   },
 
   screen_handler: function buttonpress_screen_handler (e) {
   
-    if (buttonpress.busy) {
-      return ;
-    }
+    // if (buttonpress.busy) {
+    //   return ;
+    // }
 
-    buttonpress.busy = true ;
+    // buttonpress.busy = true ;
 
     //this.canvas.removeEventListener ('click', click, false) ;
     var position = set_canvas_position( this.canvas ) ;
@@ -84,7 +92,7 @@ var buttonpress = {
 
     } else {  // user clicks background
 
-      buttonpress.busy = false ;
+      // buttonpress.busy = false ;
       
     }
 
@@ -92,11 +100,11 @@ var buttonpress = {
 
   keyboard_handler: function buttonpress_keyboard_handler (event) {
 
-    if (buttonpress.busy) {
-      return ;  
-    }
+    // if (buttonpress.busy) {
+    //   return ;  
+    // }
 
-    buttonpress.busy = true ;
+    // buttonpress.busy = true ;
 
     var transition     = [] ;
     var state ;
@@ -121,7 +129,7 @@ var buttonpress = {
     } 
     // console.log ('buttonpress keyboard_handler', 'state', state) ;
     if (state === undefined) {  // user clicks background
-      buttonpress.busy = false ;
+      // buttonpress.busy = false ;
     } else {
      // console.log('buttonpress_keyboard_handler callback', this) ;
       this.player.callback(state) ;

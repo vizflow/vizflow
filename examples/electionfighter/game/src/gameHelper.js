@@ -454,11 +454,7 @@ var gameHelper = {
 
       //console.log ('state', state) ;
       
-      if (state === undefined) {  // user does not hit arrow key or loading still in progress
-      
-        viz.buttonpress.reset() ;
-      
-      } else {
+      if (state !== undefined) {  // user hit arrow key
 				
 				viz.audio.menu.play() ;
 	    	viz[gameHelper.loadState].select.fade({
@@ -466,7 +462,9 @@ var gameHelper = {
 	    	 end: { 
 
 	    	 	viz: viz,
-	    	 	run: function() { this.viz.buttonpress.reset() },
+	    	 	run: function() { 
+	    	 		this.viz.buttonpress.reset() ;
+	    	 	},
 
 	    	 },
 

@@ -26,23 +26,8 @@ var bulletHelper = {
       newBullet.y   = this.item.y + this[bulletName].config.shiftY ;
       // console.log ('newBullet', newBullet, 'this', this, 'bullet', this[bulletName]) ;
 
-      if (this.orientation === 'r') {
-        // console.log('this[bulletName].config.shiftXr', this[bulletName].config.shiftXr) ;
-
-        newBullet.x = this.item.x + this[bulletName].config.shiftXr ;
-        var xNew    = newBullet.x + this[bulletName].config.move ;
-
-      } else { 
-        // console.log('this[bulletName].config.shiftXl', this[bulletName].config.shiftXl) ;
-
-        if(this === this.item.viz.player) {  // player does not fire bullets to the left in this game
-          return ;
-        }
-
-        newBullet.x = this.item.x + this[bulletName].config.shiftXl ;
-        var xNew    = newBullet.x - this[bulletName].config.move ;
-
-      }
+      newBullet.x = this.item.x + this[bulletName].config.shiftXr ;
+      var xNew    = newBullet.x + this[bulletName].config.move ;
 
       if(newBullet['bullet' + this.level] !== undefined && bulletName[0] === 'b' ) {
         newBullet.transition = [newBullet['bullet' + this.level](xNew)] ;

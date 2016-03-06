@@ -26,6 +26,7 @@ var playerHelper = {
     }
 
     if(player.busy === true) {
+      console.log('playerHelper.update:', 'busy deprecated?') ;
       return ;
     }
 
@@ -38,6 +39,10 @@ var playerHelper = {
      switch(player.state) {
 
       case 'l' :
+
+        if( transitionHelper.find('image', player.item.transition) > -1 ) {
+          return ; // currently in the process of animating so do nothing
+        }
 
         player.orientation = 'l' ;
         player.sprite = player.spriteL ;
@@ -54,22 +59,38 @@ var playerHelper = {
           }
         }
 
+        if( transitionHelper.find(player.item.transition, 'y') > -1 ) { // means the player is jumping
+          return ; // don't run walk animation during jump to avoid interrupting the jump animation
+        }
+        
         //player.sprite.rest[0]   = player.sprite.walk[0] ;
         var loop   = animate_loop (player.loop.walk, player.sprite.walk, player.transitionSet.image) ;
         player.loop.walk.position = loop.position ;
         //console.log ('update player l0', 'player', player, 'buttonpress.reset', buttonpress.reset, 'player.loop.animation[0]', player.loop.animation[0]) ;
         //console.log('player.loop.animation', player.loop.animation)
-        transition = loop.animation ;
+
+        transition = loop.animation[0] ;
+
+        var replacementSwitch = true ;
+        transitionHelper.add.call(player.item, transition, replacementSwitch) ;
 
         var xNew        = Math.max(-Math.floor(player.sprite.original.walk[0].width * 0.5), player.item.x - player.xMove) ;
         var xTransition = player.transitionSet.x(xNew) ;
-        xTransition.end = buttonpress.reset ;
 
-        transition.push(xTransition) ;
+        var replacementSwitch = true ;
+        transitionHelper.add.call(player.item, xTransition, replacementSwitch) ;
+
+        // xTransition.end = buttonpress.reset ;
+
+        // transition.push(xTransition) ;
 
         break ;
 
       case 'r' :
+
+        if( transitionHelper.find('image', player.item.transition) > -1 ) {
+          return ; // currently in the process of animating so do nothing
+        }
 
         player.orientation   = 'r' ;
         player.sprite   = player.spriteR ;
@@ -85,23 +106,37 @@ var playerHelper = {
           }
         }        
         // console.log ('playerHelper.update 27') ;
+
+        if( transitionHelper.find(player.item.transition, 'y') > -1 ) { // means the player is jumping
+          return ; // don't run walk animation during jump to avoid interrupting the jump animation
+        }
+        
         var loop     = animate_loop (player.loop.walk, player.sprite.walk, player.transitionSet.image) ;
         // console.log('update player 57') ;
         player.loop.walk.position = loop.position ;
-        transition = loop.animation ;
+
+        transition = loop.animation[0] ;
+
+        var replacementSwitch = true ;
+        transitionHelper.add.call(player.item, transition, replacementSwitch) ;
+
 
         var xNew        = Math.min(Math.floor(player.item.viz.width - 0.5 * player.sprite.original.rest[0].width), player.item.x + player.xMove) ;
         var xTransition = player.transitionSet.x(xNew) ;
-        xTransition.end = buttonpress.reset ;
 
-        transition.push(xTransition) ;
+        var replacementSwitch = true ;
+        transitionHelper.add.call(player.item, xTransition, replacementSwitch) ;
+
+        // xTransition.end = buttonpress.reset ;
+
+        // transition.push(xTransition) ;
 
         break ;
 
       case 'j' :
         // console.log ('update player case j:', 'player.sprite.level[player.level]', player.sprite.level[player.level], 'player.sprite[player.sprite.level[player.level]]', player.sprite[player.sprite.level[player.level]]) ;
 
-        if(transitionHelper.find('y', player.item.transition) !== -1) {
+        if(transitionHelper.find('y', player.item.transition) > -1) {
           return ; // currently in the process of jumping so do nothing
         }
         
@@ -140,40 +175,44 @@ var playerHelper = {
 
           // check for potential collisions and if so, trigger a zoom effect 
 
-          var playerR = player.item.image.xNew + player.sprite.original.jump[0].width ;
-          var enemyL  = player.item.viz.enemy.item.x ;
+          // var playerR = player.item.image.xNew + player.sprite.original.jump[0].width ;
+          // var enemyL  = player.item.viz.enemy.item.x ;
 
-          var tol = Infinity ;
-          if(Math.abs (enemyL - playerR) < tol) {
-            // console.log('update player zoom') ;
-            var scale = 0.6 ;
-            var duration = 6 * player.config.jumpDuration + player.config.floatDuration ;
+          // var tol = Infinity ;
+          // if(Math.abs (enemyL - playerR) < tol) {
+          //   // console.log('update player zoom') ;
+          //   var scale = 0.6 ;
+          //   var duration = 6 * player.config.jumpDuration + player.config.floatDuration ;
 
-            // console.log('update player jump zoom duration', 'duration', duration)
+          //   // console.log('update player jump zoom duration', 'duration', duration)
 
-            var newWidth  = player.item.viz.width * scale ;
-            var newHeight = player.item.viz.height * scale ;
+          //   var newWidth  = player.item.viz.width * scale ;
+          //   var newHeight = player.item.viz.height * scale ;
 
-            player.item.viz.zoom_inout({
+          //   player.item.viz.zoom_inout({
 
-              duration: duration, 
-              x: player.item.viz.enemy.item.x - 40, 
-              y: -10, 
-              width:  newWidth, 
-              height: newHeight,
+          //     duration: duration, 
+          //     x: player.item.viz.enemy.item.x - 40, 
+          //     y: -10, 
+          //     width:  newWidth, 
+          //     height: newHeight,
 
-            }) ;
+          //   }) ;
 
-          }// else {
-	       		var panDur = yTransition.duration ; 
-	       		player.item.viz.panY(panDur, [-12, -12, 0]) ;
+          // }// else {
+	       		// var panDur = yTransition.duration ; 
+	       		// player.item.viz.panY(panDur, [-12, -12, 0]) ;
 	        // }
 
         } 
+
         var xTransition = player.transitionSet.xJump(xNew) ;
 
         transition.push(xTransition) ;  
         transition.push(yTransition) ;
+
+        var replacementSwitch = true ;
+        transitionHelper.add.call(player.item, transition, replacementSwitch) ;
 
         viz.audio.jump1.play() ;
 
@@ -185,6 +224,18 @@ var playerHelper = {
         // if (transitionHelper.find('y', player.item.transition) > -1) {
         //   break ;  // don't allow punch attacks while moving up or down
         // }  
+
+        if(player.orientation === 'l') { // player only attacks towards enemy in this game
+          return ;
+        }
+
+        if(transitionHelper.find('y', player.item.transition) > -1) {
+          return ; // currently in the process of jumping so do nothing
+        }
+        
+        if( transitionHelper.find('image', player.item.transition) > -1 ) {
+          return ; // don't interrupt the current attack animation 
+        }
 
         if(player.fire_bullet !== undefined) {
         	player.fire_bullet('bullet') ; 
@@ -205,31 +256,33 @@ var playerHelper = {
           player.loop.attack,
           player.sprite.attack,
           transitionFunc,
-          buttonpress.reset
+          function() {} // buttonpress.reset
+          // finalFrame
         ) ;
 
         player.loop.attack.position = loop.position ;
         transition                  = loop.animation ;
+
+        var replacementSwitch = true ;
+        transitionHelper.add.call(player.item, transition, replacementSwitch) ;
+
         // console.log ('update player 105: ', 'player.loop', player.loop, 'player.sprite.attack', player.sprite.attack, 'transition', transition) ; //player.sprite.attack, transitionFunc, buttonpress.reset, player.sprite.rest[0]) ;
         // console.log ('update player 109' ) ;
 
-        // console.log ('player.callback: transition', transition) ;
+        // console.log ('player.callback: transition', transition, 'player.sprite.attack', player.sprite.attack) ;
         break ;
 
     }
 
-    if (transition.length > 0) {
+    // if (transition.length > 0) {
       // console.log('player.callback: transition', transition)
       //player.item.transition = transition ;
-      var replacementSwitch = true ;
-
-      transitionHelper.add.call(player.item, transition, replacementSwitch) ;
+      // var replacementSwitch = true ;
+      // transitionHelper.add.call(player.item, transition, replacementSwitch) ;
       // console.log('update player after transitionhelper', 'player.item', player.item) ;
-    } else {
-
-      buttonpress.reset () ;
-
-    }
+    // } else {
+      // buttonpress.reset () ;
+    // }
 
   },
 

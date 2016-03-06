@@ -5,26 +5,41 @@ var inputEvent = {
     // console.log ('event down', 'this', this, 'this.viz', this.viz, 'event', event) ;    
 
     var inputHandler ;
+    var eventList ;
 
     switch (event.type) {
 
       case 'keydown': 
         inputHandler = 'keyboard_handler' ;
+        eventList = [event] ;
         break;
       case 'mousedown': 
         inputHandler = 'screen_handler' ;
+        eventList = [event] ;
         break;
       case 'touchstart':
         inputHandler = 'screen_handler' ;
-        event.clientX = event.touches[0].clientX ;
-        event.clientY = event.touches[0].clientY ;
+
+        eventList = new Array(event.touches.length) ;
+
+        for(var ktouch = 0 ; ktouch < event.touches.length ; ktouch++) {
+
+          eventList[ktouch] = {
+            clientX: event.touches[0].clientX,
+            clientY: event.touches[0].clientY,
+          } ;
+        
+        }
+
         break;
 
     }     
   
     function run_click () {
       // console.log('run click 27', 'inputHandler', inputHandler) ;
-      this.viz.buttonpress[inputHandler].call (this.viz, event) ;
+      for(var kEvent = 0 ; kEvent < eventList.length ; kEvent++) {
+        this.viz.buttonpress[inputHandler].call (this.viz, eventList[kEvent]) ;        
+      }
     }
 
     var runClick = { 
@@ -64,10 +79,11 @@ var inputEvent = {
       if(this.viz.player.fire_bullet !== undefined) {
         this.viz.player.fire_bullet('jumpBullet') ;
       }
-    } else {
-      this.viz.player.item.remove_transition('image') ;
-      this.viz.player.item.add_transition(step_transition_func('image', viz.dur)(this.viz.player.sprite.rest[0])) ;
     }
+    // } else {
+    //   this.viz.player.item.remove_transition('image') ;
+    //   this.viz.player.item.add_transition(step_transition_func('image', viz.dur)(this.viz.player.sprite.rest[0])) ;
+    // }
     var checkObject = transitionHelper.check_end_value.call(this.viz.player.item, 'y', yNew) ;
     var yIndex = checkObject.index ;
     // console.log('input event', 'checkObject', checkObject) ;
@@ -109,7 +125,7 @@ var inputEvent = {
         //.call(this.viz.player.item, this.viz.image_transition(this.viz.player.sprite.rest[0]), replacementSwitch) ;
     }
     
-    buttonpress.reset () ;
+    // buttonpress.reset () ;
     // console.log ('event up end', 'event', event) ;
 
   },
@@ -135,24 +151,30 @@ var inputEvent = {
 
     },
 
-    screen_handler: function buttonpress_screen_handler (e) {
+    screen_handler: function buttonpress_screen_handler (e, viz) {
+
+      if(viz === undefined) {
+        viz = this ;
+      }
 
       // console.log('screen handler', 'this', this, 'this.buttonpress', this.buttonpress) ;
     
-      if (this.buttonpress.busy) {
+      if (inputEvent.buttonpress.busy) {
         return ;
       }
 
-      this.buttonpress.busy = true ;
+      inputEvent.buttonpress.busy = true ;
 
       //this.canvas.removeEventListener ('click', click, false) ;
-      var position = set_canvas_position( this.canvas ) ;
+      var position = set_canvas_position( viz.canvas ) ;
 
       var clickedX = Math.round( (e.clientX - position.left) / position.scale ) ;
       var clickedY = Math.round( (e.clientY - position.top)  / position.scale ) ;
       // console.log('screenhandler', 'clickedX', clickedX, 'clickedY', clickedY, 'this', this) ;
-      this.screen_callback(clickedX, clickedY) ;
+      viz.screen_callback(clickedX, clickedY) ;
 
     },
+
 	},
+
 } ;
