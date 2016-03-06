@@ -14,7 +14,7 @@ var playerHelper = {
 	},
 	
   update: function player_helper_update(state, player) { 
-    // console.log ('playerHelper.update: this.callback: state', state, 'this', this) ;
+    console.log ('playerHelper.update: this.callback: state', state, 'this', this) ;
 
     // if(this.item.transition !== undefined && this.item.transition.length > 0) {
     //   // console.log(viz.player.item.transition)
@@ -33,7 +33,7 @@ var playerHelper = {
     if(state !== undefined) {      
       player.state = state ;
     }
-    var minNstep = 1 ; // minimum number of frames to animate per user input for walking animations
+    
     var transition ;
 
      switch(player.state) {
@@ -78,7 +78,7 @@ var playerHelper = {
         var xTransition = player.transitionSet.x(xNew) ;
 
         var replacementSwitch = true ;
-        transitionHelper.add.call(player.item, xTransition, replacementSwitch) ;
+        player.item.add_transition(xTransition, replacementSwitch) ;
 
         // xTransition.end = buttonpress.reset ;
 
@@ -125,7 +125,7 @@ var playerHelper = {
         var xTransition = player.transitionSet.x(xNew) ;
 
         var replacementSwitch = true ;
-        transitionHelper.add.call(player.item, xTransition, replacementSwitch) ;
+        player.item.add_transition(xTransition, replacementSwitch) ;
 
         // xTransition.end = buttonpress.reset ;
 
@@ -140,17 +140,6 @@ var playerHelper = {
           return ; // currently in the process of jumping so do nothing
         }
         
-        player.restoreRest = false ;
-
-        var finalFrame = player.sprite.rest[0] ;
-
-        if(player.config['jump' + player.level] !== undefined) {
-        	transition = player.config['jump' + player.level]() ;
-        } else if (player.transitionSet.jump !== undefined) {
-	        transition = animate(player.sprite.jump, player.transitionSet.jump, undefined, finalFrame) ;
-        } else {
-          transition = animate(player.sprite.jump, player.transitionSet.image, undefined, finalFrame) ;
-        }
         // console.log('update player 56') ;
         
         var yNew        = player.item.y - player.yMove ;
@@ -172,58 +161,32 @@ var playerHelper = {
           var xNew = Math.max(-Math.floor(player.sprite.original.walk[0].width * 0.5), player.item.x - player.xJumpMove) ; 
         } else {
           var xNew = Math.min(Math.floor(player.item.viz.width - 0.5 * player.sprite.original.rest[0].width), player.item.x + player.xJumpMove) ;     
-
-          // check for potential collisions and if so, trigger a zoom effect 
-
-          // var playerR = player.item.image.xNew + player.sprite.original.jump[0].width ;
-          // var enemyL  = player.item.viz.enemy.item.x ;
-
-          // var tol = Infinity ;
-          // if(Math.abs (enemyL - playerR) < tol) {
-          //   // console.log('update player zoom') ;
-          //   var scale = 0.6 ;
-          //   var duration = 6 * player.config.jumpDuration + player.config.floatDuration ;
-
-          //   // console.log('update player jump zoom duration', 'duration', duration)
-
-          //   var newWidth  = player.item.viz.width * scale ;
-          //   var newHeight = player.item.viz.height * scale ;
-
-          //   player.item.viz.zoom_inout({
-
-          //     duration: duration, 
-          //     x: player.item.viz.enemy.item.x - 40, 
-          //     y: -10, 
-          //     width:  newWidth, 
-          //     height: newHeight,
-
-          //   }) ;
-
-          // }// else {
-	       		// var panDur = yTransition.duration ; 
-	       		// player.item.viz.panY(panDur, [-12, -12, 0]) ;
-	        // }
-
         } 
 
         var xTransition = player.transitionSet.xJump(xNew) ;
 
-        transition.push(xTransition) ;  
-        transition.push(yTransition) ;
-
         var replacementSwitch = true ;
-        transitionHelper.add.call(player.item, transition, replacementSwitch) ;
+
+        player.restoreRest = false ;
+        var finalFrame = player.sprite.rest[0] ;
+        
+        if(player.config['jump' + player.level] !== undefined) {
+          transition = player.config['jump' + player.level]() ;
+        } else if (player.transitionSet.jump !== undefined) {
+          transition = animate(player.sprite.jump, player.transitionSet.jump, undefined, finalFrame) ;
+        } else {
+          transition = animate(player.sprite.jump, player.transitionSet.image, undefined, finalFrame) ;
+        }
+
+        player.item.add_transition(transition, replacementSwitch) ;
+        player.item.add_transition(xTransition, replacementSwitch) ;
+        player.item.add_transition(yTransition, replacementSwitch) ;
 
         viz.audio.jump1.play() ;
 
         break ;
 
       case 'a' :
-        //$Z.item (item.push(newBullet)) ;
-        // console.log('update player 116') ;
-        // if (transitionHelper.find('y', player.item.transition) > -1) {
-        //   break ;  // don't allow punch attacks while moving up or down
-        // }  
 
         if(player.orientation === 'l') { // player only attacks towards enemy in this game
           return ;
@@ -264,7 +227,7 @@ var playerHelper = {
         transition                  = loop.animation ;
 
         var replacementSwitch = true ;
-        transitionHelper.add.call(player.item, transition, replacementSwitch) ;
+        player.item.add_transition(transition, replacementSwitch) ;
 
         // console.log ('update player 105: ', 'player.loop', player.loop, 'player.sprite.attack', player.sprite.attack, 'transition', transition) ; //player.sprite.attack, transitionFunc, buttonpress.reset, player.sprite.rest[0]) ;
         // console.log ('update player 109' ) ;
@@ -273,16 +236,6 @@ var playerHelper = {
         break ;
 
     }
-
-    // if (transition.length > 0) {
-      // console.log('player.callback: transition', transition)
-      //player.item.transition = transition ;
-      // var replacementSwitch = true ;
-      // transitionHelper.add.call(player.item, transition, replacementSwitch) ;
-      // console.log('update player after transitionhelper', 'player.item', player.item) ;
-    // } else {
-      // buttonpress.reset () ;
-    // }
 
   },
 

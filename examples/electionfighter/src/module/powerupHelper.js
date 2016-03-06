@@ -41,22 +41,23 @@ var powerupHelper = {
 
   },  
 
-  deliver: function(item) {
+  deliver: function(powerup) {
 
-    if(item === undefined) {
-      item = this ;
+    if(powerup === undefined) {
+      powerup = this ;
     }
 
-    item.viz.audio.powerup0.play() ;
-    var delay = 0.75 ;
-    item.viz.audio.powerup.play(delay)
-    var dur = 150 ;
+    powerup.viz.audio.powerup0.play() ;
+    var dur = 500 ;
+    var delay = 0.25 ;
 
-    item.fade({
+    powerup.fade({
+      duration: dur,
       end: function() {
-        duration: dur,
-        item.remove() ;
-      }
+        powerup.viz.player.levelup() ;        
+        powerup.viz.audio.powerup.play(delay) ;
+        powerup.remove() ;
+      },
     }) ;
 
   },
@@ -76,7 +77,6 @@ var powerupHelper = {
       var item = powerupResponse.sourceItem ;
       powerupResponse.sourceItem.deliver() ;
       // console.log('before levelup') ;
-      powerupResponse.element.levelup() ;
       
     }
 
@@ -93,7 +93,7 @@ var powerupHelper = {
       // audio: audio,
       sourceType: powerupResponseConfig.sourceType || 'powerup',
       type_check: responseHelper.type_check,
-      responseSwitch: true,
+      onSwitch: true,
       performSwitch: false,
 
     } ; 

@@ -15,7 +15,7 @@ var bumpHelper = {
       // audio: audio,
       sourceType: bumpResponseConfig.sourceType || 'enemy',
       type_check: responseHelper.type_check,
-      responseSwitch: true,
+      onSwitch: true,
       performSwitch: false,
 
     } ; 

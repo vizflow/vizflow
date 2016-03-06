@@ -1,6 +1,6 @@
 var hitHelper = {
 
-  duration: 1000,
+  duration: 1500,
 
   pair: { // temporary variable used by collision()
     width: null, 
@@ -69,7 +69,7 @@ var hitHelper = {
         audio: audio,
         sourceType: setupResponseConfig.sourceType,
         type_check: responseHelper.type_check,
-        responseSwitch: true,
+        onSwitch: true,
         performSwitch: false,
 
       } ; 
@@ -90,7 +90,7 @@ var hitHelper = {
         audio: audio,
         sourceType: setupResponseConfig.sourceType,
         type_check: responseHelper.type_check,
-        responseSwitch: true,
+        onSwitch: true,
         performSwitch: false,
 
       } ; 
@@ -312,7 +312,7 @@ var hitHelper = {
 
     }
 
-    if(response.transition !== undefined) {
+    if(response.transition !== undefined && !playerCounter) {
       response.transition() ;      
     }    
 
@@ -325,7 +325,7 @@ var hitHelper = {
       response = this.response ;
     }
     
-    response.responseSwitch = true ;
+    response.onSwitch = true ;
   },
 
   transition: function hit_helper_transition(response) {
@@ -341,14 +341,16 @@ var hitHelper = {
     if(response.occurred) {
 
       // console.log('response occurred start') ;
-      hitHelper.flash(response) ; // also sets inertSwitch - separate?
+      // hitHelper.flash(response) ; // also sets inertSwitch - separate?
       var hitDur = hitHelper.duration ; // ( element.adversary.sprite.attack.length + 20 ) * viz.dur ;
       // var hitTransition   = step_transition_func('image', response.viz.frameDuration * 1.5)(element.sprite.hit[0]) ;
       // element.item.remove_transition('image') ; // supercede any other animation currently running 
       // console.log('transition hittttt', element.frameDuration) ;
       var tran_func;
       // if(element === response.viz.enemy || element.config.hitDuration === undefined) {
-      tran_func = step_transition_func('image', hitDur) ;        
+      var frameDur = (hitDur / element.sprite.hit.length) ;
+      // console.log('hitHelper transition:', 'frameDur', frameDur) ;
+      tran_func = step_transition_func('image', frameDur) ;        
       // } else {
       //   tran_func = step_transition_func('image', element.config.hitDuration) ;
       // }
@@ -406,9 +408,13 @@ var hitHelper = {
 
     var element = response.element ;
 
-    response.responseSwitch = false ;
+    response.onSwitch = false ;
 
-    var hitDur = hitHelper.duration ;
+    var hitDur = response.duration || hitHelper.duration ;
+
+    var detectPause = 500 ; // slight extra delay to prevent double-hits
+
+    hitDur += detectPause ;
 
     var reset = step_transition_func ('hitReset', hitDur) (0) ;
 

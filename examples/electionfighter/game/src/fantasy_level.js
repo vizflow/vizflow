@@ -4,7 +4,7 @@ function fantasy_level () {
 
     backgroundImageUrl: './image/trump_bg3.png',
     loadingImageUrl: './image/rastan_intro.png',
-    frameDurationFactor: 4,
+    frameDurationFactor: 3,
     run: fighterHelper.run,
     load_ui: fighterHelper.load_ui,
     load_char: fighterHelper.load_char,
@@ -167,7 +167,7 @@ function fantasy_level () {
     y: viz.platformY - 156,
     type: 'player',
     bulletSwitch: false,
-    healthdrop: 4,
+    healthdrop: 8,
 
   } ;
 

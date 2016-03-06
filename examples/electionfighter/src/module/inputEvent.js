@@ -11,34 +11,27 @@ var inputEvent = {
 
       case 'keydown': 
         inputHandler = 'keyboard_handler' ;
-        eventList = [event] ;
+        eventList = event ;
         break;
       case 'mousedown': 
         inputHandler = 'screen_handler' ;
-        eventList = [event] ;
+        eventList = event ;
         break;
       case 'touchstart':
         inputHandler = 'screen_handler' ;
-
-        eventList = new Array(event.touches.length) ;
-
-        for(var ktouch = 0 ; ktouch < event.touches.length ; ktouch++) {
-
-          eventList[ktouch] = {
-            clientX: event.touches[0].clientX,
-            clientY: event.touches[0].clientY,
-          } ;
-        
-        }
-
+        eventList = event.touches ;
         break;
 
     }     
   
     function run_click () {
       // console.log('run click 27', 'inputHandler', inputHandler) ;
-      for(var kEvent = 0 ; kEvent < eventList.length ; kEvent++) {
-        this.viz.buttonpress[inputHandler].call (this.viz, eventList[kEvent]) ;        
+      if(eventList.constructor === Array) {
+        for(var kEvent = 0 ; kEvent < eventList.length ; kEvent++) {
+          this.viz.buttonpress[inputHandler].call (this.viz, eventList[kEvent]) ;        
+        }        
+      } else {
+        this.viz.buttonpress[inputHandler].call (this.viz, eventList) ;        
       }
     }
 
@@ -84,32 +77,37 @@ var inputEvent = {
     //   this.viz.player.item.remove_transition('image') ;
     //   this.viz.player.item.add_transition(step_transition_func('image', viz.dur)(this.viz.player.sprite.rest[0])) ;
     // }
-    var checkObject = transitionHelper.check_end_value.call(this.viz.player.item, 'y', yNew) ;
-    var yIndex = checkObject.index ;
-    // console.log('input event', 'checkObject', checkObject) ;
-    if (checkObject.check !== undefined && !checkObject.check) { // never cancel downward transition
+    // var checkObject = transitionHelper.check_end_value.call(this.viz.player.item, 'y', yNew) ;
+    var yIndex = transitionHelper.find('y', transition) ;
+    var firstFrame = this.viz.player.sprite.jump[0] ;
+    var abortJump = (yIndex > -1) && (this.viz.player.item.image === firstFrame || this.viz.player.sprite.jump.indexOf(this.viz.player.item.image) === -1) ;
 
-      transition[yIndex] = this.viz.player.transitionSet.y(yNew) ;
-      transition[yIndex].end = { 
+    // console.log('input event', 'animationcheck', animationCheck, 'firstFrame', firstFrame, 'yIndex', yIndex) ;
+
+    if (abortJump) { // abort the jump if a negative edge is detected during the first couple frames of the jump animation
+
+      this.viz.player.item.remove_transition('image') ;
+
+      var yTransition = this.viz.player.transitionSet.y(yNew) ;
+      yTransition.end = { 
         
         viz: this.viz,
 
         run: function() {
 
           // console.log('end this', this, 'player', player, 'player.item.transition', player.item.transition) ;
-          for(var ktrans = 0 ; ktrans < transition.length ; ktrans++) {
-            if(transition[ktrans].varName === 'image') {
-              this.viz.player.item.transition[ktrans] = this.viz.player.transitionSet.image(this.viz.player.sprite.rest[0]) ;
-            }
-            if(this.viz.player.config.restoreRest) {            
-              this.viz.player.restoreRest = true ;
-            }  
-
-          }
+          this.viz.player.item.image = this.viz.player.sprite.rest[0] ;
+          if(this.viz.player.config.restoreRest) {            
+            this.viz.player.restoreRest = true ;
+          }  
         
         },
 
       } ;
+
+      var replacementSwitch = true ;
+      this.viz.player.item.add_transition(yTransition, replacementSwitch) ;
+
     }
       
     if (this.viz.player.restoreRest) {

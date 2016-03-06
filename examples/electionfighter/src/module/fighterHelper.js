@@ -7,7 +7,7 @@ var fighterHelper = {
   	}
 
   	// console.log('fighter helper run start', 'viz', viz, 'viz.player.item.y', viz.player.item.y) ;
-		
+
 		viz.fade({
 
 		  opacity: 1,
@@ -175,7 +175,7 @@ var fighterHelper = {
 
       playerResponseConfig = {
 
-        healthdrop: viz.player.config.healthdrop || enemyResponseConfig.healthdrop * 0.5,
+        healthdrop: viz.player.config.healthdrop, // || enemyResponseConfig.healthdrop * 0.5,
         healthbarY: 12,
         healthbarX: 1,
         color: '#00C', 
@@ -474,6 +474,8 @@ var fighterHelper = {
 
 		// console.log('update_enemy start') ;
 
+		enemy.item.responseSet.hit.onSwitch = false ; // enemy cannot be hit while attacking
+
 	  var transition = animate(enemy.sprite.attack, step_transition_func('image', enemy.config.attackDuration), undefined, enemy.sprite.rest[0])[0] ;
 
 		var replacementSwitch = true ;	
@@ -487,6 +489,7 @@ var fighterHelper = {
 			run: function() {
 				// console.log('enemy bullet run')
 				this.element.fire_bullet('bullet') ;
+				this.element.item.responseSet.hit.onSwitch = true ;
 
 			}
 		}) ;		

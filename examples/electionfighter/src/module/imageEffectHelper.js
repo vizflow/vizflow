@@ -101,7 +101,7 @@ var imageEffectHelper = {
 			}
 
 			if(duration === undefined) {
-				duration = 3000 ;
+				duration = 1500 ;
 			}
 
 			if(removeSwitch === undefined) {
@@ -131,18 +131,17 @@ var imageEffectHelper = {
 			var dw = blocksize ;
 			var dh = blocksize ;
 
-			var scale = 200 ;
-			offset = 60 ;
+			var scale = 300 ;
 
 			for(var krow = 0 ; krow < Nrow ; krow++) {
 				for(var kcol = 0 ; kcol < Ncol ; kcol++) {
 					var canvas  = imageHelper.create(blocksize, blocksize) ;
 					var context = canvas.context() ;
-					sx = Math.floor(kcol * blocksize) ;
-					sy = Math.floor(krow * blocksize) ;
+					sx = Math.floor(kcol * blocksize / document.ratio) ;
+					sy = Math.floor(krow * blocksize / document.ratio) ;
 					context.drawImage(item.image, sx, sy, sw, sh, dx, dy, dw, dh) ;
 					var k = krow * Ncol + kcol ;
-					var xTrans = $Z.transition.rounded_linear_transition_func('x', duration)(offset + (Math.random() - 0.5) * 2 * scale + item.x + kcol * blocksize) ;
+					var xTrans = $Z.transition.rounded_linear_transition_func('x', duration)((Math.random() - 0.5) * 2 * scale + item.x + sx) ;
 					block[k] = { 
 						viz: item.viz,
 						x: item.x + sx,
@@ -153,7 +152,7 @@ var imageEffectHelper = {
 						inert: true,
 						transition: [
 							xTrans,
-							$Z.transition.rounded_linear_transition_func('y', duration)(offset + (Math.random() - 0.5) * 2 * scale + item.y + krow * blocksize),
+							$Z.transition.rounded_linear_transition_func('y', duration)((Math.random() - 0.5) * 2 * scale + item.y + sy),
 						],
 					} ;
 					xTrans.end = transitionHelper.remove_end(block[k]) ;
