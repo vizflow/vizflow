@@ -25,8 +25,8 @@ var inputEvent = {
     }     
   
     function run_click () {
-      // console.log('run click 27', 'inputHandler', inputHandler) ;
-      if(eventList.constructor === Array) {
+      // console.log('input event run click:', 'inputHandler', inputHandler) ;
+      if(event.type === 'touchstart') {
         for(var kEvent = 0 ; kEvent < eventList.length ; kEvent++) {
           this.viz.buttonpress[inputHandler].call (this.viz, eventList[kEvent]) ;        
         }        
@@ -87,23 +87,9 @@ var inputEvent = {
     if (abortJump) { // abort the jump if a negative edge is detected during the first couple frames of the jump animation
 
       this.viz.player.item.remove_transition('image') ;
+      this.viz.player.item.image = this.viz.player.sprite.rest[0] ;      
 
       var yTransition = this.viz.player.transitionSet.y(yNew) ;
-      yTransition.end = { 
-        
-        viz: this.viz,
-
-        run: function() {
-
-          // console.log('end this', this, 'player', player, 'player.item.transition', player.item.transition) ;
-          this.viz.player.item.image = this.viz.player.sprite.rest[0] ;
-          if(this.viz.player.config.restoreRest) {            
-            this.viz.player.restoreRest = true ;
-          }  
-        
-        },
-
-      } ;
 
       var replacementSwitch = true ;
       this.viz.player.item.add_transition(yTransition, replacementSwitch) ;

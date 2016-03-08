@@ -33,7 +33,7 @@ var playerHelper = {
     if(state !== undefined) {      
       player.state = state ;
     }
-    
+
     var transition ;
 
      switch(player.state) {
@@ -150,12 +150,13 @@ var playerHelper = {
         yTransition.child.child           = player.transitionSet.y(player.config.y) ; // - player.sprite[player.sprite.level[player.level]][0].height) ;
         // yTransition.child.child.child     = player.transitionSet.image (finalFrame) ;
         yTransition.child.child.element = player ;
-        yTransition.child.child.end = function () {
-          // console.log('player', 'player.element', player.element) ;
-          if(this.element.config.restoreRest) {            
-            this.element.restoreRest = true ;
-          } 
-        }
+
+        // yTransition.child.child.end = function () {
+        //   // console.log('player', 'player.element', player.element) ;
+        //   if(this.element.config.restoreRest) {            
+        //     this.element.restoreRest = true ;
+        //   } 
+        // }
 
         if(player.orientation === 'l') {
           var xNew = Math.max(-Math.floor(player.sprite.original.walk[0].width * 0.5), player.item.x - player.xJumpMove) ; 
@@ -167,7 +168,7 @@ var playerHelper = {
 
         var replacementSwitch = true ;
 
-        player.restoreRest = false ;
+        // player.restoreRest = false ;
         var finalFrame = player.sprite.rest[0] ;
         
         if(player.config['jump' + player.level] !== undefined) {
