@@ -17,6 +17,8 @@ var bumpHelper = {
       type_check: responseHelper.type_check,
       onSwitch: true,
       performSwitch: false,
+      remove_overlap: responseHelper.remove_overlap,
+      collision_check: bumpHelper.collision_check,
 
     } ; 
 
@@ -50,36 +52,49 @@ var bumpHelper = {
 			response = this ;
 		}
 
-    if(viz.player.item.image.sourceCollisionImage !== undefined) {
+    response.remove_overlap() ;
+
+    if(response.element.item.image.sourceCollisionImage !== undefined) { // player is in an attack frame
       return ;
     }
 
-    var xBump = viz.player.config.xMove + 1 ;
+    // console.log('bumpHelper perform', 'response.sourceItem', response.sourceItem, 'response.viz.enemy', response.viz.enemy) ;
 
-    while(bumpHelper.collision_check(response)) {
-      response.viz.player.item.x -= xBump ;          
+    if(response.sourceItem !== response.viz.enemy.item) {
+      return ; // only trigger rest of bump on enemy
     }
+
+    // var xBump = response.element.config.xMove + 1 ;
+
+    // while(bumpHelper.collision_check(response)) {
+    //   response.element.item.x -= xBump ;          
+    // }
 
     response.viz.audio.bump.play() ;
 
-    if(response.viz.player.state === 'j' || response.viz.player.state === 'r') {
-      response.viz.player.item.remove_transition('x') ;          
+    if(response.element.state === 'j' || response.element.state === 'r') {
+      response.element.item.remove_transition('x') ;          
     }
 
-    response.viz.player.item.remove_transition('image') ;
+    // response.element.item.remove_transition('image') ;
 
-    var bumpDuration = 75 ;
-    var bumpTransition = step_transition_func('image', bumpDuration)(response.viz.player.sprite.hit[0]) ;
+    var bumpDuration = 150 ;
+    var bumpTransition = step_transition_func('image', bumpDuration)(response.element.sprite.hit[0]) ;
     bumpTransition.end = function() {
-      response.viz.player.item.image = response.viz.player.sprite.rest[0] ;
+      response.element.item.image = response.element.sprite.rest[0] ;
     }
 
-    response.viz.player.item.add_transition(bumpTransition) ;
+    var replacementSwitch = true ;
+    response.element.item.add_transition(bumpTransition, replacementSwitch) ;
 
-    var hit = response.viz.player.item.responseSet.hit ;
+    var hit = response.element.item.responseSet.hit ;
 
     hit.healthbar.health -= hit.healthdrop * 0.1 ;
     transitionHelper.update_end_value.call(hit.healthbar.item, 'width', hit.healthbar.health, hit.health_transition) ;
+
+    var Nflash = 2 ;
+    var flashDuration = bumpDuration * 0.5 ;
+    response.element.item.flash(Nflash, flashDuration) ;
     // } else if(response.viz.player.state === 'r') {
     //   response.viz.player.state = 'l' ;
     //   response.viz.player.callback() ;

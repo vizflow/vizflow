@@ -90,9 +90,9 @@ function fantasy_level () {
     
       for (var klev = 0 ; klev < level.length ; klev++) {
 
-        spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
-        spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
-        spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
+        // spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
+        // spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
+        // spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
         spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
         spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
         spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
@@ -102,9 +102,9 @@ function fantasy_level () {
         spriteset['attack' + klev].push(spriteset['attack' + klev][0]) ;
         spriteset['attack' + klev].push(spriteset['rest'   + klev][0]) ;
 
-        spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
-        spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
-        spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
+        // spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
+        // spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
+        // spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
         spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
         spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
         spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
@@ -113,6 +113,9 @@ function fantasy_level () {
         spriteset['jump' + klev].push(spriteset['jump' + klev][2]) ;
         spriteset['jump' + klev].push(spriteset['jump' + klev][1]) ;
         spriteset['jump' + klev].push(spriteset['jump' + klev][0]) ;
+
+        spriteset['hit' + klev].push(spriteset['hit' + klev][1]) ;
+        spriteset['hit' + klev].push(spriteset['hit' + klev][0]) ;
 
         var attackCollisionCanvas = imageHelper.clear_rect (spriteset['attack' + klev][3], { x: spriteset['attack' + klev][3].width * 0.45, y: 0, width: spriteset['attack' + klev][3].width * 0.4, height: maxHeight } ) ;
         // imageHelper.view(attackCollisionCanvas) ;
@@ -150,16 +153,19 @@ function fantasy_level () {
 
     orientation: 'l',
     frameDuration: viz.frameDuration,
-    hitDuration: viz.frameDuration * 1.5,
-    floatDuration: viz.dur * 30,
+    hitDuration: viz.frameDuration * 2,
+    floatDuration: viz.dur * 25,
+
     callback: playerHelper.update,
     restoreRest: false,
+
     transitionSet: {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), // function accepting an x end-value and returning a transition object
       attack: step_transition_func ( 'image', viz.dur ), // transition object creation function
       jump: step_transition_func ( 'image', viz.dur ),
-      y: $Z.transition.rounded_linear_transition_func ( 'y', viz.dur * 14 ), // function accepting a y end-value and returning a transition object
+      y: $Z.transition.rounded_linear_transition_func ( 'y', viz.dur * 5 ), // function accepting a y end-value and returning a transition object
     },
+
     fullLoopSwitch: true,
     xMove: 8,
     yMove: 55,
@@ -190,12 +196,13 @@ function fantasy_level () {
     },    
 
     frameDuration: viz.frameDuration * 1,
-    attackDuration: 5 * viz.frameDuration,
-    hitDuration: viz.dur * 10,
+    attackDuration: 6 * viz.frameDuration,
+    // hitDuration: viz.dur * 10,
     orientation: 'l',
-    x: 60,
+    x: 72,
     y: viz.platformY - enemyTileHeight,
     type: 'enemy',
+    opacity: 0,
 
   } ;
 

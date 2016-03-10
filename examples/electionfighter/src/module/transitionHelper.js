@@ -1,18 +1,27 @@
 var transitionHelper = {
 
   find: function transition_helper_find (property, transitionList) {
+    
     if(this.transition === undefined) {
       this.transition = [] ;
     }
+
     if (transitionList === undefined) {
       transitionList = this.transition ; // means function was attached to an item's context
     }
+
+    if(transitionList.length === 0) {
+      return -1 ;      
+    }
+
     var transitionIndex = -1 ;
+    
     for(var ktrans = 0 ; ktrans < transitionList.length ; ktrans++) {
       if(transitionList[ktrans].varName === property) {
         transitionIndex = ktrans ;
       }
     }
+
     return transitionIndex ;    
   },
 	
@@ -190,6 +199,24 @@ var transitionHelper = {
     return endObject ; 
 
   },
+
+  duration: function(transition) {
+
+    if(transition === undefined) {
+      transition = this ;
+    }
+
+    var dur = transition.duration ;
+    var trans = transition ;
+
+    while(trans.child !== undefined) {
+      trans = trans.child ;
+      dur += trans.duration ;
+    }
+
+    return dur ;
+
+  }
 
   // set: function transition_helper_set () {
   //   // console.log('detect action set', 'this', this) ;

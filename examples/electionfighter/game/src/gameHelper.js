@@ -599,13 +599,17 @@ var gameHelper = {
 
 	    xNew       = -word.image.width ;
 
-	    var yMove  = 10 ;
-	    word.y    -= yMove ;
+	    var yShift  = 10 ;
+	    word.y    -= yShift ;
+	    var yMove  = 13 ;
 	    var yNew   = word.y + yMove ;
 
-	    var downDuration = 300 ;
+	    word.x = viz.enemy.item.x + viz.enemy.item.image.originalCanvas.width * 0.5 - word.image.originalCanvas.width ;
+
+	    var downDuration = viz.enemy.config.frameDuration * viz.enemy.sprite.attack.length ;
 
 	    var down   = $Z.transition.rounded_linear_transition_func('y', downDuration )(yNew) ;
+
 	    down.end   = function() {
 	    	word.inert = false ;
 	    } ;

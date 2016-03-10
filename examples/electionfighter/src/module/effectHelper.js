@@ -1,30 +1,47 @@
 var effectHelper = { // effect module for creating effects i.e. compositions of transitions
 
-	flash: function effect_flash (frameDuration, Nstep, item) {
+	flash: function effect_flash (Nflash, flashDuration, item) {
 
 		if(item === undefined) { // assume that "this" corresponds to the element item object
 			item = this ;
 		}
 
+		if(Nflash === undefined) {
+			Nflash = 5 ;
+		}
+
+		if(flashDuration === undefined) {
+			flashDuration = 100 ;
+		}
+
 		// console.log('effect flash', 'frameDuration', frameDuration, 'Nstep', Nstep) ;
-		var create_transition = step_transition_func('render', frameDuration) ;
+		var create_transition = step_transition_func('render', flashDuration) ;
 		// console.log('effect flash 5') ;
 		var blank = function () {} ;
 		var valueList = [blank, drawHelper.image] ;
-		var loopConfig = {
-			Nstep: Nstep,
-			position: 0,
-			frameDur: frameDuration,
-		} ;
-		// console.log('effect flash 12') ;
 
-		var loop = animate_loop (loopConfig, valueList, create_transition) ;
+		var flash     = new Array(2 * Nflash) ;
+		
+		for(var kflash = 0 ; kflash < 2 * Nflash ; kflash++) {
+			flash[kflash] = create_transition(valueList[kflash % valueList.length]) ;
+		}
 
-		transitionHelper.add.call(item, loop.animation[0]) ;
+		flash = transition_sequence(flash) ;
+
+		// var loopConfig = {
+		// 	Nstep: Nstep,
+		// 	position: 0,
+		// 	frameDur: frameDuration,
+		// } ;
+		// // console.log('effect flash 12') ;
+
+		// var loop = animate_loop (loopConfig, valueList, create_transition) ;
+
+		item.add_transition(flash) ;
 
 		// console.log('effect flash', 'loop', loop) ;
 
-		return loop ;
+		return flash ;
 
 	},
 

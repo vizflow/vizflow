@@ -86,6 +86,7 @@ function setup_element (viz, elementConfig) {
     x: elementConfig.x,
     y: elementConfig.y, 
     type: elementConfig.type,
+    opacity: elementConfig.opacity,
   }
 
   element.item = itemHelper.setup(itemConfig, viz) ;
