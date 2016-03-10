@@ -10,6 +10,7 @@ var playerHelper = {
 	  viz.player.levelup      = playerHelper.levelup ;
 	  viz.player.load_bullet  = playerHelper.load_bullet ;
     viz.player.fire_powerup = powerupHelper.fire ;
+    viz.player.paused = true ;
 
 	},
 	
@@ -25,8 +26,7 @@ var playerHelper = {
     	player = this ;
     }
 
-    if(player.busy === true) {
-      console.log('playerHelper.update:', 'busy deprecated?') ;
+    if(player.paused === true) {
       return ;
     }
 

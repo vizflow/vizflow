@@ -27,6 +27,7 @@ var gameHelper = {
 
 	  viz.remove_transition('viewportX') ;
 	  viz.remove_transition('viewportY') ;
+	  
 	  viz.zoom({
 	  	duration: viz.fadeDuration,
 	  	x: viz.width * 0.25,

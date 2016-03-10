@@ -21,6 +21,8 @@ var fighterHelper = {
 		    end: function() {
 		      // console.log('fighter helper run end: start', 'viz', viz) ;
 
+		      viz.player.paused = false ;
+
 		      viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;
 
 		      itemHelper.add(viz, [ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop
