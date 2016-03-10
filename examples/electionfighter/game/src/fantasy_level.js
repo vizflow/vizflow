@@ -90,9 +90,9 @@ function fantasy_level () {
     
       for (var klev = 0 ; klev < level.length ; klev++) {
 
-        // spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
-        // spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
-        // spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
+        spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
+        spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
+        spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
         spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
         spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
         spriteset['attack' + klev].push(spriteset['attack' + klev][4]) ;
@@ -102,9 +102,9 @@ function fantasy_level () {
         spriteset['attack' + klev].push(spriteset['attack' + klev][0]) ;
         spriteset['attack' + klev].push(spriteset['rest'   + klev][0]) ;
 
-        // spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
-        // spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
-        // spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
+        spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
+        spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
+        spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
         spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
         spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
         spriteset['jump' + klev].push(spriteset['jump' + klev][5]) ;
@@ -163,7 +163,7 @@ function fantasy_level () {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), // function accepting an x end-value and returning a transition object
       attack: step_transition_func ( 'image', viz.dur ), // transition object creation function
       jump: step_transition_func ( 'image', viz.dur ),
-      y: $Z.transition.rounded_linear_transition_func ( 'y', viz.dur * 5 ), // function accepting a y end-value and returning a transition object
+      y: $Z.transition.rounded_linear_transition_func ( 'y', viz.dur * 10 ), // function accepting a y end-value and returning a transition object
     },
 
     fullLoopSwitch: true,

@@ -82,11 +82,13 @@ var playerHelper = {
         var xTransition = player.transitionSet.x(xNew) ;
 
         var viewXmin = -20 ;
-
         var viz = player.item.viz ;
+        var viewTol = 20 ;
+        var center = player.item.image.originalCanvas.width * 0.5 + player.item.x ;
+        var dist = center - viz.viewportX - viewTol ;
 
-        if(viz.viewportX > viewXmin) {
-          var viewXnew = Math.max(viewXmin, viz.viewportX - player.xMove) ;
+        if(dist < 0 && viz.viewportX > viewXmin) {
+          var viewXnew = Math.max(viewXmin, viz.viewportX + dist) ;
           var replacementSwitch = true ;
           viz.add_transition(viz.transitionSet.x(viewXnew), replacementSwitch) ;
         } 
@@ -142,10 +144,13 @@ var playerHelper = {
         var xNew        = Math.min(xMax, player.item.x + player.xMove) ;
         var xTransition = player.transitionSet.x(xNew) ;
 
-        var viz = player.item.viz ;
         var viewXmax = 20 ;
-        if( viz.viewportX < viewXmax ) {
-          var viewXnew = Math.min(viewXmax, viz.viewportX + player.xMove) ;
+        var viz = player.item.viz ;
+        var viewTol = 100 ;
+        var center = player.item.image.originalCanvas.width * 0.5 + player.item.x ;
+        var dist = (viz.viewportX + viz.width) - center ;
+        if( dist < viewTol && viz.viewportX < viewXmax ) {
+          var viewXnew = Math.min(viewXmax, viz.viewportX + (viewTol - dist)) ;
           var replacementSwitch = true ;
           viz.add_transition(viz.transitionSet.x(viewXnew), replacementSwitch) ;
         }
@@ -213,7 +218,7 @@ var playerHelper = {
         var panFunc  = $Z.transition.rounded_linear_transition_func('viewportY', panDur) ;
 
         var viewYmax = 30 ;
-        var viewY    = Math.max(-player.yMove, -viewYmax) ;
+        var viewY    = Math.max(-0.25 * player.yMove, -viewYmax) ;
 
         var panTrans   = panFunc(viewY) ;
         panTrans.pause = player.config.floatDuration ;

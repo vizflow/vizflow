@@ -33,6 +33,23 @@ var responseHelper = {
 
     if(response.collision_check() && element.item.x > minX) {
       element.item.x -= xBump ;          
+
+      var viewXmin = -20 ;
+      var viewTol = 5 ;
+
+      var center = element.item.image.originalCanvas.width * 0.5 + element.item.x ;
+
+      var viz = element.item.viz ;
+
+      var dist = center - viz.viewportX - viewTol ;
+
+      if(dist < 0 && viz.viewportX > viewXmin) {
+        var viewXnew = viz.viewportX + dist ;
+        viewXnew = Math.max(viewXmin, viewXnew) ;
+        var replacementSwitch = true ;
+        viz.add_transition(viz.transitionSet.x(viewXnew), replacementSwitch) ;
+      } 
+
     }    
 
   },

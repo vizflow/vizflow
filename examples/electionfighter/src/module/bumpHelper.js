@@ -78,7 +78,7 @@ var bumpHelper = {
 
     // response.element.item.remove_transition('image') ;
 
-    var bumpDuration = 150 ;
+    var bumpDuration   = 150 ;
     var bumpTransition = step_transition_func('image', bumpDuration)(response.element.sprite.hit[0]) ;
     bumpTransition.end = function() {
       response.element.item.image = response.element.sprite.rest[0] ;

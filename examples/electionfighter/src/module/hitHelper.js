@@ -278,6 +278,9 @@ var hitHelper = {
           var blockSize = 16 ;
           imageEffectHelper.explode.call(response.element.item, blockSize, laughDur) ;
 
+          response.viz.remove_transition('viewportY') ;
+          response.viz.remove_transition('viewportX') ;
+
           response.viz.zoom({
             
             duration: laughDur, 
