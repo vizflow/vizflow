@@ -395,7 +395,7 @@ var hitHelper = {
 
         element.item.fade({
           duration: fadeDuration,
-          opacity: 0.75,
+          opacity: 0.65,
         })
 
       }

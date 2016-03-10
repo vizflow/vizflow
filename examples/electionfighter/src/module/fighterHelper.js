@@ -488,7 +488,7 @@ var fighterHelper = {
 		enemy.item.responseSet.hit.onSwitch = false ; // enemy cannot be hit while attacking
 		enemy.item.fade({
 			duration: enemy.config.frameDuration * 2,
-			opacity: 0.75,
+			opacity: 0.65,
 		}) ;
 
 	  var transition = animate(enemy.sprite.attack, step_transition_func('image', enemy.config.attackDuration), undefined, enemy.sprite.rest[0])[0] ;
