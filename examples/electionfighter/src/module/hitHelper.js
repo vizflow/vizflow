@@ -355,7 +355,12 @@ var hitHelper = {
       // console.log('transition hittttt', element.frameDuration) ;
       var tran_func;
       // if(element === response.viz.enemy || element.config.hitDuration === undefined) {
-      var frameDur = element.config.hitDuration || (hitDur / element.sprite.hit.length) ;
+      var frameDur = element.config.hitDuration ;
+
+      if(element === response.viz.enemy) {
+        frameDur = hitDur * 2 ;
+      } 
+
       // console.log('hitHelper transition:', 'frameDur', frameDur) ;
       tran_func = step_transition_func('image', frameDur) ;        
       // } else {
