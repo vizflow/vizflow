@@ -403,6 +403,7 @@ var fighterHelper = {
 	    x: ui.buttonX[0],
 	    y: ui.buttonY + ui.y,
 	    inert: true,
+	    fixed: true,
 	  } ;
 	  
 	  button.walkRight = {
@@ -412,6 +413,7 @@ var fighterHelper = {
 	    x: ui.buttonX[1],
 	    y: ui.buttonY + ui.y,
 	    inert: true,
+	    fixed: true,
 	  } ;
 	  
 	  button.attack = {
@@ -421,6 +423,7 @@ var fighterHelper = {
 	    x: ui.buttonX[2],
 	    y: ui.buttonY + ui.y, 
 	    inert: true,
+	    fixed: true,
 	  } ;
 	  
 	  button.jump = {
@@ -429,7 +432,8 @@ var fighterHelper = {
 	    render: drawHelper.image,
 	    x: ui.buttonX[3],
 	    y: ui.buttonY + ui.y, 
-	    inert: true
+	    inert: true,
+	    fixed: true,
 	  } ;
 
 	  button.transition = step_transition_func('image', viz.frameDuration * 1) ;
@@ -452,6 +456,7 @@ var fighterHelper = {
 		    height: height,
 		    color: color,
 		    inert: true,
+		    fixed: true,
 	  	},
 
 	    render: function draw_bar() {

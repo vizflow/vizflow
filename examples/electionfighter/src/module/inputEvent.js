@@ -94,6 +94,9 @@ var inputEvent = {
       var replacementSwitch = true ;
       this.viz.player.item.add_transition(yTransition, replacementSwitch) ;
 
+      var viewTrans = $Z.transition.rounded_linear_transition_func('viewportY', yTransition.duration)(0) ;
+      this.viz.add_transition(viewTrans, replacementSwitch) ;
+
     }
       
     if (this.viz.player.restoreRest) {

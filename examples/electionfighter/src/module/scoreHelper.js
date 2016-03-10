@@ -11,6 +11,7 @@ var scoreHelper = {
         x: 2,
         y: 2,
         inert: true,
+        fixed: true,
       } ;
     }
       

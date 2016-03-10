@@ -76,8 +76,20 @@ var playerHelper = {
         var replacementSwitch = true ;
         transitionHelper.add.call(player.item, transition, replacementSwitch) ;
 
-        var xNew        = Math.max(-Math.floor(player.sprite.original.walk[0].width * 0.5), player.item.x - player.xMove) ;
+        var xMin        = -Math.floor(player.sprite.original.walk[0].width * 0.5) ;
+        var x           = player.item.x - player.xMove ;
+        var xNew        = Math.max(xMin, x) ;
         var xTransition = player.transitionSet.x(xNew) ;
+
+        var viewXmin = -20 ;
+
+        var viz = player.item.viz ;
+
+        if(viz.viewportX > viewXmin) {
+          var viewXnew = Math.max(viewXmin, viz.viewportX - player.xMove) ;
+          var replacementSwitch = true ;
+          viz.add_transition(viz.transitionSet.x(viewXnew), replacementSwitch) ;
+        } 
 
         var replacementSwitch = true ;
         player.item.add_transition(xTransition, replacementSwitch) ;
@@ -124,11 +136,19 @@ var playerHelper = {
         transition = loop.animation[0] ;
 
         var replacementSwitch = true ;
-        transitionHelper.add.call(player.item, transition, replacementSwitch) ;
+        player.item.add_transition(transition, replacementSwitch) ;
 
-
-        var xNew        = Math.min(Math.floor(player.item.viz.width - 0.5 * player.sprite.original.rest[0].width), player.item.x + player.xMove) ;
+        var xMax        = Math.floor(player.item.viz.width - 0.5 * player.sprite.original.rest[0].width) ;
+        var xNew        = Math.min(xMax, player.item.x + player.xMove) ;
         var xTransition = player.transitionSet.x(xNew) ;
+
+        var viz = player.item.viz ;
+        var viewXmax = 20 ;
+        if( viz.viewportX < viewXmax ) {
+          var viewXnew = Math.min(viewXmax, viz.viewportX + player.xMove) ;
+          var replacementSwitch = true ;
+          viz.add_transition(viz.transitionSet.x(viewXnew), replacementSwitch) ;
+        }
 
         var replacementSwitch = true ;
         player.item.add_transition(xTransition, replacementSwitch) ;
@@ -189,7 +209,19 @@ var playerHelper = {
         player.item.add_transition(xTransition, replacementSwitch) ;
         player.item.add_transition(yTransition, replacementSwitch) ;
 
-        viz.audio.jump1.play() ;
+        var panDur   = player.config.jumpDuration ;
+        var panFunc  = $Z.transition.rounded_linear_transition_func('viewportY', panDur) ;
+
+        var viewYmax = 30 ;
+        var viewY    = Math.max(-player.yMove, -viewYmax) ;
+
+        var panTrans   = panFunc(viewY) ;
+        panTrans.pause = player.config.floatDuration ;
+        panTrans.child = panFunc(0) ; ;
+
+        player.item.viz.add_transition(panTrans) ;
+
+        player.item.viz.audio.jump1.play() ;
 
         break ;
 

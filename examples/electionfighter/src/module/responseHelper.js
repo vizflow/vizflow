@@ -25,7 +25,7 @@ var responseHelper = {
       element = response.element ;
     }
 
-    console.log('responseHelper remove overlap:')
+    // console.log('responseHelper remove overlap:')
 
     var xBump = 12 ;
     var xPad  = 6 ;

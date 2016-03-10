@@ -17,8 +17,18 @@ var drawHelper = {
     // console.log('frame.x', frame.x, 'width', frame.viz.displayCanvas.width) ;
 
     // console.log('draw_image', 'frame', frame, 'context', context, 'this', this) ;
-    var xDraw = (frame.x + viz.xShift) * ratio ;
-    var yDraw = (frame.y + viz.yShift) * ratio ;
+
+    var viewX, viewY ;
+    if(frame.fixed === true) {
+      viewX = viz.viewportX ;
+      viewY = viz.viewportY ;
+    } else {
+      viewX = 0 ;
+      viewY = 0 ;
+    }
+
+    var xDraw = (frame.x + viz.xShift + viewX) * ratio ;
+    var yDraw = (frame.y + viz.yShift + viewY) * ratio ;
 
     xDraw = Math.floor( xDraw ) ;
     yDraw = Math.floor( yDraw ) ;
@@ -63,8 +73,18 @@ var drawHelper = {
 
     var xNew, yNew ;
     if(rect.viz !== undefined) {
-      xNew = (rect.x + rect.viz.xShift)
-      yNew = (rect.y + rect.viz.yShift)
+
+      var viewX, viewY ;
+      if(rect.fixed === true) {
+        viewX = rect.viz.viewportX ;
+        viewY = rect.viz.viewportY ;
+      } else {
+        viewX = 0 ;
+        viewY = 0 ;
+      }
+
+      xNew = (rect.x + rect.viz.xShift + viewX) ;
+      yNew = (rect.y + rect.viz.yShift + viewY) ;
     } else {
       xNew = rect.x ;
       yNew = rect.y ;

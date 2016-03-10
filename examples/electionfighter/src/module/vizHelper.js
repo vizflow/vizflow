@@ -96,6 +96,7 @@ var vizHelper = {
 	    image_transition: step_transition_func('image', frameDuration),  
 	    opacity: 0,
 	    add_transition: transitionHelper.add, 
+	    remove_transition: transitionHelper.remove,
 	    fade: imageEffectHelper.fade, 
 	    shake: effectHelper.shake,  
 	    input: vizConfig.inputEvent, 
