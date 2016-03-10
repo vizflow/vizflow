@@ -614,7 +614,7 @@ var gameHelper = {
 	    	word.inert = false ;
 	    } ;
 
-	    var left   = $Z.transition.rounded_linear_transition_func ( 'x', viz.dur * 80 )(xNew) ; // sets speed of word block    
+	    var left   = $Z.transition.rounded_linear_transition_func ( 'x', viz.dur * 50 )(xNew) ; // sets speed of word block    
 
 	    left.end   = bulletHelper.default_end(viz, word, viz.player) ;
 	    // console.log('word transition end') ;
