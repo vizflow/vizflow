@@ -23,9 +23,10 @@ var responseHelper = {
       element = response.element ;
     }
 
-    var xBump = 2 ;
+    var xBump = 4 ;
+    var minX  = -element.item.image.originalCanvas.width * 0.5 ;
 
-    while(bumpHelper.collision_check(response)) {
+    if(bumpHelper.collision_check(response) && element.item.x > minX) {
       element.item.x -= xBump ;          
     }    
 

@@ -223,18 +223,21 @@ function city_level () {
       var width     = [enemyTileWidth, enemyTileWidth, enemyTileWidth, enemyTileWidth] ;
       var height    = [enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight] ;
       var spriteset = spriteHelper.get(i, rowName, width, height) ;
+
+      spriteset.attack.push(spriteset.attack[0]) ;
       
       return spriteset ;
 
     },    
 
     frameDuration: viz.frameDuration * 1,
-    attackDuration: 5 * viz.frameDuration,
+    attackDuration: 10 * viz.frameDuration,
     hitDuration: viz.dur * 10,
     orientation: 'l',
     x: 60,
     y: viz.platformY - enemyTileHeight,
     type: 'enemy',
+    opacity: 0,
 
   } ;
 

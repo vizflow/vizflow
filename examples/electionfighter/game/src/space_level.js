@@ -49,7 +49,7 @@ function space_level () {
     xMove: 10,
     yMove: 60,
     xJumpMove: 0,
-    y: viz.platformY - tileHeight,
+    y: viz.platformY - tileHeight - 1,
     type: 'player',
     bulletSwitch: true,
     healthdrop: 6,
@@ -82,6 +82,7 @@ function space_level () {
     x: 60,
     y: viz.platformY - enemyTileHeight,
     type: 'enemy',
+    opacity: 0,
 
   } ;
 

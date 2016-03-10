@@ -392,15 +392,15 @@ var hitHelper = {
     var element = response.element ;
 
     var hitDur         = hitHelper.duration ;
-    var Nstep          = 8 ; 
+    var Nstep          = 5 ; 
     // console.log('hitDur', hitDur, 'Nstep', Nstep) ;
-    element.item.flash(Nstep, 0.5 * hitDur / Nstep) ;
+    element.item.flash(Nstep, 0.25 * hitDur / Nstep) ;
     // var flash          = effectHelper.flash.call(element, hitDur / Nstep, Nstep).animation[0] ;
     // element.item.add_transition(flash) ;
 
   },
 
-  detect_switch: function hit_helper_flash(response) {
+  detect_switch: function hit_helper_detect_switch(response) {
 
     if(response === undefined) {
       response = this ;

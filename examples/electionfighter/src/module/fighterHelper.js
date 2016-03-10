@@ -66,9 +66,8 @@ var fighterHelper = {
 		  // console.log('viz_run', 'Nstep', Nstep, 'viz', viz) ;
 		  // viz.enemy.item.flash(Nstep, flashDuration) ;
 		  // console.log('viz run', 'viz.enemy.item.transition', viz.enemy.item.transition) ;
-		  viz.enemy.opacity = 0.8 ;
 	  	viz.enemy.item.fade( {
-	  		duration: viz.fadeDuration,
+	  		duration: viz.fadeDuration * 2,
 	  		opacity: 1,
 	  		end: function() {
 	  			viz.enemyAttack.on = true ;
@@ -109,7 +108,7 @@ var fighterHelper = {
 
 		viz.enemyAttack = {
 		  tSkip: 0,
-		  minSkip: 240,
+		  minSkip: 320,
 		  skipVar: [0, 17, 23, 11, 19, 8, 0, 44, 19, 23, 14, 17, -111, 23],
 		  on: false,
 	  } ;
@@ -502,12 +501,7 @@ var fighterHelper = {
 
 			run: function() {
 				// console.log('enemy bullet run')
-				this.element.item.fade({
-					duration: this.element.config.frameDuration * 2,
-					opacity: 1.0,
-				}) ;
 				this.element.fire_bullet('bullet') ;
-				this.element.item.responseSet.hit.onSwitch = true ;
 
 			}
 		}) ;		
