@@ -1,6 +1,6 @@
 var hitHelper = {
 
-  duration: 1000,
+  duration: 420,
 
   pair: { // temporary variable used by collision()
     width: null, 
@@ -229,7 +229,7 @@ var hitHelper = {
 
         response.healthbar.health -= response.healthdrop ;
 
-        hitHelper.flash(response) ; // also sets inertSwitch - separate?
+        hitHelper.flash(response) ; 
         if(response.audio !== undefined && response.audio.buffer !== undefined) {
           response.audio.play() ;
         }
@@ -324,6 +324,13 @@ var hitHelper = {
     if( response === undefined ) {
       response = this.response ;
     }
+
+    var fadeDuration = 100 ;
+
+    response.element.item.fade({
+      duration: fadeDuration,
+      opacity: 1,
+    })
     
     response.onSwitch = true ;
   },
@@ -348,13 +355,16 @@ var hitHelper = {
       // console.log('transition hittttt', element.frameDuration) ;
       var tran_func;
       // if(element === response.viz.enemy || element.config.hitDuration === undefined) {
-      var frameDur = (hitDur / element.sprite.hit.length) ;
+      var frameDur = element.config.hitDuration || (hitDur / element.sprite.hit.length) ;
       // console.log('hitHelper transition:', 'frameDur', frameDur) ;
       tran_func = step_transition_func('image', frameDur) ;        
       // } else {
       //   tran_func = step_transition_func('image', element.config.hitDuration) ;
       // }
       hitTransition = animate(element.sprite.hit, tran_func, undefined, element.sprite.rest[0])[0] ;
+
+      // console.log('hitHelper transition:', 'hitTransition', hitTransition) ;
+
       // imageHelper.view(element.sprite.hit[0]) ;
 
       // if(element === response.viz.enemy) { // perform zoom in-out and screen shake effects on enemy response
@@ -370,6 +380,17 @@ var hitHelper = {
 
       var replacementSwitch = true ; // interrupt current player transitions due to response
       element.item.add_transition(hitTransition, replacementSwitch) ;
+
+      if(element === element.item.viz.enemy) {
+
+        var fadeDuration = 100 ;
+
+        element.item.fade({
+          duration: fadeDuration,
+          opacity: 0.6,
+        })
+
+      }
 
       hitHelper.detect_switch(response) ;
 
@@ -391,10 +412,11 @@ var hitHelper = {
 
     var element = response.element ;
 
-    var hitDur         = hitHelper.duration ;
-    var Nstep          = 5 ; 
+    var hitDur = hitHelper.duration ;
+    var Nstep  = 3 ; 
     // console.log('hitDur', hitDur, 'Nstep', Nstep) ;
-    element.item.flash(Nstep, 0.25 * hitDur / Nstep) ;
+    var flashDuration = 100 ;
+    element.item.flash(Nstep, flashDuration) ;
     // var flash          = effectHelper.flash.call(element, hitDur / Nstep, Nstep).animation[0] ;
     // element.item.add_transition(flash) ;
 

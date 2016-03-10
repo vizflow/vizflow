@@ -40,6 +40,8 @@ var playerHelper = {
 
       case 'l' :
 
+        // console.log('playerHelper update: l', 'player.item.transition', player.item.transition) ;
+
         if( transitionHelper.find('image', player.item.transition) > -1 ) {
           return ; // currently in the process of animating so do nothing
         }
@@ -59,7 +61,7 @@ var playerHelper = {
           }
         }
 
-        if( transitionHelper.find(player.item.transition, 'y') > -1 ) { // means the player is jumping
+        if( transitionHelper.find('y', player.item.transition) > -1 ) { // means the player is jumping
           return ; // don't run walk animation during jump to avoid interrupting the jump animation
         }
         
@@ -92,6 +94,8 @@ var playerHelper = {
           return ; // currently in the process of animating so do nothing
         }
 
+        // console.log('playerHelper update: r', 'player.item.transition', player.item.transition) ;
+
         player.orientation   = 'r' ;
         player.sprite   = player.spriteR ;
         if (player.bulletSprite !== undefined) {
@@ -107,10 +111,12 @@ var playerHelper = {
         }        
         // console.log ('playerHelper.update 27') ;
 
-        if( transitionHelper.find(player.item.transition, 'y') > -1 ) { // means the player is jumping
+        // console.log('playerHelper update: before loop', 'player.item.transition', player.item.transition, 'transitionHelper.find(player.item.transition, y)', transitionHelper.find('y', player.item.transition)) ;
+
+        if( transitionHelper.find('y', player.item.transition) > -1 ) { // means the player is jumping
           return ; // don't run walk animation during jump to avoid interrupting the jump animation
         }
-        
+
         var loop     = animate_loop (player.loop.walk, player.sprite.walk, player.transitionSet.image) ;
         // console.log('update player 57') ;
         player.loop.walk.position = loop.position ;

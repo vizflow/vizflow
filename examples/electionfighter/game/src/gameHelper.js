@@ -601,26 +601,17 @@ var gameHelper = {
 
 	    var yShift  = 10 ;
 	    word.y    -= yShift ;
-	    var yMove  = 18 ;
+	    var yMove  = 13 ;
 	    var yNew   = word.y + yMove ;
 
 	    word.x = viz.enemy.item.x + viz.enemy.item.image.originalCanvas.width * 0.5 - word.image.originalCanvas.width ;
 
-	    var downDuration = 500 ;
+	    var downDuration = viz.enemy.config.frameDuration * viz.enemy.sprite.attack.length ;
 
 	    var down   = $Z.transition.rounded_linear_transition_func('y', downDuration )(yNew) ;
+
 	    down.end   = function() {
 	    	word.inert = false ;
-				viz.enemy.item.fade({
-					duration: viz.enemy.config.frameDuration * 2,
-					opacity: 1.0,
-					end: {
-						item: viz.enemy.item, 
-						run: function() {
-							this.item.responseSet.hit.onSwitch = true ;
-						},
-					},
-				}) ;
 	    } ;
 
 	    var left   = $Z.transition.rounded_linear_transition_func ( 'x', viz.dur * 80 )(xNew) ; // sets speed of word block    

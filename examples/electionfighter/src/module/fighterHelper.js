@@ -67,7 +67,7 @@ var fighterHelper = {
 		  // viz.enemy.item.flash(Nstep, flashDuration) ;
 		  // console.log('viz run', 'viz.enemy.item.transition', viz.enemy.item.transition) ;
 	  	viz.enemy.item.fade( {
-	  		duration: viz.fadeDuration * 2,
+	  		duration: viz.fadeDuration,
 	  		opacity: 1,
 	  		end: function() {
 	  			viz.enemyAttack.on = true ;
@@ -480,7 +480,7 @@ var fighterHelper = {
 		enemy.item.responseSet.hit.onSwitch = false ; // enemy cannot be hit while attacking
 		enemy.item.fade({
 			duration: enemy.config.frameDuration * 2,
-			opacity: 0.8,
+			opacity: 0.6,
 		}) ;
 
 	  var transition = animate(enemy.sprite.attack, step_transition_func('image', enemy.config.attackDuration), undefined, enemy.sprite.rest[0])[0] ;
@@ -504,7 +504,20 @@ var fighterHelper = {
 				this.element.fire_bullet('bullet') ;
 
 			}
-		}) ;		
+		}) ;
+
+		enemy.item.add_end('image', enemy.sprite.attack.length, function() {
+			enemy.item.fade({
+				duration: enemy.config.frameDuration * enemy.sprite.attack.length,
+				opacity: 1.0,
+				end: {
+					item: enemy.item, 
+					run: function() {
+						this.item.responseSet.hit.onSwitch = true ;
+					},
+				},
+			}) ;			
+		}) ;	
 
 		// console.log('update enemy end') ;
 

@@ -1,18 +1,27 @@
 var transitionHelper = {
 
   find: function transition_helper_find (property, transitionList) {
+    
     if(this.transition === undefined) {
       this.transition = [] ;
     }
+
     if (transitionList === undefined) {
       transitionList = this.transition ; // means function was attached to an item's context
     }
+
+    if(transitionList.length === 0) {
+      return -1 ;      
+    }
+
     var transitionIndex = -1 ;
+    
     for(var ktrans = 0 ; ktrans < transitionList.length ; ktrans++) {
       if(transitionList[ktrans].varName === property) {
         transitionIndex = ktrans ;
       }
     }
+
     return transitionIndex ;    
   },
 	

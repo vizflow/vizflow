@@ -231,8 +231,8 @@ function city_level () {
     },    
 
     frameDuration: viz.frameDuration * 1,
-    attackDuration: 10 * viz.frameDuration,
-    hitDuration: viz.dur * 10,
+    attackDuration: 6 * viz.frameDuration,
+    // hitDuration: viz.dur * 10,
     orientation: 'l',
     x: 60,
     y: viz.platformY - enemyTileHeight,

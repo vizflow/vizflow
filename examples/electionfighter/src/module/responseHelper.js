@@ -5,6 +5,8 @@ var responseHelper = {
       response = this ;
     }
 
+    // console.log('resonseHelper type_check:', 'sourceItem', sourceItem, 'sourceItem.type', sourceItem.type)
+
     if(sourceItem.type === response.sourceType) {
       return true ;
     } else {
@@ -23,10 +25,13 @@ var responseHelper = {
       element = response.element ;
     }
 
-    var xBump = 4 ;
-    var minX  = -element.item.image.originalCanvas.width * 0.5 ;
+    console.log('responseHelper remove overlap:')
 
-    if(bumpHelper.collision_check(response) && element.item.x > minX) {
+    var xBump = 12 ;
+    var xPad  = 6 ;
+    var minX  = -element.item.image.originalCanvas.width * 0.5 - xPad ;
+
+    if(response.collision_check() && element.item.x > minX) {
       element.item.x -= xBump ;          
     }    
 
