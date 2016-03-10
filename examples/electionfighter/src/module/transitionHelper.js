@@ -191,6 +191,24 @@ var transitionHelper = {
 
   },
 
+  duration: function(transition) {
+
+    if(transition === undefined) {
+      transition = this ;
+    }
+
+    var dur = transition.duration ;
+    var trans = transition ;
+
+    while(trans.child !== undefined) {
+      trans = trans.child ;
+      dur += trans.duration ;
+    }
+
+    return dur ;
+
+  }
+
   // set: function transition_helper_set () {
   //   // console.log('detect action set', 'this', this) ;
   //   $Z.detect([this]) ;

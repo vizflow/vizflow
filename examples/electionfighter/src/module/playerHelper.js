@@ -14,7 +14,7 @@ var playerHelper = {
 	},
 	
   update: function player_helper_update(state, player) { 
-    console.log ('playerHelper.update: this.callback: state', state, 'this', this) ;
+    // console.log ('playerHelper.update: this.callback: state', state, 'this', this) ;
 
     // if(this.item.transition !== undefined && this.item.transition.length > 0) {
     //   // console.log(viz.player.item.transition)

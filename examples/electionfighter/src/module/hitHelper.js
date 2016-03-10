@@ -1,6 +1,6 @@
 var hitHelper = {
 
-  duration: 1500,
+  duration: 1000,
 
   pair: { // temporary variable used by collision()
     width: null, 
@@ -225,11 +225,11 @@ var hitHelper = {
         response.sourceItem.explode() ;
       }
 
-      if(response.healthbar !== undefined & !playerCounter) { // i.e. player or enemy was response while in their attack frame state
+      if(response.healthbar !== undefined & !playerCounter) { // i.e. player or enemy response was triggered while in their attack frame state
 
         response.healthbar.health -= response.healthdrop ;
 
-        // hitHelper.flash(response) ; // also sets inertSwitch - separate?
+        hitHelper.flash(response) ; // also sets inertSwitch - separate?
         if(response.audio !== undefined && response.audio.buffer !== undefined) {
           response.audio.play() ;
         }
@@ -392,9 +392,9 @@ var hitHelper = {
     var element = response.element ;
 
     var hitDur         = hitHelper.duration ;
-    var Nstep          = 4 ; 
+    var Nstep          = 8 ; 
     // console.log('hitDur', hitDur, 'Nstep', Nstep) ;
-    element.item.flash(0.5 * hitDur / Nstep, Nstep) ;
+    element.item.flash(Nstep, 0.5 * hitDur / Nstep) ;
     // var flash          = effectHelper.flash.call(element, hitDur / Nstep, Nstep).animation[0] ;
     // element.item.add_transition(flash) ;
 

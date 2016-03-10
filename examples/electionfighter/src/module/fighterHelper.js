@@ -61,15 +61,19 @@ var fighterHelper = {
 
 		function viz_run() {
 
-		  var Nstep = 6 ; // 2 * Math.floor(0.5 * viz.fadeDuration / viz.frameDuration) ;
-
+		  // var Nstep = 5 ; // 2 * Math.floor(0.5 * viz.fadeDuration / viz.frameDuration) ;
+		  // var flashDuration = 100 ;
 		  // console.log('viz_run', 'Nstep', Nstep, 'viz', viz) ;
-
-		  viz.enemy.item.flash(viz.frameDuration, Nstep) ;
-		  transitionHelper.add_end.call(viz.enemy.item, 'render', Nstep - 1, function() {
-		    viz.enemyAttack.on = true ;
-		  }) ;
-
+		  // viz.enemy.item.flash(Nstep, flashDuration) ;
+		  // console.log('viz run', 'viz.enemy.item.transition', viz.enemy.item.transition) ;
+		  viz.enemy.opacity = 0.8 ;
+	  	viz.enemy.item.fade( {
+	  		duration: viz.fadeDuration,
+	  		opacity: 1,
+	  		end: function() {
+	  			viz.enemyAttack.on = true ;
+	  		}
+	  	}) ;
 		}
 
 		function viz_switch() {
@@ -475,8 +479,18 @@ var fighterHelper = {
 		// console.log('update_enemy start') ;
 
 		enemy.item.responseSet.hit.onSwitch = false ; // enemy cannot be hit while attacking
+		enemy.item.fade({
+			duration: enemy.config.frameDuration * 2,
+			opacity: 0.8,
+		}) ;
 
 	  var transition = animate(enemy.sprite.attack, step_transition_func('image', enemy.config.attackDuration), undefined, enemy.sprite.rest[0])[0] ;
+
+	  // var transDur = transitionHelper.duration(transition) ;
+	  // var Nflash   = 6 ;
+	  // var flashDuration = transDur / Nflash ;
+
+	  // enemy.item.flash(Nflash, flashDuration) ;
 
 		var replacementSwitch = true ;	
 		
@@ -488,6 +502,10 @@ var fighterHelper = {
 
 			run: function() {
 				// console.log('enemy bullet run')
+				this.element.item.fade({
+					duration: this.element.config.frameDuration * 2,
+					opacity: 1.0,
+				}) ;
 				this.element.fire_bullet('bullet') ;
 				this.element.item.responseSet.hit.onSwitch = true ;
 
