@@ -482,10 +482,11 @@ var fighterHelper = {
 
 		// console.log('update_enemy start') ;
 
+		enemy.item.remove_transition('hitReset') ;
 		enemy.item.responseSet.hit.onSwitch = false ; // enemy cannot be hit while attacking
 		enemy.item.fade({
 			duration: enemy.config.frameDuration * 2,
-			opacity: 0.6,
+			opacity: 0.75,
 		}) ;
 
 	  var transition = animate(enemy.sprite.attack, step_transition_func('image', enemy.config.attackDuration), undefined, enemy.sprite.rest[0])[0] ;

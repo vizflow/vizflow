@@ -275,7 +275,7 @@ var hitHelper = {
           var scale = 0.5 ;
           var laughDur = response.viz.fadeDuration * 8 ;
 
-          var blockSize = 8 ;
+          var blockSize = 16 ;
           imageEffectHelper.explode.call(response.element.item, blockSize, laughDur) ;
 
           response.viz.zoom({
@@ -392,7 +392,7 @@ var hitHelper = {
 
         element.item.fade({
           duration: fadeDuration,
-          opacity: 0.6,
+          opacity: 0.75,
         })
 
       }
