@@ -204,7 +204,7 @@ function city_level () {
     x: -tileWidth * 0.5 + 15,
     type: 'player',
     bulletSwitch: false,
-    healthdrop: 4,
+    healthdrop: 1,
 
   } ;
 
