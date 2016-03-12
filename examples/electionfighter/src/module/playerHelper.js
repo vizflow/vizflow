@@ -26,7 +26,7 @@ var playerHelper = {
     }
 
     if(player.busy === true) {
-      console.log('playerHelper.update:', 'busy deprecated?') ;
+      // sconsole.log('playerHelper.update:', 'busy deprecated?') ;
       return ;
     }
 
@@ -156,7 +156,6 @@ var playerHelper = {
         yTransition.child.child           = player.transitionSet.y(player.config.y) ; // - player.sprite[player.sprite.level[player.level]][0].height) ;
         // yTransition.child.child.child     = player.transitionSet.image (finalFrame) ;
         yTransition.child.child.element = player ;
-
         // yTransition.child.child.end = function () {
         //   // console.log('player', 'player.element', player.element) ;
         //   if(this.element.config.restoreRest) {            
@@ -175,17 +174,40 @@ var playerHelper = {
         var replacementSwitch = true ;
 
         // player.restoreRest = false ;
-        var finalFrame = player.sprite.rest[0] ;
-        
-        if(player.config['jump' + player.level] !== undefined) {
-          transition = player.config['jump' + player.level]() ;
-        } else if (player.transitionSet.jump !== undefined) {
-          transition = animate(player.sprite.jump, player.transitionSet.jump, undefined, finalFrame) ;
-        } else {
-          transition = animate(player.sprite.jump, player.transitionSet.image, undefined, finalFrame) ;
+        var finalFrame ; // = player.sprite.rest[0] ;
+
+        if (player.restoreRest === true) {
+          finalFrame = player.sprite.rest[0] ;  
         }
 
-        player.item.add_transition(transition, replacementSwitch) ;
+        var yDur = transitionHelper.duration (yTransition) ;
+
+        if(player.config['jump' + player.level] !== undefined) {
+          // console.log('player helper jump0') ;
+          transition = player.config['jump' + player.level]() ;
+          player.item.add_transition(transition, replacementSwitch) ;
+
+        } else if (player.transitionSet.jump !== undefined) {
+
+          transition = animate(player.sprite.jump, player.transitionSet.jump)[0] ;
+          var dur = transitionHelper.duration (transition) ;
+          var diff = Math.max (0, yDur - dur) ;
+          var trans = step_transition_func ('image', diff * 0.8) (player.sprite.rest[0]) ;
+
+          transitionHelper.add_child (transition, trans, diff) ;
+          // console.log('player helper jump1', 'player.sprite.jump', player.sprite.jump, 'transition', transition, 'dur', dur, 'diff', diff) ;
+
+          player.item.add_transition(transition, replacementSwitch) ;
+
+
+        } else {
+          // console.log('player helper jump2') ;          
+          transition = animate(player.sprite.jump, player.transitionSet.image, undefined, finalFrame) ;
+          player.item.add_transition(transition, replacementSwitch) ;
+
+        }
+
+
         player.item.add_transition(xTransition, replacementSwitch) ;
         player.item.add_transition(yTransition, replacementSwitch) ;
 
@@ -299,6 +321,14 @@ var playerHelper = {
       player.bullet.image = player.bulletSprite.bullet[0] ;
       player.bullet.config.shiftY = player.bullet.config.shiftYlist[player.level - 1] ; 
       player.bullet.config.shiftXr = player.bullet.config.shiftXlist[player.level - 1] ; 
+
+      player.bulletSprite.jump = player.bulletSprite['jump' + player.level] ;
+      player.bulletSpriteL.jump = player.bulletSpriteL['jump' + player.level] ;
+      player.bulletSpriteR.jump = player.bulletSpriteR['jump' + player.level] ; 
+      player.jumpBullet.image = player.bulletSprite.jump[0] ;
+      player.jumpBullet.config.shiftY = player.jumpBullet.config.shiftYlist[player.level] ; 
+      player.jumpBullet.config.shiftXr = player.jumpBullet.config.shiftXlist[player.level] ; 
+      console.log('player.jumpBullet.config', player.jumpBullet.config)
     }
 
     var yDelta = 15 ;
@@ -384,9 +414,9 @@ var playerHelper = {
   load_bullet: function player_helper_load_bullet(viz) {
     //var bulletSpriteSet0     = bullet_sprite () ;
     var i         = imageHelper.image2canvas('./image/beam_spritesheet.png') ;
-    var rowName   = ['bullet', 'bullet1', 'bullet2', 'bullet3', 'jump'] ;
-    var width     = [5, 186, 200, 200, 20] ;
-    var height    = [5, 10, 34, 110, 12] ;
+    var rowName   = ['bullet', 'bullet1', 'bullet2', 'bullet3', 'jump', 'jump1'] ;
+    var width     = [5, 186, 200, 200, 20, 60] ;
+    var height    = [5, 10, 34, 110, 12, 32] ;
     var maxHeight = Math.max.apply(null, height) ;
     var spriteset = spriteHelper.get(i, rowName, width, height) ;
 
@@ -455,11 +485,27 @@ var playerHelper = {
     jumpBulletConfig.shiftXl = -bulletSpriteSet.jump[0].width + 20 ;
     jumpBulletConfig.shiftXr = viz.player.sprite.original.rest[0].width + viz.player.bulletSprite.original.bullet[0].width - 20 ;
 
+    jumpBulletConfig.shiftXlist = new Array (jumpBulletConfig.shiftXlist.length) ;
+    jumpBulletConfig.shiftYlist = new Array (jumpBulletConfig.shiftYlist.length) ;
+
+    for (var klist = 0 ; klist < jumpBulletConfig.shiftXlist.length ; klist++) {
+      jumpBulletConfig.shiftXlist[klist] = jumpBulletConfig.shiftXl ;
+      jumpBulletConfig.shiftYlist[klist] = jumpBulletConfig.shiftYl ;
+    }
+
+    var yShift = -75 ;
+    var xShift = 20 ; 
+    
+    jumpBulletConfig.shiftYlist[1] = yShift ;
+    jumpBulletConfig.shiftXlist[1] = xShift ;
+
     viz.player.bullet     = playerHelper.setup_bullet (viz, viz.player, bulletConfig) ;  
     viz.player.jumpBullet = playerHelper.setup_bullet (viz, viz.player, jumpBulletConfig) ;  
-   
+     
+
     viz.player.bullet.audio     = viz.audio.bullet ;
-    viz.player.jumpBullet.audio = viz.audio.bullet ;
+    viz.player.jumpBullet.audio = viz.audio.missile ;
+    
 
     viz.player.fire_bullet  = bulletHelper.fire ;
     

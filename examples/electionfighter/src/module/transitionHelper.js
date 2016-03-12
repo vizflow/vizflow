@@ -82,31 +82,31 @@ var transitionHelper = {
     }    
   },
 
-  add_child: function transition_helper_add_child(property, newTransition, frameIndex) {
+  add_child: function transition_helper_add_child(transition, newTransition, pause, frameIndex) {
+    if (pause === undefined) {
+      pause = 0 ;
+    }
 
     if(frameIndex === undefined) {
       frameIndex = 0 ;
-    }
+      var trans = transition ;
+      while (trans.child !== undefined) {
+        frameIndex++ ;
+        trans = trans.child ;
+      }
+    } else { 
 
-    var transitionList = this.transition ;
-    if (transitionList === undefined) {
-      this.transition = [] ;
-      transitionList = this.transition ;
-    }    
-    var transitionIndex = transitionHelper.find(property, transitionList) ;
-    if (transitionIndex === -1) {
-      this.transition.push(newTransition) ;
-    } else {
-      var transitionK = this.transition[transitionIndex] ; // initialize
-
+      var trans = transition ;
       for( var kTrans = 0 ; kTrans < frameIndex ; kTrans++ ) {
-        transitionK = transitionK.child ;
+        trans = trans.child ;
       }
 
-      transitionK.child = newTransition ; // only restore UI functionality after the minimum number of frames has been rendered  
-      // console.log('transition helper add child end', 'transition index', transitionIndex, 'new transition', newTransition, 'transitionk', transitionK) ;
     }
-    
+
+    trans.pause = pause ;
+    trans.child = newTransition ; // only restore UI functionality after the minimum number of frames has been rendered  
+    // console.log('transition helper add child end', 'transition index', transitionIndex, 'new transition', newTransition, 'transition', transition) ;
+     
   },  
 
   add_end: function transition_helper_add_end(property, frameIndex, callback) {
