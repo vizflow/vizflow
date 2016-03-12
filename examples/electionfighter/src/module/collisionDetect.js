@@ -81,10 +81,26 @@ var collisionDetect = {
       var jStart = Math.max(0, Math.min(width, item[kItem].x)) ;
       var jEnd   = Math.max(0, Math.min(width, item[kItem].x + imageK.width)) ;
 
+      var NimagePel = image.width * image.height ;
+      var NmaxPel   = 40000 ; // skip some pixels if there are more than this many to maintain high annimation framerate
+      var Nskip     = Math.ceil(NimagePel / NmaxPel) ; // only use a subset of pixels if the image is too large
+      var iSkip     = Nskip ; // start skipping on rows and alternate to columns ever other pixel
+      var jSkip     = 1 ;
+
+      // console.log('collisionDetection: ', 'Nskip', Nskip) ;
+
       // console.log('collision detection', 'kItem', kItem, 'iStart', iStart, 'iEnd', iEnd, 'jStart', jStart, 'jEnd', jEnd, 'item', item) ;
 
-      for ( var i = iStart ; i < iEnd ; i++ ) {
-        for ( var j = jStart ; j < jEnd ; j++ ) {
+      for ( var i = iStart ; i < iEnd ; i += iSkip ) {
+        for ( var j = jStart ; j < jEnd ; j += jSkip ) {
+
+          if(iSkip === Nskip) { // alternate skipping over rows and columns to reduce subsampling bias
+            iSkip = 1 ;
+            jSkip = Nskip ;
+          } else {
+            iSkip = Nskip ;
+            jSkip = 1 ;
+          }
 
           // var i = Math.floor (kPel / width) ;
           // var j = kPel % width ;

@@ -221,7 +221,7 @@ var playerHelper = {
           var dur = transitionHelper.duration (transition) ;
           var trim = 150 ;
           var diff = Math.max (0, yDur - dur - trim) ;
-          var trans = step_transition_func ('image', diff * 0.8) (player.sprite.rest[0]) ;
+          var trans = step_transition_func ('image', 1) (player.sprite.rest[0]) ;
 
           transitionHelper.add_child (transition, trans, diff) ;
           // console.log('player helper jump1', 'player.sprite.jump', player.sprite.jump, 'transition', transition, 'dur', dur, 'diff', diff) ;
