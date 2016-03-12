@@ -64,15 +64,7 @@ var inputEvent = {
 
     var transition = this.viz.player.item.transition ;
     var yNew = this.viz.player.config.y ; // - this.viz.player.item.image.height ;
-    var minJumpAttackHeight = this.viz.player.yMove * 0.4 ;
-    var yDist = Math.abs(yNew - this.viz.player.item.y) ;
     // console.log('yDist', yDist) ;
-    if (yDist > minJumpAttackHeight) {
-      // console.log('input event64') ;
-      if(this.viz.player.fire_bullet !== undefined) {
-        this.viz.player.fire_bullet('jumpBullet') ;
-      }
-    }
     // } else {
     //   this.viz.player.item.remove_transition('image') ;
     //   this.viz.player.item.add_transition(step_transition_func('image', viz.dur)(this.viz.player.sprite.rest[0])) ;
@@ -82,14 +74,20 @@ var inputEvent = {
     var firstFrame = this.viz.player.sprite.jump[0] ;
     var abortJump = (yIndex > -1) && (this.viz.player.item.image === firstFrame || this.viz.player.sprite.jump.indexOf(this.viz.player.item.image) === -1) ;
 
+    var minJumpAttackHeight = this.viz.player.yMove * 0.5 ;
+    var yDist = Math.abs(yNew - this.viz.player.item.y) ;
     // console.log('input event', 'animationcheck', animationCheck, 'firstFrame', firstFrame, 'yIndex', yIndex) ;
 
     if (abortJump) { // abort the jump if a negative edge is detected during the first couple frames of the jump animation
       var replacementSwitch = true ;
     
-      this.viz.player.item.remove_transition('image') ;
+      // this.viz.player.item.remove_transition('image') ;
 
-      var transition = this.viz.player.transitionSet.y(yNew) ;
+      var abortDur = 100 ;
+      var transition = $Z.transition.rounded_linear_transition_func('y', abortDur)(yNew) ;
+
+      // console.log('abortJump', 'transition', transition) ;
+
       var viewTrans = $Z.transition.rounded_linear_transition_func('viewportY', transitionHelper.duration(transition))(0) ;
       this.viz.add_transition(viewTrans, replacementSwitch) ;
 
@@ -103,13 +101,19 @@ var inputEvent = {
  
       this.viz.player.item.add_transition(transition, replacementSwitch) ;
    
+    } else if (yDist > minJumpAttackHeight) {
+      if(this.viz.player.fire_bullet !== undefined) {
+        this.viz.player.fire_bullet('jumpBullet') ;
+      }      
     }
       
     if (this.viz.player.restoreRest) {
-      if (this.viz.player.state === 'r' || this.viz.player.state === 'l' || this.viz.player.state === 'a') {
+      if (this.viz.player.state === 'r' || this.viz.player.state === 'l') {
 
-      this.viz.player.item.remove_transition ('image') ;
-      this.viz.player.item.image = this.viz.player.sprite.rest[0] ;  
+        if(!this.viz.player.fullLoopSwitch) {
+          this.viz.player.item.remove_transition ('image') ;
+          this.viz.player.item.image = this.viz.player.sprite.rest[0] ;  
+        }
 
         // transitionHelper.add_child.call(this.viz.player.item, 'image', this.viz.player.transitionSet.image(this.viz.player.sprite.rest[0])) ;
       }

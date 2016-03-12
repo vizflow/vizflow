@@ -219,7 +219,8 @@ var playerHelper = {
 
           transition = animate(player.sprite.jump, player.transitionSet.jump)[0] ;
           var dur = transitionHelper.duration (transition) ;
-          var diff = Math.max (0, yDur - dur) ;
+          var trim = 150 ;
+          var diff = Math.max (0, yDur - dur - trim) ;
           var trans = step_transition_func ('image', diff * 0.8) (player.sprite.rest[0]) ;
 
           transitionHelper.add_child (transition, trans, diff) ;
@@ -370,7 +371,7 @@ var playerHelper = {
       player.jumpBullet.image = player.bulletSprite.jump[0] ;
       player.jumpBullet.config.shiftY = player.jumpBullet.config.shiftYlist[player.level] ; 
       player.jumpBullet.config.shiftXr = player.jumpBullet.config.shiftXlist[player.level] ; 
-      console.log('player.jumpBullet.config', player.jumpBullet.config)
+      // console.log('player.jumpBullet.config', player.jumpBullet.config)
     }
 
     var yDelta = 15 ;
@@ -519,10 +520,10 @@ var playerHelper = {
     // jumpBulletConfig.transition = jump_bullet_transition ;
 
     jumpBulletConfig.image   = bulletSpriteSet.jump[0] ;
-    jumpBulletConfig.shiftY  = 28 - maxHeight ;
+    jumpBulletConfig.shiftY  = 25 - maxHeight ;
     jumpBulletConfig.move    = bulletMove ;
     jumpBulletConfig.shiftXl = -bulletSpriteSet.jump[0].width + 20 ;
-    jumpBulletConfig.shiftXr = viz.player.sprite.rest[0].originalCanvas.width + viz.player.bulletSprite.bullet[0].originalCanvas.width - 20 ;
+    jumpBulletConfig.shiftXr = viz.player.sprite.rest[0].originalCanvas.width + viz.player.bulletSprite.bullet[0].originalCanvas.width - 17 ;
 
     jumpBulletConfig.shiftXlist = new Array (jumpBulletConfig.shiftXlist.length) ;
     jumpBulletConfig.shiftYlist = new Array (jumpBulletConfig.shiftYlist.length) ;

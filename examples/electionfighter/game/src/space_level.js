@@ -45,7 +45,7 @@ function space_level () {
     transitionSet: {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ),      // function accepting an x end-value and returning a transition object
       y: $Z.transition.rounded_linear_transition_func ( 'y', viz.frameDuration * 7 ), // function accepting a y end-value and returning a transition object
-      jump: step_transition_func ( 'image', viz.frameDuration * 5),
+      jump: step_transition_func ( 'image', viz.frameDuration * 2 ),
     },
     xMove: 10,
     yMove: 60,
@@ -53,7 +53,7 @@ function space_level () {
     y: viz.platformY - tileHeight - 1,
     type: 'player',
     bulletSwitch: true,
-    healthdrop: 4,
+    healthdrop: 5,
 
   } ;
 
