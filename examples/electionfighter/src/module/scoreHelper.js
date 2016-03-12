@@ -61,12 +61,14 @@ var scoreHelper = {
       16,
     ] ;
 
+    var scoreSprite = spriteHelper.foreach(spriteHelper.get(canvas, rowName, tileWidth, rowHeight), imageHelper.get_original) ;
+
     viz.player.score.config = {
 
       color: 'rgba(200, 200, 0, 0.8)',
       text: viz.player.score.value,
       image: imageHelper.text2image,
-      sprite: spriteHelper.get(canvas, rowName, tileWidth, rowHeight),
+      sprite: scoreSprite,
 
     } ;
 

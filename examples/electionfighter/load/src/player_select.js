@@ -57,10 +57,7 @@ function player_select () {
       ] ;
 
       var maxHeight  = Math.max.apply(null, height) ;
-      var spriteset0 = spriteHelper.get(i, rowName, width, height) ;
-      var spriteset  = spriteHelper.foreach(spriteset0, imageHelper.adjust_ratio) ;  
-
-      spriteset.original = spriteset0 ;
+      var spriteset = spriteHelper.get(i, rowName, width, height) ;
 
       // imageHelper.view(jumpCollisionCanvas) ;
       // console.log('player sprite loader', spriteset) ;

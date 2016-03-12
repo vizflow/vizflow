@@ -127,6 +127,8 @@ var spriteHelper = {
 				if(isBlank) {
 					break ;
 				}
+	  		tile = imageHelper.adjust_ratio(tile) ;
+	  		// console.log('spriteHelper get', 'tileCanvas', tile) ;				
 				row.push(tile) ;
 			}
 			// console.log('spriteHelper get:', 'krow', krow, 'row', row, 'tile.width', tile.width, 'tile.height', tile.height, 'maxHeight', maxHeight, 'rowHeight', rowHeight) ;
@@ -135,85 +137,6 @@ var spriteHelper = {
 		}
 
 		return spriteSet ;
-
-	},
-
-	get_sprite: function sprite_helper_get_sprite (spriteConfig) { // old version
-
-	  var tile = [] ;
-	  
-	  for (var t = 0 ; t < spriteConfig.count ; t++) {
-
-	  	console.log('spriteConfig.width', spriteConfig.width, 'spriteConfig.height', spriteConfig.height) ;
-
-	  	var image = spriteConfig.context.getImageData (
-	      Math.floor(t * spriteConfig.width + spriteConfig.offsetX + spriteConfig.padX * t),
-	      Math.floor(spriteConfig.rowIndex * spriteConfig.height + spriteConfig.offsetY), 
-	      spriteConfig.width,			 
-	      spriteConfig.height
-	    )	 ;
-
-	    // console.log ('dd_sprite get_sprite:', 'image', image.data, 'spriteConfig.bgColor', spriteConfig.bgColor) ;
-
-	    if(spriteConfig.bgColor !== undefined) { // clear the background color
-	    	bg_clear(spriteConfig.bgColor, image) ;
-	    }
-
-	    if (spriteConfig.padXl === undefined) {
-	      spriteConfig.padXl = 0 ;
-	    }
-
-	    if (spriteConfig.padXr === undefined) {
-	      spriteConfig.padXr = 0 ;
-	    }
-
-	    var tileCanvas  = imageHelper.create(spriteConfig.width + spriteConfig.padXl + spriteConfig.padXr, spriteConfig.height) ;
-	    var tileContext = tileCanvas.context() ;
-
-	    // var data = image.data ;
-
-	    // if(data.length === 64) {
-
-	      // console.log('data 1', data) ;
-
-	      // for(var kd = 0 ; kd < data.length  / 4 ; kd++) {
-	      //   var r = data[kd * 4 + 0] ;
-	      //   var g = data[kd * 4 + 1] ;
-	      //   var b = data[kd * 4 + 2] ;
-	      //   var a = data[kd * 4 + 3] ;
-	      //   console.log('get_sprite pre k', kd, 'r', r, 'g', g, 'b', b, 'a', a) ;
-	      // }    
-
-	    // }
-
-	    // console.log('spriteConfig.padXl', spriteConfig.padXl, 'tileCanvas', tileCanvas) ;
-
-	    tileContext.putImageData(image, spriteConfig.padXl, 0);
-
-	    // var data2 = tileContext.getImageData(0, 0, tileCanvas.width, tileCanvas.height).data ;
-
-	    // if(data2.length === 64) {
-
-	    //   console.log('data 2', data2) ;
-
-	    //   // for(var kd = 0 ; kd < data.length  / 4 ; kd++) {
-	    //   //   var r = data[kd * 4 + 0] ;
-	    //   //   var g = data[kd * 4 + 1] ;
-	    //   //   var b = data[kd * 4 + 2] ;
-	    //   //   var a = data[kd * 4 + 3] ;
-	    //   //   console.log('get_sprite post k', kd, 'r', r, 'g', g, 'b', b, 'a', a) ;
-	    //   // }    
-
-	    // }
-
-	    // var img = tileContext.createImageData (spriteConfig.tileWidth, spriteConfig.tileHeight) ;
-	    // console.log (img.data) ;
-	    //bg_clear([1, 2, 3], tileContext) ;
-	    tile[t] = tileCanvas ;
-
-	  }
-
-	  return tile ;
 
 	},
 
@@ -245,15 +168,23 @@ var spriteHelper = {
 		var spriteFlip = new Array(sprite.length) ;
 
 		for ( var kFrame = 0 ; kFrame < sprite.length ; kFrame++ ) {
+
 			spriteFlip[kFrame] = imageHelper.flip_image ( sprite[kFrame] ) ;
+
+	    if(sprite[kFrame].originalCanvas !== undefined) {
+	      spriteFlip[kFrame].originalCanvas = imageHelper.flip_image( sprite[kFrame].originalCanvas ) ;
+	    }
+	     			
 	    if(sprite[kFrame].sourceCollisionImage !== undefined) {
 	      spriteFlip[kFrame].sourceCollisionImage = imageHelper.flip_image( sprite[kFrame].sourceCollisionImage ) ;
 	    }
+
 	    if(sprite[kFrame].targetCollisionImage !== undefined) {
 	      spriteFlip[kFrame].targetCollisionImage = imageHelper.flip_image( sprite[kFrame].targetCollisionImage ) ;
 	    } else { // default target collision image is the same as the original
 	      spriteFlip[kFrame].targetCollisionImage = spriteFlip[kFrame] ;
 	    }
+
 		}
 
 	  return spriteFlip ;

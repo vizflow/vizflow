@@ -23,7 +23,7 @@ var fighterHelper = {
 
 		      viz.player.paused = false ;
 
-		      viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;
+		      viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ; 
 
 		      itemHelper.add(viz, [ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop
 
@@ -80,7 +80,7 @@ var fighterHelper = {
 		function viz_switch() {
 
 		  // console.log('viz_switch', 'viz', viz) ;
-		  var image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;
+		  var image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ; 
 		  // console.log('viz', viz, 'image', image, 'viz_run', viz_run) ;
 		  viz.fade({
 		    opacity: 1,
@@ -231,7 +231,6 @@ var fighterHelper = {
     viz.player.powerup.sprite  = spriteHelper.get(canvas, rowName, width, height) ;
     // console.log('vizplayerpowerupsprite', viz.player.powerup.sprite) ;
     viz.player.powerup.image   = viz.player.powerup.sprite.cell[0] ;
-    viz.player.powerup.image   = imageHelper.adjust_ratio(viz.player.powerup.image) ;
 
     viz.player.powerup.drop    = powerupHelper.drop ;
     viz.player.powerup.stop    = powerupHelper.stop ;
@@ -372,15 +371,12 @@ var fighterHelper = {
 	  var hiddenContext = hiddenCanvas.context() ;
 	  hiddenContext.drawImage(hiddenUICanvas, uiX, uiY) ; // draw ui
 
-	  buttonSpriteBig = spriteHelper.foreach(buttonSprite, imageHelper.adjust_ratio) ;
-	  buttonSpriteBig.original = buttonSprite; 
-
 	  var ui = {
 
 	    hiddenCanvas: hiddenCanvas,
 	    hiddenContext: hiddenContext,
 	    leftButtonConfig: leftButtonConfig,
-	    buttonSprite: buttonSpriteBig,
+	    buttonSprite: buttonSprite,
 	    buttonX: buttonX,
 	    buttonY: buttonY,
 	    x: uiX,

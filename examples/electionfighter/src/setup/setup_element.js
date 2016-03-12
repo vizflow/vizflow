@@ -9,21 +9,17 @@ function setup_element (viz, elementConfig) {
   // console.log('setup_element mid') ;
   if(elementConfig.orientation === 'l') {
 
-    var spriteL0             = elementConfig.sprite_loader () ;
-    var spriteR0             = spriteHelper.horizontal_flip(spriteL0) ;
+    element.spriteL = elementConfig.sprite_loader () ;
+    element.spriteR = spriteHelper.horizontal_flip(element.spriteL) ;
 
   } else {
 
-    var spriteR0             = elementConfig.sprite_loader () ;
-    var spriteL0             = spriteHelper.horizontal_flip(spriteR0) ;
+    element.spriteR = elementConfig.sprite_loader () ;
+    element.spriteL = spriteHelper.horizontal_flip(element.spriteR) ;
 
   }
 
-  element.spriteL          = spriteHelper.foreach(spriteL0, imageHelper.adjust_ratio) ;  
-  element.spriteR          = spriteHelper.foreach(spriteR0, imageHelper.adjust_ratio) ;
-
-  element.spriteL.original = spriteL0 ;
-  element.spriteR.original = spriteR0 ;
+  element.sprite = element.spriteR ;
 
   if(elementConfig.x === undefined) {
     elementConfig.x = Math.round(viz.width / 12) - 1 ;
@@ -32,8 +28,6 @@ function setup_element (viz, elementConfig) {
   if(elementConfig.y === undefined) {
     elementConfig.y = Math.round(viz.height / 2) - 1 ;
   }
-
-  element.sprite = element.spriteR ;
 
   if (elementConfig.frameDuration === undefined) {
     elementConfig.frameDuration = viz.frameDuration ;

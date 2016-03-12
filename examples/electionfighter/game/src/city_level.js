@@ -120,29 +120,29 @@ function city_level () {
       maxHeight = Math.max.apply(null, height) ;
       var spriteset = spriteHelper.get(i, rowName, width, height) ;
 
-      // console.log('city level:', 'spriteset', spriteset) ;
+      // console.log('city level:', 'spriteset', spriteset, 'spriteset.rest[0].originalCanvas', spriteset.rest[0].originalCanvas) ;
       // imageHelper.view(spriteset.jump1[0]) ;
       // imageHelper.view(spriteset.jump1[1]) ;      
       // imageHelper.view(spriteset.jump1[0]) ;
       // imageHelper.view(spriteset.hit[0]) ;
 
-      var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0], { x: 0, y: 0, width: spriteset.attack[0].width * 0.6, height: maxHeight } ) ;
+      var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0].originalCanvas, { x: 0, y: 0, width: spriteset.attack[0].originalCanvas.width * 0.6, height: maxHeight } ) ;
       spriteset.attack[0].sourceCollisionImage = attackCollisionCanvas ;
       spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
 
-      var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack1[0], { x: 0, y: 0, width: spriteset.attack1[0].width * 0.6, height: maxHeight } ) ;
+      var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack1[0].originalCanvas, { x: 0, y: 0, width: spriteset.attack1[0].originalCanvas.width * 0.6, height: maxHeight } ) ;
       spriteset.attack1[0].sourceCollisionImage = attackCollisionCanvas ;
       spriteset.attack1[1].sourceCollisionImage = attackCollisionCanvas ;
 
       spriteset.attack                         = [spriteset.attack[0], spriteset.walk[1], spriteset.attack[1], spriteset.walk[1]] ;
       spriteset.attack1                         = [spriteset.attack1[0], spriteset.walk[1], spriteset.attack1[1], spriteset.walk[1]] ;
 
-      var jumpCollisionCanvas                = imageHelper.clear_rect ( spriteset.jump0[1], { x: 0, y: 0, width: spriteset.jump0[0].width * 0.6, height: maxHeight } ) ;
+      var jumpCollisionCanvas                = imageHelper.clear_rect ( spriteset.jump0[1].originalCanvas, { x: 0, y: 0, width: spriteset.jump0[0].originalCanvas.width * 0.6, height: maxHeight } ) ;
       // imageHelper.view(jumpCollisionCanvas) ;
       spriteset.jump0[1].sourceCollisionImage = jumpCollisionCanvas ;
 
       for (var kFrame = 1 ; kFrame < spriteset.jump1.length ; kFrame++) {
-        spriteset.jump1[kFrame].sourceCollisionImage = imageHelper.clear_rect (spriteset.jump1[kFrame], { x: 0, y: maxHeight - 45, width: spriteset.jump1[kFrame].width * 0.6, height: spriteset.jump1[kFrame].height} ) ;
+        spriteset.jump1[kFrame].sourceCollisionImage = imageHelper.clear_rect (spriteset.jump1[kFrame].originalCanvas, { x: 0, y: maxHeight - 45, width: spriteset.jump1[kFrame].originalCanvas.width * 0.6, height: spriteset.jump1[kFrame].originalCanvas.height} ) ;
       }
       // imageHelper.view(spriteset.jump1[1].sourceCollisionImage) ;
       // imageHelper.view(spriteset.jump1[2].sourceCollisionImage) ;

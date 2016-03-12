@@ -129,10 +129,7 @@ var gameHelper = {
       ] ;
 
       var maxHeight  = Math.max.apply(null, height) ;
-      var spriteset0 = spriteHelper.get(i, rowName, width, height) ;
-      var spriteset  = spriteHelper.foreach(spriteset0, imageHelper.adjust_ratio) ;  
-
-      // spriteset.original = spriteset0 ;
+      var spriteset = spriteHelper.get(i, rowName, width, height) ;
 
       // imageHelper.view() ;
 
@@ -155,12 +152,12 @@ var gameHelper = {
 
 		stars.add() ;
 
-		var vizflowImage = imageHelper.image2canvas('./image/vizflow.png') ;
+		var vizflowImage = imageHelper.adjust_ratio(imageHelper.image2canvas('./image/vizflow.png')) ;
 
     var vizflow = itemHelper.setup({ 
-    	x: (viz.width - vizflowImage.width) * 0.5,
+    	x: (viz.width - vizflowImage.originalCanvas.width) * 0.5,
     	y: 226,
-    	image: imageHelper.adjust_ratio(vizflowImage),
+    	image: vizflowImage,
     	opacity: 0,
     	inert: true,
     	viz: viz,
@@ -209,6 +206,8 @@ var gameHelper = {
 		// xTrans.end = function() {
 		//  viz.shake() ;
 		// }
+
+		// console.log('gameHelper title', 'sprite', sprite) ;
 
 		var animation = animate(sprite.elect, step_transition_func('image', electDur))[0] ;
 
@@ -259,9 +258,11 @@ var gameHelper = {
 		elect.add_transition(xTrans) ;
 
 		elect.fade({
+
 			duration: viz.fadeDuration,
 			child: animation,
 			pause: electDur,
+
 		}) ;
 
 		// stars.fade() ;
@@ -278,7 +279,7 @@ var gameHelper = {
   		viz = this ;
   	}
 
-    viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;  			
+    viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ; 
 
 		viz.fade({
 		  duration: viz.fadeDuration * 0.5,
@@ -498,7 +499,7 @@ var gameHelper = {
 			return ;
 		}
 
-    if (    ( y > viz.jesus.y && y <= viz.jesus.y + viz.sprite.original.jesus[0].height )
+    if (    ( y > viz.jesus.y && y <= viz.jesus.y + viz.jesus.image.originalCanvas.height )
     	   && ( x > 0 && x < viz.width )  
    	) { // user selected the city level
 
@@ -509,7 +510,7 @@ var gameHelper = {
 
     }
 
-    if (		( y > viz.rastan.y && y <= viz.rastan.y + viz.sprite.original.rastan[0].height) 
+    if (		( y > viz.rastan.y && y <= viz.rastan.y + viz.rastan.image.originalCanvas.height) 
     		 && ( x > 0 && x < viz.width)
 		) { // user selected the fantasy level
 
@@ -526,7 +527,7 @@ var gameHelper = {
 
     }
 
-    if (    ( y > viz.megyn.y && y <= viz.megyn.y + viz.sprite.original.megyn[0].height )  
+    if (    ( y > viz.megyn.y && y <= viz.megyn.y + viz.megyn.image.originalCanvas.height )  
     	   && ( x > 0 && x < viz.width ) 
     ) { // user selected the space level
 
@@ -574,10 +575,9 @@ var gameHelper = {
 	  for ( var kWord = 0 ; kWord < wordList.length ; kWord++ ) {
 
 	    wordImage[kWord] = imageHelper.word_block ({text: wordList[kWord]}) ;
-	    wordImage[kWord].sourceCollisionImage = wordImage[kWord] ;
+	    wordImage[kWord].sourceCollisionImage = wordImage[kWord].originalCanvas ;
 	    // imageHelper.view(wordImage[kWord]) ;
-	    wordImage[kWord] = imageHelper.adjust_ratio(wordImage[kWord]) ;
-
+	    
 	  }
 
 	  // var wordImage = imageHelper.word (wordList[(document.skipIndex * (document.skipIndex - 1)) % wordList.length]) ;

@@ -66,6 +66,8 @@ var imageHelper = {
     imageContext.rect(0, 0, image.width, image.height) ;
     imageContext.stroke () ;    
 
+    image = imageHelper.adjust_ratio(image) ;
+
     return image ;
 
 	},
@@ -152,6 +154,7 @@ var imageHelper = {
 	  canvas.width  = image.width ;
 	  canvas.height = image.height ;
 	  context.drawImage(image, 0, 0) ;
+
 	  return canvas ;
 
 	},
@@ -190,17 +193,23 @@ var imageHelper = {
 	},
 
 	adjust_ratio: function image_helper_adjust_ratio(canvas) {
+
 		var newCanvas = hidpi_adjust(get_image_data(canvas)).canvas ;
+
 		if( canvas.sourceCollisionImage !== undefined ) {
 			newCanvas.sourceCollisionImage = canvas.sourceCollisionImage ; // propagate collision image without magnification since collision detection occurs on the model canvas
 		}
+
 		if( canvas.targetCollisionImage !== undefined ) {
 			newCanvas.targetCollisionImage = canvas.targetCollisionImage ; // propagate collision image without magnification since collision detection occurs on the model canvas
 		} else { // use the original image as default target collision image 
 			newCanvas.targetCollisionImage = canvas ;
 		}
+
 		newCanvas.originalCanvas = canvas ;
-		return newCanvas ; 
+		
+		return newCanvas ;
+
 	},
 
 	block_copy: function image_helper_block_copy (sourceImageData, ratio) {
@@ -291,5 +300,12 @@ var imageHelper = {
 	  return kFlip ;
 
 	},	
+
+	get_original: function image_helper_get_original(canvas) {
+
+		// console.log('imageHelper.get_original', 'canvas', canvas) ;
+		return canvas.originalCanvas ;
+
+	},
 
 } ;
