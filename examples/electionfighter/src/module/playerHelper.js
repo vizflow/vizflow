@@ -238,15 +238,17 @@ var playerHelper = {
 
         player.item.add_transition(xTransition, replacementSwitch) ;
         player.item.add_transition(yTransition, replacementSwitch) ;
-
-        var panDur   = player.config.jumpDuration ;
+        
+        var dur =  transitionHelper.duration (yTransition) ;
+        var pause = 0.66 * dur;
+        var panDur = (dur - pause) * 0.5 ;
         var panFunc  = $Z.transition.rounded_linear_transition_func('viewportY', panDur) ;
 
         var viewYmax = 30 ;
         var viewY    = Math.max(-0.25 * player.yMove, -viewYmax) ;
 
         var panTrans   = panFunc(viewY) ;
-        panTrans.pause = player.config.floatDuration ;
+        panTrans.pause = pause ;
         panTrans.child = panFunc(0) ; ;
 
         player.item.viz.add_transition(panTrans) ;

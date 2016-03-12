@@ -85,10 +85,13 @@ var inputEvent = {
     // console.log('input event', 'animationcheck', animationCheck, 'firstFrame', firstFrame, 'yIndex', yIndex) ;
 
     if (abortJump) { // abort the jump if a negative edge is detected during the first couple frames of the jump animation
-
+      var replacementSwitch = true ;
+    
       this.viz.player.item.remove_transition('image') ;
 
       var transition = this.viz.player.transitionSet.y(yNew) ;
+      var viewTrans = $Z.transition.rounded_linear_transition_func('viewportY', transitionHelper.duration(transition))(0) ;
+      this.viz.add_transition(viewTrans, replacementSwitch) ;
 
       if (this.viz.player.restoreRest) {
         // console.log ('input event restore rest') ;
@@ -97,12 +100,7 @@ var inputEvent = {
           // transitionHelper.add_child.call(this.viz.player.item, 'image', this.viz.player.transitionSet.jump(this.viz.player.sprite.rest[0])) ;
           //.call(this.viz.player.item, this.viz.image_transition(this.viz.player.sprite.rest[0]), replacementSwitch) ;
       }
-
-
-      var viewTrans = $Z.transition.rounded_linear_transition_func('viewportY', yTransition.duration)(0) ;
-      this.viz.add_transition(viewTrans, replacementSwitch) ;
-
-      var replacementSwitch = true ;
+ 
       this.viz.player.item.add_transition(transition, replacementSwitch) ;
    
     }
