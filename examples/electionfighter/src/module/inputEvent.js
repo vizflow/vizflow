@@ -87,28 +87,37 @@ var inputEvent = {
     if (abortJump) { // abort the jump if a negative edge is detected during the first couple frames of the jump animation
 
       this.viz.player.item.remove_transition('image') ;
-      this.viz.player.item.image = this.viz.player.sprite.rest[0] ;      
 
-      var yTransition = this.viz.player.transitionSet.y(yNew) ;
+      var transition = this.viz.player.transitionSet.y(yNew) ;
 
-      var replacementSwitch = true ;
-      this.viz.player.item.add_transition(yTransition, replacementSwitch) ;
+      if (this.viz.player.restoreRest) {
+        // console.log ('input event restore rest') ;
+   
+        transition = [transition, step_transition_func ('image', transition.duration) (this.viz.player.sprite.rest[0])] ;
+          // transitionHelper.add_child.call(this.viz.player.item, 'image', this.viz.player.transitionSet.jump(this.viz.player.sprite.rest[0])) ;
+          //.call(this.viz.player.item, this.viz.image_transition(this.viz.player.sprite.rest[0]), replacementSwitch) ;
+      }
+
 
       var viewTrans = $Z.transition.rounded_linear_transition_func('viewportY', yTransition.duration)(0) ;
       this.viz.add_transition(viewTrans, replacementSwitch) ;
 
+      var replacementSwitch = true ;
+      this.viz.player.item.add_transition(transition, replacementSwitch) ;
+   
     }
       
     if (this.viz.player.restoreRest) {
-      if (this.viz.player.state === 'r' || this.viz.player.state === 'l') {
-        transitionHelper.add_child.call(this.viz.player.item, 'image', this.viz.player.transitionSet.image(this.viz.player.sprite.rest[0])) ;
+      if (this.viz.player.state === 'r' || this.viz.player.state === 'l' || this.viz.player.state === 'a') {
+
+      this.viz.player.item.remove_transition ('image') ;
+      this.viz.player.item.image = this.viz.player.sprite.rest[0] ;  
+
+        // transitionHelper.add_child.call(this.viz.player.item, 'image', this.viz.player.transitionSet.image(this.viz.player.sprite.rest[0])) ;
       }
-      if (this.viz.player.state === 'a') {
-        transitionHelper.add_child.call(this.viz.player.item, 'image', this.viz.player.transitionSet.attack(this.viz.player.sprite.rest[0])) ;
-      }
-      if (this.viz.player.state === 'j') {
-        // transitionHelper.add_child.call(this.viz.player.item, 'image', this.viz.player.transitionSet.jump(this.viz.player.sprite.rest[0])) ;
-      }
+      // if (this.viz.player.state === 'a') {
+        // transitionHelper.add_child.call(this.viz.player.item, 'image', this.viz.player.transitionSet.attack(this.viz.player.sprite.rest[0])) ;
+      // }
         //.call(this.viz.player.item, this.viz.image_transition(this.viz.player.sprite.rest[0]), replacementSwitch) ;
     }
     
