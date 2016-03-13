@@ -4,7 +4,7 @@ function city_level () {
 
     backgroundImageUrl: './image/trump_bg1.png',
     loadingImageUrl: './image/city_intro.png',
-    frameDurationFactor: 3,
+    frameDurationFactor: 4,
     run: fighterHelper.run,
     load_ui: fighterHelper.load_ui,
     load_char: fighterHelper.load_char,

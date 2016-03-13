@@ -201,11 +201,13 @@ var hitHelper = {
       }     
 
       var item = response.element.item === undefined ? response.element : response.element.item ;
+
+      // console.log('hitHelper perform:', 'response', response) ;
       
       var playerSource  = response.sourceItem.type === 'player' ;
       var attackCheck   = item.collision_image('source') !== undefined ;
       var playerTarget  = response.element === response.viz.player ;
-      var playerCounter = attackCheck && playerTarget ;
+      var playerCounter = (attackCheck && playerTarget) || (attackCheck && response.sourceItem.responseSet === undefined) ; // player or bullet attacking the enemy word
       var enemyTarget   = response.element === response.viz.enemy ;
 
       if(playerSource && enemyTarget) { 
@@ -227,7 +229,12 @@ var hitHelper = {
 
       if(response.healthbar !== undefined & !playerCounter) { // i.e. player or enemy response was triggered while in their attack frame state
 
-        response.healthbar.health -= response.healthdrop ;
+        var healthDamping = 1 ;
+        if(response.viz.player.level === 0) {
+          healthDamping = 1/3 ;
+        }
+
+        response.healthbar.health -= response.healthdrop * healthDamping ;
 
         hitHelper.flash(response) ; 
         if(response.audio !== undefined && response.audio.buffer !== undefined) {

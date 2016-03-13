@@ -149,7 +149,7 @@ var playerHelper = {
 
         var viewXmax = 20 ;
         var viz = player.item.viz ;
-        var viewTol = 150 ;
+        var viewTol = 140 ;
         var center = player.item.image.originalCanvas.width * 0.5 + player.item.x ;
         var dist = (viz.viewportX + viz.width) - center ;
         if( dist < viewTol && viz.viewportX < viewXmax ) {

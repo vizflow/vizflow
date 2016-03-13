@@ -4,7 +4,7 @@ function space_level () {
 
     backgroundImageUrl: './image/trump_bg4.png',
     loadingImageUrl: './image/megyn_title.png',
-    frameDurationFactor: 3,
+    frameDurationFactor: 4,
     run: fighterHelper.run,
     load_ui: fighterHelper.load_ui,
     load_char: fighterHelper.load_char,
@@ -60,7 +60,7 @@ function space_level () {
 
     orientation: 'r',
     frameDuration: viz.frameDuration,
-    floatDuration: 15 * viz.frameDuration,
+    floatDuration: 10 * viz.frameDuration,
     jumpDuration: 40 * viz.frameDuration,
     hitDuration: 5 * viz.frameDuration,
     callback: playerHelper.update,

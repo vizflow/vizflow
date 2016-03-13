@@ -19,8 +19,8 @@ var powerupHelper = {
 
     item.add_transition(yTrans) ;
 
-    var Nstep         = 24 ;
-    var frameDuration = dropDur / Nstep ;
+    var Nstep         = 18 ;
+    var frameDuration = 0.5 * dropDur / Nstep ;
     item.flash(Nstep, frameDuration) ;
 
     viz.audio.powerup3.play() ;

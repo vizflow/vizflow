@@ -98,7 +98,7 @@ var transitionHelper = {
     if (trans === undefined) { // would be nice to add this transition to the item 
 
       if(item !== undefined) {
-        item.add_transition(newTransition) ;
+        transitionHelper.add_transition.call(item, newTransition) ;
       }
       return ;
   
