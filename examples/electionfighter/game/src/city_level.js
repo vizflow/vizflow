@@ -163,7 +163,7 @@ function city_level () {
 
     orientation: 'r',
     frameDuration: viz.frameDuration,
-    hitDuration: viz.dur * 15,
+    hitDuration: viz.dur * 10,
     jumpDuration: jumpDuration,
     floatDuration: 1.5 * jumpDuration,
 

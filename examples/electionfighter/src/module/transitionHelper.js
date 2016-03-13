@@ -52,6 +52,7 @@ var transitionHelper = {
     }
 
     for (kNew = 0 ; kNew < newTransition.length ; kNew ++) {
+      newTransition[kNew].item = item ;
       var property = newTransition[kNew].varName ;
       var transitionIndex = transitionHelper.find(property, transitionList) ;
       if (transitionIndex === -1) { // no transition with this property found
@@ -82,18 +83,35 @@ var transitionHelper = {
     }    
   },
 
-  add_child: function transition_helper_add_child(transition, newTransition, pause, frameIndex) {
+  add_child: function transition_helper_add_child(transition, newTransition, pause, frameIndex, item) {
+
+    if (item === undefined) {
+      item = this ;
+    }
+
     if (pause === undefined) {
       pause = 0 ;
     }
 
-    if(frameIndex === undefined) {
+    var trans = transition ;
+
+    if (trans === undefined) { // would be nice to add this transition to the item 
+
+      if(item !== undefined) {
+        item.add_transition(newTransition) ;
+      }
+      return ;
+  
+    }
+
+    if (frameIndex === undefined) {
+
       frameIndex = 0 ;
-      var trans = transition ;
       while (trans.child !== undefined) {
         frameIndex++ ;
         trans = trans.child ;
       }
+
     } else { 
 
       var trans = transition ;

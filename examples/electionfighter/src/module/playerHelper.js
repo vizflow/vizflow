@@ -149,7 +149,7 @@ var playerHelper = {
 
         var viewXmax = 20 ;
         var viz = player.item.viz ;
-        var viewTol = 130 ;
+        var viewTol = 150 ;
         var center = player.item.image.originalCanvas.width * 0.5 + player.item.x ;
         var dist = (viz.viewportX + viz.width) - center ;
         if( dist < viewTol && viz.viewportX < viewXmax ) {
@@ -276,7 +276,8 @@ var playerHelper = {
         	player.fire_bullet('bullet') ; 
         }
 
-        var transitionFunc;
+        var transitionFunc ;
+
         if( player.transitionSet.attack === undefined ) {
           //  console.log ('player.transitionSet.image', player.transitionSet.image) ;
           transitionFunc = player.transitionSet.image ;
@@ -285,7 +286,12 @@ var playerHelper = {
         }
 
         // console.log ('updateplayer 101', player.sprite.attack, transitionFunc, buttonpress.reset, player.sprite.rest[0]) ;
-        var finalFrame = player.sprite.rest[0] ;
+
+        // var finalFrame ; 
+
+        // if(player.restoreRest) {
+        //   finalFrame = player.sprite.rest[0] ;
+        // }
 
         var loop = animate_loop(
           player.loop.attack,
@@ -435,6 +441,7 @@ var playerHelper = {
       image: bulletConfig.image,
       transition: bulletConfig.transition,
       animation: bulletConfig.animation,
+      // explode: imageEffectHelper.explode, // bug - explode on bullets not working #todo
       render: drawHelper.image,
       inert: false,
       type: 'player',

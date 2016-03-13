@@ -74,8 +74,8 @@ var inputEvent = {
     var firstFrame = this.viz.player.sprite.jump[0] ;
     var abortJump = (yIndex > -1) && (this.viz.player.item.image === firstFrame || this.viz.player.sprite.jump.indexOf(this.viz.player.item.image) === -1) ;
 
-    var minJumpAttackHeight = this.viz.player.yMove * 0.5 ;
-    var yDist = Math.abs(yNew - this.viz.player.item.y) ;
+    // var minJumpAttackHeight = this.viz.player.yMove * 0.75 ;
+    // var yDist = Math.abs(yNew - this.viz.player.item.y) ;
     // console.log('input event', 'animationcheck', animationCheck, 'firstFrame', firstFrame, 'yIndex', yIndex) ;
 
     if (abortJump) { // abort the jump if a negative edge is detected during the first couple frames of the jump animation
@@ -83,7 +83,7 @@ var inputEvent = {
     
       // this.viz.player.item.remove_transition('image') ;
 
-      var abortDur = 100 ;
+      var abortDur   = 100 ;
       var transition = $Z.transition.rounded_linear_transition_func('y', abortDur)(yNew) ;
 
       // console.log('abortJump', 'transition', transition) ;
@@ -101,7 +101,7 @@ var inputEvent = {
  
       this.viz.player.item.add_transition(transition, replacementSwitch) ;
    
-    } else if (yDist > minJumpAttackHeight) {
+    } else if( yIndex > -1 ) {
       if(this.viz.player.fire_bullet !== undefined) {
         this.viz.player.fire_bullet('jumpBullet') ;
       }      
@@ -117,9 +117,14 @@ var inputEvent = {
 
         // transitionHelper.add_child.call(this.viz.player.item, 'image', this.viz.player.transitionSet.image(this.viz.player.sprite.rest[0])) ;
       }
-      // if (this.viz.player.state === 'a') {
-        // transitionHelper.add_child.call(this.viz.player.item, 'image', this.viz.player.transitionSet.attack(this.viz.player.sprite.rest[0])) ;
-      // }
+      if (this.viz.player.state === 'a') {
+        if(!this.viz.player.fullLoopSwitch) {
+          var trans = this.viz.player.transitionSet.attack(this.viz.player.sprite.rest[0]) ;
+          transitionHelper.add_child.call(this.viz.player, this.viz.player.item.transition[transitionHelper.find('image', this.viz.player.item.transition)], trans) ;          
+          // this.viz.player.item.remove_transition ('image') ;
+          // this.viz.player.item.image = this.viz.player.sprite.rest[0] ;  
+        }
+      }
         //.call(this.viz.player.item, this.viz.image_transition(this.viz.player.sprite.rest[0]), replacementSwitch) ;
     }
     

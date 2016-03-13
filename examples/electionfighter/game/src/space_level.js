@@ -23,6 +23,28 @@ function space_level () {
 
   viz.playerConfig = { 
 
+    loop: {
+
+      walk: {
+        frameDur: viz.frameDuration,
+        position: 0,
+        Nstep: 1,
+      },
+
+      attack: {
+        frameDur: viz.frameDuration,
+        position: 0,
+        Nstep: 2,
+      },
+
+      jump: {
+        frameDur: viz.frameDuration,
+        position: 0,
+        Nstep: 1,        
+      },
+
+    },
+
     sprite_loader: function() {
       var i         = imageHelper.image2canvas('./image/megyn_spritesheet.png') ;
       var rowName   = ['attack', 'hit', 'jump', 'rest', 'walk'] ;
@@ -40,12 +62,13 @@ function space_level () {
     frameDuration: viz.frameDuration,
     floatDuration: 15 * viz.frameDuration,
     jumpDuration: 40 * viz.frameDuration,
+    hitDuration: 5 * viz.frameDuration,
     callback: playerHelper.update,
     restoreRest: true,
     transitionSet: {
       x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ),      // function accepting an x end-value and returning a transition object
       y: $Z.transition.rounded_linear_transition_func ( 'y', viz.frameDuration * 7 ), // function accepting a y end-value and returning a transition object
-      jump: step_transition_func ( 'image', viz.frameDuration * 2 ),
+      jump: step_transition_func ( 'image', viz.frameDuration * 4 ),
     },
     xMove: 10,
     yMove: 60,
