@@ -1,52 +1,58 @@
 var bulletHelper = {
 
-  fire: function bullet_helper_fire (bulletName) {
+  fire: function bullet_helper_fire (bulletName, element) {
     // console.log('fire bullet', 'this', this, 'bulletName', bulletName, 'this[bulletName]', this[bulletName]) ;
     // console.log('player helper update attack', 'viz.item.length', viz.item.length) ;
 
-    if (this[bulletName] !== undefined) { // check if this player char shoots bullets
+    if(element === undefined) {
+      element = this ;
+    }
 
-      if (this[bulletName].busy === true) {
+    if (element[bulletName] !== undefined) { // check if element shoots bullets
+
+      if (element[bulletName].busy === true) {
         return ; // some bullets only allow one at a time
       }
 
-      if (this[bulletName].busy === false) { // i.e. only one bullet is allowed at a time
-        this[bulletName].busy = true ;
+      if(element)
+
+      if (element[bulletName].busy === false) { // i.e. only one bullet is allowed at a time
+        element[bulletName].busy = true ;
       }
 
-      var newBullet = copy_object (this[bulletName]) ;
-      newBullet.original = this[bulletName] ;
+      var newBullet = copy_object (element[bulletName]) ;
+      newBullet.original = element[bulletName] ;
 
       // console.log('newBullet', newBullet)
 
-      if(this.bulletResponseConfig !== undefined) {
-        newBullet.responseSet.hit = hitHelper.setup(this.item.viz, newBullet, this.bulletResponseConfig) ;
+      if(element.bulletResponseConfig !== undefined) {
+        newBullet.responseSet.hit = hitHelper.setup(element.item.viz, newBullet, element.bulletResponseConfig) ;
       }
 
-      newBullet.y   = this.item.y + this[bulletName].config.shiftY ;
-      // console.log ('newBullet', newBullet, 'this', this, 'bullet', this[bulletName]) ;
+      newBullet.y   = element.item.y + element[bulletName].config.shiftY ;
+      // console.log ('newBullet', newBullet, 'element', element, 'bullet', element[bulletName]) ;
 
-      newBullet.x = this.item.x + this[bulletName].config.shiftXr ;
-      var xNew    = newBullet.x + this[bulletName].config.move ;
+      newBullet.x = element.item.x + element[bulletName].config.shiftXr ;
+      var xNew    = newBullet.x + element[bulletName].config.move ;
 
-      if(newBullet['bullet' + this.level] !== undefined && bulletName[0] === 'b' ) {
-        newBullet.transition = [newBullet['bullet' + this.level](xNew)] ;
+      if(newBullet['bullet' + element.level] !== undefined && bulletName[0] === 'b' ) {
+        newBullet.transition = [newBullet['bullet' + element.level](xNew)] ;
       } else if (newBullet['jump_bullet_transition'] !== undefined && bulletName[0] === 'j') {
         newBullet.transition = [newBullet['jump_bullet_transition'](xNew)] ;
       } else if( newBullet.transition !== undefined ) {
-        newBullet.transition(xNew) ;  // overwriting the previous value of newBullet['bullet' + this.level] with the output of the newBullet['bullet' + this.level] function call
+        newBullet.transition(xNew) ;  // overwriting the previous value of newBullet['bullet' + element.level] with the output of the newBullet['bullet' + element.level] function call
       }
 
       // if (newBullet.animation !== undefined) {
-      //   newBullet['bullet' + this.level].push(newBullet.animation()) ;
+      //   newBullet['bullet' + element.level].push(newBullet.animation()) ;
       // }
-      // console.log('fire bullet', 'transition', newBullet['bullet' + this.level]) ;
-      // console.log('fire bullet', 'newBullet', newBullet, 'xNew', xNew, 'this orientation', this.orientation) ;
-      // console.log('this.adversary.item, newBullet', this.adversary.item, newBullet) ;
+      // console.log('fire bullet', 'transition', newBullet['bullet' + element.level]) ;
+      // console.log('fire bullet', 'newBullet', newBullet, 'xNew', xNew, 'element orientation', element.orientation) ;
+      // console.log('element.adversary.item, newBullet', element.adversary.item, newBullet) ;
       // imageHelper.view(newBullet.image)
 
       itemHelper.add.call(newBullet) ;
-      // this[bulletName].audio.play() ;
+      // element[bulletName].audio.play() ;
 
       // console.log ('fire_bullet end bullet if-block') ;
     } 
