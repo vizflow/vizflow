@@ -141,7 +141,7 @@ function city_level () {
       // imageHelper.view(jumpCollisionCanvas) ;
       spriteset.jump0[1].sourceCollisionImage = jumpCollisionCanvas ;
 
-      for (var kFrame = 1 ; kFrame < spriteset.jump1.length ; kFrame++) {
+      for (var kFrame = 0 ; kFrame < spriteset.jump1.length ; kFrame++) {
         spriteset.jump1[kFrame].sourceCollisionImage = imageHelper.clear_rect (spriteset.jump1[kFrame].originalCanvas, { x: 0, y: maxHeight - 45, width: spriteset.jump1[kFrame].originalCanvas.width * 0.6, height: spriteset.jump1[kFrame].originalCanvas.height} ) ;
       }
       // imageHelper.view(spriteset.jump1[1].sourceCollisionImage) ;
