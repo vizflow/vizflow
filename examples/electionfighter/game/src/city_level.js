@@ -27,7 +27,7 @@ function city_level () {
 
   function dragonpunch_trans (t, viz) {
 
-    var dur1 = t * 0.5;
+    var dur1 = t ;
     var dur2 = t * 0.5 ;
     var dur3 = t * 3 ;
     var dur4 = t ;
@@ -50,7 +50,7 @@ function city_level () {
     // var trans6 = step_transition_func('image', dur6) (viz.player.sprite.jump1[5]) ;
     // var trans7 = step_transition_func('image', dur7) (viz.player.sprite.jump1[6]) ;
     var trans4 = step_transition_func('image', dur4) (viz.player.sprite.rest[0]) ;
-    var trans = transition_sequence ([trans1, trans2, trans3, copy_object(trans2), copy_object(trans1), trans4]) ;    
+    var trans = transition_sequence ([trans1, trans2, trans3, copy_object(trans1), trans4]) ;    
 
     return trans ;
 

@@ -156,6 +156,9 @@ var fighterHelper = {
     
     if(viz.player.config.bulletSwitch) {
       viz.player.load_bullet(viz) ;
+   //    viz.player.bullet = setup_element(viz, viz.bulletConfig) ;
+			// viz.player.jumpBullet = setup_element(viz, viz.jumpBulletConfig) ;      
+			// console.log('viz.player', viz.player) ;
     }
 
     fighterHelper.load_enemy_bullet (viz) ;
