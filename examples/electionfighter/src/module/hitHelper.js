@@ -230,7 +230,7 @@ var hitHelper = {
       if(response.healthbar !== undefined & !playerCounter) { // i.e. player or enemy response was triggered while in their attack frame state
 
         var healthDamping = 1 ;
-        if(response.viz.player.level === 0) {
+        if(response.viz.player.level === 0 && enemyTarget) {
           healthDamping = 1/3 ;
         }
 

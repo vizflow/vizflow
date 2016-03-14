@@ -110,15 +110,16 @@ var inputEvent = {
     if (this.viz.player.restoreRest) {
       if (this.viz.player.state === 'r' || this.viz.player.state === 'l') {
 
+        var notHit = this.player.sprite.hit.indexOf(this.player.item.image) === -1 ;
+
         if(!this.viz.player.fullLoopSwitch) {
-          if(this.player.sprite.hit.indexOf(this.player.item.image) === -1) {
+          if(notHit) {
             this.viz.player.item.remove_transition ('image') ;
             this.viz.player.item.image = this.viz.player.sprite.rest[0] ;              
-          } 
-          // else {            
-          //   var trans = this.viz.player.transitionSet.attack(this.viz.player.sprite.rest[0]) ;
-          //   transitionHelper.add_child.call(this.viz.player, this.viz.player.item.transition[transitionHelper.find('image', this.viz.player.item.transition)], trans) ;          
-          // }
+          } else {            
+            var trans = this.viz.player.transitionSet.attack(this.viz.player.sprite.rest[0]) ;
+            transitionHelper.add_child.call(this.viz.player, this.viz.player.item.transition[transitionHelper.find('image', this.viz.player.item.transition)], trans) ;          
+          }
         }
 
         // transitionHelper.add_child.call(this.viz.player.item, 'image', this.viz.player.transitionSet.image(this.viz.player.sprite.rest[0])) ;
