@@ -19,7 +19,7 @@ var powerupHelper = {
 
     item.add_transition(yTrans) ;
 
-    var Nstep         = 18 ;
+    var Nstep         = 15 ;
     var frameDuration = 0.5 * dropDur / Nstep ;
     item.flash(Nstep, frameDuration) ;
 

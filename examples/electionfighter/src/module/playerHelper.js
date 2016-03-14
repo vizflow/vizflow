@@ -236,7 +236,6 @@ var playerHelper = {
 
         }
 
-
         player.item.add_transition(xTransition, replacementSwitch) ;
         player.item.add_transition(yTransition, replacementSwitch) ;
         

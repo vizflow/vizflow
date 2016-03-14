@@ -4,7 +4,7 @@ function city_level () {
 
     backgroundImageUrl: './image/trump_bg1.png',
     loadingImageUrl: './image/city_intro.png',
-    frameDurationFactor: 4,
+    frameDurationFactor: 3,
     run: fighterHelper.run,
     load_ui: fighterHelper.load_ui,
     load_char: fighterHelper.load_char,
@@ -41,16 +41,20 @@ function city_level () {
 
     var trans3 = step_transition_func('image', dur3) (viz.player.sprite.jump1[2]) ;
 
-    trans3.end = function() {
-      viz.audio.sho.play() ;
-    }
-
     // var trans4 = step_transition_func('image', dur4) (viz.player.sprite.jump1[3]) ;
     // var trans5 = step_transition_func('image', dur5) (viz.player.sprite.jump1[4]) ;
     // var trans6 = step_transition_func('image', dur6) (viz.player.sprite.jump1[5]) ;
     // var trans7 = step_transition_func('image', dur7) (viz.player.sprite.jump1[6]) ;
-    var trans4 = step_transition_func('image', dur4) (viz.player.sprite.rest[0]) ;
-    var trans = transition_sequence ([trans1, trans2, trans3, copy_object(trans1), trans4]) ;    
+
+    var trans4 = copy_object(trans1) ;
+
+    var trans5 = step_transition_func('image', dur4) (viz.player.sprite.rest[0]) ;
+
+    trans1.end = function() {
+      viz.audio.sho.play() ;
+    }
+
+    var trans = transition_sequence ([trans1, trans2, trans3, trans4, trans5]) ;    
 
     return trans ;
 
@@ -163,7 +167,7 @@ function city_level () {
 
     orientation: 'r',
     frameDuration: viz.frameDuration,
-    hitDuration: viz.dur * 10,
+    hitDuration: viz.dur * 20,
     jumpDuration: jumpDuration,
     floatDuration: 1.5 * jumpDuration,
 
@@ -200,7 +204,7 @@ function city_level () {
 
     xMove: 7,
     yMove: 60,
-    y: viz.platformY - 70,
+    y: viz.platformY - 72,
     x: -tileWidth * 0.5 + 15,
     type: 'player',
     bulletSwitch: false,

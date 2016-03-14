@@ -604,7 +604,7 @@ var gameHelper = {
 
 	    var yShift  = 10 ;
 	    word.y    -= yShift ;
-	    var yMove  = 11 ;
+	    var yMove  = 9 ;
 	    var yNew   = word.y + yMove ;
 
 	    word.x = viz.enemy.item.x + viz.enemy.item.image.originalCanvas.width * 0.5 - word.image.originalCanvas.width ;

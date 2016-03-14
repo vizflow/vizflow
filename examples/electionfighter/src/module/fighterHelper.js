@@ -287,11 +287,13 @@ var fighterHelper = {
 	  var buttonOffsetY   = 0 ;
 	  var buttonPadX      = 0 ;
 	  var buttonPadY      = 11 ;
-	  var buttonPad       = Math.floor( ( viz.width - (buttonWidth * 4) ) / 4 ) ;
+	  var buttonPad       = 10 ; // Math.floor( ( viz.width - (buttonWidth * 4) - (buttonMargin * 2) ) / 4 ) ;
+	  var buttonMargin    = Math.floor( 0.5 * ( viz.width - buttonPad * 3 - buttonWidth * 4 ) ) ;
 	  var buttonImageUrl  = './image/button_spritesheet.png' ;
 	  var buttonCanvas    = imageHelper.image2canvas(buttonImageUrl) ;
 
 	  var leftButtonConfig = {
+
 	    context: buttonCanvas.context(),
 	    count: buttonTileCount,
 	    rowIndex: buttonRowIndex,
@@ -303,40 +305,24 @@ var fighterHelper = {
 	    bgColor: undefined,
 	    padXl: 0,
 	    padXr: 0,
+
 	  } ;  
 
-	  rightButtonConfig = copy_object(leftButtonConfig) ;
-	  rightButtonConfig.rowIndex = 1 ;
-
+	  rightButtonConfig  = copy_object(leftButtonConfig) ;
 	  attackButtonConfig = copy_object(leftButtonConfig) ;
-	  attackButtonConfig.rowIndex = 2 ;
+	  jumpButtonConfig   = copy_object(leftButtonConfig) ;
 
-	  jumpButtonConfig = copy_object(leftButtonConfig) ;
-	  jumpButtonConfig.rowIndex = 3 ;
+	  rightButtonConfig.rowIndex  = 1 ;
+	  attackButtonConfig.rowIndex = 2 ;
+	  jumpButtonConfig.rowIndex   = 3 ;
 
 	  var buttonSprite = spriteHelper.get(buttonCanvas, ['left', 'right', 'attack', 'jump'], [26, 26, 26, 26], [26, 26, 26, 26]) ;
-
-	  // var buttonSprite = {
-	  //   left:   spriteHelper.get_sprite(leftButtonConfig),
-	  //   right:  spriteHelper.get_sprite(rightButtonConfig),
-	  //   attack: spriteHelper.get_sprite(attackButtonConfig),
-	  //   jump:   spriteHelper.get_sprite(jumpButtonConfig),
-	  // } ;
 
 	  var buttonKey = ['left', 'right', 'attack', 'jump'] ;
 
 	  var Nbutton = 4 ;
 	  var buttonX = [] ;
 	  var buttonY = buttonPad ;
-
-	  // for(var kButton = 0 ; kButton < Nbutton ; kButton++) { // compute the horizontal positions for the buttons based on the available width of the vizualization 
-	  //   buttonX.push(Math.floor( kButton * (buttonPad + buttonWidth) + buttonPad * 0.5)) ;
-	  // }  
-	  // var ratio        = document.ratio ; //(window.devicePixelRatio || 1) ;
-	  // buttonWidth  *= ratio ;
-	  // buttonHeight *= ratio ;
-	  // buttonPad     = Math.floor( ( viz.width - (buttonWidth * 4) ) / 4 ) ;
-	  // var buttonY = buttonPad ;
 
 	  var uiWidth         = viz.width ;
 	  var uiHeight        = buttonHeight + 2 * buttonPadY ;
@@ -349,7 +335,8 @@ var fighterHelper = {
 
 	  for( var kButton = 0 ; kButton < Nbutton ; kButton++ ) {
 
-	    buttonX.push(Math.floor( kButton * (buttonPad + buttonWidth) + buttonPad * 0.5)) ;
+	  	var xK = Math.floor( kButton * (buttonPad + buttonWidth) + buttonMargin ) ; //  kButton * (buttonPad + buttonWidth) + buttonPad * 0.5
+	    buttonX.push(xK) ;
 
 	    uiContext.drawImage(buttonSprite[buttonKey[kButton]][0], buttonX[kButton], buttonY) ; // draw visible buttonSprite
 

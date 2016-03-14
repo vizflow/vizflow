@@ -4,7 +4,7 @@ function space_level () {
 
     backgroundImageUrl: './image/trump_bg4.png',
     loadingImageUrl: './image/megyn_title.png',
-    frameDurationFactor: 4,
+    frameDurationFactor: 3,
     run: fighterHelper.run,
     load_ui: fighterHelper.load_ui,
     load_char: fighterHelper.load_char,

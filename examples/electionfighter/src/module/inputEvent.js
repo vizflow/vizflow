@@ -101,7 +101,7 @@ var inputEvent = {
  
       this.viz.player.item.add_transition(transition, replacementSwitch) ;
    
-    } else if( yIndex > -1 ) {
+    } else if( yIndex > -1 && this.viz.player.orientation === 'r') {
       if(this.viz.player.fire_bullet !== undefined) {
         this.viz.player.fire_bullet('jumpBullet') ;
       }      
@@ -110,9 +110,16 @@ var inputEvent = {
     if (this.viz.player.restoreRest) {
       if (this.viz.player.state === 'r' || this.viz.player.state === 'l') {
 
+        var notHit = this.player.sprite.hit.indexOf(this.player.item.image) === -1 ;
+
         if(!this.viz.player.fullLoopSwitch) {
-          this.viz.player.item.remove_transition ('image') ;
-          this.viz.player.item.image = this.viz.player.sprite.rest[0] ;  
+          if(notHit) {
+            this.viz.player.item.remove_transition ('image') ;
+            this.viz.player.item.image = this.viz.player.sprite.rest[0] ;              
+          } else {            
+            var trans = this.viz.player.transitionSet.attack(this.viz.player.sprite.rest[0]) ;
+            transitionHelper.add_child.call(this.viz.player, this.viz.player.item.transition[transitionHelper.find('image', this.viz.player.item.transition)], trans) ;          
+          }
         }
 
         // transitionHelper.add_child.call(this.viz.player.item, 'image', this.viz.player.transitionSet.image(this.viz.player.sprite.rest[0])) ;
