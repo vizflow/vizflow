@@ -406,8 +406,14 @@ var playerHelper = {
 
       this.opacity = 1 ;
       var transition = animate (viz.player.bulletSprite['bullet' + viz.player.level], step_transition_func('image', viz.frameDuration))[0] ;
-      var child = transitionHelper.get_child (transition, viz.player.bulletSprite['bullet' + viz.player.level].length - 1) ;
-      child.end = bulletHelper.default_end(viz, this, viz.enemy) ;
+
+      var trans = transitionHelper.get_child (transition, viz.player.bulletSprite['bullet' + viz.player.level].length - 1) ;
+
+      var clearedFrame = imageHelper.create(trans.endValue.width, trans.endValue.height) ;
+      var rechargeDur = 1000 ;
+      var last = step_transition_func('image', rechargeDur)(clearedFrame) ;
+      last.end = bulletHelper.default_end(viz, this, viz.enemy) ;
+      trans.child = last ; 
       viz.audio.laser.play() ;
       // transitionHelper.add_end.call (this, 'image', viz.player.bulletSprite['bullet' + viz.player.level].length -1, bulletHelper.default_end(viz, this, viz.enemy)) ;    
       // console.log('bullet helper beam trnsition', 'transition', transition, 'this', this) ;  

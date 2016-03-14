@@ -107,7 +107,7 @@ var transitionHelper = {
     if (frameIndex === undefined) {
 
       frameIndex = 0 ;
-      while (trans.child !== undefined) {
+      while (trans.child !== undefined) { // use last frame by default
         frameIndex++ ;
         trans = trans.child ;
       }
