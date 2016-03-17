@@ -125,7 +125,7 @@ var gameHelper = {
       var height = [
         240, 
         20, 
-       	75, 
+       	30, 
       ] ;
 
       var maxHeight  = Math.max.apply(null, height) ;
@@ -182,7 +182,7 @@ var gameHelper = {
 
 		var fight = itemHelper.setup({
 			x: 0,
-			y: electY + 84,
+			y: electY + 48,
 			image: sprite.fight[0],
 			opacity: 0,
 			inert: true,
