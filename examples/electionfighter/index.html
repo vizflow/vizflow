@@ -6,6 +6,8 @@
 
   <head>
 
+    <link rel="icon" href="./favicon.ico?v=2" />
+
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1.0,width=device-width,maximum-scale=1,user-scalable=no,minimal-ui">
     <meta name="Election Fighter" content="Tired of elections dominating the headlines? Now you can fight back">
@@ -24,6 +26,7 @@
     <meta property="og:image" content="http://www.electionfighter.com/image/electionfighter.png" />
     <meta property="og:description" content="Tired of elections dominating the headlines? Now you can fight back" />
 
+<!--    
     <link rel="apple-touch-icon" sizes="57x57" href="/image/icon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/image/icon/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/image/icon/apple-icon-72x72.png">
@@ -37,9 +40,10 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/image/icon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/image/icon/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/image/icon/favicon-16x16.png">
-    <link rel="manifest" href="/image/icon/manifest.json">
     <meta name="msapplication-TileColor" content="#010111">
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+-->
+
     <meta name="theme-color" content="#010111">
 
     <style>
@@ -130,6 +134,31 @@
     <script src="src/main.js"></script> 
 
     <div id="loading"></div>
+
+    <script>
+
+        function fullscreen() {
+
+            var elem;
+            elem = document.body.parentNode ;
+            
+            if (elem.requestFullscreen) {
+              return elem.requestFullscreen() ;
+            } else if (elem.msRequestFullscreen) {
+              return elem.msRequestFullscreen() ;
+            } else if (elem.mozRequestFullScreen) {
+              return elem.mozRequestFullScreen() ;
+            } else if (elem.webkitRequestFullscreen) {
+              return elem.webkitRequestFullscreen() ;
+            }
+
+            document.removeEventListener('click', fullscreen) ;
+
+        }
+
+        document.addEventListener('click', fullscreen) ;
+
+    </script>
 
   </body>
 
