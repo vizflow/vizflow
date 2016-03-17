@@ -138,16 +138,18 @@
     <script>
 
         function fullscreen() {
+
             var elem;
             elem = document.body.parentNode ;
+            
             if (elem.requestFullscreen) {
-                          return elem.requestFullscreen();
+              return elem.requestFullscreen() ;
             } else if (elem.msRequestFullscreen) {
-              return elem.msRequestFullscreen();
+              return elem.msRequestFullscreen() ;
             } else if (elem.mozRequestFullScreen) {
-              return elem.mozRequestFullScreen();
+              return elem.mozRequestFullScreen() ;
             } else if (elem.webkitRequestFullscreen) {
-              return elem.webkitRequestFullscreen();
+              return elem.webkitRequestFullscreen() ;
             }
 
             document.removeEventListener('click', fullscreen) ;
