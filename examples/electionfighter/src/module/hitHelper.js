@@ -248,7 +248,7 @@ var hitHelper = {
             // $Z.item([]) ;
             response.viz.fade({ 
               opacity: 0, 
-              duration: response.viz.fadeDuration * 5,
+              duration: response.viz.fadeDuration * 5,        
               end: function () { window.location.reload() ; },
             }) ;
             imageEffectHelper.explode.call(response.element.item) ;

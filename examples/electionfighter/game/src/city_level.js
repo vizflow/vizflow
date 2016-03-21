@@ -12,6 +12,7 @@ function city_level () {
     load_audio: gameHelper.load_audio,
     buttonpress: buttonpress,
     music: './audio/paQueSeLoGozen.wav',
+    name: 'city',
 
   } ;
 

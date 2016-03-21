@@ -69,17 +69,20 @@ var collisionDetect = {
         var imageK = get_image_data(item[kItem].image.originalCanvas) ;
       }
 
-      // context.drawImage(image, item[kItem].x, item[kItem].y) ;
+      var itemX = Math.round(item[kItem].x) ;
+      var itemY = Math.round(item[kItem].y) ;
+
+      // context.drawImage(image, itemX, itemY) ;
 
       // console.log('collision detection pixelwise', 'image', image, 'imageK', imageK) ;
 
-      // var initialPelIndex =  item[kItem].y * width                      +  item[kItem].x  ;
-      // var finalPelIndex   = (item[kItem].y + imageK.height - 1) * width + (item[kItem].x + imageK.width - 1) ;
+      // var initialPelIndex =  itemY * width                      +  itemX  ;
+      // var finalPelIndex   = (itemY + imageK.height - 1) * width + (itemX + imageK.width - 1) ;
 
-      var iStart = Math.max(0, Math.min(height, item[kItem].y)) ;
-      var iEnd   = Math.max(0, Math.min(height, item[kItem].y + imageK.height)) ;
-      var jStart = Math.max(0, Math.min(width, item[kItem].x)) ;
-      var jEnd   = Math.max(0, Math.min(width, item[kItem].x + imageK.width)) ;
+      var iStart = Math.max(0, Math.min(height, itemY)) ;
+      var iEnd   = Math.max(0, Math.min(height, itemY + imageK.height)) ;
+      var jStart = Math.max(0, Math.min(width, itemX)) ;
+      var jEnd   = Math.max(0, Math.min(width, itemX + imageK.width)) ;
 
       // var NimagePel = image.width * image.height ;
       var NmaxPel = 4000 ; // skip some pixels if there are more than this many to maintain high annimation framerate
@@ -104,11 +107,11 @@ var collisionDetect = {
           var offset   = kPel * Nchannel ;
           var iItem    = i - iStart ;
           var jItem    = j - jStart ;
-          if(item[kItem].y < 0){
-            iItem += -item[kItem].y ;
+          if(itemY < 0){
+            iItem += -itemY ;
           }
-          if(item[kItem].x < 0) {
-            jItem += -item[kItem].x ;
+          if(itemX < 0) {
+            jItem += -itemX ;
           }
           var kPelItem = Math.floor(iItem * image.width + jItem) ;
 

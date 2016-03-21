@@ -230,15 +230,44 @@ var fighterHelper = {
     var width   = [20] ;
     var height  = [22] ;
 
-    viz.player.powerup         = itemHelper.setup(powerupConfig, viz) ;
-    viz.player.powerup.sprite  = spriteHelper.get(canvas, rowName, width, height) ;
+    var powerup     = viz.setup_item(powerupConfig) ;
+    powerup.sprite  = spriteHelper.get(canvas, rowName, width, height) ;
     // console.log('vizplayerpowerupsprite', viz.player.powerup.sprite) ;
-    viz.player.powerup.image   = viz.player.powerup.sprite.cell[0] ;
+    powerup.image   = powerup.sprite.cell[0] ;
 
-    viz.player.powerup.drop    = powerupHelper.drop ;
-    viz.player.powerup.stop    = powerupHelper.stop ;
-    viz.player.powerup.deliver = powerupHelper.deliver ;
-    viz.player.powerup.Nmax    = 1 ;
+    powerup.drop    = powerupHelper.drop ;
+    powerup.stop    = powerupHelper.stop ;
+    powerup.deliver = powerupHelper.deliver ;
+    powerup.Nmax    = 1 ;
+
+		var bernieImage   = imageHelper.image2canvas('./image/bernie_spritesheet.png') ;
+		var rowName       = ['city', 'space', 'fantasy'] ; // must match viz.config.name
+		var tileWidth     = [30, 58, 51] ; 
+		var rowHeight     = [30, 58, 56] ;
+		var paddingSwitch = false ;
+    var bernieSprite  = spriteHelper.get(bernieImage, rowName, tileWidth, rowHeight, paddingSwitch) ;
+
+  	var levelName = viz.config.name ;
+
+  	// console.log('bernieSprite', bernieSprite, 'levelName', levelName) ;
+
+    var bernieConfig = {
+
+    	sprite: bernieSprite[levelName],
+    	image: bernieSprite[levelName][0],
+    	x: -bernieSprite[levelName][0].originalCanvas.width,
+    	y: 0, // bernieSprite[levelName][0].originalCanvas.height,
+    	inert: true,
+    	type: 'powerupDelivery',
+    	enter: powerupHelper.release,
+    	viz: viz,
+
+    } ;
+
+    var bernie = itemHelper.setup(bernieConfig) ;
+
+    viz.player.powerupDelivery = bernie ;
+    viz.player.powerup = powerup ;
 
     // if (viz.player.bulletSprite !== undefined && viz.player.bulletSprite.bullet3 !== undefined) {
     // 	viz.player.powerup.Nmax = 3 ;

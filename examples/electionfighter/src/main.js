@@ -14,6 +14,7 @@ document.image = [
 	'./image/megyn_title.png',
 	'./image/vizflow.png',
 	'./image/title_sprite.png',
+	'./image/bernie_spritesheet.png', 
 	'./image/jesus_spritesheet.png', 
 	'./image/button_spritesheet.png', 
 	'./image/trump_spritesheet.png', 

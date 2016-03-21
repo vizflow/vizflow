@@ -103,9 +103,13 @@ var spriteHelper = {
 
 	},
 
-	get: function sprite_helper_get (canvas, rowName, tileWidth, rowHeight) {
+	get: function sprite_helper_get (canvas, rowName, tileWidth, rowHeight, paddingSwitch) {
 
 		// imageHelper.view(canvas) ;
+
+		if(paddingSwitch === undefined) {
+			paddingSwitch = true ;
+		}
 
 		var maxHeight = Math.max.apply(null, rowHeight) ;
 		var Nrow = rowName.length ;
@@ -116,10 +120,18 @@ var spriteHelper = {
 			var Ntile   = Math.floor(canvas.width / tileWidth[krow]) ;
 			// console.log('spriteHelper get:', 'rowName[krow]', rowName[krow], 'krow', krow, 'Ntile', Ntile) ;
 			for(var kcol = 0 ; kcol < Ntile ; kcol++) {
-				var tile    = imageHelper.create(tileWidth[krow], maxHeight) ;
+				if(paddingSwitch) {
+					var tile = imageHelper.create(tileWidth[krow], maxHeight) ;					
+				} else {
+					var tile = imageHelper.create(tileWidth[krow], rowHeight[krow]) ;										
+				}
 				var tileCtx = tile.context() ;
 				var sx      = kcol * tile.width ;
-				tileCtx.drawImage( canvas, sx, sy, tile.width, rowHeight[krow], 0, maxHeight - rowHeight[krow], tile.width, rowHeight[krow] ) ;
+				if(paddingSwitch) {
+				  tileCtx.drawImage( canvas, sx, sy, tile.width, rowHeight[krow], 0, maxHeight - rowHeight[krow], tile.width, rowHeight[krow] ) ;					
+				} else {
+				  tileCtx.drawImage( canvas, sx, sy, tile.width, rowHeight[krow], 0, 0, tile.width, rowHeight[krow] ) ;										
+				}
 				// console.log('spiteHelper get:', 'sx, sy, tile.width, tile.height, 0, maxHeight - rowHeight[krow], tile.width, tile.height', sx, sy, tile.width, tile.height, 0, maxHeight - rowHeight[krow], tile.width, tile.height) ;
 				var tileData = get_image_data(tile) ;
 				var isBlank  = spriteHelper.is_blank(tileData) ;

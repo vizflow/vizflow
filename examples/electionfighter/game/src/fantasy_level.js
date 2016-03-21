@@ -12,6 +12,7 @@ function fantasy_level () {
     load_audio: gameHelper.load_audio,
     buttonpress: buttonpress,    
     music: './audio/85riddim.wav',
+    name: 'fantasy',
 
   } ;
 
@@ -200,7 +201,7 @@ function fantasy_level () {
     // hitDuration: viz.dur * 10,
     orientation: 'l',
     x: 72,
-    y: viz.platformY - enemyTileHeight,
+    y: viz.platformY - enemyTileHeight - 2,
     type: 'enemy',
     opacity: 0,
 

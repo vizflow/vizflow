@@ -14,7 +14,7 @@ var itemHelper = {
 			itemConfig.inert = true ;
 		}
 
-		var item = { // configurable properties: x, y, type, element, opacity, image, inert, render, fixed
+		var item = { // configurable properties: x, y, type, element, opacity, image, inert, render, fixed, transition
 
   		config: itemConfig,
 	    viz: itemConfig.viz || viz, 
@@ -22,6 +22,8 @@ var itemHelper = {
 			y: itemConfig.y,
 			type: itemConfig.type,
 			element: itemConfig.element,
+			enter: itemConfig.enter,
+			exit: itemConfig.exit,
 		  opacity: itemConfig.opacity,
   		image: itemConfig.image,
 	    inert: itemConfig.inert,

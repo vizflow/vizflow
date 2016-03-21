@@ -198,7 +198,8 @@ var gameHelper = {
 		var xTrans = $Z.transition.rounded_linear_transition_func('x', viz.fadeDuration * 1.5)(electX) ;
 
 		var fade = 4 ;
-		viz.audio.elect.play() ;
+		var delay = .25 ;
+		viz.audio.elect.play(delay) ;
 	  viz.audio.elect.gain.gain.value = 0 ;
 	  viz.audio.elect.volume = 0.75 ;
 		viz.audio.elect.fade(fade) ;
@@ -213,7 +214,7 @@ var gameHelper = {
 
 		animation.child.child.end = function() {
 
-			var delay = .2 ;
+			var delay = 0.25 ;
 			viz.audio.fight.play(delay) ;
 			
 			fight.fade({

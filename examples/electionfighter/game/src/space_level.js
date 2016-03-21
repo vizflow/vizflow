@@ -12,6 +12,7 @@ function space_level () {
     load_audio: gameHelper.load_audio,
     buttonpress: buttonpress,    
     music: './audio/drwho.wav',
+    name: 'space',
 
   } ;
 
