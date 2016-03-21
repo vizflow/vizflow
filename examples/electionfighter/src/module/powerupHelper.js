@@ -69,7 +69,7 @@ var powerupHelper = {
 
     var item = this.item ;
     item.inert = false ;
-    console.log ('powerup helper stop', 'item', item) ;
+    // console.log ('powerup helper stop', 'item', item) ;
 
     // item.viz.audio.bump.play() ;
 
