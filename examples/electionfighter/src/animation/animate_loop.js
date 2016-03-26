@@ -1,6 +1,6 @@
 function animate_loop (loopConfig, valueList, create_transition, callback, restFrame) {
 	// loop config expects: Nstep, position, frameDur
-	var loopOutput = copy_object(loopConfig) ; // initialize output variable
+	var loopOutput = Object.create(loopConfig) ; // initialize output variable
 	var animation ;
 	if (restFrame === undefined) {
     animation = valueList ; 

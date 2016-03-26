@@ -15,7 +15,7 @@ var AudioContext = window.AudioContext // Default
 
  var audioHelper = {
 
-  context: new AudioContext(), // this one AudioContext object instance can be shared by many copies of the audioHelper object instance (via copy_object)
+  context: new AudioContext(), // this one AudioContext object instance can be shared by many copies of the audioHelper object instance (via Object.create)
 
 	buffer: undefined,
 

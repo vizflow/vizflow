@@ -20,6 +20,8 @@ var itemHelper = {
 	    viz: itemConfig.viz || viz, 
 			x: itemConfig.x,
 			y: itemConfig.y,
+			xOrigin: itemConfig.xOrigin || 0,
+			yOrigin: itemConfig.yOrigin || 0,
 			type: itemConfig.type,
 			element: itemConfig.element,
 			enter: itemConfig.enter,

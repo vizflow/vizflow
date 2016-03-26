@@ -55,9 +55,9 @@ function setup_element (viz, elementConfig) {
       position: 0,
       Nstep: 1,
     } ; 
-    var walkLoop   = copy_object(tempLoop) ;
-    var attackLoop = copy_object(tempLoop) ;
-    var jumpLoop   = copy_object(tempLoop) ;
+    var walkLoop   = Object.create(tempLoop) ;
+    var attackLoop = Object.create(tempLoop) ;
+    var jumpLoop   = Object.create(tempLoop) ;
     if (elementConfig.fullLoopSwitch) {
       attackLoop.Nstep = element.sprite.attack.length ;
     }

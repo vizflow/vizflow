@@ -1,25 +1,25 @@
 var drawHelper = {
 
-  image: function draw_image (frame, context, ratio) {
+  image: function draw_image (item, context, ratio) {
 
-    if (frame === undefined) {
-      frame = this ;
+    if (item === undefined) {
+      item = this ;
     } 
 
     if (context === undefined) {
-      context = frame.viz.modelContext ;
+      context = item.viz.modelContext ;
     }
 
     if (ratio === undefined) {
       ratio = document.ratio ;
     }
 
-    // console.log('frame.x', frame.x, 'width', frame.viz.displayCanvas.width) ;
+    // console.log('item.x', item.x, 'width', item.viz.displayCanvas.width) ;
 
-    // console.log('draw_image', 'frame', frame, 'context', context, 'this', this) ;
+    // console.log('draw_image', 'item', item, 'context', context, 'this', this) ;
 
     var viewX, viewY ;
-    if(frame.fixed === true) {
+    if(item.fixed === true) {
       viewX = viz.viewportX ;
       viewY = viz.viewportY ;
     } else {
@@ -27,20 +27,23 @@ var drawHelper = {
       viewY = 0 ;
     }
 
-    var xDraw = (frame.x + viz.xShift + viewX) * ratio ;
-    var yDraw = (frame.y + viz.yShift + viewY) * ratio ;
+    var originX = item.originX || 0 ;
+    var originY = item.originY || 0 ;
+
+    var xDraw = (item.x + viz.xShift + viewX - originX) * ratio ;
+    var yDraw = (item.y + viz.yShift + viewY - originY) * ratio ;
 
     xDraw = Math.floor( xDraw ) ;
     yDraw = Math.floor( yDraw ) ;
 
-    if(frame.opacity !== undefined) {
-      // console.log('frame opacity', frame.opacity) ;
+    if(item.opacity !== undefined) {
+      // console.log('item opacity', item.opacity) ;
       var alpha = context.globalAlpha ;
-      context.globalAlpha = frame.opacity ;
-      context.drawImage(frame.image, xDraw, yDraw) ;
+      context.globalAlpha = item.opacity ;
+      context.drawImage(item.image, xDraw, yDraw) ;
       context.globalAlpha = alpha ;      
     } else {
-      context.drawImage(frame.image, xDraw, yDraw) ;      
+      context.drawImage(item.image, xDraw, yDraw) ;      
     }
 
   },
@@ -100,7 +103,7 @@ var drawHelper = {
     context.strokeStyle = rect.stroke ;
 
     if(rect.opacity !== undefined) {
-      // console.log('frame', rect) ;
+      // console.log('item', rect) ;
       // var alpha = context.globalAlpha ;
       context.globalAlpha = rect.opacity ;
       // context.globalAlpha = alpha ;      
