@@ -1,6 +1,6 @@
 # ![vizflow](thumbnail.png) vizflow
 
-[vizflow.js](https://github.com/dannyko/vizflow.js) - an application-agnostic interactive visualization engine written using EcmaScript.6 (ES6) with no other external dependencies. The compiled/minified size is under 10 kilobytes, providing a lighter-weight library for adding transition effects to HTML5 documents compared to [D3js](http://d3js.org). 
+[vizflow.js](https://github.com/dannyko/vizflow.js) - an application-agnostic interactive visualization engine written using EcmaScript.6 (ES6) with no other external dependencies. It provides a lighter-weight library for adding transition effects to HTML5 documents with simpler design compared to [D3js](http://d3js.org). 
 
 Instead of focusing on specific applications such as data visualization, it only provides an engine for running animations, transition effects, simulations, games, etc., depending on the application. 
 
@@ -67,6 +67,8 @@ Clicking on a circle will randomly change its 2D `(x, y)` position and radius by
 Modify the `index.html` file to create your own interactive visualizations, simulations, and games with maximal flexibility and minimal overhead.
 
 Load the `index.html` file locally to test the code in a development environment (requires a local web server such as [live-server](https://github.com/tapio/live-server) to be running). 
+
+The "examples" subdirectory contains other examples, including Election Fighter, an election-themed retro arcade-style game.
 
 The compiled examples can also be loaded without a local server by going to the `index.html` files within the subdirectories contained in `examples`.
 
