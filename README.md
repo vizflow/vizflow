@@ -68,7 +68,8 @@ Modify the `index.html` file to create your own interactive visualizations, simu
 
 Load the `index.html` file locally to test the code in a development environment (requires a local web server such as [live-server](https://github.com/tapio/live-server) to be running). 
 
-The "examples" subdirectory contains other examples, including Election Fighter, an election-themed retro arcade-style game.
+The "examples" subdirectory contains other examples. 
+The pH visualization/game example is described [here](https://www.linkedin.com/pulse/ph-visualization-i-daniel-korenblum) and the Election Fighter example is described [here](https://www.linkedin.com/pulse/vizflow-testing-via-games-part-i-election-fighter-daniel-korenblum).
 
 The compiled examples can also be loaded without a local server by going to the `index.html` files within the subdirectories contained in `examples`.
 

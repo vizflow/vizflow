@@ -1,4 +1,4 @@
-// three colored circles with Canvas rendering, a simple demo of vizflow's transition features
+fpre// three colored circles with Canvas rendering, a simple demo of vizflow's transition features
 
 function three_circles_canvas() {
 
@@ -185,8 +185,12 @@ function three_circles_canvas() {
 
   canvas.addEventListener('click', click, false) ;
 
-  $Z.item(data)     ; // load the user data into the visualization engine to initialize the time  equals zero (t = 0) state
-  $Z.prep([prep])     ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
-  $Z.run()          ; // run the interactive visualization (infinite loop by default)
+  var viz = {
+    prep: prep,
+    item: data,
+  } ;
+
+  $Z.viz(viz) ;
+  $Z.run() ; // run the interactive visualization (infinite loop by default)
 
 }

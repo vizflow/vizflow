@@ -347,8 +347,12 @@ function ph_game() {
 
   canvas.addEventListener('click', click, false) ;
 
-  $Z.item(data)     ; // load the user data into the visualization engine to initialize the time  equals zero (t = 0) state
-  $Z.prep([prep])   ; // sets the preprocessing to perform on each frame of the animation (prior to updating and rendering the elements)
+  var viz = {
+    prep: prep,
+    item: data,
+  } ;
+
+  $Z.viz(viz) ;
   $Z.run()          ; // run the interactive visualization (infinite loop by default)
 
 }
