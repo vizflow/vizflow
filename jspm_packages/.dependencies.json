@@ -1,8 +1,4 @@
 {
-  "npm:babel-core@5.8.35": {},
-  "npm:babel-runtime@5.8.35": {
-    "process": "github:jspm/nodelibs-process@^0.1.0"
-  },
   "github:jspm/nodelibs-process@0.1.2": {
     "process": "npm:process@^0.11.0"
   },
@@ -38,5 +34,9 @@
   },
   "npm:path-browserify@0.0.0": {
     "process": "github:jspm/nodelibs-process@^0.1.0"
-  }
+  },
+  "npm:babel-runtime@5.8.38": {
+    "process": "github:jspm/nodelibs-process@^0.1.0"
+  },
+  "npm:babel-core@5.8.38": {}
 }

@@ -214,7 +214,7 @@ var gameHelper = {
 
 		animation.child.child.end = function() {
 
-			var delay = 0.25 ;
+			var delay = 0 ;
 			viz.audio.fight.play(delay) ;
 			
 			fight.fade({
