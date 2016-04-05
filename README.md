@@ -50,7 +50,7 @@ which works, but has some repeated code arising from both the chaining syntax fo
 
 The file `index.html` included in this repository contains a demo showing an interactive stochastic dynamics simulation with three particles in a rectangular domain rendered as colored circles using either Canvas or SVG. 
 
-Clicking on a circle will randomly change its 2D `(x, y)` position and radius by sampling from am appropriate uniform distributions for each of these variables.
+Clicking on a circle will randomly change its 2D `(x, y)` position and radius by sampling from appropriate uniform distributions for each of these variables.
 
 Modify the `index.html` file to create your own interactive visualizations, simulations, and games with maximal flexibility and minimal overhead.
 
