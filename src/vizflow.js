@@ -18,7 +18,7 @@ import viz             from './viz'        ;
 import update          from './update'     ;
 import transition      from './transition' ;
 
-// import the functions defining the asynchronous tasks comprising the main simulation or game loop, stored in an array called "tasks": 
+// import the functions defining the asynchronous tasks comprising the main simulation or game loop, stored in an array called "task": 
 
 import preprocess      from './preprocess'      ;
 import update_items    from './update_items'    ;
