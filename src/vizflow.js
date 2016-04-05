@@ -51,7 +51,7 @@ window.$Z = { // define the "bling Z" object for running interactive vizualizati
 	  render_image,    // draw the data items to the screen somehow (render-agnostic)
 	  postprocess,     // e.g. draw all rendered images to the display element
 	  step_or_exit,    // decides whether to generate another frame or to stop the simulation/game
-	],
+  ],
 
   verbose: false,    // toggles console log statements
 	iter:    0,        // initialize loop iteration index (simulation step counter)
