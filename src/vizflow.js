@@ -33,7 +33,7 @@ import postprocess     from './postprocess'     ;
 window.$Z = { // define the "bling Z" object for running interactive vizualizations
 
 	requestAnimFrame: (
-		window.requestAnimationFrame       || 
+    window.requestAnimationFrame       || 
 	  window.webkitRequestAnimationFrame || 
 	  window.mozRequestAnimationFrame    || 
 	  window.oRequestAnimationFrame      || 
