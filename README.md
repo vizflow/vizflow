@@ -1,6 +1,6 @@
 # ![vizflow](thumbnail.png) vizflow
 
-[vizflow.js](https://github.com/dannyko/vizflow.js) - a render-loop library written using EcmaScript.6 (ES6) with no other external dependencies. Vizflow is a light-weight library for adding transition effects and interactive visualizations to HTML5 documents with a simpler design compared to other popular interactive visualization libraries like [D3js](http://d3js.org). 
+[vizflow.js](https://github.com/vizflow/vizflow) - a render-loop library written using EcmaScript.6 (ES6) with no other external dependencies. Vizflow is a light-weight library for adding transition effects and interactive visualizations to HTML5 documents with a simpler design compared to other popular interactive visualization libraries like [D3js](http://d3js.org). 
 
 Instead of focusing on specific applications such as data visualization, it only provides an engine for running animations, transition effects, simulations, games, etc., depending on the application. 
 
