@@ -34,14 +34,14 @@ window.$Z = { // define the "bling Z" object for running interactive vizualizati
 
 	requestAnimFrame: (
     window.requestAnimationFrame       || 
-	  window.webkitRequestAnimationFrame || 
-	  window.mozRequestAnimationFrame    || 
-	  window.oRequestAnimationFrame      || 
-	  window.msRequestAnimationFrame     || 
-	  function(callback, element){
-	  	window.setTimeout(callback, 17) ;
-	  }
-	),
+    window.webkitRequestAnimationFrame || 
+    window.mozRequestAnimationFrame    || 
+    window.oRequestAnimationFrame      || 
+    window.msRequestAnimationFrame     || 
+    function(callback, element){
+      window.setTimeout(callback, 17) ;
+    }
+   ),
 
 	task: [    			   // array of functions defining the sequence of asynchronous (non-blocking) tasks to perform for each step/frame/iteration of the visualization
 	  preprocess,      // process user inputs and translate them into actionable changes to the data item attributes
