@@ -1,6 +1,6 @@
 # ![vizflow](thumbnail.png) vizflow
 
-[vizflow.js](https://github.com/dannyko/vizflow.js) - a render-loop library written using EcmaScript.6 (ES6) with no other external dependencies. Vizflow is a light-weight library for adding transition effects and interactive visualizations to HTML5 documents with a simpler design compared to other popular interactive visualization libraries like [D3js](http://d3js.org). 
+[vizflow.js](https://github.com/vizflow/vizflow) - a render-loop library written using EcmaScript.6 (ES6) with no other external dependencies. Vizflow is a light-weight library for adding transition effects and interactive visualizations to HTML5 documents with a simpler design compared to other popular interactive visualization libraries like [D3js](http://d3js.org). 
 
 Instead of focusing on specific applications such as data visualization, it only provides an engine for running animations, transition effects, simulations, games, etc., depending on the application. 
 
@@ -9,6 +9,7 @@ Vizflow uses the symbol `$Z` (read as "bling Z" or "dollar Z") for defining its 
 This is a work in progress. Keeping the library simple-to-use, small, and efficient in terms of performance are the main goals of this project. Feedback wanted.
 
 <!---
+  
 For example, when using `d3` we might want to visualize one dataset representing intervals  as lines and another representing points as circles, and then have them both fade-in. 
 
 Using `d3`, this would normally lead to code snippets like:
@@ -43,19 +44,6 @@ d3.selectAll('.red_circle')
 
 which works, but has some repeated code arising from both the chaining syntax for defining transitions and also the presence of slight variations in the processing (e.g. lines vs. circles).
 
-$Z uses higher-order functions to define the transitions instead of chaining for cleaner and more reusable code. The same example as above could be implemented as:
-
-```javascript
-$Z.fadeIn = $Z.transition({duration: 1000, ease: 'linear'}) ;
-$Z.hide   = $Z.style({opacity: 0}) ;
-$Z.circIn = $Z.chain($Z.hide, $Z.attr({cx: 'x', cy: 'y', r: 'r', class: 'blue_circle'})) ;
-$Z.lineIn = $Z.chain($Z.hide, $Z.attr({d: $Z.svg.line, class: 'blue_circle'})) ;
-
-$Z.addItem(myData1, 'circle', $Z.circIn)
-  .addItem(myData2, 'path', $Z.lineIn) ;
-```
-
-which removes some of the repetitive boilerplate present in `d3`.
 --> 
 
 # Example
