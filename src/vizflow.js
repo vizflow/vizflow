@@ -32,7 +32,7 @@ import postprocess     from './postprocess'     ;
 
 window.$Z = { // define the "bling Z" object for running interactive vizualizations
 
-	requestAnimFrame: (
+  requestAnimFrame: (
     window.requestAnimationFrame       || 
     window.webkitRequestAnimationFrame || 
     window.mozRequestAnimationFrame    || 
@@ -43,7 +43,7 @@ window.$Z = { // define the "bling Z" object for running interactive vizualizati
     }
    ),
 
-	task: [    			   // array of functions defining the sequence of asynchronous (non-blocking) tasks to perform for each step/frame/iteration of the visualization
+  task: [            // array of functions defining the sequence of asynchronous (non-blocking) tasks to perform for each step/frame/iteration of the visualization
 	  preprocess,      // process user inputs and translate them into actionable changes to the data item attributes
 	  detect_actions,  // apply simulation or game logic e.g. collision detection etc. to determine what actions need to be performed
 	  perform_actions, // perform any actions e.g. item updates that are necessary for the simulation to continue
