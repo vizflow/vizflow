@@ -92,10 +92,10 @@ var inputEvent = {
       imageHelper.indexed_draw( viz.ui.item, viz.ui.canvas ) ;
 
       var color     = viz.ui.canvas.context().getImageData( xIn, yIn, 1, 1 ).data ;
-      var itemIndex = color[0] - 1 ; // color indexing used by image2index is 1-based
+      var itemIndex = color[0] - 1 ; // color indexing used by imageHelper.to_index is 1-based
 
       if(itemIndex >= 0) { // user selected a user-interface item 
-        viz.ui.item[itemIndex].callback() ;''
+        viz.ui.item[itemIndex].callback() ;
       } 
 
     }, 

@@ -3,8 +3,6 @@ function load_game () {
   // document.ratio     = ( Math.ceil(window.devicePixelRatio) || 1 ) ;
   document.ratio = 2 ; // force upsampling of images to ensure crisp edges on hidpi devices
 
-  // console.log('player_select start') ;
-
   var selectInput = {
 
     down: inputEvent.down,
@@ -20,7 +18,7 @@ function load_game () {
     screen_callback: gameHelper.screen_callback,
     keyboard_callback: gameHelper.keyboard_callback,
     load_audio: gameHelper.load_audio,
-    music: './audio/inspector.wav',
+    music: './audio/.wav',
 
   } ;
 
@@ -53,7 +51,5 @@ function load_game () {
   } ;
 
   viz.load() ;
-
-  // console.log ('player_select 36') ;
 
 }

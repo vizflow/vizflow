@@ -1,26 +1,47 @@
 function load_game () {
   
-  // document.ratio     = ( Math.ceil(window.devicePixelRatio) || 1 ) ;
-  document.ratio = 2 ; // force upsampling of images to ensure crisp edges on hidpi devices
+  function title(viz) {
 
-  // console.log('player_select start') ;
+    if(viz === undefined) {
+      viz = this ;
+    }
 
-  var selectInput = {
+    viz.loading = true ; // to prevent UI from activating until menu page finishes loading
 
-    down: inputEvent.down,
-    up: null,
-    
-  } ;
+    var vizflowImage = imageHelper.adjust_ratio(imageHelper.image2canvas('./image/vizflow.png')) ;
+
+    var vizflow = itemHelper.setup({ 
+      x: (viz.width - vizflowImage.originalCanvas.width) * 0.5,
+      y: (viz.height - vizflowImage.originalCanvas.height) * 0.5,
+      image: vizflowImage,
+      opacity: 0,
+      inert: true,
+      viz: viz,
+    }) ;
+
+    vizflow.add() ;
+
+    viz.fade({
+      duration: viz.fadeDuration,
+      end: function() { 
+        vizflow.fade({
+          duration: viz.fadeDuration,
+          end: run_game,
+        }) ;
+      },
+    }) ;
+
+  } 
+
+  document.ratio = 2 ; // upsample images to ensure crisp edges on hidpi devices
 
   var vizConfig = {
 
-    backgroundImageUrl: './image/background.png',
-    run: gameHelper.title,
-    inputEvent: selectInput,
-    screen_callback: gameHelper.screen_callback,
-    keyboard_callback: gameHelper.keyboard_callback,
-    load_audio: gameHelper.load_audio,
-    music: './audio/inspector.wav',
+    background: undefined,
+    music:      undefined,
+    load_audio: undefined,
+    inputEvent: inputEvent,
+    run: title, // fade in vizflow URL for title screen by default
 
   } ;
 
@@ -28,32 +49,11 @@ function load_game () {
 
   viz.menuConfig = {
  
-    sprite_loader: function() {
-
-      var i = imageHelper.image2canvas('./image/menu_spritesheet.png') ;
-
-      var rowName = [
-      ] ;
-
-      var width = [
-      ] ;
-
-      var height = [
-      ] ;
-
-      var maxHeight  = Math.max.apply(null, height) ;
-      var spriteset = spriteHelper.get(i, rowName, width, height) ;
-
-      return spriteset ;
-
-    },
-
-    callback: undefined,
+    sprite_loader: undefined,
+    callback:      undefined,
 
   } ;
 
   viz.load() ;
-
-  // console.log ('player_select 36') ;
 
 }

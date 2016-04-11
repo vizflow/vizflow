@@ -122,6 +122,10 @@ var vizHelper = {
 
 	    collision_detect: collisionDetect.pixelwise, // pixel-wise collision detection works for any shape and can be used on lower resolution masks compared to the display images
 
+	    init_item: function viz_init_item(item) {
+	    	this.stagingArray = item ;
+	    },
+
 	    prep: function viz_prep () {
 
 	      if( ($Z.iter - this.lastResize) > this.resizeSkip) {
@@ -136,9 +140,19 @@ var vizHelper = {
 	      this.item = this.item.filter( function(d) { return d.removeSwitch !== true ; } ) ; // #todo: figure out a more performant way
 
 	      for(var kitem = 0 ; kitem < this.stagingArray.length ; kitem++) {
-	        if( this.item.indexOf(this.stagingArray[kitem]) === -1 ) {
+
+	        if ( this.item.indexOf(this.stagingArray[kitem]) === -1 ) {
 	          this.item.push( this.stagingArray[kitem] ) ;
-	        }        
+	        }
+
+	        if ( this.ui !== undefined ) { 
+		        if ( this.stagingArray[kitem].uiSwitch === true ) {
+		        	if ( this.ui.item.indexOf(thix.stagingArray[kitem]) === -1) {
+		            this.ui.item.push( this.stagingArray[kitem] ) ;	        		
+		        	}
+		        }
+		      }
+
 	      }
 
 	      this.stagingArray = [] ; // #todo: make this more performant
@@ -155,7 +169,7 @@ var vizHelper = {
 	        this.modelContext.globalAlpha = 0.75 ; // simulates retro CRT display memory 
 	      }
 
-	      if(this.image !== undefined) {
+	      if (this.image !== undefined) {
 	      	this.modelContext.drawImage (this.image, 0, 0) ; // draw background image if there is one
 	      }
 	      // this.displayContext.globalAlpha = 1 ;
