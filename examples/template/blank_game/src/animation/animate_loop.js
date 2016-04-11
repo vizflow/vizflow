@@ -21,7 +21,7 @@ function animate_loop (loopConfig, valueList, create_transition, callback, restF
 	var body   = [] ;
 	var tail   = [] ;
 
-	// var image_transition = step_transition_func('image', loopConfig.frameDur) ;
+	// var image_transition = transitionHelper.step_func('image', loopConfig.frameDur) ;
 
 	loopOutput.totalDur = loopOutput.Nstep * loopOutput.frameDur ;
 	var Nstep = loopConfig.Nstep ;

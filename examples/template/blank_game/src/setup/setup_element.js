@@ -98,7 +98,7 @@ function setup_element (viz, elementConfig) {
   if(elementConfig.frameDuration === viz.frameDuration) {
     imageTransitionFunc = viz.image_transition ;
   } else {
-    imageTransitionFunc = step_transition_func('image', elementConfig.frameDuration) ;
+    imageTransitionFunc = transitionHelper.step_func('image', elementConfig.frameDuration) ;
   }
 
   if(elementConfig.floatDuration === viz.floatDuration) {
@@ -109,17 +109,17 @@ function setup_element (viz, elementConfig) {
   }
 
   if(elementConfig.jumpDuration === viz.jumpDuration) {
-      jumpTransitionFunc = step_transition_func ( 'image', elementConfig.frameDuration ) ;      
+      jumpTransitionFunc = transitionHelper.step_func ( 'image', elementConfig.frameDuration ) ;      
   } else {
     // console.log('elementConfig', elementConfig) ;
-    jumpTransitionFunc = step_transition_func ( 'image', elementConfig.jumpDuration ) ;
+    jumpTransitionFunc = transitionHelper.step_func ( 'image', elementConfig.jumpDuration ) ;
   }
 
   if(elementConfig.attackDuration === viz.attackDuration) {
-    attackTransitionFunc = step_transition_func ( 'image', elementConfig.frameDuration ) ;
+    attackTransitionFunc = transitionHelper.step_func ( 'image', elementConfig.frameDuration ) ;
   } else {
     // console.log('elementConfig', elementConfig) ;
-    attackTransitionFunc = step_transition_func ( 'image', elementConfig.attackDuration ) ;
+    attackTransitionFunc = transitionHelper.step_func ( 'image', elementConfig.attackDuration ) ;
   }
 
   xJumpTransitionFunc = $Z.transition.rounded_linear_transition_func ( 'x', elementConfig.frameDuration * 5 ) ;

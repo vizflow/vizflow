@@ -20,7 +20,7 @@ var bulletHelper = {
         element[bulletName].busy = true ;
       }
 
-      var newBullet = Object.create (element[bulletName]) ;
+      var newBullet = Object.copy (element[bulletName]) ;
       newBullet.original = element[bulletName] ;
 
       // console.log('newBullet', newBullet)

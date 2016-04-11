@@ -337,9 +337,9 @@ var fighterHelper = {
 
 	  } ;  
 
-	  rightButtonConfig  = Object.create(leftButtonConfig) ;
-	  attackButtonConfig = Object.create(leftButtonConfig) ;
-	  jumpButtonConfig   = Object.create(leftButtonConfig) ;
+	  rightButtonConfig  = Object.copy(leftButtonConfig) ;
+	  attackButtonConfig = Object.copy(leftButtonConfig) ;
+	  jumpButtonConfig   = Object.copy(leftButtonConfig) ;
 
 	  rightButtonConfig.rowIndex  = 1 ;
 	  attackButtonConfig.rowIndex = 2 ;

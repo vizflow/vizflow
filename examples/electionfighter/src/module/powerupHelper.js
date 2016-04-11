@@ -146,7 +146,7 @@ var powerupHelper = {
       element = this ; // e.g. the player character game element
     }
 
-    var newPowerup = Object.create ( element[name] ) ;
+    var newPowerup = Object.copy ( element[name] ) ;
 
     if(newPowerup.drop !== undefined) {
       element.powerupDelivery.powerup = newPowerup ;

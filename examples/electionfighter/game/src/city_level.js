@@ -47,7 +47,7 @@ function city_level () {
     // var trans6 = step_transition_func('image', dur6) (viz.player.sprite.jump1[5]) ;
     // var trans7 = step_transition_func('image', dur7) (viz.player.sprite.jump1[6]) ;
 
-    var trans4 = Object.create(trans1) ;
+    var trans4 = Object.copy(trans1) ;
 
     var trans5 = step_transition_func('image', dur4) (viz.player.sprite.rest[0]) ;
 

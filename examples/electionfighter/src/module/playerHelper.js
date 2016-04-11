@@ -513,7 +513,7 @@ var playerHelper = {
       // animation: undefined,
     } ;
 
-    var jumpBulletConfig = Object.create(bulletConfig) ;
+    var jumpBulletConfig = Object.copy(bulletConfig) ;
     var jumpBulletDur    = viz.dur * 40 ;
 
     // function jump_bullet_transition(xNew) {
