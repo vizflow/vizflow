@@ -19,9 +19,11 @@ function load_game () {
       viz: viz,
     }) ;
 
+    viz.opacity = 1 ;
+
     vizflow.add() ;
 
-    viz.fade({
+    vizflow.fade({
       duration: viz.fadeDuration,
       end: function() { 
         vizflow.fade({

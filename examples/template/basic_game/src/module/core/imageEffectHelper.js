@@ -56,20 +56,15 @@ var imageEffectHelper = {
 
 			var newTransition = imageEffectHelper.fade_transition(fadeConfig) ;
 
-			newTransition.end   = fadeConfig.end ;
-			newTransition.pause = fadeConfig.pause ;
+			// console.log('fade', 'newTransition', newTransition, 'item', item, 'fadeConfig', fadeConfig) ;
 
-			// console.log('fade', 'newTransition', newTransition) ;
+			var replacementSwitch = fadeConfig.replacementSwitch || true ;
 
-			transitionHelper.add.call(item, newTransition) ;
+			item.add_transition(newTransition, replacementSwitch) ;
 
 		}, // end fade
 
 		fade_transition: function effect_helper_image_fade_transition(fadeConfig) {
-
-			if(fadeConfig.replacementSwitch === undefined) {
-				fadeConfig.replacementSwitch = true ;
-			}
 
 			var defaultFadeDuration = 1000 ;
 			if(fadeConfig.duration === undefined) {
@@ -84,6 +79,10 @@ var imageEffectHelper = {
 
 			if( fadeConfig.child !== undefined) {
 				newTransition.child = fadeConfig.child ;
+			}
+
+			if ( fadeConfig.pause !== undefined) {
+				newTransition.pause = fadeConfig.pause ;
 			}
 
 			return newTransition ;

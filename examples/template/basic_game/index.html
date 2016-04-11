@@ -62,13 +62,15 @@
 
   <body>
 
-    <script src="src/build.js"></script>
-    <script src="src/Object.assign.js"></script>
+    <!-- Object.assign polyfill: -->
 
-    <script src="game/src/gameHelper.js"></script>
+    <script src="src/Object.assign.js"></script>
     
-    <script src="load/src/load_game.js"></script>
-    <script src="load/src/player_select.js"></script>
+    <!-- vizflow library: -->
+
+    <script src="src/build.js"></script>
+
+    <!-- core/standard modules: -->
 
     <script src="src/module/core/actionHelper.js"></script>
     <script src="src/module/core/audioHelper.js"></script>  
@@ -86,18 +88,11 @@
     <script src="src/module/core/vizHelper.js"></script>
     <script src="src/module/core/uiHelper.js"></script>
 
-    <script src="src/module/bulletHelper.js"></script>
-    <script src="src/module/fighterHelper.js"></script>
-    <script src="src/module/hitHelper.js"></script>
-    <script src="src/module/playerHelper.js"></script>
-    <script src="src/module/powerupHelper.js"></script>
-    <script src="src/module/scoreHelper.js"></script>
-    <script src="src/module/responseHelper.js"></script>
+    <!-- global functions (to be refactored into modules): -->
 
     <script src="src/animation/transition_sequence.js"></script>
     <script src="src/animation/animate.js"></script>
     <script src="src/animation/animate_loop.js"></script>
-    <script src="src/animation/transitionHelper.step_func.js"></script>
     <script src="src/animation/add_transition_end.js"></script>
 
     <script src="src/image/hidpi_adjust.js"></script> 
@@ -109,8 +104,22 @@
 
     <script src="src/setup/setup_element.js"></script>
 
-    <!-- load the main.js script after all the other .js files have been loaded to run the vizualization: -->
-    <script src="src/main.js"></script> 
+    <!-- optional game modules -->
+
+    <!-- <script src="src/module/bulletHelper.js"></script>
+    <script src="src/module/fighterHelper.js"></script>
+    <script src="src/module/hitHelper.js"></script>
+    <script src="src/module/playerHelper.js"></script>
+    <script src="src/module/powerupHelper.js"></script>
+    <script src="src/module/scoreHelper.js"></script>
+    <script src="src/module/responseHelper.js"></script> -->
+
+    <!-- visualization specific code -->
+
+    <script src="load/src/load_game.js"></script>
+
+    <script src="game/src/gameHelper.js"></script>
+    <script src="game/src/run_game.js"></script>
 
     <div id="loading"></div>
 
@@ -138,6 +147,10 @@
         document.addEventListener('click', fullscreen) ;
 
     </script>
+
+    <!-- after everything else has been done, load the main.js script run the vizualization: -->
+
+    <script src="src/main.js"></script> 
 
   </body>
 

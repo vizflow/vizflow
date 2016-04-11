@@ -42,36 +42,39 @@ export default function update() { // default update function for handling anima
 				if(trans.child !== undefined) {
 					children.push(trans.child) ;
 				}
-				if(trans.end !== undefined) {
-					if ( trans.end.constructor === Array ) { // is an array 
-						for( var kEnd = 0 ; kEnd < trans.end.length ; kEnd++ ) {
-							if (typeof trans.end[kEnd] == 'function') {
-								trans.end[kEnd]() ;
-							} else {
-								trans.end[kend].run() ;
-							}
-						}
-					} else { 
-						if (typeof trans.end == 'function') {
-	   					trans.end() ;
-	   				} else {
-	   					trans.end.run() ;
-	   				}
-					}
-				}
-
 			}
 		}
 		
 	}
 
 	for(let kr = removeList.length - 1 ; kr >= 0 ; kr--) {
+
 		if(removeList[kr] < el.transition.length - 1) { // swap with last element and then pop to avoid splice call
 		  let swap = el.transition[el.transition.length - 1] ; // last transition
 		  el.transition[el.transition.length - 1] = el.transition[removeList[kr]] ;
 		  el.transition[removeList[kr]] = swap ;
 		}
-		el.transition.pop() ; // remove completed transition (will be garbage collected, may want to reuse via factory)
+
+		let trans = el.transition.pop() ; // remove completed transition (will be garbage collected, may want to reuse via factory)
+
+		if(trans.end !== undefined) {
+			if ( trans.end.constructor === Array ) { // is an array 
+				for( var kEnd = 0 ; kEnd < trans.end.length ; kEnd++ ) {
+					if (typeof trans.end[kEnd] == 'function') {
+						trans.end[kEnd]() ;
+					} else {
+						trans.end[kend].run() ;
+					}
+				}
+			} else { 
+				if (typeof trans.end == 'function') {
+ 					trans.end() ;
+ 				} else {
+ 					trans.end.run() ;
+ 				}
+			}
+		}
+
 	}
 
 	for(let kc = 0 ; kc < children.length ; kc++) 

@@ -132,10 +132,10 @@ var fighterHelper = {
       enemyResponseConfig = {
 
         healthdrop: viz.enemy.config.healthdrop, 
-        healthbarY: , 
-        healthbarX: ,
-        color: ,
-        audio: ,
+        healthbarY: undefined, 
+        healthbarX: undefined,
+        color: undefined,
+        audio: undefined,
         sourceType: 'player',
 
       } ;   
@@ -147,10 +147,10 @@ var fighterHelper = {
       playerResponseConfig = {
 
         healthdrop: viz.player.config.healthdrop,
-        healthbarY: ,
-        healthbarX: ,
-        color: , 
-        audio: ,
+        healthbarY: undefined,
+        healthbarX: undefined,
+        color: undefined, 
+        audio: undefined,
         sourceType: 'enemy',
 
       } ;
@@ -179,8 +179,8 @@ var fighterHelper = {
 
       powerupConfig = {
 
-        x: ,
-        y: ,
+        x: undefined,
+        y: undefined,
         inert: true,
         type: 'powerup',
 
@@ -244,14 +244,14 @@ var fighterHelper = {
 
 	  var ui = {
 
-	    hiddenCanvas: ,
-	    hiddenContext: ,
-	    leftButtonConfig: ,
-	    buttonSprite: ,
-	    buttonX: ,
-	    buttonY: ,
-	    x: ,
-	    y: ,
+	    hiddenCanvas: undefined,
+	    hiddenContext: undefined,
+	    leftButtonConfig: undefined,
+	    buttonSprite: undefined,
+	    buttonX: undefined,
+	    buttonY: undefined,
+	    x: undefined,
+	    y: undefined,
 
 	  } ;
 

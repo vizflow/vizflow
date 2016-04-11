@@ -103,7 +103,6 @@ var vizHelper = {
 	    screen_callback: vizConfig.screen_callback,
 	    keyboard_callback: vizConfig.keyboard_callback,
 	    setup_item: itemHelper.setup, 
-	    setup_score: scoreHelper.setup,
 	    load_response: vizConfig.load_response, // hitHelper.load,
 	    load_ui: vizConfig.load_ui,
 	    load_audio: vizConfig.load_audio,
@@ -111,7 +110,7 @@ var vizHelper = {
 	    load: vizHelper.load,
 	    run: vizConfig.run,
 	    stagingArray: [],
-	    clearSwitch: false,
+	    clearSwitch: true,
 
 	    transitionSet:  {
 	      x: $Z.transition.rounded_linear_transition_func ( 'viewportX', 3 * dur ), //function accepting an x end-value and returning a transition object      

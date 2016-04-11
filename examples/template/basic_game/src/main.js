@@ -7,7 +7,7 @@ document.body.style.margin    = 0 ;
 
 document.image = [ 
 	
-	// './image/.png',
+	'./image/vizflow.png',
 
 ] ;
 	  
@@ -20,9 +20,11 @@ document.audio = [
 document.skipIndex = 0 ;
 
 imageLoader.preload ( document.image, function preload_audio() {
+  // console.log('main.js: preload_audio') ;
 	audioLoader.preload( 
 		document.audio, 
 		function main_run() {
+			// console.log('main.js: main_run') ;
 			var div = document.getElementById('loading') ;
 			div.style.visibility = 'hidden' ;
 			load_game() ;
