@@ -55,7 +55,7 @@ window.$Z = { // define the "bling Z" object for running interactive vizualizati
 
   verbose: false,    // toggles console log statements
   iter:    0,        // initialize loop iteration index (simulation step counter)
-  maxIter: Infinity, // default maximum iteration count allowed (max # of frames
+  maxIter: Infinity, // default maximum iteration count allowed (max # of frames)
 
   _item:    [], // default data item array (internal use only as marked by underscore)
   _prep:    [], // array of preprocessing tasks to perform (internal use only as marked by underscore)
