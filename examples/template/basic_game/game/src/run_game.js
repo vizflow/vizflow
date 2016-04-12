@@ -2,7 +2,7 @@ function run_game() {
   
   // console.log('run_game: start') ;
 
-  var Nitem = 5 ; 
+  var Nitem = 7 ; 
 
   var item = new Array(Nitem) ;
 
@@ -13,14 +13,19 @@ function run_game() {
 
   for ( var kItem = 0 ; kItem < Nitem ; kItem++ ) {
 
-    var angle = (kItem / Nitem) * Math.PI ; // evenly spaced around the circle 
+    var angle = 2 * (kItem / Nitem) * Math.PI ; // evenly spaced around the circle 
+    var x = radius * Math.cos(angle) + xShift ;
+    var y = radius * Math.sin(angle) + yShift ;
 
     itemConfig = {
 
-      x:      radius * Math.cos(angle) + xShift,
-      y:      radius * Math.sin(angle) + yShift,
+      x:      x,
+      y:      y,
+      xAngle: 0.5 * size,
+      yAngle: 0.5 * size,
+      angle: angle,
       render: drawHelper.rect,
-      color:  '#000066',
+      color:  '#6666FF',
       width:  size,
       height: size,
 
