@@ -7,7 +7,7 @@ var drawHelper = {
     } 
 
     if (context === undefined) {
-      context = item.viz.modelContext ;
+      context = item.viz.fullContext ;
     }
 
     if (ratio === undefined) {
@@ -30,8 +30,8 @@ var drawHelper = {
     var originX = item.originX || 0 ;
     var originY = item.originY || 0 ;
 
-    var xDraw = (item.x + viz.xShift + viewX - originX) * ratio ;
-    var yDraw = (item.y + viz.yShift + viewY - originY) * ratio ;
+    var xDraw = (item.x + item.viz.xShift + viewX - originX) * ratio ;
+    var yDraw = (item.y + item.viz.yShift + viewY - originY) * ratio ;
 
     xDraw = Math.floor( xDraw ) ;
     yDraw = Math.floor( yDraw ) ;
@@ -48,14 +48,14 @@ var drawHelper = {
 
   },
   
-  rect: function draw_rect (rect, context, ratio) {
+  rect: function draw_helper_rect (rect, context, ratio) {
 
     if (rect === undefined) {
       rect = this ;
     }
 
     if(context === undefined) {
-      context = rect.viz.modelContext ;
+      context = rect.viz.fullContext ;
     }
 
     if(ratio === undefined) {
@@ -108,6 +108,8 @@ var drawHelper = {
       context.globalAlpha = rect.opacity ;
       // context.globalAlpha = alpha ;      
     } 
+
+    // console.log('draw rect: ', 'xDraw, yDraw, Math.floor(rect.width * ratio), Math.floor(rect.height * ratio)', xDraw, yDraw, Math.floor(rect.width * ratio), Math.floor(rect.height * ratio)) ;
 
     context.rect(xDraw, yDraw, Math.floor(rect.width * ratio), Math.floor(rect.height * ratio)) ;
     context.fill() ;

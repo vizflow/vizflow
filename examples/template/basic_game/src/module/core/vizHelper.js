@@ -2,40 +2,44 @@ var vizHelper = {
 
 	setup: function viz_helper_setup_viz (vizConfig) {
 
-		if(vizConfig === undefined) {
+		if ( vizConfig === undefined ) {
 			vizConfig = {} ;
 		}
 
 	  // console.log('setup viz start') ;
 
-	  if (vizConfig.frameDurationFactor === undefined) {
+	  if ( vizConfig.frameDurationFactor === undefined ) {
 	    vizConfig.frameDurationFactor = 1 ;
 	  }
 
-	  if (vizConfig.inputEvent === undefined) {
+	  if ( vizConfig.inputEvent === undefined ) {
 	  	vizConfig.inputEvent = inputEvent ;
 	  }
 
-		if (vizConfig.buttonpress === undefined) {
+		if ( vizConfig.buttonpress === undefined ) {
 	  	vizConfig.buttonpress = inputEvent.buttonpress ;
 	  }	  
 
-	  var dur           = 17 ; // the framespeed that vizflow uses (60 frames per second)
+	  /* 
+	   *   TEMPORARY VARIABLES:
+	   */ 
+
+	  var dur           = vizConfig.duration || 17 ; // the framespeed that vizflow uses (default is 60 frames per second)
 	  var ratio         = document.ratio ; //(window.devicePixelRatio || 1) ; 
-	  var vizWidth      = 180 ;
-	  var vizHeight     = 240 ;
+	  var vizWidth      = vizConfig.width  || 480 ;
+	  var vizHeight     = vizConfig.height || 640 ;
 	  var displayWidth  = Math.floor(vizWidth * ratio) ;
 	  var displayHeight = Math.floor(vizHeight * ratio) ;
-	  var paddingFactor = 4 / 3 ;
-	  var modelWidth    = Math.floor(vizWidth * paddingFactor * ratio) ;
-	  var modelHeight   = Math.floor(vizHeight * paddingFactor * ratio) ;
+	  var paddingFactor = vizConfig.paddingFactor || 1 ; // ratio of full canvas to viewport
+	  var fullWidth     = Math.floor(vizWidth * paddingFactor * ratio) ;  
+	  var fullHeight    = Math.floor(vizHeight * paddingFactor * ratio) ; 
 
-	  var modelCanvas    = imageHelper.create(modelWidth, modelHeight) ;         // model canvas (indepdenent of device pixel ratio)
-	  var vizCanvas      = imageHelper.create(vizWidth, vizHeight) ;         // model canvas (indepdenent of device pixel ratio)
-	  var displayCanvas  = imageHelper.create(displayWidth, displayHeight) ; // hidden display canvas (resized by devicePixelRatio, but not actually drawn to the screen)
-	  var screenCanvas   = imageHelper.create(displayWidth, displayHeight) ; // actual display canvas (drawn to screen once per step/cycle/frame of the animation engine)
+	  var vizCanvas     = imageHelper.create(vizWidth, vizHeight) ;         // model canvas (indepdenent of device pixel ratio)
+	  var fullCanvas    = imageHelper.create(fullWidth, fullHeight) ;     // fully upsampled canvas (dependent on device pixel ratio)
+	  var displayCanvas = imageHelper.create(displayWidth, displayHeight) ; // hidden display canvas (resized by devicePixelRatio, but not actually drawn to the screen)
+	  var screenCanvas  = imageHelper.create(displayWidth, displayHeight) ; // actual display canvas (drawn to screen once per step/cycle/frame of the animation engine)
 
-	  var modelContext   = modelCanvas.context() ;         // model canvas (indepdenent of device pixel ratio)
+	  var fullContext    = fullCanvas.context() ; // model canvas (indepdenent of device pixel ratio)
 	  var vizContext     = vizCanvas.context() ;
 	  var displayContext = displayCanvas.context() ;
 	  var screenContext  = screenCanvas.context() ;
@@ -64,6 +68,10 @@ var vizHelper = {
 
 	  var resizeSkip  = 3 * vizConfig.frameDurationFactor ; // how often to check for window resize events
 
+	  /*
+	   *   DEFINE THE VIZ OBJECT:
+	   */
+
 	  var viz = {
 
 	    config:         vizConfig,
@@ -75,8 +83,8 @@ var vizHelper = {
 	    image:          image,
 	    canvas:         vizCanvas,
 	    context:        vizContext,
-	    modelCanvas:    modelCanvas, 
-	    modelContext:   modelContext,
+	    fullCanvas:     fullCanvas, 
+	    fullContext:    fullContext,
 	    displayCanvas:  displayCanvas, 
 	    displayContext: displayContext,
 	    screenCanvas:   screenCanvas, 
@@ -93,23 +101,18 @@ var vizHelper = {
 	    detect: actionHelper.detect,
 	    perform: actionHelper.perform,
 	    image_transition: transitionHelper.step_func('image', frameDuration),  
-	    opacity: 0,
+	    opacity: 1,
 	    add_transition: transitionHelper.add, 
 	    remove_transition: transitionHelper.remove,
 	    fade: imageEffectHelper.fade, 
 	    shake: effectHelper.shake,  
-	    input: vizConfig.inputEvent, 
+	    input: vizConfig.inputEvent || inputEvent, 
 	    buttonpress: vizConfig.buttonpress,
 	    screen_callback: vizConfig.screen_callback,
 	    keyboard_callback: vizConfig.keyboard_callback,
 	    setup_item: itemHelper.setup, 
-	    load_response: vizConfig.load_response, // hitHelper.load,
-	    load_ui: vizConfig.load_ui,
-	    load_audio: vizConfig.load_audio,
-	    load_char: vizConfig.load_char,
-	    load: vizHelper.load,
-	    run: vizConfig.run,
-	    stagingArray: [],
+	    run: vizConfig.run || vizHelper.run,
+	    stagingArray: vizConfig.item || [],
 	    clearSwitch: true,
 
 	    transitionSet:  {
@@ -120,10 +123,6 @@ var vizHelper = {
 	    collision: null,
 
 	    collision_detect: collisionDetect.pixelwise, // pixel-wise collision detection works for any shape and can be used on lower resolution masks compared to the display images
-
-	    init_item: function viz_init_item(item) {
-	    	this.stagingArray = item ;
-	    },
 
 	    prep: function viz_prep () {
 
@@ -160,16 +159,16 @@ var vizHelper = {
 
 	      // var clearSwitch = false ;
 	      if (this.clearSwitch === true) {
-	      	this.modelContext.clearRect(0, 0, this.modelCanvas.width, this.modelCanvas.height) ;		      	
+	      	// this.fullContext.clearRect(0, 0, this.fullCanvas.width, this.fullCanvas.height) ;		      	
 	      }
 	      
-	      var alphaSwitch = true  ; // #todo: move to config object
+	      var alphaSwitch = false  ; // #todo: move to config object
 	      if (alphaSwitch) {
-	        this.modelContext.globalAlpha = 0.75 ; // simulates retro CRT display memory 
+	        this.fullContext.globalAlpha = 0.75 ; // simulates retro CRT display memory 
 	      }
 
 	      if (this.image !== undefined) {
-	      	this.modelContext.drawImage (this.image, 0, 0) ; // draw background image if there is one
+	      	this.fullContext.drawImage (this.image, 0, 0) ; // draw background image if there is one
 	      }
 	      // this.displayContext.globalAlpha = 1 ;
 	 
@@ -188,20 +187,12 @@ var vizHelper = {
 	      var dw = displayCanvas.width ;
 	      var dh = displayCanvas.height ;
 	      this.displayCanvas.width = this.displayCanvas.width ;
-	      // console.log('sx, sy, sw, sh, dx, dy, dw, dh', sx, sy, sw, sh, dx, dy, dw, dh) ;
-	      this.displayContext.drawImage(this.modelCanvas, sx, sy, sw, sh, dx, dy, dw, dh) ;
+	      console.log('sx, sy, sw, sh, dx, dy, dw, dh', sx, sy, sw, sh, dx, dy, dw, dh) ;
+	      this.displayContext.drawImage(this.fullCanvas, sx, sy, sw, sh, dx, dy, dw, dh) ;
 
 	      this.screenCanvas.width        = this.screenCanvas.width ; // clearRect(0, 0, this.screenCanvas.width, this.displayCanvas.height) ;
 	      this.screenContext.globalAlpha = this.opacity ;
 	      this.screenContext.drawImage (this.displayCanvas, 0, 0) ; // use a single drawImage call for rendering the current frame to the visible Canvas (GPU-acceleated performance)
-
-	      // if ( this.enemyAttack.on && $Z.iter - this.enemyAttack.tSkip >= ( this.enemyAttack.minSkip + this.enemyAttack.skipVar[ document.skipIndex % this.enemyAttack.skipVar.length ] ) ) {
-
-	      //   this.enemyAttack.tSkip = $Z.iter ;
-	      //   document.skipIndex++ ;
-	      //   this.enemy.update() ; // switch to "viz.enemy.update()" #todo
-	      
-	      // }
 
 	    },
 
@@ -226,65 +217,59 @@ var vizHelper = {
 
 	  } ;
 
+	  if(vizConfig.item !== undefined) {
+	    for( var kItem = 0 ; kItem < vizConfig.item.length ; kItem++ ) { // add the viz object to any items it was initialized with:
+	    	vizConfig.item[kItem].viz = viz ; // decorate the item with a viz property pointing to the viz object for convenience
+			}
+		}
+
 	  // console.log('setup viz end') ;
 
 	  return viz ;
 	  
 	},
 
-	load: function viz_helper_load_viz (viz) {
-		// console.log('viz helper load start') ;
-	  if(viz === undefined) {
-	    viz = this ;
-	  }
+	run: function(viz) {
 
-	  if (viz.load_audio !== undefined) {
-	  	viz.load_audio() ;
-	  } ;
-	  // console.log('viz helper load  255') ;
+		// console.log('vizHelper run start') ;
 
-	  if (viz.load_char !== undefined) {
-	 		viz.load_char() ;
-	  }
-	  // console.log('viz helper load  260') ;
-	  
-	  if (viz.load_response !== undefined) {
-	  	viz.load_response() ;
-	  } ;
-	  // console.log('viz helper load  263') ;
+		if ( viz === undefined && this !== vizHelper ) {
+			viz = this ;
+		} 
 
-	  if (viz.load_ui !== undefined) {
-	  	viz.load_ui() ;
-	  } ;	  
-	  // console.log('viz helper load  267') ;
 	  document.viz = viz ; 
 	  document.addEventListener('mousedown', viz.input.down, false) ;
 	  document.addEventListener('mouseup', viz.input.up, false) ;
 
 	  document.addEventListener(
+
 	    'touchstart', 
+
 	    function(event) {
+
 	      //console.log('touchstart start', 'this', this) ;
+
 	      event.preventDefault() ;
 	      viz.input.down.call(this, event) ;
+
 	      //console.log('touchstart end') ;
+
 	    }, 
-	    false
+
+	    false // function argument list cannot have trailing comma
+
 	  ) ;
 
-	  document.addEventListener('touchend', viz.input.up, false) ;
-	  document.addEventListener('keydown', viz.input.down, false) ;
-	  document.addEventListener('keyup', viz.input.up, false) ;
+	  document.addEventListener('touchend', viz.input.up,   false) ;
+	  document.addEventListener('keydown',  viz.input.down, false) ;
+	  document.addEventListener('keyup',    viz.input.up,   false) ;
 
-	  // console.log('viz helper load before $Z.viz', 'viz.run', viz.run) ;
-	  $Z.viz(viz) ; // load the vizualization config object into the vizflow   vizualization engine
+	  // console.log('viz helper load before $Z.viz', 'viz.run', viz) ;
 
-	  $Z.run() ;    // run the interactive visualization (infinite loop by default)
+	  $Z.viz(viz) ; // load the vizualization config object into vizflow
 
-	  if (viz.run !== undefined) {
-	  	viz.run() ; 
-	  } 
+	  $Z.run() ;    // run the (possibly interactive) visualization (infinite loop by default)
 
-	},
+	}
 
 } ;

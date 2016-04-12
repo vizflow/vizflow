@@ -6,32 +6,42 @@ function load_game () {
       viz = this ;
     }
 
-    viz.loading = true ; // to prevent UI from activating until menu page finishes loading
-
     var vizflowImage = imageHelper.adjust_ratio(imageHelper.image2canvas('./image/vizflow.png')) ;
 
     var vizflow = itemHelper.setup({ 
+
       x: (viz.width - vizflowImage.originalCanvas.width) * 0.5,
       y: (viz.height - vizflowImage.originalCanvas.height) * 0.5,
       image: vizflowImage,
       opacity: 0,
       inert: true,
       viz: viz,
-    }) ;
 
-    viz.opacity = 1 ;
+    }) ;
 
     vizflow.add() ;
 
+    vizHelper.run(viz) ; // call the generic run function
+    
+    viz.opacity = 1 ;
+
     vizflow.fade({
+
       duration: viz.fadeDuration,
+
       end: function() { 
+
         vizflow.fade({
+
           duration: viz.fadeDuration,
           end: run_game,
+          
         }) ;
+
       },
+
     }) ;
+
 
   } 
 
@@ -41,13 +51,12 @@ function load_game () {
 
     background: undefined,
     music:      undefined,
-    load_audio: undefined,
     inputEvent: inputEvent,
     run: title, // fade in vizflow URL for title screen by default
 
   } ;
 
-  viz = vizHelper.setup(vizConfig) ; // frameDuration computed
+  var viz = vizHelper.setup(vizConfig) ; // frameDuration computed
 
   viz.menuConfig = {
  
@@ -56,6 +65,12 @@ function load_game () {
 
   } ;
 
-  viz.load() ;
+  // load_response: vizConfig.load_response, 
+  // load_ui: vizConfig.load_ui,
+  // load_audio: vizConfig.load_audio,
+  // load_char: vizConfig.load_char,
+  // load: vizHelper.load,
+
+  viz.run() ;
 
 }
