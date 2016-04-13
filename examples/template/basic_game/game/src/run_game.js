@@ -110,7 +110,7 @@ function run_game() {
 
     viz.kGreen = kRand ;
 
-    var green = item[kRand] ;
+    var green      = item[kRand] ;
     var bluePause  = dur ;
     var greenPause = 1.0 * dur ;
 
@@ -144,7 +144,7 @@ function run_game() {
 
   viz.run() ;
 
-  green_flash() ;
+  green_flash() ; // start the green squares flashing
 
   // console.log('viz', viz) ;
 
