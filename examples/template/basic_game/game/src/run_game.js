@@ -9,8 +9,9 @@ function run_game() {
   var size     = 40 ;
   var xShift   = 0.5 * 480 ;
   var yShift   = 0.5 * 640 ;
-  var blueish  = '#6666FF' ;
-  var greenish = '#66FF66' ;
+  var blueish  = '#3030FF' ;
+  var greenish = '#30FF30' ;
+  var angle0   =  0.5 * Math.PI ; // HTML5 Canvas uses a left-handed coordinate system with the y-axis pointing down and angles going clockwise (?)
 
   var blueRect = { 
 
@@ -39,7 +40,7 @@ function run_game() {
 
   for ( var kItem = 0 ; kItem < Nitem ; kItem++ ) {
 
-    var angle = 2 * (kItem / Nitem) * Math.PI ; // evenly spaced around the circle 
+    var angle = 2 * (kItem / Nitem) * Math.PI - angle0 ; // evenly spaced around the circle 
     var x     = radius * Math.cos(angle) + xShift ;
     var y     = radius * Math.sin(angle) + yShift ;
 
@@ -83,32 +84,52 @@ function run_game() {
 
   viz.score = 0 ; // initialize
 
-  var greenFlash = {
-    
-    prep: function green_flash() {
+  var dur = 500 ;
 
-      var thresh = 0.25 + 0.75 * ( 1 - Math.exp( -viz.score * 0.001 ) ) ; // gradually approach max speed as score increases towards infinity
-      var rand   = Math.random() ;
+  function green_flash() {
 
-      if ( rand <= thresh ) { // choose an item to become green
+    var kRand = Math.floor( Nitem * Math.random() ) ;
 
-        var kRand = Math.floor( Nitem * Math.random() ) ;
+    if ( kRand === viz.kGreen ) {
+      var kShift = 5 ;
+      kRand = (kRand + kShift) % Nitem ;
+    }
 
-        if ( viz.kGreen !== undefined ) { 
+    if(viz.kGreen !== undefined) {
+      var blue = item[viz.kGreen] ; // the green item that we want to turn blue
+      blue.fade({ // fade out green square
+        duration: dur,
+        end: function() {
+          blue.image = blueRectImage ; // switch green square to blue while fully faded-out
+          blue.fade({ // fade blue square back in
+            duration: dur, 
+          }) ;
+        },
+      })
+    }
 
-          item[viz.kGreen].image = blueRectImage ;
+    viz.kGreen = kRand ;
 
-        }
+    var green = item[kRand] ;
+    var bluePause  = dur ;
+    var greenPause = 1.0 * dur ;
 
-        item[kRand].image = greenRectImage ;
+    green.fade({
+      duration: dur,
+      pause: bluePause,
+      end: function() { // fade random square out before turning it green
+        green.image = greenRectImage ; // turn random square green
+        green.fade({ // fade green square back in
 
-        viz.kGreen = kRand ;
+          duration: dur + (greenPause - bluePause),
+          pause: greenPause,
+          end: green_flash, // repeat
 
-      }
+        }) ;
+      },
+    }) ;
 
-    },
-  
-  } ;
+  }
 
   var uiCanvas = imageHelper.create(viz.width, viz.height) ;
 
@@ -123,7 +144,7 @@ function run_game() {
 
   viz.run() ;
 
-  $Z.prep([viz, greenFlash]) ; // add our custom prep function to vizflow in addition to the default one
+  green_flash() ;
 
   // console.log('viz', viz) ;
 
