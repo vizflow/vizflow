@@ -46,8 +46,8 @@ var drawHelper = {
       // console.log('item opacity', item.opacity) ;
       var alpha = context.globalAlpha ;
       context.globalAlpha = item.opacity ;
-      var xShift = item.x + item.xAngle ;
-      var yShift = item.y + item.yAngle ;
+      var xShift = Math.floor(ratio * (item.x + item.xAngle)) ;
+      var yShift = Math.floor(ratio * (item.y + item.yAngle)) ;
       context.translate(xShift, yShift) ;
       context.rotate(item.angle) ;
       context.translate(-xShift, -yShift) ;

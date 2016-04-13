@@ -10,37 +10,49 @@ var inputEvent = {
     switch (event.type) {
 
       case 'keydown': 
-        inputHandler = 'keyboard_handler' ;
+        inputHandler = 'keyboard' ;
         eventList = event ;
         break;
       case 'mousedown': 
-        inputHandler = 'screen_handler' ;
+        inputHandler = 'screen' ;
         eventList = event ;
         break;
       case 'touchstart':
-        inputHandler = 'screen_handler' ;
+        inputHandler = 'screen' ;
         eventList = event.touches ;
         break;
 
     }     
   
+    var prep = $Z._prep ;
+
+    // console.log('input event: ', 'prep', prep) ;
+
     function run_click () {
       // console.log('input event run click:', 'inputHandler', inputHandler) ;
       if(event.type === 'touchstart') {
         for(var kEvent = 0 ; kEvent < eventList.length ; kEvent++) {
-          this.viz.buttonpress[inputHandler].call (this.viz, eventList[kEvent]) ;        
+          this.viz.input.response[inputHandler].call ( this.viz, eventList[kEvent] ) ;        
         }        
       } else {
-        this.viz.buttonpress[inputHandler].call (this.viz, eventList) ;        
+        this.viz.input.response[inputHandler].call ( this.viz, eventList ) ;        
       }
+
+      $Z.prep(prep) ;
+
     }
 
     var runClick = { 
       prep: run_click, 
       viz: this.viz 
     } ;
-   
-    $Z.prep ([this.viz, runClick]) ;
+
+    var newPrep = prep.slice(0) ;
+    newPrep.push(runClick) ;
+  
+    // console.log('input event: ', 'newPrep', newPrep) ;
+
+    $Z.prep (newPrep) ;
     //console.log ('mousedown: holding', holding, 'event', event) ;
   },
 
@@ -54,24 +66,26 @@ var inputEvent = {
 
   response: {
         
-    keyboard: function buttonpress_keyboard_handler (event, viz) {
+    keyboard: function input_event_response_keyboard (event, viz) {
 
       if(viz === undefined) {
         viz = this ;
       }
 
-      viz.keyboard_callback(event) ;
+      if ( viz.keyboard_callback !== undefined ) {
+        viz.keyboard_callback(event) ; 
+      }
 
     },
 
-    screen: function buttonpress_screen_handler (event, viz) {
+    screen: function input_event_response_screen (event, viz) {
 
       if(viz === undefined) {
         viz = this ;
       }
     
       if(viz.screen_callback === undefined) {
-        inputEvent.response.screen_callback(event) ;
+        inputEvent.response.screen_callback.call(viz, event) ;
       } else {
         viz.screen_callback(event) ;
       }
@@ -82,6 +96,10 @@ var inputEvent = {
     
       if (viz === undefined) {
         viz = this ;
+      }
+
+      if ( viz.ui === undefined ) {
+        return ; // nothing to do
       }
 
       var position = set_canvas_position( viz.canvas ) ;

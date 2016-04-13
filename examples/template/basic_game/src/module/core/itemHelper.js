@@ -36,7 +36,8 @@ var itemHelper = {
   		image: itemConfig.image,
 	    inert: itemConfig.inert,
 	    fixed: itemConfig.fixed,
-	    uiSwitch: itemConfig.uiSwitch,
+	    uiSwitch: itemConfig.uiSwitch || false,
+  		callback: itemConfig.callback,
 	    render: itemConfig.render || drawHelper.image, // drawHelper.image expects "this" to  be "item"
 		  responseSet: {}, // add response objects separately
 	    collision_image: actionHelper.collision_image, // actionHelper.collision_image() expects "this" to be "item"

@@ -16,10 +16,6 @@ var vizHelper = {
 	  	vizConfig.inputEvent = inputEvent ;
 	  }
 
-		if ( vizConfig.buttonpress === undefined ) {
-	  	vizConfig.buttonpress = inputEvent.buttonpress ;
-	  }	  
-
 	  /* 
 	   *   TEMPORARY VARIABLES:
 	   */ 
@@ -107,10 +103,10 @@ var vizHelper = {
 	    fade: imageEffectHelper.fade, 
 	    shake: effectHelper.shake,  
 	    input: vizConfig.inputEvent || inputEvent, 
-	    buttonpress: vizConfig.buttonpress,
 	    screen_callback: vizConfig.screen_callback,
 	    keyboard_callback: vizConfig.keyboard_callback,
 	    setup_item: itemHelper.setup, 
+	    setup_ui: uiHelper.setup,
 	    run: vizConfig.run || vizHelper.run,
 	    stagingArray: vizConfig.item || [],
 	    clearSwitch: true,
@@ -145,7 +141,7 @@ var vizHelper = {
 
 	        if ( this.ui !== undefined ) { 
 		        if ( this.stagingArray[kitem].uiSwitch === true ) {
-		        	if ( this.ui.item.indexOf(thix.stagingArray[kitem]) === -1) {
+		        	if ( this.ui.item.indexOf(this.stagingArray[kitem]) === -1) {
 		            this.ui.item.push( this.stagingArray[kitem] ) ;	        		
 		        	}
 		        }
@@ -159,7 +155,7 @@ var vizHelper = {
 
 	      // var clearSwitch = false ;
 	      if (this.clearSwitch === true) {
-	      	// this.fullContext.clearRect(0, 0, this.fullCanvas.width, this.fullCanvas.height) ;		      	
+	      	this.fullContext.clearRect(0, 0, this.fullCanvas.width, this.fullCanvas.height) ;		      	
 	      }
 	      
 	      var alphaSwitch = false  ; // #todo: move to config object

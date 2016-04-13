@@ -10,12 +10,14 @@ var uiHelper = {
 
       canvas:   uiConfig.canvas  || imageHelper.create(viz.width, viz.height),
       context:  uiConfig.context || imageHelper.create(viz.width, viz.height).context(),
-      item:     uiConfig.item,
-      callback: uiConfig.callback,
+      item:     uiConfig.item || [],
+      // callback: uiConfig.callback,
 
     } ;
 
-    return ui ;
+    viz.ui = ui ;
+
+    return viz ;
     
   },
 

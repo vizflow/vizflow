@@ -346,10 +346,11 @@ var imageHelper = {
 
 	  var context = canvas.context() ;
 
-	  for(var kItem = 0 ; kItem < Nitem ; kItem++) {
+	  for(var kItem = 0 ; kItem < item.length ; kItem++) {
 
 	  	var imageDataK = item[kItem]
 	  		.image
+	  		.originalCanvas
 	  		.context()
 	  		.getImageData(0, 0, item[kItem].image.width, item[kItem].image.height) ;
 
@@ -366,6 +367,8 @@ var imageHelper = {
 	    context.drawImage(tempCanvas, item[kItem].x, item[kItem].y) ; // draw color-indexed button for color picking
 
 	  }
+
+	  // console.log('indexed draw: ', 'item', item)
 
 	  return canvas ;	
 
