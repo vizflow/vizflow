@@ -8,6 +8,9 @@ document.body.style.margin    = 0 ;
 document.image = [ 
 	
 	'./image/vizflow.png',
+	'./image/camp.png',
+	'./image/knight.png',
+	'./image/knight_spritesheet.png',
 
 ] ;
 	  

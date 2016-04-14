@@ -18,7 +18,7 @@ function run_game() {
     color: blueish,
     height: size,
     width: size,
-    angle: 50,
+    angle: 0,
     x: 0,
     y: 0,
 
