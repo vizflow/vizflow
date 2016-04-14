@@ -61,10 +61,12 @@ function run_game() {
         var scoreIncrease = 100 ;
 
         if ( this.image === greenRectImage ) {
-          this.viz.score += scoreIncrease ;
+
+          this.viz.score.increase() ;
           var Nflash = 3 ;
           var flashDuration = 100 ;   
           this.flash(Nflash, flashDuration) ;
+
         }
         // console.log('item callback: ', 'this', this, 'this.viz.score', this.viz.score) ;
 
@@ -82,11 +84,12 @@ function run_game() {
 
   var viz = vizHelper.setup(vizConfig) ; // first create generic vizflow configuration object, then add application-specific details
 
-  viz.score = 0 ; // initialize
-
-  var dur = 500 ;
-
   function green_flash() {
+
+    var minDur = 100 ;
+
+    var d0  = 400 ;
+    var dur = minDur + d0 - d0 * (1 - Math.exp(-0.005 * viz.score.value)) ;
 
     var kRand = Math.floor( Nitem * Math.random() ) ;
 
@@ -141,6 +144,7 @@ function run_game() {
   } ;
 
   viz.setup_ui(uiConfig) ;
+  viz.setup_score() ;
 
   viz.run() ;
 

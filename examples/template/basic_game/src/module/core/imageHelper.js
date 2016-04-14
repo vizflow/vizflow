@@ -48,18 +48,20 @@ var imageHelper = {
 		var font     = textConfig.font || '11px Lucida Console' ;
 		var alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split("") ;
 
-		var sprite   = {} ;
+		var sprite   = {} ; // initialize output variable
 
 		for ( kchar = 0 ; kchar < alphabet.length ; kchar++ ) {
 
-			sprite[alphabet[kchar]] = imageHelper.word({
+			var letter = imageHelper.word({
 
 				font:  textConfig.font  || 'Lucida',
-				px:    textConfig.px    || 24,
+				px:    textConfig.px    || 72,
 				color: textConfig.color || '#FFFF30',
 				text:  alphabet[kchar],
 
 			}) ;
+
+			sprite[alphabet[kchar]] = [letter] ;
 		
 		}
 

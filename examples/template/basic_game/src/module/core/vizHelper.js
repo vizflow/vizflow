@@ -107,6 +107,7 @@ var vizHelper = {
 	    keyboard_callback: vizConfig.keyboard_callback,
 	    setup_item: itemHelper.setup, 
 	    setup_ui: uiHelper.setup,
+	    setup_score: scoreHelper.setup, //  score setup function for games (optional, don't have to use it for non-games)
 	    run: vizConfig.run || vizHelper.run,
 	    stagingArray: vizConfig.item || [],
 	    clearSwitch: true,

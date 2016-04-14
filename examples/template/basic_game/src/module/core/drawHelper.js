@@ -22,8 +22,8 @@ var drawHelper = {
 
     if(item.fixed === true) {
 
-      viewX = viz.viewportX ;
-      viewY = viz.viewportY ;
+      viewX = item.viz.viewportX ;
+      viewY = item.viz.viewportY ;
 
     } else {
 
