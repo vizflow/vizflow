@@ -26,13 +26,46 @@ var imageHelper = {
 		var image  = imageHelper.create(width * text.length, height) ;
 
 		var offsetX = 0 ;
+
 		for(var kchar = 0 ; kchar < text.length ; kchar++) {
+
 			// console.log('text2image sprite', 'sprite[text[kchar]', sprite[text[kchar]]);
 			image.context().drawImage(sprite[text[kchar]][0], offsetX, 0) ;
 			offsetX += width ;
+
 		}
 
 		return image ;
+
+	},
+
+	text_sprite: function image_helper_text_sprite(textConfig) {
+
+		if ( textConfig === undefined ) {
+			textConfig = {} ;
+		}
+		
+		var font     = textConfig.font || '11px Lucida Console' ;
+		var alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split("") ;
+
+		var sprite   = {} ; // initialize output variable
+
+		for ( kchar = 0 ; kchar < alphabet.length ; kchar++ ) {
+
+			var letter = imageHelper.word({
+
+				font:  textConfig.font  || 'Lucida',
+				px:    textConfig.px    || 72,
+				color: textConfig.color || '#FFFF30',
+				text:  alphabet[kchar],
+
+			}) ;
+
+			sprite[alphabet[kchar]] = [letter] ;
+		
+		}
+
+		return sprite ;
 
 	},
 
@@ -49,6 +82,7 @@ var imageHelper = {
     var imageContext = image.context() ;
     
     var rect = {
+
       x: 0,
       y: 0,
       width: image.width,
@@ -56,6 +90,7 @@ var imageHelper = {
       color: '#FFF',
       stroke: 'rgba(0, 0, 0, 0)',
       opacity: 1,
+
     } ;
 
     drawHelper.rect (rect, imageContext) ;
@@ -104,8 +139,9 @@ var imageHelper = {
 
 	  wordImage.width  = wordWidth ;
 	  wordImage.height = wordHeight ;
-	  wordContext.font = Npx + 'px ' + fontName ;
-	  wordContext.textBaseline='bottom' ;
+
+	  wordContext.font         = Npx + 'px ' + fontName ;
+	  wordContext.textBaseline ='bottom' ;
 
 	  if(wordConfig.color === undefined) {
 	  	wordConfig.color = 'rgba(0, 0, 0, 1)' ;
@@ -114,8 +150,10 @@ var imageHelper = {
     wordContext.fillStyle = wordConfig.color ;
 	  wordContext.fillText(wordConfig.text, 0, Npx) ;
 
-	  var threshold = 50 ;
-	  imageEffectHelper.binary_opacity_filter(wordImage, threshold) ;
+	  if ( wordConfig.binarySwitch === true ) { 
+		  var threshold = 50 ;
+		  imageEffectHelper.binary_opacity_filter(wordImage, threshold) ;
+	  }
 
 	  // imageHelper.view(wordImage)
 
