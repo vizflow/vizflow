@@ -1,6 +1,36 @@
 var imageEffectHelper = {
 
-		binary_opacity_filter: function effect_image_binary_opacity_filter (canvas, threshold)	 {
+	  pixel_foreach: function image_effect_helper_pixel_foreach ( canvas, func, channel ) {
+
+	  	if ( channel === undefined ) {
+	  		channel = -1 ; // r, g, b channels by default
+	  	}
+
+			var context = canvas.context() ;
+			var image   = context.getImageData (0, 0, canvas.width, canvas.height) ;
+			var data    = image.data ;
+			var Npel    = data.length / 4 ;
+			var offset  = 0 ;
+			var opacity = new Array(Npel) ;
+
+			for (var kpel = 0 ; kpel < Npel ; kpel++) {
+				if ( channel >= 0 && channel < 4 ) {
+			  	data[offset + channel] = func(data[offset + channel]) ;					
+				} else if ( channel === - 1 ) {
+			  	data[offset + 0] = func(data[offset + 0]) ;					
+			  	data[offset + 1] = func(data[offset + 1]) ;					
+			  	data[offset + 2] = func(data[offset + 2]) ;					
+				}
+			  offset += 4 ;
+			}
+
+			console.log('pixel_foreach: ', 'data', data) ;
+
+			context.putImageData(image, 0, 0) ;
+
+	  },
+
+		binary_opacity_filter: function image_effect_helper_binary_opacity_filter (canvas, threshold)	 {
 
 			var context = canvas.context() ;
 			var image   = context.getImageData (0, 0, canvas.width, canvas.height) ;
@@ -29,7 +59,40 @@ var imageEffectHelper = {
 			  }
 			  offset += 4 ;
 			}    
+
 			context.putImageData(image, 0, 0) ;
+
+		},
+
+		color_filter: function image_effect_helper_color_filter (canvas, color, strength) {
+
+			// strength goes from 0 to 1
+
+			if( strength > 1 ) {
+				strength = 1 ;
+			} 
+
+			if ( strength < 0 ) {
+				strength = 0 ;
+			}
+
+			function blend(x, y, c1) {
+				var mixedVal = (1 - c1) * x + c1 * y ;
+				console.log('blend: ', 'x, y, c1, mixedVal', x, y, c1, mixedVal) ;
+				return Math.round(mixedVal) ;
+			}
+
+			var filteredImage = imageHelper.copy(canvas) ;
+
+			for (kclr = 0 ; kclr < color.length ; kclr++) {
+
+				if(color[kclr] !== undefined) {
+					imageEffectHelper.pixel_foreach( filteredImage, function(x) { blend(x, color[kclr], strength) }, kclr ) ;
+				}
+
+			}
+
+			return filteredImage ;
 
 		},
 

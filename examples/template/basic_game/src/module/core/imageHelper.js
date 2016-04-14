@@ -252,6 +252,17 @@ var imageHelper = {
 
 	},
 
+	copy: function image_helper_copy (image) {
+
+		var copy    = imageHelper.create(image.width, image.height) ;
+		var context = copy.context() ;
+		
+		context.drawImage(image, 0, 0) ;
+
+		return copy ;
+
+	},
+
 	block_copy: function image_helper_block_copy (sourceImageData, ratio) {
 
 	  var destImage = imageHelper.create(sourceImageData.width * ratio, sourceImageData.height * ratio) ;
