@@ -5,19 +5,19 @@ function run_game() {
 	var item = new Array(Nitem) ;
 
 	var radius = 100 ;
-	var size = 40 ;
+	var size = 80 ;
 	var xShift = 0.5 * 480 ;
 	var yShift = 0.5 * 640 ;
 	var blueish = '#6666FF' ;
 	var greenish = '#66FF66' ;
-	var angle0 = 0.5 * Math.PI ;
+	var angle0 = 2.5 * Math.PI ;
 
 	var blueRect = {
 
 		color: blueish,
 		height: size, 
 		width: size,
-		angle: 0,
+		angle: 30,
 		x: 0,
 		y: 0,
 
