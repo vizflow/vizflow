@@ -6,8 +6,8 @@ function run_game() {
   var item  = new Array(Nitem) ;
 
   var radius   = 100 ;
-  var size     = 40 ;
-  var xShift   = 0.5 * 480 ;
+  var size     = 30 ;
+  var xShift   = 0.25 * 480 ;
   var yShift   = 0.5 * 640 ;
   var blueish  = '#3030FF' ;
   var greenish = '#30FF30' ;
@@ -40,7 +40,7 @@ function run_game() {
 
   for ( var kItem = 0 ; kItem < Nitem ; kItem++ ) {
 
-    var angle = 2 * (kItem / Nitem) * Math.PI - angle0 ; // evenly spaced around the circle 
+    var angle = 4 * (kItem / Nitem) * Math.PI - angle0 ; // evenly spaced around the circle 
     var x     = radius * Math.cos(angle) + xShift ;
     var y     = radius * Math.sin(angle) + yShift ;
 

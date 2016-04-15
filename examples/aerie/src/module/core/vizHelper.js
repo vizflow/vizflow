@@ -85,8 +85,8 @@ var vizHelper = {
 	    displayContext: displayContext,
 	    screenCanvas:   screenCanvas, 
 	    screenContext:  screenContext,
-	    xShift:         Math.floor(0.5 * (paddingFactor - 1) * vizWidth + 1),
-	    yShift:         Math.floor(0.5 * (paddingFactor - 1) * vizHeight),
+	    xShift:         vizConfig.xShift || 0,
+	    yShift:         vizConfig.yShift || 0,
 	    resizeSkip:     resizeSkip,
 	    lastCollision:  0,
 	    lastResize:     0,
@@ -165,6 +165,7 @@ var vizHelper = {
 	      }
 
 	      if (this.image !== undefined) {
+	      	// console.log('drawImage') ;
 	      	this.fullContext.drawImage (this.image, 0, 0) ; // draw background image if there is one
 	      }
 	      // this.displayContext.globalAlpha = 1 ;

@@ -2,14 +2,14 @@ var playerHelper = {
 
 	setup: function player_helper_setup(viz) {
 
-		viz.player              = setup_element(viz, viz.playerConfig) ;
+	  viz.player              = setup_element(viz, viz.playerConfig) ;
 	  viz.player.orientation  = 'r' ; // all players start facing right
 	  viz.player.level        = 0 ;
 	  viz.player.update       = playerHelper.update_player ;
 	  viz.player.levelup      = playerHelper.levelup ;
 	  viz.player.load_bullet  = playerHelper.load_bullet ;
-    viz.player.fire_powerup = powerupHelper.fire ;
-    viz.player.paused       = true ;
+      viz.player.fire_powerup = powerupHelper.fire ;
+      viz.player.paused       = true ;
 
 	},
 	
