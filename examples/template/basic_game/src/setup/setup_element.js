@@ -15,6 +15,7 @@ function setup_element (viz, elementConfig) {
   } else {
 
     element.spriteR = elementConfig.sprite_loader () ;
+    // console.log('setup_element', 'element.spriteR.rest',element.spriteR.rest) ;
     element.spriteL = spriteHelper.horizontal_flip(element.spriteR) ;
 
   }

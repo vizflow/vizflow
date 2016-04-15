@@ -185,7 +185,7 @@ var vizHelper = {
 	      var dw = displayCanvas.width ;
 	      var dh = displayCanvas.height ;
 	      this.displayCanvas.width = this.displayCanvas.width ;
-	      console.log('sx, sy, sw, sh, dx, dy, dw, dh', sx, sy, sw, sh, dx, dy, dw, dh) ;
+	      // console.log('sx, sy, sw, sh, dx, dy, dw, dh', sx, sy, sw, sh, dx, dy, dw, dh) ;
 	      this.displayContext.drawImage(this.fullCanvas, sx, sy, sw, sh, dx, dy, dw, dh) ;
 
 	      this.screenCanvas.width        = this.screenCanvas.width ; // clearRect(0, 0, this.screenCanvas.width, this.displayCanvas.height) ;

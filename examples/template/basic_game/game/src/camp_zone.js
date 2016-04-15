@@ -7,45 +7,46 @@ function camp_zone() {
 		frameDurationFactor: 3,
     music: undefined,
     name: 'camp',
-    xShift: 140,
-    yShift: 180,
+    xShift: 400,
+    yShift: 550,
     width: 192,
     height: 256,
 
 	} ;
 
 	viz = vizHelper.setup(vizConfig) ;
- 
-  // console.log ('viz.run') ;
 
 	var tileWidth  = 52 ;
   var tileHeight = 80 ; 
 
-  	viz.playerConfig = {
+	viz.playerConfig = {
 
-  	
 	  sprite_loader: function() {
-    console.log('spriteloader') ;
+    // console.log('spriteloader') ;
     var i = imageHelper.image2canvas('./image/knight_spritesheet.png') ;
-
     var rowName = ['rest'] ;
-
     var width   = [tileWidth] ;
-
     var height  = [tileHeight] ;
 
     maxHeight = Math.max.apply(null, height) ;
     var spriteset = spriteHelper.get(i, rowName, width, height) ;
-
+    // console.log('spriteset', spriteset) ;
+    // imageHelper.view(spriteset.rest[0]) ;
+    // spriteset.rest = spriteset.rest0 ;
     return spriteset ;
 
   	},
 
-    x: 140,
-    y: 180,
-    opacity: 1,
+    // xMove: 7,
+    // yMove: 60,
+    x: 0,
+    y: 0,
+    // type: 'player',
+
 
   } ;
+
+  playerHelper.setup(viz) ;
 
    viz.run() ;
 
