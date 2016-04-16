@@ -1,5 +1,11 @@
 function run_game() {
+
+  /*
+   * when using vizflow it's easier to create the viz object and then add the items to it afterwards:
+   */
   
+  var viz = vizHelper.setup() ; // first create generic vizflow configuration object, then add application-specific details
+
   // console.log('run_game: start') ;
 
   var Nitem = 7 ; 
@@ -15,16 +21,16 @@ function run_game() {
 
   var blueRect = { 
 
-    color: blueish,
+    color:  blueish,
     height: size,
-    width: size,
-    angle: 0,
-    x: 0,
-    y: 0,
+    width:  size,
+    angle:  0,
+    x:      0,
+    y:      0,
 
   } ;
 
-  var greenRect = Object.assign( Object.copy(blueRect), { color: greenish } ) ;
+  var greenRect      = Object.assign( Object.copy(blueRect), { color: greenish } ) ;
 
   var blueRectImage  = imageHelper.create(size, size) ;
   var greenRectImage = imageHelper.create(size, size) ;
@@ -51,21 +57,28 @@ function run_game() {
       angle:  angle,
       xAngle: 0.5 * size,
       yAngle: 0.5 * size,
-      render: drawHelper.image,
       image:  blueRectImage,
 
       uiSwitch: true,
 
       callback: function item_callback() {
 
+        var item = this ;
+
         var scoreIncrease = 100 ;
 
-        if ( this.image === greenRectImage ) {
+        if ( item.image === greenRectImage ) {
 
-          this.viz.score.increase() ;
-          var Nflash = 3 ;
-          var flashDuration = 100 ;   
-          this.flash(Nflash, flashDuration) ;
+          item.viz.score.increase() ;
+          var fadeDur = 100 ;   
+          item.white.fade({
+            duration: fadeDur,
+            end: function() {
+              item.white.fade({
+                duration: fadeDur,
+              }) ;
+            },
+          }) ;
 
         }
         // console.log('item callback: ', 'this', this, 'this.viz.score', this.viz.score) ;
@@ -74,15 +87,25 @@ function run_game() {
 
     } ;
 
-    item[kItem] = itemHelper.setup(itemConfig) ;
+    item[kItem] = viz.setup_item(itemConfig) ;
+    item[kItem].default_child() ;
+    item[kItem].add() ;
 
   }
 
-  var vizConfig = {
-    item: item,
-  } ;
 
-  var viz = vizHelper.setup(vizConfig) ; // first create generic vizflow configuration object, then add application-specific details
+  var uiCanvas = imageHelper.create(viz.width, viz.height) ;
+
+  var uiConfig = {
+
+    canvas:   uiCanvas,
+    context:  uiCanvas.context(),
+
+  } ;  
+
+  viz.setup_ui(uiConfig) ;
+  viz.setup_score() ;
+  viz.run() ;
 
   function green_flash() {
 
@@ -134,21 +157,7 @@ function run_game() {
 
   }
 
-  var uiCanvas = imageHelper.create(viz.width, viz.height) ;
-
-  var uiConfig = {
-
-    canvas:   uiCanvas,
-    context:  uiCanvas.context(),
-
-  } ;
-
-  viz.setup_ui(uiConfig) ;
-  viz.setup_score() ;
-
-  viz.run() ;
-
-  green_flash() ; // start the green squares flashing
+  // green_flash() ; // start the green squares flashing
 
   // console.log('viz', viz) ;
 

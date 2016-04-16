@@ -1,7 +1,7 @@
 var itemHelper = {
 
 	setup: function item_helper_setup(itemConfig, viz) {
-		
+
 		if(viz === undefined) {
 		  viz = this ;
 		}
@@ -16,29 +16,30 @@ var itemHelper = {
 
 		var item = { // configurable properties: x, y, type, element, opacity, image, inert, render, fixed, transition
 
-  		config: itemConfig,
-	    viz: itemConfig.viz || viz, 
-			x: itemConfig.x,
-			y: itemConfig.y,
-			angle: itemConfig.angle     || 0,
-			xOrigin: itemConfig.xOrigin || 0,
-			yOrigin: itemConfig.yOrigin || 0,
-			xAngle: itemConfig.xAngle   || 0,
-		  yAngle: itemConfig.yAngle   || 0,
-			type: itemConfig.type,
-			element: itemConfig.element,
-			enter: itemConfig.enter,
-			exit: itemConfig.exit,
-		  opacity: itemConfig.opacity,
-			color: itemConfig.color,
-			width: itemConfig.width,
-			height: itemConfig.height,
-  		image: itemConfig.image,
-	    inert: itemConfig.inert,
-	    fixed: itemConfig.fixed,
+  		config:   itemConfig,
+	    viz:      itemConfig.viz || viz, 
+			x:        itemConfig.x,
+			y:        itemConfig.y,
+			angle:    itemConfig.angle     || 0,
+			xOrigin:  itemConfig.xOrigin || 0,
+			yOrigin:  itemConfig.yOrigin || 0,
+			xAngle:   itemConfig.xAngle   || 0,
+		  yAngle:   itemConfig.yAngle   || 0,
+			type:     itemConfig.type,
+			element:  itemConfig.element,
+			enter:    itemConfig.enter,
+			exit:     itemConfig.exit,
+		  opacity:  itemConfig.opacity,
+			color:    itemConfig.color,
+			width:    itemConfig.width,
+			height:   itemConfig.height,
+  		image:    itemConfig.image,
+  		child:    itemConfig.child,
+	    inert:    itemConfig.inert,
+	    fixed:    itemConfig.fixed,
 	    uiSwitch: itemConfig.uiSwitch || false,
   		callback: itemConfig.callback,
-	    render: itemConfig.render || drawHelper.image, // drawHelper.image expects "this" to  be "item"
+	    render:   itemConfig.render || drawHelper.item, // drawHelper.image expects "this" to  be "item"
 		  responseSet: {}, // add response objects separately
 	    collision_image: actionHelper.collision_image, // actionHelper.collision_image() expects "this" to be "item"
 	    add: itemHelper.add,
@@ -49,10 +50,33 @@ var itemHelper = {
 	    flash: effectHelper.flash,
 	    remove: itemHelper.remove,
   		zoom: itemHelper.zoom,
+  		default_child: itemHelper.default_child,
 
 		} ;
 
 		return item ;
+
+	},
+
+	default_child: function item_helper_default_child (item) {
+
+		if ( item === undefined ) {
+			item = this ;
+		}
+
+		if ( item.child === undefined ) {
+			item.child = [] ; // initialize
+		}
+
+		var white = imageEffectHelper.color_filter(item.image, [255, 255 , 255]) ;
+
+		item.white = Object.copy(item) ;
+		item.white.child = undefined ;
+
+		item.white.image = white ;
+		item.white.opacity = 0 ;
+
+		item.child.push(item.white) ;
 
 	},
 

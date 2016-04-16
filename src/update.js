@@ -10,8 +10,6 @@ export default function update() { // default update function for handling anima
 		el.transition = [el.transition] ;
 	}
 
-	$Z.currentTime = Date.now() ;
-
 	for(let kt = 0 ; kt < el.transition.length ; kt++) {
 
 		let trans = el.transition[kt] ; // transition object for each state variable that is changing
