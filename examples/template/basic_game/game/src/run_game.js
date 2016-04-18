@@ -70,9 +70,10 @@ function run_game() {
         if ( item.image === greenRectImage ) {
 
           item.viz.score.increase() ;
-          var fadeDur = 100 ;   
+          var fadeDur = 400 ;   
           item.white.fade({
             duration: fadeDur,
+            pause: fadeDur * 2,
             end: function() {
               item.white.fade({
                 duration: fadeDur,
@@ -109,10 +110,10 @@ function run_game() {
 
   function green_flash() {
 
-    var minDur = 100 ;
+    var minDur = 200 ;
 
-    var d0  = 400 ;
-    var dur = minDur + d0 - d0 * (1 - Math.exp(-0.005 * viz.score.value)) ;
+    var d0  = 300 ;
+    var dur = minDur + d0 - d0 * (1 - Math.exp(-0.0025 * viz.score.value)) ;
 
     var kRand = Math.floor( Nitem * Math.random() ) ;
 
@@ -138,7 +139,7 @@ function run_game() {
 
     var green      = item[kRand] ;
     var bluePause  = dur ;
-    var greenPause = 1.0 * dur ;
+    var greenPause = 2.0 * dur ;
 
     green.fade({
       duration: dur,
@@ -147,7 +148,7 @@ function run_game() {
         green.image = greenRectImage ; // turn random square green
         green.fade({ // fade green square back in
 
-          duration: dur + (greenPause - bluePause),
+          duration: d0,
           pause: greenPause,
           end: green_flash, // repeat
 
@@ -157,7 +158,7 @@ function run_game() {
 
   }
 
-  // green_flash() ; // start the green squares flashing
+  green_flash() ; // start the green squares flashing
 
   // console.log('viz', viz) ;
 
