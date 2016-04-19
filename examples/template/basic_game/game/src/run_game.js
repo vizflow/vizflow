@@ -65,22 +65,47 @@ function run_game() {
 
         var item = this ;
 
-        var scoreIncrease = 100 ;
+        if ( item.clicked === true ) {
+          return ;
+        }
 
-        if ( item.image === greenRectImage ) {
+        item.clicked = true ;
+
+        var scoreIncrease = 100 ;
+        var othresh = 0.6 ;
+
+        if ( item.image === greenRectImage && item.opacity > othresh ) {
+
+          item.viz.flashing = true ;
 
           item.viz.score.increase() ;
-          var fadeDur = 400 ;   
+
+          var fadeDur = 300 ;   
+
           item.white.fade({
+
+            opacity: 1,
             duration: fadeDur,
-            pause: fadeDur * 2,
+            pause: 3 * fadeDur,
+
             end: function() {
+
+              item.viz.flashing = false ;
+              item.viz.green_flash() ;
               item.white.fade({
+                opacity: 0,
                 duration: fadeDur,
+                end: function() {
+                  item.clicked = false ;
+                },
               }) ;
+
             },
+
           }) ;
 
+        } else {
+          item.clicked = false ;
         }
         // console.log('item callback: ', 'this', this, 'this.viz.score', this.viz.score) ;
 
@@ -108,12 +133,17 @@ function run_game() {
   viz.setup_score() ;
   viz.run() ;
 
-  function green_flash() {
+  viz.green_flash = function green_flash() {
 
-    var minDur = 200 ;
+    if ( viz.flashing === true ) {
+      return ;
+    }
 
-    var d0  = 300 ;
-    var dur = minDur + d0 - d0 * (1 - Math.exp(-0.0025 * viz.score.value)) ;
+    var fadeDur = 200 ;
+
+    var d0       = 300 ;
+    var scale    = 0.6 ;
+    var pauseDur = d0 - scale * d0 * (1 - Math.exp(-0.005 * viz.score.value)) ;
 
     var kRand = Math.floor( Nitem * Math.random() ) ;
 
@@ -123,42 +153,59 @@ function run_game() {
     }
 
     if(viz.kGreen !== undefined) {
+
       var blue = item[viz.kGreen] ; // the green item that we want to turn blue
+
       blue.fade({ // fade out green square
-        duration: dur,
+
+        opacity: 0,
+
+        duration: fadeDur,
+
         end: function() {
+
           blue.image = blueRectImage ; // switch green square to blue while fully faded-out
           blue.fade({ // fade blue square back in
-            duration: dur, 
+            opacity: 1,
+            duration: fadeDur, 
           }) ;
+
         },
+
       })
     }
 
     viz.kGreen = kRand ;
 
     var green      = item[kRand] ;
-    var bluePause  = dur ;
-    var greenPause = 2.0 * dur ;
+    var greenPause = 2.0 * pauseDur ;
 
     green.fade({
-      duration: dur,
-      pause: bluePause,
+
+      opacity: 0,
+      duration: fadeDur,
+      pause: pauseDur,
+
       end: function() { // fade random square out before turning it green
+
         green.image = greenRectImage ; // turn random square green
+
         green.fade({ // fade green square back in
 
-          duration: d0,
+          opacity: 1,
+          duration: fadeDur,
           pause: greenPause,
           end: green_flash, // repeat
 
         }) ;
+
       },
+
     }) ;
 
   }
 
-  green_flash() ; // start the green squares flashing
+  viz.green_flash() ; // start the green squares flashing
 
   // console.log('viz', viz) ;
 

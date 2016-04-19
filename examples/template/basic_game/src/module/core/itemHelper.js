@@ -20,11 +20,11 @@ var itemHelper = {
 	    viz:      itemConfig.viz || viz, 
 			x:        itemConfig.x,
 			y:        itemConfig.y,
-			angle:    itemConfig.angle     || 0,
+			angle:    itemConfig.angle   || 0,
 			xOrigin:  itemConfig.xOrigin || 0,
 			yOrigin:  itemConfig.yOrigin || 0,
-			xAngle:   itemConfig.xAngle   || 0,
-		  yAngle:   itemConfig.yAngle   || 0,
+			xAngle:   itemConfig.xAngle  || 0,
+		  yAngle:   itemConfig.yAngle  || 0,
 			type:     itemConfig.type,
 			element:  itemConfig.element,
 			enter:    itemConfig.enter,
@@ -41,16 +41,16 @@ var itemHelper = {
   		callback: itemConfig.callback,
 	    render:   itemConfig.render || drawHelper.item, // drawHelper.image expects "this" to  be "item"
 		  responseSet: {}, // add response objects separately
-	    collision_image: actionHelper.collision_image, // actionHelper.collision_image() expects "this" to be "item"
-	    add: itemHelper.add,
-	    add_transition: transitionHelper.add, // transitionHelper.add expects "this" to be "item"
+	    add:           itemHelper.add,
+	    remove:        itemHelper.remove,
+  		zoom:          itemHelper.zoom,
+  		default_child: itemHelper.default_child,
+	    add_transition:    transitionHelper.add, // transitionHelper.add expects "this" to be "item"
 	    remove_transition: transitionHelper.remove,
-	    add_end: transitionHelper.add_end,
+	    add_end:           transitionHelper.add_end,
+	    collision_image: actionHelper.collision_image, // actionHelper.collision_image() expects "this" to be "item"
 	    fade: imageEffectHelper.fade, // imageEffectHelper.fade expects "this" to be "item"
 	    flash: effectHelper.flash,
-	    remove: itemHelper.remove,
-  		zoom: itemHelper.zoom,
-  		default_child: itemHelper.default_child,
 
 		} ;
 
