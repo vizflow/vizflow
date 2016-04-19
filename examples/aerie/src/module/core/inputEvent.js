@@ -29,7 +29,7 @@ var inputEvent = {
     // console.log('input event: ', 'prep', prep) ;
 
     function run_click () {
-      // console.log('input event run click:', 'inputHandler', inputHandler) ;
+      console.log('input event run click:', 'inputHandler', inputHandler, 'eventList', eventList) ;
       if(event.type === 'touchstart') {
         for(var kEvent = 0 ; kEvent < eventList.length ; kEvent++) {
           this.viz.input.response[inputHandler].call ( this.viz, eventList[kEvent] ) ;        
@@ -58,7 +58,7 @@ var inputEvent = {
 
   up: function input_event_up (event) {
 
-    // console.log('input event up', 'this', this) ;
+    //console.log('input event up', 'this', this) ;
 
     // console.log ('input event up end', 'event', event) ;
 
@@ -71,7 +71,7 @@ var inputEvent = {
       if(viz === undefined) {
         viz = this ;
       }
-
+      // console.log('keyboard_callback', keyboard_callback) ;
       if ( viz.keyboard_callback !== undefined ) {
         viz.keyboard_callback(event) ; 
       }

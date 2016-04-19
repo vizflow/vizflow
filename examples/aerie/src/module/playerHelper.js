@@ -9,34 +9,69 @@ var playerHelper = {
 	  viz.player.levelup      = playerHelper.levelup ;
 	  // viz.player.load_bullet  = playerHelper.load_bullet ;
     // viz.player.fire_powerup = powerupHelper.fire ;
-    viz.player.paused       = true ;
+    viz.player.paused       = false ;
 
 	},
 	
-  update: function player_helper_update(state, player) {
-
-    // console.log ('playerHelper.update: this.callback: state', state, 'this', this) ;
-
+  update: function player_helper_update(player) {
+    // console.log('update player 17') ;
     if( player === undefined ) {
     	player = this ;
     }
-
+    // console.log('player helper 21') ;
     if( player.paused === true ) {
       return ;
-    }
-
-    if( state !== undefined ) {      
-      player.state = state ;
     }
 
     var transition ;
 
     switch( player.state ) {
 
-    }
+      case 'l' :
 
+        var xMin        = -Math.floor(player.sprite.rest[0].originalCanvas.width * 0.5) ;
+        var x           = player.item.x - player.xMove ;
+        var xNew        = Math.max(xMin, x) ;
+        var xTransition = player.transitionSet.x(xNew) ;      
+        player.item.add_transition(xTransition) ;
+
+
+        break ;
+
+      case 'r' :
+
+        var xMin        = -Math.floor(player.sprite.rest[0].originalCanvas.width * 0.5) ;
+        var x           = player.item.x + player.xMove ;
+        var xNew        = Math.max(xMin, x) ;
+        var xTransition = player.transitionSet.x(xNew) ;      
+        player.item.add_transition(xTransition) ;      
+
+        break ;
+     
+      case 'd' :
+
+        var yMin        = -Math.floor(player.sprite.rest[0].originalCanvas.width * 0.5) ;
+        var y           = player.item.y + player.yMove ;
+        var yNew        = Math.max(yMin, y) ;
+        var yTransition = player.transitionSet.y(yNew) ;      
+        player.item.add_transition(yTransition) ;           
+        
+        break ;
+
+      case 'u' :
+
+
+        var yMin        = -Math.floor(player.sprite.rest[0].originalCanvas.width * 0.5) ;
+        var y           = player.item.y - player.yMove ;
+        var yNew        = Math.max(yMin, y) ;
+        var yTransition = player.transitionSet.y(yNew) ;      
+        player.item.add_transition(yTransition) ;           
+
+        break ;      
+ 
+    } 
+        
   },
-
 
 	levelup: function player_helper_levelup( player ) {
 		
