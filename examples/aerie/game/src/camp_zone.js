@@ -70,32 +70,34 @@ function camp_zone() {
 
     viz.player.callback = playerHelper.update ;
 
-    viz.keyboard_callback = function keyboard_callback(event) {
+
+    viz.keyboard_down_callback = function keyboard_down_callback(event) {
    
         var transition     = [] ;
-        var state ;
-
-        switch (event.keyCode) {
-
-          case 37: // left
-            state = 'l' ;
-            break;
-          case 38: // up
-            state = 'u' ;
-            break;
-          case 39: // right
-            state = 'r' ;
-            break;
-          case 40: // down
-          case 13: // enter
-          case 32: // space
-            state = 'd' ;
-            break;
-
-        } 
         
-        this.player.state = state ;
+        if (viz.player.state.indexOf(event.keyCode) == -1) {
+            this.player.state.push(event.keyCode) ;
+        }
+
         this.player.callback() ;
+
+    } ;
+
+    viz.keyboard_up_callback = function keyboard_up_callback(event) {
+        
+        if(viz.player.state.length === 0) {
+            return ;
+        }
+
+        var index = viz.player.state.indexOf(event.keyCode) ;   
+    
+        if (index === -1 ) {
+
+            return ;
+            
+        } else {
+            viz.player.state.splice(index, 1) ;
+        }     
 
     } ;
 

@@ -10,6 +10,7 @@ var playerHelper = {
 	  // viz.player.load_bullet  = playerHelper.load_bullet ;
     // viz.player.fire_powerup = powerupHelper.fire ;
     viz.player.paused       = false ;
+    viz.player.state        = [] ;
 
 	},
 	
@@ -25,51 +26,74 @@ var playerHelper = {
 
     var transition ;
 
-    switch( player.state ) {
+    for (var kState = 0 ; kState < player.state.length ; kState++) {
+      var keyCode = player.state[kState] ;
+      var state ;
 
-      case 'l' :
+        switch (keyCode) {
 
-        var xMin        = -Math.floor(player.sprite.rest[0].originalCanvas.width * 0.5) ;
-        var x           = player.item.x - player.xMove ;
-        var xNew        = Math.max(xMin, x) ;
-        var xTransition = player.transitionSet.x(xNew) ;      
-        player.item.add_transition(xTransition) ;
+          case 37: // left
+            state = 'l' ;
+            break;
+          case 38: // up
+            state = 'u' ;
+            break;
+          case 39: // right
+            state = 'r' ;
+            break;
+          case 40: // down
+          case 13: // enter
+          case 32: // space
+            state = 'd' ;
+            break;
 
+        } 
 
-        break ;
+      switch(state) {
 
-      case 'r' :
+        case 'l' :
 
-        var xMin        = -Math.floor(player.sprite.rest[0].originalCanvas.width * 0.5) ;
-        var x           = player.item.x + player.xMove ;
-        var xNew        = Math.max(xMin, x) ;
-        var xTransition = player.transitionSet.x(xNew) ;      
-        player.item.add_transition(xTransition) ;      
+          var xMin        = -Math.floor(player.sprite.rest[0].originalCanvas.width * 0.5) ;
+          var x           = player.item.x - player.xMove ;
+          var xNew        = Math.max(xMin, x) ;
+          var xTransition = player.transitionSet.x(xNew) ;      
+          player.item.add_transition(xTransition) ;
 
-        break ;
-     
-      case 'd' :
+          break ;
 
-        var yMin        = -Math.floor(player.sprite.rest[0].originalCanvas.width * 0.5) ;
-        var y           = player.item.y + player.yMove ;
-        var yNew        = Math.max(yMin, y) ;
-        var yTransition = player.transitionSet.y(yNew) ;      
-        player.item.add_transition(yTransition) ;           
-        
-        break ;
+        case 'r' :
 
-      case 'u' :
+          var xMin        = -Math.floor(player.sprite.rest[0].originalCanvas.width * 0.5) ;
+          var x           = player.item.x + player.xMove ;
+          var xNew        = Math.max(xMin, x) ;
+          var xTransition = player.transitionSet.x(xNew) ;      
+          player.item.add_transition(xTransition) ;      
 
+          break ;
+       
+        case 'd' :
 
-        var yMin        = -Math.floor(player.sprite.rest[0].originalCanvas.width * 0.5) ;
-        var y           = player.item.y - player.yMove ;
-        var yNew        = Math.max(yMin, y) ;
-        var yTransition = player.transitionSet.y(yNew) ;      
-        player.item.add_transition(yTransition) ;           
+          var yMin        = -Math.floor(player.sprite.rest[0].originalCanvas.width * 0.5) ;
+          var y           = player.item.y + player.yMove ;
+          var yNew        = Math.max(yMin, y) ;
+          var yTransition = player.transitionSet.y(yNew) ;      
+          player.item.add_transition(yTransition) ;           
+          
+          break ;
 
-        break ;      
- 
-    } 
+        case 'u' :
+
+          var yMin        = -Math.floor(player.sprite.rest[0].originalCanvas.width * 0.5) ;
+          var y           = player.item.y - player.yMove ;
+          var yNew        = Math.max(yMin, y) ;
+          var yTransition = player.transitionSet.y(yNew) ;      
+          player.item.add_transition(yTransition) ;           
+
+          break ;      
+   
+      }
+
+    }
         
   },
 

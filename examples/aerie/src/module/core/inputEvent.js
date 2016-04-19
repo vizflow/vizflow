@@ -10,15 +10,15 @@ var inputEvent = {
     switch (event.type) {
 
       case 'keydown': 
-        inputHandler = 'keyboard' ;
+        inputHandler = 'keyboard_down' ;
         eventList = event ;
         break;
       case 'mousedown': 
-        inputHandler = 'screen' ;
+        inputHandler = 'screen_down' ;
         eventList = event ;
         break;
       case 'touchstart':
-        inputHandler = 'screen' ;
+        inputHandler = 'screen_down' ;
         eventList = event.touches ;
         break;
 
@@ -29,7 +29,7 @@ var inputEvent = {
     // console.log('input event: ', 'prep', prep) ;
 
     function run_click () {
-      console.log('input event run click:', 'inputHandler', inputHandler, 'eventList', eventList) ;
+      // console.log('input event run click:', 'inputHandler', inputHandler, 'eventList', eventList) ;
       if(event.type === 'touchstart') {
         for(var kEvent = 0 ; kEvent < eventList.length ; kEvent++) {
           this.viz.input.response[inputHandler].call ( this.viz, eventList[kEvent] ) ;        
@@ -59,26 +59,47 @@ var inputEvent = {
   up: function input_event_up (event) {
 
     //console.log('input event up', 'this', this) ;
+    switch (event.type) {
 
+      case 'keyup': 
+        this.viz.input.response.keyboard_up.call(this.viz, event) ;
+        break;
+      case 'mouseup': 
+        break;
+      case 'touchend':
+        break;
+
+    }     
     // console.log ('input event up end', 'event', event) ;
 
   },
 
   response: {
+
+    keyboard_up: function input_event_response_keyboard_up (event, viz) {
+      // console.log('input event response keyboard up start') ;
+      if (viz === undefined) {
+        viz = this ;
+      }
+      if ( viz.keyboard_up_callback !== undefined ) {
+        viz.keyboard_up_callback(event) ;       
+      }
+
+    },
         
-    keyboard: function input_event_response_keyboard (event, viz) {
+    keyboard_down: function input_event_response_keyboard_down (event, viz) {
 
       if(viz === undefined) {
         viz = this ;
       }
       // console.log('keyboard_callback', keyboard_callback) ;
-      if ( viz.keyboard_callback !== undefined ) {
-        viz.keyboard_callback(event) ; 
+      if ( viz.keyboard_down_callback !== undefined ) {
+        viz.keyboard_down_callback(event) ; 
       }
 
     },
 
-    screen: function input_event_response_screen (event, viz) {
+    screen_down: function input_event_response_screen_down (event, viz) {
 
       if(viz === undefined) {
         viz = this ;
