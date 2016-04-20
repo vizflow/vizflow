@@ -4,6 +4,7 @@ function load_game () {
   document.ratio = 2 ;
 
 	// console.log('load_game 9') ;
-  player_select() ;
+  var viz = loadHelper.setup() ;
+  viz.run() ;
 
 }

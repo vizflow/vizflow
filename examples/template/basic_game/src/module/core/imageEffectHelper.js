@@ -233,7 +233,7 @@ var imageEffectHelper = {
 					context.drawImage(item.image, sx, sy, sw, sh, dx, dy, dw, dh) ;
 					var k = krow * Ncol + kcol ;
 					var xTrans = $Z.transition.rounded_linear_transition_func('x', duration)((Math.random() - 0.5) * 2 * scale + item.x + sx) ;
-					block[k] = { 
+					block[k] = Object.assign(itemHelper.setup(), { 
 						viz: item.viz,
 						x: item.x + sx,
 						y: item.y + sy,
@@ -245,7 +245,7 @@ var imageEffectHelper = {
 							xTrans,
 							$Z.transition.rounded_linear_transition_func('y', duration)((Math.random() - 0.5) * 2 * scale + item.y + sy),
 						],
-					} ;
+					}) ;
 					xTrans.end = transitionHelper.remove_end(block[k]) ;
 					if(fadeSwitch) {
 						imageEffectHelper.fade.call(block[k], { duration: duration }) ;		

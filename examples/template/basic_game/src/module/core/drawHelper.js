@@ -1,6 +1,6 @@
 var drawHelper = {
 
-  item: function draw_helper_element ( item, context, ratio ) { // render item and its child items
+  item: function draw_helper_item ( item, context, ratio ) { // render item and its child items
 
     if ( item === undefined ) {
       item = this ;

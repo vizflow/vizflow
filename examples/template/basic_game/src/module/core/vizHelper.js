@@ -17,7 +17,7 @@ var vizHelper = {
 	  }
 
 	  /* 
-	   *   TEMPORARY VARIABLES:
+	   *   TEMPORARY VARIABLES USED FOR SETTING UP THE "viz" OBJECT:
 	   */ 
 
 	  var dur           = vizConfig.duration || 17 ; // the framespeed that vizflow uses (default is 60 frames per second)
@@ -64,6 +64,14 @@ var vizHelper = {
 
 	  var resizeSkip  = 3 * vizConfig.frameDurationFactor ; // how often to check for window resize events
 
+	  var vizOpacity ;
+
+	  if ( vizConfig.opacity === undefined ) {
+	  	vizOpacity = 1 ;
+	  } else {
+		  vizOpacity = vizConfig.opacity ;
+	  }
+
 	  /*
 	   *   DEFINE THE VIZ OBJECT:
 	   */
@@ -94,10 +102,10 @@ var vizHelper = {
 	    viewportY:      0,
 	    viewportWidth:  displayCanvas.width,
 	    viewportHeight: displayCanvas.height,
-	    detect: actionHelper.detect,
+	    detect:  actionHelper.detect,
 	    perform: actionHelper.perform,
 	    image_transition: transitionHelper.step_func('image', frameDuration),  
-	    opacity: 1,
+	    opacity: vizOpacity,
 	    add_transition: transitionHelper.add, 
 	    remove_transition: transitionHelper.remove,
 	    fade: imageEffectHelper.fade, 
@@ -238,8 +246,8 @@ var vizHelper = {
 	  document.addEventListener('mousedown', viz.input.down, false) ;
 	  document.addEventListener('mouseup', viz.input.up, false) ;
 
-	  document.addEventListener(
-
+	  document.addEventListener
+	  (
 	    'touchstart', 
 
 	    function(event) {
@@ -254,7 +262,6 @@ var vizHelper = {
 	    }, 
 
 	    false // function argument list cannot have trailing comma
-
 	  ) ;
 
 	  document.addEventListener('touchend', viz.input.up,   false) ;

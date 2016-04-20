@@ -26,13 +26,46 @@ var imageHelper = {
 		var image  = imageHelper.create(width * text.length, height) ;
 
 		var offsetX = 0 ;
+
 		for(var kchar = 0 ; kchar < text.length ; kchar++) {
+
 			// console.log('text2image sprite', 'sprite[text[kchar]', sprite[text[kchar]]);
 			image.context().drawImage(sprite[text[kchar]][0], offsetX, 0) ;
 			offsetX += width ;
+
 		}
 
 		return image ;
+
+	},
+
+	text_sprite: function image_helper_text_sprite(textConfig) {
+
+		if ( textConfig === undefined ) {
+			textConfig = {} ;
+		}
+		
+		var font     = textConfig.font || '11px Lucida Console' ;
+		var alphabet = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split("") ;
+
+		var sprite   = {} ; // initialize output variable
+
+		for ( kchar = 0 ; kchar < alphabet.length ; kchar++ ) {
+
+			var letter = imageHelper.word({
+
+				font:  textConfig.font  || 'Lucida',
+				px:    textConfig.px    || 72,
+				color: textConfig.color || '#FFFF30',
+				text:  alphabet[kchar],
+
+			}) ;
+
+			sprite[alphabet[kchar]] = [letter] ;
+		
+		}
+
+		return sprite ;
 
 	},
 
@@ -49,6 +82,7 @@ var imageHelper = {
     var imageContext = image.context() ;
     
     var rect = {
+
       x: 0,
       y: 0,
       width: image.width,
@@ -56,6 +90,7 @@ var imageHelper = {
       color: '#FFF',
       stroke: 'rgba(0, 0, 0, 0)',
       opacity: 1,
+
     } ;
 
     drawHelper.rect (rect, imageContext) ;
@@ -104,8 +139,9 @@ var imageHelper = {
 
 	  wordImage.width  = wordWidth ;
 	  wordImage.height = wordHeight ;
-	  wordContext.font = Npx + 'px ' + fontName ;
-	  wordContext.textBaseline='bottom' ;
+
+	  wordContext.font         = Npx + 'px ' + fontName ;
+	  wordContext.textBaseline ='bottom' ;
 
 	  if(wordConfig.color === undefined) {
 	  	wordConfig.color = 'rgba(0, 0, 0, 1)' ;
@@ -114,8 +150,10 @@ var imageHelper = {
     wordContext.fillStyle = wordConfig.color ;
 	  wordContext.fillText(wordConfig.text, 0, Npx) ;
 
-	  var threshold = 50 ;
-	  imageEffectHelper.binary_opacity_filter(wordImage, threshold) ;
+	  if ( wordConfig.binarySwitch === true ) { 
+		  var threshold = 50 ;
+		  imageEffectHelper.binary_opacity_filter(wordImage, threshold) ;
+	  }
 
 	  // imageHelper.view(wordImage)
 
@@ -188,7 +226,7 @@ var imageHelper = {
 		context.mozImageSmoothingEnabled    = false ;
 		context.webkitImageSmoothingEnabled = false ;
 		context.msImageSmoothingEnabled     = false ;
-		context.imageSmoothingEnabled       = false 			;  	
+		context.imageSmoothingEnabled       = false ;  	
 
 		return context ;
 
@@ -211,6 +249,17 @@ var imageHelper = {
 		newCanvas.originalCanvas = canvas ;
 		
 		return newCanvas ;
+
+	},
+
+	copy: function image_helper_copy (image) {
+
+		var copy    = imageHelper.create(image.width, image.height) ;
+		var context = copy.context() ;
+		
+		context.drawImage(image, 0, 0) ;
+
+		return copy ;
 
 	},
 
@@ -307,6 +356,70 @@ var imageHelper = {
 
 		// console.log('imageHelper.get_original', 'canvas', canvas) ;
 		return canvas.originalCanvas ;
+
+	},
+
+  to_index: function image_helper_to_index(img0, index) {
+
+	  var img = new_image_data(img0.width, img0.height) ; // var img  = new ImageData(img0.width, img0.height) ; // duplicate original image to avoid mutating it
+
+	  var Npel = img.data.length / 4 ;
+
+	  for (var k = 0 ; k < Npel ; k++) {
+
+	    var offset = k * 4 ;
+	    var a = img0.data[offset + 3] ; // alpha channel encodes opacity value
+
+	    if (a > 0) { // means this pixel is not transparent
+
+	      img.data[offset + 0] = index + 1 ; // recolor by index (avoid black)
+	      img.data[offset + 1] = 0 ;         // not using g channel 
+	      img.data[offset + 2] = 0 ;         // not using b channel
+	      img.data[offset + 3] = 255 ;       // nonzero alpha channel
+
+	    }
+
+	  }  
+
+	  return img ;
+
+	},
+
+	indexed_draw: function image_helper_indexed_draw(item, canvas, width, height) { // takes an array of items and draws them using indexed colors
+
+	  if(canvas === undefined) { 
+	  	var canvas  = imageHelper.create (width, height) ;
+	  } else {
+	  	canvas.width = canvas.width // resets the canvas simiar to clearRect
+	  }
+
+	  var context = canvas.context() ;
+
+	  for(var kItem = 0 ; kItem < item.length ; kItem++) {
+
+	  	var imageDataK = item[kItem]
+	  		.image
+	  		.originalCanvas
+	  		.context()
+	  		.getImageData(0, 0, item[kItem].image.width, item[kItem].image.height) ;
+
+	    var imageK     = imageHelper.to_index(imageDataK, kItem) ; // ImageData object
+	    var tempCanvas = imageHelper.create(item[kItem].image.width, item[kItem].image.height) ;
+
+	    tempCanvas
+	      .context()
+	      .clearRect(0, 0, tempCanvas.width, tempCanvas.height) ;
+	    tempCanvas
+	      .context()
+	      .putImageData(imageK, 0, 0) ;
+
+	    context.drawImage(tempCanvas, item[kItem].x, item[kItem].y) ; // draw color-indexed button for color picking
+
+	  }
+
+	  // console.log('indexed draw: ', 'item', item)
+
+	  return canvas ;	
 
 	},
 

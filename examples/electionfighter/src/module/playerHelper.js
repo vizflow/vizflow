@@ -10,7 +10,7 @@ var playerHelper = {
 	  viz.player.levelup      = playerHelper.levelup ;
 	  viz.player.load_bullet  = playerHelper.load_bullet ;
     viz.player.fire_powerup = powerupHelper.fire ;
-    viz.player.paused = true ;
+    viz.player.paused       = true ;
 
 	},
 	

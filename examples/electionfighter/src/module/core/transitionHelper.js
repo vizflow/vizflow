@@ -234,7 +234,15 @@ var transitionHelper = {
 
     return dur ;
 
-  }
+  },
+
+  step_func: function transition_helper_step_func(varName, duration) {
+    return $Z.transition.build_func(varName, duration, transitionHelper.step_interp) ;
+  },
+
+  step_interp: function transition_helper_step_interp(t) { // represents a switch at t=0
+    return this.endValue ;
+  },
 
   // set: function transition_helper_set () {
   //   // console.log('detect action set', 'this', this) ;

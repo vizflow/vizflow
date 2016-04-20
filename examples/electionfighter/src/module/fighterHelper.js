@@ -6,48 +6,65 @@ var fighterHelper = {
   		viz = this ;
   	}
 
+    viz.clearSwitch = false ;
+
+    gameHelper.load_audio(viz) ; 
+    fighterHelper.load_ui(viz) ;
+    fighterHelper.load_char(viz) ;
+
+    viz.screen_callback = buttonpress.screen_handler ;
+    viz.keyboard_callback = buttonpress.keyboard_handler ; 
+    viz.input.up = buttonpress.up ;
+
   	// console.log('fighter helper run start', 'viz', viz, 'viz.player.item.y', viz.player.item.y) ;
+
+    viz.opacity = 0 ;
+
+    vizHelper.run(viz) ;
 
 		viz.fade({
 
 		  opacity: 1,
 		  duration: viz.fadeDuration,
-		  pause: viz.fadeDuration,
+		  end: function() {
 
-		  child: imageEffectHelper.fade_transition({
+        // console.log('fighter helper run mid') ;
 
-		    opacity: 0, 
+        viz.fade({
 
-		    end: function() {
-		      // console.log('fighter helper run end: start', 'viz', viz) ;
+  		    opacity: 0, 
 
-		      viz.player.paused = false ;
+  		    end: function() {
+  		      // console.log('fighter helper run end: start', 'viz', viz) ;
 
-		      viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ; 
+  		      viz.player.paused = false ;
 
-		      itemHelper.add(viz, [ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop
+  		      viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;
 
-		          viz.enemy.item,
-		          viz.player.item,
-		          viz.ui.button.walkLeft,
-		          viz.ui.button.walkRight,
-		          viz.ui.button.attack,
-		          viz.ui.button.jump,
-		          viz.enemy.item.responseSet.hit.healthbar.item,
-		          viz.player.item.responseSet.hit.healthbar.item,
-		          viz.player.score,
+            viz.fade({
+              duration: viz.fadeDuration,
+              opacity: 1,
+              end: viz_run,
+            }) ; 
 
-		      ]) ;
-		      
-		    },
+  		      itemHelper.add(viz, [ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop
 
-		    child: imageEffectHelper.fade_transition({
-		      opacity: 1,
-		      end: viz_run,
-		    }),
-		  }),
-		}) ;
+  		          viz.enemy.item,
+  		          viz.player.item,
+  		          viz.ui.button.walkLeft,
+  		          viz.ui.button.walkRight,
+  		          viz.ui.button.attack,
+  		          viz.ui.button.jump,
+  		          viz.enemy.item.responseSet.hit.healthbar.item,
+  		          viz.player.item.responseSet.hit.healthbar.item,
+  		          viz.player.score,
 
+  		      ]) ;
+  		      
+  		    },
+        }) ;
+		  },
+    });
 
 		if ( viz.config.music !== undefined ) {
 
@@ -106,6 +123,8 @@ var fighterHelper = {
 	  viz.player.adversary = viz.enemy ; // decorate the player object for convenient access to the viz.enemy object 
 	  viz.enemy.adversary  = viz.player ;
 		
+    fighterHelper.load_response.call(viz) ;
+
 	  viz.setup_score() ;
 
 		viz.enemyAttack = {
@@ -370,7 +389,7 @@ var fighterHelper = {
 	    uiContext.drawImage(buttonSprite[buttonKey[kButton]][0], buttonX[kButton], buttonY) ; // draw visible buttonSprite
 
 	    var buttonData = buttonSprite[buttonKey[kButton]][0].context().getImageData(0, 0, buttonWidth, buttonHeight) ; // ImageData object
-	    var imagek     = image2index(buttonData, kButton) ; // ImageData object
+	    var imagek     = imageHelper.to_index(buttonData, kButton) ; // ImageData object
 
 	    var tempCanvas = imageHelper.create(buttonWidth, buttonHeight) ;
 
