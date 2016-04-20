@@ -17,10 +17,12 @@ var inputEvent = {
         inputHandler = 'keyboard' ;
         eventList = event ;
         break;
+        
       case 'mousedown': 
         inputHandler = 'screen' ;
         eventList = event ;
         break;
+
       case 'touchstart':
         inputHandler = 'screen' ;
         eventList = event.touches ;
@@ -120,7 +122,6 @@ var inputEvent = {
       } 
 
     }, 
-
 
 	},
 

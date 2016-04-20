@@ -62,15 +62,31 @@ var collisionDetect = {
       }
       
       if(item[kItem].image.originalCanvas === undefined) {
+
         var image = item[kItem].image ;
         var imageK = get_image_data(image) ;
+
       } else {
+
         var image = item[kItem].image.originalCanvas ;
         var imageK = get_image_data(item[kItem].image.originalCanvas) ;
+
       }
 
-      var itemX = Math.round(item[kItem].x) ;
-      var itemY = Math.round(item[kItem].y) ;
+      if ( item[kItem].viz !== undefined ) {
+
+        var xOrigin = item[kItem].viz.viewportX ;
+        var yOrigin = item[kItem].viz.viewportY ;        
+
+      } else {
+
+        var xOrigin = 0 ;
+        var yOrigin = 0 ;        
+
+      }
+
+      var itemX = Math.round(item[kItem].x - xOrigin) ;
+      var itemY = Math.round(item[kItem].y - yOrigin) ;
 
       // context.drawImage(image, itemX, itemY) ;
 

@@ -29,12 +29,14 @@ var loadHelper = {
     viz.remove_transition('viewportY') ;
     
     viz.zoom({
+
       duration: viz.fadeDuration,
       x: viz.width * 0.25,
       y: viz[loadHelper.loadState].select.y,
       width: viz.width * 0.5,
       height: viz.height * 0.5, 
-    })
+      
+    }) ;
 
     // viz[loadHelper.loadState].select.zoom({
     //  duration: viz.fadeDuration,

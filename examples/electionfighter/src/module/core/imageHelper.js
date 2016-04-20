@@ -111,6 +111,10 @@ var imageHelper = {
 
 		var Npx;
 
+		if(wordConfig.binarySwitch === undefined) {
+		  wordConfig.binarySwitch = true ; 
+		} 
+
 		if(wordConfig.px === undefined) {
 		  Npx = 12 ; 
 		} else {

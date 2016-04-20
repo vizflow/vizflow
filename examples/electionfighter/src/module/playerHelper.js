@@ -27,7 +27,6 @@ var playerHelper = {
     }
 
     if(player.paused === true) {
-
       return ;
     }
 
@@ -58,7 +57,6 @@ var playerHelper = {
           if (player.jumpBullet !== undefined) {         
             // player.jumpBullet = setup_bullet (player.item.viz, player, player.jumpBullet.config) ;  
             player.jumpBullet.image = player.bulletSprite.jump[0] ;
-
           }
         }
 
