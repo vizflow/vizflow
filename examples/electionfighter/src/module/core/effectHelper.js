@@ -15,7 +15,7 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 		}
 
 		// console.log('effect flash', 'frameDuration', frameDuration, 'Nstep', Nstep) ;
-		var create_transition = step_transition_func('render', flashDuration) ;
+		var create_transition = transitionHelper.step_func('render', flashDuration) ;
 		// console.log('effect flash 5') ;
 		var blank = function () {} ;
 		var valueList = [blank, drawHelper.image] ;

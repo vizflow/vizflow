@@ -2,15 +2,20 @@ export default function update() { // default update function for handling anima
 
 	let el         = this ;
 	let removeList = [] ;
-	let children   = [] ;
+	let child   = [] ;
+
+	if ( el.child !== undefined ) {
+		for( let kc = 0 ; kc < el.child.length ; kc++ ) {
+			let d = el.child[kc] ;
+			d.update ? d.update() : $Z.update.call(d) ;
+		}
+	}
 
 	if(el.transition === undefined) return ;
 
 	if (el.transition.constructor !== Array) {
 		el.transition = [el.transition] ;
 	}
-
-	$Z.currentTime = Date.now() ;
 
 	for(let kt = 0 ; kt < el.transition.length ; kt++) {
 
@@ -40,7 +45,7 @@ export default function update() { // default update function for handling anima
 
 				removeList.push(kt) ;
 				if(trans.child !== undefined) {
-					children.push(trans.child) ;
+					child.push(trans.child) ;
 				}
 			}
 		}
@@ -77,7 +82,7 @@ export default function update() { // default update function for handling anima
 
 	}
 
-	for(let kc = 0 ; kc < children.length ; kc++) 
-		el.transition.push(children[kc]) ; // sequential transition support by appending child transitions to transition list
+	for(let kc = 0 ; kc < child.length ; kc++) 
+		el.transition.push(child[kc]) ; // sequential transition support by appending child transitions to transition list
 
 } ;

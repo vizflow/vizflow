@@ -1,5 +1,11 @@
 function run_game() {
+
+  /*
+   * when using vizflow it's easier to create the viz object and then add the items to it afterwards:
+   */
   
+  var viz = vizHelper.setup() ; // first create generic vizflow configuration object, then add application-specific details
+
   // console.log('run_game: start') ;
 
   var Nitem = 7 ; 
@@ -15,16 +21,16 @@ function run_game() {
 
   var blueRect = { 
 
-    color: blueish,
+    color:  blueish,
     height: size,
-    width: size,
-    angle: 0,
-    x: 0,
-    y: 0,
+    width:  size,
+    angle:  0,
+    x:      0,
+    y:      0,
 
   } ;
 
-  var greenRect = Object.assign( Object.copy(blueRect), { color: greenish } ) ;
+  var greenRect      = Object.assign( Object.copy(blueRect), { color: greenish } ) ;
 
   var blueRectImage  = imageHelper.create(size, size) ;
   var greenRectImage = imageHelper.create(size, size) ;
@@ -51,22 +57,55 @@ function run_game() {
       angle:  angle,
       xAngle: 0.5 * size,
       yAngle: 0.5 * size,
-      render: drawHelper.image,
       image:  blueRectImage,
 
       uiSwitch: true,
 
       callback: function item_callback() {
 
+        var item = this ;
+
+        if ( item.clicked === true ) {
+          return ;
+        }
+
+        item.clicked = true ;
+
         var scoreIncrease = 100 ;
+        var othresh = 0.6 ;
 
-        if ( this.image === greenRectImage ) {
+        if ( item.image === greenRectImage && item.opacity > othresh ) {
 
-          this.viz.score.increase() ;
-          var Nflash = 3 ;
-          var flashDuration = 100 ;   
-          this.flash(Nflash, flashDuration) ;
+          item.viz.flashing = true ;
 
+          item.viz.score.increase() ;
+
+          var fadeDur = 300 ;   
+
+          item.white.fade({
+
+            opacity: 1,
+            duration: fadeDur,
+            pause: 3 * fadeDur,
+
+            end: function() {
+
+              item.viz.flashing = false ;
+              item.viz.green_flash() ;
+              item.white.fade({
+                opacity: 0,
+                duration: fadeDur,
+                end: function() {
+                  item.clicked = false ;
+                },
+              }) ;
+
+            },
+
+          }) ;
+
+        } else {
+          item.clicked = false ;
         }
         // console.log('item callback: ', 'this', this, 'this.viz.score', this.viz.score) ;
 
@@ -74,22 +113,37 @@ function run_game() {
 
     } ;
 
-    item[kItem] = itemHelper.setup(itemConfig) ;
+    item[kItem] = viz.setup_item(itemConfig) ;
+    item[kItem].default_child() ;
+    item[kItem].add() ;
 
   }
 
-  var vizConfig = {
-    item: item,
-  } ;
 
-  var viz = vizHelper.setup(vizConfig) ; // first create generic vizflow configuration object, then add application-specific details
+  var uiCanvas = imageHelper.create(viz.width, viz.height) ;
 
-  function green_flash() {
+  var uiConfig = {
 
-    var minDur = 100 ;
+    canvas:   uiCanvas,
+    context:  uiCanvas.context(),
 
-    var d0  = 400 ;
-    var dur = minDur + d0 - d0 * (1 - Math.exp(-0.005 * viz.score.value)) ;
+  } ;  
+
+  viz.setup_ui(uiConfig) ;
+  viz.setup_score() ;
+  viz.run() ;
+
+  viz.green_flash = function green_flash() {
+
+    if ( viz.flashing === true ) {
+      return ;
+    }
+
+    var fadeDur = 200 ;
+
+    var d0       = 300 ;
+    var scale    = 0.6 ;
+    var pauseDur = d0 - scale * d0 * (1 - Math.exp(-0.005 * viz.score.value)) ;
 
     var kRand = Math.floor( Nitem * Math.random() ) ;
 
@@ -99,56 +153,59 @@ function run_game() {
     }
 
     if(viz.kGreen !== undefined) {
+
       var blue = item[viz.kGreen] ; // the green item that we want to turn blue
+
       blue.fade({ // fade out green square
-        duration: dur,
+
+        opacity: 0,
+
+        duration: fadeDur,
+
         end: function() {
+
           blue.image = blueRectImage ; // switch green square to blue while fully faded-out
           blue.fade({ // fade blue square back in
-            duration: dur, 
+            opacity: 1,
+            duration: fadeDur, 
           }) ;
+
         },
+
       })
     }
 
     viz.kGreen = kRand ;
 
     var green      = item[kRand] ;
-    var bluePause  = dur ;
-    var greenPause = 1.0 * dur ;
+    var greenPause = 2.0 * pauseDur ;
 
     green.fade({
-      duration: dur,
-      pause: bluePause,
+
+      opacity: 0,
+      duration: fadeDur,
+      pause: pauseDur,
+
       end: function() { // fade random square out before turning it green
+
         green.image = greenRectImage ; // turn random square green
+
         green.fade({ // fade green square back in
 
-          duration: dur + (greenPause - bluePause),
+          opacity: 1,
+          duration: fadeDur,
           pause: greenPause,
           end: green_flash, // repeat
 
         }) ;
+
       },
+
     }) ;
 
   }
 
-  var uiCanvas = imageHelper.create(viz.width, viz.height) ;
-
-  var uiConfig = {
-
-    canvas:   uiCanvas,
-    context:  uiCanvas.context(),
-
-  } ;
-
-  viz.setup_ui(uiConfig) ;
-  viz.setup_score() ;
-
-  viz.run() ;
-
-  green_flash() ; // start the green squares flashing
+  viz.green_flash() ; // start the green squares flashing
 
   // console.log('viz', viz) ;
 

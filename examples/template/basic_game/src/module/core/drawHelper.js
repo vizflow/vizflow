@@ -1,6 +1,24 @@
 var drawHelper = {
 
-  image: function draw_image (item, context, ratio) {
+  item: function draw_helper_item ( item, context, ratio ) { // render item and its child items
+
+    if ( item === undefined ) {
+      item = this ;
+    }
+
+    drawHelper.image(item) ;
+    if( item.child !== undefined ) {
+      for ( var kOver = 0 ; kOver < item.child.length ; kOver++ ) {
+        item.child[kOver].x = item.x ;
+        item.child[kOver].y = item.y ;
+        item.child[kOver].angle = item.angle ;
+        // console.log('item.child[kOver]', item.child[kOver], 'item.child[kOver].x', item.child[kOver].x) ;
+        drawHelper.image(item.child[kOver]) ;
+      }      
+    }
+  },
+
+  image: function draw_helper_image (item, context, ratio) {
 
     if (item === undefined) {
       item = this ;

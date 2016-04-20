@@ -71,6 +71,11 @@ var audioLoader = {
       return false ; // prevent duplicate calls
     }
 
+    if (audioList.length === 0) {
+      callback() ;
+      return ;
+    }
+
     audioLoader.loading = true ;
     audioLoader.loadingStats.total         = audioList.length ;
     audioLoader.loadingStats.count         = 0 ; // initialize 

@@ -1,6 +1,57 @@
 var imageEffectHelper = {
 
-		binary_opacity_filter: function effect_image_binary_opacity_filter (canvas, threshold)	 {
+	  foreach: function image_effect_helper_foreach ( canvas, func, channel ) {
+
+	  	if ( channel === undefined ) {
+	  		channel = -1 ; // r, g, b channels by default
+	  	}
+
+			var context = canvas.context() ;
+			var image   = context.getImageData (0, 0, canvas.width, canvas.height) ;
+			var data    = image.data ;
+			var Npel    = data.length / 4 ;
+			var offset  = 0 ;
+			var opacity = new Array(Npel) ;
+
+			for (var kpel = 0 ; kpel < Npel ; kpel++) {
+
+				if ( channel < 3 && data[offset + 3] === 0) {
+					continue ; // skip transparent pixels if opacity channel is not specified
+				}
+
+				if ( channel >= 0 && channel < 4 ) {
+			  	data[offset + channel] = func(data[offset + channel]) ;					
+				} else if ( channel === -1 ) {
+
+			  	data[offset + 0] = func(data[offset + 0]) ;					
+			  	data[offset + 1] = func(data[offset + 1]) ;					
+			  	data[offset + 2] = func(data[offset + 2]) ;					
+
+				}
+
+			  offset += 4 ;
+
+			}
+
+			context.putImageData(image, 0, 0) ;
+
+			// console.log('foreach: ', 'data', data, 'image', image, 'context', context) ;
+
+			// imageHelper.view(canvas) ;
+
+	  },
+
+	  opacity: function image_effect_helper_opacity ( canvas, opacity ) {
+	  	imageEffectHelper.foreach( 
+	  		canvas, 
+	  		function() {
+	  		  return opacity ;
+	  	  },
+	  	  3 // opacity channel
+	  	)
+	  },
+
+		binary_opacity_filter: function image_effect_helper_binary_opacity_filter (canvas, threshold)	 {
 
 			var context = canvas.context() ;
 			var image   = context.getImageData (0, 0, canvas.width, canvas.height) ;
@@ -29,7 +80,48 @@ var imageEffectHelper = {
 			  }
 			  offset += 4 ;
 			}    
+
 			context.putImageData(image, 0, 0) ;
+
+		},
+
+		color_filter: function image_effect_helper_color_filter (canvas, color, strength) {
+
+			if ( strength === undefined ) {
+				strength = 1 ;
+			}
+
+			// strength goes from 0 to 1
+
+			if( strength > 1 ) {
+				strength = 1 ;
+			} 
+
+			if ( strength < 0 ) {
+				strength = 0 ;
+			}
+
+			function blend(x, y, c1) {
+				var mixedVal = (1 - c1) * x + c1 * y ;
+				// console.log('blend: ', 'x, y, c1, mixedVal', x, y, c1, mixedVal) ;
+				return Math.round(mixedVal) ;
+			}
+
+			var filteredImage = imageHelper.copy(canvas) ;
+
+			for (kclr = 0 ; kclr < color.length ; kclr++) {
+
+
+				if(color[kclr] !== undefined) {
+					// console.log('color[kclr]', color[kclr], 'strength', strength) ;
+					imageEffectHelper.foreach( filteredImage, function(x) { return blend(x, color[kclr], strength) ; }, kclr ) ;
+				}
+
+			}
+
+			return filteredImage ;
+
+			// to test:  imageEffectHelper.color_filter ( document.viz.item[0].image, [255, 255, 0], -1 )
 
 		},
 
@@ -141,7 +233,7 @@ var imageEffectHelper = {
 					context.drawImage(item.image, sx, sy, sw, sh, dx, dy, dw, dh) ;
 					var k = krow * Ncol + kcol ;
 					var xTrans = $Z.transition.rounded_linear_transition_func('x', duration)((Math.random() - 0.5) * 2 * scale + item.x + sx) ;
-					block[k] = { 
+					block[k] = Object.assign(itemHelper.setup(), { 
 						viz: item.viz,
 						x: item.x + sx,
 						y: item.y + sy,
@@ -153,7 +245,7 @@ var imageEffectHelper = {
 							xTrans,
 							$Z.transition.rounded_linear_transition_func('y', duration)((Math.random() - 0.5) * 2 * scale + item.y + sy),
 						],
-					} ;
+					}) ;
 					xTrans.end = transitionHelper.remove_end(block[k]) ;
 					if(fadeSwitch) {
 						imageEffectHelper.fade.call(block[k], { duration: duration }) ;		

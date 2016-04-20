@@ -6,13 +6,12 @@ function fantasy_level () {
     loadingImageUrl: './image/rastan_intro.png',
     frameDurationFactor: 3,
     run: fighterHelper.run,
-    load_ui: fighterHelper.load_ui,
-    load_char: fighterHelper.load_char,
-    load_response: fighterHelper.load_response,
-    load_audio: gameHelper.load_audio,
     buttonpress: buttonpress,    
     music: './audio/85riddim.wav',
     name: 'fantasy',
+    width: 180,
+    height: 240,
+    paddingFactor: 4/3,
 
   } ;
 
@@ -207,6 +206,6 @@ function fantasy_level () {
 
   } ;
 
-  viz.load() ;
+  viz.run() ;
 
 }
