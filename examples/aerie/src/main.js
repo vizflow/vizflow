@@ -11,7 +11,8 @@ document.image = [
 	'./image/camp.png',
 	'./image/knight.png',
 	'./image/knight_spritesheet.png',
-
+	'./image/monster.png',
+	'./image/powerup.png',
 ] ;
 	  
 document.audio = [

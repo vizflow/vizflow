@@ -25,31 +25,27 @@ var responseHelper = {
       element = response.element ;
     }
 
-    // console.log('responseHelper remove overlap:')
+    // console.log('responseHelper remove overlap:', 'response', response) ;
 
-    var xBump = 12 ;
-    var xPad  = 6 ;
-    var minX  = -element.item.image.originalCanvas.width * 0.5 - xPad ;
+    var bump = 12 ;
+    var ax   = element.item.x + element.item.image.originalCanvas.width * 0.5 ;
+    var ay   = element.item.y + element.item.image.originalCanvas.height * 0.5 ;    
+    var bx   = response.sourceItem.x + response.sourceItem.image.originalCanvas.width * 0.5 ;
+    var by   = response.sourceItem.y + response.sourceItem.image.originalCanvas.height * 0.5 ;
+    var dx   = ax - bx ;
+    var dy   = ay - by ;
+    var d    = Math.sqrt(dx * dx + dy * dy) ; 
+    if (d === 0) {
+      console.log('responseHelper overlap 0 distance') ;
+    }
+    var nx   = dx / d ;  // normalized vector
+    var ny   = dy / d ;  // normalized vector
+    // var xPad  = 6 ;
+    // var minX  = -element.item.image.originalCanvas.width * 0.5 - xPad ;
 
-    if(response.collision_check() && element.item.x > minX) {
-      element.item.x -= xBump ;          
-
-      var viewXmin = -20 ;
-      var viewTol = 5 ;
-
-      var center = element.item.image.originalCanvas.width * 0.5 + element.item.x ;
-
-      var viz = element.item.viz ;
-
-      var dist = center - viz.viewportX - viewTol ;
-
-      if(dist < 0 && viz.viewportX > viewXmin) {
-        var viewXnew = viz.viewportX + dist ;
-        viewXnew = Math.max(viewXmin, viewXnew) ;
-        var replacementSwitch = true ;
-        viz.add_transition(viz.transitionSet.x(viewXnew), replacementSwitch) ;
-      } 
-
+    if(response.collision_check() ) {
+      element.item.x += bump * nx ;
+      element.item.y += bump * ny ;          
     }    
 
   },

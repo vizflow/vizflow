@@ -42,10 +42,13 @@ var playerHelper = {
             state = 'r' ;
             break;
           case 40: // down
-          case 13: // enter
-          case 32: // space
+          // case 13: // enter
+          // case 32: // space
             state = 'd' ;
             break;
+          case 32: // space
+            state = 'a' ;
+            break ;
 
         } 
 
@@ -139,7 +142,60 @@ var playerHelper = {
             viz.add_transition(viz.transitionSet.y(viewYnew), replacementSwitch) ;
           }
 
-          break ;       
+          break ;  
+
+      case 'a' :
+
+        // if(player.orientation === 'l') { // player only attacks towards enemy in this game
+        //   return ;
+        // }
+
+       
+        if( transitionHelper.find('image', player.item.transition) > -1 ) {
+          return ; // don't interrupt the current attack animation 
+        }
+
+        if(player.fire_bullet !== undefined) {
+          player.fire_bullet('bullet') ; 
+        }
+
+        var transitionFunc ;
+
+        if( player.transitionSet.attack === undefined ) {
+          //  console.log ('player.transitionSet.image', player.transitionSet.image) ;
+          transitionFunc = player.transitionSet.image ;
+        } else {
+          transitionFunc = player.transitionSet.attack ;
+        }
+
+        // console.log ('updateplayer 101', player.sprite.attack, transitionFunc, buttonpress.reset, player.sprite.rest[0]) ;
+
+        // var finalFrame ; 
+
+        // if(player.restoreRest) {
+        //   finalFrame = player.sprite.rest[0] ;
+        // }
+
+        var loop = animate_loop(
+          player.loop.attack,
+          player.sprite.attack,
+          transitionFunc,
+          function() {} // buttonpress.reset
+          // finalFrame
+        ) ;
+
+        player.loop.attack.position = loop.position ;
+        transition                  = loop.animation ;
+
+        var replacementSwitch = true ;
+        player.item.add_transition(transition, replacementSwitch) ;
+
+        // console.log ('update player 105: ', 'player.loop', player.loop, 'player.sprite.attack', player.sprite.attack, 'transition', transition) ; //player.sprite.attack, transitionFunc, buttonpress.reset, player.sprite.rest[0]) ;
+        // console.log ('update player 109' ) ;
+
+        // console.log ('player.callback: transition', transition, 'player.sprite.attack', player.sprite.attack) ;
+        break ;
+               
    
       }
 

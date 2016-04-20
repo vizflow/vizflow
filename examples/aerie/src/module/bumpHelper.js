@@ -62,22 +62,22 @@ var bumpHelper = {
       return ; // only trigger rest of bump on enemy
     }
 
-    response.viz.audio.bump.play() ;
+    // response.viz.audio.bump.play() ;
 
     var bumpDuration   = 150 ;
-    var bumpTransition = transitionHelper.step_func('image', bumpDuration)(response.element.sprite.hit[0]) ;
+    // var bumpTransition = transitionHelper.step_func('image', bumpDuration)(response.element.sprite.hit[0]) ;
 
-    bumpTransition.end = function() {
-      response.element.item.image = response.element.sprite.rest[0] ;
-    }
+    // bumpTransition.end = function() {
+    //   response.element.item.image = response.element.sprite.rest[0] ;
+    // }
 
-    var replacementSwitch = true ;
-    response.element.item.add_transition(bumpTransition, replacementSwitch) ;
+    // var replacementSwitch = true ;
+    // response.element.item.add_transition(bumpTransition, replacementSwitch) ;
 
-    var hit = response.element.item.responseSet.hit ;
+    // var hit = response.element.item.responseSet.hit ;
 
-    hit.healthbar.health -= hit.healthdrop * 0.1 ;
-    transitionHelper.update_end_value.call(hit.healthbar.item, 'width', hit.healthbar.health, hit.health_transition) ;
+    // hit.healthbar.health -= hit.healthdrop * 0.1 ;
+    // transitionHelper.update_end_value.call(hit.healthbar.item, 'width', hit.healthbar.health, hit.health_transition) ;
 
     var Nflash = 2 ;
     var flashDuration = bumpDuration * 0.5 ;
