@@ -8,6 +8,7 @@ var drawHelper = {
 
     drawHelper.image(item) ;
     if( item.child !== undefined ) {
+      // console.log('draw helper item:', 'item.child', item.child) ;
       for ( var kOver = 0 ; kOver < item.child.length ; kOver++ ) {
         item.child[kOver].x = item.x ;
         item.child[kOver].y = item.y ;
@@ -34,11 +35,11 @@ var drawHelper = {
       ratio = document.ratio ;
     }
 
-    if (item.scaleX === undefined) {
+    if (item.xScale === undefined) {
       item.xScale = 1 ;
     }
 
-    if (item.scaleY === undefined) {
+    if (item.yScale === undefined) {
       item.yScale = 1 ;
     }
 
@@ -60,8 +61,8 @@ var drawHelper = {
 
     }
 
-    var originX = item.originX || 0 ;
-    var originY = item.originY || 0 ;
+    var originX = item.xOrigin || 0 ;
+    var originY = item.yOrigin || 0 ;
 
     var dx = (item.x + item.viz.xShift + viewX - originX) * ratio ;
     var dy = (item.y + item.viz.yShift + viewY - originY) * ratio ;
@@ -81,6 +82,7 @@ var drawHelper = {
       context.translate(-xShift, -yShift) ;
       var dw = Math.floor(item.image.width * item.xScale) ;
       var dh = Math.floor(item.image.height * item.yScale) ;
+      // console.log('draw helper', 'item', item, 'dw', dw, 'dh', dh) ;
       context.drawImage(item.image, 0, 0, item.image.width, item.image.height, dx, dy, dw, dh) ;
       context.setTransform(1, 0, 0, 1, 0, 0) ;
       context.globalAlpha = alpha ;      

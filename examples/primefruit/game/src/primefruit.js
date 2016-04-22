@@ -16,8 +16,8 @@ function primefruit() {
 
   var N     = 25 ; // how many numbers to represent with fruit baskets
   var Ncol  = 5 ; // how many columns to arrange the baskets in 
-  var xGrid = 10 ;
-  var yGrid = 10 ;
+  var xGrid = 64 ;
+  var yGrid = 64 ;
 
 /***
   
@@ -52,23 +52,110 @@ function primefruit() {
 
 ***/  
 
-  var item = new Array(N) ;
+  var sprite = spriteHelper.get
+  ( 
+    imageHelper.image2canvas('./image/fruit.gif'), 
+    ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'], 
+    [47, 47, 47, 47, 47, 47, 47, 47, 47], 
+    [52, 52, 52, 52, 52, 52, 52, 52, 52] 
+  ) ;
 
-  for ( var k = 0 ; k < N ; k++ ) {
+  // console.log('prime fruit', 'sprite', sprite);
+
+  var code = [
+    'a',
+    'b',
+    'aa',
+    'c',
+    'ab',
+    'd',
+    'aaa',
+    'bb',
+    'ac',
+    'e',
+    'aab',
+    'f',
+    'ad',
+    'bc',
+    'aaaa',
+    'g',
+    'abb',
+    'h',
+    'aac',
+    'bd',
+    'ae',
+    'i',
+    'aaab',
+    'cc',
+  ] ;
+
+  var jarImage = imageHelper.adjust_ratio(imageHelper.image2canvas('./image/jar2.png')) ;
+
+  var yOffset = 20 ;
+  var xOffset = 15 ;
+
+  var fruit = new Array(N - 1) ; // initialize array of fruit 
+  var jar   = new Array(N - 1) ; // initialize array of jars 
+  var text  = imageHelper.text_sprite() ;
+
+  for ( var k = 0 ; k < N - 1 ; k++ ) {
+
+    var x = xGrid * ((k + 1) % Ncol) ;
+    var y = Math.floor((k + 1) / Ncol) * yGrid  ;
     
-    var itemConfig = {
+    var fruitConfig = {
 
-      x: (k + 1) * xGrid,
-      y: (k + 1) * yGrid,
-      image: sprite[k] ;
+      viz: viz,
+      x: x + xOffset,
+      y: y + yOffset,
+      xScale: 0.7,
+      yScale: 0.7,
+      opacity: 0,
+      image: imageHelper.text2image({
+        text: code[k],
+        sprite: sprite,
+        xShift: -40 * document.ratio,
+      }),
 
     } ;
 
-    item[k] = itemHelper.setup(itemConfig) ;
+    // console.log('pf: ', 'k', k, 'fruitConfig', fruitConfig) ;
+
+    fruit[k] = itemHelper.setup(fruitConfig) ; // each tile contains some fruit
+
+    var jarConfig = {
+
+      viz: viz,
+      image: imageHelper.copy(jarImage),
+      x: x,
+      y: y,
+
+    } ;
+
+    jar[k]   = itemHelper.setup(jarConfig) ;
+
+    var xJar = 40 ;
+    var yJar = 50 ;
+
+    var digit = imageHelper.text2image({
+      text: k + 2,
+      sprite: text,
+    }) ;
+
+    jar[k].image.context().drawImage(digit, xJar / ( Math.ceil((k + 1) / 10) ), yJar) ;
+
+
+    // tile[k].default_child() ;
+
+    // tile[k].child.push(tile[k].jar) ;
 
   }
 
   console.log('prime fruit: start') ;
+
+  viz.item = fruit.concat(jar) ;
+
+  viz.run() ;
 
   console.log('viz', viz) ;
 

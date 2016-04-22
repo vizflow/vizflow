@@ -23,15 +23,18 @@ var imageHelper = {
 		var width  = sprite[text[0]][0].width  ;
 		var height = sprite[text[0]][0].height ;
 
-		var image  = imageHelper.create(width * text.length, height) ;
+    if ( imageConfig.xShift === undefined ) {
+      var offsetX = 0 ;     
+    } else {
+      var offsetX = imageConfig.xShift ;
+    }
 
-		var offsetX = 0 ;
+    var image  = imageHelper.create(width * text.length + ((text.length - 1) * offsetX), height) ;
 
 		for(var kchar = 0 ; kchar < text.length ; kchar++) {
 
 			// console.log('text2image sprite', 'sprite[text[kchar]', sprite[text[kchar]]);
-			image.context().drawImage(sprite[text[kchar]][0], offsetX, 0) ;
-			offsetX += width ;
+      image.context().drawImage(sprite[text[kchar]][0], Math.floor(offsetX * kchar + width * kchar), 0) ;
 
 		}
 

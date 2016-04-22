@@ -8,7 +8,8 @@ document.body.style.margin    = 0 ;
 document.image = [ 
 	
 	'./image/vizflow.png',
-	'./image/fruit.png',
+	'./image/fruit.gif',
+	'./image/jar2.png',
 
 ] ;
 	  
