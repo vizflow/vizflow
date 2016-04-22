@@ -73,6 +73,8 @@ var gameHelper = {
 	    'take his coat',
 	    'love me',
 	    'winning',
+	    'my hands',
+	    
 	  ] ;
 
 	  var wordImage = new Array(wordList.length) ;
