@@ -34,7 +34,7 @@ function load_game () {
         vizflow.fade({
 
           duration: viz.fadeDuration,
-          end: camp_zone,
+          end: battle_screen,
           
         }) ;
 

@@ -64,6 +64,7 @@ var playerHelper = {
 
           var viewXmin = -100 ;
           var viz = player.item.viz ;
+
           var viewTol = 120 ;
           var center = player.item.image.originalCanvas.width * 0.5 + player.item.x ;
           var dist = center - viz.viewportX - viewTol ;
@@ -145,11 +146,6 @@ var playerHelper = {
           break ;  
 
       case 'a' :
-
-        // if(player.orientation === 'l') { // player only attacks towards enemy in this game
-        //   return ;
-        // }
-
        
         if( transitionHelper.find('image', player.item.transition) > -1 ) {
           return ; // don't interrupt the current attack animation 

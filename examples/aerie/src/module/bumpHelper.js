@@ -31,7 +31,7 @@ var bumpHelper = {
     }
 
     var col = {
-      item: [response.element.item, response.viz.enemy.item],
+      item: [response.element.item, response.sourceItem],
       width: response.viz.width,
       height: response.viz.height,
     } ;
@@ -58,7 +58,7 @@ var bumpHelper = {
 
     // console.log('bumpHelper perform', 'response.sourceItem', response.sourceItem, 'response.viz.enemy', response.viz.enemy) ;
 
-    if(response.sourceItem !== response.viz.enemy.item) {
+    if(response.sourceItem !== response.sourceItem) {
       return ; // only trigger rest of bump on enemy
     }
 
@@ -80,7 +80,7 @@ var bumpHelper = {
     // transitionHelper.update_end_value.call(hit.healthbar.item, 'width', hit.healthbar.health, hit.health_transition) ;
 
     var Nflash = 2 ;
-    var flashDuration = bumpDuration * 0.5 ;
+    var flashDuration = bumpDuration * 0.1 ;
     response.element.item.flash(Nflash, flashDuration) ;
 
   },

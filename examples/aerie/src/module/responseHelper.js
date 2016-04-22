@@ -5,7 +5,7 @@ var responseHelper = {
       response = this ;
     }
 
-    // console.log('resonseHelper type_check:', 'sourceItem', sourceItem, 'sourceItem.type', sourceItem.type)
+    console.log('resonseHelper type_check:', 'sourceItem', sourceItem, 'sourceItem.type', sourceItem.type)
 
     if(sourceItem.type === response.sourceType) {
       return true ;

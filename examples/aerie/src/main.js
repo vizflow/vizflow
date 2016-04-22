@@ -13,6 +13,8 @@ document.image = [
 	'./image/knight_spritesheet.png',
 	'./image/monster.png',
 	'./image/powerup.png',
+	'./image/battlescreen.png',
+	'./image/knight_battle_spritesheet.png',
 ] ;
 	  
 document.audio = [

@@ -67,8 +67,8 @@ function camp_zone() {
 
     restoreRest: true,
 
-    xMove: 10,
-    yMove: 10,
+    xMove: 30,
+    yMove: 30,
     x: 100,
     y: 100,
     type: 'player',
@@ -81,20 +81,41 @@ function camp_zone() {
 
     viz.player.callback = playerHelper.update ;
 
+    // load_powerup: function load_powerup(viz, powerupConfig) {
 
-    // function attack0() {
-    //     var dur1 = frameDuration ;
-    //     var dur2 = frameDuration ;
-    //     var dur3 = frameDuration ; 
-    //     var dur4 = frameDuration ;
-    //     var trans = step_transition_func('image', dur1) (viz.player.sprite.attack0[0]) ;
-    //     trans.child = step_transition_func('image', dur2) (viz.player.sprite.attack0[1]) ;
-    //     trans.child.child = step_transition_func('image', dur3) (viz.player.sprite.rest[0]) ;
-    //     trans.child.child.child = step_transition_func('image', dur4) (viz.player.sprite.rest[0]) ;
-    //     // trans.child = animate(viz.player.sprite.jump0, step_transition_func('image', viz.player.jumpDuration), undefined, viz.player.sprite.rest[0])[0] ;
-    //     return [trans] ;
+    // if( viz === undefined ) {
+    //   viz = this ;
     // }
-   
+
+    // if ( powerupConfig === undefined ) {
+
+    //   powerupConfig = {
+
+    //     x: 100,
+    //     y: 100,
+    //     inert: false,
+    //     type: 'powerup',
+
+    //   } ;
+
+    // }
+
+    // var rowName = ['cell'] ;
+    // var canvas  = imageHelper.image2canvas('./image/powerup.png') ;
+    // var width   = [] ;
+    // var height  = [] ;
+
+    // var powerup     = viz.setup_item(powerupConfig) ;
+    // powerup.sprite  = spriteHelper.get(canvas, rowName, width, height) ;
+    // // console.log('vizplayerpowerupsprite', viz.player.powerup.sprite) ;
+    // powerup.image   = powerup.sprite.cell[0] ;
+
+
+    // var levelName = viz.config.name ;
+
+    // } ;
+
+ 
     viz.keyboard_down_callback = function keyboard_down_callback(event) {
    
         var transition     = [] ;
@@ -127,6 +148,8 @@ function camp_zone() {
 
     var enemyTileHeight = 120 ;
     var enemyTileWidth  = 160 ;
+    var enemy2TileHeight = 120 ;
+    var enemy2TileWidth  = 160 ;
 
     viz.enemyConfig = {
 
@@ -154,8 +177,37 @@ function camp_zone() {
 
     } ;
 
+    viz.enemy2Config = {
+
+        sprite_loader: function() {
+
+          // console.log('enemy sprite loader', spriteset) ;
+          var i         = imageHelper.image2canvas('./image/monster.png') ;
+          var rowName   = ['rest'] ;
+          var width     = [enemyTileWidth] ;
+          var height    = [enemyTileHeight] ;
+          var spriteset = spriteHelper.get(i, rowName, width, height) ;
+          // spriteset.rest.push(spriteset.rest[0]) ;
+          return spriteset ;
+
+        },    
+
+        frameDuration: viz.frameDuration * 1,
+        attackDuration: 6 * viz.frameDuration,
+        // hitDuration: viz.dur * 10,
+        orientation: 'l',
+        x: -50,
+        y: -200,
+        type: 'enemy',
+        // opacity: 0,
+
+    } ;
+
+    viz.enemy2 = setup_element(viz, viz.enemy2Config) ;
     viz.enemy  = setup_element(viz, viz.enemyConfig) ;
     viz.enemy.item.add() ;
+    viz.enemy2.item.add() ;
+
     // viz.player.adversary = viz.enemy ; // decorate the player object for convenient access to the viz.enemy object 
     // viz.enemy.adversary  = viz.player ; 
     viz.player.item.responseSet.bump = bumpHelper.setup(viz) ;
