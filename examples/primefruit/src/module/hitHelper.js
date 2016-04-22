@@ -28,11 +28,11 @@ var hitHelper = {
     }
 
     if(setupResponseConfig.elementHealth === undefined) {
-      setupResponseConfig.elementHealth = ;
+      setupResponseConfig.elementHealth = undefined ;
     }
 
     if(setupResponseConfig.healthbarHeight === undefined) {
-      setupResponseConfig.healthbarHeight = ;
+      setupResponseConfig.healthbarHeight = undefined ;
     }
     
     var audio = setupResponseConfig.audio ;

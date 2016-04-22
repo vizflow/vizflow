@@ -1,8 +1,12 @@
 var inputEvent = {
   
-  down: function input_event_down (event) {
+  down: function input_event_down (event, doc) {
 
-    // console.log ('event down', 'this', this, 'this.viz', this.viz, 'event', event) ;    
+    if ( doc === undefined ) {
+      doc = this ; 
+    }
+
+    // console.log ('event down', 'this', this, 'doc.viz', doc.viz, 'event', event) ;    
 
     var inputHandler ;
     var eventList ;
@@ -10,41 +14,52 @@ var inputEvent = {
     switch (event.type) {
 
       case 'keydown': 
-        inputHandler = 'keyboard_handler' ;
+        inputHandler = 'keyboard' ;
         eventList = event ;
         break;
       case 'mousedown': 
-        inputHandler = 'screen_handler' ;
+        inputHandler = 'screen' ;
         eventList = event ;
         break;
       case 'touchstart':
-        inputHandler = 'screen_handler' ;
+        inputHandler = 'screen' ;
         eventList = event.touches ;
         break;
 
     }     
   
+    // console.log('input event: ', 'prep', prep) ;
+
     function run_click () {
       // console.log('input event run click:', 'inputHandler', inputHandler) ;
       if(event.type === 'touchstart') {
         for(var kEvent = 0 ; kEvent < eventList.length ; kEvent++) {
-          this.viz.buttonpress[inputHandler].call (this.viz, eventList[kEvent]) ;        
+          doc.viz.input.response[inputHandler].call ( doc.viz, eventList[kEvent] ) ;        
         }        
       } else {
-        this.viz.buttonpress[inputHandler].call (this.viz, eventList) ;        
+        doc.viz.input.response[inputHandler].call ( doc.viz, eventList ) ;        
       }
+
     }
 
     var runClick = { 
       prep: run_click, 
-      viz: this.viz 
+      viz: doc.viz 
     } ;
-   
-    $Z.prep ([this.viz, runClick]) ;
+
+    $Z._prep.push(runClick) ;
+  
+    // console.log('input event: ', 'newPrep', newPrep) ;
     //console.log ('mousedown: holding', holding, 'event', event) ;
   },
 
-  up: function input_event_up (event) {
+  up: function input_event_up (event, doc) {
+
+    if ( doc === undefined ) {
+      doc = this ;
+    }
+
+    $Z.prep([doc.viz]) ;
 
     // console.log('input event up', 'this', this) ;
 
@@ -52,50 +67,60 @@ var inputEvent = {
 
   },
 
-  buttonpress: {
-    
-    busy: false,
-    
-    reset: function buttonpress_reset () {
-      $Z.prep ([document.viz]) ;
-      this.busy = false ;
-    },
-
-    keyboard_handler: function buttonpress_keyboard_handler (event) {
-
-      if (inputEvent.buttonpress.busy) {
-        return ;  
-      }
-
-      inputEvent.buttonpress.busy = true ;
-      this.keyboard_callback(event) ;
-
-    },
-
-    screen_handler: function buttonpress_screen_handler (e, viz) {
+  response: {
+        
+    keyboard: function input_event_response_keyboard (event, viz) {
 
       if(viz === undefined) {
         viz = this ;
       }
 
-      // console.log('screen handler', 'this', this, 'this.buttonpress', this.buttonpress) ;
-    
-      if (inputEvent.buttonpress.busy) {
-        return ;
+      if ( viz.keyboard_callback !== undefined ) {
+        viz.keyboard_callback(event) ; 
       }
 
-      inputEvent.buttonpress.busy = true ;
+    },
+
+    screen: function input_event_response_screen (event, viz) {
+
+      if(viz === undefined) {
+        viz = this ;
+      }
+    
+      if(viz.screen_callback === undefined) {
+        inputEvent.response.screen_callback.call(viz, event) ;
+      } else {
+        viz.screen_callback(event) ;
+      }
+
+    },
+
+    screen_callback: function input_event_response_screen_callback (event, viz) {
+    
+      if (viz === undefined) {
+        viz = this ;
+      }
+
+      if ( viz.ui === undefined ) {
+        return ; // nothing to do
+      }
 
       var position = set_canvas_position( viz.canvas ) ;
 
-      var clickedX = Math.round( (e.clientX - position.left) / position.scale ) ;
-      var clickedY = Math.round( (e.clientY - position.top)  / position.scale ) ;
+      var xIn = Math.round( ( event.clientX - position.left ) / position.scale ) ;
+      var yIn = Math.round( ( event.clientY - position.top  ) / position.scale ) ;
 
-      // console.log('screenhandler', 'clickedX', clickedX, 'clickedY', clickedY, 'this', this) ;
+      imageHelper.indexed_draw( viz.ui.item, viz.ui.canvas ) ;
 
-      viz.screen_callback(clickedX, clickedY) ;
+      var color     = viz.ui.canvas.context().getImageData( xIn, yIn, 1, 1 ).data ;
+      var itemIndex = color[0] - 1 ; // color indexing used by imageHelper.to_index is 1-based
 
-    },
+      if(itemIndex >= 0) { // user selected a user-interface item 
+        viz.ui.item[itemIndex].callback() ;
+      } 
+
+    }, 
+
 
 	},
 

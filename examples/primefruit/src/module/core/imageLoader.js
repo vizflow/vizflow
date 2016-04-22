@@ -44,6 +44,11 @@ var imageLoader = {
       return ; // prevent duplicate calls
     }
 
+    if ( imageList.length === 0 ) {
+      callback() ;
+      return ;
+    }
+
     imageLoader.loading = true ;
     imageLoader.loadingStats.total         = imageList.length ;
     imageLoader.loadingStats.count         = 0 ; // initialize 

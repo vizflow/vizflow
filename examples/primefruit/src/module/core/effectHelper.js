@@ -2,15 +2,15 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 
 	flash: function effect_flash (Nflash, flashDuration, item) {
 
-		if(item === undefined) { // assume that "this" corresponds to the element item object
+		if ( item === undefined ) { // assume that "this" corresponds to the element item object
 			item = this ;
 		}
 
-		if(Nflash === undefined) {
+		if ( Nflash === undefined ) {
 			Nflash = 5 ;
 		}
 
-		if(flashDuration === undefined) {
+		if ( flashDuration === undefined ) {
 			flashDuration = 100 ;
 		}
 
