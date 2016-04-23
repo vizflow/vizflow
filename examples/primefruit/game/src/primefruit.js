@@ -62,6 +62,9 @@ function primefruit() {
 
   // console.log('prime fruit', 'sprite', sprite);
 
+  var fruit = new Array(N - 1) ; // initialize array of fruit 
+  var jar   = new Array(N - 1) ; // initialize array of jars 
+
   var code = [
     'a',
     'b',
@@ -89,13 +92,70 @@ function primefruit() {
     'cc',
   ] ;
 
-  var jarImage = imageHelper.adjust_ratio(imageHelper.image2canvas('./image/jar2.png')) ;
+  var duration = 250 ;
+  var xScale = $Z.transition.linear_transition_func('xScale', duration) ;
+  var yScale = $Z.transition.linear_transition_func('yScale', duration) ;
+
+  function jarclick(jar) {
+    
+    if ( jar === undefined ) { 
+      jar = this ;
+    }
+
+    // console.log('primefruit: jarclick', jarclick) ;
+
+    if ( code[jar.config.k].length === 1 ) { // prime fruit selected
+
+      var x = jar.xScale ;
+      var y = jar.yScale ;
+
+      var xScaleTrans = xScale(3) ;
+      var yScaleTrans = yScale(3) ;
+
+      xScaleTrans.pause = duration ;
+      yScaleTrans.pause = duration ;
+
+      xScaleTrans.child = xScale(x) ;
+      yScaleTrans.child = yScale(y) ; 
+
+      xScaleTrans.child.pause = 2 * duration ; 
+
+      xScaleTrans.child.end = function() {
+        fruit[jar.config.k].fade({
+          duration: duration,
+          opacity: 0,
+          pause: duration * 3,
+          end: function() {           
+            jar.fade({
+              duration: duration,
+              opacity: 1,
+            })              
+          }
+        }) ;
+      } ;
+
+      fruit[jar.config.k].fade({ 
+        opacity: 1,
+        duration: duration,
+        pause: duration * 3,
+        end: function() {
+          fruit[jar.config.k].add_transition(xScaleTrans) ;
+          fruit[jar.config.k].add_transition(yScaleTrans) ;                     
+        },
+      }) ;
+
+      jar.fade({
+        opacity: 0,
+        duration: duration,
+      }) ;
+
+    }
+
+  }
 
   var yOffset = 20 ;
   var xOffset = 15 ;
 
-  var fruit = new Array(N - 1) ; // initialize array of fruit 
-  var jar   = new Array(N - 1) ; // initialize array of jars 
   var text  = imageHelper.text_sprite() ;
 
   for ( var k = 0 ; k < N - 1 ; k++ ) {
@@ -116,6 +176,7 @@ function primefruit() {
         sprite: sprite,
         xShift: -40 * document.ratio,
       }),
+      addSwitch: true,
 
     } ;
 
@@ -123,38 +184,42 @@ function primefruit() {
 
     fruit[k] = itemHelper.setup(fruitConfig) ; // each tile contains some fruit
 
+    var jarImage = imageHelper.adjust_ratio(imageHelper.image2canvas('./image/jar2.png')) ;    
+
     var jarConfig = {
 
       viz: viz,
-      image: imageHelper.copy(jarImage),
+      image: jarImage,
       x: x,
       y: y,
+      addSwitch: true,
+      uiSwitch: true,
+      callback: jarclick,
+      k: k,
 
     } ;
 
-    jar[k]   = itemHelper.setup(jarConfig) ;
-
+    jar[k]   = itemHelper.setup( jarConfig ) ;
     var xJar = 40 ;
     var yJar = 50 ;
+    var xPad = [0, 20, 19] ;
 
     var digit = imageHelper.text2image({
       text: k + 2,
       sprite: text,
     }) ;
 
-    jar[k].image.context().drawImage(digit, xJar / ( Math.ceil((k + 1) / 10) ), yJar) ;
-
+    jar[k].image.context().drawImage( digit, xJar - xPad[Math.floor((k + 2) / 10)], yJar ) ;
 
     // tile[k].default_child() ;
-
     // tile[k].child.push(tile[k].jar) ;
 
   }
 
   console.log('prime fruit: start') ;
 
-  viz.item = fruit.concat(jar) ;
-
+  /* viz.item = fruit.concat(jar) ; // bug - make this private */
+  viz.setup_ui() ;
   viz.run() ;
 
   console.log('viz', viz) ;

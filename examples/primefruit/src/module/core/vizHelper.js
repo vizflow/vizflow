@@ -2,11 +2,11 @@ var vizHelper = {
 
 	setup: function viz_helper_setup_viz (vizConfig) {
 
+	  // console.log('setup viz start') ;
+
 		if ( vizConfig === undefined ) {
 			vizConfig = {} ;
 		}
-
-	  // console.log('setup viz start') ;
 
 	  if ( vizConfig.frameDurationFactor === undefined ) {
 	    vizConfig.frameDurationFactor = 1 ;
@@ -102,23 +102,23 @@ var vizHelper = {
 	    viewportY:      0,
 	    viewportWidth:  displayCanvas.width,
 	    viewportHeight: displayCanvas.height,
-	    detect:  actionHelper.detect,
-	    perform: actionHelper.perform,
+	    detect:         actionHelper.detect,
+	    perform:        actionHelper.perform,
 	    image_transition: transitionHelper.step_func('image', frameDuration),  
 	    opacity: vizOpacity,
 	    add_transition: transitionHelper.add, 
 	    remove_transition: transitionHelper.remove,
-	    fade: imageEffectHelper.fade, 
-	    shake: effectHelper.shake,  
-	    input: vizConfig.inputEvent || inputEvent, 
-	    screen_callback: vizConfig.screen_callback,
-	    keyboard_callback: vizConfig.keyboard_callback,
-	    setup_item: itemHelper.setup, 
-	    setup_ui: uiHelper.setup,
+	    fade:        imageEffectHelper.fade, 
+	    shake:       effectHelper.shake,  
+	    setup_item:  itemHelper.setup, 
+	    setup_ui:    uiHelper.setup,
 	    setup_score: scoreHelper.setup, //  score setup function for games (optional, don't have to use it for non-games)
-	    run: vizConfig.run || vizHelper.run,
-	    stagingArray: vizConfig.item || [],
 	    clearSwitch: true,
+	    input:             vizConfig.inputEvent || inputEvent, 
+	    run:               vizConfig.run || vizHelper.run,
+	    stagingArray:      vizConfig.item || [],
+	    screen_callback:   vizConfig.screen_callback,
+	    keyboard_callback: vizConfig.keyboard_callback,
 
 	    transitionSet:  {
 	      x: $Z.transition.rounded_linear_transition_func ( 'viewportX', 3 * dur ), //function accepting an x end-value and returning a transition object      
