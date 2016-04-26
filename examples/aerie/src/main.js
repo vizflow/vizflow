@@ -11,7 +11,7 @@ document.image = [
 	'./image/camp.png',
 	'./image/knight.png',
 	'./image/knight_spritesheet.png',
-	'./image/monster.png',
+	'./image/monster_spritesheet.png',
 	'./image/powerup.png',
 	'./image/battlescreen.png',
 	'./image/knight_battle_spritesheet.png',

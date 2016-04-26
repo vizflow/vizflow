@@ -2,9 +2,9 @@ function setup_element (viz, elementConfig) {
 
   var element = {} ;
 
-  if(elementConfig.orientation === undefined) {
-    elementConfig.orientation = 'r' ;
-  }
+  // if(elementConfig.orientation === undefined) {
+  //   elementConfig.orientation = 'r' ;
+  // }
 
   // console.log('setup_element mid') ;
   if(elementConfig.orientation === 'l') {

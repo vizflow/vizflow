@@ -22,7 +22,6 @@ var hitHelper = {
   },
 
   setup: function hit_helper_setup(viz, element, setupResponseConfig) {
-
     if(setupResponseConfig === undefined) {
       setupResponseConfig = {} ;
     }
@@ -39,7 +38,7 @@ var hitHelper = {
 
     if(setupResponseConfig.healthdrop !== undefined) {
 
-      var healthbar = fighterHelper.setup_healthbar (
+      var healthbar = battleHelper.setup_healthbar (
 
         viz, 
         setupResponseConfig.elementHealth, 
@@ -157,11 +156,6 @@ var hitHelper = {
 	    hitHelper.pair.item[1] = hitHelper.target ;
 	    hitHelper.pair.item[0] = hitHelper.source ;
 
-      // console.log('before pair detect', 'source type', sourceItem.type, 'source y', sourceItem.y, 'target x', targetItem.y) ;
-      // console.log('pair detection', 'hitHelper.pair.item[0].image', hitHelper.pair.item[0].image, 'hitHelper.pair.item[1].image', hitHelper.pair.item[1].image) ;
-      // console.log('hitHelper.source', hitHelper.source, 'hitHelper.target', hitHelper.target) ;
-      // console.log('after pair detect')
-
       hitHelper.pair.detect() ; // run collision detection again using the actual collision images for detailed collision detection (phase 2)
 
       // console.log('hitHelper pair', hitHelper.pair) ;
@@ -178,31 +172,78 @@ var hitHelper = {
 	},  
 
   perform: function hit_helper_perform (response) {
-    var sourceItem = response.sourceItem ;
-    var notAttack = sourceItem.image.sourceCollisionImage === undefined ; // may need more if attack animation interferes
-    if (notAttack === true) {
-     
-      return ;
-    }
-    // var shieldHit = false ;
-    // var img       = response.element.item.image ;
-    // var isAttack  = response.element.sprite.attack.indexOf(img) > -1 ;  // current image is in attack sprite
-    // var isRest    = response.element.sprite.rest.indexOf(img) > -1 ;
-    // var isShield  = !isAttack && !isRest ;
-    
-    // if (isShield) {
-       // console.log('rpg hit helper perform') ;
-       // insert audio here
-    // }
+    // console.log ('response helper perform start: this', this) ;
 
-     // console.log('rpg hit helper perform') ;
-     var element = response.element ;
-     element.health -= 5 ;
-     if (element.health < 0) {
-      console.log('rpg helper: negative health') ;
-     } else {
-      element.healthbar.image = element.health_bar() ;
-     }
+    if(response === undefined) {
+    	response = this ;
+    }
+
+    // console.log('hitHelper perform sourceItem', response.sourceItem, 'sourceItem type', response.sourceItem.type) ;
+
+    response.occurred = response.confirm(response.sourceItem) ; 
+
+    if( response.occurred ) { // i.e. either the player or the enemy was response since we passed the detailed collision detection step
+
+      // console.log('hitHelper perform', 'element', response.element) ;
+
+      if( response.sourceItem.singleSwitch ) {
+        // console.log('perform inert')
+        response.sourceItem.inert = true ; // deactivate the bullet after it hits
+      }     
+
+      var item = response.element.item === undefined ? response.element : response.element.item ;
+
+      // console.log('hitHelper perform:', 'response', response) ;
+      
+      var playerSource  = response.sourceItem.type === 'player' ;
+      var attackCheck   = item.collision_image('source') !== undefined ;
+      var playerTarget  = response.element === response.viz.player ;
+      var playerCounter = (attackCheck && playerTarget) || (attackCheck && response.sourceItem.responseSet === undefined) ; // player or bullet attacking the enemy word
+      var enemyTarget   = response.element === response.viz.enemy ;
+
+      if(playerSource && enemyTarget) { 
+        // enemy was hit directly by player
+      }
+
+      if(playerCounter) {
+        // player counterattack on enemy 
+      }
+
+      if(response.element.explode !== undefined) {
+        response.element.explode() ;
+        viz.audio.explode.play() ;
+      }
+
+      if(response.sourceItem.explode !== undefined) {
+        response.sourceItem.explode() ;
+      }
+
+      if(response.healthbar !== undefined & !playerCounter) { // i.e. player or enemy response was triggered while in their attack frame state
+
+        var healthDamping = 1 ;
+
+        response.healthbar.health -= response.healthdrop * healthDamping ;
+
+        hitHelper.flash(response) ; 
+        if(response.audio !== undefined && response.audio.buffer !== undefined) {
+          response.audio.play() ;
+        }
+
+        if (response.healthbar.health < 0 && response.element === response.viz.enemy) {
+        }
+
+        if (response.healthbar.health < 0 && response.element === response.viz.player) {
+        }
+
+        transitionHelper.update_end_value.call(response.healthbar.item, 'width', response.healthbar.health, response.health_transition) ;
+
+      }
+
+    }
+
+    if(response.transition !== undefined && !playerCounter) {
+      response.transition() ;      
+    }    
 
   }, 
 
@@ -236,13 +277,9 @@ var hitHelper = {
     if(response.occurred) {
 
       // console.log('response occurred start') ;
-      // hitHelper.flash(response) ; // also sets inertSwitch - separate?
-      var hitDur = hitHelper.duration ; // ( element.adversary.sprite.attack.length + 20 ) * viz.dur ;
-      // var hitTransition   = step_transition_func('image', response.viz.frameDuration * 1.5)(element.sprite.hit[0]) ;
-      // element.item.remove_transition('image') ; // supercede any other animation currently running 
-      // console.log('transition hittttt', element.frameDuration) ;
+
+      var hitDur = hitHelper.duration ; 
       var tran_func;
-      // if(element === response.viz.enemy || element.config.hitDuration === undefined) {
       var frameDur = element.config.hitDuration ;
 
       if(element === response.viz.enemy) {
@@ -250,26 +287,12 @@ var hitHelper = {
       } 
 
       // console.log('hitHelper transition:', 'frameDur', frameDur) ;
-      tran_func = step_transition_func('image', frameDur) ;        
-      // } else {
-      //   tran_func = step_transition_func('image', element.config.hitDuration) ;
-      // }
+      tran_func = transitionHelper.step_func('image', frameDur) ;        
       hitTransition = animate(element.sprite.hit, tran_func, undefined, element.sprite.rest[0])[0] ;
 
       // console.log('hitHelper transition:', 'hitTransition', hitTransition) ;
 
       // imageHelper.view(element.sprite.hit[0]) ;
-
-      // if(element === response.viz.enemy) { // perform zoom in-out and screen shake effects on enemy response
-
-      //   var shakeSwitch = true ;
-
-      //   var freq = 1 / 8 ;
-      //   if(Math.random() < freq) {
-      //     effectHelper.zoom_inout(response.viz, hitDur, shakeSwitch) ;        
-      //   }
-
-      // }
 
       var replacementSwitch = true ; // interrupt current player transitions due to response
       element.item.add_transition(hitTransition, replacementSwitch) ;
@@ -331,7 +354,7 @@ var hitHelper = {
 
     hitDur += detectPause ;
 
-    var reset = step_transition_func ('hitReset', hitDur) (0) ;
+    var reset = transitionHelper.step_func ('hitReset', hitDur) (0) ;
 
     reset.end = { 
 

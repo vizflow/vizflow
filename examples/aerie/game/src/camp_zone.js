@@ -146,7 +146,7 @@ function camp_zone() {
 
     } ;
 
-    var enemyTileHeight = 120 ;
+    var enemyTileHeight = 240 ;
     var enemyTileWidth  = 160 ;
     var enemy2TileHeight = 120 ;
     var enemy2TileWidth  = 160 ;
@@ -211,6 +211,7 @@ function camp_zone() {
     // viz.player.adversary = viz.enemy ; // decorate the player object for convenient access to the viz.enemy object 
     // viz.enemy.adversary  = viz.player ; 
     viz.player.item.responseSet.bump = bumpHelper.setup(viz) ;
+    viz.player.item.responseSet.hit = playerHitHelper.setup(viz) ;
 
     viz.run() ;
 

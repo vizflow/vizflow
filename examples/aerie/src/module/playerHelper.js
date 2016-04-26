@@ -199,6 +199,9 @@ var playerHelper = {
         
   },
 
+
+
+
 	levelup: function player_helper_levelup( player ) {
 		
 		if( player === undefined ) {
