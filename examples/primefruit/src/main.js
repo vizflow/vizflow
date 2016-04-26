@@ -9,7 +9,7 @@ document.image = [
 	
 	'./image/vizflow.png',
 	'./image/fruit.gif',
-	'./image/jar2.png',
+	'./image/jar.png',
 
 ] ;
 	  

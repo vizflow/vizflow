@@ -107,6 +107,7 @@ var vizHelper = {
 	    image_transition: transitionHelper.step_func('image', frameDuration),  
 	    opacity: vizOpacity,
 	    add_transition: transitionHelper.add, 
+	    add_sequence: transitionHelper.add_sequence,
 	    remove_transition: transitionHelper.remove,
 	    fade:        imageEffectHelper.fade, 
 	    shake:       effectHelper.shake,  
@@ -205,7 +206,7 @@ var vizHelper = {
 	    zoom_inout: effectHelper.zoom_inout,
 
 	    panX: function (dur, xNew) { 
-	      var trans = transition_sequence( xNew.map(function(x) {
+	      var trans = transitionHelper.sequence( xNew.map(function(x) {
 	        return $Z.transition.rounded_linear_transition_func('viewportX', dur)(x) ;
 	      }) ) ;
 	      // console.log('panX trans', trans) ;
@@ -213,7 +214,7 @@ var vizHelper = {
 	    },
 
 	    panY: function (dur, yNew) { 
-	      var trans = transition_sequence( yNew.map(function(y) {
+	      var trans = transitionHelper.sequence( yNew.map(function(y) {
 	        return $Z.transition.rounded_linear_transition_func('viewportY', dur)(y) ;
 	      }) ) ;
 	      // console.log('panY trans', trans) ;

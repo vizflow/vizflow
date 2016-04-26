@@ -26,7 +26,7 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 			flash[kflash] = create_transition(valueList[kflash % valueList.length]) ;
 		}
 
-		flash = transition_sequence(flash) ;
+		flash = transitionHelper.sequence(flash) ;
 
 		// var loopConfig = {
 		// 	Nstep: Nstep,
@@ -78,8 +78,8 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 		xTransition[kstep] = item.transitionSet[xKey](0) ;
 		yTransition[kstep] = item.transitionSet[yKey](0) ;
 
-		xTransition = transition_sequence(xTransition)[0] ;
-		yTransition = transition_sequence(yTransition)[0] ;
+		xTransition = transitionHelper.sequence(xTransition)[0] ;
+		yTransition = transitionHelper.sequence(yTransition)[0] ;
 
 		// console.log('xTransition', xTransition, 'yTransition', yTransition) ;
 

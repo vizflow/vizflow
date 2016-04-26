@@ -30,6 +30,10 @@ var itemHelper = {
 	    add_transition:    transitionHelper.add, // transitionHelper.add expects "this" to be "item"
 	    remove_transition: transitionHelper.remove,
 	    add_end:           transitionHelper.add_end,
+		  add_linear:        transitionHelper.add_linear,
+		  add_rounded_linear: transitionHelper.add_rounded_linear,
+		  add_step:          transitionHelper.add_step,
+		  add_sequence:      transitionHelper.add_sequence,
 	    collision_image:   actionHelper.collision_image, // actionHelper.collision_image() expects "this" to be "item"
 	    fade:              imageEffectHelper.fade, // imageEffectHelper.fade expects "this" to be "item"
 	    flash:             effectHelper.flash,

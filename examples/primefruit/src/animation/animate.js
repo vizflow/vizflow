@@ -15,5 +15,5 @@ function animate (valueList, create_transition, callback, restFrame) {
     }
     transitionArray[kframe] = (transition) ;
   }
-  return transition_sequence(transitionArray) ;
+  return transitionHelper.sequence(transitionArray) ;
 }
