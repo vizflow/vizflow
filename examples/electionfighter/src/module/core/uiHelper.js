@@ -6,11 +6,15 @@ var uiHelper = {
       viz = this ;
     }
 
+    if ( uiConfig === undefined ) {
+      uiConfig = {} ;
+    }
+
     var ui = {
 
       canvas:   uiConfig.canvas  || imageHelper.create(viz.width, viz.height),
       context:  uiConfig.context || imageHelper.create(viz.width, viz.height).context(),
-      item:     uiConfig.item || [],
+      item:     uiConfig.item    || [],
       // callback: uiConfig.callback,
 
     } ;

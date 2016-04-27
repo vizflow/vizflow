@@ -2,11 +2,11 @@ var vizHelper = {
 
 	setup: function viz_helper_setup_viz (vizConfig) {
 
+	  // console.log('setup viz start') ;
+
 		if ( vizConfig === undefined ) {
 			vizConfig = {} ;
 		}
-
-	  // console.log('setup viz start') ;
 
 	  if ( vizConfig.frameDurationFactor === undefined ) {
 	    vizConfig.frameDurationFactor = 1 ;
@@ -49,12 +49,12 @@ var vizHelper = {
 	  resize() ;
 
 	  var backgroundImageUrl = vizConfig.backgroundImageUrl ;
-	  // console.log('vizHelper, resize, image2canvas start') ;
+	  // console.log('vizHelper, resize, to_canvas start') ;
 
 	  var image ;
 	  if(vizConfig.loadingImageUrl !== undefined) {
-		  image = imageHelper.adjust_ratio(imageHelper.image2canvas(vizConfig.loadingImageUrl));
-		  // console.log('vizHelper, resize, image2canvas end') ;
+		  image = imageHelper.adjust_ratio(imageHelper.to_canvas(vizConfig.loadingImageUrl));
+		  // console.log('vizHelper, resize, to_canvas end') ;
 	  } 
 
 	  var frameDuration = vizConfig.frameDurationFactor * dur ;
@@ -102,23 +102,24 @@ var vizHelper = {
 	    viewportY:      0,
 	    viewportWidth:  displayCanvas.width,
 	    viewportHeight: displayCanvas.height,
-	    detect:  actionHelper.detect,
-	    perform: actionHelper.perform,
+	    detect:         actionHelper.detect,
+	    perform:        actionHelper.perform,
 	    image_transition: transitionHelper.step_func('image', frameDuration),  
 	    opacity: vizOpacity,
 	    add_transition: transitionHelper.add, 
+	    add_sequence: transitionHelper.add_sequence,
 	    remove_transition: transitionHelper.remove,
-	    fade: imageEffectHelper.fade, 
-	    shake: effectHelper.shake,  
-	    input: vizConfig.inputEvent || inputEvent, 
-	    screen_callback: vizConfig.screen_callback,
-	    keyboard_callback: vizConfig.keyboard_callback,
-	    setup_item: itemHelper.setup, 
-	    setup_ui: uiHelper.setup,
+	    fade:        imageEffectHelper.fade, 
+	    shake:       effectHelper.shake,  
+	    setup_item:  itemHelper.setup, 
+	    setup_ui:    uiHelper.setup,
 	    setup_score: scoreHelper.setup, //  score setup function for games (optional, don't have to use it for non-games)
-	    run: vizConfig.run || vizHelper.run,
-	    stagingArray: vizConfig.item || [],
 	    clearSwitch: true,
+	    input:             vizConfig.inputEvent || inputEvent, 
+	    run:               vizConfig.run || vizHelper.run,
+	    stagingArray:      vizConfig.item || [],
+	    screen_callback:   vizConfig.screen_callback,
+	    keyboard_callback: vizConfig.keyboard_callback,
 
 	    transitionSet:  {
 	      x: $Z.transition.rounded_linear_transition_func ( 'viewportX', 3 * dur ), //function accepting an x end-value and returning a transition object      
@@ -141,6 +142,10 @@ var vizHelper = {
 	      }
 
 	      this.item = this.item.filter( function(d) { return d.removeSwitch !== true ; } ) ; // #todo: figure out a more performant way
+	      
+	      if ( this.ui !== undefined && this.ui.item !== undefined ) {
+	        this.ui.item = this.ui.item.filter( function(d) { return d.removeSwitch !== true ; } ) ; // #todo: figure out a more performant way
+	      }
 
 	      for(var kitem = 0 ; kitem < this.stagingArray.length ; kitem++) {
 
@@ -148,7 +153,7 @@ var vizHelper = {
 	          this.item.push( this.stagingArray[kitem] ) ;
 	        }
 
-	        if ( this.ui !== undefined ) { 
+	        if ( this.ui !== undefined && this.ui.item !== undefined ) { 
 		        if ( this.stagingArray[kitem].uiSwitch === true ) {
 		        	if ( this.ui.item.indexOf(this.stagingArray[kitem]) === -1) {
 		            this.ui.item.push( this.stagingArray[kitem] ) ;	        		
@@ -205,7 +210,7 @@ var vizHelper = {
 	    zoom_inout: effectHelper.zoom_inout,
 
 	    panX: function (dur, xNew) { 
-	      var trans = transition_sequence( xNew.map(function(x) {
+	      var trans = transitionHelper.sequence( xNew.map(function(x) {
 	        return $Z.transition.rounded_linear_transition_func('viewportX', dur)(x) ;
 	      }) ) ;
 	      // console.log('panX trans', trans) ;
@@ -213,7 +218,7 @@ var vizHelper = {
 	    },
 
 	    panY: function (dur, yNew) { 
-	      var trans = transition_sequence( yNew.map(function(y) {
+	      var trans = transitionHelper.sequence( yNew.map(function(y) {
 	        return $Z.transition.rounded_linear_transition_func('viewportY', dur)(y) ;
 	      }) ) ;
 	      // console.log('panY trans', trans) ;

@@ -2,6 +2,8 @@ var imageEffectHelper = {
 
 	  foreach: function image_effect_helper_foreach ( canvas, func, channel ) {
 
+	  	// console.log('image effect helper foreach start', canvas, func, channel) ;
+
 	  	if ( channel === undefined ) {
 	  		channel = -1 ; // r, g, b channels by default
 	  	}
@@ -16,13 +18,15 @@ var imageEffectHelper = {
 			for (var kpel = 0 ; kpel < Npel ; kpel++) {
 
 				if ( channel < 3 && data[offset + 3] === 0) {
+  			  offset += 4 ;
 					continue ; // skip transparent pixels if opacity channel is not specified
 				}
 
 				if ( channel >= 0 && channel < 4 ) {
+					// console.log('func(data[offset + channel])', func(data[offset + channel])) ;
 			  	data[offset + channel] = func(data[offset + channel]) ;					
 				} else if ( channel === -1 ) {
-
+ 
 			  	data[offset + 0] = func(data[offset + 0]) ;					
 			  	data[offset + 1] = func(data[offset + 1]) ;					
 			  	data[offset + 2] = func(data[offset + 2]) ;					
@@ -156,7 +160,7 @@ var imageEffectHelper = {
 
 		}, // end fade
 
-		fade_transition: function effect_helper_image_fade_transition(fadeConfig) {
+		fade_transition: function image_effect_helper_fade_transition(fadeConfig) {
 
 			var defaultFadeDuration = 1000 ;
 			if(fadeConfig.duration === undefined) {
@@ -178,6 +182,22 @@ var imageEffectHelper = {
 			}
 
 			return newTransition ;
+
+		},
+
+		fade_sequence: function image_effect_helper_fade_sequence( fadeConfig ) {
+
+			if ( fadeConfig === undefined ) {
+				fadeConfig = {} ;
+			}
+
+			var valueList = fadeConfig.valueList ;
+			var duration  = fadeConfig.duration || 1000 ;
+			var value     = fadeConfig.value ;
+
+	    var create_fade = transitionHelper.fixed_duration_linear('opacity', duration) ;    
+	    
+      return transitionHelper.new_sequence(value, create_fade) ;
 
 		},
 

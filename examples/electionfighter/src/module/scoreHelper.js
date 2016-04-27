@@ -33,7 +33,7 @@ var scoreHelper = {
       '9'
     ] ;
 
-    var canvas    = imageHelper.image2canvas('./image/0-9.png') ;
+    var canvas    = imageHelper.to_canvas('./image/0-9.png') ;
     
     var tileWidth = [
       15, 

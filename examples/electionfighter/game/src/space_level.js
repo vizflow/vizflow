@@ -46,7 +46,7 @@ function space_level () {
     },
 
     sprite_loader: function() {
-      var i         = imageHelper.image2canvas('./image/megyn_spritesheet.png') ;
+      var i         = imageHelper.to_canvas('./image/megyn_spritesheet.png') ;
       var rowName   = ['attack', 'hit', 'jump', 'rest', 'walk'] ;
       var width     = [tileWidth, tileWidth, tileWidth, tileWidth, tileWidth] ;
       var height    = [tileHeight, tileHeight, tileHeight, tileHeight, tileHeight] ;
@@ -89,7 +89,7 @@ function space_level () {
     sprite_loader: function() {
 
       // console.log('enemy sprite loader', spriteset) ;
-      var i         = imageHelper.image2canvas('./image/trump_spritesheet.png') ;
+      var i         = imageHelper.to_canvas('./image/trump_spritesheet.png') ;
       var rowName   = ['attack', 'hit', 'rest', 'walk'] ;
       var width     = [enemyTileWidth, enemyTileWidth, enemyTileWidth, enemyTileWidth] ;
       var height    = [enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight] ;

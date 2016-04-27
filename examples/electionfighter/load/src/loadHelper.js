@@ -75,7 +75,7 @@ var loadHelper = {
 
       sprite_loader: function() {
 
-        var i = imageHelper.image2canvas('./image/select_spritesheet.png') ;
+        var i = imageHelper.to_canvas('./image/select_spritesheet.png') ;
 
         var rowName = [
           'jesus', 
@@ -135,7 +135,7 @@ var loadHelper = {
 
     function title_sprite() {
 
-      var i = imageHelper.image2canvas('./image/title_sprite.png') ;
+      var i = imageHelper.to_canvas('./image/title_sprite.png') ;
 
       var rowName = [
         'stars', 
@@ -179,7 +179,7 @@ var loadHelper = {
 
     stars.add() ;
 
-    var vizflowImage = imageHelper.adjust_ratio(imageHelper.image2canvas('./image/vizflow.png')) ;
+    var vizflowImage = imageHelper.adjust_ratio(imageHelper.to_canvas('./image/vizflow.png')) ;
 
     var vizflow = itemHelper.setup({ 
       x: (viz.width - vizflowImage.originalCanvas.width) * 0.5,
@@ -309,7 +309,7 @@ var loadHelper = {
       viz = this ;
     }
 
-    viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ; 
+    viz.image = imageHelper.adjust_ratio(imageHelper.to_canvas(viz.config.backgroundImageUrl)) ; 
 
     viz.fade({
       duration: viz.fadeDuration * 0.5,

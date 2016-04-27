@@ -86,7 +86,7 @@ function city_level () {
 
     sprite_loader: function() {
 
-      var i = imageHelper.image2canvas('./image/jesus_spritesheet.png') ;
+      var i = imageHelper.to_canvas('./image/jesus_spritesheet.png') ;
 
       var rowName = [
         'attack',
@@ -222,7 +222,7 @@ function city_level () {
     sprite_loader: function() {
 
       // console.log('enemy sprite loader', spriteset) ;
-      var i         = imageHelper.image2canvas('./image/trump_spritesheet.png') ;
+      var i         = imageHelper.to_canvas('./image/trump_spritesheet.png') ;
       var rowName   = ['attack', 'hit', 'rest', 'walk'] ;
       var width     = [enemyTileWidth, enemyTileWidth, enemyTileWidth, enemyTileWidth] ;
       var height    = [enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight] ;

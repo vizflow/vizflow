@@ -460,7 +460,7 @@ var playerHelper = {
 
   load_bullet: function player_helper_load_bullet(viz) {
 
-    var i         = imageHelper.image2canvas('./image/beam_spritesheet.png') ;
+    var i         = imageHelper.to_canvas('./image/beam_spritesheet.png') ;
     var rowName   = ['bullet', 'bullet1', 'bullet2', 'bullet3', 'jump', 'jump1'] ;
     var width     = [5, 186, 200, 200, 20, 60] ;
     var height    = [5, 10, 34, 110, 12, 32] ;
