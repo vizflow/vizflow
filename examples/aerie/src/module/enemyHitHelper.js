@@ -24,7 +24,7 @@ var enemyHitHelper = {
 
     } ; 
 
-    console.log('enemy hit helper setup', 'hit', hit) ;
+    // console.log('enemy hit helper setup', 'hit', hit) ;
     return hit ;
 
   },    

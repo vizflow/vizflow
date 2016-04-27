@@ -7,10 +7,10 @@ function battle_screen() {
     frameDurationFactor: 3,
         music: undefined,
         name: 'battle',
-        xShift: 400,
-        yShift: 550,
-        width: 240,
-        height: 320,
+        xShift: 460,
+        yShift: 720,
+        width: 320,
+        height: 240,
 
   } ;
 
@@ -57,7 +57,7 @@ function battle_screen() {
     spriteset.attack[0].sourceCollisionImage = attackCollisionCanvas ;
     spriteset.attack = [spriteset.attack[0], spriteset.rest[0]] ;
     spriteset.block = [spriteset.block[0], spriteset.block[0], spriteset.rest[0], spriteset.rest[0]] ;
-
+    // console.log('battlescreen spriteloader', spriteset.block[2] === spriteset.rest[0]) ;
     return spriteset ;
 
     },
@@ -68,7 +68,7 @@ function battle_screen() {
 
     },
 
-    orientation: 'l',
+    // orientation: 'l',
     frameDuration: viz.frameDuration * 0.5,    
     attackDuration: 3 * viz.frameDuration,    
     blockDuration: 100 * viz.frameDuration,
@@ -77,9 +77,8 @@ function battle_screen() {
     xMove: 40,
     yMove: 40,
     x: 100,
-    y: 160,
+    y: 100,
     type: 'player',
-    healthdrop: 5, 
 
     } ;
 
@@ -104,15 +103,9 @@ function battle_screen() {
             return ;
         }
 
-        var index = viz.player.state.indexOf(event.keyCode) ;   
-    
-        if (index === -1 ) {
-
-            return ;
-
-        } else {
-            viz.player.state.splice(index, 1) ;
-        }     
+        viz.player.state = viz.player.state.filter(function (d) {
+            d !== event.keyCode ;
+        }) ;     
 
     } ;
 
@@ -121,7 +114,7 @@ function battle_screen() {
     viz.player.callback = playerBattleHelper.update ;
   
     var enemyTileHeight = 240 ;
-    var enemyTileWidth  = 160 ;
+    var enemyTileWidth  = 200 ;
 
     viz.enemyConfig = {
 
@@ -132,6 +125,13 @@ function battle_screen() {
             position: 0,
             Nstep: 2,
           },
+
+        tailattack: {
+            frameDur: viz.frameDuration * 10,
+            position: 0,
+            Nstep: 2,
+          },
+
 
         block: {
             frameDur: viz.frameDuration,
@@ -145,24 +145,28 @@ function battle_screen() {
 
           // console.log('enemy sprite loader', spriteset) ;
           var i         = imageHelper.image2canvas('./image/monster_spritesheet.png') ;
-          var rowName   = ['attack', 'rest'] ;
-          var width     = [enemyTileWidth, enemyTileWidth] ;
-          var height    = [enemyTileHeight, enemyTileHeight] ;
+          var rowName   = ['attack', 'rest', 'tailattack'] ;
+          var width     = [enemyTileWidth, enemyTileWidth, enemyTileWidth] ;
+          var height    = [enemyTileHeight, enemyTileHeight, enemyTileHeight] ;
           var spriteset = spriteHelper.get(i, rowName, width, height) ;
           // spriteset.rest.push(spriteset.rest[0]) ;
           var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0].originalCanvas, { x: 0, y: 0, width: spriteset.attack[0].originalCanvas.width * 0.6, height: maxHeight } ) ;
+          var tailAttackCollisionCanvas            = imageHelper.clear_rect (spriteset.tailattack[0].originalCanvas, { x: 0, y: 0, width: spriteset.tailattack[0].originalCanvas.width * 0.6, height: maxHeight } ) ;
           spriteset.attack[0].sourceCollisionImage = attackCollisionCanvas ;
+          spriteset.tailattack[0].sourceCollisionImage = tailAttackCollisionCanvas ;          
           spriteset.attack = [spriteset.attack[0], spriteset.rest[0]] ;
+          spriteset.tailattack = [spriteset.tailattack[0], spriteset.rest[0]] ;
           return spriteset ;
 
         },    
 
-        frameDuration: viz.frameDuration * 1,
-        attackDuration: 6 * viz.frameDuration,
+        // frameDuration: viz.frameDuration * 20,
+        // attackDuration: 6 * viz.frameDuration,
+        // tailattackDuration: 100 * viz.frameDuration,
         // hitDuration: viz.dur * 10,
         // orientation: 'r',
-        x: 0,
-        y: 100,
+        x: 60,
+        y: 30,
         type: 'enemy',
         // opacity: 0,
 
@@ -170,6 +174,7 @@ function battle_screen() {
 
     viz.enemy  = enemyBattleHelper.setup(viz) ;
     viz.enemy.start_attack () ;
+    viz.enemy.start_tail_attack () ;
     // viz.enemy  = setup_element(viz, viz.enemyConfig) ;
     viz.enemy.item.add() ;
     viz.enemy.callback  = enemyBattleHelper.update ;

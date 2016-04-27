@@ -23,7 +23,7 @@ var playerHitHelper = {
 
     } ; 
 
-    console.log('player hit helper setup', 'hit', hit) ;
+    // console.log('player hit helper setup', 'hit', hit) ;
     return hit ;
 
   },    

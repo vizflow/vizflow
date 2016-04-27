@@ -1,6 +1,27 @@
 var drawHelper = {
 
-  image: function draw_image (item, context, ratio) {
+  item: function draw_helper_item ( item, context, ratio ) { // render item and its child items
+
+    if ( item === undefined ) {
+      item = this ;
+    }
+
+    drawHelper.image(item) ;
+    if( item.child !== undefined ) {
+      // console.log('draw helper item:', 'item.child', item.child) ;
+      for ( var kOver = 0 ; kOver < item.child.length ; kOver++ ) {
+        item.child[kOver].x = item.x ;
+        item.child[kOver].y = item.y ;
+        item.child[kOver].angle = item.angle ;
+        item.child[kOver].xScale = item.xScale ;
+        item.child[kOver].yScale = item.yScale; 
+        // console.log('item.child[kOver]', item.child[kOver], 'item.child[kOver].x', item.child[kOver].x) ;
+        drawHelper.image(item.child[kOver]) ;
+      }      
+    }
+  },
+
+  image: function draw_helper_image (item, context, ratio) {
 
     if (item === undefined) {
       item = this ;
@@ -12,6 +33,14 @@ var drawHelper = {
 
     if (ratio === undefined) {
       ratio = document.ratio ;
+    }
+
+    if (item.xScale === undefined) {
+      item.xScale = 1 ;
+    }
+
+    if (item.yScale === undefined) {
+      item.yScale = 1 ;
     }
 
     // console.log('item.x', item.x, 'width', item.viz.displayCanvas.width) ;
@@ -32,14 +61,14 @@ var drawHelper = {
 
     }
 
-    var originX = item.originX || 0 ;
-    var originY = item.originY || 0 ;
+    var originX = item.xOrigin || 0 ;
+    var originY = item.yOrigin || 0 ;
 
-    var xDraw = (item.x + item.viz.xShift + viewX - originX) * ratio ;
-    var yDraw = (item.y + item.viz.yShift + viewY - originY) * ratio ;
+    var dx = (item.x + item.viz.xShift + viewX - originX) * ratio ;
+    var dy = (item.y + item.viz.yShift + viewY - originY) * ratio ;
 
-    xDraw = Math.floor( xDraw ) ;
-    yDraw = Math.floor( yDraw ) ;
+    dx = Math.floor( dx ) ;
+    dy = Math.floor( dy ) ;
 
     if(item.opacity !== undefined) {
 
@@ -51,12 +80,15 @@ var drawHelper = {
       context.translate(xShift, yShift) ;
       context.rotate(item.angle) ;
       context.translate(-xShift, -yShift) ;
-      context.drawImage(item.image, xDraw, yDraw) ;
+      var dw = Math.floor(item.image.width * item.xScale) ;
+      var dh = Math.floor(item.image.height * item.yScale) ;
+      // console.log('draw helper', 'item', item, 'dw', dw, 'dh', dh) ;
+      context.drawImage(item.image, 0, 0, item.image.width, item.image.height, dx, dy, dw, dh) ;
       context.setTransform(1, 0, 0, 1, 0, 0) ;
       context.globalAlpha = alpha ;      
 
     } else {
-      context.drawImage(item.image, xDraw, yDraw) ;      
+      context.drawImage(item.image, dx, dy) ;      
     }
 
   },
@@ -116,10 +148,11 @@ var drawHelper = {
     }
 
     var yNew ;
-    var xDraw = xNew * ratio ;
-    var yDraw = yNew * ratio ;
-    xDraw = Math.floor( xDraw ) ;
-    yDraw = Math.floor( yDraw ) ;
+    var dx = xNew * ratio ;
+    var dy = yNew * ratio ;
+
+    dx = Math.floor( dx ) ;
+    dy = Math.floor( dy ) ;
     
     context.beginPath() ;
     context.fillStyle = rect.color ;
@@ -132,7 +165,7 @@ var drawHelper = {
       // context.globalAlpha = alpha ;      
     } 
 
-    // console.log('draw rect: ', 'xDraw, yDraw, Math.floor(rect.width * ratio), Math.floor(rect.height * ratio)', xDraw, yDraw, Math.floor(rect.width * ratio), Math.floor(rect.height * ratio)) ;
+    // console.log('draw rect: ', 'dx, dy, Math.floor(rect.width * ratio), Math.floor(rect.height * ratio)', dx, dy, Math.floor(rect.width * ratio), Math.floor(rect.height * ratio)) ;
 
     var xShift = Math.floor(ratio * (rect.x + rect.xAngle)) ;
     var yShift = Math.floor(ratio * (rect.y + rect.yAngle)) ;
@@ -140,7 +173,7 @@ var drawHelper = {
     context.rotate(rect.angle) ;
     context.translate(-xShift, -yShift) ;
 
-    context.rect(xDraw, yDraw, Math.floor(rect.width * ratio), Math.floor(rect.height * ratio)) ;
+    context.rect(dx, dy, Math.floor(rect.width * ratio), Math.floor(rect.height * ratio)) ;
     context.fill() ;
     context.stroke() ;
     context.closePath() ;

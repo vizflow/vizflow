@@ -103,7 +103,7 @@ var hitHelper = {
 
   },    
 
-  confirm: function hit_helper_detect(sourceItem, hit) {
+  confirm: function hit_helper_(sourceItem, hit) {
 
     // console.log('hit helper detect start', 'sourceItem', sourceItem, 'hit', hit) ;
 
@@ -180,30 +180,31 @@ var hitHelper = {
   perform: function hit_helper_perform (response) {
     var sourceItem = response.sourceItem ;
     var notAttack = sourceItem.image.sourceCollisionImage === undefined ; // may need more if attack animation interferes
+    var img       = response.element.item.image ;
+    var isAttack  = response.element.sprite.attack.indexOf(img) > -1 ;  // current image is in attack sprite
+    var isRest    = response.element.sprite.rest.indexOf(img) > -1 ;
+    var isShield  = !isAttack && !isRest ;
+    var element = response.element ;
+
     if (notAttack === true) {
      
       return ;
-    }
-    // var shieldHit = false ;
-    // var img       = response.element.item.image ;
-    // var isAttack  = response.element.sprite.attack.indexOf(img) > -1 ;  // current image is in attack sprite
-    // var isRest    = response.element.sprite.rest.indexOf(img) > -1 ;
-    // var isShield  = !isAttack && !isRest ;
-    
-    // if (isShield) {
-       // console.log('rpg hit helper perform') ;
+    }   
+    if (isShield === true) {
+      var isRest = img === element.sprite.rest[0] ;
+      console.log('hit helper perform is shield', 'isRest', isRest) ;
        // insert audio here
-    // }
-
+       element.health -= 0.2 ;
+    } else {
      // console.log('rpg hit helper perform') ;
-     var element = response.element ;
-     element.health -= 5 ;
-     if (element.health < 0) {
-      console.log('rpg helper: negative health') ;
-     } else {
+      element.health -= 2 ;
+    }
+    // if (element.health < 0) {
+    //   // console.log('rpg helper: negative health') ;
+    // } else {
       element.healthbar.image = element.health_bar() ;
-     }
-
+    // }
+    
   }, 
 
   reset: function hit_helper_reset (response) {
@@ -234,15 +235,11 @@ var hitHelper = {
     var element = this.element ;
 
     if(response.occurred) {
-
       // console.log('response occurred start') ;
-      // hitHelper.flash(response) ; // also sets inertSwitch - separate?
       var hitDur = hitHelper.duration ; // ( element.adversary.sprite.attack.length + 20 ) * viz.dur ;
-      // var hitTransition   = step_transition_func('image', response.viz.frameDuration * 1.5)(element.sprite.hit[0]) ;
-      // element.item.remove_transition('image') ; // supercede any other animation currently running 
-      // console.log('transition hittttt', element.frameDuration) ;
+
       var tran_func;
-      // if(element === response.viz.enemy || element.config.hitDuration === undefined) {
+  
       var frameDur = element.config.hitDuration ;
 
       if(element === response.viz.enemy) {

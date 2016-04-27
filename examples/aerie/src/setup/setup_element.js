@@ -7,20 +7,22 @@ function setup_element (viz, elementConfig) {
   // }
 
   // console.log('setup_element mid') ;
-  if(elementConfig.orientation === 'l') {
+  // if(elementConfig.orientation === 'l') {
 
-    element.spriteL = elementConfig.sprite_loader () ;
-    element.spriteR = spriteHelper.horizontal_flip(element.spriteL) ;
+  //   element.spriteL = elementConfig.sprite_loader () ;
+  //   element.spriteR = spriteHelper.horizontal_flip(element.spriteL) ;
 
-  } else {
+  // } else {
 
-    element.spriteR = elementConfig.sprite_loader () ;
-    // console.log('setup_element', 'element.spriteR.rest',element.spriteR.rest) ;
-    element.spriteL = spriteHelper.horizontal_flip(element.spriteR) ;
+  //   element.spriteR = elementConfig.sprite_loader () ;
+  //   // console.log('setup_element', 'element.spriteR.rest',element.spriteR.rest) ;
+  //   element.spriteL = spriteHelper.horizontal_flip(element.spriteR) ;
 
-  }
+  // }
 
-  element.sprite = element.spriteR ;
+  // element.sprite = element.spriteR ;
+
+  element.sprite = elementConfig.sprite_loader () ;
 
   if(elementConfig.x === undefined) {
     elementConfig.x = Math.round(viz.width / 12) - 1 ;
