@@ -5,12 +5,14 @@ document.addEventListener("touchmove", function(e) { e.preventDefault() }) ;
 document.body.style.overflowY = 'hidden' ;
 document.body.style.margin    = 0 ;
 
+document.textUrl = './image/text5.png' ;
+
 document.image = [ 
 	
 	'./image/vizflow.png',
 	'./image/fruit.gif',
 	'./image/jar.png',
-	'./image/text8.png',
+	document.textUrl,
 
 ] ;
 	  

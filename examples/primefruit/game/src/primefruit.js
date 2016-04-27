@@ -114,7 +114,7 @@ function primefruit() {
 
   var textWidth    = 32 ;
   var textHeight   = 32 ;
-  var text         = spriteHelper.get_text('./image/text8.png', textWidth, textHeight) ;
+  var text         = spriteHelper.get_text(document.textUrl, textWidth, textHeight) ;
   text             = spriteHelper.foreach(text, imageHelper.get_original) ;
   var overlapScale = 0.25 ;
 
@@ -193,12 +193,12 @@ function primefruit() {
     viz.jar[k]   = itemHelper.setup( jarConfig ) ;
     var xJar = 40 ;
     var yJar = 42 ;
-    var xPad = [20, 30, 21] ;
+    var xPad = [25, 25, 25] ;
 
     var digit = imageHelper.text2image({
       text: k + 2,
       sprite: text,
-      xShift: -4,
+      xShift: 0,
     }) ;
 
     viz.jar[k].image.context().drawImage( digit, xJar - xPad[Math.floor((k + 2) / 10)], yJar ) ;
@@ -283,7 +283,7 @@ function primefruit() {
 
     }) ;
 
-    var shift = 0.25 * viz.width / scale0 ;
+    var shift = 0.5 * viz.width / scale0 ;
 
     var xTrans0 = transitionHelper.new_linear('x', shift, duration * 4) ;
     var yTrans0 = transitionHelper.new_linear('y', shift, duration * 4) ;
@@ -373,7 +373,7 @@ function primefruit() {
 
     viz.busy = true ;
 
-    viz.add_sequence([true, false], transitionHelper.fixed_duration_step('busy', duration * 4)) ;
+    viz.add_sequence([true, false], transitionHelper.fixed_duration_step('busy', duration * 6)) ;
 
     var jarFade = [0, 0, 0, 0, 1] ;
 
