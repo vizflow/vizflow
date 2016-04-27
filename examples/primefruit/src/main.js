@@ -12,6 +12,7 @@ document.image = [
 	'./image/vizflow.png',
 	'./image/fruit.gif',
 	'./image/jar.png',
+	'./image/jarOpen.png',
 	document.textUrl,
 
 ] ;
