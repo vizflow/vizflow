@@ -49,12 +49,12 @@ var vizHelper = {
 	  resize() ;
 
 	  var backgroundImageUrl = vizConfig.backgroundImageUrl ;
-	  // console.log('vizHelper, resize, image2canvas start') ;
+	  // console.log('vizHelper, resize, to_canvas start') ;
 
 	  var image ;
 	  if(vizConfig.loadingImageUrl !== undefined) {
-		  image = imageHelper.adjust_ratio(imageHelper.image2canvas(vizConfig.loadingImageUrl));
-		  // console.log('vizHelper, resize, image2canvas end') ;
+		  image = imageHelper.adjust_ratio(imageHelper.to_canvas(vizConfig.loadingImageUrl));
+		  // console.log('vizHelper, resize, to_canvas end') ;
 	  } 
 
 	  var frameDuration = vizConfig.frameDurationFactor * dur ;
@@ -142,6 +142,10 @@ var vizHelper = {
 	      }
 
 	      this.item = this.item.filter( function(d) { return d.removeSwitch !== true ; } ) ; // #todo: figure out a more performant way
+	      
+	      if ( this.ui !== undefined ) {
+	        this.ui.item = this.ui.item.filter( function(d) { return d.removeSwitch !== true ; } ) ; // #todo: figure out a more performant way
+	      }
 
 	      for(var kitem = 0 ; kitem < this.stagingArray.length ; kitem++) {
 
