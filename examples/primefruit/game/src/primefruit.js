@@ -33,7 +33,7 @@ function primefruit() {
 
 ***/  
 
-  console.log('prime viz.fruit: start') 
+  console.log('prime viz.fruit: start') ;
 
   /*
    * when using vizflow it's easier to create the viz object and then add the items to it afterwards:
@@ -41,8 +41,9 @@ function primefruit() {
 
 
   var duration = 150 ;
-  var width  = 320 ;
-  var height = 320 ;
+  var width    = 320 ;
+  var height   = 320 ;
+
   var vizConfig = {
     width: width,
     height: height,
@@ -50,15 +51,14 @@ function primefruit() {
   
   var viz = vizHelper.setup(vizConfig) ; // first create generic vizflow configuration object, then add application-specific details
 
-  var Nprime = 9 ;
-  var N      = 25 ; // how many numbers to represent with viz.fruit baskets
-  var Ncol   = 5 ; // how many columns to arrange the baskets in 
-  var xGrid  = 64 ;
-  var yGrid  = 64 ;
+  var Nprime    = 9 ;
+  var N         = 25 ; // how many numbers to represent with viz.fruit baskets
+  var Ncol      = 5 ; // how many columns to arrange the baskets in 
+  var xGrid     = 64 ;
+  var yGrid     = 64 ;
   var Nside     = Math.sqrt(Nprime) ;
   var xGridMini = xGrid / Nside ;
   var yGridMini = yGrid / Nside ;
-
 
   var tileWidth = 47 ; 
   var rowHeight = 52 ;
@@ -123,9 +123,9 @@ function primefruit() {
     'i': 23,
   } ;
 
-  var yOffset = 37 ;
-  var xOffset = -3 ;
-  var xSpace  = 5 ;
+  var yOffset      = 37 ;
+  var xOffset      = -3 ;
+  var xSpace       = 5 ;
   var initialScale = 0.5 ;
 
   // var text  = imageHelper.text_sprite() ;
@@ -178,12 +178,29 @@ function primefruit() {
       jar = this ;
     }
 
-    jar.image = jar.image2 ;
+    jar.image = jar.jarImage ;
 
   }
 
-  var jarImage = imageHelper.adjust_ratio(imageHelper.to_canvas('./image/jar.png')) ;    
-  var openImage = imageHelper.adjust_ratio(imageHelper.to_canvas('./image/jarOpen.png')) ;
+  function is_collected( fruit ) {
+
+    if ( fruit === undefined ) {
+      fruit = this ;
+    }
+
+    if ( fruit.viz.collected[ fruit.code ] === undefined ) {
+      return false ;
+    } else {  
+      return true ;
+    }
+  }
+
+  var lidImage  = [
+    imageHelper.adjust_ratio(imageHelper.to_canvas('./image/jarLidBlue.png')), 
+    imageHelper.adjust_ratio(imageHelper.to_canvas('./image/jarLidPurp.png')),
+  ] ;    
+
+  var jarImage = imageHelper.adjust_ratio(imageHelper.to_canvas('./image/jarOpen.png')) ;
 
   viz.prime = new Array(Nprime) ;
 
@@ -214,7 +231,7 @@ function primefruit() {
       viz.fruit[k].item[kitem] = itemHelper.setup(fruitConfig) ; // each tile contains some viz.fruit
       viz.fruit[k].item[kitem].default_child() ;
       viz.fruit[k].item[kitem].code = code[k][kitem] ; 
-
+      viz.fruit[k].item[kitem].is_collected = is_collected ;
       // console.log('pf: ', 'k', k, 'fruitConfig', fruitConfig) ;
 
     }
@@ -237,10 +254,27 @@ function primefruit() {
 
     } ;
 
-    viz.jar[k]   = itemHelper.setup( jarConfig ) ;
-    var xJar = 40 ;
-    var yJar = 42 ;
-    var xPad = [25, 25, 25] ;
+    var jarK   = itemHelper.setup( jarConfig ) 
+    // jarK.default_child() ;
+
+    var lidConfig = {
+
+      viz: viz,
+      image: lidImage[0],
+      x: x,
+      y: y,
+      addSwitch: true,
+
+    }
+
+    lidK       = itemHelper.setup ( lidConfig ) ;
+    lidK.default_child() ;
+
+    jarK.lid   = lidK ;
+    viz.jar[k] = jarK ;
+    var xJar   = 40 ;
+    var yJar   = 42 ;
+    var xPad   = [15, 25, 15] ;
 
     var digit = imageHelper.text2image({
       text: k + 2,
@@ -248,28 +282,30 @@ function primefruit() {
       xShift: 0,
     }) ;
 
-    viz.jar[k].image.context().drawImage( digit, xJar - xPad[Math.floor((k + 2) / 10)], yJar ) ;
-
-    viz.jar[k].image2 = imageHelper.copy(openImage) ;
-    viz.jar[k].image2.context().drawImage( digit, xJar - xPad[Math.floor((k + 2) / 10)], yJar ) ;
-
+    viz.jar[k].jarImage     = imageHelper.copy(jarImage) ;
     viz.jar[k].all_collected = all_collected ;
     viz.jar[k].any_collected = any_collected ;
     viz.jar[k].open          = open ;
+    viz.jar[k].fruit         = viz.fruit[k] ;
+
+    viz.jar[k].image.    context().drawImage( digit, xJar - xPad[Math.floor((k + 2) / 10)], yJar ) ;
+    viz.jar[k].jarImage.context().drawImage( digit, xJar - xPad[Math.floor((k + 2) / 10)], yJar ) ;
 
     // tile[k].default_child() ;
     // tile[k].child.push(tile[k].viz.jar) ;
 
   } // end loop over tiles/jars
 
-  var x_scale_func = $Z.transition.linear_transition_func('xScale', duration) ;
-  var y_scale_func = $Z.transition.linear_transition_func('yScale', duration) ;
+  var x_scale_func = transitionHelper.linear_func('xScale', duration) ;
+  var y_scale_func = transitionHelper.linear_func('yScale', duration) ;
 
   function fade(fadeVal) {
 
     return imageEffectHelper.fade_sequence({ 
+
       duration: duration,
-      value: fadeVal
+      value: fadeVal,
+
     }) ;
 
   }
@@ -320,7 +356,7 @@ function primefruit() {
 
   function show_primefruit(jar) {
 
-    var fk = viz.fruit[jar.config.k].item[0] ;
+    var fk = jar.fruit.item[0] ;
 
     fk.fade({
 
@@ -352,7 +388,7 @@ function primefruit() {
       for ( var kitem = 0 ; kitem < viz.fruit[kfruit].item.length ; kitem++ ) {
 
         if ( fk.image === viz.fruit[kfruit].item[kitem].image ) {
-          viz.fruit[kfruit].item[kitem].add_transition(fade([.5, 1, .75, .5])) ;
+          viz.fruit[kfruit].item[kitem].add_transition(fade([.5, 1, .75, .5, .25, 1])) ;
         }
 
       }
@@ -420,13 +456,13 @@ function primefruit() {
 
     viz.busy = true ;
 
-    viz.add_sequence([true, false], transitionHelper.fixed_duration_step('busy', duration * 6)) ;
+    viz.add_sequence( [true, false], transitionHelper.fixed_duration_step('busy', duration * 6) ) ;
 
     var jarFade = [0, 0, 0, 0, 1] ;
 
     // console.log('jarclick: ', 'jar', jar, 'jarFade', jarFade) ;
 
-    if ( jar.any_collected() ) {
+    if ( jar.all_collected() ) {
 
       jar.fade({
 
@@ -439,13 +475,13 @@ function primefruit() {
 
       }) ;
 
-      for ( var kitem = 0 ; kitem < viz.fruit[jar.config.k].item.length ; kitem++ ) {
+      for ( var kitem = 0 ; kitem < jar.fruit.item.length ; kitem++ ) {
       
-        var fk = viz.fruit[jar.config.k].item[kitem] ;
+        var fk = jar.fruit.item[kitem] ;
     
-        var fruitFade = [1, 1, 1, 1, .25] ;
-        var trans = fade(fruitFade) ;
-        var index = fk.code.charCodeAt(0) - 'a'.charCodeAt(0) ;
+        var fruitFade = [1.0, 1.0, 1.0, 1.0, 0] ;
+        var trans     = fade(fruitFade) ;
+        var index     = fk.code.charCodeAt(0) - 'a'.charCodeAt(0) ; // prime number index 
 
         transitionHelper.get_child(trans[0], fruitFade.length - 1).end = {
           
@@ -462,7 +498,7 @@ function primefruit() {
             endConfig.item.remove() ;
             var replacementSwitch = false ;
             viz.prime[endConfig.index].white.add_transition(fade([1, 0]), replacementSwitch) ;
-            jar_open_next() ;
+            // jar_open_next() ;
           
           },
 
@@ -489,23 +525,22 @@ function primefruit() {
 
       bg_jar(jar) ;
 
-    } else if ( jar.image !== jar.image2 ) { // jar is closed
+    } else if ( jar.image !== jar.jarImage ) { // jar is closed
 
-      jar.flash(
-        10,
-        0.25 * duration // no trailing comma for arglists
-      ) ;
+      jar.add_transition(fade([0, 0, 1])) ;
 
-      for ( var kitem = 0 ; kitem < viz.fruit[jar.config.k].item.length ; kitem++ ) {
+      for ( var kitem = 0 ; kitem < jar.fruit.item.length ; kitem++) {
+        if ( jar.fruit.item[kitem].is_collected() === true ) {
+          jar.fruit.item[kitem].add_transition(fade([.25, .5, 0])) ;          
+        }
+      }
+
+      for ( var kitem = 0 ; kitem < jar.fruit.item.length ; kitem++ ) {
 
         if ( viz.collected[code[jar.config.k]] === undefined) {
           continue ;
         }
-      
-        viz
-          .fruit[ jar.config.k ]
-          .item[ kitem ] ( fade ( [1, 1, 0] ) ) ;
-      
+            
       }
 
     } else if ( code[jar.config.k].length === 1 ) { // this jar reprsents a prime number i.e. contains a single "prime viz.fruit"
@@ -529,7 +564,7 @@ function primefruit() {
       }
 
       // } else { // white flash reminds the player that they already collected the fruit from the selected jar 
-        // viz.fruit[jar.config.k].item[0].white.add_transition(fade([1, 0])) ;
+        // jar.fruit.item[0].white.add_transition(fade([1, 0])) ;
       // }
 
     }
@@ -537,54 +572,57 @@ function primefruit() {
   }
 
   viz.collected = {} ; // the goal of the game is to collect all of the prime fruits
-  viz.current   = 'a'.charCodeAt(0) ;
+  // viz.current   = 'a'.charCodeAt(0) ;
 
   viz.jar[0].open() ;
 
   function jar_image_update() {
     
-    var curr = String.fromCharCode(viz.current) ;
+    // var curr = String.fromCharCode(viz.current) ;
     // var next = String.fromCharCode(viz.current + 1) ;
-    var kCurr = key[curr] - 2 ;
+    // var kCurr = key[curr] - 2 ;
     
     // var kNext = key[next] - 1 ;
 
-    var count = 0 ;
+    // var count = 0 ;
     
-    for ( var kJar = kCurr ; kJar < viz.jar.length ; kJar++ ) {
+    for ( var kJar = 0 ; kJar < viz.jar.length ; kJar++ ) {
 
       if ( viz.jar[kJar].removeSwitch === true ) { 
         continue ;
       }
       
       // console.log('jar_image_update: ', 'kNext', kNext, 'kJar', kJar) ;
+      // console.log('jar image update: ', 'code[ viz.jar[kJar].config.k ]', code[ viz.jar[kJar].config.k ], 'curr', curr) ;
       
-      if( code[ viz.jar[kJar].config.k ].contains(curr) ) {
+      if( viz.jar[kJar].all_collected() || viz.jar[kJar].fruit.item.length === 1 ) {
         viz.jar[kJar].open() ;        
-        count++ ;
+        // count++ ;
       }
 
     }
   
   }
 
-  function jar_open_next() {
-    var count = 0 ;
-    for ( var kjar = 0 ; kjar < viz.jar.length ; kjar++ ) {
-      if ( viz.jar[kjar].removeSwitch === undefined && viz.jar[kjar].image === viz.jar[kjar].image2 ) { // jar is open and waiting to be selected for removal
-        count++ ;
-      }
-    }
-    if ( count === 0 ) {
-      viz.current += 1 ;
-      curr = String.fromCharCode(viz.current) ;
-      kCurr = key[curr] - 2 ; 
-      viz.jar[kCurr].open() ;       
-    }    
-  }
+  // function jar_open_next() {
+  //   var count = 0 ;
+  //   for ( var kjar = 0 ; kjar < viz.jar.length ; kjar++ ) {
+  //     if ( viz.jar[kjar].removeSwitch === undefined && viz.jar[kjar].image === viz.jar[kjar].jarImage ) { // jar is open and waiting to be selected for removal
+  //       count++ ;
+  //     }
+  //   }
+  //   if ( count === 0 ) {
+  //     viz.current += 1 ;
+  //     curr = String.fromCharCode(viz.current) ;
+  //     kCurr = key[curr] - 2 ; 
+  //     viz.jar[kCurr].open() ;       
+  //   }    
+  // }
 
   viz.setup_ui() ;
   viz.run() ;
+
+  jar_image_update();
 
   console.log('viz', viz) ;
 
