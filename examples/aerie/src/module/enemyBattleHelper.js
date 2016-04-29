@@ -29,12 +29,8 @@ var enemyBattleHelper = {
   setup: function enemy_battle_helper_setup(viz) {
 
     var enemy             = setup_element(viz, viz.enemyConfig) ;
-    // enemy.orientation     = 'r' ; // all players start facing right
     enemy.level           = 0 ;
     enemy.update          = enemyBattleHelper.update_enemy ;
-    // enemy.levelup         = playerHelper.levelup ;
-    // viz.enemy.load_bullet  = playerHelper.load_bullet ;
-    // viz.enemy.fire_powerup = powerupHelper.fire ;
     enemy.paused               = false ;
     enemy.state                = [] ;
     enemy.item.responseSet.hit = enemyHitHelper.setup(viz, enemy) ;
@@ -54,18 +50,15 @@ var enemyBattleHelper = {
      var transitionFunc ;
 
           if( enemy.transitionSet.attack === undefined ) {
-            //  console.log ('player.transitionSet.image', player.transitionSet.image) ;
             transitionFunc = enemy.transitionSet.image ;
           } else {
             transitionFunc = enemy.transitionSet.attack ;
           }
-          // console.log ('updateplayer 101', player.sprite.attack, transitionFunc, buttonpress.reset, player.sprite.rest[0]) ;
           var loop = animate_loop(
             enemy.loop.attack,
             enemy.sprite.attack,
             transitionFunc,
             function() {} // buttonpress.reset
-            // finalFrame
           ) ;
 
           enemy.loop.attack.position  = loop.position ;
@@ -73,7 +66,6 @@ var enemyBattleHelper = {
 
           var replacementSwitch = true ;
           enemy.item.add_transition(transition, replacementSwitch) ;
-        // console.log('attack function') ;
     } ;
 
     enemy.tail_attack = function tail_attack () {
@@ -86,13 +78,11 @@ var enemyBattleHelper = {
           } else {
             transitionFunc = enemy.transitionSet.tailattack ;
           }
-          // console.log ('updateplayer 101', player.sprite.attack, transitionFunc, buttonpress.reset, player.sprite.rest[0]) ;
           var loop = animate_loop(
             enemy.loop.tailattack,
             enemy.sprite.tailattack,
             transitionFunc,
             function() {} // buttonpress.reset
-            // finalFrame
           ) ;
 
           enemy.loop.attack.position  = loop.position ;
@@ -100,7 +90,6 @@ var enemyBattleHelper = {
 
           var replacementSwitch = true ;
           enemy.item.add_transition(transition, replacementSwitch) ;
-        // console.log('attack function') ;
     } ;
 
 
@@ -157,33 +146,20 @@ var enemyBattleHelper = {
             return ; // don't interrupt the current attack animation 
           }
 
-          // if(player.fire_bullet !== undefined) {
-          //   player.fire_bullet('bullet') ; 
-          // }
-
           var transitionFunc ;
 
           if( enemy.transitionSet.block === undefined ) {
-            //  console.log ('player.transitionSet.image', player.transitionSet.image) ;
             transitionFunc = enemy.transitionSet.image ;
           } else {
             transitionFunc = enemy.transitionSet.block ;
           }
-
-          // console.log ('updateplayer 101', player.sprite.attack, transitionFunc, buttonpress.reset, player.sprite.rest[0]) ;
-
-          // var finalFrame ; 
-
-          // if(player.restoreRest) {
-          //   finalFrame = player.sprite.rest[0] ;
-          // }
 
           var loop = animate_loop(
             enemy.loop.block,
             enemy.sprite.block,
             transitionFunc,
             function() {} // buttonpress.reset
-            // finalFrame
+
           ) ;
 
           enemy.loop.block.position = loop.position ;
@@ -198,11 +174,9 @@ var enemyBattleHelper = {
   },
   
   update: function enemy_helper_update(enemy) {
-    // console.log('update enemy 17') ;
     if( enemy === undefined ) {
       enemy = this ;
     }
-    // console.log('enemy helper 21') ;
     if( enemy.paused === true ) {
       return ;
     }

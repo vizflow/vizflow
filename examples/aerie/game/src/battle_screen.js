@@ -12,36 +12,54 @@ function battle_screen() {
         width: 320,
         height: 240,
 
-  } ;
+    } ;
 
-  viz = vizHelper.setup(vizConfig) ;
+    viz = vizHelper.setup(vizConfig) ;
 
     var tileWidth  = 104 ;
     var tileHeight = 300 ; 
 
-  viz.playerConfig = {        
+ 
 
-    loop: {
+    rightButtonConfig = {
 
-      walk: {
-        frameDur: viz.frameDuration,
-        position: 0,
-        Nstep: 1,
-      },
+    } ;
 
-    attack: {
-        frameDur: viz.frameDuration,
-        position: 0,
-        Nstep: 2,
-      },
+    attackButtonConfig = {
 
-    block: {
-        frameDur: viz.frameDuration,
-        position: 0,
-        Nstep: 2,
-      },      
+    } ;
 
-    }, 
+    blockButtonConfig = {
+
+    } ;
+
+    utilityButtonConfig = {
+
+    } ;
+
+    viz.playerConfig = {        
+
+        loop: {
+
+            walk: {
+                frameDur: viz.frameDuration,
+                position: 0,
+                Nstep: 1,
+            },
+
+            attack: {
+                frameDur: viz.frameDuration,
+                position: 0,
+                Nstep: 2,
+            },
+
+            block: {
+                frameDur: viz.frameDuration,
+                position: 0,
+                Nstep: 2,
+            },      
+
+        }, 
 
     sprite_loader: function() {
     // console.log('spriteloader') ;
@@ -172,6 +190,41 @@ function battle_screen() {
 
     } ;
 
+    itemConfig = {
+        x: 60,
+        y: 60,
+        // context: buttonCanvas.context(),
+        // count: 1,
+        //rowIndex: buttonRowIndex,
+        width: 31,
+        height: 58,
+        // offsetX: buttonOffsetX,
+        // offsetY: buttonOffsetY,
+        // padX: buttonPadX,
+        // bgColor: undefined,
+        // padXl: 0,
+        // padXr: 0,        
+        image: imageHelper.to_canvas ('./image/leftButton.png'),
+
+        uiSwitch: true,
+
+        callback: function leftButton_callback() {
+
+            var leftButton = this ;
+
+            if ( leftButton.clicked === true ) {
+              return ;
+            }
+
+            leftButton.clicked = true ;
+
+
+
+      },
+    } ;    
+
+    viz.setup_ui (viz);
+    viz.setup_item (itemConfig) ;
     viz.enemy  = enemyBattleHelper.setup(viz) ;
     viz.enemy.start_attack () ;
     viz.enemy.start_tail_attack () ;

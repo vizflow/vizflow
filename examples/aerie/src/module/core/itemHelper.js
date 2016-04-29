@@ -65,7 +65,7 @@ var itemHelper = {
 	    fixed:     itemConfig.fixed,
 	    uiSwitch:  itemConfig.uiSwitch || false,
   		callback:  itemConfig.callback,
-	  	addSwitch: itemConfig.addSwitch || false,
+	  	addSwitch: itemConfig.addSwitch || true,
 	    render:    itemConfig.render || drawHelper.item, // drawHelper.image expects "this" to  be "item"
 		  responseSet: {}, // add response objects separately
 

@@ -15,6 +15,7 @@ document.image = [
 	'./image/powerup.png',
 	'./image/battlescreen.png',
 	'./image/knight_battle_spritesheet.png',
+	'./image/leftButton.png',
 ] ;
 	  
 document.audio = [

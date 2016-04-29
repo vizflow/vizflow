@@ -26,15 +26,61 @@ var playerBattleHelper = {
 
   },
 
+setup_buttons: function fighter_helper_setup_buttons (viz, ui) {
+
+    var button = {} ;
+
+    button.walkLeft = {
+      viz: viz, 
+      image: ui.buttonSprite.left[0],
+      render: drawHelper.image,    
+      x: ui.buttonX[0],
+      y: ui.buttonY + ui.y,
+      inert: true,
+      fixed: true,
+    } ;
+    
+    button.walkRight = {
+      viz: viz, 
+      image: ui.buttonSprite.right[0],
+      render: drawHelper.image,      
+      x: ui.buttonX[1],
+      y: ui.buttonY + ui.y,
+      inert: true,
+      fixed: true,
+    } ;
+    
+    button.attack = {
+      viz: viz, 
+      image: ui.buttonSprite.attack[0],
+      render: drawHelper.image,
+      x: ui.buttonX[2],
+      y: ui.buttonY + ui.y, 
+      inert: true,
+      fixed: true,
+    } ;
+    
+    button.jump = {
+      viz: viz, 
+      image: ui.buttonSprite.jump[0],
+      render: drawHelper.image,
+      x: ui.buttonX[3],
+      y: ui.buttonY + ui.y, 
+      inert: true,
+      fixed: true,
+    } ;
+
+    button.transition = step_transition_func('image', viz.frameDuration * 1) ;
+
+    return button ;
+
+  },
   setup: function player_battle_helper_setup(viz) {
 
     var player             = setup_element(viz, viz.playerConfig) ;
-    // player.orientation     = 'r' ; // all players start facing right
     player.level           = 0 ;
     player.update          = playerBattleHelper.update_player ;
     player.levelup         = playerBattleHelper.levelup ;
-    // viz.player.load_bullet  = playerHelper.load_bullet ;
-    // viz.player.fire_powerup = powerupHelper.fire ;
     player.paused               = false ;
     player.state                = [] ;
     player.item.responseSet.hit = playerHitHelper.setup(viz, player) ;
@@ -53,11 +99,11 @@ var playerBattleHelper = {
   },
   
   update: function player_helper_update(player) {
-    // console.log('update player 17') ;
+
     if( player === undefined ) {
       player = this ;
     }
-    // console.log('player helper 21') ;
+
     if( player.paused === true ) {
       return ;
     }
@@ -143,33 +189,19 @@ var playerBattleHelper = {
             return ; // don't interrupt the current attack animation 
           }
 
-          // if(player.fire_bullet !== undefined) {
-          //   player.fire_bullet('bullet') ; 
-          // }
-
           var transitionFunc ;
 
           if( player.transitionSet.block === undefined ) {
-            //  console.log ('player.transitionSet.image', player.transitionSet.image) ;
             transitionFunc = player.transitionSet.image ;
           } else {
             transitionFunc = player.transitionSet.block ;
           }
-
-          // console.log ('updateplayer 101', player.sprite.attack, transitionFunc, buttonpress.reset, player.sprite.rest[0]) ;
-
-          // var finalFrame ; 
-
-          // if(player.restoreRest) {
-          //   finalFrame = player.sprite.rest[0] ;
-          // }
 
           var loop = animate_loop(
             player.loop.block,
             player.sprite.block,
             transitionFunc,
             function() {} // buttonpress.reset
-            // finalFrame
           ) ;
 
           player.loop.block.position = loop.position ;
@@ -217,26 +249,17 @@ var playerBattleHelper = {
         var transitionFunc ;
 
         if( player.transitionSet.attack === undefined ) {
-          //  console.log ('player.transitionSet.image', player.transitionSet.image) ;
           transitionFunc = player.transitionSet.image ;
         } else {
           transitionFunc = player.transitionSet.attack ;
         }
-
-        // console.log ('updateplayer 101', player.sprite.attack, transitionFunc, buttonpress.reset, player.sprite.rest[0]) ;
-
-        // var finalFrame ; 
-
-        // if(player.restoreRest) {
-        //   finalFrame = player.sprite.rest[0] ;
-        // }
 
         var loop = animate_loop(
           player.loop.attack,
           player.sprite.attack,
           transitionFunc,
           function() {} // buttonpress.reset
-          // finalFrame
+
         ) ;
 
         player.loop.attack.position = loop.position ;
@@ -245,13 +268,8 @@ var playerBattleHelper = {
         var replacementSwitch = true ;
         player.item.add_transition(transition, replacementSwitch) ;
 
-        // console.log ('update player 105: ', 'player.loop', player.loop, 'player.sprite.attack', player.sprite.attack, 'transition', transition) ; //player.sprite.attack, transitionFunc, buttonpress.reset, player.sprite.rest[0]) ;
-        // console.log ('update player 109' ) ;
-
-        // console.log ('player.callback: transition', transition, 'player.sprite.attack', player.sprite.attack) ;
         break ;
-               
-   
+                  
       }
 
     }
@@ -264,11 +282,7 @@ var playerBattleHelper = {
         player = this ;
       }
 
-      // console.log('levelup start')
-
       player.level++ ; // increment the level value (level-up)
-
-      // console.log('playerHelper levelup:', 'player.level', player.level, 'player.sprite[attack + player.level]', player.sprite['attack' + player.level]) ;
 
       if( player.sprite['attack' + player.level] !== undefined ) {
         player.sprite.attack = player.sprite['attack' + player.level] ;

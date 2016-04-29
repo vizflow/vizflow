@@ -82,9 +82,6 @@ var hitHelper = {
 
         perform: hitHelper.perform,
         confirm: hitHelper.confirm,
-        // transition: function() { 
-        //   // console.log('hit helper',  'this', this) ;
-        // },
         element: element,
         viz: viz,
         audio: audio,
@@ -134,8 +131,6 @@ var hitHelper = {
 	    hitHelper.source.image = sourceItem.collision_image('source') ; // use the item's current display image as the key for the collision image lookup table 
 	    hitHelper.target.image = targetItem.collision_image('target') ; // use the item's current display image as the key for the collision image lookup table 
       
-      // console.log('hit helper detect 2', 'source item collision image', hitHelper.source.image, 'target item collision image', hitHelper.target.image) ;
-
       if
       (
            hitHelper.source.image === undefined 
@@ -156,18 +151,9 @@ var hitHelper = {
 
 	    hitHelper.pair.item[1] = hitHelper.target ;
 	    hitHelper.pair.item[0] = hitHelper.source ;
-
-      // console.log('before pair detect', 'source type', sourceItem.type, 'source y', sourceItem.y, 'target x', targetItem.y) ;
-      // console.log('pair detection', 'hitHelper.pair.item[0].image', hitHelper.pair.item[0].image, 'hitHelper.pair.item[1].image', hitHelper.pair.item[1].image) ;
-      // console.log('hitHelper.source', hitHelper.source, 'hitHelper.target', hitHelper.target) ;
-      // console.log('after pair detect')
-
       hitHelper.pair.detect() ; // run collision detection again using the actual collision images for detailed collision detection (phase 2)
 
-      // console.log('hitHelper pair', hitHelper.pair) ;
-
 	    if( hitHelper.pair.collision.count > 0 ) { // this means that the displayed images are overlapping (will optimize computational efficiency later #todo)
-        // console.log('hitHelper detect()', 'source item type', sourceItem.type, 'hitHelper', hitHelper, 'hitHelper.pair.collision', hitHelper.pair.collision, 'source x', sourceItem.x, 'target x', targetItem.x) ;
 	      return true ; // all checks passed, stage the hit for execution
 	    }
 

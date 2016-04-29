@@ -10,9 +10,7 @@ var enemyHitHelper = {
 
       perform: enemyHitHelper.perform,
       confirm: hitHelper.confirm,
-      // healthbar: healthbar,
       healthdrop: responseConfig.healthdrop,
-      // health_transition: health_transition,
       transition: enemyHitHelper.transition,
       element: element || responseConfig.element,
       viz: viz,
@@ -24,15 +22,12 @@ var enemyHitHelper = {
 
     } ; 
 
-    // console.log('enemy hit helper setup', 'hit', hit) ;
     return hit ;
 
   },    
 
  
-
   perform: function enemy_hit_helper_perform (response) {
-    // console.log ('enemy hit helper perform start: this', this) ;
     if(response === undefined) {
       response = this ;
     }

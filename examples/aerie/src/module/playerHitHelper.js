@@ -9,10 +9,7 @@ var playerHitHelper = {
 
       perform: playerHitHelper.perform,
       confirm: hitHelper.confirm,
-      // healthbar: healthbar,
       healthdrop: responseConfig.healthdrop,
-      // health_transition: health_transition,
-      // transition: playerHitHelper.transition,
       element: element || responseConfig.element,
       viz: viz,
       // audio: audio,
@@ -23,13 +20,11 @@ var playerHitHelper = {
 
     } ; 
 
-    // console.log('player hit helper setup', 'hit', hit) ;
     return hit ;
 
   },    
 
   perform: function player_hit_helper_perform (response) {
-    // console.log ('rpg hit helper perform start: this', this) ;
     if(response === undefined) {
       response = this ;
     }
