@@ -73,6 +73,7 @@ var jarHelper = {
     jarK.any_collected = jarHelper.any_collected ;
     jarK.unlock        = jarHelper.unlock ;
     jarK.open          = jarHelper.open ;
+    jarK.is_open       = jarHelper.is_open ;
     jarK.focus         = jarHelper.focus ;
     jarK.fruit         = viz.fruit[k] ;
 
@@ -145,6 +146,21 @@ var jarHelper = {
 
   },
 
+  
+  is_open: function jar_helper_is_open( jar ) {
+
+    if ( jar === undefined ) {
+      jar = this ;
+    }
+
+    if ( jar.lid.image === jarHelper.lidImage[1] ) {
+      return true ;
+    } else {
+      return false ;
+    }
+
+  },
+
   open: function jar_helper_open( jar ) {
 
     if ( jar === undefined ) {
@@ -211,6 +227,9 @@ var jarHelper = {
         end: function() {
           jar.remove() ;
           viz.scoreup() ;
+          if ( viz.all_closed() ) {
+            viz.open_next() ;
+          }
         },
 
       }) ;
@@ -279,7 +298,7 @@ var jarHelper = {
 
       jar.open() ;
 
-      jar,focus() ;
+      jar.focus() ;
 
       jarHelper.show_prime(jar) ; // show the selected jar's primefruit whether or not it has been collected yet
 
@@ -303,9 +322,9 @@ var jarHelper = {
     
     // var curr = String.fromCharCode(viz.current) ;
     // var next = String.fromCharCode(viz.current + 1) ;
-    // var kCurr = key[curr] - 2 ;
+    // var kCurr = viz.key[curr] - 2 ;
     
-    // var kNext = key[next] - 1 ;
+    // var kNext = viz.key[next] - 1 ;
 
     // var count = 0 ;
     

@@ -96,7 +96,7 @@ function primefruit() {
     'cc',
   ] ;
 
-  var key = {
+  viz.key = {
     'a': 2,
     'b': 3,
     'c': 5,
@@ -110,10 +110,10 @@ function primefruit() {
 
   // var text  = imageHelper.text_sprite() ;
 
-  var textWidth    = 32 ;
-  var textHeight   = 32 ;
-  var text         = spriteHelper.get_text(document.textUrl, textWidth, textHeight) ;
-  viz.text         = spriteHelper.foreach(text, imageHelper.get_original) ;
+  var textWidth  = 32 ;
+  var textHeight = 32 ;
+  var text       = spriteHelper.get_text(document.textUrl, textWidth, textHeight) ;
+  viz.text       = spriteHelper.foreach(text, imageHelper.get_original) ;
 
   document.fade = function fade(fadeVal) {
 
@@ -179,7 +179,7 @@ function primefruit() {
 
   } ;
 
-  viz.scoreup = function() {
+  viz.scoreup = function viz_scoreup() {
     viz.score += 1 ;
     if ( viz.score === viz.target ) {
       console.log('you win!') ;
@@ -187,8 +187,22 @@ function primefruit() {
     }
   } ;
 
+  viz.all_closed = function viz_all_closed() {
+
+    for (var k = 0 ; k < viz.jar.length ; k++ ) {
+      if ( viz.jar[k].removeSwitch !== true && viz.jar[k].is_open() ) {
+        return false ;
+      }
+    }
+
+    console.log('primefruit all_closed: ', true) ;
+
+    return true ;
+
+  } ;
+
   viz.collected = {} ; // the goal of the game is to collect all of the prime fruits
-  // viz.current   = 'a'.charCodeAt(0) ;
+  viz.current = 'a'.charCodeAt(0) ;
 
   viz.jar[0].unlock() ;
 
@@ -199,19 +213,13 @@ function primefruit() {
 
   console.log('viz', viz) ;
 
-  // function jar_open_next() {
-  //   var count = 0 ;
-  //   for ( var kjar = 0 ; kjar < viz.jar.length ; kjar++ ) {
-  //     if ( viz.jar[kjar].removeSwitch === undefined && viz.jar[kjar].image === viz.jar[kjar].jarImage ) { // jar is unlock and waiting to be selected for removal
-  //       count++ ;
-  //     }
-  //   }
-  //   if ( count === 0 ) {
-  //     viz.current += 1 ;
-  //     curr = String.fromCharCode(viz.current) ;
-  //     kCurr = key[curr] - 2 ; 
-  //     viz.jar[kCurr].unlock() ;       
-  //   }    
-  // }
+  viz.open_next = function open_next() {
+
+    viz.current++ ;  
+    curr  = String.fromCharCode(viz.current) ;
+    kCurr = viz.key[curr] - 2 ; 
+    viz.jar[kCurr].unlock() ;
+
+  } ;
 
 }
