@@ -2,11 +2,11 @@ var vizHelper = {
 
 	setup: function viz_helper_setup_viz (vizConfig) {
 
+	  // console.log('setup viz start') ;
+
 		if ( vizConfig === undefined ) {
 			vizConfig = {} ;
 		}
-
-	  // console.log('setup viz start') ;
 
 	  if ( vizConfig.frameDurationFactor === undefined ) {
 	    vizConfig.frameDurationFactor = 1 ;
@@ -17,7 +17,7 @@ var vizHelper = {
 	  }
 
 	  /* 
-	   *   TEMPORARY VARIABLES:
+	   *   TEMPORARY VARIABLES USED FOR SETTING UP THE "viz" OBJECT:
 	   */ 
 
 	  var dur           = vizConfig.duration || 17 ; // the framespeed that vizflow uses (default is 60 frames per second)
@@ -49,12 +49,11 @@ var vizHelper = {
 	  resize() ;
 
 	  var backgroundImageUrl = vizConfig.backgroundImageUrl ;
-	  // console.log('vizHelper, resize, image2canvas start') ;
 
 	  var image ;
 	  if(vizConfig.loadingImageUrl !== undefined) {
-		  image = imageHelper.adjust_ratio(imageHelper.image2canvas(vizConfig.loadingImageUrl));
-		  // console.log('vizHelper, resize, image2canvas end') ;
+		  image = imageHelper.adjust_ratio(imageHelper.to_canvas(vizConfig.loadingImageUrl));
+		  // console.log('vizHelper, resize, to_canvas end') ;
 	  } 
 
 	  var frameDuration = vizConfig.frameDurationFactor * dur ;
@@ -63,6 +62,14 @@ var vizHelper = {
 	  // console.log('displayCanvas', displayCanvas) ;
 
 	  var resizeSkip  = 3 * vizConfig.frameDurationFactor ; // how often to check for window resize events
+
+	  var vizOpacity ;
+
+	  if ( vizConfig.opacity === undefined ) {
+	  	vizOpacity = 1 ;
+	  } else {
+		  vizOpacity = vizConfig.opacity ;
+	  }
 
 	  /*
 	   *   DEFINE THE VIZ OBJECT:
@@ -85,8 +92,8 @@ var vizHelper = {
 	    displayContext: displayContext,
 	    screenCanvas:   screenCanvas, 
 	    screenContext:  screenContext,
-	    xShift:         vizConfig.xShift || 0,
-	    yShift:         vizConfig.yShift || 0,
+	    xShift:         Math.floor(0.5 * (paddingFactor - 1) * vizWidth + 1),
+	    yShift:         Math.floor(0.5 * (paddingFactor - 1) * vizHeight),
 	    resizeSkip:     resizeSkip,
 	    lastCollision:  0,
 	    lastResize:     0,
@@ -94,23 +101,24 @@ var vizHelper = {
 	    viewportY:      0,
 	    viewportWidth:  displayCanvas.width,
 	    viewportHeight: displayCanvas.height,
-	    detect: actionHelper.detect,
-	    perform: actionHelper.perform,
+	    detect:         actionHelper.detect,
+	    perform:        actionHelper.perform,
 	    image_transition: transitionHelper.step_func('image', frameDuration),  
-	    opacity: 1,
+	    opacity: vizOpacity,
 	    add_transition: transitionHelper.add, 
+	    add_sequence: transitionHelper.add_sequence,
 	    remove_transition: transitionHelper.remove,
-	    fade: imageEffectHelper.fade, 
-	    shake: effectHelper.shake,  
-	    input: vizConfig.inputEvent || inputEvent, 
-	    screen_callback: vizConfig.screen_callback,
-	    keyboard_callback: vizConfig.keyboard_callback,
-	    setup_item: itemHelper.setup, 
-	    setup_ui: uiHelper.setup,
+	    fade:        imageEffectHelper.fade, 
+	    shake:       effectHelper.shake,  
+	    setup_item:  itemHelper.setup, 
+	    setup_ui:    uiHelper.setup,
 	    setup_score: scoreHelper.setup, //  score setup function for games (optional, don't have to use it for non-games)
-	    run: vizConfig.run || vizHelper.run,
-	    stagingArray: vizConfig.item || [],
 	    clearSwitch: true,
+	    input:             vizConfig.inputEvent || inputEvent, 
+	    run:               vizConfig.run || vizHelper.run,
+	    stagingArray:      vizConfig.item || [],
+	    screen_callback:   vizConfig.screen_callback,
+	    keyboard_callback: vizConfig.keyboard_callback,
 
 	    transitionSet:  {
 	      x: $Z.transition.rounded_linear_transition_func ( 'viewportX', 3 * dur ), //function accepting an x end-value and returning a transition object      
@@ -133,6 +141,10 @@ var vizHelper = {
 	      }
 
 	      this.item = this.item.filter( function(d) { return d.removeSwitch !== true ; } ) ; // #todo: figure out a more performant way
+	      
+	      if ( this.ui !== undefined ) {
+	        this.ui.item = this.ui.item.filter( function(d) { return d.removeSwitch !== true ; } ) ; // #todo: figure out a more performant way
+	      }
 
 	      for(var kitem = 0 ; kitem < this.stagingArray.length ; kitem++) {
 
@@ -165,7 +177,6 @@ var vizHelper = {
 	      }
 
 	      if (this.image !== undefined) {
-	      	// console.log('drawImage') ;
 	      	this.fullContext.drawImage (this.image, 0, 0) ; // draw background image if there is one
 	      }
 	      // this.displayContext.globalAlpha = 1 ;
@@ -198,7 +209,7 @@ var vizHelper = {
 	    zoom_inout: effectHelper.zoom_inout,
 
 	    panX: function (dur, xNew) { 
-	      var trans = transition_sequence( xNew.map(function(x) {
+	      var trans = transitionHelper.sequence( xNew.map(function(x) {
 	        return $Z.transition.rounded_linear_transition_func('viewportX', dur)(x) ;
 	      }) ) ;
 	      // console.log('panX trans', trans) ;
@@ -206,7 +217,7 @@ var vizHelper = {
 	    },
 
 	    panY: function (dur, yNew) { 
-	      var trans = transition_sequence( yNew.map(function(y) {
+	      var trans = transitionHelper.sequence( yNew.map(function(y) {
 	        return $Z.transition.rounded_linear_transition_func('viewportY', dur)(y) ;
 	      }) ) ;
 	      // console.log('panY trans', trans) ;
@@ -239,8 +250,8 @@ var vizHelper = {
 	  document.addEventListener('mousedown', viz.input.down, false) ;
 	  document.addEventListener('mouseup', viz.input.up, false) ;
 
-	  document.addEventListener(
-
+	  document.addEventListener
+	  (
 	    'touchstart', 
 
 	    function(event) {
@@ -255,7 +266,6 @@ var vizHelper = {
 	    }, 
 
 	    false // function argument list cannot have trailing comma
-
 	  ) ;
 
 	  document.addEventListener('touchend', viz.input.up,   false) ;

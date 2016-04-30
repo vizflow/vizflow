@@ -39,7 +39,7 @@ var fighterHelper = {
 
   		      viz.player.paused = false ;
 
-  		      viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ;
+  		      viz.image = imageHelper.adjust_ratio(imageHelper.to_canvas(viz.config.backgroundImageUrl)) ;
 
             viz.fade({
               duration: viz.fadeDuration,
@@ -97,7 +97,7 @@ var fighterHelper = {
 		function viz_switch() {
 
 		  // console.log('viz_switch', 'viz', viz) ;
-		  var image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ; 
+		  var image = imageHelper.adjust_ratio(imageHelper.to_canvas(viz.config.backgroundImageUrl)) ; 
 		  // console.log('viz', viz, 'image', image, 'viz_run', viz_run) ;
 		  viz.fade({
 		    opacity: 1,
@@ -245,7 +245,7 @@ var fighterHelper = {
     }
 
     var rowName = ['cell'] ;
-    var canvas  = imageHelper.image2canvas('./image/powerup.png') ;
+    var canvas  = imageHelper.to_canvas('./image/powerup.png') ;
     var width   = [20] ;
     var height  = [22] ;
 
@@ -259,7 +259,7 @@ var fighterHelper = {
     powerup.deliver = powerupHelper.deliver ;
     powerup.Nmax    = 1 ;
 
-		var bernieImage   = imageHelper.image2canvas('./image/bernie_spritesheet.png') ;
+		var bernieImage   = imageHelper.to_canvas('./image/bernie_spritesheet.png') ;
 		var rowName       = ['city', 'space', 'fantasy'] ; // must match viz.config.name
 		var tileWidth     = [30, 58, 51] ; 
 		var rowHeight     = [30, 58, 56] ;
@@ -338,7 +338,7 @@ var fighterHelper = {
 	  var buttonPad       = 10 ; // Math.floor( ( viz.width - (buttonWidth * 4) - (buttonMargin * 2) ) / 4 ) ;
 	  var buttonMargin    = Math.floor( 0.5 * ( viz.width - buttonPad * 3 - buttonWidth * 4 ) ) ;
 	  var buttonImageUrl  = './image/button_spritesheet.png' ;
-	  var buttonCanvas    = imageHelper.image2canvas(buttonImageUrl) ;
+	  var buttonCanvas    = imageHelper.to_canvas(buttonImageUrl) ;
 
 	  var leftButtonConfig = {
 

@@ -5,22 +5,16 @@ document.addEventListener("touchmove", function(e) { e.preventDefault() }) ;
 document.body.style.overflowY = 'hidden' ;
 document.body.style.margin    = 0 ;
 
+document.textUrl = './image/text8.png' ;
+
 document.image = [ 
 	
 	'./image/vizflow.png',
-	'./image/camp.png',
-	'./image/knight.png',
-	'./image/knight_spritesheet.png',
-	'./image/monster_spritesheet.png',
-	'./image/powerup.png',
-	'./image/battlescreen.png',
-	'./image/knight_battle_spritesheet.png',
-	'./image/leftButton.png',
-	'./image/rightButton.png',
-	'./image/attackButton.png',
-	'./image/blockButton.png',
-	'./image/healButton.png',	
-
+	'./image/fruit.gif',
+	'./image/jarLidBlue.png',
+	'./image/jarLidPurp.png',
+	'./image/jarOpen.png',
+	document.textUrl,
 
 ] ;
 	  

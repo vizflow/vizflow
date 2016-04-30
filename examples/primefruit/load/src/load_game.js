@@ -1,5 +1,5 @@
 function load_game () {
-  // console.log ('load game start') ;
+  
   function title(viz) {
 
     if(viz === undefined) {
@@ -34,7 +34,7 @@ function load_game () {
         vizflow.fade({
 
           duration: viz.fadeDuration,
-          end: battle_screen,
+          end: primefruit,
           
         }) ;
 

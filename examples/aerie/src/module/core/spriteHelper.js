@@ -111,6 +111,22 @@ var spriteHelper = {
 			paddingSwitch = true ;
 		}
 
+		if ( rowHeight.constructor === Number ) {
+			var h = rowHeight ;
+			rowHeight = new Array(rowName.length) ;
+			for ( var krow = 0 ; krow < rowHeight.length ; krow++ ) {
+				rowHeight[krow] = h ;
+			}
+		}
+
+		if ( tileWidth.constructor === Number ) {
+			var w = tileWidth ;
+			tileWidth = new Array(rowName.length) ;
+			for ( var ktile = 0 ; ktile < tileWidth.length ; ktile++ ) {
+				tileWidth[ktile] = w ;
+			}
+		}
+
 		var maxHeight = Math.max.apply(null, rowHeight) ;
 		var Nrow = rowName.length ;
 		var spriteSet = {} ;
@@ -152,6 +168,12 @@ var spriteHelper = {
 
 	},
 
+	get_text: function sprite_helper_get_text (url, width, height) {
+		var canvas = imageHelper.to_canvas(url) ;
+		var alpha  = "0123456789abcdefghijklmnopqrstuvwxyz".split("") ;
+    return spriteHelper.get(canvas, alpha, width, height) ;		
+	},
+	
 	horizontal_flip: function sprite_helper_horizontal_flip (spriteSet) {
 
 		var key    = Object.keys(spriteSet) ;

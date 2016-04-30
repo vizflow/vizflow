@@ -3,7 +3,7 @@ var imageHelper = {
 	view: function sprite_helper_view (canvas) {
 
 		var dataURL = canvas.toDataURL("image/png") ;
-		// console.log('dataUrl', dataURL) ;
+		console.log('dataUrl', dataURL) ;
 		var win = window.open() ;
 		win.document.write('<img src="' + dataURL + '"/>') ;	  		
 
@@ -23,15 +23,18 @@ var imageHelper = {
 		var width  = sprite[text[0]][0].width  ;
 		var height = sprite[text[0]][0].height ;
 
-		var image  = imageHelper.create(width * text.length, height) ;
+    if ( imageConfig.xShift === undefined ) {
+      var offsetX = 0 ;     
+    } else {
+      var offsetX = imageConfig.xShift ;
+    }
 
-		var offsetX = 0 ;
+    var image  = imageHelper.create(width * text.length + ((text.length - 1) * offsetX), height) ;
 
 		for(var kchar = 0 ; kchar < text.length ; kchar++) {
 
 			// console.log('text2image sprite', 'sprite[text[kchar]', sprite[text[kchar]]);
-			image.context().drawImage(sprite[text[kchar]][0], offsetX, 0) ;
-			offsetX += width ;
+      image.context().drawImage(sprite[text[kchar]][0], Math.floor(offsetX * kchar + width * kchar), 0) ;
 
 		}
 
@@ -111,6 +114,10 @@ var imageHelper = {
 
 		var Npx;
 
+		if(wordConfig.binarySwitch === undefined) {
+		  wordConfig.binarySwitch = true ; 
+		} 
+
 		if(wordConfig.px === undefined) {
 		  Npx = 12 ; 
 		} else {
@@ -163,6 +170,38 @@ var imageHelper = {
 		
 	},
 
+	clear_color: function image_helper_clear_color(img, bgColor) {
+
+	 	var Npel       = img.data.length / 4 ;
+	 	var distCutoff = 20 ; // per color channel using city-block distance to account for interpolation artifacts (e.g. get image data on android bug?)
+
+		for (var k = 0 ; k < Npel ; k++) {
+
+			var offset = k * 4 ;
+			var r = img.data[offset + 0] ;
+			var g = img.data[offset + 1] ;
+			var b = img.data[offset + 2] ;
+
+			var dist = imageHelper.color_distance(r, g, b, bgColor) ;
+
+			// console.log('dist', dist) ;
+
+			if ( dist < distCutoff ) {
+			// if (r === bgColor[0] && g === bgColor[1] && b === bgColor[2]) {
+				img.data[offset + 0] = 0 ;
+				img.data[offset + 1] = 0 ;
+				img.data[offset + 2] = 0 ;
+				img.data[offset + 3] = 0 ; // clear background pixels by setting opacity to zero
+			}
+
+		}
+
+	},
+
+	color_distance: function image_helper_color_distance(r, g, b, bgColor) {
+		return Math.abs(r - bgColor[0]) + Math.abs(g - bgColor[1]) + Math.abs(b - bgColor[2]) ;
+	},
+
 	clear_rect: function image_helper_clear_rect(canvas, rect) {
 
 		var newCanvas  = imageHelper.create (canvas.width, canvas.height)  ;
@@ -186,7 +225,7 @@ var imageHelper = {
 
 	},
 
-	image2canvas: function image_helper_image2canvas(imgUrl) {
+	to_canvas: function image_helper_to_canvas(imgUrl) {
 
 	  var image     = imageLoader.cache[imgUrl] ; // temporary variable
 	  var canvas    = imageHelper.create() ;
@@ -249,6 +288,19 @@ var imageHelper = {
 		newCanvas.originalCanvas = canvas ;
 		
 		return newCanvas ;
+
+	},
+
+	copy: function image_helper_copy (image) {
+
+		var copy    = imageHelper.create(image.width, image.height) ;
+		var context = copy.context() ;
+		
+		context.drawImage(image, 0, 0) ;
+
+		copy.originalCanvas = image.originalCanvas ;
+
+		return copy ;
 
 	},
 
@@ -385,6 +437,10 @@ var imageHelper = {
 	  var context = canvas.context() ;
 
 	  for(var kItem = 0 ; kItem < item.length ; kItem++) {
+
+	  	if ( item[kItem].uiSwitch === false ) {
+	  		continue ;
+	  	}
 
 	  	var imageDataK = item[kItem]
 	  		.image
