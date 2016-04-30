@@ -16,7 +16,7 @@ var gameHelper = {
       viz = this ;
     }
 
-    viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ; 
+    viz.image = imageHelper.adjust_ratio(imageHelper.to_canvas(viz.config.backgroundImageUrl)) ; 
 
     viz.fade({
       duration: viz.fadeDuration * 0.5,

@@ -170,6 +170,38 @@ var imageHelper = {
 		
 	},
 
+	clear_color: function image_helper_clear_color(img, bgColor) {
+
+	 	var Npel       = img.data.length / 4 ;
+	 	var distCutoff = 20 ; // per color channel using city-block distance to account for interpolation artifacts (e.g. get image data on android bug?)
+
+		for (var k = 0 ; k < Npel ; k++) {
+
+			var offset = k * 4 ;
+			var r = img.data[offset + 0] ;
+			var g = img.data[offset + 1] ;
+			var b = img.data[offset + 2] ;
+
+			var dist = imageHelper.color_distance(r, g, b, bgColor) ;
+
+			// console.log('dist', dist) ;
+
+			if ( dist < distCutoff ) {
+			// if (r === bgColor[0] && g === bgColor[1] && b === bgColor[2]) {
+				img.data[offset + 0] = 0 ;
+				img.data[offset + 1] = 0 ;
+				img.data[offset + 2] = 0 ;
+				img.data[offset + 3] = 0 ; // clear background pixels by setting opacity to zero
+			}
+
+		}
+
+	},
+
+	color_distance: function image_helper_color_distance(r, g, b, bgColor) {
+		return Math.abs(r - bgColor[0]) + Math.abs(g - bgColor[1]) + Math.abs(b - bgColor[2]) ;
+	},
+
 	clear_rect: function image_helper_clear_rect(canvas, rect) {
 
 		var newCanvas  = imageHelper.create (canvas.width, canvas.height)  ;
@@ -193,7 +225,7 @@ var imageHelper = {
 
 	},
 
-	image2canvas: function image_helper_image2canvas(imgUrl) {
+	to_canvas: function image_helper_to_canvas(imgUrl) {
 
 	  var image     = imageLoader.cache[imgUrl] ; // temporary variable
 	  var canvas    = imageHelper.create() ;
@@ -265,6 +297,8 @@ var imageHelper = {
 		var context = copy.context() ;
 		
 		context.drawImage(image, 0, 0) ;
+
+		copy.originalCanvas = image.originalCanvas ;
 
 		return copy ;
 
@@ -403,6 +437,10 @@ var imageHelper = {
 	  var context = canvas.context() ;
 
 	  for(var kItem = 0 ; kItem < item.length ; kItem++) {
+
+	  	if ( item[kItem].uiSwitch === false ) {
+	  		continue ;
+	  	}
 
 	  	var imageDataK = item[kItem]
 	  		.image

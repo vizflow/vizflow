@@ -23,7 +23,7 @@ var fighterHelper = {
 
 		      viz.player.paused = false ;
 
-		      viz.image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ; 
+		      viz.image = imageHelper.adjust_ratio(imageHelper.to_canvas(viz.config.backgroundImageUrl)) ; 
 
 		      itemHelper.add(viz, [ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop
 
@@ -75,7 +75,7 @@ var fighterHelper = {
 		function viz_switch() {
 
 		  // console.log('viz_switch', 'viz', viz) ;
-		  var image = imageHelper.adjust_ratio(imageHelper.image2canvas(viz.config.backgroundImageUrl)) ; 
+		  var image = imageHelper.adjust_ratio(imageHelper.to_canvas(viz.config.backgroundImageUrl)) ; 
 		  viz.fade({
 		    opacity: 1,
 		    duration: viz.fadeDuration,
@@ -189,7 +189,7 @@ var fighterHelper = {
     }
 
     var rowName = ['cell'] ;
-    var canvas  = imageHelper.image2canvas('./image/powerup.png') ;
+    var canvas  = imageHelper.to_canvas('./image/powerup.png') ;
     var width   = [] ;
     var height  = [] ;
 
@@ -203,7 +203,7 @@ var fighterHelper = {
     powerup.deliver = powerupHelper.deliver ;
     powerup.Nmax    = 1 ;
 
-		var deliveryImage = imageHelper.image2canvas('./image/delivery_spritesheet.png') ;
+		var deliveryImage = imageHelper.to_canvas('./image/delivery_spritesheet.png') ;
 		var rowName       = [    ] ; // must match viz.config.name
 		var tileWidth     = [    ] ; 
 		var rowHeight     = [    ] ;
