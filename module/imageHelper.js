@@ -442,9 +442,15 @@ var imageHelper = {
 	  		continue ;
 	  	}
 
-	  	var imageDataK = item[kItem]
-	  		.image
-	  		.originalCanvas
+	  	var img ;
+
+	  	if ( item[kItem].image.originalCanvas !== undefined ) {
+	  		img = item[kItem].image.originalCanvas ;
+	  	} else {
+	  		img = item[kItem].image ;
+	  	}
+
+	  	var imageDataK = img
 	  		.context()
 	  		.getImageData(0, 0, item[kItem].image.width, item[kItem].image.height) ;
 
