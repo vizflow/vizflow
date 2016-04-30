@@ -38,8 +38,6 @@ var bumpHelper = {
 
     collisionDetect.pixelwise(col) ;
     
-    // console.log('hitHelper collision_check', 'col', col) ;
-
     return col.collision.count > 0 ;
 
   },
@@ -56,25 +54,11 @@ var bumpHelper = {
       return ;
     }
 
-    // console.log('bumpHelper perform', 'response.sourceItem', response.sourceItem, 'response.viz.enemy', response.viz.enemy) ;
-
     if(response.sourceItem !== response.sourceItem) {
       return ; // only trigger rest of bump on enemy
     }
 
-    // response.viz.audio.bump.play() ;
-
     var bumpDuration   = 0 ;
-    // var bumpTransition = transitionHelper.step_func('image', bumpDuration)(response.element.sprite.hit[0]) ;
-
-    // bumpTransition.end = function() {
-    //   response.element.item.image = response.element.sprite.rest[0] ;
-    // }
-
-    // var replacementSwitch = true ;
-    // response.element.item.add_transition(bumpTransition, replacementSwitch) ;
-
-    // var hit = response.element.item.responseSet.hit ;
 
     hit.healthbar.health -= hit.healthdrop * 0.1 ;
     transitionHelper.update_end_value.call(hit.healthbar.item, 'width', hit.healthbar.health, hit.health_transition) ;

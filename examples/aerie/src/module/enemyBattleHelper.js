@@ -7,8 +7,8 @@ var enemyBattleHelper = {
 
     var healthbarConfig = { 
 
-      color:  '#FF00',
-      height: 10,
+      color:  '#0000FF',
+      height: 3,
       width:  enemy.health,
       angle:  0,
       x:      0,
@@ -29,22 +29,18 @@ var enemyBattleHelper = {
   setup: function enemy_battle_helper_setup(viz) {
 
     var enemy             = setup_element(viz, viz.enemyConfig) ;
-    // enemy.orientation     = 'r' ; // all players start facing right
     enemy.level           = 0 ;
     enemy.update          = enemyBattleHelper.update_enemy ;
-    // enemy.levelup         = playerHelper.levelup ;
-    // viz.enemy.load_bullet  = playerHelper.load_bullet ;
-    // viz.enemy.fire_powerup = powerupHelper.fire ;
     enemy.paused               = false ;
     enemy.state                = [] ;
     enemy.item.responseSet.hit = enemyHitHelper.setup(viz, enemy) ;
-    enemy.health = 100 ;
+    enemy.health = 150 ;
     enemy.health_bar = enemyBattleHelper.health_bar ;
 
     enemy.healthbar = viz.setup_item ({
       image: enemy.health_bar(),
-      x: 90,
-      y: 20,
+      x: 120,
+      y: 50,
     }) ;
 
     enemy.healthbar.add() ;
@@ -54,59 +50,133 @@ var enemyBattleHelper = {
      var transitionFunc ;
 
           if( enemy.transitionSet.attack === undefined ) {
-            //  console.log ('player.transitionSet.image', player.transitionSet.image) ;
             transitionFunc = enemy.transitionSet.image ;
           } else {
             transitionFunc = enemy.transitionSet.attack ;
           }
-          // console.log ('updateplayer 101', player.sprite.attack, transitionFunc, buttonpress.reset, player.sprite.rest[0]) ;
           var loop = animate_loop(
             enemy.loop.attack,
             enemy.sprite.attack,
             transitionFunc,
             function() {} // buttonpress.reset
-            // finalFrame
           ) ;
 
-          enemy.loop.attack.position = loop.position ;
+          enemy.loop.attack.position  = loop.position ;
           transition                  = loop.animation ;
 
           var replacementSwitch = true ;
           enemy.item.add_transition(transition, replacementSwitch) ;
-        // console.log('attack function') ;
     } ;
 
-    var duration = 5000 ;
-    var attack_creator = transitionHelper.step_func('attack', duration) ;
+    enemy.tail_attack = function tail_attack () {
 
-    enemy.canAttack = true ;
+     var transitionFunc ;
 
-    enemy.start_attack = function start_attack () {
-        
-        if (enemy.canAttack === false) {
-          return ;
+          if( enemy.transitionSet.tailattack === undefined ) {
+            //  console.log ('player.transitionSet.image', player.transitionSet.image) ;
+            transitionFunc = enemy.transitionSet.image ;
+          } else {
+            transitionFunc = enemy.transitionSet.tailattack ;
+          }
+          var loop = animate_loop(
+            enemy.loop.tailattack,
+            enemy.sprite.tailattack,
+            transitionFunc,
+            function() {} // buttonpress.reset
+          ) ;
+
+          enemy.loop.attack.position  = loop.position ;
+          transition                  = loop.animation ;
+
+          var replacementSwitch = true ;
+          enemy.item.add_transition(transition, replacementSwitch) ;
+    } ;
+
+
+      var attackDuration = 2000 ;
+      var attack_creator = transitionHelper.step_func('attack', attackDuration) ;
+
+      enemy.canAttack = true ;
+
+      enemy.start_attack = function start_attack () {
+          
+          if (enemy.canAttack === false) {
+            return ;
+          }
+
+          var attackTrans    = attack_creator() ;
+          attackTrans.end    = function () {
+              enemy.attack() ;
+              enemy.start_attack() ;  
+          } ;
+
+          var replacementSwitch = true ;
+          enemy.item.add_transition (attackTrans, replacementSwitch) ;
+
+      } ;
+
+      var tailAttackDuration = 8000 ;
+      var tail_attack_creator = transitionHelper.step_func('tailattack', tailAttackDuration) ;
+
+      enemy.canTailAttack = true ;
+
+      enemy.start_tail_attack = function start_tail_attack () {
+          
+          if (enemy.canTailAttack === false) {
+            return ;
+          }
+
+          var tailAttackTrans    = tail_attack_creator() ;
+          tailAttackTrans.end    = function () {
+              enemy.tail_attack() ;
+              enemy.start_tail_attack() ;  
+          } ;
+
+          var replacementSwitch = true ;
+          enemy.item.add_transition (tailAttackTrans, replacementSwitch) ;
+
+      } ;
+
+      var blockDuration = 10000
+
+
+      enemy.block = function block () {
+         
+          if( transitionHelper.find('image', enemy.item.transition) > -1 ) {
+            return ; // don't interrupt the current attack animation 
+          }
+
+          var transitionFunc ;
+
+          if( enemy.transitionSet.block === undefined ) {
+            transitionFunc = enemy.transitionSet.image ;
+          } else {
+            transitionFunc = enemy.transitionSet.block ;
+          }
+
+          var loop = animate_loop(
+            enemy.loop.block,
+            enemy.sprite.block,
+            transitionFunc,
+            function() {} // buttonpress.reset
+
+          ) ;
+
+          enemy.loop.block.position = loop.position ;
+          transition                  = loop.animation ;
+
+          var replacementSwitch = true ;
+          enemy.item.add_transition(transition, replacementSwitch) ;
+
         }
-
-        var attackTrans    = attack_creator() ;
-        attackTrans.end    = function () {
-            enemy.attack() ;
-            enemy.start_attack() ;  
-        } ;
-
-        var replacementSwitch = true ;
-        enemy.item.add_transition (attackTrans, replacementSwitch) ;
-
-    } ;
 
     return enemy ;
   },
   
   update: function enemy_helper_update(enemy) {
-    // console.log('update enemy 17') ;
     if( enemy === undefined ) {
       enemy = this ;
     }
-    // console.log('enemy helper 21') ;
     if( enemy.paused === true ) {
       return ;
     }

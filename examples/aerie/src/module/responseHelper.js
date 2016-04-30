@@ -25,8 +25,6 @@ var responseHelper = {
       element = response.element ;
     }
 
-    // console.log('responseHelper remove overlap:', 'response', response) ;
-
     var bump = 12 ;
     var ax   = element.item.x + element.item.image.originalCanvas.width * 0.5 ;
     var ay   = element.item.y + element.item.image.originalCanvas.height * 0.5 ;    

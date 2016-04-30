@@ -49,7 +49,6 @@ var vizHelper = {
 	  resize() ;
 
 	  var backgroundImageUrl = vizConfig.backgroundImageUrl ;
-	  // console.log('vizHelper, resize, to_canvas start') ;
 
 	  var image ;
 	  if(vizConfig.loadingImageUrl !== undefined) {

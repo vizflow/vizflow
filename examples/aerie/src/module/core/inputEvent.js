@@ -132,7 +132,7 @@ var inputEvent = {
 
       var color     = viz.ui.canvas.context().getImageData( xIn, yIn, 1, 1 ).data ;
       var itemIndex = color[0] - 1 ; // color indexing used by imageHelper.to_index is 1-based
-
+      console.log('input event screen callback', 'item index', itemIndex) ;
       if(itemIndex >= 0) { // user selected a user-interface item 
         viz.ui.item[itemIndex].callback() ;
       } 

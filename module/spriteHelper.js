@@ -173,7 +173,7 @@ var spriteHelper = {
 		var alpha  = "0123456789abcdefghijklmnopqrstuvwxyz".split("") ;
     return spriteHelper.get(canvas, alpha, width, height) ;		
 	},
-
+	
 	horizontal_flip: function sprite_helper_horizontal_flip (spriteSet) {
 
 		var key    = Object.keys(spriteSet) ;

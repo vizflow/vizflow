@@ -6,7 +6,7 @@ function load_game () {
       viz = this ;
     }
 
-    var vizflowImage = imageHelper.adjust_ratio(imageHelper.image2canvas('./image/vizflow.png')) ;
+    var vizflowImage = imageHelper.adjust_ratio(imageHelper.to_canvas('./image/vizflow.png')) ;
 
     var vizflow = itemHelper.setup({ 
 
