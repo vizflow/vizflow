@@ -267,10 +267,23 @@ var transitionHelper = {
   },  
 
   get_child: function transition_helper_get_child (transition, frameIndex) {
-    for( var kTrans = 0 ; kTrans < frameIndex ; kTrans++ ) {
-      transition = transition.child ;
+
+    if ( frameIndex === 'last') {
+
+      while( transition.child !== undefined ) {
+        transition = transition.child ;
+      }
+                  
+    } else {
+
+      for( var kTrans = 0 ; kTrans < frameIndex ; kTrans++ ) {
+        transition = transition.child ;
+      }
+
     }
+
     return transition ;    
+
   },
 
   update_end_value: function transition_helper_update_end_value (property, newEndValue, transition_creator) {
