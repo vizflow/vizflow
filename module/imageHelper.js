@@ -298,6 +298,8 @@ var imageHelper = {
 		
 		context.drawImage(image, 0, 0) ;
 
+		copy.originalCanvas = image.originalCanvas ;
+
 		return copy ;
 
 	},
