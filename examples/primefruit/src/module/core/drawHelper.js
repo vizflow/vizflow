@@ -16,7 +16,7 @@ var drawHelper = {
         item.child[kOver].xScale = item.xScale ;
         item.child[kOver].yScale = item.yScale; 
         // console.log('item.child[kOver]', item.child[kOver], 'item.child[kOver].x', item.child[kOver].x) ;
-        drawHelper.image(item.child[kOver]) ;
+        item.child[kOver].render() ;
       }      
     }
   },

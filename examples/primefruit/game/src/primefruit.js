@@ -46,6 +46,7 @@ function primefruit() {
   var vizConfig = {
     width:  width,
     height: height,
+    fadeDuration: duration,
   } ;
   
   var viz = vizHelper.setup(vizConfig) ; // first create generic vizflow configuration object, then add application-specific details
