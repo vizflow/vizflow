@@ -6,6 +6,7 @@ var jarHelper = {
       jarHelper.lidImage = [
           imageHelper.adjust_ratio(imageHelper.to_canvas('./image/jarLidGray.png')), 
           imageHelper.adjust_ratio(imageHelper.to_canvas('./image/jarLidPurp.png')),
+          imageHelper.adjust_ratio(imageHelper.to_canvas('./image/jarLidBlue.png')),
       ] ;
     }
 
@@ -33,8 +34,6 @@ var jarHelper = {
 
       viz: viz,
       image: jarHelper.lidImage[0],
-      x: x,
-      y: y,
       addSwitch: false,
 
     } ;
@@ -48,22 +47,27 @@ var jarHelper = {
     lidK = itemHelper.setup ( lidConfig ) ;
     lidK.default_child() ;
 
-    // var lidConfigBlue = Object.assign({image: jarHelper.lidImage[2]}, lidConfig) ;
-    // var lidKblue      = itemHelper.setup ( lidConfigBlue ) ;
-    // lidK.blue         = lidKblue ;
-
-    // lidK.child.push(lidKblue) ;
+    var lidConfigBlue = Object.copy(lidConfig) ;
+    // lidConfigBlue.opacity = 0 ;
+    lidConfigBlue.image = jarHelper.lidImage[2] ;
+    var lidKblue        = itemHelper.setup ( lidConfigBlue ) ;
+    lidKblue.default_child() ;
 
     jarK.lid   = lidK ;
-    jarK.child = [jarK.lid] ;
+    jarK.blue  = lidKblue ;
+    jarK.child = [jarK.blue, jarK.lid] ;
 
-    jarK.all_collected = jarHelper.all_collected ;
-    jarK.any_collected = jarHelper.any_collected ;
-    jarK.unlock        = jarHelper.unlock ;
-    jarK.open          = jarHelper.open ;
-    jarK.is_open       = jarHelper.is_open ;
-    jarK.focus         = jarHelper.focus ;
-    jarK.fruit         = viz.fruit[k] ;
+    jarK.all_collected  = jarHelper.all_collected ;
+    jarK.any_collected  = jarHelper.any_collected ;
+    jarK.unlock         = jarHelper.unlock ;
+    jarK.open           = jarHelper.open ;
+    jarK.is_open        = jarHelper.is_open ;
+    jarK.focus          = jarHelper.focus ;
+    jarK.grab           = jarHelper.grab ;
+    jarK.show_prime     = jarHelper.show_prime ; 
+    jarK.fruit          = viz.fruit[k] ;
+    jarK.doubleFlashDur = [1, 0, 1, 0] ;
+    jarK.unlocked       = false ; // jars start out locked
 
     var digit = imageHelper.text2image({
       text: k + 2,
@@ -81,6 +85,185 @@ var jarHelper = {
 
   },
 
+  click: function jar_helper_click( jar ) {
+    
+    if ( jar === undefined ) { 
+      jar = this ;
+    }
+
+    var viz = jar.viz ;
+
+    if ( viz.busy === true ) { 
+      return ;
+    }
+
+    var opacity  = 0.4 ;
+    var duration = 3 * viz.fadeDuration ;
+
+    // console.log('jarHelper.click: ', 'jar', jar, 'jarFade', jarFade) ;
+
+    if ( jar.all_collected() ) {
+
+      jar.open() ;
+      jar.focus(duration) ;
+      jar.grab() ;
+
+    } else if ( jar.lid.image !== jarHelper.lidImage[1] ) { // jar is closed
+
+      jar.focus(duration) ;
+      jar.blue.opacity = 1 ;
+      var blueFadeDur  = [0, 0, 0, 0, 0, 0, 1] ;
+      var blueFade     = document.fade(blueFadeDur) ;
+      
+      blueFade[0].child.end = function() {
+        jar.blue.flash(3, viz.fadeDuration / 3) ;
+      } ;
+
+      jar.lid.add_transition(blueFade) ;
+
+      for ( var kitem = 0 ; kitem < jar.fruit.item.length ; kitem++ ) {
+        if ( jar.fruit.item[kitem].is_collected() === true ) {
+          jar.fruit.item[kitem].add_transition( document.fade( [.25, .5, 0] ) ) ;
+        }
+      }
+
+    } if ( jar.fruit.code.length === 1 ) { // this jar reprsents a prime number i.e. contains a single "prime viz.fruit"
+
+      jar.open() ;
+      jar.focus(duration) ;
+      jar.show_prime() ; // show the selected jar's primefruit whether or not it has been collected yet
+
+      if ( viz.collected[jar.fruit.code] === undefined ) {
+        viz.collected[jar.fruit.code] = true ;
+      }
+
+    }
+
+  },
+
+  show_prime: function jar_helper_show_prime( jar ) {
+
+    if ( jar === undefined ) {
+      jar = this ;
+    }
+
+    var scale0 = jar.scale0 ;
+    var scale1 = jar.scale1 ;
+    var viz    = jar.viz ;
+
+    var fk = jar.fruit.item[0] ;
+
+    var viz = jar.viz ;
+
+    fk.fade({
+
+      duration: viz.fadeDuration,
+      opacity: 1,
+
+      end: function() {
+        fk.white.add_transition(document.fade([1, 1, 0])) ;
+      },
+
+    }) ;
+
+    var xTrans0 = transitionHelper.new_linear('x', jar.x0, viz.fadeDuration * 4) ;
+    var yTrans0 = transitionHelper.new_linear('y', jar.y0, viz.fadeDuration * 4) ;
+
+    // console.log('jar.fruit.code', jar.fruit.code)
+
+    xTrans0.child = jarHelper.x_trans(viz, jar.fruit.code) ;
+    yTrans0.child = jarHelper.y_trans(viz, jar.fruit.code) ;
+
+    fk.add_transition(xTrans0) ;
+    fk.add_transition(yTrans0) ;    
+    // fk.add_transition(fruitHelper.x_scale()) ;
+    // fk.add_transition(fruitHelper.y_scale()) ;
+
+    for ( var kfruit = 0 ; kfruit < viz.fruit.length ; kfruit++ ) {
+
+      if ( kfruit === jar.config.k ) {
+        continue ;
+      }
+
+      for ( var kitem = 0 ; kitem < viz.fruit[kfruit].item.length ; kitem++ ) {
+
+        if ( fk.image === viz.fruit[kfruit].item[kitem].image ) {
+          viz.fruit[kfruit].item[kitem].add_transition(document.fade([.5, 1, .75, .5, .25])) ;
+        }
+
+      }
+
+    }
+
+  },
+
+  grab: function jar_helper_grab ( jar ) {
+
+    if ( jar === undefined ) {
+      jar = this ;
+    }
+
+    var viz = jar.viz ;
+
+    for ( var kitem = 0 ; kitem < jar.fruit.item.length ; kitem++ ) {
+      
+        var fk        = jar.fruit.item[kitem] ;
+        var fruitFade = [1.0, 1.0, 1.0, 1.0, 0] ;
+        var trans     = document.fade(fruitFade) ;
+        var index     = fk.code.charCodeAt(0) - 'a'.charCodeAt(0) ; // prime number index 
+
+        transitionHelper.get_child(trans[0], fruitFade.length - 1).end = {
+          
+          index: index, 
+
+          item: fk,
+
+          run: function(endConfig) {
+            
+            if ( endConfig === undefined ) {
+              endConfig = this ;
+            }
+
+            endConfig.item.remove() ;
+            var replacementSwitch = false ;
+            viz.prime[endConfig.index].white.add_transition( document.fade([1, 0]), replacementSwitch ) ;
+          
+          },
+
+        } ;
+
+        var xTrans = jarHelper.x_trans(viz, fk.code) ;
+        var yTrans = jarHelper.y_trans(viz, fk.code) ;
+
+        var shift = 50 * kitem ;
+
+        var xTrans0 = transitionHelper.new_linear('x', jar.x0 + shift, viz.fadeDuration * 3) ; 
+        xTrans0.child = xTrans ;
+
+        var yTrans0 = transitionHelper.new_linear('y', jar.y0, viz.fadeDuration * 3) ; 
+        yTrans0.child = yTrans ;
+
+        fk.add_transition(trans) ;
+        fk.add_transition(xTrans0) ;
+        fk.add_transition(yTrans0) ;    
+        // fk.add_transition(fruitHelper.x_scale()) ;
+        // fk.add_transition(fruitHelper.y_scale()) ;
+      
+    }
+
+    jar.fade({
+
+      duration: viz.fadeDuration,
+      opacity: 0,
+      end: function() {
+        jar.remove() ;
+        viz.scoreup() ;
+      },
+
+    }) ;
+
+  },
+
   all_collected: function jar_helper_all_collected( jar ) { // attach this function to the jar objects inside the for loop below
 
     if ( jar === undefined ) {
@@ -88,6 +271,10 @@ var jarHelper = {
     }
 
     var jarCode = jar.fruit.code ;
+
+    if ( jarCode.length === 1 ) {
+      return false ; // prime
+    }
 
     for ( var k = 0 ; k < jarCode.length ; k++ ) {
       if( jar.viz.collected[jarCode[k]] === undefined ) {
@@ -123,11 +310,12 @@ var jarHelper = {
       jar = this ;
     }
 
-    var flash     = [1, 0, .25] ;
+    var flash     = jar.doubleFlashDur ;
     var fadeTrans = document.fade(flash) ;
 
     transitionHelper.get_child(fadeTrans[0], flash.length - 2).end = function() {
       jar.lid.image = jarHelper.lidImage[1] ;
+      jar.unlocked = true ;
     } ;
 
     jar.lid.white.add_transition(fadeTrans) ;
@@ -141,7 +329,7 @@ var jarHelper = {
       jar = this ;
     }
 
-    if ( jar.lid.image === jarHelper.lidImage[1] ) {
+    if ( jar.unlocked === true ) {
       return true ;
     } else {
       return false ;
@@ -157,8 +345,8 @@ var jarHelper = {
 
     var viz = jar.viz ;
 
-    jar.lid.white.add_transition(document.fade([.5, 1, .5, 0])) ;
-
+    jar.blue.opacity = 0 ;
+    jar.lid.white.add_transition(document.fade(jar.doubleFlashDur)) ;
     jar.lid.fade({
 
       duration: viz.fadeDuration * 4,
@@ -175,7 +363,7 @@ var jarHelper = {
 
             jar.remove() ;
             viz.scoreup() ;
-            viz.update_jar() ;
+            viz.unlock_ripened() ;
 
           },
         
@@ -184,100 +372,6 @@ var jarHelper = {
       },
     }) ;
 
-  },
-
-  click: function jar_helper_click( jar ) {
-    
-    if ( jar === undefined ) { 
-      jar = this ;
-    }
-
-    var viz = jar.viz ;
-
-    if ( viz.busy === true ) { 
-      return ;
-    }
-
-    viz.busy = true ;
-
-    console.log('viz.fadeDuration', viz.fadeDuration)
-
-    viz.add_sequence( [true, false], transitionHelper.fixed_duration_step('busy', viz.fadeDuration * 6) ) ;
-
-    var jarFade = [0, 0, 0, 0, 1] ;
-
-    // console.log('jarHelper.click: ', 'jar', jar, 'jarFade', jarFade) ;
-
-    if ( jar.all_collected() ) {
-
-      jar.open() ;
-
-      jar.focus() ;
-
-    } else if ( jar.lid.image !== jarHelper.lidImage[1] ) { // jar is closed
-
-      // console.log('jar helper click', 'jar.lid', jar.lid)
-
-      jar.lid.flash(2, 200) ;
-
-      // jar.add_transition(document.fade([0.5, 1])) ;
-
-      for ( var kitem = 0 ; kitem < jar.fruit.item.length ; kitem++) {
-        if ( jar.fruit.item[kitem].is_collected() === true ) {
-          jar.fruit.item[kitem].add_transition(document.fade([.25, .5, 0])) ;          
-        }
-      }
-
-    } else if ( jar.fruit.code.length === 1 ) { // this jar reprsents a prime number i.e. contains a single "prime viz.fruit"
-
-      jar.open() ;
-
-      jar.focus() ;
-
-      jarHelper.show_prime(jar) ; // show the selected jar's primefruit whether or not it has been collected yet
-
-      if ( viz.collected[jar.fruit.code] === undefined ) {
-        viz.collected[jar.fruit.code] = true ;
-      }
-
-      // } else { // white flash reminds the player that they already collected the fruit from the selected jar 
-        // jar.fruit.item[0].white.add_transition(document.fade([1, 0])) ;
-      // }
-
-    }
-
-  },
-
-  update: function jar_helper_update( viz ) { 
-
-    if ( viz === undefined ) {
-      viz = this ;
-    }
-    
-    // var curr = String.fromCharCode(viz.current) ;
-    // var next = String.fromCharCode(viz.current + 1) ;
-    // var kCurr = viz.key[curr] - 2 ;
-    
-    // var kNext = viz.key[next] - 1 ;
-
-    // var count = 0 ;
-    
-    for ( var kJar = 0 ; kJar < viz.jar.length ; kJar++ ) {
-
-      if ( viz.jar[kJar].removeSwitch === true ) { 
-        continue ;
-      }
-      
-      // console.log('jar_image_update: ', 'kNext', kNext, 'kJar', kJar) ;
-      // console.log('jar image update: ', 'code[ viz.jar[kJar].config.k ]', code[ viz.jar[kJar].config.k ], 'curr', curr) ;
-      
-      if( viz.jar[kJar].all_collected() ) {
-        viz.jar[kJar].unlock() ;
-        // count++ ;
-      }
-
-    }
-  
   },
 
   y_trans: function jar_helper_y_trans(viz, code) {
@@ -298,84 +392,7 @@ var jarHelper = {
 
   },
 
-  show_prime: function jar_helper_show_prime( jar ) {
-
-    var scale0 = jar.scale0 ;
-    var scale1 = jar.scale1 ;
-    var viz = jar.viz ;
-
-    function x_scale(shift) {
-
-      if ( shift === undefined ) {
-        shift = 0 ;
-      }
-
-      var xScaleTrans   = transitionHelper.new_linear('xScale', scale0, viz.fadeDuration) ;
-      xScaleTrans.pause = viz.fadeDuration * 3 ;
-      xScaleTrans.child = transitionHelper.new_linear('xScale', scale1, viz.fadeDuration) ;
-      return xScaleTrans ;
-
-    }
-
-    function y_scale(shift) {
-
-      if ( shift === undefined ) {
-        shift = 0 ;
-      }
-
-      var yScaleTrans   = transitionHelper.new_linear('yScale', scale0, viz.fadeDuration) ;
-      yScaleTrans.pause = viz.fadeDuration * 3 ;
-      yScaleTrans.child = transitionHelper.new_linear('yScale', scale1, viz.fadeDuration) ;     
-      return yScaleTrans ;
-
-    }
-
-    var fk = jar.fruit.item[0] ;
-
-    var viz = jar.viz ;
-
-    fk.fade({
-
-      duration: viz.fadeDuration,
-      opacity: 1,
-      end: function() {
-        fk.white.add_transition(document.fade([1, 1, 0])) ;
-      },
-
-    }) ;
-
-    var xTrans0 = transitionHelper.new_linear('x', jar.x0, viz.fadeDuration * 4) ;
-    var yTrans0 = transitionHelper.new_linear('y', jar.y0, viz.fadeDuration * 4) ;
-
-    // console.log('jar.fruit.code', jar.fruit.code)
-
-    xTrans0.child = jarHelper.x_trans(viz, jar.fruit.code) ;
-    yTrans0.child = jarHelper.y_trans(viz, jar.fruit.code) ;
-
-    fk.add_transition(xTrans0) ;
-    fk.add_transition(yTrans0) ;    
-    // fk.add_transition(x_scale()) ;
-    // fk.add_transition(y_scale()) ;
-
-    for ( var kfruit = 0 ; kfruit < viz.fruit.length ; kfruit++ ) {
-
-      if ( kfruit === jar.config.k ) {
-        continue ;
-      }
-
-      for ( var kitem = 0 ; kitem < viz.fruit[kfruit].item.length ; kitem++ ) {
-
-        if ( fk.image === viz.fruit[kfruit].item[kitem].image ) {
-          viz.fruit[kfruit].item[kitem].add_transition(document.fade([.5, 1, .75, .5, .25, 1])) ;
-        }
-
-      }
-
-    }
-
-  },
-
-  focus: function jar_helper_focus( jar ) {
+  focus: function jar_helper_focus( duration, pause, jar ) {
 
     if ( jar === undefined ) {
       jar = this ;
@@ -383,8 +400,10 @@ var jarHelper = {
 
     var viz = jar.viz ;
 
+    viz.busy = true ; 
+
     var o1 = 0.4 ;
-    var bgFade = [o1, o1, o1, o1, 1] ;
+    var o2 = 1 ; 
 
     for ( var kjar = 0 ; kjar < viz.jar.length ; kjar++ ) {
       
@@ -392,74 +411,26 @@ var jarHelper = {
         continue ;
       }
 
-      viz.jar[kjar].add_transition( document.fade(bgFade) ) ;
+      var trans = transitionHelper.new_sequence( [o1, o2], transitionHelper.fixed_duration_linear('opacity', duration ) ) ;
+      
+      trans[0].pause = duration * 2 ;
+      // console.log('trans', trans) ;
+      // console.log('transitionHelper.copy( trans )', transitionHelper.copy( trans ) ) ;
+      viz.jar[kjar].lid.add_transition( transitionHelper.copy( trans ) ) ;
+      viz.jar[kjar].blue.add_transition( transitionHelper.copy( trans ) ) ;
 
-    }    
+      trans[0].child.end = {
+        viz: viz,
+        run: function() {
+          this.viz.busy = false ;
+          this.viz.open_next() ;
+        }
+      } ;
+
+      viz.jar[kjar].add_transition( trans ) ;
+
+    }
 
   },
 
 } ;
-
-      // jar.fade({
-
-      //   duration: viz.fadeDuration,
-      //   opacity: 0,
-      //   end: function() {
-      //     jar.remove() ;
-      //     viz.scoreup() ;
-      //     if ( viz.all_closed() ) {
-      //       viz.open_next() ;
-      //     }
-      //   },
-
-      // }) ;
-
-      // for ( var kitem = 0 ; kitem < jar.fruit.item.length ; kitem++ ) {
-      
-      //   var fk = jar.fruit.item[kitem] ;
-    
-      //   var fruitFade = [1.0, 1.0, 1.0, 1.0, 0] ;
-      //   var trans     = document.fade(fruitFade) ;
-      //   var index     = fk.code.charCodeAt(0) - 'a'.charCodeAt(0) ; // prime number index 
-
-      //   transitionHelper.get_child(trans[0], fruitFade.length - 1).end = {
-          
-      //     index: index, 
-
-      //     item: fk,
-
-      //     run: function(endConfig) {
-            
-      //       if ( endConfig === undefined ) {
-      //         endConfig = this ;
-      //       }
-
-      //       endConfig.item.remove() ;
-      //       var replacementSwitch = false ;
-      //       viz.prime[endConfig.index].white.add_transition(document.fade([1, 0]), replacementSwitch) ;
-      //       // jar_open_next() ;
-          
-      //     },
-
-      //   } ;
-
-      //   var xTrans = jarHelper.x_trans(viz, fk.code) ;
-      //   var yTrans = jarHelper.y_trans(viz, fk.code) ;
-
-      //   var shift = 50 * kitem ;
-
-      //   var xTrans0 = transitionHelper.new_linear('x', jar.x0 + shift, viz.fadeDuration * 3) ; 
-      //   xTrans0.child = xTrans ;
-
-      //   var yTrans0 = transitionHelper.new_linear('y', jar.y0, viz.fadeDuration * 3) ; 
-      //   yTrans0.child = yTrans ;
-
-      //   fk.add_transition(trans) ;
-      //   fk.add_transition(xTrans0) ;
-      //   fk.add_transition(yTrans0) ;    
-      //   // fk.add_transition(x_scale()) ;
-      //   // fk.add_transition(y_scale()) ;
-      
-      // }
-
-      // jar.focus() ;

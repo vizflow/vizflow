@@ -248,20 +248,26 @@ var transitionHelper = {
      
   },  
 
-  add_end: function transition_helper_add_end(property, frameIndex, callback) {
+  add_end: function transition_helper_add_end(property, frameIndex, callback, item) {
 
-    var transitionList = this.transition ;
+    if (item === undefined ) {
+      item = this ;
+    }
+
+    var transitionList = item.transition ;
 
     if ( transitionList === undefined ) {
       this.transition = [] ;
-      transitionList = this.transition ;
+      transitionList = item.transition ;
     }
 
     var transitionIndex = transitionHelper.find(property, transitionList) ;    
 
-    var transitionK = this.transition[transitionIndex] ; // initialize
+    var transitionK = item.transition[transitionIndex] ; // initialize
 
-    transitionK = transitionHelper.get_child(transitionK, frameIndex) ;
+    if ( frameIndex > 0 ) {
+      transitionK = transitionHelper.get_child(transitionK, frameIndex) ;      
+    } 
     transitionK.end = callback ; // only restore UI functionality after the minimum number of frames has been rendered  
     
   },  
@@ -393,6 +399,37 @@ var transitionHelper = {
     }
 
     return transitionIndex ;    
+  },
+
+  copy: function transition_helper_copy ( transition ) {
+
+    if ( transition.constructor === Array ) {
+
+      var trans = new Array (transition.length) ;
+
+      for ( var kt = 0 ; kt < transition.length ; kt++ ) {
+        // console.log('transition[kt]', transition[kt]) ;
+        trans[kt] = transitionHelper.copy(transition[kt]) ;
+      }
+
+      return trans ;
+
+    } else {
+
+      var trans = Object.copy ( transition ) ;
+      
+      if ( trans.child !== undefined ) {
+        trans.child = transitionHelper.copy( transition.child ) ;
+      }
+
+      if ( trans.end !== undefined && trans.end.constructor === Object ) {
+        trans.end = Object.copy( transition.end ) ;
+      }
+
+      return trans ;
+
+    }
+
   },
 
   // set: function transition_helper_set () {

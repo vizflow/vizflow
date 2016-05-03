@@ -39,7 +39,7 @@ function primefruit() {
    * when using vizflow it's easier to create the viz object and then add the items to it afterwards:
    */
 
-  var duration = 500 ;
+  var duration = 200 ;
   var width    = 320 ;
   var height   = 320 ;
 
@@ -128,7 +128,6 @@ function primefruit() {
   } ;
 
   viz.prime = new Array(viz.Nprime) ;
-  viz.update_jar = jarHelper.update ;
 
   for ( var k = 0 ; k < viz.N - 1 ; k++ ) { // setup the jars of viz.fruit
 
@@ -191,12 +190,19 @@ function primefruit() {
   viz.all_closed = function viz_all_closed() {
 
     for (var k = 0 ; k < viz.jar.length ; k++ ) {
-      if ( viz.jar[k].removeSwitch !== true && viz.jar[k].is_open() ) {
+      
+      if ( viz.jar[k].removeSwitch === true ) {
+        continue ;
+      }
+
+      if ( viz.jar[k].is_open() ) {
+        // console.log('primefruit all_closed: ', 'k', k, 'viz.jar[k]', viz.jar[k])
         return false ;
       }
+
     }
 
-    console.log('primefruit all_closed: ', true) ;
+    // console.log('primefruit all_closed: ', true) ;
 
     return true ;
 
@@ -210,17 +216,44 @@ function primefruit() {
   viz.setup_ui() ;
   viz.run() ;
 
-  viz.update_jar() ;
+  viz.unlock_ripened = function unlock_ripened( viz ) { 
 
-  console.log('viz', viz) ;
+    if ( viz === undefined ) {
+      viz = this ;
+    }
+    
+    for ( var kJar = 0 ; kJar < viz.jar.length ; kJar++ ) {
 
-  viz.open_next = function open_next() {
+      if ( viz.jar[kJar].removeSwitch === true ) { 
+        continue ;
+      }
+            
+      if( viz.jar[kJar].all_collected() ) {
+        viz.jar[kJar].unlock() ;
+        // count++ ;
+      }
 
-    viz.current++ ;  
-    curr  = String.fromCharCode(viz.current) ;
-    kCurr = viz.key[curr] - 2 ; 
-    viz.jar[kCurr].unlock() ;
+    }
+  
+  } ;
+
+  viz.open_next = function open_next( viz ) { 
+
+    if ( viz === undefined ) { 
+      viz = this ;
+    }
+
+    if ( viz.all_closed() ) {
+
+      viz.current++ ;  
+      curr  = String.fromCharCode( viz.current ) ;
+      kCurr = viz.key[curr] - 2 ; 
+      viz.jar[kCurr].unlock() ;
+
+    }
 
   } ;
+
+  viz.jar[0].unlock() ;
 
 }

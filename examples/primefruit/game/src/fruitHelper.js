@@ -1,5 +1,31 @@
 var fruitHelper = {
 
+  x_scale: function fruit_helper_x_scale(shift) {
+
+    if ( shift === undefined ) {
+      shift = 0 ;
+    }
+
+    var xScaleTrans   = transitionHelper.new_linear('xScale', scale0, viz.fadeDuration) ;
+    xScaleTrans.pause = viz.fadeDuration * 3 ;
+    xScaleTrans.child = transitionHelper.new_linear('xScale', scale1, viz.fadeDuration) ;
+    return xScaleTrans ;
+
+  },
+
+  y_scale: function fruit_helper_y_scale(shift) {
+
+    if ( shift === undefined ) {
+      shift = 0 ;
+    }
+
+    var yScaleTrans   = transitionHelper.new_linear('yScale', scale0, viz.fadeDuration) ;
+    yScaleTrans.pause = viz.fadeDuration * 3 ;
+    yScaleTrans.child = transitionHelper.new_linear('yScale', scale1, viz.fadeDuration) ;     
+    return yScaleTrans ;
+
+  },
+
   setup: function fruit_helper_setup(viz, k, x, y) {
 
     if ( fruitHelper.sprite === undefined ) {
@@ -33,17 +59,17 @@ var fruitHelper = {
         y: y + yOffset,
         xScale: initialScale,
         yScale: initialScale,
-        opacity: 0,
+        opacity: 0.2,
         image: fruitHelper.sprite[viz.code[k][kitem]][0],
         addSwitch: true,
 
       } ;
 
-      fruit.item[kitem] = itemHelper.setup(fruitConfig) ; // each tile contains some viz.fruit
+      fruit.item[kitem]              = itemHelper.setup(fruitConfig) ; // each tile contains some viz.fruit
       fruit.item[kitem].default_child() ;
-      fruit.item[kitem].code = viz.code[k][kitem] ; 
+      fruit.item[kitem].code         = viz.code[k][kitem] ; 
       fruit.item[kitem].is_collected = fruitHelper.is_collected ;
-      fruit.code = viz.code[k] ;
+      fruit.code                     = viz.code[k] ;
       // console.log('pf: ', 'k', k, 'fruitConfig', fruitConfig) ;
 
     }
@@ -57,6 +83,8 @@ var fruitHelper = {
     if ( fruit === undefined ) {
       fruit = this ;
     }
+
+    // console.log('fruit helper is collected: ', 'fruit', fruit) ;
 
     if ( fruit.viz.collected[ fruit.viz.code ] === undefined ) {
       return false ;

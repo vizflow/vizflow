@@ -38,7 +38,7 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 
 		item.add_transition(flash) ;
 
-		console.log('effect flash', 'flash', flash) ;
+		// console.log('effect flash', 'flash', flash) ;
 
 		return flash ;
 
@@ -92,6 +92,10 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 		if(viz === undefined) {
 			viz = this ;
 		}
+
+    if ( zoomConfig === undefined ) {
+      zoomConfig = {} ;
+    }
 
     var viewDelta = -2 * Math.floor(viz.displayCanvas.width * 0.04) ;
 		if(zoomConfig.width === undefined) {

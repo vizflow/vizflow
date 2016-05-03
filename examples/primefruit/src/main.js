@@ -13,6 +13,7 @@ document.image = [
 	'./image/fruit.gif',
 	'./image/jarLidGray.png',
 	'./image/jarLidPurp.png',
+	'./image/jarLidBlue.png',
 	'./image/jarOpen.png',
 	document.textUrl,
 
