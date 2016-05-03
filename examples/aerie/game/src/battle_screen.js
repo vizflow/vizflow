@@ -2,7 +2,7 @@ function battle_screen() {
   
   var vizConfig = {
 
-    image: './image/battlescreen.png',
+    image: imageHelper.to_canvas ('./image/battlescreen.png'),
     paddingFactor: 4,
     frameDurationFactor: 3,
         music: undefined,
@@ -16,7 +16,7 @@ function battle_screen() {
 
     viz = vizHelper.setup(vizConfig) ;
 
-    var tileWidth  = 104 ;
+    var tileWidth  = 200 ;
     var tileHeight = 300 ; 
 
     viz.playerConfig = {        
@@ -29,10 +29,16 @@ function battle_screen() {
                 Nstep: 1,
             },
 
-            attack: {
+            thrust: {
                 frameDur: viz.frameDuration,
                 position: 0,
-                Nstep: 2,
+                Nstep: 3,
+            },
+
+            attack: {
+                frameDur: viz.frameDuration,
+                position: 0, 
+                Nstep: 3,
             },
 
             block: {
@@ -44,20 +50,20 @@ function battle_screen() {
         }, 
 
     sprite_loader: function() {
-    // console.log('spriteloader') ;
     var i = imageHelper.to_canvas('./image/knight_battle_spritesheet.png') ;
-    var rowName = ['attack', 'block', 'rest'] ;1
-    var width   = [tileWidth, tileWidth, tileWidth] ;
-    var height  = [tileHeight, tileHeight, tileHeight] ;
+    var rowName = ['attack', 'block', 'rest', 'thrust'] ;
+    var width   = [tileWidth, tileWidth, tileWidth, tileWidth] ;
+    var height  = [tileHeight, tileHeight, tileHeight, tileHeight] ;
 
     maxHeight = Math.max.apply(null, height) ;
     var spriteset = spriteHelper.get(i, rowName, width, height) ;
     
     var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0].originalCanvas, { x: 0, y: 0, width: spriteset.attack[0].originalCanvas.width * 0.6, height: maxHeight } ) ;
-    spriteset.attack[0].sourceCollisionImage = attackCollisionCanvas ;
-    spriteset.attack = [spriteset.attack[0], spriteset.rest[0]] ;
+    spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
+    spriteset.thrust[1].sourceCollisionImage = attackCollisionCanvas ;
+    spriteset.attack = [spriteset.attack[0], spriteset.attack[1], spriteset.rest[0]] ;
+    spriteset.thrust = [spriteset.thrust[0], spriteset.thrust[1], spriteset.rest[0]] ;
     spriteset.block = [spriteset.block[0], spriteset.block[0], spriteset.rest[0], spriteset.rest[0]] ;
-    // console.log('battlescreen spriteloader', spriteset.block[2] === spriteset.rest[0]) ;
     return spriteset ;
 
     },
@@ -68,22 +74,15 @@ function battle_screen() {
 
     },
 
-    // orientation: 'l',
-    frameDuration: viz.frameDuration * 0.5,    
-    attackDuration: 3 * viz.frameDuration,    
-    blockDuration: 100 * viz.frameDuration,
-    restoreRest: true,
-
-    xMove: 40,
-    yMove: 40,
-    x: 100,
-    y: 100,
+    xMove: 74,
+    yMove: 74,
+    x: 60,
+    y: 20,
     type: 'player',
 
     } ;
 
     viz.player = playerBattleHelper.setup(viz) ;
-    // playerBattleHelper.setup_healthbar() ;
 
     viz.keyboard_down_callback = function keyboard_down_callback(event) {
    
@@ -164,159 +163,132 @@ function battle_screen() {
 
     } ;
 
-        var buttonWidth     = 100 ;
-        var buttonHeight    = 150 ;
-        var buttonTileCount = 2 ;
+    var buttonWidth     = 100 ;
+    var buttonHeight    = 150 ;
+    var buttonTileCount = 2 ;
+    var leftCode        = 37 ;
+    var rightCode       = 39 ;
+    var blockCode       = 40 ;
+    // var healCode        =    ;
+    
+    leftButtonConfig = {
+        x: -30,
+        y: 110,
+        // count: 1,
+        //rowIndex: buttonRowIndex,
+        width: buttonWidth,
+        height: buttonHeight,
+        image: imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/leftButton.png')),
+        uiSwitch: true,
 
-        leftButtonConfig = {
-            x: 0,
-            y: 160,
-            // count: 1,
-            //rowIndex: buttonRowIndex,
-            width: buttonWidth,
-            height: buttonHeight,
-            image: imageHelper.to_canvas ('./image/leftButton.png'),
-            uiSwitch: true,
+        callback: function left_button_callback() {
+            var leftButton = this ;
+            var leftCode   = 37 ;
+            gameHelper.screen_handler(leftCode) ;
+        },
+    } ;    
 
-            callback: function leftButton_callback() {
-                console.log('left button callback start') ;
-                var leftButton = this ;
+    rightButtonConfig = {
+        x: 260,
+        y: 110,
+        // count: 1,
+        //rowIndex: buttonRowIndex,
+        width: buttonWidth,
+        height: buttonHeight,
+        image: imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/rightButton.png')),
+        uiSwitch: true,
+        
+        callback: function right_button_callback() { 
 
-                if ( leftButton.clicked === true ) {
-                  return ;
-                }
+            var rightButton = this ;
+            var rightCode   = 39 ;
+            gameHelper.screen_handler(rightCode) ;                
 
-                leftButton.clicked = true ;
+        },
+    } ;    
 
-            },
-        } ;    
+    attackButtonConfig = {
+        x: 260,
+        y: 30,
+        // count: 1,
+        //rowIndex: buttonRowIndex,
+        width: 92,
+        height: 87,
+        
+        image: imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/attackButton.png')),
+        uiSwitch: true,
+        
+        callback: function attack_button_callback() { 
 
-        rightButtonConfig = {
-            x: 270,
-            y: 160,
-            // count: 1,
-            //rowIndex: buttonRowIndex,
-            width: buttonWidth,
-            height: buttonHeight,
-            image: imageHelper.to_canvas ('./image/rightButton.png'),
-            uiSwitch: true,
+            var attackButton    = this ;
+            var attackCode      = 32 ;
+
+            viz.player.attack('slash') ;
+
+            gameHelper.screen_handler(attackCode) ;
+        },
+    } ;    
+
+    blockButtonConfig = {
+        x: -30,
+        y: 30,
+        // count: 1,
+        //rowIndex: buttonRowIndex,
+        width: 92,
+        height: 87,
+        image: imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/blockButton.png')),
+        uiSwitch: true,
+        
+        callback: function block_button_callback() { 
             
-            callback: function rightButton_callback() { 
+            var blockButton = this ;
+            var blockCode = 40 ;
 
-                var rightButton = this ;
+            gameHelper.screen_handler(blockCode) ;
+        },
+    } ;    
 
-                if ( rightButton.clicked === true ) {
-                  return ;
-                }
+    // healButtonConfig = {
+    //     x: 270,
+    //     y: 0,
+    //     // count: 1,
+    //     //rowIndex: buttonRowIndex,
+    //     width: 58,
+    //     height: 48,
+    //     image: imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/healButton.png')),
+    //     uiSwitch: true,
+        
+    //     callback: function rightButton_callback() { 
 
-                rightButton.clicked = true ;
+    //         var healButton = this ;
+    //         var healCode   = 84 ;
 
-                        if ( item.image ===  './image/rightButton.png' ) {
+    //         gameHelper.screen_handler(healCode) ;
 
-          item.viz.flashing = true ;
+    //     },
+    // } ;    
 
-          item.viz.score.increase() ;
+    thrustButtonConfig = {
+        x: 270,
+        y: 0,
+        // count: 1,
+        //rowIndex: buttonRowIndex,
+        width: 58,
+        height: 48,
+        image: imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/healButton.png')),
+        uiSwitch: true,
+        
+        callback: function thrust_button_callback() { 
+            console.log('thrust button callback start') ;
 
-          var fadeDur = 300 ;   
+            var thrustButton = this ;
+            var thrustCode   = 38 ;         
 
-          item.white.fade({
+            viz.player.attack ('thrust') ;
+            gameHelper.screen_handler(thrustCode) ;
 
-            opacity: 1,
-            duration: fadeDur,
-            pause: 3 * fadeDur,
-
-            end: function() {
-
-              item.viz.flashing = false ;
-              item.viz.green_flash() ;
-              item.white.fade({
-                opacity: 0,
-                duration: fadeDur,
-                end: function() {
-                  item.clicked = false ;
-                },
-              }) ;
-
-            },
-
-          }) ;
-
-        } else {
-          item.clicked = false ;
-        }
-
-            },
-        } ;    
-
-        attackButtonConfig = {
-            x: 270,
-            y: 120,
-            // count: 1,
-            //rowIndex: buttonRowIndex,
-            width: 92,
-            height: 87,
-            image: imageHelper.to_canvas ('./image/attackButton.png'),
-            uiSwitch: true,
-            
-            callback: function attackButton_callback() { 
-
-                var attackButton = this ;
-
-                if ( attackButton.clicked === true ) {
-                  return ;
-                }
-
-                attackButton.clicked = true ;
-
-            },
-        } ;    
-
-        blockButtonConfig = {
-            x: 0,
-            y: 120,
-            // count: 1,
-            //rowIndex: buttonRowIndex,
-            width: 92,
-            height: 87,
-            image: imageHelper.to_canvas ('./image/blockButton.png'),
-            uiSwitch: true,
-            
-            callback: function blockButton_callback() { 
-
-                var blockButton = this ;
-
-                if ( blockButton.clicked === true ) {
-                  return ;
-                }
-
-                blockButton.clicked = true ;
-
-            },
-        } ;    
-
-        healButtonConfig = {
-            x: 270,
-            y: 70,
-            // count: 1,
-            //rowIndex: buttonRowIndex,
-            width: 58,
-            height: 48,
-            image: imageHelper.to_canvas ('./image/healButton.png'),
-            uiSwitch: true,
-            
-            callback: function rightButton_callback() { 
-
-                var healButton = this ;
-
-                if ( healButton.clicked === true ) {
-                  return ;
-                }
-
-                healButton.clicked = true ;
-
-            },
-        } ;    
-
+        },
+    } ;    
 
   var uiCanvas = imageHelper.create(viz.width, viz.height) ;
 
@@ -333,7 +305,8 @@ function battle_screen() {
     viz.setup_item (rightButtonConfig) ;
     viz.setup_item (attackButtonConfig) ;
     viz.setup_item (blockButtonConfig) ;
-    viz.setup_item (healButtonConfig) ;    
+    // viz.setup_item (healButtonConfig) ;    
+    viz.setup_item (thrustButtonConfig) ;       
     viz.enemy  = enemyBattleHelper.setup(viz) ;
     viz.enemy.start_attack () ;
     viz.enemy.start_tail_attack () ;

@@ -178,7 +178,7 @@ var hitHelper = {
     }   
     if (isShield === true) {
       var isRest = img === element.sprite.rest[0] ;
-      console.log('hit helper perform is shield', 'isRest', isRest) ;
+      // console.log('hit helper perform is shield', 'isRest', isRest) ;
        // insert audio here
        element.health -= 0.2 ;
     } else {
@@ -212,8 +212,6 @@ var hitHelper = {
 
   transition: function hit_helper_transition(response) {
 
-    // console.log ('response transition', 'element', element, 'hitDur', hitDur) ;
-
     if(response === undefined) {
       response = this ;
     }
@@ -221,7 +219,6 @@ var hitHelper = {
     var element = this.element ;
 
     if(response.occurred) {
-      // console.log('response occurred start') ;
       var hitDur = hitHelper.duration ; // ( element.adversary.sprite.attack.length + 20 ) * viz.dur ;
 
       var tran_func;
@@ -232,7 +229,6 @@ var hitHelper = {
         frameDur = hitDur * 2 ;
       } 
 
-      // console.log('hitHelper transition:', 'frameDur', frameDur) ;
       tran_func = step_transition_func('image', frameDur) ;        
       // } else {
       //   tran_func = step_transition_func('image', element.config.hitDuration) ;
@@ -270,8 +266,6 @@ var hitHelper = {
 
       hitHelper.detect_switch(response) ;
 
-      // console.log('response occurred end', 'hit', response, 'element', element) ;
-
     } 
     
     if(element.explode !== undefined) {
@@ -290,7 +284,6 @@ var hitHelper = {
 
     var hitDur = hitHelper.duration ;
     var Nstep  = 3 ; 
-    // console.log('hitDur', hitDur, 'Nstep', Nstep) ;
     var flashDuration = 100 ;
     element.item.flash(Nstep, flashDuration) ;
     // var flash          = effectHelper.flash.call(element, hitDur / Nstep, Nstep).animation[0] ;

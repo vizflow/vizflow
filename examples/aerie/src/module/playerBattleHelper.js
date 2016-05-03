@@ -26,55 +26,6 @@ var playerBattleHelper = {
 
   },
 
-setup_buttons: function fighter_helper_setup_buttons (viz, ui) {
-
-    var button = {} ;
-
-    button.walkLeft = {
-      viz: viz, 
-      image: ui.buttonSprite.left[0],
-      render: drawHelper.image,    
-      x: ui.buttonX[0],
-      y: ui.buttonY + ui.y,
-      inert: true,
-      fixed: true,
-    } ;
-    
-    button.walkRight = {
-      viz: viz, 
-      image: ui.buttonSprite.right[0],
-      render: drawHelper.image,      
-      x: ui.buttonX[1],
-      y: ui.buttonY + ui.y,
-      inert: true,
-      fixed: true,
-    } ;
-    
-    button.attack = {
-      viz: viz, 
-      image: ui.buttonSprite.attack[0],
-      render: drawHelper.image,
-      x: ui.buttonX[2],
-      y: ui.buttonY + ui.y, 
-      inert: true,
-      fixed: true,
-    } ;
-    
-    button.jump = {
-      viz: viz, 
-      image: ui.buttonSprite.jump[0],
-      render: drawHelper.image,
-      x: ui.buttonX[3],
-      y: ui.buttonY + ui.y, 
-      inert: true,
-      fixed: true,
-    } ;
-
-    button.transition = step_transition_func('image', viz.frameDuration * 1) ;
-
-    return button ;
-
-  },
   setup: function player_battle_helper_setup(viz) {
 
     var player             = setup_element(viz, viz.playerConfig) ;
@@ -86,6 +37,7 @@ setup_buttons: function fighter_helper_setup_buttons (viz, ui) {
     player.item.responseSet.hit = playerHitHelper.setup(viz, player) ;
     player.health = 60 ;
     player.health_bar = playerBattleHelper.health_bar ;
+    player.attack               = playerBattleHelper.attack ;
 
     player.healthbar = viz.setup_item ({
       image: player.health_bar(),
@@ -96,6 +48,48 @@ setup_buttons: function fighter_helper_setup_buttons (viz, ui) {
     player.healthbar.add() ;
 
     return player ;
+  },
+
+  attack: function player_battle_helper_attack (attackType, player) {
+    if (player === undefined) {
+      player = this ;
+    }
+      switch (attackType) {
+
+        case 'slash':
+          var dur1 = 300 ;
+          var dur2 = 500 ;
+          var dur3 = 500 ;
+          var trans1 = transitionHelper.new_step('image', player.sprite.attack[0], dur1) ;
+          var trans2 = transitionHelper.new_step('image', player.sprite.attack[1], dur1) ;
+          var trans3 = transitionHelper.new_step('image', player.sprite.rest[0], dur1) ;
+
+          trans1.child = trans2 ;
+          trans1.child.child = trans3 ;
+
+          player.item.add_transition(trans1) ;          
+          
+          break;
+
+        case 'thrust':
+          var dur1 = 1000 ;
+          var dur2 = 500 ;
+          var dur3 = 500 ;
+          var trans1 = transitionHelper.new_step('image', player.sprite.thrust[0], dur1) ;
+          var trans2 = transitionHelper.new_step('image', player.sprite.thrust[1], dur2) ;
+          var trans3 = transitionHelper.new_step('image', player.sprite.rest[0], dur3) ;
+          
+          trans1.child = trans2 ;
+          trans1.child.child = trans3 ;
+          // console.log ('player battle helper attack', 'trans1', trans1, 'trans2', trans2, 'player', player) ;
+          player.item.add_transition(trans1) ;
+          break;
+
+        // case 'smash':
+        //   // do stuff
+        //   break ;
+        
+        }     
   },
   
   update: function player_helper_update(player) {
@@ -120,7 +114,7 @@ setup_buttons: function fighter_helper_setup_buttons (viz, ui) {
             state = 'l' ;
             break;
           case 38: // up
-            state = 'u' ;
+            state = 't' ;
             break;
           case 39: // right
             state = 'r' ;
@@ -140,7 +134,7 @@ setup_buttons: function fighter_helper_setup_buttons (viz, ui) {
 
         case 'l' :
 
-          var xMin        = -Math.floor(player.sprite.rest[0].originalCanvas.width * 0.1 - 60 ) ;
+          var xMin        = -Math.floor(player.sprite.rest[0].originalCanvas.width * 0.1 - 20 ) ;
           var x           = player.item.x - player.xMove ;
           var xNew        = Math.max(xMin, x) ;
           var xTransition = player.transitionSet.x(xNew) ;      
@@ -163,7 +157,7 @@ setup_buttons: function fighter_helper_setup_buttons (viz, ui) {
 
         case 'r' :
 
-          var xMax        = Math.floor(player.sprite.rest[0].originalCanvas.width * 1.7) ;
+          var xMax        = Math.floor(player.sprite.rest[0].originalCanvas.width * 0.7 - 10) ;
           var x           = player.item.x + player.xMove ;
           var xNew        = Math.min(xMax, x) ;
           var xTransition = player.transitionSet.x(xNew) ;      
@@ -204,119 +198,100 @@ setup_buttons: function fighter_helper_setup_buttons (viz, ui) {
             function() {} // buttonpress.reset
           ) ;
 
-          player.loop.block.position = loop.position ;
+          player.loop.block.position  = loop.position ;
           transition                  = loop.animation ;
 
           var replacementSwitch = true ;
           player.item.add_transition(transition, replacementSwitch) ;
-
-            
+    
             break ;
 
         // case 'u' :
 
-        //   var yMin        = -Math.floor(player.sprite.rest[0].originalCanvas.height * 2.5) ;
-        //   var y           = player.item.y - player.yMove ;
-        //   var yNew        = Math.max(yMin, y) ;
-        //   var yTransition = player.transitionSet.y(yNew) ;      
-        //   player.item.add_transition(yTransition) ;           
+        // element.health += 30 ;  
+          
+          break ;  
 
-        //   var viewYmin = -200 ;
-        //   var viz = player.item.viz ;
-        //   var viewTol = 150 ;
-        //   var center = player.item.image.originalCanvas.height * 0.5 + player.item.y ;
-        //   var dist = center - viz.viewportY ; 
-        //   // console.log('dist', dist, 'viewTol', viewTol, 'viz.viewportY', viz.viewportY, 'viewYmax', viewYmax) ;
-  
-        //   if( dist < viewTol && viz.viewportY > viewYmin ) {
-        //     var viewYnew = Math.max(viewYmin, viz.viewportY - (viewTol - dist)) ;
-        //     var replacementSwitch = true ;
-        //     viz.add_transition(viz.transitionSet.y(viewYnew), replacementSwitch) ;
-        //   }
+        case 'a' :
+         
+          if( transitionHelper.find('image', player.item.transition) > -1 ) {
+            return ; // don't interrupt the current attack animation 
+          }
 
-        //   break ;  
+          if(player.fire_bullet !== undefined) {
+            player.fire_bullet('bullet') ; 
+          }
 
-      case 'a' :
-       
-        if( transitionHelper.find('image', player.item.transition) > -1 ) {
-          return ; // don't interrupt the current attack animation 
-        }
+          var transitionFunc ;
 
-        if(player.fire_bullet !== undefined) {
-          player.fire_bullet('bullet') ; 
-        }
+          if( player.transitionSet.attack === undefined ) {
+            transitionFunc = player.transitionSet.image ;
+          } else {
+            transitionFunc = player.transitionSet.attack ;
+          }
 
-        var transitionFunc ;
+          var loop = animate_loop(
+            player.loop.attack,
+            player.sprite.attack,
+            transitionFunc,
+            function() {} // buttonpress.reset
 
-        if( player.transitionSet.attack === undefined ) {
-          transitionFunc = player.transitionSet.image ;
-        } else {
-          transitionFunc = player.transitionSet.attack ;
-        }
+          ) ;
 
-        var loop = animate_loop(
-          player.loop.attack,
-          player.sprite.attack,
-          transitionFunc,
-          function() {} // buttonpress.reset
+          player.loop.attack.position = loop.position ;
+          transition                  = loop.animation ;
+          // console.log('player battle helper update attack case', 'transition', transition) ;
+          var replacementSwitch = true ;
+          var finalFrame ; // = player.sprite.rest[0] ;
 
-        ) ;
+            if (player.restoreRest === true) {
+              finalFrame = player.sprite.rest[0] ;  
+            }
 
-        player.loop.attack.position = loop.position ;
-        transition                  = loop.animation ;
+          player.item.add_transition(transition, replacementSwitch) ;
 
-        var replacementSwitch = true ;
-        player.item.add_transition(transition, replacementSwitch) ;
+          break ;
 
-        break ;
+        case 't' :
+         
+          if( transitionHelper.find('image', player.item.transition) > -1 ) {
+            return ; // don't interrupt the current attack animation 
+          }
+
+          var transitionFunc ;
+
+          if( player.transitionSet.thrust === undefined ) {
+            transitionFunc = player.transitionSet.image ;
+          } else {
+            transitionFunc = player.transitionSet.thrust ;
+          }
+
+          var loop = animate_loop(
+            player.loop.thrust,
+            player.sprite.thrust,
+            transitionFunc,
+            function() {} // buttonpress.reset
+
+          ) ;
+
+          player.loop.thrust.position = loop.position ;
+          transition                  = loop.animation ;
+          // console.log('player battle helper update attack case', 'transition', transition) ;
+          var replacementSwitch = true ;
+          var finalFrame ; // = player.sprite.rest[0] ;
+
+            if (player.restoreRest === true) {
+              finalFrame = player.sprite.rest[0] ;  
+            }
+
+          player.item.add_transition(transition, replacementSwitch) ;
+
+          break ;          
                   
       }
 
     }
         
   },
-
-    levelup: function player_helper_levelup( player ) {
-      
-      if( player === undefined ) {
-        player = this ;
-      }
-
-      player.level++ ; // increment the level value (level-up)
-
-      if( player.sprite['attack' + player.level] !== undefined ) {
-        player.sprite.attack = player.sprite['attack' + player.level] ;
-        player.spriteL.attack = player.spriteL['attack' + player.level] ;
-        player.spriteR.attack = player.spriteR['attack' + player.level] ;
-      }
-
-      if( player.sprite['hit' + player.level] !== undefined ) {
-        player.sprite.hit = player.sprite['hit' + player.level] ;     
-        player.spriteL.hit = player.spriteL['hit' + player.level] ;     
-        player.spriteR.hit = player.spriteR['hit' + player.level] ;     
-      }
-
-      if( player.sprite['jump' + player.level] !== undefined ) {
-        player.sprite.jump = player.sprite['jump' + player.level] ;     
-        player.spriteL.jump = player.spriteL['jump' + player.level] ;     
-        player.spriteR.jump = player.spriteR['jump' + player.level] ;     
-      }
-
-      if( player.sprite['rest' + player.level] !== undefined ) {
-        player.sprite.rest = player.sprite['rest' + player.level] ;     
-        player.spriteL.rest = player.spriteL['rest' + player.level] ;     
-        player.spriteR.rest = player.spriteR['rest' + player.level] ;     
-      }
-
-      if( player.sprite['walk' + player.level] !== undefined ) {
-        player.sprite.walk = player.sprite['walk' + player.level] ;     
-        player.spriteL.walk = player.spriteL['walk' + player.level] ;     
-        player.spriteR.walk = player.spriteR['walk' + player.level] ;     
-      }
-
-      player.item.image = player.sprite.rest[0] ;
-
-    },
-
       
 } ;

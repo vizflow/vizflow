@@ -2,8 +2,6 @@ var inputEvent = {
   
   down: function input_event_down (event) {
 
-    // console.log ('event down', 'this', this, 'this.viz', this.viz, 'event', event) ;    
-
     var inputHandler ;
     var eventList ;
 
@@ -26,10 +24,8 @@ var inputEvent = {
   
     var prep = $Z._prep ;
 
-    // console.log('input event: ', 'prep', prep) ;
 
     function run_click () {
-      // console.log('input event run click:', 'inputHandler', inputHandler, 'eventList', eventList) ;
       if(event.type === 'touchstart') {
         for(var kEvent = 0 ; kEvent < eventList.length ; kEvent++) {
           this.viz.input.response[inputHandler].call ( this.viz, eventList[kEvent] ) ;        
@@ -49,16 +45,11 @@ var inputEvent = {
 
     var newPrep = prep.slice(0) ;
     newPrep.push(runClick) ;
-  
-    // console.log('input event: ', 'newPrep', newPrep) ;
-
     $Z.prep (newPrep) ;
-    //console.log ('mousedown: holding', holding, 'event', event) ;
   },
 
   up: function input_event_up (event) {
 
-    //console.log('input event up', 'this', this) ;
     switch (event.type) {
 
       case 'keyup': 
@@ -70,14 +61,12 @@ var inputEvent = {
         break;
 
     }     
-    // console.log ('input event up end', 'event', event) ;
 
   },
 
   response: {
 
     keyboard_up: function input_event_response_keyboard_up (event, viz) {
-      // console.log('input event response keyboard up start') ;
       if (viz === undefined) {
         viz = this ;
       }
@@ -92,7 +81,6 @@ var inputEvent = {
       if(viz === undefined) {
         viz = this ;
       }
-      // console.log('keyboard_callback', keyboard_callback) ;
       if ( viz.keyboard_down_callback !== undefined ) {
         viz.keyboard_down_callback(event) ; 
       }
@@ -132,7 +120,6 @@ var inputEvent = {
 
       var color     = viz.ui.canvas.context().getImageData( xIn, yIn, 1, 1 ).data ;
       var itemIndex = color[0] - 1 ; // color indexing used by imageHelper.to_index is 1-based
-      console.log('input event screen callback', 'item index', itemIndex) ;
       if(itemIndex >= 0) { // user selected a user-interface item 
         viz.ui.item[itemIndex].callback() ;
       } 
