@@ -432,6 +432,53 @@ var transitionHelper = {
 
   },
 
+  loop_trans: function transition_helper_loop_trans ( trans_func, item ) {
+
+    if ( item === undefined ) {
+      item = this ;
+    }
+
+    var trans = trans_func() ;
+
+    var child = transitionHelper.get_child(trans, 'last') ;
+
+    if ( child.end === undefined ) {
+
+      child.end = {
+      
+        item: item,
+        transition_func: trans_func,
+        run: transitionHelper.loop_end,
+      
+      } ;
+
+    } else {
+
+      if ( child.end.constructor === Object ) {
+        child.run() ;
+      } else {
+        child() ;
+      }
+
+    }
+
+    return trans ;
+
+  },
+
+  loop_end: function transition_helper_loop_end( endConfig ) {
+
+    if ( endConfig === undefined ) {
+      endConfig = this ;
+    }
+
+    var item       = endConfig.item ;
+    var trans_func = endConfig.transition_func ;
+
+    item.loop(trans_func) ;
+      
+  },
+
   // set: function transition_helper_set () {
   //   // console.log('detect action set', 'this', this) ;
   //   $Z.detect([this]) ;

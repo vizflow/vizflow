@@ -26,7 +26,7 @@ var fruitHelper = {
 
   },
 
-  setup: function fruit_helper_setup(viz, k, x, y) {
+  setup: function fruit_helper_setup(viz, k, x, y) { // fruit elements are arrays of items representing fruit clusters corresponding to the prime factorization
 
     if ( fruitHelper.sprite === undefined ) {
 
@@ -40,11 +40,12 @@ var fruitHelper = {
 
     }
 
-    var yOffset      = 37 ;
-    var xOffset      = -3 ;
-    var xSpace       = 5 ;
-    var initialScale = 0.5 ;
-    var overlapScale = 0.25 ;
+    var yExtra       = 1.75 ;
+    var xExtra       = 6 ;
+    var yOffset      = 28 ;
+    var xOffset      = -6 ;
+    var initialScale = 0.75 ;
+    var overlapScale = .29 ;
 
     var fruit = {} ; // initialize fruit element
 
@@ -52,24 +53,28 @@ var fruitHelper = {
 
     for( var kitem = 0 ; kitem < viz.code[k].length ; kitem++ ) {
 
+      var factor = Math.min(5, viz.key[viz.code[k][kitem]] - 1) ;
+
       var fruitConfig = {
 
         viz: viz,
-        x: x + xOffset + viz.tileWidth * overlapScale * kitem + xSpace,
-        y: y + yOffset,
+        x: x + xOffset + viz.tileWidth * overlapScale * kitem + xExtra * (4 - viz.code[k].length),
+        y: y + yOffset - factor * yExtra,
         xScale: initialScale,
         yScale: initialScale,
-        opacity: 0.2,
+        opacity: 0.5,
         image: fruitHelper.sprite[viz.code[k][kitem]][0],
         addSwitch: true,
 
       } ;
 
       fruit.item[kitem]              = itemHelper.setup(fruitConfig) ; // each tile contains some viz.fruit
-      fruit.item[kitem].default_child() ;
       fruit.item[kitem].code         = viz.code[k][kitem] ; 
       fruit.item[kitem].is_collected = fruitHelper.is_collected ;
       fruit.code                     = viz.code[k] ;
+      fruit.item[kitem].pulse        = fruitHelper.pulse ;
+      fruit.item[kitem].fade_pulse   = fruitHelper.fade_pulse ;
+      fruit.item[kitem].default_child() ;
       // console.log('pf: ', 'k', k, 'fruitConfig', fruitConfig) ;
 
     }
@@ -92,6 +97,40 @@ var fruitHelper = {
       return true ;
     }
 
+  },
+
+  // pulse: function fruit_helper_pulse( fruit ) {
+    
+  //   if ( fruit === undefined ) {
+  //     fruit = this ; 
+  //   }
+
+  //   var trans = document.fade(fruit.primeFade)[0] ;
+
+  //   var child = transitionHelper.get_child(transK, 'last') ;
+    
+  //   child.end = {
+  //     item: viz.fruit[kfruit].item[kitem],
+  //     run: prime_fade,
+  //   } ;
+
+  // }
+
+  fade_pulse: function fruit_helper_fade_pulse( ) {
+
+    var fadeDur = [.5, 1, .75, .5, .25] ;
+
+    return document.fade(fadeDur)[0] ;
+
+  },
+
+  pulse: function fruit_helper_pulse ( fruit ) {
+
+    if ( fruit === undefined ) {
+      fruit = this ;
+    }
+
+    fruit.loop(fruitHelper.fade_pulse) ;
   },
 
 } ;

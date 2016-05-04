@@ -33,7 +33,7 @@ function primefruit() {
 
 ***/  
 
-  console.log('prime viz.fruit: start') ;
+  // console.log('prime viz.fruit: start') ;
 
   /*
    * when using vizflow it's easier to create the viz object and then add the items to it afterwards:
@@ -47,6 +47,7 @@ function primefruit() {
     width:  width,
     height: height,
     fadeDuration: duration,
+    opacity: 0,
   } ;
   
   var viz = vizHelper.setup(vizConfig) ; // first create generic vizflow configuration object, then add application-specific details
@@ -143,9 +144,6 @@ function primefruit() {
     
     viz.jar[k] = jarHelper.setup(viz, k, x, y) ;
 
-    // tile[k].default_child() ;
-    // tile[k].child.push(tile[k].viz.jar) ;
-
   } // end loop over tiles/jars
 
   viz.win = function win() {
@@ -211,8 +209,6 @@ function primefruit() {
   viz.collected = {} ; // the goal of the game is to collect all of the prime fruits
   viz.current = 'a'.charCodeAt(0) ;
 
-  viz.jar[0].unlock() ;
-
   viz.setup_ui() ;
   viz.run() ;
 
@@ -248,12 +244,21 @@ function primefruit() {
       viz.current++ ;  
       curr  = String.fromCharCode( viz.current ) ;
       kCurr = viz.key[curr] - 2 ; 
+      // console.log( 'viz.current', viz.current, 'curr', curr, 'kCurr', kCurr ) ;
       viz.jar[kCurr].unlock() ;
 
     }
 
   } ;
 
-  viz.jar[0].unlock() ;
+  viz.fade({
+    
+    duration: viz.fadeDuration * 5,
+    
+    end: function() {
+     viz.jar[0].unlock() ;
+    },
+
+  }) ;
 
 }

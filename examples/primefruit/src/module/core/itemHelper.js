@@ -26,6 +26,7 @@ var itemHelper = {
 	    remove:            itemHelper.remove,
   		zoom:              itemHelper.zoom,
   		scale:             itemHelper.scale,
+  		loop:              itemHelper.loop,
   		default_child:     itemHelper.default_child,
 	    add_transition:    transitionHelper.add, // transitionHelper.add expects "this" to be "item"
 	    remove_transition: transitionHelper.remove,
@@ -34,6 +35,7 @@ var itemHelper = {
 		  add_rounded_linear: transitionHelper.add_rounded_linear,
 		  add_step:          transitionHelper.add_step,
 		  add_sequence:      transitionHelper.add_sequence,
+  		loop_trans:        transitionHelper.loop_trans,
 	    collision_image:   actionHelper.collision_image, // actionHelper.collision_image() expects "this" to be "item"
 	    fade:              imageEffectHelper.fade, // imageEffectHelper.fade expects "this" to be "item"
 	    flash:             effectHelper.flash,
@@ -178,6 +180,16 @@ var itemHelper = {
 
     item.xScale = scale0 ;
     item.yScale = scale1 ;
+
+  },
+
+  loop: function item_helper_loop( trans_func, item ) {
+
+    if ( item === undefined ) {
+      item = this ;
+    }
+
+    item.add_transition( item.loop_trans(trans_func) ) ;              
 
   },
 

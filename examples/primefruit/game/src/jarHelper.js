@@ -64,9 +64,9 @@ var jarHelper = {
     jarK.is_open        = jarHelper.is_open ;
     jarK.focus          = jarHelper.focus ;
     jarK.grab           = jarHelper.grab ;
-    jarK.show_prime     = jarHelper.show_prime ; 
+    jarK.showprime      = jarHelper.showprime ; 
+    jarK.flash_func     = jarHelper.flash_func ;
     jarK.fruit          = viz.fruit[k] ;
-    jarK.doubleFlashDur = [1, 0, 1, 0] ;
     jarK.unlocked       = false ; // jars start out locked
 
     var digit = imageHelper.text2image({
@@ -108,7 +108,7 @@ var jarHelper = {
       jar.focus(duration) ;
       jar.grab() ;
 
-    } else if ( jar.lid.image !== jarHelper.lidImage[1] ) { // jar is closed
+    } else if ( jar.unlocked !== true ) { // jar is closed
 
       jar.focus(duration) ;
       jar.blue.opacity = 1 ;
@@ -127,21 +127,23 @@ var jarHelper = {
         }
       }
 
-    } if ( jar.fruit.code.length === 1 ) { // this jar reprsents a prime number i.e. contains a single "prime viz.fruit"
+    } else if ( jar.fruit.code.length === 1 ) { // this jar reprsents a prime number i.e. contains a single "prime viz.fruit"
 
       jar.open() ;
       jar.focus(duration) ;
-      jar.show_prime() ; // show the selected jar's primefruit whether or not it has been collected yet
+      jar.showprime() ; // show the selected jar's primefruit whether or not it has been collected yet
 
       if ( viz.collected[jar.fruit.code] === undefined ) {
         viz.collected[jar.fruit.code] = true ;
       }
 
+    } else {
+      console.log('jar helper error?') ;
     }
 
   },
 
-  show_prime: function jar_helper_show_prime( jar ) {
+  showprime: function jar_helper_showprime( jar ) {
 
     if ( jar === undefined ) {
       jar = this ;
@@ -188,7 +190,9 @@ var jarHelper = {
       for ( var kitem = 0 ; kitem < viz.fruit[kfruit].item.length ; kitem++ ) {
 
         if ( fk.image === viz.fruit[kfruit].item[kitem].image ) {
-          viz.fruit[kfruit].item[kitem].add_transition(document.fade([.5, 1, .75, .5, .25])) ;
+
+          viz.fruit[kfruit].item[kitem].pulse() ;
+
         }
 
       }
@@ -310,19 +314,28 @@ var jarHelper = {
       jar = this ;
     }
 
-    var flash     = jar.doubleFlashDur ;
-    var fadeTrans = document.fade(flash) ;
+    jar.unlocked = true ;
 
-    transitionHelper.get_child(fadeTrans[0], flash.length - 2).end = function() {
-      jar.lid.image = jarHelper.lidImage[1] ;
-      jar.unlocked = true ;
+    function flash_func( ) {
+
+      var flashDuration = [0, 1] ;
+      var fadeTrans = document.fade(flashDuration)[0] ;
+      return fadeTrans ;
+
     } ;
 
-    jar.lid.white.add_transition(fadeTrans) ;
+    jar.lid.white.loop(flash_func) ;
+
+    var lidFade = document.fade([1])[0] ;
+
+    lidFade.end = function () {
+      jar.lid.image = jarHelper.lidImage[1] ;
+    } ;
+
+    jar.lid.add_transition(lidFade) ;
 
   },
 
-  
   is_open: function jar_helper_is_open( jar ) {
 
     if ( jar === undefined ) {
@@ -346,7 +359,7 @@ var jarHelper = {
     var viz = jar.viz ;
 
     jar.blue.opacity = 0 ;
-    jar.lid.white.add_transition(document.fade(jar.doubleFlashDur)) ;
+    // jar.lid.white.add_transition(document.fade(jar.doub)) ;
     jar.lid.fade({
 
       duration: viz.fadeDuration * 4,
