@@ -2,17 +2,14 @@ function battle_screen() {
   
   var vizConfig = {
 
-    image: imageHelper.to_canvas ('./image/battlescreen.png'),
-    paddingFactor: 4,
+    image: imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/battlescreen.png')),
     frameDurationFactor: 3,
-        music: undefined,
-        name: 'battle',
-        xShift: 460,
-        yShift: 720,
-        width: 320,
-        height: 240,
+    music: undefined,
+    name: 'battle',
+    width: 320,
+    height: 240,
 
-    } ;
+} ;
 
     viz = vizHelper.setup(vizConfig) ;
 
@@ -63,7 +60,7 @@ function battle_screen() {
     spriteset.thrust[1].sourceCollisionImage = attackCollisionCanvas ;
     spriteset.attack = [spriteset.attack[0], spriteset.attack[1], spriteset.rest[0]] ;
     spriteset.thrust = [spriteset.thrust[0], spriteset.thrust[1], spriteset.rest[0]] ;
-    spriteset.block = [spriteset.block[0], spriteset.block[0], spriteset.rest[0], spriteset.rest[0]] ;
+    spriteset.block = [spriteset.block[0], spriteset.rest[0]] ;
     return spriteset ;
 
     },
@@ -107,10 +104,6 @@ function battle_screen() {
         }) ;     
 
     } ;
-
-    viz.player.item.add() ;
-
-    viz.player.callback = playerBattleHelper.update ;
   
     var enemyTileHeight = 240 ;
     var enemyTileWidth  = 200 ;
@@ -128,7 +121,7 @@ function battle_screen() {
         tailattack: {
             frameDur: viz.frameDuration * 10,
             position: 0,
-            Nstep: 2,
+            Nstep: 4,
           },
 
 
@@ -143,16 +136,17 @@ function battle_screen() {
         sprite_loader: function() {
 
           var i         = imageHelper.to_canvas('./image/monster_spritesheet.png') ;
-          var rowName   = ['attack', 'rest', 'tailattack'] ;
-          var width     = [enemyTileWidth, enemyTileWidth, enemyTileWidth] ;
-          var height    = [enemyTileHeight, enemyTileHeight, enemyTileHeight] ;
+          var rowName   = ['attack', 'block', 'rest', 'tailattack'] ;
+          var width     = [enemyTileWidth, enemyTileWidth, enemyTileWidth, enemyTileWidth] ;
+          var height    = [enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight] ;
           var spriteset = spriteHelper.get(i, rowName, width, height) ;
           var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0].originalCanvas, { x: 0, y: 0, width: spriteset.attack[0].originalCanvas.width * 0.6, height: maxHeight } ) ;
           var tailAttackCollisionCanvas            = imageHelper.clear_rect (spriteset.tailattack[0].originalCanvas, { x: 0, y: 0, width: spriteset.tailattack[0].originalCanvas.width * 0.6, height: maxHeight } ) ;
-          spriteset.attack[0].sourceCollisionImage = attackCollisionCanvas ;
-          spriteset.tailattack[0].sourceCollisionImage = tailAttackCollisionCanvas ;          
-          spriteset.attack = [spriteset.attack[0], spriteset.rest[0]] ;
-          spriteset.tailattack = [spriteset.tailattack[0], spriteset.rest[0]] ;
+          spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
+          spriteset.tailattack[2].sourceCollisionImage = tailAttackCollisionCanvas ;
+          spriteset.block   = [spriteset.block[0], spriteset.rest[0]] ;      
+          spriteset.attack = [spriteset.attack[0], spriteset.attack[1], spriteset.rest[0]] ;
+          spriteset.tailattack = [spriteset.tailattack[0], spriteset.tailattack[1], spriteset.tailattack[2]] ;
           return spriteset ;
 
         },    
@@ -169,11 +163,13 @@ function battle_screen() {
     var leftCode        = 37 ;
     var rightCode       = 39 ;
     var blockCode       = 40 ;
+    var buttonImage1 = viz.player.sprite.attack[1] ;
+    // var buttonImage2    = spriteset.thrust[1] ;    
     // var healCode        =    ;
     
     leftButtonConfig = {
-        x: -30,
-        y: 110,
+        x: 20,
+        y: 140,
         // count: 1,
         //rowIndex: buttonRowIndex,
         width: buttonWidth,
@@ -189,8 +185,8 @@ function battle_screen() {
     } ;    
 
     rightButtonConfig = {
-        x: 260,
-        y: 110,
+        x: 250,
+        y: 140,
         // count: 1,
         //rowIndex: buttonRowIndex,
         width: buttonWidth,
@@ -208,8 +204,8 @@ function battle_screen() {
     } ;    
 
     attackButtonConfig = {
-        x: 260,
-        y: 30,
+        x: 270,
+        y: 110,
         // count: 1,
         //rowIndex: buttonRowIndex,
         width: 92,
@@ -219,19 +215,27 @@ function battle_screen() {
         uiSwitch: true,
         
         callback: function attack_button_callback() { 
+            if (buttonImage1 === true) {
 
-            var attackButton    = this ;
-            var attackCode      = 32 ;
+                var thrustButton = this ;
+                var thrustCode   = 32 ;         
+                console.log('attack button callback') ;
+                viz.player.attack ('thrust') ;
+                gameHelper.screen_handler(thrustCode) ;            
+            } else {
+                var attackButton    = this ;
+                var attackCode      = 32 ;
 
-            viz.player.attack('slash') ;
+                viz.player.attack('slash') ;
 
-            gameHelper.screen_handler(attackCode) ;
+                gameHelper.screen_handler(attackCode) ;
+            }
         },
     } ;    
 
     blockButtonConfig = {
-        x: -30,
-        y: 30,
+        x: 4,
+        y: 110,
         // count: 1,
         //rowIndex: buttonRowIndex,
         width: 92,
@@ -243,6 +247,8 @@ function battle_screen() {
             
             var blockButton = this ;
             var blockCode = 40 ;
+
+            viz.player.block('shield') ;
 
             gameHelper.screen_handler(blockCode) ;
         },
@@ -310,8 +316,12 @@ function battle_screen() {
     viz.enemy  = enemyBattleHelper.setup(viz) ;
     viz.enemy.start_attack () ;
     viz.enemy.start_tail_attack () ;
+    viz.enemy.start_block () ;
     viz.enemy.item.add() ;
     viz.enemy.callback  = enemyBattleHelper.update ;
+    viz.player.item.add() ;
+
+    viz.player.callback = playerBattleHelper.update ;    
     // viz.player.item.responseSet.bump = bumpHelper.setup(viz) ;
     // viz.player.item.responseSet.hit = playerHitHelper.setup(viz) ;
 

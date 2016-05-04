@@ -28,16 +28,17 @@ var playerBattleHelper = {
 
   setup: function player_battle_helper_setup(viz) {
 
-    var player             = setup_element(viz, viz.playerConfig) ;
-    player.level           = 0 ;
-    player.update          = playerBattleHelper.update_player ;
-    player.levelup         = playerBattleHelper.levelup ;
+    var player                  = setup_element(viz, viz.playerConfig) ;
+    player.level                = 0 ;
+    player.update               = playerBattleHelper.update_player ;
+    player.levelup              = playerBattleHelper.levelup ;
     player.paused               = false ;
     player.state                = [] ;
     player.item.responseSet.hit = playerHitHelper.setup(viz, player) ;
-    player.health = 60 ;
-    player.health_bar = playerBattleHelper.health_bar ;
+    player.health               = 60 ;
+    player.health_bar           = playerBattleHelper.health_bar ;
     player.attack               = playerBattleHelper.attack ;
+    player.block                = playerBattleHelper.block ;
 
     player.healthbar = viz.setup_item ({
       image: player.health_bar(),
@@ -72,7 +73,7 @@ var playerBattleHelper = {
           break;
 
         case 'thrust':
-          var dur1 = 1000 ;
+          var dur1 = 800 ;
           var dur2 = 500 ;
           var dur3 = 500 ;
           var trans1 = transitionHelper.new_step('image', player.sprite.thrust[0], dur1) ;
@@ -90,6 +91,24 @@ var playerBattleHelper = {
         //   break ;
         
         }     
+  },
+
+  block: function player_battle_helper_block (blockType, player) {
+    if(player === undefined) {
+      player = this ;
+    }
+      switch (blockType) {
+
+        case 'shield':  
+          var dur1 = 2000 ;
+          var dur2 = 500 ;
+          var trans1 = transitionHelper.new_step('image', player.sprite.block[0], dur1) ;
+          var trans2 = transitionHelper.new_step('image', player.sprite.rest[0], dur2) ;
+
+          trans1.child = trans2 ;
+          player.item.add_transition(trans1) ;
+          break ;
+      }
   },
   
   update: function player_helper_update(player) {
@@ -216,10 +235,6 @@ var playerBattleHelper = {
          
           if( transitionHelper.find('image', player.item.transition) > -1 ) {
             return ; // don't interrupt the current attack animation 
-          }
-
-          if(player.fire_bullet !== undefined) {
-            player.fire_bullet('bullet') ; 
           }
 
           var transitionFunc ;

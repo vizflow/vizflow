@@ -286,7 +286,6 @@ var imageHelper = {
 		}
 
 		newCanvas.originalCanvas = canvas ;
-		
 		return newCanvas ;
 
 	},

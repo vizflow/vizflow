@@ -19,6 +19,7 @@ var enemyHitHelper = {
       type_check: responseHelper.type_check,
       onSwitch: true,
       performSwitch: false,
+      flash: effectHelper.flash,
 
     } ; 
 

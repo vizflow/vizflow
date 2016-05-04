@@ -83,7 +83,7 @@ var vizHelper = {
 	    dur:            dur,
 	    frameDuration:  frameDuration,
 	    fadeDuration:   fadeDuration,
-	    image:          image,
+	    image:          image || vizConfig.image,
 	    canvas:         vizCanvas,
 	    context:        vizContext,
 	    fullCanvas:     fullCanvas, 
@@ -177,6 +177,7 @@ var vizHelper = {
 	      }
 
 	      if (this.image !== undefined) {
+	      
 	      	this.fullContext.drawImage (this.image, 0, 0) ; // draw background image if there is one
 	      }
 	      // this.displayContext.globalAlpha = 1 ;

@@ -36,8 +36,6 @@ var enemyBattleHelper = {
     enemy.item.responseSet.hit = enemyHitHelper.setup(viz, enemy) ;
     enemy.health = 150 ;
     enemy.health_bar = enemyBattleHelper.health_bar ;
-    // enemy.attack_type = enemyBattleHelper.attack_type ;
-
     enemy.healthbar = viz.setup_item ({
       image: enemy.health_bar(),
       x: 120,
@@ -45,40 +43,6 @@ var enemyBattleHelper = {
     }) ;
 
     enemy.healthbar.add() ;
-
-  // attack_type: function enemy_battle_helper_attack_type (attackType, enemy) {
-  //   if (enemy === undefined) {
-  //     enemy = this ;
-  //   }
-  //     switch (attackType) {
-
-  //       case 'claw':
-  //         var dur1 = 3000 ;
-  //         var dur2 = 500 ;
-  //         // var dur3 = 500 ;
-  //         var trans1 = transitionHelper.new_step('image', enemy.sprite.attack[0], dur1) ;          
-  //         var trans2 = transitionHelper.new_step('image', enemy.sprite.rest[0], dur1) ;
-
-  //         trans1.child = trans2 ;
-
-  //         enemy.item.add_transition(trans1) ;          
-          
-  //         break;
-
-  //       case 'tail':
-  //         var dur1 = 2000 ;
-  //         var dur2 = 500 ;
-  //         // var dur3 = 500 ;
-  //         var trans1 = transitionHelper.new_step('image', enemy.sprite.tailattack[0], dur1) ;
-  //         var trans2 = transitionHelper.new_step('image', enemy.sprite.rest[0], dur2) ;
-          
-  //         trans1.child = trans2 ;
-        
-  //         enemy.item.add_transition(trans1) ;
-  //         break;
-
-  //       }     
-  // } ;
         
     enemy.attack = function attack () {
 
@@ -95,12 +59,15 @@ var enemyBattleHelper = {
             transitionFunc,
             function() {} // buttonpress.reset
           ) ;
-          var dur1 = 1000 ;
-          var dur2 = 500 ;
-          // var dur3 = 500 ;
+          var dur1 = 800 ;
+          var dur2 = 400 ;
+          var dur3 = 200 ;
           var trans1 = transitionHelper.new_step('image', enemy.sprite.attack[0], dur1) ;          
-          var trans2 = transitionHelper.new_step('image', enemy.sprite.rest[0], dur2) ;
+          var trans2 = transitionHelper.new_step('image', enemy.sprite.attack[1], dur2) ;
+          var trans3 = transitionHelper.new_step('image', enemy.sprite.rest[0], dur3) ;
+
           trans1.child = trans2 ;
+          trans1.child.child = trans3 ;
 
           enemy.loop.attack.position  = loop.position ;
           transition                  = loop.animation ;
@@ -122,31 +89,37 @@ var enemyBattleHelper = {
           } else {
             transitionFunc = enemy.transitionSet.tailattack ;
           }
+
           var loop = animate_loop(
             enemy.loop.tailattack,
             enemy.sprite.tailattack,
             transitionFunc,
             function() {} // buttonpress.reset
           ) ;
-          var dur1 = 1000 ;
-          var dur2 = 500 ;
-          // var dur3 = 500 ;
+
+          var dur1 = 1200 ;
+          var dur2 = 1200 ;
+          var dur3 = 500 ;
+          var dur4 = 500 ;
           var trans1 = transitionHelper.new_step('image', enemy.sprite.tailattack[0], dur1) ;
-          var trans2 = transitionHelper.new_step('image', enemy.sprite.rest[0], dur2) ;
+          var trans2 = transitionHelper.new_step('image', enemy.sprite.tailattack[1], dur2) ;
+          var trans3 = transitionHelper.new_step('image', enemy.sprite.tailattack[2], dur3) ;          
+          var trans4 = transitionHelper.new_step('image', enemy.sprite.rest[0], dur4) ;
           trans1.child = trans2 ;
+          trans1.child.child = trans3 ;
+          trans1.child.child.child = trans4 ;
 
           enemy.loop.attack.position  = loop.position ;
           transition                  = loop.animation ;
 
-          // var replacementSwitch = true ;
-
-          //enemy.item.add_transition(transition, replacementSwitch) ;
           enemy.item.add_transition(trans1) ;
+          if( transitionHelper.find('image', enemy.item.transition) > -1 ) {
+            return ; // don't interrupt the current attack animation 
+          }
 
     } ;
 
-
-      var attackDuration = 4000 ;
+      var attackDuration = 8500 +- 2000;
       var attack_creator = transitionHelper.step_func('attack', attackDuration) ;
 
       enemy.canAttack = true ;
@@ -168,13 +141,13 @@ var enemyBattleHelper = {
 
       } ;
 
-      var tailAttackDuration = 8300 ;
+      var tailAttackDuration = 15000 +- 2000 ;
       var tail_attack_creator = transitionHelper.step_func('tailattack', tailAttackDuration) ;
 
       enemy.canTailAttack = true ;
 
       enemy.start_tail_attack = function start_tail_attack () {
-          
+
           if (enemy.canTailAttack === false) {
             return ;
           }
@@ -190,15 +163,8 @@ var enemyBattleHelper = {
 
       } ;
 
-      var blockDuration = 10000
-
-
       enemy.block = function block () {
          
-          if( transitionHelper.find('image', enemy.item.transition) > -1 ) {
-            return ; // don't interrupt the current attack animation 
-          }
-
           var transitionFunc ;
 
           if( enemy.transitionSet.block === undefined ) {
@@ -215,17 +181,46 @@ var enemyBattleHelper = {
 
           ) ;
 
+          var dur1 = 20000 ;
+          var dur2 = 500 ;
+          var trans1 = transitionHelper.new_step('image', enemy.sprite.block[0], dur1) ;
+          var trans2 = transitionHelper.new_step('image', enemy.sprite.rest[0], dur2) ;
+          trans1.child = trans2 ;
+
           enemy.loop.block.position = loop.position ;
           transition                  = loop.animation ;
 
-          var replacementSwitch = true ;
-          enemy.item.add_transition(transition, replacementSwitch) ;
+          enemy.item.add_transition(trans1) ;
+          if( transitionHelper.find('image', enemy.item.transition) > -1 ) {
+            return ; // don't interrupt the current attack animation           
 
         }
+      } ;
 
-    return enemy ;
+      var blockDuration = 20000
+      var block_creator = transitionHelper.step_func('block', blockDuration) ;
+
+      enemy.canBlock = true ;
+
+      enemy.start_block = function start_block () {
+        // console.log('enemy battle helper start block') ;
+          if (enemy.canBlock === false) {
+            return ;
+          }
+
+          var blockTrans    = block_creator() ;
+          blockTrans.end    = function () {
+              enemy.block() ;
+              enemy.start_block() ;  
+          } ;
+
+          var replacementSwitch = true ;
+          enemy.item.add_transition (blockTrans, replacementSwitch) ;
+
+      } ; 
+           return enemy ;
   },
-  
+
   update: function enemy_helper_update(enemy) {
     if( enemy === undefined ) {
       enemy = this ;
