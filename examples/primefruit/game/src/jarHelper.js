@@ -38,12 +38,6 @@ var jarHelper = {
 
     } ;
 
-    jarK.scale0 = 3 ;
-    jarK.scale1 = viz.xGridMini / viz.xGrid ;
-
-    jarK.x0 = viz.width  * 0.5 - (viz.tileWidth * jarK.scale0) * 0.5 ;
-    jarK.y0 = viz.height * 0.5 - (viz.rowHeight * jarK.scale0) * 0.5 ;    
-
     lidK = itemHelper.setup ( lidConfig ) ;
     lidK.default_child() ;
 
@@ -153,31 +147,10 @@ var jarHelper = {
     var scale1 = jar.scale1 ;
     var viz    = jar.viz ;
 
-    var fk = jar.fruit.item[0] ;
-
     var viz = jar.viz ;
 
-    fk.fade({
+    jar.fruit.item[0].show() ;
 
-      duration: viz.fadeDuration,
-      opacity: 1,
-
-      end: function() {
-        fk.white.add_transition(document.fade([1, 1, 0])) ;
-      },
-
-    }) ;
-
-    var xTrans0 = transitionHelper.new_linear('x', jar.x0, viz.fadeDuration * 4) ;
-    var yTrans0 = transitionHelper.new_linear('y', jar.y0, viz.fadeDuration * 4) ;
-
-    // console.log('jar.fruit.code', jar.fruit.code)
-
-    xTrans0.child = jarHelper.x_trans(viz, jar.fruit.code) ;
-    yTrans0.child = jarHelper.y_trans(viz, jar.fruit.code) ;
-
-    fk.add_transition(xTrans0) ;
-    fk.add_transition(yTrans0) ;    
     // fk.add_transition(fruitHelper.x_scale()) ;
     // fk.add_transition(fruitHelper.y_scale()) ;
 
@@ -189,7 +162,7 @@ var jarHelper = {
 
       for ( var kitem = 0 ; kitem < viz.fruit[kfruit].item.length ; kitem++ ) {
 
-        if ( fk.image === viz.fruit[kfruit].item[kitem].image ) {
+        if ( jar.fruit.item[0].image === viz.fruit[kfruit].item[kitem].image ) {
 
           viz.fruit[kfruit].item[kitem].pulse() ;
 
@@ -212,6 +185,7 @@ var jarHelper = {
     for ( var kitem = 0 ; kitem < jar.fruit.item.length ; kitem++ ) {
       
         var fk        = jar.fruit.item[kitem] ;
+        fk.remove_transition('opacity') ;
         var fruitFade = [1.0, 1.0, 1.0, 1.0, 0] ;
         var trans     = document.fade(fruitFade) ;
         var index     = fk.code.charCodeAt(0) - 'a'.charCodeAt(0) ; // prime number index 
@@ -236,15 +210,15 @@ var jarHelper = {
 
         } ;
 
-        var xTrans = jarHelper.x_trans(viz, fk.code) ;
-        var yTrans = jarHelper.y_trans(viz, fk.code) ;
+        var xTrans = fruitHelper.x_trans(viz, fk.code) ;
+        var yTrans = fruitHelper.y_trans(viz, fk.code) ;
 
         var shift = 50 * kitem ;
 
-        var xTrans0 = transitionHelper.new_linear('x', jar.x0 + shift, viz.fadeDuration * 3) ; 
+        var xTrans0 = transitionHelper.new_linear('x', shift, viz.fadeDuration * 3) ; 
         xTrans0.child = xTrans ;
 
-        var yTrans0 = transitionHelper.new_linear('y', jar.y0, viz.fadeDuration * 3) ; 
+        var yTrans0 = transitionHelper.new_linear('y', shift, viz.fadeDuration * 3) ; 
         yTrans0.child = yTrans ;
 
         fk.add_transition(trans) ;
@@ -384,24 +358,6 @@ var jarHelper = {
 
       },
     }) ;
-
-  },
-
-  y_trans: function jar_helper_y_trans(viz, code) {
-
-    var index = code.charCodeAt(0) - 'a'.charCodeAt(0) ;
-    var row   = Math.floor(index / viz.Nside) ;
-    var yNew  = row * viz.yGridMini ;    
-    return transitionHelper.new_linear('y', yNew, viz.fadeDuration) ;
-
-  },
-
-  x_trans: function jar_helper_x_trans(viz, code) {
-
-    var index = code.charCodeAt(0) - 'a'.charCodeAt(0) ;
-    var col   = index % viz.Nside ;
-    var xNew  = col * viz.xGridMini ;
-    return transitionHelper.new_linear('x', xNew, viz.fadeDuration) ;
 
   },
 

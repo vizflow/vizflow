@@ -71,11 +71,12 @@ var fruitHelper = {
       fruit.item[kitem]              = itemHelper.setup(fruitConfig) ; // each tile contains some viz.fruit
       fruit.item[kitem].code         = viz.code[k][kitem] ; 
       fruit.item[kitem].is_collected = fruitHelper.is_collected ;
-      fruit.code                     = viz.code[k] ;
       fruit.item[kitem].pulse        = fruitHelper.pulse ;
       fruit.item[kitem].fade_pulse   = fruitHelper.fade_pulse ;
+      fruit.item[kitem].show         = fruitHelper.show ;
+      fruit.code                     = viz.code[k] ;
+        // console.log('pf: ', 'k', k, 'fruitConfig', fruitConfig) ;
       fruit.item[kitem].default_child() ;
-      // console.log('pf: ', 'k', k, 'fruitConfig', fruitConfig) ;
 
     }
 
@@ -131,6 +132,63 @@ var fruitHelper = {
     }
 
     fruit.loop(fruitHelper.fade_pulse) ;
+  },
+
+  show: function fruit_helper_show ( fruit ) {
+
+    if ( fruit === undefined ) {
+      fruit = this ;
+    }
+
+    var viz = fruit.viz ;
+
+    fruit.fade({
+
+      duration: viz.fadeDuration,
+      opacity: 1,
+
+      end: function() {
+        fruit.white.add_transition(document.fade([1, 1, 0])) ;
+      },
+
+    }) ;
+
+    var scale0 = 3 ;
+    var scale1 = viz.xGridMini / viz.xGrid ;
+
+    var x0 = viz.width  * 0.5 - (viz.tileWidth * scale0) * 0.5 ;
+    var y0 = viz.height * 0.5 - (viz.rowHeight * scale0) * 0.5 ;    
+
+    var xTrans0 = transitionHelper.new_linear('x', x0, viz.fadeDuration * 4) ;
+    var yTrans0 = transitionHelper.new_linear('y', y0, viz.fadeDuration * 4) ;
+
+    // console.log('jar.fruit.code', jar.fruit.code)
+
+    xTrans0.child = fruitHelper.x_trans(viz, fruit.code) ;
+    yTrans0.child = fruitHelper.y_trans(viz, fruit.code) ;
+
+    fruit.add_transition(xTrans0) ;
+    fruit.add_transition(yTrans0) ;    
+
+  },
+
+
+  y_trans: function jar_helper_y_trans(viz, code) {
+
+    var index = code.charCodeAt(0) - 'a'.charCodeAt(0) ;
+    var row   = Math.floor(index / viz.Nside) ;
+    var yNew  = row * viz.yGridMini ;    
+    return transitionHelper.new_linear('y', yNew, viz.fadeDuration) ;
+
+  },
+
+  x_trans: function jar_helper_x_trans(viz, code) {
+
+    var index = code.charCodeAt(0) - 'a'.charCodeAt(0) ;
+    var col   = index % viz.Nside ;
+    var xNew  = col * viz.xGridMini ;
+    return transitionHelper.new_linear('x', xNew, viz.fadeDuration) ;
+
   },
 
 } ;
