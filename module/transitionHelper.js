@@ -64,7 +64,7 @@ var transitionHelper = {
 
     // assume "this" corresponds to the item whose transition array we are modifying
     if (replacementSwitch === undefined) {
-      replacementSwitch = false ;
+      replacementSwitch = true ;
     }
 
     var transitionList = item.transition ;
@@ -248,29 +248,48 @@ var transitionHelper = {
      
   },  
 
-  add_end: function transition_helper_add_end(property, frameIndex, callback) {
+  add_end: function transition_helper_add_end(property, frameIndex, callback, item) {
 
-    var transitionList = this.transition ;
+    if (item === undefined ) {
+      item = this ;
+    }
+
+    var transitionList = item.transition ;
 
     if ( transitionList === undefined ) {
       this.transition = [] ;
-      transitionList = this.transition ;
+      transitionList = item.transition ;
     }
 
     var transitionIndex = transitionHelper.find(property, transitionList) ;    
 
-    var transitionK = this.transition[transitionIndex] ; // initialize
+    var transitionK = item.transition[transitionIndex] ; // initialize
 
-    transitionK = transitionHelper.get_child(transitionK, frameIndex) ;
+    if ( frameIndex > 0 ) {
+      transitionK = transitionHelper.get_child(transitionK, frameIndex) ;      
+    } 
     transitionK.end = callback ; // only restore UI functionality after the minimum number of frames has been rendered  
     
   },  
 
   get_child: function transition_helper_get_child (transition, frameIndex) {
-    for( var kTrans = 0 ; kTrans < frameIndex ; kTrans++ ) {
-      transition = transition.child ;
+
+    if ( frameIndex === 'last') {
+
+      while( transition.child !== undefined ) {
+        transition = transition.child ;
+      }
+                  
+    } else {
+
+      for( var kTrans = 0 ; kTrans < frameIndex ; kTrans++ ) {
+        transition = transition.child ;
+      }
+
     }
+
     return transition ;    
+
   },
 
   update_end_value: function transition_helper_update_end_value (property, newEndValue, transition_creator) {
@@ -380,6 +399,84 @@ var transitionHelper = {
     }
 
     return transitionIndex ;    
+  },
+
+  copy: function transition_helper_copy ( transition ) {
+
+    if ( transition.constructor === Array ) {
+
+      var trans = new Array (transition.length) ;
+
+      for ( var kt = 0 ; kt < transition.length ; kt++ ) {
+        // console.log('transition[kt]', transition[kt]) ;
+        trans[kt] = transitionHelper.copy(transition[kt]) ;
+      }
+
+      return trans ;
+
+    } else {
+
+      var trans = Object.copy ( transition ) ;
+      
+      if ( trans.child !== undefined ) {
+        trans.child = transitionHelper.copy( transition.child ) ;
+      }
+
+      if ( trans.end !== undefined && trans.end.constructor === Object ) {
+        trans.end = Object.copy( transition.end ) ;
+      }
+
+      return trans ;
+
+    }
+
+  },
+
+  loop_trans: function transition_helper_loop_trans ( trans_func, item ) {
+
+    if ( item === undefined ) {
+      item = this ;
+    }
+
+    var trans = trans_func() ;
+
+    var child = transitionHelper.get_child(trans, 'last') ;
+
+    if ( child.end === undefined ) {
+
+      child.end = {
+      
+        item: item,
+        transition_func: trans_func,
+        run: transitionHelper.loop_end,
+      
+      } ;
+
+    } else {
+
+      if ( child.end.constructor === Object ) {
+        child.run() ;
+      } else {
+        child() ;
+      }
+
+    }
+
+    return trans ;
+
+  },
+
+  loop_end: function transition_helper_loop_end( endConfig ) {
+
+    if ( endConfig === undefined ) {
+      endConfig = this ;
+    }
+
+    var item       = endConfig.item ;
+    var trans_func = endConfig.transition_func ;
+
+    item.loop(trans_func) ;
+      
   },
 
   // set: function transition_helper_set () {
