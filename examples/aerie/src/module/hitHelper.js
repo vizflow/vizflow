@@ -183,6 +183,7 @@ var hitHelper = {
        element.health -= 0.2 ;
     } else {
      // console.log('rpg hit helper perform') ;
+      effectHelper.flash (5, 100, this) ;
       element.health -= 2 ;
     }
     // if (element.health < 0) {

@@ -141,7 +141,7 @@ var enemyBattleHelper = {
 
       } ;
 
-      var tailAttackDuration = 15000 +- 2000 ;
+      var tailAttackDuration = 25000 +- 2000 ;
       var tail_attack_creator = transitionHelper.step_func('tailattack', tailAttackDuration) ;
 
       enemy.canTailAttack = true ;
@@ -181,7 +181,7 @@ var enemyBattleHelper = {
 
           ) ;
 
-          var dur1 = 20000 ;
+          var dur1 = 3000 ;
           var dur2 = 500 ;
           var trans1 = transitionHelper.new_step('image', enemy.sprite.block[0], dur1) ;
           var trans2 = transitionHelper.new_step('image', enemy.sprite.rest[0], dur2) ;
@@ -197,7 +197,7 @@ var enemyBattleHelper = {
         }
       } ;
 
-      var blockDuration = 20000
+      var blockDuration = 10000
       var block_creator = transitionHelper.step_func('block', blockDuration) ;
 
       enemy.canBlock = true ;

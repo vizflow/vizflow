@@ -35,7 +35,7 @@ function battle_screen() {
             attack: {
                 frameDur: viz.frameDuration,
                 position: 0, 
-                Nstep: 3,
+                Nstep: 4,
             },
 
             block: {
@@ -58,7 +58,7 @@ function battle_screen() {
     var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0].originalCanvas, { x: 0, y: 0, width: spriteset.attack[0].originalCanvas.width * 0.6, height: maxHeight } ) ;
     spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
     spriteset.thrust[1].sourceCollisionImage = attackCollisionCanvas ;
-    spriteset.attack = [spriteset.attack[0], spriteset.attack[1], spriteset.rest[0]] ;
+    spriteset.attack = [spriteset.attack[0], spriteset.attack[1], spriteset.attack[2], spriteset.rest[0]] ;
     spriteset.thrust = [spriteset.thrust[0], spriteset.thrust[1], spriteset.rest[0]] ;
     spriteset.block = [spriteset.block[0], spriteset.rest[0]] ;
     return spriteset ;
