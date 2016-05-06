@@ -1,27 +1,120 @@
 var fruitHelper = {
 
-  x_scale: function fruit_helper_x_scale(shift) {
+
+  show: function fruit_helper_show ( callback, fruit ) {
+
+    if ( fruit === undefined ) {
+      fruit = this ;
+    }
+
+    var viz = fruit.viz ;
+
+    var scale0 = 3 ;
+    var scale1 = viz.xGridMini / viz.xGrid ;
+    var yShift = fruit.image.originalCanvas.height * 0.5 ;
+
+    var x0 = viz.width  * 0.5 - (fruit.image.originalCanvas.width * scale0) * 0.5 ;
+    var y0 = viz.height * 0.5 - (fruit.image.originalCanvas.height * scale0) * 0.5 + yShift ;
+
+    fruit.x = x0 ;
+    fruit.y = y0 ;
+    fruit.xScale = scale0 ;
+    fruit.yScale = scale0 ;
+
+    var trans = transitionHelper.new_step('show', undefined, 3 * fruit.pausedur ) ;
+
+    trans.end = function() {
+
+      fruit.add_linear('y', fruit.y - 80, fruit.duration) ;
+  
+      fruit.fade({
+
+        duration: fruit.duration,
+        opacity: 1,
+        pause: fruit.duration,
+
+        end: function() {
+          fruit.add_transition(fruit.x_trans()) ;
+          fruit.add_transition(fruit.y_trans()) ;
+          fruit.add_linear('xScale', scale1, fruit.viz.fadeDuration) ;
+          fruit.add_linear('yScale', scale1, fruit.viz.fadeDuration) ;
+          fruit.white.add_transition(document.fade([1, 1, 0])) ;
+          fruit.call( callback, fruit.viz.fadeDuration * 3 ) ;
+        },
+
+      }) ;
+    
+    } ;
+
+    fruit.add_transition(trans) ;
+
+  },
+
+
+  y_trans: function fruit_helper_y_trans(fruit) {
+
+    if ( fruit === undefined ) { 
+      fruit = this ;
+    }
+
+    var viz = fruit.viz ;
+    var code = fruit.code ;
+
+    var index = code.charCodeAt(0) - 'a'.charCodeAt(0) ;
+    var row   = Math.floor(index / viz.Nside) ;
+    var yNew  = row * viz.yGridMini ;    
+    return transitionHelper.new_linear('y', yNew, fruit.viz.fadeDuration) ;
+
+  },
+
+  x_trans: function fruit_helper_x_trans(fruit) {
+
+    if ( fruit === undefined ) {
+      fruit = this ;
+    }
+
+    var viz = fruit.viz ;
+    var code = fruit.code ;
+
+    var index = code.charCodeAt(0) - 'a'.charCodeAt(0) ;
+    var col   = index % viz.Nside ;
+    var xNew  = col * viz.xGridMini ;
+    return transitionHelper.new_linear('x', xNew, fruit.viz.fadeDuration) ;
+
+  },
+
+  x_scale: function fruit_helper_x_scale(shift, fruit) {
+
+    if ( fruit === undefined ) {
+      fruit = this ;
+    }
 
     if ( shift === undefined ) {
       shift = 0 ;
     }
 
-    var xScaleTrans   = transitionHelper.new_linear('xScale', scale0, viz.fadeDuration) ;
-    xScaleTrans.pause = viz.fadeDuration * 3 ;
-    xScaleTrans.child = transitionHelper.new_linear('xScale', scale1, viz.fadeDuration) ;
+    var scale1 = .5 ;
+
+    var xScaleTrans = transitionHelper.new_linear('xScale', scale1, fruit.duration) ;
+    
     return xScaleTrans ;
 
   },
 
-  y_scale: function fruit_helper_y_scale(shift) {
+  y_scale: function fruit_helper_y_scale(shift, fruit) {
+
+    if ( fruit === undefined ) {
+      fruit = this ;
+    }
 
     if ( shift === undefined ) {
       shift = 0 ;
     }
 
-    var yScaleTrans   = transitionHelper.new_linear('yScale', scale0, viz.fadeDuration) ;
-    yScaleTrans.pause = viz.fadeDuration * 3 ;
-    yScaleTrans.child = transitionHelper.new_linear('yScale', scale1, viz.fadeDuration) ;     
+    var scale1 = .5 ;
+
+    var yScaleTrans   = transitionHelper.new_linear('yScale', scale1, fruit.duration) ;
+    
     return yScaleTrans ;
 
   },
@@ -62,7 +155,7 @@ var fruitHelper = {
         y: y + yOffset - factor * yExtra,
         xScale: initialScale,
         yScale: initialScale,
-        opacity: 0.5,
+        opacity: 0,
         image: fruitHelper.sprite[viz.code[k][kitem]][0],
         addSwitch: true,
 
@@ -74,6 +167,13 @@ var fruitHelper = {
       fruit.item[kitem].pulse        = fruitHelper.pulse ;
       fruit.item[kitem].fade_pulse   = fruitHelper.fade_pulse ;
       fruit.item[kitem].show         = fruitHelper.show ;
+      fruit.item[kitem].x_scale      = fruitHelper.x_scale ;
+      fruit.item[kitem].y_scale      = fruitHelper.y_scale ;
+      fruit.item[kitem].x_trans      = fruitHelper.x_trans ;
+      fruit.item[kitem].y_trans      = fruitHelper.y_trans ;
+      fruit.item[kitem].pausedur     = viz.fadeDuration * 2 ;
+      fruit.item[kitem].duration     = viz.fadeDuration * 3 ;
+      fruit.item[kitem].parent       = fruit ;
       fruit.code                     = viz.code[k] ;
         // console.log('pf: ', 'k', k, 'fruitConfig', fruitConfig) ;
       fruit.item[kitem].default_child() ;
@@ -132,63 +232,6 @@ var fruitHelper = {
     }
 
     fruit.loop(fruitHelper.fade_pulse) ;
-  },
-
-  show: function fruit_helper_show ( fruit ) {
-
-    if ( fruit === undefined ) {
-      fruit = this ;
-    }
-
-    var viz = fruit.viz ;
-
-    fruit.fade({
-
-      duration: viz.fadeDuration,
-      opacity: 1,
-
-      end: function() {
-        fruit.white.add_transition(document.fade([1, 1, 0])) ;
-      },
-
-    }) ;
-
-    var scale0 = 3 ;
-    var scale1 = viz.xGridMini / viz.xGrid ;
-
-    var x0 = viz.width  * 0.5 - (viz.tileWidth * scale0) * 0.5 ;
-    var y0 = viz.height * 0.5 - (viz.rowHeight * scale0) * 0.5 ;    
-
-    var xTrans0 = transitionHelper.new_linear('x', x0, viz.fadeDuration * 4) ;
-    var yTrans0 = transitionHelper.new_linear('y', y0, viz.fadeDuration * 4) ;
-
-    // console.log('jar.fruit.code', jar.fruit.code)
-
-    xTrans0.child = fruitHelper.x_trans(viz, fruit.code) ;
-    yTrans0.child = fruitHelper.y_trans(viz, fruit.code) ;
-
-    fruit.add_transition(xTrans0) ;
-    fruit.add_transition(yTrans0) ;    
-
-  },
-
-
-  y_trans: function jar_helper_y_trans(viz, code) {
-
-    var index = code.charCodeAt(0) - 'a'.charCodeAt(0) ;
-    var row   = Math.floor(index / viz.Nside) ;
-    var yNew  = row * viz.yGridMini ;    
-    return transitionHelper.new_linear('y', yNew, viz.fadeDuration) ;
-
-  },
-
-  x_trans: function jar_helper_x_trans(viz, code) {
-
-    var index = code.charCodeAt(0) - 'a'.charCodeAt(0) ;
-    var col   = index % viz.Nside ;
-    var xNew  = col * viz.xGridMini ;
-    return transitionHelper.new_linear('x', xNew, viz.fadeDuration) ;
-
   },
 
 } ;

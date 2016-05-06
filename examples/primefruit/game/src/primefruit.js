@@ -212,7 +212,7 @@ function primefruit() {
   viz.setup_ui() ;
   viz.run() ;
 
-  viz.unlock_ripened = function unlock_ripened( viz ) { 
+  viz.unlock_jars = function unlock_jars( viz ) { 
 
     if ( viz === undefined ) {
       viz = this ;
@@ -230,6 +230,8 @@ function primefruit() {
       }
 
     }
+
+    viz.open_next() ;
   
   } ;
 

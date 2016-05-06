@@ -16,12 +16,16 @@ var drawHelper = {
         item.child[kOver].xScale = item.xScale ;
         item.child[kOver].yScale = item.yScale; 
 
+        var opacity = item.child[kOver].opacity ;
+
         if ( item.childFade === true ) {
           item.child[kOver].opacity = item.child[kOver].opacity * item.opacity ;
         }
         
         // console.log('item.child[kOver]', item.child[kOver], 'item.child[kOver].x', item.child[kOver].x) ;
         item.child[kOver].render() ;
+
+        item.child[kOver].opacity = opacity ;
       }      
     }
   },

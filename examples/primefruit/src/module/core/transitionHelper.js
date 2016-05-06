@@ -64,7 +64,7 @@ var transitionHelper = {
 
     // assume "this" corresponds to the item whose transition array we are modifying
     if (replacementSwitch === undefined) {
-      replacementSwitch = false ;
+      replacementSwitch = true ;
     }
 
     var transitionList = item.transition ;
