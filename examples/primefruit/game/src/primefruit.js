@@ -33,19 +33,21 @@ function primefruit() {
 
 ***/  
 
-  console.log('prime viz.fruit: start') ;
+  // console.log('prime viz.fruit: start') ;
 
   /*
    * when using vizflow it's easier to create the viz object and then add the items to it afterwards:
    */
 
-  var duration = 500 ;
+  var duration = 200 ;
   var width    = 320 ;
   var height   = 320 ;
 
   var vizConfig = {
     width:  width,
     height: height,
+    fadeDuration: duration,
+    opacity: 0,
   } ;
   
   var viz = vizHelper.setup(vizConfig) ; // first create generic vizflow configuration object, then add application-specific details
@@ -96,7 +98,7 @@ function primefruit() {
     'cc',
   ] ;
 
-  var key = {
+  viz.key = {
     'a': 2,
     'b': 3,
     'c': 5,
@@ -110,10 +112,10 @@ function primefruit() {
 
   // var text  = imageHelper.text_sprite() ;
 
-  var textWidth    = 32 ;
-  var textHeight   = 32 ;
-  var text         = spriteHelper.get_text(document.textUrl, textWidth, textHeight) ;
-  viz.text         = spriteHelper.foreach(text, imageHelper.get_original) ;
+  var textWidth  = 32 ;
+  var textHeight = 32 ;
+  var text       = spriteHelper.get_text(document.textUrl, textWidth, textHeight) ;
+  viz.text       = spriteHelper.foreach(text, imageHelper.get_original) ;
 
   document.fade = function fade(fadeVal) {
 
@@ -127,7 +129,6 @@ function primefruit() {
   } ;
 
   viz.prime = new Array(viz.Nprime) ;
-  viz.update_jar = jarHelper.update ;
 
   for ( var k = 0 ; k < viz.N - 1 ; k++ ) { // setup the jars of viz.fruit
 
@@ -142,9 +143,6 @@ function primefruit() {
     }
     
     viz.jar[k] = jarHelper.setup(viz, k, x, y) ;
-
-    // tile[k].default_child() ;
-    // tile[k].child.push(tile[k].viz.jar) ;
 
   } // end loop over tiles/jars
 
@@ -179,7 +177,7 @@ function primefruit() {
 
   } ;
 
-  viz.scoreup = function() {
+  viz.scoreup = function viz_scoreup() {
     viz.score += 1 ;
     if ( viz.score === viz.target ) {
       console.log('you win!') ;
@@ -187,31 +185,82 @@ function primefruit() {
     }
   } ;
 
-  viz.collected = {} ; // the goal of the game is to collect all of the prime fruits
-  // viz.current   = 'a'.charCodeAt(0) ;
+  viz.all_closed = function viz_all_closed() {
 
-  viz.jar[0].unlock() ;
+    for (var k = 0 ; k < viz.jar.length ; k++ ) {
+      
+      if ( viz.jar[k].removeSwitch === true ) {
+        continue ;
+      }
+
+      if ( viz.jar[k].is_open() ) {
+        // console.log('primefruit all_closed: ', 'k', k, 'viz.jar[k]', viz.jar[k])
+        return false ;
+      }
+
+    }
+
+    // console.log('primefruit all_closed: ', true) ;
+
+    return true ;
+
+  } ;
+
+  viz.collected = {} ; // the goal of the game is to collect all of the prime fruits
+  viz.current = 'a'.charCodeAt(0) ;
 
   viz.setup_ui() ;
   viz.run() ;
 
-  viz.update_jar() ;
+  viz.unlock_jars = function unlock_jars( viz ) { 
 
-  console.log('viz', viz) ;
+    if ( viz === undefined ) {
+      viz = this ;
+    }
+    
+    for ( var kJar = 0 ; kJar < viz.jar.length ; kJar++ ) {
 
-  // function jar_open_next() {
-  //   var count = 0 ;
-  //   for ( var kjar = 0 ; kjar < viz.jar.length ; kjar++ ) {
-  //     if ( viz.jar[kjar].removeSwitch === undefined && viz.jar[kjar].image === viz.jar[kjar].jarImage ) { // jar is unlock and waiting to be selected for removal
-  //       count++ ;
-  //     }
-  //   }
-  //   if ( count === 0 ) {
-  //     viz.current += 1 ;
-  //     curr = String.fromCharCode(viz.current) ;
-  //     kCurr = key[curr] - 2 ; 
-  //     viz.jar[kCurr].unlock() ;       
-  //   }    
-  // }
+      if ( viz.jar[kJar].removeSwitch === true ) { 
+        continue ;
+      }
+            
+      if( viz.jar[kJar].all_collected() ) {
+        viz.jar[kJar].unlock() ;
+        // count++ ;
+      }
+
+    }
+
+    viz.open_next() ;
+  
+  } ;
+
+  viz.open_next = function open_next( viz ) { 
+
+    if ( viz === undefined ) { 
+      viz = this ;
+    }
+
+    if ( viz.all_closed() ) {
+
+      viz.current++ ;  
+      curr  = String.fromCharCode( viz.current ) ;
+      kCurr = viz.key[curr] - 2 ; 
+      // console.log( 'viz.current', viz.current, 'curr', curr, 'kCurr', kCurr ) ;
+      viz.jar[kCurr].unlock() ;
+
+    }
+
+  } ;
+
+  viz.fade({
+    
+    duration: viz.fadeDuration * 5,
+    
+    end: function() {
+     viz.jar[0].unlock() ;
+    },
+
+  }) ;
 
 }

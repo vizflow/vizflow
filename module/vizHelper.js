@@ -82,7 +82,7 @@ var vizHelper = {
 	    height:         vizHeight, 
 	    dur:            dur,
 	    frameDuration:  frameDuration,
-	    fadeDuration:   fadeDuration,
+	    fadeDuration:   vizConfig.fadeDuration || fadeDuration,
 	    image:          image,
 	    canvas:         vizCanvas,
 	    context:        vizContext,

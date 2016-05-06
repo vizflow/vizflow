@@ -110,7 +110,7 @@ var inputEvent = {
       var xIn = Math.round( ( event.clientX - position.left ) / position.scale ) ;
       var yIn = Math.round( ( event.clientY - position.top  ) / position.scale ) ;
 
-      imageHelper.indexed_draw( viz.ui.item, viz.ui.canvas ) ;
+      drawHelper.indexed( viz.ui.item, viz.ui.canvas ) ;
 
       var color     = viz.ui.canvas.context().getImageData( xIn, yIn, 1, 1 ).data ;
       var itemIndex = color[0] - 1 ; // color indexing used by imageHelper.to_index is 1-based
