@@ -111,8 +111,8 @@ var jarHelper = {
       var opacity = 0.2 ;
 
       jar.focus(opacity) ;
-      // jar.open() ;
-      jar.enlarge() ;
+      jar.open() ;
+      jar.resize(2) ;
 
       var trans = transitionHelper.new_step('show', undefined, jar.duration) ;
 

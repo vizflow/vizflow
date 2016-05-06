@@ -22,6 +22,12 @@ var itemHelper = {
 
 			/* default properties: */
 
+      collision_image:   actionHelper.collision_image, // actionHelper.collision_image() expects "this" to be "item"
+      flash:             effectHelper.flash,
+      delayCount:        0,      
+
+      /* default methods: */
+
 	    add:               itemHelper.add,
 	    remove:            itemHelper.remove,
   		zoom:              itemHelper.zoom,
@@ -37,10 +43,7 @@ var itemHelper = {
 		  add_step:          transitionHelper.add_step,
 		  add_sequence:      transitionHelper.add_sequence,
   		loop_trans:        transitionHelper.loop_trans,
-	    collision_image:   actionHelper.collision_image, // actionHelper.collision_image() expects "this" to be "item"
-	    fade:              imageEffectHelper.fade, // imageEffectHelper.fade expects "this" to be "item"
-	    flash:             effectHelper.flash,
-      delayCount:        0,
+      fade:              imageEffectHelper.fade, // imageEffectHelper.fade expects "this" to be "item"
 
 	    /* configurable properties: */
 
