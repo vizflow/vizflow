@@ -42,7 +42,7 @@ var fruitHelper = {
 
     var yExtra       = 1.75 ;
     var xExtra       = 6 ;
-    var yOffset      = 28 ;
+    var yOffset      = 30 ;
     var xOffset      = -6 ;
     var initialScale = 0.75 ;
     var overlapScale = .29 ;

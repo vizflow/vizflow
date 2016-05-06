@@ -63,6 +63,7 @@ var itemHelper = {
 			height:    itemConfig.height,
   		image:     itemConfig.image,
   		child:     itemConfig.child,
+      childFade: itemConfig.childFade,
 	    inert:     itemConfig.inert,
 	    fixed:     itemConfig.fixed,
 	    uiSwitch:  itemConfig.uiSwitch || false,

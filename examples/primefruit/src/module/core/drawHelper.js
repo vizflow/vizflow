@@ -15,11 +15,76 @@ var drawHelper = {
         item.child[kOver].angle = item.angle ;
         item.child[kOver].xScale = item.xScale ;
         item.child[kOver].yScale = item.yScale; 
+
+        if ( item.childFade === true ) {
+          item.child[kOver].opacity = item.child[kOver].opacity * item.opacity ;
+        }
+        
         // console.log('item.child[kOver]', item.child[kOver], 'item.child[kOver].x', item.child[kOver].x) ;
         item.child[kOver].render() ;
       }      
     }
   },
+
+  indexed: function draw_helper_indexed(item, canvas, width, height) { // takes an array of items and draws them using indexed colors
+
+    if(canvas === undefined) { 
+      var canvas  = imageHelper.create (width, height) ;
+    } else {
+      canvas.width = canvas.width // resets the canvas simiar to clearRect
+    }
+
+    var context = canvas.context() ;
+
+    for(var kItem = 0 ; kItem < item.length ; kItem++) {
+
+      if ( item[kItem].uiSwitch === false ) {
+        continue ;
+      }
+
+      var img ;
+
+      if ( item[kItem].image.originalCanvas !== undefined ) {
+        img = item[kItem].image.originalCanvas ;
+      } else {
+        img = item[kItem].image ;
+      }
+
+      var imageDataK = img
+        .context()
+        .getImageData(0, 0, item[kItem].image.width, item[kItem].image.height) ;
+
+      var imageK     = imageHelper.to_index(imageDataK, kItem) ; // ImageData object
+      var tempCanvas = imageHelper.create(item[kItem].image.width, item[kItem].image.height) ;
+
+      tempCanvas
+        .context()
+        .clearRect(0, 0, tempCanvas.width, tempCanvas.height) ;
+      tempCanvas
+        .context()
+        .putImageData(imageK, 0, 0) ;
+
+      if ( item[kItem].xOrigin !== undefined ) {
+        var xOrigin = item[kItem].xOrigin * item[kItem].xScale ;
+      } else {
+        var xOrigin = 0 ;
+      }
+
+      if ( item[kItem].yOrigin !== undefined ) {
+        var yOrigin = item[kItem].yOrigin * item[kItem].yScale ;
+      } else {
+        var yOrigin = 0 ;
+      }
+
+      context.drawImage(tempCanvas, item[kItem].x - xOrigin, item[kItem].y - yOrigin) ; // draw color-indexed button for color picking
+
+    }
+
+    // console.log('indexed draw: ', 'item', item)
+
+    return canvas ; 
+
+  },  
 
   image: function draw_helper_image (item, context, ratio) {
 
@@ -61,8 +126,8 @@ var drawHelper = {
 
     }
 
-    var originX = item.xOrigin || 0 ;
-    var originY = item.yOrigin || 0 ;
+    var originX = item.xOrigin * item.xScale || 0 ;
+    var originY = item.yOrigin * item.yScale || 0 ;
 
     var dx = (item.x + item.viz.xShift + viewX - originX) * ratio ;
     var dy = (item.y + item.viz.yShift + viewY - originY) * ratio ;
