@@ -15,15 +15,14 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 		}
 
 		// console.log('effect flash', 'frameDuration', frameDuration, 'Nstep', Nstep) ;
-		var create_transition = transitionHelper.step_func('render', flashDuration) ;
 		// console.log('effect flash 5') ;
 		var blank = function () {} ;
-		var valueList = [blank, drawHelper.image] ;
+		var valueList = [blank, drawHelper.item] ;
 
 		var flash     = new Array(2 * Nflash) ;
 		
 		for(var kflash = 0 ; kflash < 2 * Nflash ; kflash++) {
-			flash[kflash] = create_transition(valueList[kflash % valueList.length]) ;
+			flash[kflash] = transitionHelper.new_step('render', valueList[kflash % valueList.length], flashDuration) ;
 		}
 
 		flash = transitionHelper.sequence(flash) ;
@@ -39,7 +38,7 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 
 		item.add_transition(flash) ;
 
-		// console.log('effect flash', 'loop', loop) ;
+		// console.log('effect flash', 'flash', flash) ;
 
 		return flash ;
 
@@ -93,6 +92,10 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 		if(viz === undefined) {
 			viz = this ;
 		}
+
+    if ( zoomConfig === undefined ) {
+      zoomConfig = {} ;
+    }
 
     var viewDelta = -2 * Math.floor(viz.displayCanvas.width * 0.04) ;
 		if(zoomConfig.width === undefined) {

@@ -11,8 +11,9 @@ document.image = [
 	
 	'./image/vizflow.png',
 	'./image/fruit.gif',
-	'./image/jarLidBlue.png',
+	'./image/jarLidGray.png',
 	'./image/jarLidPurp.png',
+	'./image/jarLidBlue.png',
 	'./image/jarOpen.png',
 	document.textUrl,
 
