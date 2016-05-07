@@ -213,6 +213,42 @@ var itemHelper = {
         item = this ;
       }
 
+      if ( callback.constructor === Array ) {
+
+        var delaySum = 0 ;
+
+        for ( var kcall = 0 ; kcall < callback.length ; kcall++ ) {
+
+
+          if ( delay.constructor === Number ) {
+            var delayK = delay * (kcall + 1) ;
+          } else if( delay.constructor === Array ) {
+            delaySum += delay[kcall] ;
+            delayK = delaySum ;
+          } else {
+            console.log('item_helper_call: delay is not a Number of Array') ;
+          }
+
+          console.log('item helper call: ', 'kcall', kcall, 'callback[kcall]', callback[kcall], 'delayK', delayK) ;
+
+          item.run_callback( callback[kcall], delayK ) ;
+
+        }
+
+      } else {
+
+        item.run_callback(callback, delay) ;        
+
+      }
+
+    },
+
+    run_callback: function item_helper_run_callback( callback, delay, item ) {
+
+      if ( item === undefined ) {
+        item = this ;
+      }
+
       item.delayCount++ ;
 
       var trans = transitionHelper.new_step('delay' + item.delayCount, undefined, delay) ;

@@ -1,6 +1,5 @@
 var fruitHelper = {
 
-
   show: function fruit_helper_show ( callback, fruit ) {
 
     if ( fruit === undefined ) {
