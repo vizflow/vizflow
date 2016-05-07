@@ -1,92 +1,5 @@
 var effectHelper = { // effect module for creating effects i.e. compositions of transitions
 
-	flash: function effect_flash (Nflash, flashDuration, item) {
-
-		if ( item === undefined ) { // assume that "this" corresponds to the element item object
-			item = this ;
-		}
-
-		if ( Nflash === undefined ) {
-			Nflash = 5 ;
-		}
-
-		if ( flashDuration === undefined ) {
-			flashDuration = 100 ;
-		}
-
-		// console.log('effect flash', 'frameDuration', frameDuration, 'Nstep', Nstep) ;
-		// console.log('effect flash 5') ;
-		var blank = function () {} ;
-		var valueList = [blank, drawHelper.item] ;
-
-		var flash     = new Array(2 * Nflash) ;
-		
-		for(var kflash = 0 ; kflash < 2 * Nflash ; kflash++) {
-			flash[kflash] = transitionHelper.new_step('render', valueList[kflash % valueList.length], flashDuration) ;
-		}
-
-		flash = transitionHelper.sequence(flash) ;
-
-		// var loopConfig = {
-		// 	Nstep: Nstep,
-		// 	position: 0,
-		// 	frameDur: frameDuration,
-		// } ;
-		// // console.log('effect flash 12') ;
-
-		// var loop = animate_loop (loopConfig, valueList, create_transition) ;
-
-		item.add_transition(flash) ;
-
-		// console.log('effect flash', 'flash', flash) ;
-
-		return flash ;
-
-	},
-
-	shake: function effect_shake(item, xKey, yKey) {
-
-		if(item === undefined) {
-			item = this ;
-		}
-
-		if(xKey === undefined) {
-			xKey = 'x' ;
-		}
-
-		if(yKey === undefined) {
-			yKey = 'y' ;
-		}
-
-		var xShakeMove = [1, -1, -1,  1] ; 
-		var yShakeMove = [1, -1,  1, -1] ; 
-
-		var damping = 1.5 * document.ratio ;
-		var dampingFactor = 1 ;
-		var Nstep = 9 ;
-
-		xTransition = new Array(Nstep) ;
-		yTransition = new Array(Nstep) ;
-
-		for (kstep = 0 ; kstep < Nstep - 1 ; kstep++) {
-			xTransition[kstep] = item.transitionSet[xKey](Math.round(Math.random() * xShakeMove[(kstep + $Z.iter) % xShakeMove.length] * damping)) ;
-			yTransition[kstep] = item.transitionSet[yKey](Math.round(Math.random() * yShakeMove[(kstep + $Z.iter * 3) % xShakeMove.length] * damping)) ;
-			damping *= dampingFactor ;
-		}
-
-		xTransition[kstep] = item.transitionSet[xKey](0) ;
-		yTransition[kstep] = item.transitionSet[yKey](0) ;
-
-		xTransition = transitionHelper.sequence(xTransition)[0] ;
-		yTransition = transitionHelper.sequence(yTransition)[0] ;
-
-		// console.log('xTransition', xTransition, 'yTransition', yTransition) ;
-
-		var replacementSwitch = true ;
-		item.add_transition([xTransition, yTransition]) ;
-
-	},
-
 	zoom_inout: function effect_zoom_inout(zoomConfig, viz) {
 
 		if(viz === undefined) {
@@ -196,6 +109,97 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 
     return [width, height, x, y] ;
 
-	}
+	},
+
+  method: {
+
+    flash: function effect_flash (Nflash, flashDuration, item) {
+
+      if ( item === undefined ) { // assume that "this" corresponds to the element item object
+        item = this ;
+      }
+
+      if ( Nflash === undefined ) {
+        Nflash = 5 ;
+      }
+
+      if ( flashDuration === undefined ) {
+        flashDuration = 100 ;
+      }
+
+      // console.log('effect flash', 'frameDuration', frameDuration, 'Nstep', Nstep) ;
+      // console.log('effect flash 5') ;
+      var blank = function () {} ;
+      var valueList = [blank, drawHelper.item] ;
+
+      var flash     = new Array(2 * Nflash) ;
+      
+      for(var kflash = 0 ; kflash < 2 * Nflash ; kflash++) {
+        flash[kflash] = transitionHelper.new_step('render', valueList[kflash % valueList.length], flashDuration) ;
+      }
+
+      flash = transitionHelper.sequence(flash) ;
+
+      // var loopConfig = {
+      //  Nstep: Nstep,
+      //  position: 0,
+      //  frameDur: frameDuration,
+      // } ;
+      // // console.log('effect flash 12') ;
+
+      // var loop = animate_loop (loopConfig, valueList, create_transition) ;
+
+      item.add_transition(flash) ;
+
+      // console.log('effect flash', 'flash', flash) ;
+
+      return flash ;
+
+    },
+
+    shake: function effect_shake(xKey, yKey, item) {
+
+      if(item === undefined) {
+        item = this ;
+      }
+
+      if(xKey === undefined) {
+        xKey = 'x' ;
+      }
+
+      if(yKey === undefined) {
+        yKey = 'y' ;
+      }
+
+      var xShakeMove = [1, -1, -1,  1] ; 
+      var yShakeMove = [1, -1,  1, -1] ; 
+
+      var damping = 1.5 * document.ratio ;
+      var dampingFactor = 1 ;
+      var Nstep = 9 ;
+
+      xTransition = new Array(Nstep) ;
+      yTransition = new Array(Nstep) ;
+
+      for (kstep = 0 ; kstep < Nstep - 1 ; kstep++) {
+        xTransition[kstep] = item.transitionSet[xKey](Math.round(Math.random() * xShakeMove[(kstep + $Z.iter) % xShakeMove.length] * damping)) ;
+        yTransition[kstep] = item.transitionSet[yKey](Math.round(Math.random() * yShakeMove[(kstep + $Z.iter * 3) % xShakeMove.length] * damping)) ;
+        damping *= dampingFactor ;
+      }
+
+      xTransition[kstep] = item.transitionSet[xKey](0) ;
+      yTransition[kstep] = item.transitionSet[yKey](0) ;
+
+      xTransition = transitionHelper.sequence(xTransition)[0] ;
+      yTransition = transitionHelper.sequence(yTransition)[0] ;
+
+      // console.log('xTransition', xTransition, 'yTransition', yTransition) ;
+
+      var replacementSwitch = true ;
+      item.add_transition([xTransition, yTransition]) ;
+
+    },    
+
+  },
 
 } ; // end effectHelper

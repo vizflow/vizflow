@@ -163,12 +163,16 @@ function primefruit() {
       reset.end = function() {
 
         viz.fade({
+
           duration: duration * 5,
           opacity: 0,
+          
           end: function() {
             load_game() ;
           },
-        })
+
+        }) ;
+
       } ;
 
       viz.add_transition(reset) ;
@@ -245,6 +249,11 @@ function primefruit() {
 
       viz.current++ ;  
       curr  = String.fromCharCode( viz.current ) ;
+
+      if ( viz.key[curr] === undefined ) {
+        return ;
+      }
+
       kCurr = viz.key[curr] - 2 ; 
       // console.log( 'viz.current', viz.current, 'curr', curr, 'kCurr', kCurr ) ;
       viz.jar[kCurr].unlock() ;

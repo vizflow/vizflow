@@ -22,25 +22,8 @@ var itemHelper = {
 
 			/* default properties: */
 
-	    add:               itemHelper.add,
-	    remove:            itemHelper.remove,
-  		zoom:              itemHelper.zoom,
-  		scale:             itemHelper.scale,
-  		loop:              itemHelper.loop,
-  		default_child:     itemHelper.default_child,
-      call:              itemHelper.call,
-	    add_transition:    transitionHelper.add, // transitionHelper.add expects "this" to be "item"
-	    remove_transition: transitionHelper.remove,
-	    add_end:           transitionHelper.add_end,
-		  add_linear:        transitionHelper.add_linear,
-		  add_rounded_linear: transitionHelper.add_rounded_linear,
-		  add_step:          transitionHelper.add_step,
-		  add_sequence:      transitionHelper.add_sequence,
-  		loop_trans:        transitionHelper.loop_trans,
-	    collision_image:   actionHelper.collision_image, // actionHelper.collision_image() expects "this" to be "item"
-	    fade:              imageEffectHelper.fade, // imageEffectHelper.fade expects "this" to be "item"
-	    flash:             effectHelper.flash,
-      delayCount:        0,
+      delayCount: 0,      
+      responseSet: {}, // add response objects separately
 
 	    /* configurable properties: */
 
@@ -72,146 +55,330 @@ var itemHelper = {
   		callback:  itemConfig.callback,
 	  	addSwitch: itemConfig.addSwitch || false,
 	    render:    itemConfig.render || drawHelper.item, // drawHelper.image expects "this" to  be "item"
-		  responseSet: {}, // add response objects separately
 
 		} ;
 
-		if ( item.addSwitch === true ) { 
-			item.add() ;
-		}
+    Object.assign(item, itemHelper.method) ;
+    Object.assign(item, transitionHelper.method) ;
+
+    if ( item.addSwitch === true ) { 
+      item.add() ;
+    }
+
+    // console.log('item helper', 'item', item) ;
 
 		return item ;
 
 	},
 
-	default_child: function item_helper_default_child (item) {
+  method: {
 
-		if ( item === undefined ) {
-			item = this ;
-		}
+    collision_image: function action_helper_collision_image(actionType, item) { // actionType is either 'source' or 'target'
+      
+      // console.log('element collision_image start') ;
 
-		if ( item.child === undefined ) {
-			item.child = [] ; // initialize
-		}
+      if(item === undefined) {
+        item = this ;
+      }
 
-		var white = imageEffectHelper.color_filter(item.image, [255, 255, 255]) ;
+      var property = actionType + 'CollisionImage' ;
 
-		item.white       = Object.copy(item) ;
-		item.white.child = undefined ;
+      // console.log('collision_image item', item)
+      if(item.image[property] === undefined || item.image[property] === null) {
+        // console.log('element collision image element sprite collisionSet', item.element.sprite.collisionSet) ;
+        return undefined ;
+      } else {      
+        var collisionImage = item.image[property] ;
+        // console.log('element collision_image', 'property', property, 'item.image[property]', item.image[property]) ;
+        return collisionImage ;
+      }
 
-		item.white.image   = white ;
-		item.white.opacity = 0 ;
+    },
 
-		item.child.push(item.white) ;
+    default_child: function item_helper_default_child (item) {
 
-	},
+      if ( item === undefined ) {
+        item = this ;
+      }
 
-	zoom: function item_zoom(scale, duration, item) {
+      if ( item.child === undefined ) {
+        item.child = [] ; // initialize
+      }
 
-		if(item === undefined) {
-			item = this ;
-		}
+      var white = imageEffectHelper.color_filter(item.image, [255, 255, 255]) ;
 
-		if(scale === undefined) {
-			scale = 0.5 ;
-		}
+      item.white       = Object.copy(item) ;
+      item.white.child = undefined ;
 
-		if(duration === undefined) {
-			duration = item.viz.fadeDuration ;
-		}
-		// console.log('item helper', 'zoom', 'this', this) ;
+      item.white.image   = white ;
+      item.white.opacity = 0 ;
 
-		item.viz.zoom({
-	    duration: duration, 
-	    x: item.x, 
-	    y: item.y, 
-	    width: item.viz.width * scale, 
-	    height: item.viz.height * scale,
-	  }) ;
+      item.child.push(item.white) ;
 
-  },
+    },
 
-  add: function(viz, item) {
+    zoom: function item_zoom(scale, duration, item) {
 
-	  if(item === undefined) {
-	    item = this ;
-	  }
+      if(item === undefined) {
+        item = this ;
+      }
 
-	  if(viz === undefined) {
-	  	viz = this.viz ;
-	  }
+      if(scale === undefined) {
+        scale = 0.5 ;
+      }
 
-	  if(viz.item === undefined) {
-	    viz.item = [] ;
-	  }
+      if(duration === undefined) {
+        duration = item.viz.fadeDuration ;
+      }
+      // console.log('item helper', 'zoom', 'this', this) ;
 
-	  if(item.constructor !== Array) {
+      item.viz.zoom({
+        duration: duration, 
+        x: item.x, 
+        y: item.y, 
+        width: item.viz.width * scale, 
+        height: item.viz.height * scale,
+      }) ;
 
-	  	// console.log('item helper:', 'viz', viz, 'this', this)
+    },
 
-	    viz.stagingArray.push(item) ;        
-	  
-	  } else {
+    add: function(viz, item) {
 
-	    for(var kitem = 0 ; kitem < item.length ; kitem++) {
-	      viz.stagingArray.push(item[kitem]) ;
-	    }
-	  
-	  }
+      if(item === undefined) {
+        item = this ;
+      }
 
-  },
+      if(viz === undefined) {
+        viz = this.viz ;
+      }
 
-	remove: function item_helper_remove(item) {
+      if(viz.item === undefined) {
+        viz.item = [] ;
+      }
 
-		if(item === undefined) {
-			item = this ;
-		}
+      if(item.constructor !== Array) {
 
-		item.removeSwitch = true ;
+        // console.log('item helper:', 'viz', viz, 'this', this)
 
-  },
+        viz.stagingArray.push(item) ;        
+      
+      } else {
 
-  scale: function item_helper_scale ( scale0, scale1, item ) {
+        for(var kitem = 0 ; kitem < item.length ; kitem++) {
+          viz.stagingArray.push(item[kitem]) ;
+        }
+      
+      }
 
-    if ( item === undefined ) {
-      item = this ;
-    }
+    },
 
-    if ( scale1 === undefined ) {
-      scale1 = scale0 ;
-    }
+    remove: function item_helper_remove(item) {
 
-    item.xScale = scale0 ;
-    item.yScale = scale1 ;
+      if(item === undefined) {
+        item = this ;
+      }
 
-  },
+      item.removeSwitch = true ;
 
-  loop: function item_helper_loop( trans_func, item ) {
+    },
 
-    if ( item === undefined ) {
-      item = this ;
-    }
+    scale: function item_helper_scale ( scale0, scale1, item ) {
 
-    item.add_transition( item.loop_trans(trans_func) ) ;              
+      if ( item === undefined ) {
+        item = this ;
+      }
 
-  },
+      if ( scale1 === undefined ) {
+        scale1 = scale0 ;
+      }
 
-  call: function item_helper_call (callback, delay, item) {
+      item.xScale = scale0 ;
+      item.yScale = scale1 ;
 
-    if ( item === undefined ) {
-      item = this ;
-    }
+    },
 
-    item.delayCount++ ;
+    loop: function item_helper_loop( trans_func, item ) {
 
-    var trans = transitionHelper.new_step('delay' + item.delayCount, undefined, delay) ;
+      if ( item === undefined ) {
+        item = this ;
+      }
 
-    trans.end = function() {
-      callback.call(item) ;
-      item.delayCount-- ;
-    } ;
+      item.add_transition( item.loop_trans(trans_func) ) ;              
 
-    item.add_transition(trans) ;
+    },
+
+    call: function item_helper_call (callback, delay, item) {
+
+      if ( item === undefined ) {
+        item = this ;
+      }
+
+      if ( callback.constructor === Array ) {
+
+        var delaySum = 0 ;
+
+        for ( var kcall = 0 ; kcall < callback.length ; kcall++ ) {
+
+
+          if ( delay.constructor === Number ) {
+            var delayK = delay * (kcall + 1) ;
+          } else if( delay.constructor === Array ) {
+            delaySum += delay[kcall] ;
+            delayK = delaySum ;
+          } else {
+            console.log('item_helper_call: delay is not a Number of Array') ;
+          }
+
+          console.log('item helper call: ', 'kcall', kcall, 'callback[kcall]', callback[kcall], 'delayK', delayK) ;
+
+          item.run_callback( callback[kcall], delayK ) ;
+
+        }
+
+      } else {
+
+        item.run_callback(callback, delay) ;        
+
+      }
+
+    },
+
+    run_callback: function item_helper_run_callback( callback, delay, item ) {
+
+      if ( item === undefined ) {
+        item = this ;
+      }
+
+      item.delayCount++ ;
+
+      var trans = transitionHelper.new_step('delay' + item.delayCount, undefined, delay) ;
+
+      trans.end = function() {
+        callback.call(item) ;
+        item.delayCount-- ;
+      } ;
+
+      item.add_transition(trans) ;
+
+    },
+
+    flash: function effect_flash (Nflash, flashDuration, item) {
+
+      if ( item === undefined ) { // assume that "this" corresponds to the element item object
+        item = this ;
+      }
+
+      if ( Nflash === undefined ) {
+        Nflash = 5 ;
+      }
+
+      if ( flashDuration === undefined ) {
+        flashDuration = 100 ;
+      }
+
+      // console.log('effect flash', 'frameDuration', frameDuration, 'Nstep', Nstep) ;
+      // console.log('effect flash 5') ;
+      var blank = function () {} ;
+      var valueList = [blank, drawHelper.item] ;
+
+      var flash     = new Array(2 * Nflash) ;
+      
+      for(var kflash = 0 ; kflash < 2 * Nflash ; kflash++) {
+        flash[kflash] = transitionHelper.new_step('render', valueList[kflash % valueList.length], flashDuration) ;
+      }
+
+      flash = transitionHelper.sequence(flash) ;
+
+      // var loopConfig = {
+      //  Nstep: Nstep,
+      //  position: 0,
+      //  frameDur: frameDuration,
+      // } ;
+      // // console.log('effect flash 12') ;
+
+      // var loop = animate_loop (loopConfig, valueList, create_transition) ;
+
+      item.add_transition(flash) ;
+
+      // console.log('effect flash', 'flash', flash) ;
+
+      return flash ;
+
+    },
+
+    shake: function effect_shake(xKey, yKey, item) {
+
+      if(item === undefined) {
+        item = this ;
+      }
+
+      if(xKey === undefined) {
+        xKey = 'x' ;
+      }
+
+      if(yKey === undefined) {
+        yKey = 'y' ;
+      }
+
+      var xShakeMove = [1, -1, -1,  1] ; 
+      var yShakeMove = [1, -1,  1, -1] ; 
+
+      var damping = 1.5 * document.ratio ;
+      var dampingFactor = 1 ;
+      var Nstep = 9 ;
+
+      xTransition = new Array(Nstep) ;
+      yTransition = new Array(Nstep) ;
+
+      for (kstep = 0 ; kstep < Nstep - 1 ; kstep++) {
+        xTransition[kstep] = item.transitionSet[xKey](Math.round(Math.random() * xShakeMove[(kstep + $Z.iter) % xShakeMove.length] * damping)) ;
+        yTransition[kstep] = item.transitionSet[yKey](Math.round(Math.random() * yShakeMove[(kstep + $Z.iter * 3) % xShakeMove.length] * damping)) ;
+        damping *= dampingFactor ;
+      }
+
+      xTransition[kstep] = item.transitionSet[xKey](0) ;
+      yTransition[kstep] = item.transitionSet[yKey](0) ;
+
+      xTransition = transitionHelper.sequence(xTransition)[0] ;
+      yTransition = transitionHelper.sequence(yTransition)[0] ;
+
+      // console.log('xTransition', xTransition, 'yTransition', yTransition) ;
+
+      var replacementSwitch = true ;
+      item.add_transition([xTransition, yTransition]) ;
+
+    },    
+
+    fade: function item_helper_method_fade(fadeConfig, item) {      
+
+      if(item === undefined) {
+        item = this ;
+      }
+
+      if(fadeConfig === undefined) {
+        fadeConfig = {} ;
+      }
+
+      if(fadeConfig.opacity === undefined) {
+      // console.log('fadeConfig', fadeConfig, 'item.opacity', item.opacity)
+
+        var thresh = 0.5 ;
+        if(item.opacity < thresh) {
+          fadeConfig.opacity = 1 ;
+        } else {
+          fadeConfig.opacity = 0 ;
+        }
+      }
+
+      var newTransition = imageEffectHelper.fade_transition(fadeConfig) ;
+
+      // console.log('fade', 'newTransition', newTransition, 'item', item, 'fadeConfig', fadeConfig) ;
+
+      var replacementSwitch = fadeConfig.replacementSwitch || true ;
+
+      item.add_transition(newTransition, replacementSwitch) ;
+
+    }, // end fade
 
   },
 
