@@ -95,26 +95,4 @@ var actionHelper = {
 
   },
 
-  collision_image: function action_helper_collision_image(actionType, item) { // actionType is either 'source' or 'target'
-    
-    // console.log('element collision_image start') ;
-
-    if(item === undefined) {
-      item = this ;
-    }
-
-    var property = actionType + 'CollisionImage' ;
-
-    // console.log('collision_image item', item)
-    if(item.image[property] === undefined || item.image[property] === null) {
-      // console.log('element collision image element sprite collisionSet', item.element.sprite.collisionSet) ;
-      return undefined ;
-    } else {      
-      var collisionImage = item.image[property] ;
-      // console.log('element collision_image', 'property', property, 'item.image[property]', item.image[property]) ;
-      return collisionImage ;
-    }
-
-  },
-
 } ;
