@@ -216,6 +216,23 @@ function battle_screen() {
 
     } ;    
 
+
+    thrustButtonConfig = {
+                sprite_loader: function() {
+            var i = imageHelper.to_canvas ('./image/thrust_button_spritesheet.png') ;
+            var rowName = ['push'] ;
+            var width = [actionButtonWidth] ;
+            var height = [actionButtonHeight] ;
+            var spriteset = spriteHelper.get(i, rowName, width, height) ;
+            spriteset.push = [spriteset.push[0], spriteset.push[1]] ;
+            
+            return spriteset ;
+        
+        },    
+        x: 370, // drawn offscreen
+        y: 110,
+    } ;
+
     attackButtonConfig = {
         sprite_loader: function() {
             var i = imageHelper.to_canvas ('./image/attack_button_spritesheet.png') ;
@@ -270,20 +287,7 @@ function battle_screen() {
     // //     },
     // // } ;    
 
-    // thrustButtonConfig = {
-    //             sprite_loader: function() {
-    //         var i = imageHelper.to_canvas ('./image/left_button_spritesheet.png') ;
-    //         var rowName = ['push', 'rest'] ;
-    //         var width = [moveButtonWidth, moveButtonWidth] ;
-    //         var height = [moveButtonHeight, moveButtonHeight] ;
-    //         var spriteset = spriteHelper.get(i, rowName, width, height) ;
-    //         spriteset.push = [spriteset.push[0], spriteset.push[1]] ;
-            
-    //         return spriteset ;
-        
-    //     },    
-    //     x: 270,
-    //     y: 0,
+
     //     // count: 1,
     //     //rowIndex: buttonRowIndex,
     //     width: 58,
@@ -320,7 +324,7 @@ function battle_screen() {
         right: setup_element (viz, rightButtonConfig),
         attack: setup_element (viz, attackButtonConfig),
         block: setup_element (viz, blockButtonConfig),
-        // thrust: setup_element (viz, thrustButtonConfig),        
+        thrust: setup_element (viz, thrustButtonConfig),        
     } ;
     viz.button.left.item.image = viz.button.left.sprite.push[0] ;
     viz.button.left.item.uiSwitch = true ;
@@ -329,7 +333,7 @@ function battle_screen() {
         var leftCode   = 37 ;
   
         gameHelper.screen_handler(leftCode) ;
-    viz.player.buttonpress('leftButton') ;
+    // viz.player.buttonpress('leftButton') ;
     } ;
 
     viz.button.right.item.image = viz.button.right.sprite.push[0] ;
@@ -348,6 +352,8 @@ function battle_screen() {
         var attackCode   = 32 ;
         viz.player.attack('slash') ;
         gameHelper.screen_handler(attackCode) ;
+    viz.button.attack.item.image = viz.button.thrust.sprite.push[0] ;
+
     } ;
 
     viz.button.block.item.image = viz.button.block.sprite.push[0] ;
@@ -360,15 +366,15 @@ function battle_screen() {
         gameHelper.screen_handler(blockCode) ;
     } ;
     
-    // viz.button.thrust.item.image = viz.button.thrust.sprite.push[0] ;
-    // viz.button.thrust.item.uiSwitch = true ;
-    // viz.button.thrust.item.callback = function thrust_button_callback() {
-    //     var thrustButton = this ;
-    //     var thrustCode   = 40 ;
-    //     //viz.leftButton.push () ;
-    //     viz.player.attack('thrust') ;
-    //     gameHelper.screen_handler(thrustCode) ;
-    // } ;    
+    viz.button.thrust.item.image = viz.button.thrust.sprite.push[0] ;
+    viz.button.thrust.item.uiSwitch = true ;
+    viz.button.thrust.item.callback = function thrust_button_callback() {
+        var thrustButton = this ;
+        var thrustCode   = 40 ;
+        //viz.leftButton.push () ;
+        viz.player.attack('thrust') ;
+        gameHelper.screen_handler(thrustCode) ;
+    } ;    
 
     // viz.setup_item (viz.button.left.item) ;
     // viz.setup_item (viz.button.right.item) ;

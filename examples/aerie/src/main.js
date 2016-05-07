@@ -24,6 +24,7 @@ document.image = [
 	'./image/right_button_spritesheet.png',
 	'./image/attack_button_spritesheet.png',
 	'./image/block_button_spritesheet.png',
+	'./image/thrust_button_spritesheet.png',
 
 
 ] ;
