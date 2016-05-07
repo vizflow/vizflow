@@ -57,9 +57,15 @@ function setup_element (viz, elementConfig) {
 
   element.loop = elementConfig.loop ;
 
+  var defaultImage ;
+
+  if(element.sprite.rest !== undefined) {
+    defaultImage = element.sprite.rest[0] ;
+  }
+  
   var itemConfig = {
     element: element,
-    image: element.sprite.rest[0],
+    image: defaultImage,
     x: elementConfig.x,
     y: elementConfig.y, 
     type: elementConfig.type,

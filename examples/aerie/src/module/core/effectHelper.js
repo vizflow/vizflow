@@ -2,31 +2,30 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 
 	flash: function effect_flash (Nflash, flashDuration, item) {
 
-		if(item === undefined) { // assume that "this" corresponds to the element item object
+		if ( item === undefined ) { // assume that "this" corresponds to the element item object
 			item = this ;
 		}
 
-		if(Nflash === undefined) {
+		if ( Nflash === undefined ) {
 			Nflash = 5 ;
 		}
 
-		if(flashDuration === undefined) {
+		if ( flashDuration === undefined ) {
 			flashDuration = 100 ;
 		}
 
 		// console.log('effect flash', 'frameDuration', frameDuration, 'Nstep', Nstep) ;
-		var create_transition = transitionHelper.step_func('render', flashDuration) ;
 		// console.log('effect flash 5') ;
 		var blank = function () {} ;
-		var valueList = [blank, drawHelper.image] ;
+		var valueList = [blank, drawHelper.item] ;
 
 		var flash     = new Array(2 * Nflash) ;
 		
 		for(var kflash = 0 ; kflash < 2 * Nflash ; kflash++) {
-			flash[kflash] = create_transition(valueList[kflash % valueList.length]) ;
+			flash[kflash] = transitionHelper.new_step('render', valueList[kflash % valueList.length], flashDuration) ;
 		}
 
-		flash = transition_sequence(flash) ;
+		flash = transitionHelper.sequence(flash) ;
 
 		// var loopConfig = {
 		// 	Nstep: Nstep,
@@ -39,7 +38,7 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 
 		item.add_transition(flash) ;
 
-		// console.log('effect flash', 'loop', loop) ;
+		// console.log('effect flash', 'flash', flash) ;
 
 		return flash ;
 
@@ -78,8 +77,8 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 		xTransition[kstep] = item.transitionSet[xKey](0) ;
 		yTransition[kstep] = item.transitionSet[yKey](0) ;
 
-		xTransition = transition_sequence(xTransition)[0] ;
-		yTransition = transition_sequence(yTransition)[0] ;
+		xTransition = transitionHelper.sequence(xTransition)[0] ;
+		yTransition = transitionHelper.sequence(yTransition)[0] ;
 
 		// console.log('xTransition', xTransition, 'yTransition', yTransition) ;
 
@@ -93,6 +92,10 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 		if(viz === undefined) {
 			viz = this ;
 		}
+
+    if ( zoomConfig === undefined ) {
+      zoomConfig = {} ;
+    }
 
     var viewDelta = -2 * Math.floor(viz.displayCanvas.width * 0.04) ;
 		if(zoomConfig.width === undefined) {

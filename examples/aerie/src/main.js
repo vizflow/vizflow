@@ -20,6 +20,10 @@ document.image = [
 	'./image/attackButton.png',
 	'./image/blockButton.png',
 	'./image/healButton.png',	
+	'./image/left_button_spritesheet.png',
+	'./image/right_button_spritesheet.png',
+	'./image/attack_button_spritesheet.png',
+	'./image/block_button_spritesheet.png',
 
 
 ] ;

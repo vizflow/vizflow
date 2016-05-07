@@ -58,10 +58,10 @@ var playerBattleHelper = {
       switch (attackType) {
 
         case 'slash':
-          var dur1 = 100 ;
+          var dur1 = 200 ;
           var dur2 = 200 ;
-          var dur3 = 400 ;
-          var dur4 = 300 ;
+          var dur3 = 200 ;
+          var dur4 = 100 ;
           var trans1 = transitionHelper.new_step('image', player.sprite.attack[0], dur1) ;
           var trans2 = transitionHelper.new_step('image', player.sprite.attack[1], dur2) ;
           var trans3 = transitionHelper.new_step('image', player.sprite.attack[2], dur3) ;          

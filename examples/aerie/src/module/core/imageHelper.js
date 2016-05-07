@@ -286,6 +286,7 @@ var imageHelper = {
 		}
 
 		newCanvas.originalCanvas = canvas ;
+		
 		return newCanvas ;
 
 	},
@@ -422,55 +423,6 @@ var imageHelper = {
 	  }  
 
 	  return img ;
-
-	},
-
-	indexed_draw: function image_helper_indexed_draw(item, canvas, width, height) { // takes an array of items and draws them using indexed colors
-
-	  if(canvas === undefined) { 
-	  	var canvas  = imageHelper.create (width, height) ;
-	  } else {
-	  	canvas.width = canvas.width // resets the canvas simiar to clearRect
-	  }
-
-	  var context = canvas.context() ;
-
-	  for(var kItem = 0 ; kItem < item.length ; kItem++) {
-
-	  	if ( item[kItem].uiSwitch === false ) {
-	  		continue ;
-	  	}
-
-	  	var img ;
-
-	  	if ( item[kItem].image.originalCanvas !== undefined ) {
-	  		img = item[kItem].image.originalCanvas ;
-	  	} else {
-	  		img = item[kItem].image ;
-	  	}
-
-	  	var imageDataK = img
-
-	  		.context()
-	  		.getImageData(0, 0, item[kItem].image.width, item[kItem].image.height) ;
-
-	    var imageK     = imageHelper.to_index(imageDataK, kItem) ; // ImageData object
-	    var tempCanvas = imageHelper.create(item[kItem].image.width, item[kItem].image.height) ;
-
-	    tempCanvas
-	      .context()
-	      .clearRect(0, 0, tempCanvas.width, tempCanvas.height) ;
-	    tempCanvas
-	      .context()
-	      .putImageData(imageK, 0, 0) ;
-
-	    context.drawImage(tempCanvas, item[kItem].x, item[kItem].y) ; // draw color-indexed button for color picking
-
-	  }
-
-	  // console.log('indexed draw: ', 'item', item)
-
-	  return canvas ;	
 
 	},
 
