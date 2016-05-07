@@ -56,104 +56,6 @@ var transitionHelper = {
     return transitionHelper.new(property, value, duration, $Z.transition.rounded_linear_interp) ;
   },
 
-  add: function transition_helper_add (newTransition, replacementSwitch, item) {
-
-    if(item === undefined) {
-      item = this ;
-    }
-
-    // assume "this" corresponds to the item whose transition array we are modifying
-    if (replacementSwitch === undefined) {
-      replacementSwitch = true ;
-    }
-
-    var transitionList = item.transition ;
-    if (transitionList === undefined) {
-      item.transition = [] ;
-      transitionList = item.transition ;
-    }
-
-    if (transitionList.constructor !== Array) {
-      transitionList = [transitionList] ;
-    }
-
-    // console.log('transitionList', transitionList, 'item', item) ;
-    if (newTransition.constructor !== Array) {
-      newTransition = [newTransition] ;
-    }
-
-    for (kNew = 0 ; kNew < newTransition.length ; kNew ++) {
-      newTransition[kNew].item = item ;
-      var property = newTransition[kNew].varName ;
-      var transitionIndex = transitionHelper.find(property, transitionList) ;
-      if (transitionIndex === -1) { // no transition with this property found
-        transitionList.push(newTransition[kNew]) ;
-      } else {
-        if (replacementSwitch) {
-          transitionList[transitionIndex] = newTransition[kNew] ;
-          // console.log('item', item, 'transitionList', transitionList, 'item transition', item.transition, 'newTransition', newTransition)
-        } else {
-          transitionList.push(newTransition[kNew]) ;
-        }// otherwise add compound transition
-      }
-    }    
-    
-  },
-
-  add_step: function transition_helper_linear(property, value, duration, replacementSwitch, item) {
-
-    if ( item === undefined ) {
-      item = this ;
-    }
-
-    if ( replacementSwitch === undefined ) {
-      replacementSwitch = true ;
-    }
-
-    var transition = transitionHelper.new_step(property, value, duration) ;
-
-    item.add_transition(transition, replacementSwitch) ;
-
-    return item ;
-
-  },
-
-  add_linear: function transition_helper_linear(property, value, duration, replacementSwitch, item) {
-
-    if ( item === undefined ) {
-      item = this ;
-    }
-
-    if ( replacementSwitch === undefined ) {
-      replacementSwitch = true ;
-    }
-
-    var transition = transitionHelper.new_linear(property, value, duration) ;
-
-    item.add_transition(transition, replacementSwitch) ;
-
-    return item ;
-
-  },
-
-  add_rounded_linear: function transition_helper_linear(property, value, duration, replacementSwitch, item) {
-
-    if ( item === undefined ) {
-      item = this ;
-    }
-
-    if ( replacementSwitch === undefined ) {
-      replacementSwitch = true ;
-    }
-
-    var transition = transitionHelper.new_rounded_linear(property, value, duration) ;
-
-    item.add_transition(transition, replacementSwitch) ;
-
-    return item ;
-
-  },
-
   sequence: function transition_helper_sequence(transitionArray) {
     var transition = transitionArray[0] ;
     for(var k = 0 ; k < transitionArray.length - 1 ; k++) {
@@ -173,104 +75,6 @@ var transitionHelper = {
     return transitionHelper.sequence(trans) ;
 
   },
-
-  add_sequence: function transition_helper_new_sequence(valueList, creator_func, item) {
-
-    if ( item === undefined ) {
-      item = this ;
-    }
-    
-    var trans = new Array(valueList.length) ; 
-
-    for ( var k = 0 ; k < trans.length ; k++ ) {
-      trans[k] = creator_func(valueList[k]) ;
-    }
-
-    item.add_transition( transitionHelper.sequence(trans) ) ;
-
-  },
-
-  remove: function transition_helper_remove (property) {
-    var transitionList = this.transition ;
-    if (transitionList === undefined) {
-      this.transition = [] ;
-      transitionList = this.transition ;
-    }    
-    var transitionIndex = transitionHelper.find(property, transitionList) ;
-    if (transitionIndex === -1) {
-      return ; // nothing to do
-    } else {
-      transitionList.splice(transitionIndex, 1) ;
-    }    
-  },
-
-  add_child: function transition_helper_add_child(transition, newTransition, pause, frameIndex, item) {
-
-    if (item === undefined) {
-      item = this ;
-    }
-
-    if (pause === undefined) {
-      pause = 0 ;
-    }
-
-    var trans = transition ;
-
-    if (trans === undefined) { // would be nice to add this transition to the item 
-
-      if(item !== undefined) {
-        transitionHelper.add.call(item, newTransition) ;
-      }
-      return ;
-  
-    }
-
-    if (frameIndex === undefined) {
-
-      frameIndex = 0 ;
-      while (trans.child !== undefined) { // use last frame by default
-        frameIndex++ ;
-        trans = trans.child ;
-      }
-
-    } else { 
-
-      var trans = transition ;
-      for( var kTrans = 0 ; kTrans < frameIndex ; kTrans++ ) {
-        trans = trans.child ;
-      }
-
-    }
-
-    trans.pause = pause ;
-    trans.child = newTransition ; // only restore UI functionality after the minimum number of frames has been rendered  
-    // console.log('transition helper add child end', 'transition index', transitionIndex, 'new transition', newTransition, 'transition', transition) ;
-     
-  },  
-
-  add_end: function transition_helper_add_end(property, frameIndex, callback, item) {
-
-    if (item === undefined ) {
-      item = this ;
-    }
-
-    var transitionList = item.transition ;
-
-    if ( transitionList === undefined ) {
-      this.transition = [] ;
-      transitionList = item.transition ;
-    }
-
-    var transitionIndex = transitionHelper.find(property, transitionList) ;    
-
-    var transitionK = item.transition[transitionIndex] ; // initialize
-
-    if ( frameIndex > 0 ) {
-      transitionK = transitionHelper.get_child(transitionK, frameIndex) ;      
-    } 
-    transitionK.end = callback ; // only restore UI functionality after the minimum number of frames has been rendered  
-    
-  },  
 
   get_child: function transition_helper_get_child (transition, frameIndex) {
 
@@ -330,32 +134,6 @@ var transitionHelper = {
       }
       return output ;
     }    
-  },
-
-  remove_end: function(item) {
-
-    if(item === undefined) {
-      item = this ;
-    }
-
-    var endObject = {
-
-      item: item,
-
-      run: function () {
-
-        if(this.item.remove === undefined) {
-          this.item.remove = itemHelper.remove ;
-        }
-
-        this.item.remove() ;
-
-      },
-
-    } ;
-
-    return endObject ; 
-
   },
 
   duration: function(transition) {
@@ -432,40 +210,6 @@ var transitionHelper = {
 
   },
 
-  loop_trans: function transition_helper_loop_trans ( trans_func, item ) {
-
-    if ( item === undefined ) {
-      item = this ;
-    }
-
-    var trans = trans_func() ;
-
-    var child = transitionHelper.get_child(trans, 'last') ;
-
-    if ( child.end === undefined ) {
-
-      child.end = {
-      
-        item: item,
-        transition_func: trans_func,
-        run: transitionHelper.loop_end,
-      
-      } ;
-
-    } else {
-
-      if ( child.end.constructor === Object ) {
-        child.run() ;
-      } else {
-        child() ;
-      }
-
-    }
-
-    return trans ;
-
-  },
-
   loop_end: function transition_helper_loop_end( endConfig ) {
 
     if ( endConfig === undefined ) {
@@ -477,6 +221,272 @@ var transitionHelper = {
 
     item.loop(trans_func) ;
       
+  },
+
+  method: {
+
+    add_transition: function transition_helper_method_add_transition (newTransition, replacementSwitch, item) {
+
+      if(item === undefined) {
+        item = this ;
+      }
+
+      // assume "this" corresponds to the item whose transition array we are modifying
+      if (replacementSwitch === undefined) {
+        replacementSwitch = true ;
+      }
+
+      var transitionList = item.transition ;
+      if (transitionList === undefined) {
+        item.transition = [] ;
+        transitionList = item.transition ;
+      }
+
+      if (transitionList.constructor !== Array) {
+        transitionList = [transitionList] ;
+      }
+
+      // console.log('transitionList', transitionList, 'item', item) ;
+      if (newTransition.constructor !== Array) {
+        newTransition = [newTransition] ;
+      }
+
+      for (kNew = 0 ; kNew < newTransition.length ; kNew ++) {
+        newTransition[kNew].item = item ;
+        var property = newTransition[kNew].varName ;
+        var transitionIndex = transitionHelper.find(property, transitionList) ;
+        if (transitionIndex === -1) { // no transition with this property found
+          transitionList.push(newTransition[kNew]) ;
+        } else {
+          if (replacementSwitch) {
+            transitionList[transitionIndex] = newTransition[kNew] ;
+            // console.log('item', item, 'transitionList', transitionList, 'item transition', item.transition, 'newTransition', newTransition)
+          } else {
+            transitionList.push(newTransition[kNew]) ;
+          }// otherwise add compound transition
+        }
+      }    
+      
+    },
+
+    add_step: function transition_helper_linear(property, value, duration, replacementSwitch, item) {
+
+      if ( item === undefined ) {
+        item = this ;
+      }
+
+      if ( replacementSwitch === undefined ) {
+        replacementSwitch = true ;
+      }
+
+      var transition = transitionHelper.new_step(property, value, duration) ;
+
+      item.add_transition(transition, replacementSwitch) ;
+
+      return item ;
+
+    },
+
+    add_linear: function transition_helper_linear(property, value, duration, replacementSwitch, item) {
+
+      if ( item === undefined ) {
+        item = this ;
+      }
+
+      if ( replacementSwitch === undefined ) {
+        replacementSwitch = true ;
+      }
+
+      var transition = transitionHelper.new_linear(property, value, duration) ;
+
+      item.add_transition(transition, replacementSwitch) ;
+
+      return item ;
+
+    },
+
+    add_rounded_linear: function transition_helper_linear(property, value, duration, replacementSwitch, item) {
+
+      if ( item === undefined ) {
+        item = this ;
+      }
+
+      if ( replacementSwitch === undefined ) {
+        replacementSwitch = true ;
+      }
+
+      var transition = transitionHelper.new_rounded_linear(property, value, duration) ;
+
+      item.add_transition(transition, replacementSwitch) ;
+
+      return item ;
+
+    },
+
+    add_sequence: function transition_helper_new_sequence(valueList, creator_func, item) {
+
+      if ( item === undefined ) {
+        item = this ;
+      }
+      
+      var trans = new Array(valueList.length) ; 
+
+      for ( var k = 0 ; k < trans.length ; k++ ) {
+        trans[k] = creator_func(valueList[k]) ;
+      }
+
+      item.add_transition( transitionHelper.sequence(trans) ) ;
+
+    },
+
+    add_child: function transition_helper_add_child(transition, newTransition, pause, frameIndex, item) {
+
+      if (item === undefined) {
+        item = this ;
+      }
+
+      if (pause === undefined) {
+        pause = 0 ;
+      }
+
+      var trans = transition ;
+
+      if (trans === undefined) { // would be nice to add this transition to the item 
+
+        if(item !== undefined) {
+          transitionHelper.add.call(item, newTransition) ;
+        }
+        return ;
+    
+      }
+
+      if (frameIndex === undefined) {
+
+        frameIndex = 0 ;
+        while (trans.child !== undefined) { // use last frame by default
+          frameIndex++ ;
+          trans = trans.child ;
+        }
+
+      } else { 
+
+        var trans = transition ;
+        for( var kTrans = 0 ; kTrans < frameIndex ; kTrans++ ) {
+          trans = trans.child ;
+        }
+
+      }
+
+      trans.pause = pause ;
+      trans.child = newTransition ; // only restore UI functionality after the minimum number of frames has been rendered  
+      // console.log('transition helper add child end', 'transition index', transitionIndex, 'new transition', newTransition, 'transition', transition) ;
+       
+    },  
+
+    add_end: function transition_helper_add_end(property, frameIndex, callback, item) {
+
+      if (item === undefined ) {
+        item = this ;
+      }
+
+      var transitionList = item.transition ;
+
+      if ( transitionList === undefined ) {
+        this.transition = [] ;
+        transitionList = item.transition ;
+      }
+
+      var transitionIndex = transitionHelper.find(property, transitionList) ;    
+
+      var transitionK = item.transition[transitionIndex] ; // initialize
+
+      if ( frameIndex > 0 ) {
+        transitionK = transitionHelper.get_child(transitionK, frameIndex) ;      
+      } 
+      transitionK.end = callback ; // only restore UI functionality after the minimum number of frames has been rendered  
+      
+    },  
+        
+    loop_trans: function transition_helper_loop_trans ( trans_func, item ) {
+
+      if ( item === undefined ) {
+        item = this ;
+      }
+
+      var trans = trans_func() ;
+
+      var child = transitionHelper.get_child(trans, 'last') ;
+
+      if ( child.end === undefined ) {
+
+        child.end = {
+        
+          item: item,
+          transition_func: trans_func,
+          run: transitionHelper.loop_end,
+        
+        } ;
+
+      } else {
+
+        if ( child.end.constructor === Object ) {
+          child.run() ;
+        } else {
+          child() ;
+        }
+
+      }
+
+      return trans ;
+
+    },
+
+    remove_transition: function transition_helper_method_remove_transition (property, item) {
+
+      if ( item === undefined ) {
+        item = this ;
+      }
+
+      var transitionList = item.transition ;
+
+      if (transitionList === undefined) {
+        item.transition = [] ;
+        transitionList = item.transition ;
+      }    
+      var transitionIndex = transitionHelper.find(property, transitionList) ;
+      if (transitionIndex === -1) {
+        return ; // nothing to do
+      } else {
+        transitionList.splice(transitionIndex, 1) ;
+      }    
+    },
+
+    remove_end: function(item) {
+
+      if(item === undefined) {
+        item = this ;
+      }
+
+      var endObject = {
+
+        item: item,
+
+        run: function () {
+
+          if(this.item.remove === undefined) {
+            this.item.remove = itemHelper.remove ;
+          }
+
+          this.item.remove() ;
+
+        },
+
+      } ;
+
+      return endObject ; 
+
+    },
+
   },
 
   // set: function transition_helper_set () {

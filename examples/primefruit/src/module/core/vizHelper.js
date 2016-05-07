@@ -106,10 +106,7 @@ var vizHelper = {
 	    perform:        actionHelper.perform,
 	    image_transition: transitionHelper.step_func('image', frameDuration),  
 	    opacity: vizOpacity,
-	    add_transition: transitionHelper.add, 
-	    add_sequence: transitionHelper.add_sequence,
-	    remove_transition: transitionHelper.remove,
-	    fade:        imageEffectHelper.fade, 
+	    fade:        itemHelper.method.fade, 
 	    shake:       effectHelper.shake,  
 	    setup_item:  itemHelper.setup, 
 	    setup_ui:    uiHelper.setup,
@@ -233,7 +230,10 @@ var vizHelper = {
 			}
 		}
 
-	  // console.log('setup viz end') ;
+		Object.assign(viz, transitionHelper.method) ; // viz can be treated as an item
+		Object.assign(viz, itemHelper.method) ; // viz can be treated as an item
+
+	  // console.log('setup viz end', 'viz', viz) ;
 
 	  return viz ;
 	  

@@ -26,7 +26,7 @@ var fruitHelper = {
     trans.end = function() {
 
       fruit.add_linear('y', fruit.y - 80, fruit.duration) ;
-  
+
       fruit.fade({
 
         duration: fruit.duration,
@@ -34,12 +34,21 @@ var fruitHelper = {
         pause: fruit.duration,
 
         end: function() {
-          fruit.add_transition(fruit.x_trans()) ;
-          fruit.add_transition(fruit.y_trans()) ;
-          fruit.add_linear('xScale', scale1, fruit.viz.fadeDuration) ;
-          fruit.add_linear('yScale', scale1, fruit.viz.fadeDuration) ;
-          fruit.white.add_transition(document.fade([1, 1, 0])) ;
-          fruit.call( callback, fruit.viz.fadeDuration * 3 ) ;
+
+          var fade = document.fade([1, 0])[0] ;
+
+          fade.child.pause = fruit.duration ;
+
+          fade.child.end = function() {
+            fruit.add_transition(fruit.x_trans()) ;
+            fruit.add_transition(fruit.y_trans()) ;
+            fruit.add_linear('xScale', scale1, fruit.viz.fadeDuration) ;
+            fruit.add_linear('yScale', scale1, fruit.viz.fadeDuration) ;
+            fruit.white.add_transition(document.fade([1, 1, 0])) ;
+            fruit.call( callback, fruit.viz.fadeDuration * 3 ) ;            
+          } ;
+
+          fruit.white.add_transition(fade) ;          
         },
 
       }) ;

@@ -163,11 +163,14 @@ function primefruit() {
       reset.end = function() {
 
         viz.fade({
+
           duration: duration * 5,
           opacity: 0,
+          
           end: function() {
             load_game() ;
           },
+
         }) ;
 
       } ;
