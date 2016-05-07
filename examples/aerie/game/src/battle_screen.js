@@ -165,13 +165,21 @@ function battle_screen() {
     var leftCode        = 37 ;
     var rightCode       = 39 ;
     var blockCode       = 40 ;
-    var buttonImage1 = viz.player.sprite.attack[1] ;
+    //var buttonImage1 = viz.player.sprite.attack[1] ;
     // var buttonImage2    = spriteset.thrust[1] ;    
     // var healCode        =    ;
     
     leftButtonConfig = {
    
+       loop: {
 
+            push: {
+                frameDur: viz.frameDuration,
+                position: 0,
+                Nstep: 2,
+            },
+
+        },       
         sprite_loader: function() {
             var i = imageHelper.to_canvas ('./image/left_button_spritesheet.png') ;
             var rowName = ['push'] ;
@@ -187,7 +195,6 @@ function battle_screen() {
         y: 140,
         type: 'leftButton', 
   
-
     } ;    
 
     rightButtonConfig = {
@@ -207,11 +214,10 @@ function battle_screen() {
         y: 140,
         type: 'rightButton', 
 
-
     } ;    
 
     attackButtonConfig = {
-                sprite_loader: function() {
+        sprite_loader: function() {
             var i = imageHelper.to_canvas ('./image/attack_button_spritesheet.png') ;
             var rowName = ['push'] ;
             var width = [actionButtonWidth] ;
@@ -228,7 +234,7 @@ function battle_screen() {
     } ;    
 
     blockButtonConfig = {
-                sprite_loader: function() {
+        sprite_loader: function() {
             var i = imageHelper.to_canvas ('./image/block_button_spritesheet.png') ;
             var rowName = ['push'] ;
             var width = [actionButtonWidth] ;
@@ -306,6 +312,8 @@ function battle_screen() {
 
     } ;  
 
+
+
     viz.setup_ui (viz);
     viz.button = {
         left: setup_element (viz, leftButtonConfig),
@@ -319,8 +327,9 @@ function battle_screen() {
     viz.button.left.item.callback = function left_button_callback() {
         var leftButton = this ;
         var leftCode   = 37 ;
-        //viz.leftButton.push () ;
+  
         gameHelper.screen_handler(leftCode) ;
+    viz.player.buttonpress('leftButton') ;
     } ;
 
     viz.button.right.item.image = viz.button.right.sprite.push[0] ;
@@ -337,7 +346,7 @@ function battle_screen() {
     viz.button.attack.item.callback = function attack_button_callback() {
         var attackButton = this ;
         var attackCode   = 32 ;
-        //viz.attackButton.push () ;
+        viz.player.attack('slash') ;
         gameHelper.screen_handler(attackCode) ;
     } ;
 
@@ -347,8 +356,19 @@ function battle_screen() {
         var blockButton = this ;
         var blockCode   = 40 ;
         //viz.leftButton.push () ;
+        viz.player.block('shield') ;
         gameHelper.screen_handler(blockCode) ;
     } ;
+    
+    // viz.button.thrust.item.image = viz.button.thrust.sprite.push[0] ;
+    // viz.button.thrust.item.uiSwitch = true ;
+    // viz.button.thrust.item.callback = function thrust_button_callback() {
+    //     var thrustButton = this ;
+    //     var thrustCode   = 40 ;
+    //     //viz.leftButton.push () ;
+    //     viz.player.attack('thrust') ;
+    //     gameHelper.screen_handler(thrustCode) ;
+    // } ;    
 
     // viz.setup_item (viz.button.left.item) ;
     // viz.setup_item (viz.button.right.item) ;
@@ -363,6 +383,7 @@ function battle_screen() {
     viz.enemy.item.add() ;
     viz.enemy.callback  = enemyBattleHelper.update ;
     viz.player.item.add() ;
+    // viz.button.item.add() ;
 
     viz.player.callback = playerBattleHelper.update ;    
     // viz.player.item.responseSet.bump = bumpHelper.setup(viz) ;

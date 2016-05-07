@@ -39,7 +39,7 @@ var playerBattleHelper = {
     player.health_bar           = playerBattleHelper.health_bar ;
     player.attack               = playerBattleHelper.attack ;
     player.block                = playerBattleHelper.block ;
-
+    player.buttonpress          = playerBattleHelper.buttonpress ;
     player.healthbar = viz.setup_item ({
       image: player.health_bar(),
       x: 16,
@@ -55,13 +55,14 @@ var playerBattleHelper = {
     if (player === undefined) {
       player = this ;
     }
+    console.log('pbh attack start') ;
       switch (attackType) {
 
         case 'slash':
-          var dur1 = 200 ;
-          var dur2 = 200 ;
+          var dur1 = 100 ;
+          var dur2 = 150 ;
           var dur3 = 200 ;
-          var dur4 = 100 ;
+          var dur4 = 250 ;
           var trans1 = transitionHelper.new_step('image', player.sprite.attack[0], dur1) ;
           var trans2 = transitionHelper.new_step('image', player.sprite.attack[1], dur2) ;
           var trans3 = transitionHelper.new_step('image', player.sprite.attack[2], dur3) ;          
@@ -114,6 +115,24 @@ var playerBattleHelper = {
       }
   },
   
+    buttonpress: function player_battle_helper_button_press (buttonType, player) {
+        if(player === undefined) {
+          player = this ;
+        }
+          switch (buttonType) {
+
+            case 'leftButton':  
+              var dur1 = 500 ;
+              var dur2 = 500 ;
+              var trans1 = transitionHelper.new_step('image', leftButton.sprite.push[0], dur1) ;
+              var trans2 = transitionHelper.new_step('image', leftButton.sprite.push[0], dur2) ;
+
+              trans1.child = trans2 ;
+              player.item.add_transition(trans1) ;
+              break ;
+            }
+    },
+
   update: function player_helper_update(player) {
 
     if( player === undefined ) {
