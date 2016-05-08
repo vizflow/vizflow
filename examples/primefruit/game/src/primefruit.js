@@ -172,7 +172,7 @@ function primefruit() {
 
       // var dur = (2 + 4 * 8) * jar.duration  ;
 
-      setTimeout(function() { viz.win() ; }, 5500) ;
+      setTimeout(function() { viz.win() ; }, 6500) ;
 
     }
   } ;
