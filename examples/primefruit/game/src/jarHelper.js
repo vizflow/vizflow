@@ -63,13 +63,13 @@ var jarHelper = {
     Object.assign(jarK, jarHelper.method) ;
 
     // jarK.flash_func    = jarHelper.flash_func ;
-    jarK.fruit         = viz.fruit[k] ;
-    jarK.unlocked      = false ; // jars start out locked
-    jarK.x0            = 0.5 * viz.width ;
-    jarK.y0            = 0.5 * viz.height ;
-    jarK.duration      = 3 * viz.fadeDuration ;
-    jarK.scale1        = 2.5 ;
-    jarK.opacityLow    = 0.05 ;
+    jarK.fruit      = viz.fruit[k] ;
+    jarK.unlocked   = false ; // jars start out locked
+    jarK.x0         = 0.5 * viz.width ;
+    jarK.y0         = 0.5 * viz.height ;
+    jarK.duration   = 3 * viz.fadeDuration ;
+    jarK.scale1     = 2.5 ;
+    jarK.opacityLow = 0.05 ;
 
     var digit = imageHelper.text2image({
       text: k + 2,
@@ -147,81 +147,23 @@ var jarHelper = {
       for ( var kitem = 0 ; kitem < jar.fruit.item.length ; kitem++ ) {
         
           var fk        = jar.fruit.item[kitem] ;
-          fk.remove_transition('opacity') ;
-          var fruitFade = [1.0, 1.0, 1.0, 1.0, 0] ;
-          var trans     = document.fade(fruitFade) ;
-          var index     = fk.code.charCodeAt(0) - 'a'.charCodeAt(0) ; // prime number index 
-
-          transitionHelper.get_child(trans[0], fruitFade.length - 1).end = {
-            
-            index: index, 
-
-            item: fk,
-
-            run: function(endConfig) {
-              
-              if ( endConfig === undefined ) {
-                endConfig = this ;
-              }
-
-              endConfig.item.remove() ;
-              var replacementSwitch = false ;
-              viz.prime[endConfig.index].white.add_transition( document.fade([1, 0]), replacementSwitch ) ;
-
-            },
-
-          } ;
-
-          var xTrans = fk.x_trans() ;
-          var yTrans = fk.y_trans() ;
-
-          var shift = 50 * kitem ;
-
-          var xTrans0 = transitionHelper.new_linear('x', shift, viz.fadeDuration * 3) ; 
-          xTrans0.child = xTrans ;
-
-          var yTrans0 = transitionHelper.new_linear('y', shift, viz.fadeDuration * 3) ; 
-          yTrans0.child = yTrans ;
-
-          fk.add_transition(trans) ;
-          fk.add_transition(xTrans0) ;
-          fk.add_transition(yTrans0) ;    
-          // fk.add_transition(fruitHelper.x_scale()) ;
-          // fk.add_transition(fruitHelper.y_scale()) ;
+          fk.grab(kitem) ;
         
       }
 
-      jar.focus(jar.opacityLow, function() {
+      function delay1() { jar.focus(jar.opacityLow) ; }
 
-        // jar.open() ;
-        // jar.resize(jar.scale1) ;
+      function delay2() { 
+        jar.focus(1) ;
+        jar.exit() ; 
+      }
 
-        jar.call(
-        
-          function() {
+      function delay3() { 
+        jar.viz.busy = false ;
+      }
 
-            jar.focus(1, function() { jar.viz.unlock_jars() ; } ) ;
-            jar.exit() ;
+      jar.call([delay1, delay2, delay3], jar.duration) ;
 
-          }, 
-        
-          jar.duration
-        
-        ) ;
-
-        // jar.fade({
-
-        //   duration: viz.fadeDuration,
-        //   opacity: 0,
-        //   end: function() {
-        //     jar.remove() ;
-        //     viz.scoreup() ;
-        //   },
-
-        // }) ;
-
-
-      }) ;
     },
 
     prime_transition: function jar_helper_prime_transition( jar ) {
@@ -264,8 +206,6 @@ var jarHelper = {
       var viz = jar.viz ;
 
       function callback() {
-
-        viz.call( viz.unlock_jars, jar.duration ) ;      
         
         jar.focus(1) ;
 
@@ -284,6 +224,8 @@ var jarHelper = {
           }
 
         }
+
+        jar.exit() ;
 
       }
 
@@ -379,10 +321,6 @@ var jarHelper = {
         jar = this ;
       }
 
-      if ( removeSwitch === undefined ) {
-        removeSwitch = true ;
-      }
-
       function end_func() {
 
         jar.lid.fade({
@@ -390,11 +328,6 @@ var jarHelper = {
           duration: jar.duration * 2,
           opacity: 0,
           pause: jar.duration * 2,
-          end: function() {
-            if ( removeSwitch === true ) {
-              jar.exit() ;
-            }
-          }
 
         }) ;
 
@@ -430,6 +363,7 @@ var jarHelper = {
 
           jar.remove() ;
           viz.scoreup() ;
+          viz.unlock_jars() ;
 
         },
       
@@ -457,7 +391,7 @@ var jarHelper = {
       var viz = jar.viz ;
 
       var trans = transitionHelper.new_linear('opacity', o1, jar.duration ) ;
-      
+
       for ( var kjar = 0 ; kjar < viz.jar.length ; kjar++ ) {
         
         if( viz.jar[kjar] === jar) {
@@ -467,9 +401,9 @@ var jarHelper = {
         viz.jar[kjar].lid .add_transition( trans ) ;
         viz.jar[kjar].blue.add_transition( trans ) ;
 
-        // for ( var kfruit = 0 ; kfruit < viz.jar[kjar].fruit.item.length ; kfruit++ ) { 
-        //   viz.jar[kjar].fruit.item[kfruit].add_transition( trans ) ;
-        // }
+        for ( var kfruit = 0 ; kfruit < viz.jar[kjar].fruit.item.length ; kfruit++ ) { 
+          viz.jar[kjar].fruit.item[kfruit].xy_scale(0) ;
+        }
 
         viz.jar[kjar].add_transition( trans ) ;
 

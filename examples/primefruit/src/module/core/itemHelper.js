@@ -229,7 +229,7 @@ var itemHelper = {
             console.log('item_helper_call: delay is not a Number of Array') ;
           }
 
-          console.log('item helper call: ', 'kcall', kcall, 'callback[kcall]', callback[kcall], 'delayK', delayK) ;
+          // console.log('item helper call: ', 'kcall', kcall, 'callback[kcall]', callback[kcall], 'delayK', delayK) ;
 
           item.run_callback( callback[kcall], delayK ) ;
 

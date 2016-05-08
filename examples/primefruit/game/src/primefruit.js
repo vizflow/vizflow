@@ -39,7 +39,7 @@ function primefruit() {
    * when using vizflow it's easier to create the viz object and then add the items to it afterwards:
    */
 
-  var duration = 200 ;
+  var duration = 50 ;
   var width    = 320 ;
   var height   = 320 ;
 
@@ -68,7 +68,7 @@ function primefruit() {
 
   viz.fruit  = new Array(viz.N - 1) ; // initialize array of viz.fruit 
   viz.jar    = new Array(viz.N - 1) ; // initialize array of jars 
-  viz.target = viz.N - 1 ;
+  viz.target = viz.N - 5 ;
   viz.score  = 0 ;
 
   viz.code = [
