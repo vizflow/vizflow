@@ -219,7 +219,6 @@ var itemHelper = {
 
         for ( var kcall = 0 ; kcall < callback.length ; kcall++ ) {
 
-
           if ( delay.constructor === Number ) {
             var delayK = delay * (kcall + 1) ;
           } else if( delay.constructor === Array ) {
@@ -229,13 +228,27 @@ var itemHelper = {
             console.log('item_helper_call: delay is not a Number of Array') ;
           }
 
-          console.log('item helper call: ', 'kcall', kcall, 'callback[kcall]', callback[kcall], 'delayK', delayK) ;
+          // console.log('item helper call: ', 'kcall', kcall, 'callback[kcall]', callback[kcall], 'delayK', delayK) ;
 
-          item.run_callback( callback[kcall], delayK ) ;
+          if ( callback[kcall].constructor === String ) {
+            var callbackK = item[callback[kcall]] ;
+          } else {
+            var callbackK = callback[kcall] ;
+          }
+
+          item.run_callback( callbackK, delayK ) ;
 
         }
 
       } else {
+
+        // console.log('item helper call: ', 'callback', callback, 'item', item)
+
+        if ( callback.constructor === String ) {
+          callback = item[callback] ;
+        }
+
+        // console.log('item helper call: ', 'callback 2', callback, 'delay', delay)
 
         item.run_callback(callback, delay) ;        
 
@@ -251,12 +264,18 @@ var itemHelper = {
 
       item.delayCount++ ;
 
-      var trans = transitionHelper.new_step('delay' + item.delayCount, undefined, delay) ;
+      var prop = 'delay' + item.delayCount ;
 
-      trans.end = function() {
+      item[prop] = null ;
+
+      var trans = transitionHelper.new_step(prop, undefined, delay) ;
+
+      trans.end = function run_callback_end() {
+        // console.log('run_callback_end:', 'callback', callback, 'item', item)
         callback.call(item) ;
-        item.delayCount-- ;
       } ;
+
+      // console.log('run_callback', 'item', item, 'trans', trans) ;
 
       item.add_transition(trans) ;
 

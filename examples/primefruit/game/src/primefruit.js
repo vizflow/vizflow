@@ -68,7 +68,7 @@ function primefruit() {
 
   viz.fruit  = new Array(viz.N - 1) ; // initialize array of viz.fruit 
   viz.jar    = new Array(viz.N - 1) ; // initialize array of jars 
-  viz.target = viz.N - 1 ;
+  viz.target = viz.N - 5 ;
   viz.score  = 0 ;
 
   viz.code = [
@@ -146,7 +146,40 @@ function primefruit() {
 
   } // end loop over tiles/jars
 
+  viz.scoreup = function viz_scoreup() {
+
+    viz.score += 1 ;
+
+    if ( viz.score === viz.target ) { // you win!
+
+      var count = 0 ;
+
+      for ( kjar = 0 ; kjar < viz.jar.length ; kjar++ ) {
+
+        var jar = viz.jar[kjar] ;
+
+        if ( jar.removeSwitch === true ) {
+          continue ;
+        }
+
+        jar.unlock() ;
+
+        jar.call('show_prime', jar.duration + count * 8 * jar.duration) ;
+
+        count++ ;
+
+      }
+
+      // var dur = (2 + 4 * 8) * jar.duration  ;
+
+      setTimeout(function() { viz.win() ; }, 5500) ;
+
+    }
+  } ;
+
   viz.win = function win() {
+
+    console.log('you win!') ;
 
     viz.prime.forEach(function(d) {
 
@@ -179,15 +212,7 @@ function primefruit() {
 
     }) ;
 
-  } ;
-
-  viz.scoreup = function viz_scoreup() {
-    viz.score += 1 ;
-    if ( viz.score === viz.target ) {
-      console.log('you win!') ;
-      viz.win() ;
-    }
-  } ;
+  } ;  
 
   viz.all_closed = function viz_all_closed() {
 
@@ -221,6 +246,8 @@ function primefruit() {
     if ( viz === undefined ) {
       viz = this ;
     }
+
+    // console.log('unlock jars start') ;
     
     for ( var kJar = 0 ; kJar < viz.jar.length ; kJar++ ) {
 
@@ -259,6 +286,44 @@ function primefruit() {
       viz.jar[kCurr].unlock() ;
 
     }
+
+  } ;
+
+  viz.fruit_pulse = function fruit_pulse( viz ) {
+
+    if ( viz === undefined ) {
+      viz = this ; 
+    }
+
+    for ( var kfruit = 0 ; kfruit < viz.fruit.length ; kfruit++ ) {
+
+      for ( var kitem = 0 ; kitem < viz.fruit[kfruit].item.length ; kitem++ ) {
+
+        if ( viz.fruit[kfruit].item[kitem].is_prime() ) {
+          continue ;
+        }
+
+        if ( viz.fruit[kfruit].item[kitem].removeSwitch === true ) {
+          continue ;
+        }
+
+        if ( viz.fruit[kfruit].item[kitem].is_collected() ) {
+          viz.fruit[kfruit].item[kitem].pulse() ;
+        }
+
+      }
+
+    }
+
+  } ;
+
+  viz.reset = function viz_reset ( viz ) {
+
+    if ( viz === undefined ) {
+      viz = this ;
+    }
+
+    viz.busy = false ;
 
   } ;
 
