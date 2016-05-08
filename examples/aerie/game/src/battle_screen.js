@@ -236,11 +236,12 @@ function battle_screen() {
     attackButtonConfig = {
         sprite_loader: function() {
             var i = imageHelper.to_canvas ('./image/attack_button_spritesheet.png') ;
-            var rowName = ['push'] ;
-            var width = [actionButtonWidth] ;
-            var height = [actionButtonHeight] ;
+            var rowName = ['slash', 'thrust', 'combo'] ;
+            var width = [actionButtonWidth, actionButtonWidth, actionButtonWidth] ;
+            var height = [actionButtonHeight, actionButtonHeight, actionButtonHeight] ;
             var spriteset = spriteHelper.get(i, rowName, width, height) ;
-            spriteset.push = [spriteset.push[0], spriteset.push[1]] ;
+            spriteset.slash = [spriteset.slash[0], spriteset.slash[1]] ;
+            spriteset.thrust = [spriteset.thrust[0], spriteset.thrust[1]] ;
             
             return spriteset ;
         
@@ -288,25 +289,7 @@ function battle_screen() {
     // // } ;    
 
 
-    //     // count: 1,
-    //     //rowIndex: buttonRowIndex,
-    //     width: 58,
-    //     height: 48,
-    //     image: imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/healButton.png')),
-    //     uiSwitch: true,
-        
-    //     callback: function thrust_button_callback() { 
-    //         console.log('thrust button callback start') ;
-
-    //         var thrustButton = this ;
-    //         var thrustCode   = 38 ;         
-
-    //         viz.player.attack ('thrust') ;
-    //         gameHelper.screen_handler(thrustCode) ;
-
-    //     },
-    // } ;    
-
+  
     var uiCanvas = imageHelper.create(viz.width, viz.height) ;
 
     var uiConfig = {
@@ -331,7 +314,7 @@ function battle_screen() {
     viz.button.left.item.callback = function left_button_callback() {
         var leftButton = this ;
         var leftCode   = 37 ;
-  
+        viz.button.left.sprite.push ;
         gameHelper.screen_handler(leftCode) ;
     // viz.player.buttonpress('leftButton') ;
     } ;
@@ -345,14 +328,62 @@ function battle_screen() {
         gameHelper.screen_handler(rightCode) ;
     } ;
 
-    viz.button.attack.item.image = viz.button.attack.sprite.push[0] ;
+    viz.button.attack.index = 0 ;
+    viz.button.attack.item.image = viz.button.attack.sprite.slash[0] ;
     viz.button.attack.item.uiSwitch = true ;
     viz.button.attack.item.callback = function attack_button_callback() {
         var attackButton = this ;
         var attackCode   = 32 ;
+        var buttonImage  = 
         viz.player.attack('slash') ;
         gameHelper.screen_handler(attackCode) ;
-    viz.button.attack.item.image = viz.button.thrust.sprite.push[0] ;
+        viz.button.attack.index++ ;
+        viz.button.attack.index = viz.button.attack.index % viz.button.attack.sprite.slash.length ; // tells us how many images there are modded by the images in the sprite
+        viz.button.attack.item.image = viz.button.attack.sprite.combo[viz.button.attack.index] ;
+    
+        if (viz.button.attack.item.image = viz.button.attack.sprite.combo[1]) {
+            viz.button.attack.item.callback = function attack_button_callback() {
+            var attackButton = this ;
+            var attackCode   = 40 ;
+        //     //viz.leftButton.push () ;
+            viz.player.attack('thrust') ;
+            gameHelper.screen_handler(attackCode) ; 
+            viz.button.attack.item.image = viz.button.attack.sprite.combo[1] ;            
+            } 
+
+        // if (viz.button.attack.item.image = viz.button.attack.sprite.combo[0]) {
+        //     viz.button.attack.item.callback = function attack_button_callback() {
+        //         viz.player.attack('slash') ;
+        //         gameHelper.screen_handler(attackCode) ;  
+                           
+        //     }
+        // }
+
+        // } else if (viz.button.attack.item.image = viz.button.attack.sprite.combo[0]){
+        // viz.button.attack.index++ ;
+
+        // viz.button.attack.index = viz.button.attack.index % viz.button.attack.sprite.thrust.length ; // tells us how many images there are modded by the images in the sprite
+
+        // viz.button.attack.item.image = viz.button.attack.sprite.combo[viz.button.attack.index] ;
+            
+        //     viz.button.attack.item.image = viz.button.attack.sprite.combo[1] ;            
+        //             viz.player.attack('slash') ;
+
+         
+     }   
+        
+    //     }   else if (viz.button.attack.item.image = viz.button.attack.sprite.combo[0]){
+    //          viz.button.attack.item.callback = function attack_button_callback() {
+    //     //     var attackButton = this ;
+    //     //     var attackCode   = 40 ;
+    //     //     //viz.leftButton.push () ;
+    //         viz.player.attack('slash') ;
+    //         gameHelper.screen_handler(attackCode) ; 
+    //        // viz.button.attack.item.image = viz.button.attack.sprite.combo[1] ;   
+    //         }
+
+    // }    
+
 
     } ;
 

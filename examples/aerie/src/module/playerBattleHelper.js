@@ -55,7 +55,7 @@ var playerBattleHelper = {
     if (player === undefined) {
       player = this ;
     }
-    console.log('pbh attack start') ;
+    // console.log('pbh attack start') ;
       switch (attackType) {
 
         case 'slash':
@@ -115,23 +115,23 @@ var playerBattleHelper = {
       }
   },
   
-    buttonpress: function player_battle_helper_button_press (buttonType, player) {
-        if(player === undefined) {
-          player = this ;
-        }
-          switch (buttonType) {
+    // buttonpress: function player_battle_helper_button_press (buttonType, player) {
+    //     if(player === undefined) {
+    //       player = this ;
+    //     }
+    //       switch (buttonType) {
 
-            case 'leftButton':  
-              var dur1 = 500 ;
-              var dur2 = 500 ;
-              var trans1 = transitionHelper.new_step('image', leftButton.sprite.push[0], dur1) ;
-              var trans2 = transitionHelper.new_step('image', leftButton.sprite.push[0], dur2) ;
+    //         case 'leftButton':  
+    //           var dur1 = 500 ;
+    //           var dur2 = 500 ;
+    //           var trans1 = transitionHelper.new_step('image', leftButton.sprite.push[0], dur1) ;
+    //           var trans2 = transitionHelper.new_step('image', leftButton.sprite.push[0], dur2) ;
 
-              trans1.child = trans2 ;
-              player.item.add_transition(trans1) ;
-              break ;
-            }
-    },
+    //           trans1.child = trans2 ;
+    //           player.item.add_transition(trans1) ;
+    //           break ;
+    //         }
+    // },
 
   update: function player_helper_update(player) {
 
