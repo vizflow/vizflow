@@ -40,6 +40,7 @@ var fruitHelper = {
         opacity: 0.2,
         image: fruitHelper.sprite[viz.code[k][kitem]][0],
         addSwitch: true,
+        k: kitem,
 
       } ;
 
@@ -61,6 +62,27 @@ var fruitHelper = {
   },
 
   method: {
+
+
+    final: function fruit_helper_method_final ( fruit ) {
+
+      if ( fruit === undefined ) {
+        fruit = this ;
+      }
+
+      console.log('fruit final', 'fruit', fruit)
+
+      var duration2 = 3 * fruit.viz.fadeDuration ;
+      var offset = 20 ;
+      var viz = fruit.viz ;
+      var s1 = 2 ;
+
+      fruit.xy_scale(s1) ;
+      fruit.add_linear('x', s1 * fruit.x * viz.Ncol + offset, duration2) ;
+      fruit.add_linear('y', s1 * fruit.y * viz.Ncol + offset, duration2) ;
+      fruit.white.add_transition(document.fade([0, 1, 1, 1, 0]))      
+
+    },
 
     grab: function fruit_helper_grab (kitem, fk) {
 
@@ -96,12 +118,12 @@ var fruitHelper = {
       var xTrans = fk.x_trans() ;
       var yTrans = fk.y_trans() ;
 
-      var shift = 50 * kitem ;
+      var shift = 50 * fk.config.k ;
 
-      var xTrans0   = transitionHelper.new_linear('x', shift, fk.viz.fadeDuration * 3) ; 
+      var xTrans0   = transitionHelper.new_linear('x', fk.x, fk.viz.fadeDuration * 3) ; 
       xTrans0.child = xTrans ;
 
-      var yTrans0   = transitionHelper.new_linear('y', shift, fk.viz.fadeDuration * 3) ; 
+      var yTrans0   = transitionHelper.new_linear('y', fk.y - 32, fk.viz.fadeDuration * 3) ; 
       yTrans0.child = yTrans ;
 
       fk.add_transition(trans) ;
@@ -121,8 +143,8 @@ var fruitHelper = {
       var viz = fruit.viz ;
 
       var scale0 = 3 ;
-      var scale1 = viz.xGridMini / viz.xGrid ;
-      var yShift = fruit.image.originalCanvas.height * 0.5 ;
+      var scale1 = fruit.config.xScale ;
+      var yShift = fruit.image.originalCanvas.height ;
 
       var x0 = viz.width  * 0.5 - (fruit.image.originalCanvas.width * scale0) * 0.5 ;
       var y0 = viz.height * 0.5 - (fruit.image.originalCanvas.height * scale0) * 0.5 + yShift ;
@@ -132,41 +154,43 @@ var fruitHelper = {
       fruit.xScale = scale0 ;
       fruit.yScale = scale0 ;
 
-      var trans = transitionHelper.new_step('show', undefined, 3 * fruit.pausedur ) ;
+      fruit.call(
 
-      trans.end = function() {
+        function() {
 
-        fruit.add_linear('y', fruit.y - 80, fruit.duration) ;
+          fruit.add_linear('y', fruit.y - 100, fruit.duration) ;
 
-        fruit.fade({
+          fruit.fade({
 
-          duration: fruit.duration,
-          opacity: 1,
-          pause: fruit.duration,
+            duration: fruit.duration,
+            opacity: 1,
+            pause: fruit.duration,
 
-          end: function() {
+            end: function() {
 
-            var fade = document.fade([1, 0])[0] ;
+              var fade = document.fade([1, 0])[0] ;
 
-            fade.child.pause = fruit.duration ;
+              fade.child.pause = fruit.duration ;
 
-            fade.child.end = function() {
-              fruit.add_transition(fruit.x_trans()) ;
-              fruit.add_transition(fruit.y_trans()) ;
-              fruit.add_linear('xScale', scale1, fruit.viz.fadeDuration) ;
-              fruit.add_linear('yScale', scale1, fruit.viz.fadeDuration) ;
-              fruit.white.add_transition(document.fade([1, 1, 0])) ;
-              fruit.call( callback, fruit.viz.fadeDuration * 3 ) ;            
-            } ;
+              fade.child.end = function() {
 
-            fruit.white.add_transition(fade) ;          
-          },
+                fruit.add_transition(fruit.x_trans()) ;
+                fruit.add_transition(fruit.y_trans()) ;
+                fruit.add_linear('xScale', scale1, fruit.viz.fadeDuration) ;
+                fruit.add_linear('yScale', scale1, fruit.viz.fadeDuration) ;
+                fruit.white.add_transition(document.fade([1, 1, 0])) ;
+                fruit.call( callback, fruit.viz.fadeDuration * 3 ) ;            
+              
+              } ;
 
-        }) ;
-      
-      } ;
+              fruit.white.add_transition(fade) ;          
+            },
 
-      fruit.add_transition(trans) ;
+          }) ;
+        
+        }
+
+      ) ;
 
     },
 
@@ -208,6 +232,10 @@ var fruitHelper = {
         fruit = this ;
       }
 
+      if ( value === undefined ) {
+        value = fruit.config.xScale ;
+      }
+
       fruit.add_transition([fruit.x_scale(value), fruit.y_scale(value)]) ; 
     },
 
@@ -218,7 +246,7 @@ var fruitHelper = {
       }
 
       if ( scale1 === undefined ) {
-        scale1 = .5 ;
+        scale1 = fruit.config.xScale ;
       }
 
       var xScaleTrans = transitionHelper.new_linear('xScale', scale1, fruit.duration) ;
@@ -234,7 +262,7 @@ var fruitHelper = {
       }
 
       if ( scale1 === undefined ) {
-        scale1 = .5 ;
+        scale1 = fruit.config.yScale ;
       }
 
       var yScaleTrans   = transitionHelper.new_linear('yScale', scale1, fruit.duration) ;
@@ -249,12 +277,27 @@ var fruitHelper = {
         fruit = this ;
       }
 
-      // console.log('fruit helper is collected: ', 'fruit', fruit) ;
+      // console.log('fruit helper is collected: ', 'fruit', fruit.code, ) ;
 
-      if ( fruit.viz.collected[ fruit.viz.code ] === undefined ) {
+      if ( fruit.viz.collected[ fruit.code ] === undefined ) {
         return false ;
       } else {  
         return true ;
+      }
+
+    },
+
+    is_prime: function fruit_helper_is_prime( fruit ) {
+
+      if ( fruit === undefined ) {
+        fruit = this ;
+      }
+
+
+      if ( fruit.parent.item.length === 1 ) {
+        return true ;
+      } else {  
+        return false ;
       }
 
     },
