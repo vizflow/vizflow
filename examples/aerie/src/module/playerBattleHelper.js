@@ -51,6 +51,19 @@ var playerBattleHelper = {
     return player ;
   },
 
+  // push: function button_push (buttonTupe, button) {
+  //   switch (buttonType) {
+
+  //     case 'left':
+  //       var dur1 = 100 ;
+  //       var dur2 = 100 ;
+  //       var trans1 = transitionHelper.new_step('image', button.sprite.push[0], dur1) ;
+  //       var trans2 = transitionHelper.new_step('image', button.sprite.push[1], dur2) ;
+  //       trans1.child = trans2 ;
+  //       button.item.add_transition(trans1) ;
+  //       break ;
+  //   }
+  // },
   attack: function player_battle_helper_attack (attackType, player) {
     if (player === undefined) {
       player = this ;
@@ -90,9 +103,26 @@ var playerBattleHelper = {
           player.item.add_transition(trans1) ;
           break;
 
-        // case 'smash':
-        //   // do stuff
-        //   break ;
+        case 'finisher':
+          var dur1 = 400 ;
+          var dur2 = 350 ;
+          var dur3 = 200 ;
+          var dur4 = 900 ;
+          var dur5 = 250 ;
+          var trans1 = transitionHelper.new_step('image', player.sprite.finisher[0], dur1) ;
+          var trans2 = transitionHelper.new_step('image', player.sprite.finisher[1], dur2) ;
+          var trans3 = transitionHelper.new_step('image', player.sprite.finisher[2], dur3) ;          
+          var trans4 = transitionHelper.new_step('image', player.sprite.finisher[3], dur4) ;          
+          var trans5 = transitionHelper.new_step('image', player.sprite.rest[0], dur4) ;
+
+          trans1.child = trans2 ;
+          trans1.child.child = trans3 ;
+          trans1.child.child.child = trans4 ;
+          trans1.child.child.child.child = trans5 ;
+
+          player.item.add_transition(trans1) ;          
+          
+          break;
         
         }     
   },
@@ -114,24 +144,6 @@ var playerBattleHelper = {
           break ;
       }
   },
-  
-    // buttonpress: function player_battle_helper_button_press (buttonType, player) {
-    //     if(player === undefined) {
-    //       player = this ;
-    //     }
-    //       switch (buttonType) {
-
-    //         case 'leftButton':  
-    //           var dur1 = 500 ;
-    //           var dur2 = 500 ;
-    //           var trans1 = transitionHelper.new_step('image', leftButton.sprite.push[0], dur1) ;
-    //           var trans2 = transitionHelper.new_step('image', leftButton.sprite.push[0], dur2) ;
-
-    //           trans1.child = trans2 ;
-    //           player.item.add_transition(trans1) ;
-    //           break ;
-    //         }
-    // },
 
   update: function player_helper_update(player) {
 
@@ -168,6 +180,9 @@ var playerBattleHelper = {
           case 32: // space
             state = 'a' ;
             break ;
+          case 13:
+            state = 'f' ;
+            break ;  
 
         } 
 
@@ -323,7 +338,43 @@ var playerBattleHelper = {
 
           player.item.add_transition(transition, replacementSwitch) ;
 
-          break ;          
+          break ;         
+
+        case 'f' :
+         
+          if( transitionHelper.find('image', player.item.transition) > -1 ) {
+            return ; // don't interrupt the current attack animation 
+          }
+
+          var transitionFunc ;
+
+          if( player.transitionSet.finisher === undefined ) {
+            transitionFunc = player.transitionSet.image ;
+          } else {
+            transitionFunc = player.transitionSet.finisher ;
+          }
+
+          var loop = animate_loop(
+            player.loop.finisher,
+            player.sprite.finisher,
+            transitionFunc,
+            function() {} // buttonpress.reset
+
+          ) ;
+
+          player.loop.finisher.position = loop.position ;
+          transition                  = loop.animation ;
+          // console.log('player battle helper update attack case', 'transition', transition) ;
+          var replacementSwitch = true ;
+          var finalFrame ; // = player.sprite.rest[0] ;
+
+            if (player.restoreRest === true) {
+              finalFrame = player.sprite.rest[0] ;  
+            }
+
+          player.item.add_transition(transition, replacementSwitch) ;
+
+          break ;              
                   
       }
 

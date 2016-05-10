@@ -7,19 +7,15 @@ var playerHelper = {
 	  viz.player.level        = 0 ;
 	  viz.player.update       = playerHelper.update_player ;
 	  viz.player.levelup      = playerHelper.levelup ;
-	  // viz.player.load_bullet  = playerHelper.load_bullet ;
-    // viz.player.fire_powerup = powerupHelper.fire ;
     viz.player.paused       = false ;
     viz.player.state        = [] ;
 
 	},
 	
   update: function player_helper_update(player) {
-    // console.log('update player 17') ;
     if( player === undefined ) {
     	player = this ;
     }
-    // console.log('player helper 21') ;
     if( player.paused === true ) {
       return ;
     }
@@ -158,26 +154,16 @@ var playerHelper = {
         var transitionFunc ;
 
         if( player.transitionSet.attack === undefined ) {
-          //  console.log ('player.transitionSet.image', player.transitionSet.image) ;
           transitionFunc = player.transitionSet.image ;
         } else {
           transitionFunc = player.transitionSet.attack ;
         }
-
-        // console.log ('updateplayer 101', player.sprite.attack, transitionFunc, buttonpress.reset, player.sprite.rest[0]) ;
-
-        // var finalFrame ; 
-
-        // if(player.restoreRest) {
-        //   finalFrame = player.sprite.rest[0] ;
-        // }
 
         var loop = animate_loop(
           player.loop.attack,
           player.sprite.attack,
           transitionFunc,
           function() {} // buttonpress.reset
-          // finalFrame
         ) ;
 
         player.loop.attack.position = loop.position ;
@@ -186,10 +172,6 @@ var playerHelper = {
         var replacementSwitch = true ;
         player.item.add_transition(transition, replacementSwitch) ;
 
-        // console.log ('update player 105: ', 'player.loop', player.loop, 'player.sprite.attack', player.sprite.attack, 'transition', transition) ; //player.sprite.attack, transitionFunc, buttonpress.reset, player.sprite.rest[0]) ;
-        // console.log ('update player 109' ) ;
-
-        // console.log ('player.callback: transition', transition, 'player.sprite.attack', player.sprite.attack) ;
         break ;
                
    
@@ -197,72 +179,6 @@ var playerHelper = {
 
     }
         
-  },
-
-
-
-
-	levelup: function player_helper_levelup( player ) {
-		
-		if( player === undefined ) {
-			player = this ;
-		}
-
-		// console.log('levelup start')
-
-		player.level++ ; // increment the level value (level-up)
-
-		// console.log('playerHelper levelup:', 'player.level', player.level, 'player.sprite[attack + player.level]', player.sprite['attack' + player.level]) ;
-
-		if( player.sprite['attack' + player.level] !== undefined ) {
-    	player.sprite.attack = player.sprite['attack' + player.level] ;
-    	player.spriteL.attack = player.spriteL['attack' + player.level] ;
-    	player.spriteR.attack = player.spriteR['attack' + player.level] ;
-		}
-
-		if( player.sprite['hit' + player.level] !== undefined ) {
-    	player.sprite.hit = player.sprite['hit' + player.level] ;			
-    	player.spriteL.hit = player.spriteL['hit' + player.level] ;			
-    	player.spriteR.hit = player.spriteR['hit' + player.level] ;			
-		}
-
-		if( player.sprite['jump' + player.level] !== undefined ) {
-    	player.sprite.jump = player.sprite['jump' + player.level] ;			
-    	player.spriteL.jump = player.spriteL['jump' + player.level] ;			
-    	player.spriteR.jump = player.spriteR['jump' + player.level] ;			
-		}
-
-		if( player.sprite['rest' + player.level] !== undefined ) {
-    	player.sprite.rest = player.sprite['rest' + player.level] ;			
-    	player.spriteL.rest = player.spriteL['rest' + player.level] ;			
-    	player.spriteR.rest = player.spriteR['rest' + player.level] ;			
-		}
-
-		if( player.sprite['walk' + player.level] !== undefined ) {
-    	player.sprite.walk = player.sprite['walk' + player.level] ;			
-    	player.spriteL.walk = player.spriteL['walk' + player.level] ;			
-    	player.spriteR.walk = player.spriteR['walk' + player.level] ;			
-		}
-
-		player.item.image = player.sprite.rest[0] ;
-
-	},
-
-  setup_bullet: function player_helper_setup_bullet( viz, player, bulletConfig ) {
-
-    var bullet = {} ;
-
-    return bullet ;
-
-  },  
-
-  load_bullet: function player_helper_load_bullet( viz ) {
-
-    viz.player.bullet      = playerHelper.setup_bullet ( viz, viz.player, bulletConfig ) ;  
-    viz.player.jumpBullet  = playerHelper.setup_bullet ( viz, viz.player, jumpBulletConfig ) ;      
-    
-    viz.player.fire_bullet = bulletHelper.fire ;
-    
   },
 
 } ;

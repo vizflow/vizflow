@@ -48,9 +48,9 @@ function battle_screen() {
 
     sprite_loader: function() {
     var i = imageHelper.to_canvas('./image/knight_battle_spritesheet.png') ;
-    var rowName = ['attack', 'block', 'rest', 'thrust'] ;
-    var width   = [tileWidth, tileWidth, tileWidth, tileWidth] ;
-    var height  = [tileHeight, tileHeight, tileHeight, tileHeight] ;
+    var rowName = ['attack', 'block', 'finisher', 'rest', 'thrust'] ;
+    var width   = [tileWidth, tileWidth, tileWidth, tileWidth, tileWidth] ;
+    var height  = [tileHeight, tileHeight, 350, tileHeight, tileHeight] ;
 
     maxHeight = Math.max.apply(null, height) ;
     var spriteset = spriteHelper.get(i, rowName, width, height) ;
@@ -58,8 +58,13 @@ function battle_screen() {
     var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0].originalCanvas, { x: 0, y: 0, width: spriteset.attack[0].originalCanvas.width * 0.6, height: maxHeight } ) ;
     spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
     spriteset.thrust[1].sourceCollisionImage = attackCollisionCanvas ;
+    spriteset.finisher[1].sourceCollisionImage = attackCollisionCanvas ;
+
+    spriteset.finisher[2].sourceCollisionImage = attackCollisionCanvas ;
+
     spriteset.attack = [spriteset.attack[0], spriteset.attack[1], spriteset.attack[2], spriteset.rest[0]] ;
     spriteset.thrust = [spriteset.thrust[0], spriteset.thrust[1], spriteset.rest[0]] ;
+    spriteset.finisher = [spriteset.finisher[0], spriteset.finisher[1], spriteset.finisher[2], spriteset.finisher[3], spriteset.rest[0]] ;    
     spriteset.block = [spriteset.block[0], spriteset.rest[0]] ;
     return spriteset ;
 
@@ -74,10 +79,79 @@ function battle_screen() {
     xMove: 74,
     yMove: 74,
     x: 60,
-    y: 20,
+    y: -25,
     type: 'player',
 
     } ;
+
+    var enemyTileHeight = 240 ;
+    var enemyTileWidth  = 200 ;
+
+    viz.enemyConfig = {
+
+        loop: {
+
+        attack: {
+            frameDur: viz.frameDuration * 10,
+            position: 0,
+            Nstep: 2,
+          },
+
+        tailattack: {
+            frameDur: viz.frameDuration * 10,
+            position: 0,
+            Nstep: 4,
+          },
+
+
+        block: {
+            frameDur: viz.frameDuration,
+            position: 0,
+            Nstep: 2,
+          },      
+
+        hindattack: {
+            frameDur: viz.frameDuration * 10,
+            position: 0,
+            Nstep: 4
+        },  
+
+    },         
+
+        sprite_loader: function() {
+
+          var i         = imageHelper.to_canvas('./image/monster_spritesheet.png') ;
+          var rowName   = ['attack', 'block', 'hindattack', 'rest', 'tailattack'] ;
+          var width     = [enemyTileWidth, enemyTileWidth, enemyTileWidth, enemyTileWidth, enemyTileWidth] ;
+          var height    = [enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight] ;
+          maxHeight = Math.max.apply(null, height) ;
+
+          var spriteset = spriteHelper.get(i, rowName, width, height) ;
+          var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0].originalCanvas, { x: 0, y: 0, width: spriteset.attack[0].originalCanvas.width * 0.6, height: maxHeight } ) ;
+          var tailAttackCollisionCanvas            = imageHelper.clear_rect (spriteset.tailattack[0].originalCanvas, { x: 0, y: 0, width: spriteset.tailattack[0].originalCanvas.width * 0.6, height: maxHeight } ) ;
+          var hindAttackCollisionCanvas            = imageHelper.clear_rect (spriteset.hindattack[0].originalCanvas, { x: 0, y: 0, width: spriteset.hindattack[2].originalCanvas.width * 0.6, height: maxHeight } ) ;
+          
+          spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
+          spriteset.tailattack[2].sourceCollisionImage = tailAttackCollisionCanvas ;
+          spriteset.hindattack[1].sourceCollisionImage = hindAttackCollisionCanvas ;
+          spriteset.hindattack[2].sourceCollisionImage = hindAttackCollisionCanvas ;
+
+          spriteset.block   = [spriteset.block[0], spriteset.rest[0]] ;      
+          spriteset.attack = [spriteset.attack[0], spriteset.attack[1], spriteset.rest[0]] ;
+          spriteset.tailattack = [spriteset.tailattack[0], spriteset.tailattack[1], spriteset.tailattack[2]] ;
+          spriteset.hindattack = [spriteset.hindattack[0], spriteset.hindattack[1], spriteset.hindattack[2]] ;
+
+          return spriteset ;
+
+        },    
+
+        x: 60,
+        y: 30,
+        type: 'enemy',
+
+    } ;
+
+    viz.enemy  = enemyBattleHelper.setup(viz) ;
 
     viz.player = playerBattleHelper.setup(viz) ;
 
@@ -105,57 +179,7 @@ function battle_screen() {
 
     } ;
 
-    var enemyTileHeight = 240 ;
-    var enemyTileWidth  = 200 ;
 
-    viz.enemyConfig = {
-
-        loop: {
-
-        attack: {
-            frameDur: viz.frameDuration,
-            position: 0,
-            Nstep: 2,
-          },
-
-        tailattack: {
-            frameDur: viz.frameDuration * 10,
-            position: 0,
-            Nstep: 4,
-          },
-
-
-        block: {
-            frameDur: viz.frameDuration,
-            position: 0,
-            Nstep: 2,
-          },      
-
-        },         
-
-        sprite_loader: function() {
-
-          var i         = imageHelper.to_canvas('./image/monster_spritesheet.png') ;
-          var rowName   = ['attack', 'block', 'rest', 'tailattack'] ;
-          var width     = [enemyTileWidth, enemyTileWidth, enemyTileWidth, enemyTileWidth] ;
-          var height    = [enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight] ;
-          var spriteset = spriteHelper.get(i, rowName, width, height) ;
-          var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0].originalCanvas, { x: 0, y: 0, width: spriteset.attack[0].originalCanvas.width * 0.6, height: maxHeight } ) ;
-          var tailAttackCollisionCanvas            = imageHelper.clear_rect (spriteset.tailattack[0].originalCanvas, { x: 0, y: 0, width: spriteset.tailattack[0].originalCanvas.width * 0.6, height: maxHeight } ) ;
-          spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
-          spriteset.tailattack[2].sourceCollisionImage = tailAttackCollisionCanvas ;
-          spriteset.block   = [spriteset.block[0], spriteset.rest[0]] ;      
-          spriteset.attack = [spriteset.attack[0], spriteset.attack[1], spriteset.rest[0]] ;
-          spriteset.tailattack = [spriteset.tailattack[0], spriteset.tailattack[1], spriteset.tailattack[2]] ;
-          return spriteset ;
-
-        },    
-
-        x: 60,
-        y: 30,
-        type: 'enemy',
-
-    } ;
 
     var moveButtonWidth     = 50 ;
     var moveButtonHeight    = 75 ;
@@ -165,8 +189,6 @@ function battle_screen() {
     var leftCode        = 37 ;
     var rightCode       = 39 ;
     var blockCode       = 40 ;
-    //var buttonImage1 = viz.player.sprite.attack[1] ;
-    // var buttonImage2    = spriteset.thrust[1] ;    
     // var healCode        =    ;
     
     leftButtonConfig = {
@@ -233,6 +255,22 @@ function battle_screen() {
         y: 110,
     } ;
 
+    finisherButtonConfig = {
+        sprite_loader: function() {
+            var i = imageHelper.to_canvas ('./image/finisher_button_spritesheet.png') ;
+            var rowName = ['push'] ;
+            var width = [actionButtonWidth] ;
+            var height = [actionButtonHeight] ;
+            var spriteset = spriteHelper.get(i, rowName, width, height) ;
+            spriteset.push = [spriteset.push[0], spriteset.push[1]] ;
+            
+            return spriteset ;
+        
+        },    
+        x: 370, // drawn offscreen
+        y: 110,
+    } ;    
+
     attackButtonConfig = {
         sprite_loader: function() {
             var i = imageHelper.to_canvas ('./image/attack_button_spritesheet.png') ;
@@ -268,30 +306,7 @@ function battle_screen() {
     
     } ;    
 
-    // // healButtonConfig = {
-    // //     x: 270,
-    // //     y: 0,
-    // //     // count: 1,
-    // //     //rowIndex: buttonRowIndex,
-    // //     width: 58,
-    // //     height: 48,
-    // //     image: imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/healButton.png')),
-    // //     uiSwitch: true,
-        
-    // //     callback: function rightButton_callback() { 
-
-    // //         var healButton = this ;
-    // //         var healCode   = 84 ;
-
-    // //         gameHelper.screen_handler(healCode) ;
-
-    // //     },
-    // // } ;    
-
-
-  
     var uiCanvas = imageHelper.create(viz.width, viz.height) ;
-
     var uiConfig = {
 
         canvas:   uiCanvas,
@@ -299,128 +314,108 @@ function battle_screen() {
 
     } ;  
 
-
-
     viz.setup_ui (viz);
     viz.button = {
         left: setup_element (viz, leftButtonConfig),
         right: setup_element (viz, rightButtonConfig),
         attack: setup_element (viz, attackButtonConfig),
         block: setup_element (viz, blockButtonConfig),
-        thrust: setup_element (viz, thrustButtonConfig),        
+        thrust: setup_element (viz, thrustButtonConfig), 
+        finisher: setup_element (viz, finisherButtonConfig),                  
     } ;
+
     viz.button.left.item.image = viz.button.left.sprite.push[0] ;
     viz.button.left.item.uiSwitch = true ;
     viz.button.left.item.callback = function left_button_callback() {
         var leftButton = this ;
         var leftCode   = 37 ;
-        viz.button.left.sprite.push ;
+        //viz.button.left.sprite.push ;
         gameHelper.screen_handler(leftCode) ;
-    // viz.player.buttonpress('leftButton') ;
-    } ;
+   } ;
 
     viz.button.right.item.image = viz.button.right.sprite.push[0] ;
     viz.button.right.item.uiSwitch = true ;
     viz.button.right.item.callback = function right_button_callback() {
         var rightButton = this ;
         var rightCode   = 39 ;
-        //viz.rightButton.push () ;
         gameHelper.screen_handler(rightCode) ;
     } ;
 
+    viz.button.thrust.item.image = viz.button.thrust.sprite.push[0] ;
+    viz.button.thrust.item.uiSwitch = true ;
+    viz.button.thrust.item.callback = function thrust_button_callback() {
+        // var thrustButton = this ;
+        // var thrustCode   = 40 ;
+        //viz.leftButton.push () ;
+        viz.player.attack('thrust') ;
+        // gameHelper.screen_handler(thrustCode) ;
+    } ;    
+
+    viz.button.finisher.item.image = viz.button.finisher.sprite.push[0] ;
+    viz.button.finisher.item.uiSwitch = true ;
+    viz.button.finisher.item.callback = function finisher_button_callback() {
+        var finisherButton = this ;
+        var attackCode   = 13 ;
+        //viz.leftButton.push () ;
+        viz.player.attack('finisher') ;
+        gameHelper.screen_handler(finisherCode) ;
+    } ;    
+    
     viz.button.attack.index = 0 ;
     viz.button.attack.item.image = viz.button.attack.sprite.slash[0] ;
     viz.button.attack.item.uiSwitch = true ;
+
     viz.button.attack.item.callback = function attack_button_callback() {
-        var attackButton = this ;
-        var attackCode   = 32 ;
-        var buttonImage  = 
-        viz.player.attack('slash') ;
-        gameHelper.screen_handler(attackCode) ;
+   
+        switch (viz.button.attack.index) {
+
+            case 0:
+
+                viz.player.attack('slash') ;                
+                viz.button.attack.item.image = viz.button.attack.sprite.thrust[0] ;
+                viz.button.attack.item.uiSwitch = true ;
+
+                break ;
+
+            case 1:
+
+                viz.player.attack('thrust') ;
+                viz.button.attack.item.image = viz.button.finisher.sprite.push[0] ;
+                viz.button.attack.item.uiSwitch = true ;     
+
+                break ;
+
+            case 2:
+  
+                viz.player.attack('finisher') ;                
+                viz.button.attack.item.image = viz.button.attack.sprite.slash[0] ;
+                viz.button.attack.item.uiSwitch = true ;               
+               
+                break ;
+        }
+
         viz.button.attack.index++ ;
-        viz.button.attack.index = viz.button.attack.index % viz.button.attack.sprite.slash.length ; // tells us how many images there are modded by the images in the sprite
+        viz.button.attack.index = viz.button.attack.index % viz.button.attack.sprite.combo.length ; // tells us how many images there are modded by the images in the sprite
         viz.button.attack.item.image = viz.button.attack.sprite.combo[viz.button.attack.index] ;
-    
-        if (viz.button.attack.item.image = viz.button.attack.sprite.combo[1]) {
-            viz.button.attack.item.callback = function attack_button_callback() {
-            var attackButton = this ;
-            var attackCode   = 40 ;
-        //     //viz.leftButton.push () ;
-            viz.player.attack('thrust') ;
-            gameHelper.screen_handler(attackCode) ; 
-            viz.button.attack.item.image = viz.button.attack.sprite.combo[1] ;            
-            } 
-
-        // if (viz.button.attack.item.image = viz.button.attack.sprite.combo[0]) {
-        //     viz.button.attack.item.callback = function attack_button_callback() {
-        //         viz.player.attack('slash') ;
-        //         gameHelper.screen_handler(attackCode) ;  
-                           
-        //     }
-        // }
-
-        // } else if (viz.button.attack.item.image = viz.button.attack.sprite.combo[0]){
-        // viz.button.attack.index++ ;
-
-        // viz.button.attack.index = viz.button.attack.index % viz.button.attack.sprite.thrust.length ; // tells us how many images there are modded by the images in the sprite
-
-        // viz.button.attack.item.image = viz.button.attack.sprite.combo[viz.button.attack.index] ;
-            
-        //     viz.button.attack.item.image = viz.button.attack.sprite.combo[1] ;            
-        //             viz.player.attack('slash') ;
-
-         
-     }   
-        
-    //     }   else if (viz.button.attack.item.image = viz.button.attack.sprite.combo[0]){
-    //          viz.button.attack.item.callback = function attack_button_callback() {
-    //     //     var attackButton = this ;
-    //     //     var attackCode   = 40 ;
-    //     //     //viz.leftButton.push () ;
-    //         viz.player.attack('slash') ;
-    //         gameHelper.screen_handler(attackCode) ; 
-    //        // viz.button.attack.item.image = viz.button.attack.sprite.combo[1] ;   
-    //         }
-
-    // }    
-
-
+              
     } ;
 
     viz.button.block.item.image = viz.button.block.sprite.push[0] ;
     viz.button.block.item.uiSwitch = true ;
     viz.button.block.item.callback = function block_button_callback() {
-        var blockButton = this ;
-        var blockCode   = 40 ;
-        //viz.leftButton.push () ;
+  
         viz.player.block('shield') ;
-        gameHelper.screen_handler(blockCode) ;
+
     } ;
     
-    viz.button.thrust.item.image = viz.button.thrust.sprite.push[0] ;
-    viz.button.thrust.item.uiSwitch = true ;
-    viz.button.thrust.item.callback = function thrust_button_callback() {
-        var thrustButton = this ;
-        var thrustCode   = 40 ;
-        //viz.leftButton.push () ;
-        viz.player.attack('thrust') ;
-        gameHelper.screen_handler(thrustCode) ;
-    } ;    
 
-    // viz.setup_item (viz.button.left.item) ;
-    // viz.setup_item (viz.button.right.item) ;
-    // viz.setup_item (viz.button.attack.item) ;
-    // viz.setup_item (viz.button.block.item) ;
-    // // viz.setup_item (healButtonConfig) ;    
-    // viz.setup_item (viz.button.thrust.item) ;       
-    viz.enemy  = enemyBattleHelper.setup(viz) ;
+    viz.enemy.start_hind_attack () ; 
     viz.enemy.start_attack () ;
     viz.enemy.start_tail_attack () ;
     viz.enemy.start_block () ;
     viz.enemy.item.add() ;
     viz.enemy.callback  = enemyBattleHelper.update ;
     viz.player.item.add() ;
-    // viz.button.item.add() ;
 
     viz.player.callback = playerBattleHelper.update ;    
     // viz.player.item.responseSet.bump = bumpHelper.setup(viz) ;

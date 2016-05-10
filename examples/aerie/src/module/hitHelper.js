@@ -76,8 +76,6 @@ var hitHelper = {
 
     } else {
 
-      // console.log('hit setup', 'element', element) ;
-
       var hit = { // action config object
 
         perform: hitHelper.perform,
@@ -92,8 +90,6 @@ var hitHelper = {
 
       } ; 
 
-      // console.log('hit helper setup', 'hit', hit) ;
-
     }
 
     return hit ;
@@ -101,8 +97,6 @@ var hitHelper = {
   },    
 
   confirm: function hit_helper_(sourceItem, hit) {
-
-    // console.log('hit helper detect start', 'sourceItem', sourceItem, 'hit', hit) ;
 
 		if(hit === undefined) {
 			hit = this ;
@@ -114,19 +108,13 @@ var hitHelper = {
     } else {
       targetItem = hit.element.item ; // by convention, attach the hit action config object to the target element
     }
-    // console.log('hitHelper detect', targetItem)
 
 	  hitHelper.pair.width  = hit.viz.width ; // setup temporary variable used later for detailed collision detection (if necessary)
 	  hitHelper.pair.height = hit.viz.height ; 
 
 	  var typeCheck = hit.type_check(sourceItem) ; // boolean variable storing the resuls of the type-validity check function contained in the target item's hit config object
 
-    // console.log('hit helper detect', 'typeCheck', typeCheck, 'sourceItem height', sourceItem.image.height, 'hit', hit) ;
-
 	  if( typeCheck ) { // the target item type matches the source item, so we can perform a detailed collision check for collision image overlap (phase 2)
-
-      // console.log('hit helper detect 1', 'targetItem', targetItem) ;
-      // console.log('hitHelper detect', 'sourceItem', sourceItem) ;
 
 	    hitHelper.source.image = sourceItem.collision_image('source') ; // use the item's current display image as the key for the collision image lookup table 
 	    hitHelper.target.image = targetItem.collision_image('target') ; // use the item's current display image as the key for the collision image lookup table 
@@ -178,16 +166,13 @@ var hitHelper = {
     }   
     if (isShield === true) {
       var isRest = img === element.sprite.rest[0] ;
-      // console.log('hit helper perform is shield', 'isRest', isRest) ;
        // insert audio here
        element.health -= 0.2 ;
     } else {
-     // console.log('rpg hit helper perform') ;
       element.item.flash(2, 20) ;  
       element.health -= 2 ;
     }
     // if (element.health < 0) {
-    //   // console.log('rpg helper: negative health') ;
     // } else {
       element.healthbar.image = element.health_bar() ;
     // }
@@ -195,7 +180,6 @@ var hitHelper = {
   }, 
 
   reset: function hit_helper_reset (response) {
-    // console.log ('hit_reset', 'this', this);
 
     if( response === undefined ) {
       response = this.response ;

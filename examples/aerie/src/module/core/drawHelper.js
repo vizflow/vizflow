@@ -84,8 +84,6 @@ var drawHelper = {
 
     }
 
-    // console.log('indexed draw: ', 'item', item)
-
     return canvas ; 
 
   },  
@@ -111,10 +109,6 @@ var drawHelper = {
     if (item.yScale === undefined) {
       item.yScale = 1 ;
     }
-
-    // console.log('item.x', item.x, 'width', item.viz.displayCanvas.width) ;
-
-    // console.log('draw_image', 'item', item, 'context', context, 'this', this) ;
 
     var viewX, viewY ;
 
@@ -233,8 +227,6 @@ var drawHelper = {
       context.globalAlpha = rect.opacity ;
       // context.globalAlpha = alpha ;      
     } 
-
-    // console.log('draw rect: ', 'dx, dy, Math.floor(rect.width * ratio), Math.floor(rect.height * ratio)', dx, dy, Math.floor(rect.width * ratio), Math.floor(rect.height * ratio)) ;
 
     var xShift = Math.floor(ratio * (rect.x + rect.xAngle)) ;
     var yShift = Math.floor(ratio * (rect.y + rect.yAngle)) ;

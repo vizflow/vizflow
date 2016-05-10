@@ -65,8 +65,6 @@ var itemHelper = {
       item.add() ;
     }
 
-    // console.log('item helper', 'item', item) ;
-
 		return item ;
 
 	},
@@ -157,8 +155,6 @@ var itemHelper = {
       }
 
       if(item.constructor !== Array) {
-
-        // console.log('item helper:', 'viz', viz, 'this', this)
 
         viz.stagingArray.push(item) ;        
       
