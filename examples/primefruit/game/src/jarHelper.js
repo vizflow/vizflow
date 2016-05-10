@@ -50,7 +50,7 @@ var jarHelper = {
     lidK = itemHelper.setup ( lidConfig ) ;
     lidK.default_child() ;
 
-    var lidConfigBlue = Object.copy(lidConfig) ;
+    var lidConfigBlue = Object.copy( lidConfig ) ;
     // lidConfigBlue.opacity = 0 ;
     lidConfigBlue.image = jarHelper.lidImage[2] ;
     var lidKblue        = itemHelper.setup ( lidConfigBlue ) ;
@@ -105,6 +105,8 @@ var jarHelper = {
 
       viz.busy = true ;
 
+      jar.white.add_transition(document.fade([.75, 0])) ;
+
       if ( jar.all_collected() ) {
         jar.show_composite() ;
       } else if ( jar.unlocked !== true ) { // jar is closed
@@ -112,17 +114,6 @@ var jarHelper = {
       } else if ( jar.fruit.code.length === 1 ) { // this jar reprsents a prime number i.e. contains a single "prime viz.fruit"
         jar.show_prime() ;
       } 
-
-    },
-
-    center: function jar_helper_method_center ( center, jar ) {
-
-      if ( jar === undefined ) {
-        jar = this ;
-      }
-
-      jar.add_linear( 'x', jar.x0, jar.duration ) ;
-      jar.add_linear( 'y', jar.y0, jar.duration ) ;        
 
     },
 
@@ -134,12 +125,10 @@ var jarHelper = {
 
       var viz = jar.viz ;
 
-      jar.open() ;
-      jar.resize(1.125) ;
-      jar.white.add_transition(document.fade([.25, .75, 0])) ;
-      jar.call('grab', jar.duration) ;
+      jar.prep('grab') ;
 
     },
+
 
     grab: function jar_helper_grab( jar ) {
 
@@ -147,20 +136,26 @@ var jarHelper = {
         jar = this ;
       }
 
-      jar.resize(1) ;
+      var delay = jar.fruit.item[0].duration * 3 ;      
+      var dur = 2 * jar.duration + delay ;
 
-      for ( var kitem = 0 ; kitem < jar.fruit.item.length ; kitem++ ) {        
-        jar.fruit.item[kitem].fade({duration: jar.viz.fadeDuration}) ;
-        jar.fruit.item[kitem].call( 'grab', 3 * jar.duration + kitem * jar.viz.fadeDuration ) ;
-      }
-
-      var dur = jar.duration + jar.fruit.item.length * jar.viz.fadeDuration ;
-
-      // console.log('dur', dur) ;
-
-      jar.call('exit', jar.duration) ;
+      jar.call(['fruit_grab', 'shrink', 'cleanup'], [jar.duration, dur, jar.duration]) ;
       jar.viz.call('reset', dur) ;
 
+    },
+
+    fruit_grab: function jar_helper_method_fruit_grab( jar ) {
+      
+      if ( jar === undefined ) {
+        jar = this ;
+      }
+
+      var delay = jar.fruit.item[0].duration * 5 ;
+      
+      for ( var kitem = 0 ; kitem < jar.fruit.item.length ; kitem++ ) {        
+        jar.fruit.item[kitem].grab() ;
+      }
+    
     },
 
     show_locked: function jar_helper_show_locked( jar ) {
@@ -189,17 +184,59 @@ var jarHelper = {
         jar = this ;
       }
 
-      function delay1() {
-        jar.resize(jar.scale1) ;  
-      }
-
-      jar.center() ;
-      jar.focus(jar.opacityLow) ;
-      jar.call([ delay1, 'open', 'primetrans' ], jar.duration ) ;
+      jar.prep('primetrans') ;
 
       if ( jar.viz.collected[jar.fruit.code] === undefined ) {
         jar.viz.collected[jar.fruit.code] = true ;
       }
+
+    },
+
+    center: function jar_helper_method_center ( jar ) {
+
+      if ( jar === undefined ) {
+        jar = this ;
+      }
+
+      jar.add_linear( 'x', jar.x0, jar.duration ) ;
+      jar.add_linear( 'y', jar.y0, jar.duration ) ;        
+
+    },
+
+    prep: function jar_helper_method_prep( callback, jar ) {
+
+      if ( jar === undefined ) {
+        jar = this ;
+      }
+
+      function resize() {
+        jar.resize(jar.scale1) ;          
+      }
+
+      jar.center() ;
+      jar.focus(jar.opacityLow) ;
+      jar.call([resize, 'open', callback ], jar.duration ) ;
+
+    },
+
+    shrink: function jar_helper_method_shrink ( jar ) {
+
+      if ( jar === undefined ) {
+        jar = this ;
+      }
+
+      jar.resize(0) ;
+      jar.fade({ duration: jar.duration, opacity: 0 }) ;
+    },
+
+    cleanup: function jar_helper_method_cleanup( jar ) {
+
+      if ( jar === undefined ) {
+        jar = this ;
+      }
+
+      jar.focus(1) ;
+      jar.call('exit', jar.duration) ;
 
     },
 
@@ -316,9 +353,8 @@ var jarHelper = {
 
         jar.lid.fade({
 
-          duration: jar.duration * 2,
+          duration: jar.duration,
           opacity: 0,
-          pause: jar.duration * 2,
 
         }) ;
 
@@ -355,14 +391,18 @@ var jarHelper = {
 
     },
 
-    resize: function jar_helper_resize( scale, jar ) {
+    resize: function jar_helper_resize( scale, dur, jar ) {
       
       if ( jar === undefined ) { 
         jar = this ; 
       }
 
-      jar.add_linear('xScale', scale, jar.duration) ;
-      jar.add_linear('yScale', scale, jar.duration) ;
+      if ( dur === undefined ) { 
+        dur = jar.duration ;
+      }
+
+      jar.add_linear('xScale', scale, dur) ;
+      jar.add_linear('yScale', scale, dur) ;
 
     },
 
@@ -373,10 +413,10 @@ var jarHelper = {
       }
 
       if ( o1 === undefined ) {
-        if ( jar.opacity < 1 ) {
-          o1 = 1 ;
-        } else {
+        if ( jar.viz.jar.every(function(jar) { return jar.removeSwitch === true || jar.opacity == 1 ; }) ) {
           o1 = jar.opacityLow ;
+        } else {
+          o1 = 1 ;
         }
       }
 
@@ -400,7 +440,9 @@ var jarHelper = {
         if( viz.jar[kjar] === jar) {
           continue ;
         }
-        
+
+        viz.jar[kjar].lid.remove_transition('opacity') ;
+        viz.jar[kjar].lid.white.remove_transition('opacity') ;        
         viz.jar[kjar].lid .add_transition( trans ) ;
         viz.jar[kjar].blue.add_transition( trans ) ;
         viz.jar[kjar].add_transition( trans ) ;

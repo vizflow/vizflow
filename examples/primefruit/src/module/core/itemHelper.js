@@ -108,6 +108,7 @@ var itemHelper = {
       var white = imageEffectHelper.color_filter(item.image, [255, 255, 255]) ;
 
       item.white       = Object.copy(item) ;
+      item.white.childFade = true ;
       item.white.child = undefined ;
 
       item.white.image   = white ;
@@ -398,6 +399,26 @@ var itemHelper = {
       item.add_transition(newTransition, replacementSwitch) ;
 
     }, // end fade
+
+    whiteflash: function item_helper_method_whiteflash ( duration, item ) {
+      
+      if(item === undefined) {
+        item = this ;
+      }
+
+      if ( duration === undefined ) {
+        duration = item.duration || item.viz.fadeDuration ;
+      }
+
+      if ( item.white === undefined ) {
+        item.default_child() ;
+      }
+
+      var fade_func = transitionHelper.fixed_duration_creator('opacity', duration, transitionHelper.linear_interp) ;
+
+      item.white.add_sequence([1, 0], fade_func) ;
+
+    }
 
   },
 

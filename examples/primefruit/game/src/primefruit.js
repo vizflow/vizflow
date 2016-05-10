@@ -39,15 +39,17 @@ function primefruit() {
    * when using vizflow it's easier to create the viz object and then add the items to it afterwards:
    */
 
-  var duration = 200 ;
+  var duration = 17 ;
   var width    = 320 ;
   var height   = 320 ;
 
   var vizConfig = {
+
     width:  width,
     height: height,
     fadeDuration: duration,
     opacity: 0,
+
   } ;
   
   var viz = vizHelper.setup(vizConfig) ; // first create generic vizflow configuration object, then add application-specific details
@@ -138,7 +140,7 @@ function primefruit() {
     viz.fruit[k] = fruitHelper.setup(viz, k, x, y) ;
 
     if ( viz.code[k].length === 1 ) { 
-      var index = viz.code[k].charCodeAt(0) - 'a'.charCodeAt(0) ;
+      var index        = viz.code[k].charCodeAt(0) - 'a'.charCodeAt(0) ;
       viz.prime[index] = viz.fruit[k].item[0] ;
     }
     
@@ -172,7 +174,7 @@ function primefruit() {
 
       // var dur = (2 + 4 * 8) * jar.duration  ;
 
-      setTimeout(function() { viz.win() ; }, 20000) ;
+      setTimeout(function() { viz.win() ; }, 8000) ;
 
     }
   } ;
@@ -181,34 +183,32 @@ function primefruit() {
 
     console.log('you win!') ;
 
-    viz.prime.forEach(function(d) {
+    var duration2 = 2000 ;
 
-      var duration2 = 3 * duration ;
-      var offset = 20 ;
-      d.add_linear('xScale', 1, duration2) ;
-      d.add_linear('yScale', 1, duration2) ;
-      d.add_linear('x', d.x * viz.Ncol + offset, duration2) ;
-      d.add_linear('y', d.y * viz.Ncol + offset, duration2) ;
-      d.white.add_transition(document.fade([0, 1, 1, 1, 0])) ;
+    viz.prime.forEach( function(d) {
 
-      var reset = transitionHelper.new_step('reset', undefined, duration * 5) ;
+      d.add_linear('xScale', 5, duration2) ;
+      d.add_linear('yScale', 5, duration2) ;
+      d.white.add_transition(document.fade([0, 0, 0, 0, 1, 1, 1, 1, 1, 0.5, 0.25, 0])) ;
 
-      reset.end = function() {
+      var offset = 50 ;
 
-        viz.fade({
+      d.add_linear('x', (d.x) * viz.Ncol + offset, duration2) ;
+      d.add_linear('y', (d.y) * viz.Ncol + offset, duration2) ;
 
-          duration: duration * 5,
-          opacity: 0,
-          
-          end: function() {
-            load_game() ;
-          },
-
-        }) ;
-
-      } ;
-
+      var reset = transitionHelper.new_step('reset', undefined, duration2) ;
       viz.add_transition(reset) ;
+
+      viz.fade({
+
+        duration: duration2 * 0.95,
+        opacity: 0,
+        
+        end: function() {
+          load_game() ;
+        },
+
+      }) ;
 
     }) ;
 

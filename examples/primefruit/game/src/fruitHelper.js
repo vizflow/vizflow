@@ -1,12 +1,23 @@
 var fruitHelper = {
 
-  setup: function fruit_helper_setup(viz, k, x, y) { // fruit elements are arrays of items representing fruit clusters corresponding to the prime factorization
+  setup: function fruit_helper_setup( viz, k, x, y ) { // fruit elements are arrays of items representing fruit clusters corresponding to the prime factorization
 
     if ( fruitHelper.sprite === undefined ) {
 
       fruitHelper.sprite = spriteHelper.get
       ( 
         imageHelper.to_canvas('./image/fruit.gif'), 
+        ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'], 
+        viz.tileWidth, 
+        viz.rowHeight // function argument list, so no trailing comma 
+      ) ;  
+
+      var overlayImage = imageHelper.to_canvas('./image/fruit-overlay.png') ;
+      overlayImage = imageEffectHelper.color_filter(overlayImage, [84, 113, 255]) ; // jar lid color
+
+      fruitHelper.overlay = spriteHelper.get
+      ( 
+        overlayImage, 
         ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'], 
         viz.tileWidth, 
         viz.rowHeight // function argument list, so no trailing comma 
@@ -41,19 +52,33 @@ var fruitHelper = {
         image: fruitHelper.sprite[viz.code[k][kitem]][0],
         addSwitch: true,
         k: kitem,
+        kjar: k,
 
       } ;
 
-      fruit.item[kitem] = itemHelper.setup(fruitConfig) ; // each tile contains some viz.fruit
-      
-      fruit.item[kitem].code         = viz.code[k][kitem] ; 
-      fruit.item[kitem].pausedur     = viz.fadeDuration * 2 ;
-      fruit.item[kitem].duration     = viz.fadeDuration * 3 ;
-      fruit.item[kitem].parent       = fruit ;
+      var digitConfig = {
+
+        viz: viz,
+        image: fruitHelper.overlay[viz.code[k][kitem]][0],
+        opacity: 0,
+        addSwitch: false,
+        childFade: false,
+        parent: fruit.item[kitem],
+
+      } ;
+
+      fruit.item[kitem]          = itemHelper.setup( fruitConfig ) ; // each tile contains some viz.fruit
+      fruit.item[kitem].digit    = itemHelper.setup( digitConfig ) ;
+      fruit.item[kitem].code     = viz.code[k][kitem] ; 
+      fruit.item[kitem].pausedur = viz.fadeDuration * 2 ;
+      fruit.item[kitem].duration = viz.fadeDuration * 3 ;
+      fruit.item[kitem].parent   = fruit ;
 
       fruit.item[kitem].default_child() ;
+      fruit.item[kitem].digit.default_child() ;
+      fruit.item[kitem].child.push( fruit.item[kitem].digit ) ;
 
-      Object.assign(fruit.item[kitem], fruitHelper.method) ;
+      Object.assign( fruit.item[kitem], fruitHelper.method ) ;
 
     }
 
@@ -63,14 +88,13 @@ var fruitHelper = {
 
   method: {
 
-
     final: function fruit_helper_method_final ( fruit ) {
 
       if ( fruit === undefined ) {
         fruit = this ;
       }
 
-      console.log('fruit final', 'fruit', fruit)
+      // console.log('fruit final', 'fruit', fruit) ;
 
       var duration2 = 3 * fruit.viz.fadeDuration ;
       var offset = 20 ;
@@ -84,53 +108,134 @@ var fruitHelper = {
 
     },
 
+    center: function fruit_helper_method_center ( fruit ) {
+
+      if ( fruit === undefined ) {
+        fruit = this ;
+      }
+
+      var xmid = fruit.image.originalCanvas.width  * 0.5 ;
+      var ymid = fruit.image.originalCanvas.height * 0.5 ;
+
+      fruit.xOrigin = xmid ;
+      fruit.white.xOrigin = xmid ;
+      fruit.digit.xOrigin = xmid ;
+      fruit.digit.white.xOrigin = xmid ;
+
+      fruit.yOrigin = ymid ;
+      fruit.white.yOrigin = ymid ;
+      fruit.digit.yOrigin = ymid ;
+      fruit.digit.white.yOrigin = ymid ;
+
+      fruit.x += xmid * fruit.xScale ;
+      fruit.y += ymid * fruit.yScale ;
+
+    },
+
     grab: function fruit_helper_grab (kitem, fk) {
 
       if ( fk === undefined ) {
         fk = this ; 
       }
 
-      fk.remove_transition('opacity') ;
-      var fruitFade = [1.0, 1.0, 1.0, 1.0, 0] ;
-      var trans     = document.fade(fruitFade) ;
-      var index     = fk.code.charCodeAt(0) - 'a'.charCodeAt(0) ; // prime number index 
+      fk.release() ;
 
-      transitionHelper.get_child(trans[0], fruitFade.length - 1).end = {
-        
-        index: index, 
+    },
 
-        item: fk,
+    raise: function fruit_helper_method_raise( fruit ) {
 
-        run: function(endConfig) {
-          
-          if ( endConfig === undefined ) {
-            endConfig = this ;
-          }
+      if ( fruit === undefined ) {
+        fruit = this ;
+      }
 
-          endConfig.item.remove() ;
-          var replacementSwitch = false ;
-          fk.viz.prime[endConfig.index].white.add_transition( document.fade([1, 0]), replacementSwitch ) ;
+      var dur = fruit.duration * ( fruit.config.k + 1 ) / fruit.parent.item.length ;
 
-        },
+      fruit.add_linear('y', fruit.y - 150, dur) ;
 
-      } ;
+      if ( fruit.parent.item.length > 1 ) {
 
-      var xTrans = fk.x_trans() ;
-      var yTrans = fk.y_trans() ;
+        var width  = 0.5 * fruit.image.originalCanvas.width * fruit.xScale ; // allow some tile overlap
+        var xShift = width * (fruit.parent.item.length - 1 ) * 0.5 ;
+        var xNew   = fruit.x - xShift + fruit.config.k * width ;
 
-      var shift = 50 * fk.config.k ;
+        fruit.call(
+          function() { fruit.add_linear('x', xNew, fruit.duration) ; }, 
+          dur
+        ) ;
 
-      var xTrans0   = transitionHelper.new_linear('x', fk.x, fk.viz.fadeDuration * 3) ; 
-      xTrans0.child = xTrans ;
+      }
 
-      var yTrans0   = transitionHelper.new_linear('y', fk.y - 32, fk.viz.fadeDuration * 3) ; 
-      yTrans0.child = yTrans ;
+    },
 
-      fk.add_transition(trans) ;
-      fk.add_transition(xTrans0) ;
-      fk.add_transition(yTrans0) ;    
-      fk.add_transition(fk.x_scale()) ;
-      fk.add_transition(fk.y_scale()) ;
+    show_digit: function fruit_helper_method_show_digit ( fruit ) { 
+
+      if ( fruit === undefined ) {
+        fruit = this ;
+      }
+
+      fruit.white.      add_transition(document.fade([1, 0])) ;
+      fruit.digit.      add_transition(document.fade([0, 0, 0.5, 1, 1, 1, 1, 1, 1, 0.5, 0])) ;
+      fruit.digit.white.add_transition(document.fade([0, 0,   0, 0, 0, 0, 1, 0, 0,   0, 0])) ;
+
+    },
+
+    stash: function fruit_helper_method_stash ( fruit ) {
+
+      if ( fruit === undefined ) {
+        fruit = this ;
+      }
+
+      var scale1 = fruit.config.xScale ;
+
+      fruit.add_transition(fruit.x_trans()) ;
+      fruit.add_transition(fruit.y_trans()) ;
+      fruit.add_linear('xScale', scale1, fruit.duration) ;
+      fruit.add_linear('yScale', scale1, fruit.duration) ;
+      if ( fruit.parent.item.length > 1 ) {
+        fruit.call(['whiteflash', 'fadeout', 'remove'], fruit.duration) ;
+      } 
+
+    },
+
+    fadeout: function fruit_helper_method_shrink ( fruit ) {
+
+      if ( fruit === undefined ) {
+        fruit = this ;
+      }
+
+      fruit.fade({ duration: fruit.duration, opacity: 0 }) ;
+
+    },
+
+    release: function fruit_helper_method_release( fruit ) {
+
+      if ( fruit === undefined ) {
+        fruit = this ;
+      }
+
+      fruit.center() ;
+      fruit.prep() ;
+      fruit.fade({ opacity: 1 }) ;
+      fruit.call('raise',      fruit.duration) ;
+      fruit.call('show_digit', 2 * fruit.duration) ;
+      fruit.call('stash',      6 * fruit.duration) ;
+
+    },
+
+    prep: function fruit_helper_method_prep( fruit ) {
+
+      if ( fruit === undefined ) {
+        fruit = this ;
+      }
+
+      var yShift   = fruit.viz.height - 64 ;
+      var scale0   = 3 ;
+      var x0       = fruit.viz.width  * 0.5 ;
+      var y0       = yShift ;
+      fruit.x      = x0 ;
+      fruit.y      = y0 ;
+      fruit.xScale = scale0 ;
+      fruit.yScale = scale0 ;
 
     },
 
@@ -140,57 +245,8 @@ var fruitHelper = {
         fruit = this ;
       }
 
-      var viz = fruit.viz ;
-
-      var scale0 = 3 ;
-      var scale1 = fruit.config.xScale ;
-      var yShift = fruit.image.originalCanvas.height ;
-
-      var x0 = viz.width  * 0.5 - (fruit.image.originalCanvas.width * scale0) * 0.5 ;
-      var y0 = viz.height * 0.5 - (fruit.image.originalCanvas.height * scale0) * 0.5 + yShift ;
-
-      fruit.x = x0 ;
-      fruit.y = y0 ;
-      fruit.xScale = scale0 ;
-      fruit.yScale = scale0 ;
-
-      fruit.call(
-
-        function() {
-
-          fruit.add_linear('y', fruit.y - 100, fruit.duration) ;
-
-          fruit.fade({
-
-            duration: fruit.duration,
-            opacity: 1,
-            pause: fruit.duration,
-
-            end: function() {
-
-              var fade = document.fade([1, 0])[0] ;
-
-              fade.child.pause = fruit.duration ;
-
-              fade.child.end = function() {
-
-                fruit.add_transition(fruit.x_trans()) ;
-                fruit.add_transition(fruit.y_trans()) ;
-                fruit.add_linear('xScale', scale1, fruit.viz.fadeDuration) ;
-                fruit.add_linear('yScale', scale1, fruit.viz.fadeDuration) ;
-                fruit.white.add_transition(document.fade([1, 1, 0])) ;
-                fruit.call( callback, fruit.viz.fadeDuration * 3 ) ;            
-              
-              } ;
-
-              fruit.white.add_transition(fade) ;          
-            },
-
-          }) ;
-        
-        }
-
-      ) ;
+      fruit.release() ;
+      fruit.call( callback, fruit.duration * 9 ) ;            
 
     },
 
@@ -205,8 +261,13 @@ var fruitHelper = {
 
       var index = code.charCodeAt(0) - 'a'.charCodeAt(0) ;
       var row   = Math.floor(index / viz.Nside) ;
-      var yNew  = row * viz.yGridMini ;    
-      return transitionHelper.new_linear('y', yNew, fruit.viz.fadeDuration) ;
+      var yNew  = row * viz.yGridMini + 16 * row ;    
+
+      if ( fruit.yOrigin !== 0 ) {
+        yNew += fruit.yOrigin ;
+      }
+
+      return transitionHelper.new_linear('y', yNew, fruit.duration) ;
 
     },
 
@@ -221,8 +282,13 @@ var fruitHelper = {
 
       var index = code.charCodeAt(0) - 'a'.charCodeAt(0) ;
       var col   = index % viz.Nside ;
-      var xNew  = col * viz.xGridMini ;
-      return transitionHelper.new_linear('x', xNew, fruit.viz.fadeDuration) ;
+      var xNew  = col * viz.xGridMini + 16 * col ;
+
+      if ( fruit.xOrigin !== 0 ) {
+        xNew += fruit.xOrigin ;
+      }
+
+      return transitionHelper.new_linear('x', xNew, fruit.duration) ;
 
     },
 
@@ -325,19 +391,36 @@ var fruitHelper = {
 } ;
 
 
-  // pulse: function fruit_helper_pulse( fruit ) {
-    
-  //   if ( fruit === undefined ) {
-  //     fruit = this ; 
-  //   }
+      // var pauseDur = 3 * fk.duration ;
+      // var xyDur    = fk.duration ;
+      // var xTrans   = transitionHelper.new_linear('x', 0.5 * fk.viz.width, xyDur) ;      
+      // var yTrans   = transitionHelper.new_linear('y', 0.5 * fk.viz.width, xyDur) ; 
+      // var index    = fk.code.charCodeAt(0) - 'a'.charCodeAt(0) ; // prime number index 
 
-  //   var trans = document.fade(fruit.primeFade)[0] ;
+      // xTrans.end = function() {
+      //   fk.add_transition(yTrans) ;            
+      //   fk.xy_scale(3) ;
+      //   fk.viz.prime[index].white.add_transition( document.fade([1, 0]) ) ;        
+      //   fk.call(function() { 
+      //     fk.white.add_transition(document.fade([1, 0])) ;
+      //     fk.digit.add_transition(      document.fade([0, 0, 1, 1, 1, 1, 0])) ;
+      //     fk.digit.white.add_transition(document.fade([0, 0, 0, 0, 1, 0])) ;
+      //   }, fk.duration * 2 ) ;
 
-  //   var child = transitionHelper.get_child(transK, 'last') ;
-    
-  //   child.end = {
-  //     item: viz.fruit[kfruit].item[kitem],
-  //     run: prime_fade,
-  //   } ;
+      //   fk.call( function() {
+      //     fk.xy_scale(0.75) ;         
+      //     fk.add_transition([fk.x_trans(), fk.y_trans()]) ;          
+      //   }, fk.duration * 5) ;
+      // }
 
-  // }
+      // var xInit = transitionHelper.new_linear('x', fk.viz.jar[fk.config.kjar].x, xyDur) ;
+      // xInit.end = function() {
+      //   fk.add_transition(yInit) ;        
+      // }
+
+      // var yInit = transitionHelper.new_linear('y', fk.y - 32, xyDur) ;
+      // yInit.end = function() {
+      //   fk.add_transition(xTrans) ;
+      // }
+
+      // fk.add_transition(xInit) ;
