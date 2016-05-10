@@ -429,7 +429,7 @@ var jarHelper = {
           
           if ( o1 < 1 && !( viz.collected[fk.code] && fk.is_prime() ) ) {
             fk.remove_transition('opacity') ;
-            fk.add_transition(document.fade([0])) ;
+            fk.opacity = 0 ;
           } 
 
         }
