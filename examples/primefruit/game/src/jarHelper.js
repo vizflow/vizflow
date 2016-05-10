@@ -140,7 +140,6 @@ var jarHelper = {
       var dur = 2 * jar.duration + delay ;
 
       jar.call(['fruit_grab', 'shrink', 'cleanup'], [jar.duration, dur, jar.duration]) ;
-      jar.viz.call('reset', dur) ;
 
     },
 
@@ -170,11 +169,10 @@ var jarHelper = {
       
       blueFade[0].child.end = function() {
         jar.blue.flash( 3, jar.viz.fadeDuration / 3 ) ;
+        jar.viz.unlock_jars() ;
       } ;
 
       jar.lid.add_transition(blueFade) ;
-
-      jar.viz.call('reset', jar.duration * 3) ;
 
     },
 
@@ -253,7 +251,6 @@ var jarHelper = {
         jar.focus(1) ;
         jar.viz.call('fruit_pulse', jar.duration) ;
         jar.exit() ;
-        jar.viz.call('reset', jar.duration) ;
 
       }
 

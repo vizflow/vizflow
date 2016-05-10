@@ -13,7 +13,7 @@ var fruitHelper = {
       ) ;  
 
       var overlayImage = imageHelper.to_canvas('./image/fruit-overlay.png') ;
-      overlayImage = imageEffectHelper.color_filter(overlayImage, [84, 113, 255]) ; // jar lid color
+      overlayImage = imageEffectHelper.color_filter(overlayImage, [100, 128, 255]) ; // jar lid color
 
       fruitHelper.overlay = spriteHelper.get
       ( 
@@ -150,7 +150,7 @@ var fruitHelper = {
 
       var dur = fruit.duration * ( fruit.config.k + 1 ) / fruit.parent.item.length ;
 
-      fruit.add_linear('y', fruit.y - 150, dur) ;
+      fruit.add_linear('y', fruit.y - 170, dur) ;
 
       if ( fruit.parent.item.length > 1 ) {
 

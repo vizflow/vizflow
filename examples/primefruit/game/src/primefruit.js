@@ -39,7 +39,7 @@ function primefruit() {
    * when using vizflow it's easier to create the viz object and then add the items to it afterwards:
    */
 
-  var duration = 17 ;
+  var duration = 17 * 8 ;
   var width    = 320 ;
   var height   = 320 ;
 
@@ -166,7 +166,7 @@ function primefruit() {
 
         jar.unlock() ;
 
-        jar.call('show_prime', jar.duration + count * 8 * jar.duration) ;
+        jar.call('show_prime', count * 5 * jar.duration) ;
 
         count++ ;
 
@@ -174,7 +174,7 @@ function primefruit() {
 
       // var dur = (2 + 4 * 8) * jar.duration  ;
 
-      setTimeout(function() { viz.win() ; }, 8000) ;
+      setTimeout(function() { viz.win() ; }, 12000) ;
 
     }
   } ;
@@ -183,25 +183,22 @@ function primefruit() {
 
     console.log('you win!') ;
 
-    var duration2 = 2000 ;
+    var duration2 = 3000 ;
 
     viz.prime.forEach( function(d) {
 
-      d.add_linear('xScale', 5, duration2) ;
-      d.add_linear('yScale', 5, duration2) ;
-      d.white.add_transition(document.fade([0, 0, 0, 0, 1, 1, 1, 1, 1, 0.5, 0.25, 0])) ;
+      d.add_linear('xScale', 1, duration2) ;
+      d.add_linear('yScale', 1, duration2) ;
+      d.white.add_transition(document.fade([1, 1, 1, 0.5, 0])) ;
 
-      var offset = 50 ;
+      var offset = 0 ;
 
-      d.add_linear('x', (d.x) * viz.Ncol + offset, duration2) ;
-      d.add_linear('y', (d.y) * viz.Ncol + offset, duration2) ;
-
-      var reset = transitionHelper.new_step('reset', undefined, duration2) ;
-      viz.add_transition(reset) ;
+      d.add_linear('x', 0.5 * (d.x) * viz.Ncol + offset, duration2) ;
+      d.add_linear('y', 0.5 * (d.y) * viz.Ncol + offset, duration2) ;
 
       viz.fade({
 
-        duration: duration2 * 0.95,
+        duration: duration2 * 0.75,
         opacity: 0,
         
         end: function() {
@@ -263,6 +260,7 @@ function primefruit() {
     }
 
     viz.open_next() ;
+    viz.reset() ;
   
   } ;
 
