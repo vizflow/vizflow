@@ -96,6 +96,10 @@ var drawHelper = {
       item = this ;
     } 
 
+    if ( item.opacity === 0 ) {
+      return ;
+    }
+
     if (context === undefined) {
       context = item.viz.fullContext ;
     }
