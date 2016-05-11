@@ -158,7 +158,7 @@ var hitHelper = {
     var isAttack  = response.element.sprite.attack.indexOf(img) > -1 ;  // current image is in attack sprite
     var isRest    = response.element.sprite.rest.indexOf(img) > -1 ;
     var isShield  = !isAttack && !isRest ;
-    var element = response.element ;
+    var element   = response.element ;
 
     if (notAttack === true) {
      
@@ -172,10 +172,77 @@ var hitHelper = {
       element.item.flash(2, 20) ;  
       element.health -= 2 ;
     }
-    // if (element.health < 0) {
-    // } else {
+    if (element.health < 0) {
+    
+ function end_game(viz) {
+
+    if(viz === undefined) {
+      viz = this ;
+    }
+
+    var vizflowImage = imageHelper.adjust_ratio(imageHelper.to_canvas('./image/game_over.png')) ;
+
+    var vizflow = itemHelper.setup({ 
+
+      x: (viz.width - vizflowImage.originalCanvas.width) * 0.5,
+      y: (viz.height - vizflowImage.originalCanvas.height) * 0.5,
+      image: vizflowImage,
+      opacity: 0,
+      inert: true,
+      viz: viz,
+
+    }) ;
+
+    vizflow.add() ;
+
+    vizHelper.run(viz) ; // call the generic run function
+    
+    viz.opacity = 1 ;
+
+    vizflow.fade({
+
+      duration: viz.fadeDuration,
+
+      end: function() { 
+
+        vizflow.fade({
+
+          duration: viz.fadeDuration * 10,
+          end: battle_screen,
+          
+        }) ;
+
+      },
+
+    }) ;
+
+  } 
+
+  document.ratio = 2 ; // upsample images to ensure crisp edges on hidpi devices
+
+  var vizConfig = {
+
+    background: undefined,
+    music:      undefined,
+    inputEvent: inputEvent,
+    run: end_game, // fade in vizflow URL for title screen by default
+
+  } ;
+
+  var viz = vizHelper.setup(vizConfig) ; // frameDuration computed
+
+  viz.menuConfig = {
+ 
+    sprite_loader: undefined,
+    callback:      undefined,
+
+  } ;
+
+  end_game (viz) ;
+  
+    } else {
       element.healthbar.image = element.health_bar() ;
-    // }
+    }
     
   }, 
 
@@ -269,7 +336,7 @@ var hitHelper = {
 
     var hitDur = hitHelper.duration ;
     var Nstep  = 3 ; 
-    var flashDuration = 100 ;
+    var flashDuration = 30 ;
     element.item.flash(Nstep, flashDuration) ;
     // var flash          = effectHelper.flash.call(element, hitDur / Nstep, Nstep).animation[0] ;
     // element.item.add_transition(flash) ;
