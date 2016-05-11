@@ -196,7 +196,8 @@ var vizHelper = {
 	      // this.displayCanvas.width = this.displayCanvas.width ;
 	      // console.log('sx, sy, sw, sh, dx, dy, dw, dh', sx, sy, sw, sh, dx, dy, dw, dh) ;
 
-	      this.screenCanvas.width        = this.screenCanvas.width ; // clearRect(0, 0, this.screenCanvas.width, this.displayCanvas.height) ;
+	      // this.screenContext.clearRect(0, 0, this.screenCanvas.width, this.screenCanvas.height) ;
+	      this.screenCanvas.width        = this.screenCanvas.width ;
 	      this.screenContext.globalAlpha = this.opacity ;
 	      this.screenContext.drawImage(this.fullCanvas, sx, sy, sw, sh, dx, dy, dw, dh) ;
 	      // this.screenContext.drawImage (this.fullCanvas, 0, 0) ; // use a single drawImage call for rendering the current frame to the visible Canvas (GPU-acceleated performance)
