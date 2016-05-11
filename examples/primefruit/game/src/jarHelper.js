@@ -136,7 +136,16 @@ var jarHelper = {
         jar = this ;
       }
 
-      jar.message('composite') ;
+      var eq = '' ;
+      var code = jar.viz.code[jar.config.k] ;
+
+      for ( kcode = 0 ; kcode < code.length - 1 ; kcode++ ) {
+        eq += jar.viz.key[code[kcode]] + 'x' ;
+      }
+
+      eq += jar.viz.key[code[code.length - 1]] ;
+
+      jar.message(eq) ;
 
       var delay = jar.fruit.item[0].duration * 3 ;      
       var dur = 2 * jar.duration + delay ;
@@ -248,7 +257,7 @@ var jarHelper = {
       var image = imageHelper.text2image({
         text: text,
         sprite: jar.viz.text,
-        xShift: 0,
+        xShift: 15,
       }) ;      
 
       image = imageHelper.adjust_ratio(image) ;
