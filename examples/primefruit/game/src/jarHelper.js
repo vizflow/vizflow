@@ -270,8 +270,8 @@ var jarHelper = {
         addSwitch: true,
       }) ;
 
-      var fade = document.fade([1, 1, 1, 1, 0]) ;
-      fade.end = function() {
+      var fade = document.fade([1, 1, 1, 1, 0.5, 0]) ;
+      transitionHelper.get_child(fade, 'last').end = function() {
         text.remove() ;
       } ;
 
