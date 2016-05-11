@@ -136,6 +136,8 @@ var jarHelper = {
         jar = this ;
       }
 
+      jar.message('composite') ;
+
       var delay = jar.fruit.item[0].duration * 3 ;      
       var dur = 2 * jar.duration + delay ;
 
@@ -161,7 +163,7 @@ var jarHelper = {
 
       if ( jar === undefined ) {
         jar = this ;
-      }
+      } 
     
       jar.blue.opacity = 1 ;
       var blueFadeDur  = [0, 0, 0, 0, 0, 0, 1] ;
@@ -237,11 +239,44 @@ var jarHelper = {
 
     },
 
+    message: function jar_helper_message( text, jar ) {
+
+      if ( jar === undefined ) { 
+        jar = this ;
+      }
+
+      var image = imageHelper.text2image({
+        text: text,
+        sprite: jar.viz.text,
+        xShift: 0,
+      }) ;      
+
+      image = imageHelper.adjust_ratio(image) ;
+
+      var text = jar.viz.setup_item({
+        image: image,
+        x: jar.viz.width * 0.5 - image.originalCanvas.width * 0.5,
+        y: jar.viz.height * 0.25,
+        opacity: 0,
+        addSwitch: true,
+      }) ;
+
+      var fade = document.fade([1, 1, 1, 1, 0]) ;
+      fade.end = function() {
+        text.remove() ;
+      } ;
+
+      text.add_transition(fade) ;
+
+    },
+
     primetrans: function jar_helper_primetrans( jar ) {
 
       if ( jar === undefined ) {
         jar = this ;
       }
+
+      jar.message('prime') ;
 
       var viz = jar.viz ;
 

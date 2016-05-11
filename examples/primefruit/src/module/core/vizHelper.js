@@ -17,7 +17,7 @@ var vizHelper = {
 	  }
 
 	  /* 
-	   *   TEMPORARY VARIABLES USED FOR SETTING UP THE "viz" OBJECT:
+	   *   TEMPORARY VARIABLES USED FOR SETTING UP THE VIZ OBJECT:
 	   */ 
 
 	  var dur           = vizConfig.duration || 17 ; // the framespeed that vizflow uses (default is 60 frames per second)
@@ -208,19 +208,25 @@ var vizHelper = {
 	    zoom_inout: effectHelper.zoom_inout,
 
 	    panX: function (dur, xNew) { 
+
 	      var trans = transitionHelper.sequence( xNew.map(function(x) {
 	        return $Z.transition.rounded_linear_transition_func('viewportX', dur)(x) ;
 	      }) ) ;
+
 	      // console.log('panX trans', trans) ;
 	      this.add_transition( trans[0] ) ; 
+
 	    },
 
 	    panY: function (dur, yNew) { 
+
 	      var trans = transitionHelper.sequence( yNew.map(function(y) {
 	        return $Z.transition.rounded_linear_transition_func('viewportY', dur)(y) ;
 	      }) ) ;
+
 	      // console.log('panY trans', trans) ;
 	      this.add_transition( trans[0] ) ; 
+
 	    },
 
 	  } ;
@@ -267,7 +273,7 @@ var vizHelper = {
 
 	    }, 
 
-	    false // function argument list cannot have trailing comma
+	    false // function argument list cannot have trailing comma (?)
 	  ) ;
 
 	  document.addEventListener('touchend', viz.input.up,   false) ;
@@ -277,7 +283,6 @@ var vizHelper = {
 	  // console.log('viz helper load before $Z.viz', 'viz.run', viz) ;
 
 	  $Z.viz(viz) ; // load the vizualization config object into vizflow
-
 	  $Z.run() ;    // run the (possibly interactive) visualization (infinite loop by default)
 
 	}
