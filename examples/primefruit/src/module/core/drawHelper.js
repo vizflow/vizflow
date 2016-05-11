@@ -112,7 +112,7 @@ var drawHelper = {
       item.yScale = 1 ;
     }
 
-    // console.log('item.x', item.x, 'width', item.viz.displayCanvas.width) ;
+    // console.log('item.x', item.x, 'width', item.viz.screenCanvas.width) ;
 
     // console.log('draw_image', 'item', item, 'context', context, 'this', this) ;
 
@@ -261,7 +261,7 @@ var drawHelper = {
     }
 
     if (context === undefined) {
-      context = circ.viz.displayContext ;
+      context = circ.viz.fullContext ;
     }
 
     context.beginPath() ;

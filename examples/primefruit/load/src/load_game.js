@@ -25,16 +25,23 @@ function load_game () {
     
     viz.opacity = 1 ;
 
+    // console.log('load game title: before fade')
+
     vizflow.fade({
 
+      opacity:  1,
       duration: viz.fadeDuration,
+      pause:    2 * viz.fadeDuration,
 
       end: function() { 
 
+        // console.log('fade end: ', 'viz.opacity', viz.opacity, 'viz.width', viz.width, 'vizflow.opacity', vizflow.opacity) ;
+
         vizflow.fade({
 
+          opacity:  0,
           duration: viz.fadeDuration,
-          end: primefruit,
+          end:      primefruit,
           
         }) ;
 
@@ -45,14 +52,13 @@ function load_game () {
 
   } 
 
-  document.ratio = 2 ; // upsample images to ensure crisp edges on hidpi devices
-
   var vizConfig = {
 
+    paddingFactor: 1,
     background: undefined,
     music:      undefined,
     inputEvent: inputEvent,
-    run: title, // fade in vizflow URL for title screen by default
+    run:        title, // fade in vizflow URL for title screen by default
 
   } ;
 
@@ -64,12 +70,6 @@ function load_game () {
     callback:      undefined,
 
   } ;
-
-  // load_response: vizConfig.load_response, 
-  // load_ui: vizConfig.load_ui,
-  // load_audio: vizConfig.load_audio,
-  // load_char: vizConfig.load_char,
-  // load: vizHelper.load,
 
   viz.run() ;
 

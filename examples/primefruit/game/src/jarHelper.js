@@ -410,7 +410,7 @@ var jarHelper = {
       }
 
       if ( o1 === undefined ) {
-        if ( jar.viz.jar.every(function(jar) { return jar.removeSwitch === true || jar.opacity == 1 ; }) ) {
+        if ( jar.viz.jar.every( function(jar) { return jar.removeSwitch === true || jar.opacity == 1 ; } ) ) {
           o1 = jar.opacityLow ;
         } else {
           o1 = 1 ;
@@ -419,7 +419,7 @@ var jarHelper = {
 
       var viz = jar.viz ;
 
-      var trans = transitionHelper.new_linear( 'opacity', o1, jar.duration ) ;
+      var trans = transitionHelper.new_linear( 'opacity', o1, jar.duration * 2 ) ;
 
       for ( var kjar = 0 ; kjar < viz.jar.length ; kjar++ ) {
         
@@ -440,7 +440,7 @@ var jarHelper = {
 
         viz.jar[kjar].lid.remove_transition('opacity') ;
         viz.jar[kjar].lid.white.remove_transition('opacity') ;        
-        viz.jar[kjar].lid .add_transition( trans ) ;
+        viz.jar[kjar].lid.add_transition( trans ) ;
         viz.jar[kjar].blue.add_transition( trans ) ;
         viz.jar[kjar].add_transition( trans ) ;
 

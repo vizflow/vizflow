@@ -32,12 +32,12 @@ var vizHelper = {
 
 	  var vizCanvas     = imageHelper.create(vizWidth, vizHeight) ;         // model canvas (indepdenent of device pixel ratio)
 	  var fullCanvas    = imageHelper.create(fullWidth, fullHeight) ;     // fully upsampled canvas (dependent on device pixel ratio)
-	  var displayCanvas = imageHelper.create(displayWidth, displayHeight) ; // hidden display canvas (resized by devicePixelRatio, but not actually drawn to the screen)
+	  // var displayCanvas = imageHelper.create(displayWidth, displayHeight) ; // hidden display canvas (resized by devicePixelRatio, but not actually drawn to the screen)
 	  var screenCanvas  = imageHelper.create(displayWidth, displayHeight) ; // actual display canvas (drawn to screen once per step/cycle/frame of the animation engine)
 
 	  var fullContext    = fullCanvas.context() ; // model canvas (indepdenent of device pixel ratio)
 	  var vizContext     = vizCanvas.context() ;
-	  var displayContext = displayCanvas.context() ;
+	  // var displayContext = displayCanvas.context() ;
 	  var screenContext  = screenCanvas.context() ;
 
 	  place_viz(screenCanvas) ;
@@ -89,8 +89,8 @@ var vizHelper = {
 	    context:        vizContext,
 	    fullCanvas:     fullCanvas, 
 	    fullContext:    fullContext,
-	    displayCanvas:  displayCanvas, 
-	    displayContext: displayContext,
+	    // displayCanvas:  displayCanvas, 
+	    // displayContext: displayContext,
 	    screenCanvas:   screenCanvas, 
 	    screenContext:  screenContext,
 	    xShift:         Math.floor(0.5 * (paddingFactor - 1) * vizWidth + 1),
@@ -100,8 +100,8 @@ var vizHelper = {
 	    lastResize:     0,
 	    viewportX:      0, 
 	    viewportY:      0,
-	    viewportWidth:  displayCanvas.width,
-	    viewportHeight: displayCanvas.height,
+	    viewportWidth:  screenCanvas.width,
+	    viewportHeight: screenCanvas.height,
 	    detect:         actionHelper.detect,
 	    perform:        actionHelper.perform,
 	    image_transition: transitionHelper.step_func('image', frameDuration),  
@@ -191,15 +191,15 @@ var vizHelper = {
 	      var sh = this.viewportHeight ;
 	      var dx = 0 ;
 	      var dy = 0 ;
-	      var dw = displayCanvas.width ;
-	      var dh = displayCanvas.height ;
-	      this.displayCanvas.width = this.displayCanvas.width ;
+	      var dw = screenCanvas.width ;
+	      var dh = screenCanvas.height ;
+	      // this.displayCanvas.width = this.displayCanvas.width ;
 	      // console.log('sx, sy, sw, sh, dx, dy, dw, dh', sx, sy, sw, sh, dx, dy, dw, dh) ;
-	      this.displayContext.drawImage(this.fullCanvas, sx, sy, sw, sh, dx, dy, dw, dh) ;
 
 	      this.screenCanvas.width        = this.screenCanvas.width ; // clearRect(0, 0, this.screenCanvas.width, this.displayCanvas.height) ;
 	      this.screenContext.globalAlpha = this.opacity ;
-	      this.screenContext.drawImage (this.displayCanvas, 0, 0) ; // use a single drawImage call for rendering the current frame to the visible Canvas (GPU-acceleated performance)
+	      this.screenContext.drawImage(this.fullCanvas, sx, sy, sw, sh, dx, dy, dw, dh) ;
+	      // this.screenContext.drawImage (this.fullCanvas, 0, 0) ; // use a single drawImage call for rendering the current frame to the visible Canvas (GPU-acceleated performance)
 
 	    },
 

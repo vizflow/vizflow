@@ -10,15 +10,15 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
       zoomConfig = {} ;
     }
 
-    var viewDelta = -2 * Math.floor(viz.displayCanvas.width * 0.04) ;
+    var viewDelta = -2 * Math.floor(viz.screenCanvas.width * 0.04) ;
 		if(zoomConfig.width === undefined) {
-	    var newWidth  = viz.displayCanvas.width  + viewDelta ;
+	    var newWidth  = viz.screenCanvas.width  + viewDelta ;
 		} else {
 	    newWidth  = zoomConfig.width * document.ratio ;
 		}
 
 		if(zoomConfig.height === undefined) {
-	    var newHeight = viz.displayCanvas.height + viewDelta ;			
+	    var newHeight = viz.screenCanvas.height + viewDelta ;			
 		} else {
 	    newHeight = zoomConfig.height * document.ratio ;						
 		}
@@ -58,8 +58,8 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
     var heightIn  = $Z.transition.rounded_linear_transition_func('viewportHeight', zoomDur)(newHeight) ;
     var xIn       = $Z.transition.rounded_linear_transition_func('viewportX', zoomDur)(xNew) ;
     var yIn       = $Z.transition.rounded_linear_transition_func('viewportY', zoomDur)(yNew) ;
-    var widthOut  = $Z.transition.rounded_linear_transition_func('viewportWidth', zoomDur)(viz.displayCanvas.width) ;
-    var heightOut = $Z.transition.rounded_linear_transition_func('viewportHeight', zoomDur)(viz.displayCanvas.height) ;
+    var widthOut  = $Z.transition.rounded_linear_transition_func('viewportWidth', zoomDur)(viz.screenCanvas.width) ;
+    var heightOut = $Z.transition.rounded_linear_transition_func('viewportHeight', zoomDur)(viz.screenCanvas.height) ;
     var xOut      = $Z.transition.rounded_linear_transition_func('viewportX', zoomDur)(0) ;
     var yOut      = $Z.transition.rounded_linear_transition_func('viewportY', zoomDur)(0) ;
 
