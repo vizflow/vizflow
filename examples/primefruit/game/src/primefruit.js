@@ -36,7 +36,7 @@ function primefruit() {
   // console.log('primefruit: start') ;
 
   /*
-   * when using vizflow it's easier to create the viz object and then add the items to it afterwards:
+   *   when using vizflow it's easier to create the viz object and then add the items to it afterwards:
    */
 
   var duration = 17 * 8 ;
@@ -50,10 +50,11 @@ function primefruit() {
     height: height,
     fadeDuration: duration,
     opacity: 0,
+    collision_detect: function() {},
 
   } ;
   
-  var viz = vizHelper.setup(vizConfig) ; // first create generic vizflow configuration object, then add application-specific details
+  var viz       = vizHelper.setup(vizConfig) ; // first create generic vizflow configuration object, then add application-specific details
 
   viz.Nprime    = 9 ;
   viz.N         = 25 ; // how many numbers to represent with viz.fruit baskets

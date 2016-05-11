@@ -125,7 +125,7 @@ var vizHelper = {
 
 	    collision: null,
 
-	    collision_detect: collisionDetect.pixelwise, // pixel-wise collision detection works for any shape and can be used on lower resolution masks compared to the display images
+	    collision_detect: vizConfig.collision_detect || collisionDetect.pixelwise, // pixel-wise collision detection works for any shape and can be used on lower resolution masks compared to the display images
 
 	    prep: function viz_prep () {
 
@@ -196,8 +196,8 @@ var vizHelper = {
 	      // this.displayCanvas.width = this.displayCanvas.width ;
 	      // console.log('sx, sy, sw, sh, dx, dy, dw, dh', sx, sy, sw, sh, dx, dy, dw, dh) ;
 
-	      // this.screenContext.clearRect(0, 0, this.screenCanvas.width, this.screenCanvas.height) ;
-	      this.screenCanvas.width        = this.screenCanvas.width ;
+	      this.screenContext.clearRect(0, 0, this.screenCanvas.width, this.screenCanvas.height) ;
+	      // this.screenCanvas.width        = this.screenCanvas.width ;
 	      this.screenContext.globalAlpha = this.opacity ;
 	      this.screenContext.drawImage(this.fullCanvas, sx, sy, sw, sh, dx, dy, dw, dh) ;
 	      // this.screenContext.drawImage (this.fullCanvas, 0, 0) ; // use a single drawImage call for rendering the current frame to the visible Canvas (GPU-acceleated performance)

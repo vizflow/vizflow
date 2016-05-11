@@ -211,9 +211,8 @@ var jarHelper = {
         jar.resize(jar.scale1) ;          
       }
 
-      jar.center() ;
       jar.focus(jar.opacityLow) ;
-      jar.call([resize, 'open', callback ], jar.duration ) ;
+      jar.call(['center', resize, 'open', callback ], [jar.duration * 3, jar.duration, jar.duration, jar.duration] ) ;
 
     },
 
@@ -419,7 +418,7 @@ var jarHelper = {
 
       var viz = jar.viz ;
 
-      var trans = transitionHelper.new_linear( 'opacity', o1, jar.duration * 2 ) ;
+      var trans = transitionHelper.new_linear( 'opacity', o1, jar.duration * 3 ) ;
 
       for ( var kjar = 0 ; kjar < viz.jar.length ; kjar++ ) {
         
