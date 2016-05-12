@@ -188,7 +188,7 @@ var vizHelper = {
 
 	      // console.log('sx, sy, sw, sh, dx, dy, dw, dh', sx, sy, sw, sh, dx, dy, dw, dh) ;
 
-	      // this.screenCanvas.width        = this.screenCanvas.width ;
+	      // this.screenCanvas.width = this.screenCanvas.width ;
 	      this.screenContext.clearRect(0, 0, this.screenCanvas.width, this.screenCanvas.height) ;
 	      this.screenContext.globalAlpha = this.opacity ;
 	      this.screenContext.drawImage(this.fullCanvas, sx, sy, sw, sh, dx, dy, dw, dh) ;
