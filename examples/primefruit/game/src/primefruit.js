@@ -39,7 +39,7 @@ function primefruit() {
    *   when using vizflow it's easier to create the viz object and then add the items to it afterwards:
    */
 
-  var duration = 17 * 8 ;
+  var duration = 17 * 3 ;
   var width    = 320 ;
   var height   = 320 ;
 
@@ -121,6 +121,21 @@ function primefruit() {
   var text       = spriteHelper.get_text(document.textUrl, textWidth, textHeight) ;
   viz.text       = spriteHelper.foreach(text, imageHelper.get_original) ;
 
+  var xImage = imageHelper.create(viz.text['0'][0].width, viz.text['0'][0].height) ;
+
+  var x  = viz.text['x'][0];
+  var sx = 0 ; var sw = x.width ; 
+  var sy = 0 ; var sh = x.height ;
+  var dw = Math.floor(sw * 0.5) ; var dh = Math.floor(sh * 0.5) ;
+  var dx = Math.floor(dw * 0.5) ;
+  var dy = Math.floor(dh * 0.5) ;
+
+  // console.log('x, sx, sy, sw, sh, dx, dy, dw, dh', x, sx, sy, sw, sh, dx, dy, dw, dh) ;
+
+  xImage.context().drawImage(x, sx, sy, sw, sh, dx, dy, dw, dh) ;
+
+  viz.text['x'][0] = xImage ;
+
   document.fade = function fade(fadeVal) {
 
     return imageEffectHelper.fade_sequence({ 
@@ -157,6 +172,7 @@ function primefruit() {
     if ( viz.score === viz.target ) { // you win!
 
       var count = 0 ;
+      var Ndur = 15 ;
 
       for ( kjar = 0 ; kjar < viz.jar.length ; kjar++ ) {
 
@@ -168,7 +184,7 @@ function primefruit() {
 
         jar.unlock() ;
 
-        jar.call('show_prime', count * 5 * jar.duration) ;
+        jar.call('show_prime', count * Ndur * jar.duration) ;
 
         count++ ;
 
@@ -176,7 +192,7 @@ function primefruit() {
 
       // var dur = (2 + 4 * 8) * jar.duration  ;
 
-      setTimeout(function() { viz.win() ; }, 12000) ;
+      setTimeout(function() { viz.win() ; }, (1 + count) * jar.duration * Ndur) ;
 
     }
   } ;
@@ -234,11 +250,6 @@ function primefruit() {
 
   } ;
 
-  viz.collected = {} ; // the goal of the game is to collect all of the prime fruits
-  viz.current = 'a'.charCodeAt(0) ;
-  viz.setup_ui() ;
-  viz.run() ;
-
   viz.unlock_jars = function unlock_jars( viz ) { 
 
     if ( viz === undefined ) {
@@ -273,7 +284,6 @@ function primefruit() {
 
     if ( viz.all_closed() ) {
 
-      viz.current++ ;  
       curr  = String.fromCharCode( viz.current ) ;
 
       if ( viz.key[curr] === undefined ) {
@@ -283,6 +293,7 @@ function primefruit() {
       kCurr = viz.key[curr] - 2 ; 
       // console.log( 'viz.current', viz.current, 'curr', curr, 'kCurr', kCurr ) ;
       viz.jar[kCurr].unlock() ;
+      viz.current++ ;  
 
     }
 
@@ -331,9 +342,15 @@ function primefruit() {
     duration: viz.fadeDuration * 5,
     
     end: function() {
-     viz.jar[0].unlock() ;
+      viz.unlock_jars() ;
     },
 
   }) ;
+
+  viz.collected = {} ; // the goal of the game is to collect all of the prime fruits
+  viz.current = 'a'.charCodeAt(0) ;
+  viz.setup_ui() ;
+  viz.busy = true ;
+  viz.run() ;
 
 }

@@ -32,13 +32,11 @@ var vizHelper = {
 
 	  var vizCanvas     = imageHelper.create(vizWidth, vizHeight) ;         // model canvas (indepdenent of device pixel ratio)
 	  var fullCanvas    = imageHelper.create(fullWidth, fullHeight) ;     // fully upsampled canvas (dependent on device pixel ratio)
-	  // var displayCanvas = imageHelper.create(displayWidth, displayHeight) ; // hidden display canvas (resized by devicePixelRatio, but not actually drawn to the screen)
 	  var screenCanvas  = imageHelper.create(displayWidth, displayHeight) ; // actual display canvas (drawn to screen once per step/cycle/frame of the animation engine)
 
-	  var fullContext    = fullCanvas.context() ; // model canvas (indepdenent of device pixel ratio)
-	  var vizContext     = vizCanvas.context() ;
-	  // var displayContext = displayCanvas.context() ;
-	  var screenContext  = screenCanvas.context() ;
+	  var fullContext   = fullCanvas.context() ; // model canvas (indepdenent of device pixel ratio)
+	  var vizContext    = vizCanvas.context() ;  
+	  var screenContext = screenCanvas.context() ;
 
 	  place_viz(screenCanvas) ;
 
@@ -59,10 +57,7 @@ var vizHelper = {
 
 	  var frameDuration = vizConfig.frameDurationFactor * dur ;
 	  var fadeDuration  = 750 ;
-
-	  // console.log('displayCanvas', displayCanvas) ;
-
-	  var resizeSkip  = 3 * vizConfig.frameDurationFactor ; // how often to check for window resize events
+	  var resizeSkip    = 3 * vizConfig.frameDurationFactor ; // how often to check for window resize events
 
 	  var vizOpacity ;
 
@@ -89,8 +84,6 @@ var vizHelper = {
 	    context:        vizContext,
 	    fullCanvas:     fullCanvas, 
 	    fullContext:    fullContext,
-	    // displayCanvas:  displayCanvas, 
-	    // displayContext: displayContext,
 	    screenCanvas:   screenCanvas, 
 	    screenContext:  screenContext,
 	    xShift:         Math.floor(0.5 * (paddingFactor - 1) * vizWidth),
@@ -177,7 +170,6 @@ var vizHelper = {
 	      if (this.image !== undefined) {
 	      	this.fullContext.drawImage (this.image, 0, 0) ; // draw background image if there is one
 	      }
-	      // this.displayContext.globalAlpha = 1 ;
 	 
 	      return true ;
 	 
@@ -193,11 +185,12 @@ var vizHelper = {
 	      var dy = 0 ;
 	      var dw = screenCanvas.width ;
 	      var dh = screenCanvas.height ;
-	      // this.displayCanvas.width = this.displayCanvas.width ;
+
 	      // console.log('sx, sy, sw, sh, dx, dy, dw, dh', sx, sy, sw, sh, dx, dy, dw, dh) ;
 
-	      // this.screenContext.clearRect(0, 0, this.screenCanvas.width, this.screenCanvas.height) ;
-	      this.screenCanvas.width        = this.screenCanvas.width ;
+	      // this.screenCanvas.width        = this.screenCanvas.width ;
+	      this.screenContext.clearRect(0, 0, this.screenCanvas.width, this.screenCanvas.height) ;
+	      this.screenContext.globalAlpha = this.opacity ;
 	      this.screenContext.drawImage(this.fullCanvas, sx, sy, sw, sh, dx, dy, dw, dh) ;
 	      // this.screenContext.drawImage (this.fullCanvas, 0, 0) ; // use a single drawImage call for rendering the current frame to the visible Canvas (GPU-acceleated performance)
 

@@ -145,12 +145,12 @@ var jarHelper = {
 
       eq += jar.viz.key[code[code.length - 1]] ;
 
-      jar.message(eq) ;
+      jar.call(function() { jar.message(eq) ; }, 4.8 * jar.duration) ;
 
       var delay = jar.fruit.item[0].duration * 3 ;      
       var dur = 2 * jar.duration + delay ;
 
-      jar.call(['fruit_grab', 'shrink', 'cleanup'], [jar.duration, dur, jar.duration]) ;
+      jar.call(['fruit_grab', 'shrink', 'cleanup'], [jar.duration, dur, 4 * jar.duration]) ;
 
     },
 
@@ -255,27 +255,38 @@ var jarHelper = {
       }
 
       var image = imageHelper.text2image({
-        text: text,
+        text:   text,
         sprite: jar.viz.text,
-        xShift: 15,
+        xShift: 10,
       }) ;      
 
       image = imageHelper.adjust_ratio(image) ;
 
       var text = jar.viz.setup_item({
-        image: image,
-        x: jar.viz.width * 0.5 - image.originalCanvas.width * 0.5,
-        y: jar.viz.height * 0.25,
+
+        image:   image,
+        xOrigin: image.originalCanvas.width * 0.5,
+        yOrigin: image.originalCanvas.height * 0.5,
+        x:       jar.viz.width * 0.5,
+        y:       jar.viz.height * 0.49,
         opacity: 0,
         addSwitch: true,
+        xScale: .1,
+        yScale: .1,
+
       }) ;
 
-      var fade = document.fade([1, 1, 1, 1, 0.5, 0]) ;
-      transitionHelper.get_child(fade, 'last').end = function() {
-        text.remove() ;
-      } ;
+      text.default_child() ;
 
-      text.add_transition(fade) ;
+      text.in  = function fade_in()  { text.add_transition( document.fade([1]) ) ; } ;
+      text.wf  = function fade_wh()  { text.white.add_transition( document.fade([1, 0]) ) ; } ;
+      text.out = function fade_out() { text.add_transition( document.fade([1, .5, 0]) ) ; } ;
+
+      text.add_linear('xScale', 1, jar.duration) ;
+      text.add_linear('yScale', 1, jar.duration) ;
+      text.in() ;
+
+      text.call(['wf', 'out'], [jar.duration, 2 * jar.duration]) ;
 
     },
 
@@ -285,7 +296,7 @@ var jarHelper = {
         jar = this ;
       }
 
-      jar.message('prime') ;
+      jar.call(function() { jar.message('prime') ; }, 4.8 * jar.duration) ;
 
       var viz = jar.viz ;
 

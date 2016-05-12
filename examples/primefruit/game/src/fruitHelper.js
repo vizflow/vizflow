@@ -173,9 +173,17 @@ var fruitHelper = {
         fruit = this ;
       }
 
-      fruit.white.      add_transition(document.fade([1, 0])) ;
-      fruit.digit.      add_transition(document.fade([0, 0, 0.5, 1, 1, 1, 1, 1, 1, 0.5, 0])) ;
-      fruit.digit.white.add_transition(document.fade([0, 0,   0, 0, 0, 0, 1, 0, 0,   0, 0])) ;
+      var f0 = document.fade([0, 0, 0.5, 1])[0] ;
+      var f1 = document.fade([0, 1, 0])[0] ;
+      
+      function add_f1() {
+        fruit.digit.white.add_transition(f1) ;
+        fruit.digit.add_transition(document.fade([1, 1, .5, 0])) ;
+      }
+
+      fruit.white.add_transition(document.fade([1, 0])) ;
+      fruit.digit.add_transition(f0) ;
+      fruit.call(add_f1, transitionHelper.duration(f0))
 
     },
 
@@ -218,7 +226,7 @@ var fruitHelper = {
       fruit.fade({ opacity: 1 }) ;
       fruit.call('raise',      fruit.duration) ;
       fruit.call('show_digit', 2 * fruit.duration) ;
-      fruit.call('stash',      6 * fruit.duration) ;
+      fruit.call('stash',      10 * fruit.duration) ;
 
     },
 
