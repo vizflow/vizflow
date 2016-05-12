@@ -8,8 +8,8 @@ var playerBattleHelper = {
     var healthbarConfig = { 
 
       color:  '#FF0000',
-      height: 3,
-      width:  player.health,
+      height: player.health,
+      width:  4,
       angle:  0,
       x:      0,
       y:      0,
@@ -39,7 +39,6 @@ var playerBattleHelper = {
     player.health_bar           = playerBattleHelper.health_bar ;
     player.attack               = playerBattleHelper.attack ;
     player.block                = playerBattleHelper.block ;
-    player.buttonpress          = playerBattleHelper.buttonpress ;
     player.healthbar = viz.setup_item ({
       image: player.health_bar(),
       x: 16,
@@ -51,24 +50,10 @@ var playerBattleHelper = {
     return player ;
   },
 
-  // push: function button_push (buttonTupe, button) {
-  //   switch (buttonType) {
-
-  //     case 'left':
-  //       var dur1 = 100 ;
-  //       var dur2 = 100 ;
-  //       var trans1 = transitionHelper.new_step('image', button.sprite.push[0], dur1) ;
-  //       var trans2 = transitionHelper.new_step('image', button.sprite.push[1], dur2) ;
-  //       trans1.child = trans2 ;
-  //       button.item.add_transition(trans1) ;
-  //       break ;
-  //   }
-  // },
   attack: function player_battle_helper_attack (attackType, player) {
     if (player === undefined) {
       player = this ;
     }
-    // console.log('pbh attack start') ;
       switch (attackType) {
 
         case 'slash':
@@ -99,7 +84,6 @@ var playerBattleHelper = {
           
           trans1.child = trans2 ;
           trans1.child.child = trans3 ;
-          // console.log ('player battle helper attack', 'trans1', trans1, 'trans2', trans2, 'player', player) ;
           player.item.add_transition(trans1) ;
           break;
 
@@ -328,7 +312,7 @@ var playerBattleHelper = {
 
           player.loop.thrust.position = loop.position ;
           transition                  = loop.animation ;
-          // console.log('player battle helper update attack case', 'transition', transition) ;
+
           var replacementSwitch = true ;
           var finalFrame ; // = player.sprite.rest[0] ;
 
@@ -364,7 +348,6 @@ var playerBattleHelper = {
 
           player.loop.finisher.position = loop.position ;
           transition                  = loop.animation ;
-          // console.log('player battle helper update attack case', 'transition', transition) ;
           var replacementSwitch = true ;
           var finalFrame ; // = player.sprite.rest[0] ;
 

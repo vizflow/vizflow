@@ -206,7 +206,7 @@ function battle_screen() {
             var height = [moveButtonHeight] ;
             var spriteset = spriteHelper.get(i, rowName, width, height) ;
             spriteset.push = [spriteset.push[0], spriteset.push[1], spriteset.push[0]] ;
-           console.log('spriteloader left button') 
+           // console.log('spriteloader left button') 
             return spriteset ;
         },
 
@@ -232,7 +232,6 @@ function battle_screen() {
         y: 140,
      
     } ;    
-
 
     thrustButtonConfig = {
                 sprite_loader: function() {
@@ -322,26 +321,21 @@ function battle_screen() {
     viz.button.left.item.image = viz.button.left.sprite.push[0] ;
     viz.button.left.item.uiSwitch = true ;
     viz.button.left.item.callback = function left_button_callback() {
-        var leftButton = this ;
-        var leftCode   = 37 ;
-        viz.button.left.spriteset ;
+        // button.left.push.sprite ;
         gameHelper.screen_handler(leftCode) ;
    } ;
 
     viz.button.right.item.image = viz.button.right.sprite.push[0] ;
     viz.button.right.item.uiSwitch = true ;
     viz.button.right.item.callback = function right_button_callback() {
-        var rightButton = this ;
-        var rightCode   = 39 ;
+    
         gameHelper.screen_handler(rightCode) ;
     } ;
 
     viz.button.thrust.item.image = viz.button.thrust.sprite.push[0] ;
     viz.button.thrust.item.uiSwitch = true ;
     viz.button.thrust.item.callback = function thrust_button_callback() {
-        // var thrustButton = this ;
-        // var thrustCode   = 40 ;
-        //viz.leftButton.push () ;
+
         viz.player.attack('thrust') ;
         // gameHelper.screen_handler(thrustCode) ;
     } ;    
@@ -349,11 +343,9 @@ function battle_screen() {
     viz.button.finisher.item.image = viz.button.finisher.sprite.push[0] ;
     viz.button.finisher.item.uiSwitch = true ;
     viz.button.finisher.item.callback = function finisher_button_callback() {
-        var finisherButton = this ;
-        var attackCode   = 13 ;
-        //viz.leftButton.push () ;
+   
         viz.player.attack('finisher') ;
-        gameHelper.screen_handler(finisherCode) ;
+        //gameHelper.screen_handler(finisherCode) ;
     } ;    
     
     viz.button.attack.index = 0 ;
@@ -403,7 +395,6 @@ function battle_screen() {
 
     } ;
     
-
     viz.enemy.start_hind_attack () ; 
     viz.enemy.start_attack () ;
     viz.enemy.start_tail_attack () ;
@@ -415,7 +406,6 @@ function battle_screen() {
     viz.player.callback = playerBattleHelper.update ;    
     // viz.player.item.responseSet.bump = bumpHelper.setup(viz) ;
     // viz.player.item.responseSet.hit = playerHitHelper.setup(viz) ;
-
     viz.run() ;
 
 } ;

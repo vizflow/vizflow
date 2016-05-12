@@ -125,7 +125,6 @@ var enemyBattleHelper = {
      var transitionFunc ;
 
           if( enemy.transitionSet.hindattack === undefined ) {
-            //  console.log ('player.transitionSet.image', player.transitionSet.image) ;
             transitionFunc = enemy.transitionSet.image ;
           } else {
             transitionFunc = enemy.transitionSet.hindattack ;
@@ -204,7 +203,7 @@ var enemyBattleHelper = {
 
       } ;
       
-      var hindAttackDuration = 7200 +- 1000 ;
+      var hindAttackDuration = 9200 +- 1000 ;
       var hind_attack_creator = transitionHelper.step_func('hindattack', hindAttackDuration) ;
 
       enemy.canHindAttack = true ;
@@ -244,20 +243,20 @@ var enemyBattleHelper = {
 
           ) ;
 
-          var dur1 = 400 ;
-          var dur2 = 400 ;
-          var dur3 = 400 ;
-          var dur4 = 400 ;
-          var dur5 = 100 ;
+          var dur1 = 600 ;
+          var dur2 = 600 ;
+          var dur3 = 600 ;
+          var dur4 = 600 ;
+          // var dur5 = 100 ;
           var trans1 = transitionHelper.new_step('image', enemy.sprite.block[0], dur1) ;
-          var trans2 = transitionHelper.new_step('image', enemy.sprite.block[1], dur2) ;
+          var trans2 = transitionHelper.new_step('image', enemy.sprite.rest[0], dur2) ;
           var trans3 = transitionHelper.new_step('image', enemy.sprite.block[0], dur3) ;
-          var trans4 = transitionHelper.new_step('image', enemy.sprite.block[1], dur4) ;          
-          var trans5 = transitionHelper.new_step('image', enemy.sprite.rest[0], dur5) ;
+          var trans4 = transitionHelper.new_step('image', enemy.sprite.rest[0], dur4) ;          
+          // var trans5 = transitionHelper.new_step('image', enemy.sprite.rest[0], dur5) ;
           trans1.child = trans2 ;
           trans1.child.child = trans3 ;
           trans1.child.child.child = trans4 ;
-          trans1.child.child.child.child = trans5 ;
+          // trans1.child.child.child.child = trans5 ;
           enemy.loop.block.position = loop.position ;
           transition                  = loop.animation ;
 
