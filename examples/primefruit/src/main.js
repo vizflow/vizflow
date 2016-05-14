@@ -11,6 +11,7 @@ document.image = [
 	
 	'./image/vizflow.png',
 	'./image/fruit.gif',
+	'./image/fruit-overlay.png',
 	'./image/jarLidGray.png',
 	'./image/jarLidPurp.png',
 	'./image/jarLidBlue.png',

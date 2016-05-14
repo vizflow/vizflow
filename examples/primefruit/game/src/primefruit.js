@@ -39,15 +39,17 @@ function primefruit() {
    * when using vizflow it's easier to create the viz object and then add the items to it afterwards:
    */
 
-  var duration = 200 ;
+  var duration = 17 * 8 ;
   var width    = 320 ;
   var height   = 320 ;
 
   var vizConfig = {
+
     width:  width,
     height: height,
     fadeDuration: duration,
     opacity: 0,
+
   } ;
   
   var viz = vizHelper.setup(vizConfig) ; // first create generic vizflow configuration object, then add application-specific details
@@ -68,7 +70,7 @@ function primefruit() {
 
   viz.fruit  = new Array(viz.N - 1) ; // initialize array of viz.fruit 
   viz.jar    = new Array(viz.N - 1) ; // initialize array of jars 
-  viz.target = viz.N - 1 ;
+  viz.target = viz.N - 5 ;
   viz.score  = 0 ;
 
   viz.code = [
@@ -138,7 +140,7 @@ function primefruit() {
     viz.fruit[k] = fruitHelper.setup(viz, k, x, y) ;
 
     if ( viz.code[k].length === 1 ) { 
-      var index = viz.code[k].charCodeAt(0) - 'a'.charCodeAt(0) ;
+      var index        = viz.code[k].charCodeAt(0) - 'a'.charCodeAt(0) ;
       viz.prime[index] = viz.fruit[k].item[0] ;
     }
     
@@ -146,48 +148,68 @@ function primefruit() {
 
   } // end loop over tiles/jars
 
+  viz.scoreup = function viz_scoreup() {
+
+    viz.score += 1 ;
+
+    if ( viz.score === viz.target ) { // you win!
+
+      var count = 0 ;
+
+      for ( kjar = 0 ; kjar < viz.jar.length ; kjar++ ) {
+
+        var jar = viz.jar[kjar] ;
+
+        if ( jar.removeSwitch === true ) {
+          continue ;
+        }
+
+        jar.unlock() ;
+
+        jar.call('show_prime', count * 5 * jar.duration) ;
+
+        count++ ;
+
+      }
+
+      // var dur = (2 + 4 * 8) * jar.duration  ;
+
+      setTimeout(function() { viz.win() ; }, 12000) ;
+
+    }
+  } ;
+
   viz.win = function win() {
 
-    viz.prime.forEach(function(d) {
+    console.log('you win!') ;
 
-      var duration2 = 3 * duration ;
-      var offset = 20 ;
+    var duration2 = 3000 ;
+
+    viz.prime.forEach( function(d) {
+
       d.add_linear('xScale', 1, duration2) ;
       d.add_linear('yScale', 1, duration2) ;
-      d.add_linear('x', d.x * viz.Ncol + offset, duration2) ;
-      d.add_linear('y', d.y * viz.Ncol + offset, duration2) ;
-      d.white.add_transition(document.fade([0, 1, 1, 1, 0])) ;
+      d.white.add_transition(document.fade([1, 1, 1, 0.5, 0])) ;
 
-      var reset = transitionHelper.new_step('reset', undefined, duration * 5) ;
+      var offset = 0 ;
 
-      reset.end = function() {
+      d.add_linear('x', 0.5 * (d.x) * viz.Ncol + offset, duration2) ;
+      d.add_linear('y', 0.5 * (d.y) * viz.Ncol + offset, duration2) ;
 
-        viz.fade({
+      viz.fade({
 
-          duration: duration * 5,
-          opacity: 0,
-          
-          end: function() {
-            load_game() ;
-          },
+        duration: duration2 * 0.75,
+        opacity: 0,
+        
+        end: function() {
+          load_game() ;
+        },
 
-        }) ;
-
-      } ;
-
-      viz.add_transition(reset) ;
+      }) ;
 
     }) ;
 
-  } ;
-
-  viz.scoreup = function viz_scoreup() {
-    viz.score += 1 ;
-    if ( viz.score === viz.target ) {
-      console.log('you win!') ;
-      viz.win() ;
-    }
-  } ;
+  } ;  
 
   viz.all_closed = function viz_all_closed() {
 
@@ -221,6 +243,8 @@ function primefruit() {
     if ( viz === undefined ) {
       viz = this ;
     }
+
+    // console.log('unlock jars start') ;
     
     for ( var kJar = 0 ; kJar < viz.jar.length ; kJar++ ) {
 
@@ -236,6 +260,7 @@ function primefruit() {
     }
 
     viz.open_next() ;
+    viz.reset() ;
   
   } ;
 
@@ -259,6 +284,44 @@ function primefruit() {
       viz.jar[kCurr].unlock() ;
 
     }
+
+  } ;
+
+  viz.fruit_pulse = function fruit_pulse( viz ) {
+
+    if ( viz === undefined ) {
+      viz = this ; 
+    }
+
+    for ( var kfruit = 0 ; kfruit < viz.fruit.length ; kfruit++ ) {
+
+      for ( var kitem = 0 ; kitem < viz.fruit[kfruit].item.length ; kitem++ ) {
+
+        if ( viz.fruit[kfruit].item[kitem].is_prime() ) {
+          continue ;
+        }
+
+        if ( viz.fruit[kfruit].item[kitem].removeSwitch === true ) {
+          continue ;
+        }
+
+        if ( viz.fruit[kfruit].item[kitem].is_collected() ) {
+          viz.fruit[kfruit].item[kitem].pulse() ;
+        }
+
+      }
+
+    }
+
+  } ;
+
+  viz.reset = function viz_reset ( viz ) {
+
+    if ( viz === undefined ) {
+      viz = this ;
+    }
+
+    viz.busy = false ;
 
   } ;
 
