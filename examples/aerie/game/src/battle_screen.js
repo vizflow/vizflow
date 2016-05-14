@@ -135,7 +135,7 @@ function battle_screen() {
           spriteset.hindattack[1].sourceCollisionImage = hindAttackCollisionCanvas ;
           spriteset.hindattack[2].sourceCollisionImage = hindAttackCollisionCanvas ;
 
-          spriteset.block   = [spriteset.block[0], spriteset.block[1], spriteset.rest[0]] ;      
+          spriteset.block   = [spriteset.block[0], spriteset.rest[0]] ;      
           spriteset.attack = [spriteset.attack[0], spriteset.attack[1], spriteset.rest[0]] ;
           spriteset.tailattack = [spriteset.tailattack[0], spriteset.tailattack[1], spriteset.tailattack[2]] ;
           spriteset.hindattack = [spriteset.hindattack[0], spriteset.hindattack[1], spriteset.hindattack[2], spriteset.hindattack[3]] ;
