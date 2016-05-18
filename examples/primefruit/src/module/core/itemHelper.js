@@ -29,8 +29,8 @@ var itemHelper = {
 
   		config:    itemConfig,
 	    viz:       itemConfig.viz || viz, 
-			x:         itemConfig.x,
-			y:         itemConfig.y,
+			x:         itemConfig.x || 0,
+			y:         itemConfig.y || 0,
 			angle:     itemConfig.angle   || 0,
 			xOrigin:   itemConfig.xOrigin || 0,
 			yOrigin:   itemConfig.yOrigin || 0,
@@ -418,7 +418,17 @@ var itemHelper = {
 
       item.white.add_sequence([1, 0], fade_func) ;
 
-    }
+    },
+
+    loop_fade: function item_helper_method_loop_fade( item ) {
+
+      if ( item === undefined ) { 
+        item = this ;
+      }
+
+      item.loop( function() { return item.viz.fader([1, 0]) ; } ) ;
+    
+    },
 
   },
 

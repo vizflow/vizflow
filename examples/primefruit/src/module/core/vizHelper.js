@@ -221,6 +221,29 @@ var vizHelper = {
 
 	    },
 
+			fader: function viz_helper_method_fader(fadeVal, duration, viz) {
+
+				if ( viz === undefined ) {
+					viz = this ;
+				}
+
+				if ( duration === undefined ) {
+					duration = viz.fadeDuration ;
+				}
+
+				if ( fadeVal.constructor !== Array ) {
+					fadeVal = [fadeVal] ;
+				}
+
+		    return imageEffectHelper.fade_sequence({ 
+
+		      duration: duration,
+		      value: fadeVal,
+
+		    })[0] ;
+
+		  },	
+
 	  } ;
 
 	  if(vizConfig.item !== undefined) {

@@ -27,11 +27,72 @@ function load_game () {
 
     // console.log('load game title: before fade')
 
+    function run_title() {
+     
+      var size = 320 ;    
+
+      var sprite = spriteHelper.get(imageHelper.to_canvas('./image/pf-title.png'), ['bg', 'fruit', 'prime'], size, size) ;
+
+      viz.title = {
+
+        sprite: sprite,
+        
+        fruitConfig: {
+          image: sprite.fruit[0],
+          opacity: 0,
+        },
+
+        primeConfig: {
+          image: sprite.prime[0],
+          opacity: 0,
+        },
+
+        fOverConfig: {
+          image: sprite.fruit[1],
+          opacity: 0,
+          childFade: true,
+        },
+
+        pOverConfig: {
+          image: sprite.prime[1],
+          opacity: 0,
+          childFade: true,
+        },
+
+        bgConfig: {
+          image: sprite.bg[0],
+          opacity: 0,
+          childFade: true,
+        },
+
+      } ;
+
+      viz.title.bg = viz.setup_item(viz.title.bgConfig) ; 
+      viz.title.bg.image = imageEffectHelper.color_filter(viz.title.bg.image, [, 64, 64]) ;
+
+      viz.title.prime = viz.setup_item(viz.title.primeConfig) ;
+      viz.title.fruit = viz.setup_item(viz.title.fruitConfig) ;
+
+      viz.title.fruit.child = [viz.setup_item(viz.title.fOverConfig)] ;
+      viz.title.prime.child = [viz.setup_item(viz.title.pOverConfig)] ;
+
+      viz.title.bg.add() ; // add background first so that it's rendered below other items
+      viz.title.prime.add() ;
+      viz.title.fruit.add() ;
+
+      viz.title.prime.fade() ;
+      viz.title.prime.child[0].call('loop_fade', 2 * viz.fadeDuration) ;
+      viz.title.fruit.call('fade', 3 * viz.fadeDuration) ;
+      viz.title.fruit.child[0].call('loop_fade', 4 * viz.fadeDuration) ;
+      viz.title.bg.call('loop_fade', 5 * viz.fadeDuration) ;
+
+    }
+
     vizflow.fade({
 
       opacity:  1,
       duration: viz.fadeDuration,
-      pause:    2 * viz.fadeDuration,
+      pause:    viz.fadeDuration,
 
       end: function() { 
 
@@ -41,7 +102,7 @@ function load_game () {
 
           opacity:  0,
           duration: viz.fadeDuration,
-          end:      primefruit,
+          end:      run_title,
           
         }) ;
 
