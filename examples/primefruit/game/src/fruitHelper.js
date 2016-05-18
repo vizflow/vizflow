@@ -13,7 +13,7 @@ var fruitHelper = {
       ) ;  
 
       var overlayImage = imageHelper.to_canvas('./image/fruit-overlay.png') ;
-      overlayImage = imageEffectHelper.color_filter(overlayImage, [100, 128, 255]) ; // jar lid color
+      overlayImage     = imageEffectHelper.color_filter(overlayImage, [100, 128, 255]) ; // jar lid color
 
       fruitHelper.overlay = spriteHelper.get
       ( 

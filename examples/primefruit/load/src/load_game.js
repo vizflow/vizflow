@@ -81,11 +81,56 @@ function load_game () {
       viz.title.fruit.add() ;
 
       viz.title.prime.fade() ;
-      viz.title.prime.child[0].call('loop_fade', 2 * viz.fadeDuration) ;
-      viz.title.fruit.call('fade', 3 * viz.fadeDuration) ;
-      viz.title.fruit.child[0].call('loop_fade', 4 * viz.fadeDuration) ;
-      viz.title.bg.call('loop_fade', 5 * viz.fadeDuration) ;
 
+      viz.title.fruit.call('fade', 2 * viz.fadeDuration) ;
+
+      viz.title.prime.child[0].call('loop_fade', 5 * viz.fadeDuration) ;
+      viz.title.fruit.child[0].call('loop_fade', 5 * viz.fadeDuration) ;
+      viz.title.bg.call('loop_fade',             5 * viz.fadeDuration) ;
+
+      viz.key = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'] ;
+      viz.tileWidth = 47 ; 
+      viz.rowHeight = 52 ;
+
+      viz.fruit = {
+
+        sprite: spriteHelper.get
+        ( 
+          imageHelper.to_canvas('./image/fruit.gif'), 
+          viz.key, 
+          viz.tileWidth, 
+          viz.rowHeight // function argument list, so no trailing comma 
+        ),
+
+      } ;
+
+      viz.fruit.item = new Array(viz.key.length) ;
+
+      for( var k = 0 ; k < viz.key.length ; k++ ) { 
+
+        var key  = viz.key[k] ;
+        var xPad = 17 ;
+        var yPad = 25 ;
+        var x0   = 125 ;
+        var y0   = 225 ;
+
+        var fruitConfig = {
+          image: viz.fruit.sprite[key][0],
+          opacity: 0,
+          xScale: .5,
+          yScale: .5,
+          x: (k % 3) * xPad + x0,
+          y: Math.floor(k/3) * yPad + y0,
+          addSwitch: true,
+        } ;
+
+        viz.fruit.item[k] = viz.setup_item(fruitConfig) ;
+        viz.fruit.item[k].default_child() ;
+        viz.fruit.item[k].call('fade', k * viz.fadeDuration / viz.key.length + 3 * viz.fadeDuration) ;
+        viz.fruit.item[k].white.call('loop_fade', 4 * viz.fadeDuration) ;
+      
+      }
+      
     }
 
     vizflow.fade({
@@ -110,11 +155,12 @@ function load_game () {
 
     }) ;
 
-
-  } 
+  } ;
 
   var vizConfig = {
 
+    width: 320,
+    height: 320,
     paddingFactor: 1,
     background: undefined,
     music:      undefined,
