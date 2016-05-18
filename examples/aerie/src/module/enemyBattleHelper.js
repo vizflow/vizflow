@@ -42,8 +42,8 @@ var enemyBattleHelper = {
       y: 50,
     }) ;
 
-    enemy.healthbar.add() ;
-        
+    enemy.healthbar.add() ;        
+
     enemy.attack = function attack () {
 
      var transitionFunc ;
@@ -59,7 +59,7 @@ var enemyBattleHelper = {
             transitionFunc,
             function() {} // buttonpress.reset
           ) ;
-          var dur1 = 800 ;
+          var dur1 = 500 ;
           var dur2 = 400 ;
           var dur3 = 200 ;
           var trans1 = transitionHelper.new_step('image', enemy.sprite.attack[0], dur1) ;          
@@ -159,7 +159,7 @@ var enemyBattleHelper = {
 
     } ;    
 
-      var attackDuration = 3200  +- 500;
+      var attackDuration = 4200  +- 500;
       var attack_creator = transitionHelper.step_func('attack', attackDuration) ;
 
       enemy.canAttack = true ;
@@ -203,7 +203,7 @@ var enemyBattleHelper = {
 
       } ;
       
-      var hindAttackDuration = 9200 +- 1000 ;
+      var hindAttackDuration = 18200 +- 1000 ;
       var hind_attack_creator = transitionHelper.step_func('hindattack', hindAttackDuration) ;
 
       enemy.canHindAttack = true ;
@@ -288,8 +288,73 @@ var enemyBattleHelper = {
           enemy.item.add_transition (blockTrans, replacementSwitch) ;
 
       } ; 
-           return enemy ;
+
+       enemy.rest = function rest () {
+             
+              var transitionFunc ;
+
+              if( enemy.transitionSet.rest === undefined ) {
+                transitionFunc = enemy.transitionSet.image ;
+              } else {
+                transitionFunc = enemy.transitionSet.rest ;
+              }
+
+              var loop = animate_loop(
+                enemy.loop.rest,
+                enemy.sprite.rest,
+                transitionFunc,
+                function() {} // buttonpress.reset
+
+              ) ;
+
+              var dur1 = 200 ;
+              var dur2 = 175 ;
+              var dur3 = 150 ;
+              var dur4 = 100 ;
+              var dur5 = 100 ;
+              var trans1 = transitionHelper.new_step('image', enemy.sprite.rest[0], dur1) ;
+              var trans2 = transitionHelper.new_step('image', enemy.sprite.rest[1], dur2) ;
+              var trans3 = transitionHelper.new_step('image', enemy.sprite.rest[2], dur3) ;
+              var trans4 = transitionHelper.new_step('image', enemy.sprite.rest[1], dur4) ;          
+              var trans5 = transitionHelper.new_step('image', enemy.sprite.rest[0], dur5) ;
+              trans1.child = trans2 ;
+              trans1.child.child = trans3 ;
+              trans1.child.child.child = trans4 ;
+              trans1.child.child.child.child = trans5 ;
+              enemy.loop.rest.position = loop.position ;
+              transition                  = loop.animation ;
+
+              enemy.item.add_transition(trans1) ;
+              if( transitionHelper.find('image', enemy.item.transition) > -1 ) {
+                return ; // don't interrupt the current attack animation           
+
+            }
+          } ;
+
+          var restDuration = 6350
+          var rest_creator = transitionHelper.step_func('rest', restDuration) ;
+
+          enemy.canrest = true ;
+
+          enemy.start_rest = function start_rest () {
+            // console.log('enemy battle helper start rest') ;
+              if (enemy.canrest === false) {
+                return ;
+              }
+
+              var restTrans    = rest_creator() ;
+              restTrans.end    = function () {
+                  enemy.rest() ;
+                  enemy.start_rest() ;  
+              } ;
+
+              var replacementSwitch = true ;
+              enemy.item.add_transition (restTrans, replacementSwitch) ;
+
+          } ; 
+               return enemy ;           
   },
+
 
   update: function enemy_helper_update(enemy) {
     if( enemy === undefined ) {

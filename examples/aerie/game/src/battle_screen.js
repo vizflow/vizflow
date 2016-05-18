@@ -115,6 +115,12 @@ function battle_screen() {
             Nstep: 4,
         },  
 
+        rest: {
+            frameDur: viz.frameDuration * 10,
+            position: 0,
+            Nstep: 4
+        },
+
     },         
 
         sprite_loader: function() {
@@ -139,6 +145,7 @@ function battle_screen() {
           spriteset.attack = [spriteset.attack[0], spriteset.attack[1], spriteset.rest[0]] ;
           spriteset.tailattack = [spriteset.tailattack[0], spriteset.tailattack[1], spriteset.tailattack[2]] ;
           spriteset.hindattack = [spriteset.hindattack[0], spriteset.hindattack[1], spriteset.hindattack[2], spriteset.hindattack[3]] ;
+          spriteset.rest = [spriteset.rest[0], spriteset.rest[1], spriteset.rest[2], spriteset.rest[0]];
 
           return spriteset ;
 
@@ -399,6 +406,7 @@ function battle_screen() {
     viz.enemy.start_attack () ;
     viz.enemy.start_tail_attack () ;
     viz.enemy.start_block () ;
+    viz.enemy.start_rest() ;
     viz.enemy.item.add() ;
     viz.enemy.callback  = enemyBattleHelper.update ;
     viz.player.item.add() ;
