@@ -17,6 +17,7 @@ document.image = [
 	'./image/jarLidBlue.png',
 	'./image/jarOpen.png',
 	'./image/pf-title.png',
+	'./image/text2.png',
 	document.textUrl,
 
 ] ;

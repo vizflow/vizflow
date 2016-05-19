@@ -39,7 +39,7 @@ function primefruit() {
    *   when using vizflow it's easier to create the viz object and then add the items to it afterwards:
    */
 
-  var duration = 17 * 8 ;
+  var duration = 17 * 4 ;
   var width    = 320 ;
   var height   = 320 ;
 
@@ -348,7 +348,7 @@ function primefruit() {
   }) ;
 
   viz.collected = {} ; // the goal of the game is to collect all of the prime fruits
-  viz.current = 'a'.charCodeAt(0) ;
+  viz.current   = 'a'.charCodeAt(0) ;
   viz.setup_ui() ;
   viz.busy = true ;
   viz.run() ;

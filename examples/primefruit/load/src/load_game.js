@@ -10,7 +10,7 @@ function load_game () {
 
     var vizflow = itemHelper.setup({ 
 
-      x: (viz.width - vizflowImage.originalCanvas.width) * 0.5,
+      x: (viz.width  - vizflowImage.originalCanvas.width)  * 0.5,
       y: (viz.height - vizflowImage.originalCanvas.height) * 0.5,
       image: vizflowImage,
       opacity: 0,
@@ -67,26 +67,23 @@ function load_game () {
 
       } ;
 
-      viz.title.bg = viz.setup_item(viz.title.bgConfig) ; 
-      viz.title.bg.image = imageEffectHelper.color_filter(viz.title.bg.image, [, 64, 64]) ;
+      var wordDelay = 5 * viz.fadeDuration ;
 
-      viz.title.prime = viz.setup_item(viz.title.primeConfig) ;
-      viz.title.fruit = viz.setup_item(viz.title.fruitConfig) ;
-
+      viz.title.bg          = viz.setup_item(viz.title.bgConfig) ; 
+      viz.title.bg.image    = imageEffectHelper.color_filter(viz.title.bg.image, [, 64, 64]) ;
+      viz.title.prime       = viz.setup_item(viz.title.primeConfig) ;
+      viz.title.fruit       = viz.setup_item(viz.title.fruitConfig) ;
       viz.title.fruit.child = [viz.setup_item(viz.title.fOverConfig)] ;
       viz.title.prime.child = [viz.setup_item(viz.title.pOverConfig)] ;
 
       viz.title.bg.add() ; // add background first so that it's rendered below other items
       viz.title.prime.add() ;
       viz.title.fruit.add() ;
-
       viz.title.prime.fade() ;
-
       viz.title.fruit.call('fade', 2 * viz.fadeDuration) ;
-
-      viz.title.prime.child[0].call('loop_fade', 5 * viz.fadeDuration) ;
-      viz.title.fruit.child[0].call('loop_fade', 5 * viz.fadeDuration) ;
-      viz.title.bg.call('loop_fade',             5 * viz.fadeDuration) ;
+      viz.title.prime.child[0].call('loop_fade', wordDelay) ;
+      viz.title.fruit.child[0].call('loop_fade', wordDelay) ;
+      viz.title.bg            .call('loop_fade', wordDelay) ;
 
       viz.key = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'] ;
       viz.tileWidth = 47 ; 
@@ -104,7 +101,14 @@ function load_game () {
 
       } ;
 
+      var fruitFade = [.6, 0] ;
+
       viz.fruit.item = new Array(viz.key.length) ;
+
+      var fruit_fader = function(fadeVal) {
+        var duration = viz.fadeDuration * 0.5 ;
+        return viz.fader(fadeVal, duration) ;
+      }
 
       for( var k = 0 ; k < viz.key.length ; k++ ) { 
 
@@ -115,6 +119,7 @@ function load_game () {
         var y0   = 225 ;
 
         var fruitConfig = {
+
           image: viz.fruit.sprite[key][0],
           opacity: 0,
           xScale: .5,
@@ -122,14 +127,57 @@ function load_game () {
           x: (k % 3) * xPad + x0,
           y: Math.floor(k/3) * yPad + y0,
           addSwitch: true,
+
         } ;
 
-        viz.fruit.item[k] = viz.setup_item(fruitConfig) ;
-        viz.fruit.item[k].default_child() ;
-        viz.fruit.item[k].call('fade', k * viz.fadeDuration / viz.key.length + 3 * viz.fadeDuration) ;
-        viz.fruit.item[k].white.call('loop_fade', 4 * viz.fadeDuration) ;
+        var fk = viz.setup_item(fruitConfig) ;
+
+        viz.fruit.item[k] = fk ;
+
+        fk.default_child() ;
+        fk.call('fade', k * viz.fadeDuration / viz.key.length + 3 * viz.fadeDuration) ;
+        fk.white.call(function() { this.loop_fade(fruit_fader, fruitFade) ; }, 7 * viz.fadeDuration) ;
       
       }
+
+      var textWidth = 32 ; var textHeight = 32 ;
+      viz.text  = spriteHelper.get_text('./image/text2.png', textWidth, textHeight) ;
+      // viz.text       = spriteHelper.foreach(viz.text, imageHelper.get_original) ;
+
+      var textImage = imageHelper.text2image({
+        sprite: viz.text,
+        text: 'start',
+      }) ;
+
+      var startConfig = {
+        image: textImage,
+        x: 0.5 * viz.width,
+        y: 0.5 * viz.height + 32,
+        xOrigin: 0.5 * textImage.width / document.ratio,
+        yOrigin: 0.5 * textImage.height / document.ratio,
+        opacity: 0,
+        addSwitch: true,
+        uiSwitch: true,
+        callback: function() {
+          viz.fade({
+            opacity: 0,
+            duration: viz.fadeDuration * 2,
+            end: primefruit,
+          })
+        },
+        xScale: 1,
+        yScale: 1,
+      } ;
+
+      viz.title.start = viz.setup_item(startConfig) ;
+
+      function loop_flash() {
+        viz.title.start.loop(function() {
+          return itemHelper.method.flash(1, 200)[0] ;
+        }) ;
+      }
+
+      viz.title.start.call(['fade', loop_flash], [10 * viz.fadeDuration, viz.fadeDuration]) ;
       
     }
 
