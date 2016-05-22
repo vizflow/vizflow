@@ -149,7 +149,7 @@ var spriteHelper = {
 				  tileCtx.drawImage( canvas, sx, sy, tile.width, rowHeight[krow], 0, 0, tile.width, rowHeight[krow] ) ;										
 				}
 				// console.log('spiteHelper get:', 'sx, sy, tile.width, tile.height, 0, maxHeight - rowHeight[krow], tile.width, tile.height', sx, sy, tile.width, tile.height, 0, maxHeight - rowHeight[krow], tile.width, tile.height) ;
-				var tileData = get_image_data(tile) ;
+				var tileData = imageHelper.get_data(tile) ;
 				var isBlank  = spriteHelper.is_blank(tileData) ;
 				// console.log('spriteHelper get:', 'rowName[krow]', rowName[krow], 'kcol', kcol, 'tileData', tileData, 'isBlank', isBlank) ;
 				if(isBlank) {

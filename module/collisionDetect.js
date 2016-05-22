@@ -64,12 +64,12 @@ var collisionDetect = {
       if(item[kItem].image.originalCanvas === undefined) {
 
         var image = item[kItem].image ;
-        var imageK = get_image_data(image) ;
+        var imageK = imageHelper.get_data(image) ;
 
       } else {
 
         var image = item[kItem].image.originalCanvas ;
-        var imageK = get_image_data(item[kItem].image.originalCanvas) ;
+        var imageK = imageHelper.get_data(item[kItem].image.originalCanvas) ;
 
       }
 
