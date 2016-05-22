@@ -196,7 +196,6 @@ var vizHelper = {
 
 	    },
 
-	    zoom: effectHelper.zoom,
 	    zoom_inout: effectHelper.zoom_inout,
 
 	    panX: function (dur, xNew) { 
@@ -254,6 +253,7 @@ var vizHelper = {
 
 		Object.assign(viz, transitionHelper.method) ; // viz can be treated as an item
 		Object.assign(viz, itemHelper.method) ; // viz can be treated as an item
+		viz.zoom = effectHelper.zoom ; // override item.zoom 
 
 	  // console.log('setup viz end', 'viz', viz) ;
 
@@ -300,6 +300,21 @@ var vizHelper = {
 	  $Z.viz(viz) ; // load the vizualization config object into vizflow
 	  $Z.run() ;    // run the (possibly interactive) visualization (infinite loop by default)
 
+	},
+
+	clear_cover: function viz_helper_clear_cover( viz ) {
+
+    var overlayImage = imageHelper.create(viz.width, viz.height) ;
+
+    imageEffectHelper.opacity(overlayImage, 1) ;
+
+    var overlayConfig = {
+      image: overlayImage,
+      uiSwitch: true,
+      addSwitch: true,
+    } ;
+
+    return viz.setup_item(overlayConfig) ;		
 	}
 
 } ;

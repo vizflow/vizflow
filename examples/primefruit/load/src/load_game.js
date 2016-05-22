@@ -1,5 +1,21 @@
 function load_game () {
   
+  var vizConfig = {
+
+    width: 320,
+    height: 320,
+    paddingFactor: 1,
+    background: undefined,
+    music:      undefined,
+    inputEvent: inputEvent,
+    run:        title, // fade in vizflowItem URL for title screen by default
+
+  } ;
+
+  var viz = vizHelper.setup(vizConfig) ; // frameDuration computed
+
+  viz.run() ;
+
   function title(viz) {
 
     if(viz === undefined) {
@@ -8,7 +24,7 @@ function load_game () {
 
     var vizflowImage = imageHelper.adjust_ratio(imageHelper.to_canvas('./image/vizflow.png')) ;
 
-    var vizflow = itemHelper.setup({ 
+    var vizflowItem = itemHelper.setup({ 
 
       x: (viz.width  - vizflowImage.originalCanvas.width)  * 0.5,
       y: (viz.height - vizflowImage.originalCanvas.height) * 0.5,
@@ -19,16 +35,85 @@ function load_game () {
 
     }) ;
 
-    vizflow.add() ;
+    vizflowItem.add() ;
 
     vizHelper.run(viz) ; // call the generic run function
     
     viz.opacity = 1 ;
 
-    // console.log('load game title: before fade')
+    vizflowItem.fade({
+
+      opacity:  1,
+      duration: viz.fadeDuration,
+      pause:    viz.fadeDuration,
+
+      end: function() { 
+
+        // console.log('fade end: ', 'viz.opacity', viz.opacity, 'viz.width', viz.width, 'vizflowItem.opacity', vizflowItem.opacity) ;
+
+        vizflowItem.fade({
+
+          opacity:  0,
+          duration: viz.fadeDuration,
+          end:      start_text,
+          
+        }) ;
+
+      },
+
+    }) ;
+
+    function start_text() {
+      
+      var textWidth = 32 ; var textHeight = 32 ;
+      viz.text  = spriteHelper.get_text('./image/text2.png', textWidth, textHeight) ;
+      // viz.text       = spriteHelper.foreach(viz.text, imageHelper.get_original) ;
+
+      var textImage = imageHelper.text2image({
+        sprite: viz.text,
+        text: 'start',
+      }) ;
+
+      var startConfig = {
+        image: textImage,
+        x: 0.5 * viz.width,
+        y: 0.5 * viz.height,
+        xOrigin: 0.5 * textImage.width / document.ratio,
+        yOrigin: 0.5 * textImage.height / document.ratio,
+        opacity: 0,
+        addSwitch: true,
+        xScale: 1,
+        yScale: 1,
+      } ;
+
+      viz.startItem        = viz.setup_item(startConfig) ;
+      viz.overlay          = vizHelper.clear_cover(viz) ;
+      viz.overlay.callback = run_title ;
+
+      viz.setup_ui() ;
+
+      function loop_flash() {
+        viz.startItem.loop(function() {
+          return itemHelper.method.flash(1, 420)[0] ;
+        }) ;
+      }
+
+      viz.startItem.call(['fade', loop_flash], [0, viz.fadeDuration]) ;      
+    
+    }
 
     function run_title() {
-     
+
+      viz.overlay.remove() ;
+
+      viz.startItem.fade({
+        duration: 0.5 * viz.fadeDuration,
+        opacity: 0,
+        end: function() {
+          viz.startItem.remove()
+        }
+      })
+
       var size = 320 ;    
 
       var sprite = spriteHelper.get(imageHelper.to_canvas('./image/pf-title.png'), ['bg', 'fruit', 'prime'], size, size) ;
@@ -80,10 +165,10 @@ function load_game () {
       viz.title.prime.add() ;
       viz.title.fruit.add() ;
       viz.title.prime.fade() ;
-      viz.title.fruit.call('fade', 2 * viz.fadeDuration) ;
+      viz.title.fruit.call('fade', viz.fadeDuration) ;
       viz.title.prime.child[0].call('loop_fade', wordDelay) ;
       viz.title.fruit.child[0].call('loop_fade', wordDelay) ;
-      viz.title.bg            .call('loop_fade', wordDelay) ;
+      // viz.title.bg            .call('loop_fade', wordDelay) ;
 
       viz.key = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'] ;
       viz.tileWidth = 47 ; 
@@ -110,13 +195,14 @@ function load_game () {
         return viz.fader(fadeVal, duration) ;
       }
 
+      var xPad = 17 ;
+      var yPad = 25 ;
+      var x0   = 125 ;
+      var y0   = 225 ;
+
       for( var k = 0 ; k < viz.key.length ; k++ ) { 
 
         var key  = viz.key[k] ;
-        var xPad = 17 ;
-        var yPad = 25 ;
-        var x0   = 125 ;
-        var y0   = 225 ;
 
         var fruitConfig = {
 
@@ -125,7 +211,7 @@ function load_game () {
           xScale: .5,
           yScale: .5,
           x: (k % 3) * xPad + x0,
-          y: Math.floor(k/3) * yPad + y0,
+          y: Math.floor(k / 3) * yPad + y0,
           addSwitch: true,
 
         } ;
@@ -136,96 +222,29 @@ function load_game () {
 
         fk.default_child() ;
         fk.call('fade', k * viz.fadeDuration / viz.key.length + 3 * viz.fadeDuration) ;
-        fk.white.call(function() { this.loop_fade(fruit_fader, fruitFade) ; }, 7 * viz.fadeDuration) ;
-      
+        fk.white.call(function() { this.loop_fade(fruit_fader, fruitFade) ; }, 5 * viz.fadeDuration) ;
+
       }
 
-      var textWidth = 32 ; var textHeight = 32 ;
-      viz.text  = spriteHelper.get_text('./image/text2.png', textWidth, textHeight) ;
-      // viz.text       = spriteHelper.foreach(viz.text, imageHelper.get_original) ;
+      viz.call(function() {
 
-      var textImage = imageHelper.text2image({
-        sprite: viz.text,
-        text: 'start',
-      }) ;
-
-      var startConfig = {
-        image: textImage,
-        x: 0.5 * viz.width,
-        y: 0.5 * viz.height + 32,
-        xOrigin: 0.5 * textImage.width / document.ratio,
-        yOrigin: 0.5 * textImage.height / document.ratio,
-        opacity: 0,
-        addSwitch: true,
-        uiSwitch: true,
-        callback: function() {
-          viz.fade({
-            opacity: 0,
-            duration: viz.fadeDuration * 2,
-            end: primefruit,
-          })
-        },
-        xScale: 1,
-        yScale: 1,
-      } ;
-
-      viz.title.start = viz.setup_item(startConfig) ;
-
-      function loop_flash() {
-        viz.title.start.loop(function() {
-          return itemHelper.method.flash(1, 200)[0] ;
+        viz.zoom({
+          x: x0,
+          y: y0, 
+          width: viz.width / 2,
+          height: viz.height / 2,
+          duration: 3 * viz.fadeDuration,
         }) ;
-      }
+        
+        viz.fade({
+          duration: 3 * viz.fadeDuration,
+          opacity: 0,
+          end: primefruit,
+        }) ;
+      }, 10 * viz.fadeDuration) ;
 
-      viz.title.start.call(['fade', loop_flash], [10 * viz.fadeDuration, viz.fadeDuration]) ;
-      
     }
 
-    vizflow.fade({
-
-      opacity:  1,
-      duration: viz.fadeDuration,
-      pause:    viz.fadeDuration,
-
-      end: function() { 
-
-        // console.log('fade end: ', 'viz.opacity', viz.opacity, 'viz.width', viz.width, 'vizflow.opacity', vizflow.opacity) ;
-
-        vizflow.fade({
-
-          opacity:  0,
-          duration: viz.fadeDuration,
-          end:      run_title,
-          
-        }) ;
-
-      },
-
-    }) ;
-
   } ;
-
-  var vizConfig = {
-
-    width: 320,
-    height: 320,
-    paddingFactor: 1,
-    background: undefined,
-    music:      undefined,
-    inputEvent: inputEvent,
-    run:        title, // fade in vizflow URL for title screen by default
-
-  } ;
-
-  var viz = vizHelper.setup(vizConfig) ; // frameDuration computed
-
-  viz.menuConfig = {
- 
-    sprite_loader: undefined,
-    callback:      undefined,
-
-  } ;
-
-  viz.run() ;
 
 }

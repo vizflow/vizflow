@@ -5,7 +5,7 @@ document.addEventListener("touchmove", function(e) { e.preventDefault() }) ;
 document.body.style.overflowY = 'hidden' ;
 document.body.style.margin    = 0 ;
 
-document.textUrl = './image/text8.png' ;
+document.textUrl = ['./image/text8.png', './image/text2.png'] ;
 
 document.image = [ 
 	
@@ -17,10 +17,8 @@ document.image = [
 	'./image/jarLidBlue.png',
 	'./image/jarOpen.png',
 	'./image/pf-title.png',
-	'./image/text2.png',
-	document.textUrl,
 
-] ;
+].concat(document.textUrl) ;
 	  
 document.audio = [
 
