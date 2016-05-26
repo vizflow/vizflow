@@ -24,6 +24,7 @@ function load_game () {
 
     viz.audio = {
       music: audioLoader.cache[viz.config.music],
+      pf: audioLoader.cache['./audio/pf.wav'],
     } ;
     
     viz.audio.music.volume *= 0.5 ;
@@ -175,6 +176,10 @@ function load_game () {
       viz.title.prime.child[0].call('loop_fade', wordDelay) ;
       viz.title.fruit.child[0].call('loop_fade', wordDelay) ;
 
+      var delay = 1 ;
+      viz.audio.pf.volume = 1 ;
+      viz.audio.pf.play(delay) ;
+
       var fade = 4 ;
       viz.audio.music.loop = true ;
       viz.audio.music.play() ;
@@ -242,6 +247,9 @@ function load_game () {
       }
 
       viz.call(function() {
+
+        var fade = 4 ;
+        viz.audio.music.fade(fade) ;
 
         viz.zoom({
           x: x0,
