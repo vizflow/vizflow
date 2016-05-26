@@ -6,7 +6,7 @@ function load_game () {
     height: 320,
     paddingFactor: 1,
     background: undefined,
-    music:      undefined,
+    music:      './audio/starman.wav',
     inputEvent: inputEvent,
     run:        title, // fade in vizflowItem URL for title screen by default
 
@@ -21,6 +21,12 @@ function load_game () {
     if(viz === undefined) {
       viz = this ;
     }
+
+    viz.audio = {
+      music: audioLoader.cache[viz.config.music],
+    } ;
+    
+    viz.audio.music.volume *= 0.5 ;
 
     var vizflowImage = imageHelper.adjust_ratio(imageHelper.to_canvas('./image/vizflow.png')) ;
 
@@ -168,9 +174,18 @@ function load_game () {
       viz.title.fruit.call('fade', viz.fadeDuration) ;
       viz.title.prime.child[0].call('loop_fade', wordDelay) ;
       viz.title.fruit.child[0].call('loop_fade', wordDelay) ;
+
+      var fade = 4 ;
+      viz.audio.music.loop = true ;
+      viz.audio.music.play() ;
+      viz.audio.music.gain.gain.value = 0 ;
+      viz.audio.music.volume = 0.5 ;
+      viz.audio.music.fade(fade) ;
+      // viz.audio.music.volume = 0 ;
+      // viz.audio.music.fade() ;
       // viz.title.bg            .call('loop_fade', wordDelay) ;
 
-      viz.key = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'] ;
+      viz.key       = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'] ;
       viz.tileWidth = 47 ; 
       viz.rowHeight = 52 ;
 
@@ -190,7 +205,7 @@ function load_game () {
 
       viz.fruit.item = new Array(viz.key.length) ;
 
-      var fruit_fader = function(fadeVal) {
+      function fruit_fader(fadeVal) {
         var duration = viz.fadeDuration * 0.5 ;
         return viz.fader(fadeVal, duration) ;
       }
@@ -231,9 +246,9 @@ function load_game () {
         viz.zoom({
           x: x0,
           y: y0, 
-          width: viz.width / 2,
-          height: viz.height / 2,
-          duration: 3 * viz.fadeDuration,
+          width: viz.width / 3,
+          height: viz.height / 3,
+          duration: 4 * viz.fadeDuration,
         }) ;
         
         viz.fade({

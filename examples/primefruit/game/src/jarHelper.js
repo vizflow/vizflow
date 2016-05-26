@@ -296,7 +296,10 @@ var jarHelper = {
         jar = this ;
       }
 
-      jar.call(function() { jar.message('prime') ; }, 4.8 * jar.duration) ;
+      jar.call(function() { 
+        jar.message('prime') ; 
+        viz.audio[jar.fruit.code].play() ;
+      }, 4.8 * jar.duration) ;
 
       var viz = jar.viz ;
 

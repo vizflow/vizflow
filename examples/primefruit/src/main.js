@@ -22,7 +22,19 @@ document.image = [
 	  
 document.audio = [
 
-	// './audio/.wav',
+	'./audio/starman.wav',
+	'./audio/lizardstick.wav',
+	'./audio/win.wav',
+	'./audio/a.wav',
+	'./audio/b.wav',
+	'./audio/c.wav',
+	'./audio/d.wav',
+	'./audio/e.wav',
+	'./audio/f.wav',
+	'./audio/g.wav',
+	'./audio/h.wav',
+	'./audio/i.wav',
+	'./audio/pf.wav',
 
 ] ;
 

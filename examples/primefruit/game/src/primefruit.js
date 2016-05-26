@@ -2,9 +2,9 @@ function primefruit() {
 
 /***
   
-    primes <= 25: 2 3 5 7 11 13 17 19 23
+    the primes <= 25 are: 2 3 5 7 11 13 17 19 23
     
-    factorizations for i <= 25:
+    the prime factorizations for 1, 2, ..., 25 are :
 
      2
      3
@@ -36,7 +36,7 @@ function primefruit() {
   // console.log('primefruit: start') ;
 
   /*
-   *   when using vizflow it's easier to create the viz object and then add the items to it afterwards:
+   *   create the viz object first, and then add the items to it using viz.setup_item()
    */
 
   var duration = 17 * 8 ;
@@ -50,11 +50,33 @@ function primefruit() {
     height: height,
     fadeDuration: duration,
     opacity: 0,
-    collision_detect: function() {},
+    collision_detect: function() {}, // turn off collision detection for this game, improving performance
+    music: './audio/lizardstick.wav',
 
   } ;
   
   var viz       = vizHelper.setup(vizConfig) ; // first create generic vizflow configuration object, then add application-specific details
+
+  viz.audio = {
+    music: audioLoader.cache[vizConfig.music],
+    a: audioLoader.cache['./audio/a.wav'],
+    b: audioLoader.cache['./audio/b.wav'],
+    c: audioLoader.cache['./audio/c.wav'],
+    d: audioLoader.cache['./audio/d.wav'],
+    e: audioLoader.cache['./audio/e.wav'],
+    f: audioLoader.cache['./audio/f.wav'],
+    g: audioLoader.cache['./audio/g.wav'],
+    h: audioLoader.cache['./audio/h.wav'],
+    i: audioLoader.cache['./audio/i.wav'],
+    win: audioLoader.cache['./audio/win.wav'],
+  } ;
+  
+  var fade = 4 ;
+  viz.audio.music.loop   = true ;
+  viz.audio.music.play() ;
+  viz.audio.music.gain.gain.value = 0 ;
+  viz.audio.music.volume          = 0.5 ;
+  viz.audio.music.fade(fade) ;
 
   viz.Nprime    = 9 ;
   viz.N         = 25 ; // how many numbers to represent with viz.fruit baskets
