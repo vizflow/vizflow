@@ -1,4 +1,4 @@
-var uiHelper = {
+export default {
 
   setup: function ui_helper_setup (uiConfig, viz) {
 

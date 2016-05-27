@@ -1,4 +1,4 @@
-var actionHelper = {
+export default {
 
   lastCollision: 0,
 

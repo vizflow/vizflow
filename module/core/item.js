@@ -1,62 +1,62 @@
-var itemHelper = {
+export default {
 
-	setup: function item_helper_setup(itemConfig, viz) {
+  setup: function item_helper_setup(itemConfig, viz) {
 
-		if(viz === undefined) {
-		  viz = this ;
-		}
+    if(viz === undefined) {
+      viz = this ;
+    }
 
-		if ( itemConfig === undefined ) {
-			itemConfig = {} ;
-		}
+    if ( itemConfig === undefined ) {
+      itemConfig = {} ;
+    }
 
-		if(itemConfig.opacity === undefined) {
-			itemConfig.opacity = 1 ;
-		}
+    if(itemConfig.opacity === undefined) {
+      itemConfig.opacity = 1 ;
+    }
 
-		if(itemConfig.inert === undefined) {
-			itemConfig.inert = true ;
-		}
+    if(itemConfig.inert === undefined) {
+      itemConfig.inert = true ;
+    }
 
-		var item = { // configurable properties: x, y, type, element, opacity, image, inert, render, fixed, transition
+    var item = { // configurable properties: x, y, type, element, opacity, image, inert, render, fixed, transition
 
-			/* default properties: */
+      /* default properties: */
 
       delayCount: 0,      
       responseSet: {}, // add response objects separately
 
-	    /* configurable properties: */
+      /* configurable properties: */
 
-  		config:    itemConfig,
-	    viz:       itemConfig.viz || viz, 
-			x:         itemConfig.x || 0,
-			y:         itemConfig.y || 0,
-			angle:     itemConfig.angle   || 0,
-			xOrigin:   itemConfig.xOrigin || 0,
-			yOrigin:   itemConfig.yOrigin || 0,
-			xAngle:    itemConfig.xAngle  || 0,
-		  yAngle:    itemConfig.yAngle  || 0,
-		  xScale:    itemConfig.xScale  || 1,
-		  yScale:    itemConfig.yScale  || 1,
-			type:      itemConfig.type,
-			element:   itemConfig.element,
-			enter:     itemConfig.enter,
-			exit:      itemConfig.exit,
-		  opacity:   itemConfig.opacity,
-			color:     itemConfig.color,
-			width:     itemConfig.width,
-			height:    itemConfig.height,
-  		image:     itemConfig.image,
-  		child:     itemConfig.child,
+      config:    itemConfig,
+      viz:       itemConfig.viz || viz, 
+      x:         itemConfig.x || 0,
+      y:         itemConfig.y || 0,
+      angle:     itemConfig.angle   || 0,
+      xOrigin:   itemConfig.xOrigin || 0,
+      yOrigin:   itemConfig.yOrigin || 0,
+      xAngle:    itemConfig.xAngle  || 0,
+      yAngle:    itemConfig.yAngle  || 0,
+      xScale:    itemConfig.xScale  || 1,
+      yScale:    itemConfig.yScale  || 1,
+      type:      itemConfig.type,
+      element:   itemConfig.element,
+      enter:     itemConfig.enter,
+      exit:      itemConfig.exit,
+      opacity:   itemConfig.opacity,
+      color:     itemConfig.color,
+      width:     itemConfig.width,
+      height:    itemConfig.height,
+      image:     itemConfig.image,
+      child:     itemConfig.child,
       childFade: itemConfig.childFade,
-	    inert:     itemConfig.inert,
-	    fixed:     itemConfig.fixed,
-	    uiSwitch:  itemConfig.uiSwitch || false,
-  		callback:  itemConfig.callback,
-	  	addSwitch: itemConfig.addSwitch || false,
-	    render:    itemConfig.render || drawHelper.item, // drawHelper.image expects "this" to  be "item"
+      inert:     itemConfig.inert,
+      fixed:     itemConfig.fixed,
+      uiSwitch:  itemConfig.uiSwitch || false,
+      callback:  itemConfig.callback,
+      addSwitch: itemConfig.addSwitch || false,
+      render:    itemConfig.render || drawHelper.item, // drawHelper.image expects "this" to  be "item"
 
-		} ;
+    } ;
 
     Object.assign(item, itemHelper.method) ;
     Object.assign(item, transitionHelper.method) ;
@@ -67,9 +67,9 @@ var itemHelper = {
 
     // console.log('item helper', 'item', item) ;
 
-		return item ;
+    return item ;
 
-	},
+  },
 
   method: {
 

@@ -1,4 +1,4 @@
-var drawHelper = {
+export default {
 
   item: function draw_helper_item ( item, context, ratio ) { // render item and its child items
 

@@ -16,26 +16,34 @@
     </style>
   </head>
   <body>
-    <script type="text/javascript" src="jspm_packages/system.js"></script>
-    <script type="text/javascript" src="config.js"></script>
-    <script type="text/javascript" src="examples/three_circles_canvas/three_circles_canvas.js"></script>
-    <script type="text/javascript" src="examples/three_circles_svg/three_circles_svg.js"></script>
+    <!-- <script type="text/javascript" src="jspm_packages/system.js"></script> -->
+    <!-- <script type="text/javascript" src="config.js"></script> -->
+    <script type="text/javascript" src="vizflow.js"></script>
+    <script type="text/javascript" src="vizflow-core.js"></script>
+
+    <!-- <script type="text/javascript" src="examples/three_circles_svg/three_circles_svg.js"></script>-->
+    
     <script>
-      System.import('src/vizflow').then( () => { 
 
-        //var type = 'canvas' ;
-        //var type = 'svg' ;
-        var type = prompt('please enter either "canvas" or "svg"', 'canvas')
+      // System( () => { 
 
-        if(type === 'canvas') 
-          three_circles_canvas() ; 
-        else if(type === 'svg')
-          three_circles_svg() ; 
-        else 
-          window.location = '/' ;
-        
-      } ) ;
+      //     console.log('system ok') ;
+          console.log('$Z', $Z) ;
+          
+      //     // var type = prompt('please enter either "canvas" or "svg"', 'canvas')
+
+      //     // if(type === 'canvas') 
+      //     //   three_circles_canvas() ; 
+      //     // else if(type === 'svg')
+      //     //   three_circles_svg() ; 
+      //     // else 
+      //     //   window.location = '/' ;
+          
+      //   } 
+      // ) ;
+
     </script>
+
     <!-- *** production - compile build.js using: jspm bundle-sfx --minify src/vizflow -->
     <!-- *** production - add <script type="text/javascript" src="build.js"></script> tag in place of system.js and config.js -->
   </body>

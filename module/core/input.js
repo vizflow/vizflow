@@ -1,4 +1,4 @@
-var inputEvent = {
+export default {
   
   down: function input_event_down (event, doc) {
 
@@ -121,6 +121,6 @@ var inputEvent = {
 
     }, 
 
-	},
+  },
 
 } ;

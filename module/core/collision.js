@@ -1,4 +1,4 @@
-var collisionDetect = {
+export default {
 
   Nval: null,
 

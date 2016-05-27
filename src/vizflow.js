@@ -1,6 +1,6 @@
 // vizflow: application-agnostic interactive vizualization engine
 // by Daniel Korenblum 4/20/2015
-// http://github.com/dannyko/vizflow
+// https://github.com/vizflow/vizflow
 
 // import the helper functions and wrappers attached to the $Z object:
 
@@ -30,7 +30,7 @@ import postprocess     from './postprocess'     ;
 
 // define the vizflow object ($Z): 
 
-window.$Z = { // define the "bling Z" object for running interactive vizualizations
+let vizflow = { // define the "bling Z" object for running interactive vizualizations
 
   requestAnimFrame: (
     window.requestAnimationFrame       || 
@@ -80,4 +80,6 @@ window.$Z = { // define the "bling Z" object for running interactive vizualizati
 
 } ;
 
-export default {}
+window.$Z = vizflow ;
+
+export { vizflow as default }
