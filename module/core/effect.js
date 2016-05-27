@@ -247,7 +247,7 @@ effect.image = {
 
     // console.log('foreach: ', 'data', data, 'image', image, 'context', context) ;
 
-    // imageHelper.view(canvas) ;
+    // $Z.core.image.view(canvas) ;
 
   },
 
@@ -317,7 +317,7 @@ effect.image = {
       return Math.round(mixedVal) ;
     }
 
-    var filteredImage = imageHelper.copy(canvas) ;
+    var filteredImage = $Z.core.image.copy(canvas) ;
 
     for (kclr = 0 ; kclr < color.length ; kclr++) {
 
@@ -421,7 +421,7 @@ effect.image = {
 
     for(var krow = 0 ; krow < Nrow ; krow++) {
       for(var kcol = 0 ; kcol < Ncol ; kcol++) {
-        var canvas  = imageHelper.create(blocksize, blocksize) ;
+        var canvas  = $Z.core.image.create(blocksize, blocksize) ;
         var context = canvas.context() ;
         sx = Math.floor(kcol * blocksize / document.ratio) ;
         sy = Math.floor(krow * blocksize / document.ratio) ;

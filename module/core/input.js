@@ -1,4 +1,4 @@
-export default {
+let inputEvent = {
   
   down: function input_event_down (event, doc) {
 
@@ -124,3 +124,5 @@ export default {
   },
 
 } ;
+
+export { inputEvent as default }

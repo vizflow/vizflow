@@ -43,7 +43,7 @@ export default {
 
     // console.log('collision_detect', 'item', item, 'width', width, 'height', height) ;
 
-    // var canvas = imageHelper.create(width, height) ;
+    // var canvas = $Z.core.image.create(width, height) ;
     // var context = canvas.context() ;
     // context.globalAlpha = 0.5 ;
 
@@ -64,12 +64,12 @@ export default {
       if(item[kItem].image.originalCanvas === undefined) {
 
         var image = item[kItem].image ;
-        var imageK = imageHelper.get_data(image) ;
+        var imageK = $Z.core.image.get_data(image) ;
 
       } else {
 
         var image = item[kItem].image.originalCanvas ;
-        var imageK = imageHelper.get_data(item[kItem].image.originalCanvas) ;
+        var imageK = $Z.core.image.get_data(item[kItem].image.originalCanvas) ;
 
       }
 

@@ -18,6 +18,7 @@
   <body>
     <!-- <script type="text/javascript" src="jspm_packages/system.js"></script> -->
     <!-- <script type="text/javascript" src="config.js"></script> -->
+
     <script type="text/javascript" src="vizflow.js"></script>
     <script type="text/javascript" src="vizflow-core.js"></script>
 
@@ -25,13 +26,35 @@
     
     <script>
 
-      // System( () => { 
+      var imageList = ['./image/vizflow_text.png'] ;
+      var audioList = [] ;
 
-      //     console.log('system ok') ;
-          console.log('$Z', $Z) ;
-          
+      function show_logo() {
+
+        console.log('show logo start')
+
+        var viz = $Z.core.viz.setup({
+          width: 1280,
+          height: 1280,
+        }) ;
+
+        var logoImage = $Z.core.image.to_canvas(imageList[0]) ;
+
+        console.log(logoImage) ;
+
+        var logo = viz.setup_item({
+          image: logoImage,
+          x: 0, 
+          y: 0,
+          addSwitch: true,
+          opacity: 1,
+        }) ;
+
+      }
+
+      $Z.core.loader.all(imageList, audioList, show_logo) ;
+
       //     // var type = prompt('please enter either "canvas" or "svg"', 'canvas')
-
       //     // if(type === 'canvas') 
       //     //   three_circles_canvas() ; 
       //     // else if(type === 'svg')
@@ -44,7 +67,5 @@
 
     </script>
 
-    <!-- *** production - compile build.js using: jspm bundle-sfx --minify src/vizflow -->
-    <!-- *** production - add <script type="text/javascript" src="build.js"></script> tag in place of system.js and config.js -->
   </body>
 </html>

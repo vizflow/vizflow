@@ -1,4 +1,22 @@
-export default {
+let imageHelper = {
+
+  place: function viz_helper_place( canvas ) {
+
+    if ( canvas === undefined ) { 
+      canvas = this ;
+    }
+
+    var y = document.body.getElementsByTagName("canvas");
+    for(let ky = 0 ; ky < y.length ; ky++) {
+      // console.log('removing', 'canvas', y[ky]) ;
+      y[ky].parentNode.removeChild(y[ky]) ;
+    }
+    document.body.appendChild(canvas) ;
+    canvas.style.position = 'fixed' ;
+    canvas.parentNode.style.transformOrigin = "0 0"; //scale from top left
+    // canvas.context().scale(1, 1) ;
+  
+  },  
 
   get_data: function image_helper_get_data (canvas) {
     return canvas.context().getImageData(0, 0, canvas.width, canvas.height) ;   
@@ -253,6 +271,7 @@ export default {
     canvas.imageSmoothingEnabled = false;  
 
     canvas.context = imageHelper.context2d ;
+    canvas.place   = imageHelper.place ;
 
     if ( color !== undefined ) {
       for ( var kclr = 0 ; kclr < color.length ; kclr++ ) {
@@ -438,3 +457,5 @@ export default {
   },
 
 } ;
+
+export { imageHelper as default }

@@ -1,4 +1,4 @@
-export default {
+let itemHelper = {
 
   setup: function item_helper_setup(itemConfig, viz) {
 
@@ -449,3 +449,5 @@ export default {
   },
 
 } ;
+
+export { itemHelper as default }

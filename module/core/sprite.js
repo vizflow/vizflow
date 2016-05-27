@@ -1,4 +1,4 @@
-export default {
+let spriteHelper = {
 
   foreach: function sprite_helper_foreach (spriteSet, func) {
 
@@ -57,7 +57,7 @@ export default {
 
     // console.log('totalHeight', totalHeight)
 
-    var canvas  = imageHelper.create(totalWidth, totalHeight) ;
+    var canvas  = $Z.core.image.create(totalWidth, totalHeight) ;
     var context = canvas.context() ;
 
     var offsetY = 0 ;
@@ -77,7 +77,7 @@ export default {
       offsetY += height.shift() ;
     }
 
-    imageHelper.view(canvas) ;
+    $Z.core.image.view(canvas) ;
 
   },
 
@@ -105,7 +105,7 @@ export default {
 
   get: function sprite_helper_get (canvas, rowName, tileWidth, rowHeight, paddingSwitch) {
 
-    // imageHelper.view(canvas) ;
+    // $Z.core.image.view(canvas) ;
 
     if(paddingSwitch === undefined) {
       paddingSwitch = true ;
@@ -137,9 +137,9 @@ export default {
       // console.log('spriteHelper get:', 'rowName[krow]', rowName[krow], 'krow', krow, 'Ntile', Ntile) ;
       for(var kcol = 0 ; kcol < Ntile ; kcol++) {
         if(paddingSwitch) {
-          var tile = imageHelper.create(tileWidth[krow], maxHeight) ;         
+          var tile = $Z.core.image.create(tileWidth[krow], maxHeight) ;         
         } else {
-          var tile = imageHelper.create(tileWidth[krow], rowHeight[krow]) ;                   
+          var tile = $Z.core.image.create(tileWidth[krow], rowHeight[krow]) ;                   
         }
         var tileCtx = tile.context() ;
         var sx      = kcol * tile.width ;
@@ -149,13 +149,13 @@ export default {
           tileCtx.drawImage( canvas, sx, sy, tile.width, rowHeight[krow], 0, 0, tile.width, rowHeight[krow] ) ;                   
         }
         // console.log('spiteHelper get:', 'sx, sy, tile.width, tile.height, 0, maxHeight - rowHeight[krow], tile.width, tile.height', sx, sy, tile.width, tile.height, 0, maxHeight - rowHeight[krow], tile.width, tile.height) ;
-        var tileData = imageHelper.get_data(tile) ;
+        var tileData = $Z.core.image.get_data(tile) ;
         var isBlank  = spriteHelper.is_blank(tileData) ;
         // console.log('spriteHelper get:', 'rowName[krow]', rowName[krow], 'kcol', kcol, 'tileData', tileData, 'isBlank', isBlank) ;
         if(isBlank) {
           break ;
         }
-        tile = imageHelper.adjust_ratio(tile) ;
+        tile = $Z.core.image.adjust_ratio(tile) ;
         // console.log('spriteHelper get', 'tileCanvas', tile) ;        
         row.push(tile) ;
       }
@@ -169,7 +169,7 @@ export default {
   },
 
   get_text: function sprite_helper_get_text (url, width, height) {
-    var canvas = imageHelper.to_canvas(url) ;
+    var canvas = $Z.core.image.to_canvas(url) ;
     var alpha  = "0123456789abcdefghijklmnopqrstuvwxyz".split("") ;
     return spriteHelper.get(canvas, alpha, width, height) ;   
   },
@@ -203,18 +203,18 @@ export default {
 
     for ( var kFrame = 0 ; kFrame < sprite.length ; kFrame++ ) {
 
-      spriteFlip[kFrame] = imageHelper.flip_image ( sprite[kFrame] ) ;
+      spriteFlip[kFrame] = $Z.core.image.flip_image ( sprite[kFrame] ) ;
 
       if(sprite[kFrame].originalCanvas !== undefined) {
-        spriteFlip[kFrame].originalCanvas = imageHelper.flip_image( sprite[kFrame].originalCanvas ) ;
+        spriteFlip[kFrame].originalCanvas = $Z.core.image.flip_image( sprite[kFrame].originalCanvas ) ;
       }
             
       if(sprite[kFrame].sourceCollisionImage !== undefined) {
-        spriteFlip[kFrame].sourceCollisionImage = imageHelper.flip_image( sprite[kFrame].sourceCollisionImage ) ;
+        spriteFlip[kFrame].sourceCollisionImage = $Z.core.image.flip_image( sprite[kFrame].sourceCollisionImage ) ;
       }
 
       if(sprite[kFrame].targetCollisionImage !== undefined) {
-        spriteFlip[kFrame].targetCollisionImage = imageHelper.flip_image( sprite[kFrame].targetCollisionImage ) ;
+        spriteFlip[kFrame].targetCollisionImage = $Z.core.image.flip_image( sprite[kFrame].targetCollisionImage ) ;
       } else { // default target collision image is the same as the original
         spriteFlip[kFrame].targetCollisionImage = spriteFlip[kFrame] ;
       }
@@ -226,3 +226,5 @@ export default {
   },  
 
 } ;
+
+export { spriteHelper as default }

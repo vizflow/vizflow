@@ -1,4 +1,4 @@
-export default {
+let vizHelper = {
 
   setup: function viz_helper_setup_viz (vizConfig) {
 
@@ -13,7 +13,7 @@ export default {
     }
 
     if ( vizConfig.inputEvent === undefined ) {
-      vizConfig.inputEvent = inputEvent ;
+      vizConfig.inputEvent = $Z.core.input ;
     }
 
     /* 
@@ -30,15 +30,15 @@ export default {
     var fullWidth     = Math.floor(vizWidth * paddingFactor * ratio) ;  
     var fullHeight    = Math.floor(vizHeight * paddingFactor * ratio) ; 
 
-    var vizCanvas     = imageHelper.create(vizWidth, vizHeight) ;         // model canvas (indepdenent of device pixel ratio)
-    var fullCanvas    = imageHelper.create(fullWidth, fullHeight) ;     // fully upsampled canvas (dependent on device pixel ratio)
-    var screenCanvas  = imageHelper.create(displayWidth, displayHeight) ; // actual display canvas (drawn to screen once per step/cycle/frame of the animation engine)
+    var vizCanvas     = $Z.core.image.create(vizWidth, vizHeight) ;         // model canvas (indepdenent of device pixel ratio)
+    var fullCanvas    = $Z.core.image.create(fullWidth, fullHeight) ;     // fully upsampled canvas (dependent on device pixel ratio)
+    var screenCanvas  = $Z.core.image.create(displayWidth, displayHeight) ; // actual display canvas (drawn to screen once per step/cycle/frame of the animation engine)
 
     var fullContext   = fullCanvas.context() ; // model canvas (indepdenent of device pixel ratio)
     var vizContext    = vizCanvas.context() ;  
     var screenContext = screenCanvas.context() ;
 
-    place_viz(screenCanvas) ;
+    screenCanvas.place() ;
 
     function resize() {
       set_canvas_position( screenCanvas ) ;
@@ -51,7 +51,7 @@ export default {
 
     var image ;
     if(vizConfig.loadingImageUrl !== undefined) {
-      image = imageHelper.adjust_ratio(imageHelper.to_canvas(vizConfig.loadingImageUrl));
+      image = $Z.core.image.adjust_ratio($Z.core.image.to_canvas(vizConfig.loadingImageUrl));
       // console.log('vizHelper, resize, to_canvas end') ;
     } 
 
@@ -105,7 +105,7 @@ export default {
       setup_ui:    uiHelper.setup,
       setup_score: scoreHelper.setup, //  score setup function for games (optional, don't have to use it for non-games)
       clearSwitch: true,
-      input:             vizConfig.inputEvent || inputEvent, 
+      input:             vizConfig.inputEvent || $Z.core.input, 
       run:               vizConfig.run || vizHelper.run,
       stagingArray:      vizConfig.item || [],
       screen_callback:   vizConfig.screen_callback,
@@ -304,7 +304,7 @@ export default {
 
   clear_cover: function viz_helper_clear_cover( viz ) {
 
-    var overlayImage = imageHelper.create(viz.width, viz.height) ;
+    var overlayImage = $Z.core.image.create(viz.width, viz.height) ;
 
     imageEffectHelper.opacity(overlayImage, 1) ;
 
@@ -315,6 +315,8 @@ export default {
     } ;
 
     return viz.setup_item(overlayConfig) ;    
-  }
+  },
 
 } ;
+
+export { vizHelper as default }

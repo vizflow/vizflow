@@ -1,4 +1,4 @@
-export default {
+let drawHelper = {
 
   item: function draw_helper_item ( item, context, ratio ) { // render item and its child items
 
@@ -33,7 +33,7 @@ export default {
   indexed: function draw_helper_indexed(item, canvas, width, height) { // takes an array of items and draws them using indexed colors
 
     if(canvas === undefined) { 
-      var canvas  = imageHelper.create (width, height) ;
+      var canvas  = $Z.core.image.create (width, height) ;
     } else {
       canvas.width = canvas.width // resets the canvas simiar to clearRect
     }
@@ -58,8 +58,8 @@ export default {
         .context()
         .getImageData(0, 0, item[kItem].image.width, item[kItem].image.height) ;
 
-      var imageK     = imageHelper.to_index(imageDataK, kItem) ; // ImageData object
-      var tempCanvas = imageHelper.create(item[kItem].image.width, item[kItem].image.height) ;
+      var imageK     = $Z.core.image.to_index(imageDataK, kItem) ; // ImageData object
+      var tempCanvas = $Z.core.image.create(item[kItem].image.width, item[kItem].image.height) ;
 
       tempCanvas
         .context()
@@ -294,4 +294,6 @@ export default {
 
   },
 
-}
+} ;
+
+export { drawHelper as default }

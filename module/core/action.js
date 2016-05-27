@@ -1,4 +1,4 @@
-export default {
+let actionHelper = {
 
   lastCollision: 0,
 
@@ -96,3 +96,5 @@ export default {
   },
 
 } ;
+
+export { actionHelper as default }

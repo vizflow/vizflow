@@ -1,4 +1,4 @@
-export default {
+let transitionHelper = {
 
   step_interp: function transition_helper_step_interp(t) { // represents a switch at t=0
     return this.endValue ;
@@ -500,3 +500,5 @@ export default {
   // },
 
 } ;
+
+export { transitionHelper as default }

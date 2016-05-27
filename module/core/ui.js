@@ -1,4 +1,4 @@
-export default {
+let uiHelper = {
 
   setup: function ui_helper_setup (uiConfig, viz) {
 
@@ -12,8 +12,8 @@ export default {
 
     var ui = {
 
-      canvas:   uiConfig.canvas  || imageHelper.create(viz.width, viz.height),
-      context:  uiConfig.context || imageHelper.create(viz.width, viz.height).context(),
+      canvas:   uiConfig.canvas  || $Z.core.image.create(viz.width, viz.height),
+      context:  uiConfig.context || $Z.core.image.create(viz.width, viz.height).context(),
       item:     uiConfig.item    || [],
       // callback: uiConfig.callback,
 
@@ -26,3 +26,5 @@ export default {
   },
 
 } ;
+
+export { uiHelper as default }
