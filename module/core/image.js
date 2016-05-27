@@ -1,5 +1,50 @@
 let imageHelper = {
 
+  set_position: function image_helper_set_position(canvas) {
+
+    if ( canvas === undefined ) { 
+      canvas = this ;
+    }
+    
+    var position = {} ;
+    var windowWidth  = window.innerWidth ;
+    var widthRatio   = canvas.width / windowWidth ;
+    var windowHeight = window.innerHeight ;
+    var heightRatio  = canvas.height / windowHeight ;
+    var scaleWidth   = true ; // toggles width or height scaling (height by default)
+    var landscape    = canvas.width >= canvas.height ;
+    
+    if(  landscape &&  (heightRatio > widthRatio) ) scaleWidth = false ;
+    if( !landscape && !(heightRatio < widthRatio) ) scaleWidth = false ;
+    
+    if(scaleWidth) { // fit width to window and center vertically  
+      position.width  = windowWidth ;
+      position.height = Math.round(canvas.height / widthRatio) ;
+      position.left   = 0 ;
+      position.top    = Math.round(0.5 * (windowHeight - position.height)) ;
+      position.scale  = 1 / widthRatio ;
+    } else { // fit height to window and center horizontally
+      position.height = windowHeight ;
+      position.width  = Math.round(canvas.width / heightRatio) ;
+      position.top    = 0 ;
+      position.left   = Math.round(0.5 * (windowWidth - position.width)) ;
+      position.scale  = 1 / heightRatio ;
+    }
+    // console.log('rw', widthRatio, 'rh', heightRatio, 'pos', position)
+    
+    if(canvas.style.width !== position.width || canvas.style.height !== position.height) {
+
+      canvas.style.width  = position.width ;
+      canvas.style.height = position.height ;
+      canvas.style.left   = position.left ;
+      canvas.style.top    = position.top ;
+      
+    }
+
+    return position ;
+
+  },
+
   place: function viz_helper_place( canvas ) {
 
     if ( canvas === undefined ) { 
@@ -118,7 +163,7 @@ let imageHelper = {
 
     } ;
 
-    drawHelper.rect (rect, imageContext) ;
+    $Z.core.draw.rect (rect, imageContext) ;
     imageContext.drawImage (wordImage, offsetX, offsetY) ;
 
     imageContext.lineWidth = 1 ; 
@@ -181,7 +226,7 @@ let imageHelper = {
 
     if ( wordConfig.binarySwitch === true ) { 
       var threshold = 50 ;
-      imageEffectHelper.binary_opacity_filter(wordImage, threshold) ;
+      $Z.core.effect.image.binary_opacity_filter(wordImage, threshold) ;
     }
 
     // imageHelper.view(wordImage)
@@ -249,7 +294,7 @@ let imageHelper = {
 
   to_canvas: function image_helper_to_canvas(imgUrl) {
 
-    var image     = imageLoader.cache[imgUrl] ; // temporary variable
+    var image     = $Z.core.loader.image.cache[imgUrl] ; // temporary variable
     var canvas    = imageHelper.create() ;
     var context   = canvas.context() ;
     canvas.width  = image.width ;
@@ -270,13 +315,14 @@ let imageHelper = {
     canvas.msImageSmoothingEnabled = false;
     canvas.imageSmoothingEnabled = false;  
 
-    canvas.context = imageHelper.context2d ;
-    canvas.place   = imageHelper.place ;
+    canvas.context      = imageHelper.context2d ;
+    canvas.place        = imageHelper.place ;
+    canvas.set_position = imageHelper.set_position ;
 
     if ( color !== undefined ) {
       for ( var kclr = 0 ; kclr < color.length ; kclr++ ) {
         var set_color = function() { return color[kclr] ; } ;
-        imageEffectHelper.foreach( canvas, set_color, kclr ) ;      
+        $Z.core.effect.image.foreach( canvas, set_color, kclr ) ;      
       }
     }
 

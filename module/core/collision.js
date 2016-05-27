@@ -1,4 +1,4 @@
-export default {
+let collisionDetect = {
 
   Nval: null,
 
@@ -200,3 +200,5 @@ export default {
   },
 
 } ;
+
+export { collisionDetect as default }

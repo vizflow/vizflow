@@ -54,12 +54,12 @@ let itemHelper = {
       uiSwitch:  itemConfig.uiSwitch || false,
       callback:  itemConfig.callback,
       addSwitch: itemConfig.addSwitch || false,
-      render:    itemConfig.render || drawHelper.item, // drawHelper.image expects "this" to  be "item"
+      render:    itemConfig.render || $Z.core.draw.item, // $Z.core.draw.image expects "this" to  be "item"
 
     } ;
 
     Object.assign(item, itemHelper.method) ;
-    Object.assign(item, transitionHelper.method) ;
+    Object.assign(item, $Z.core.transition.method) ;
 
     if ( item.addSwitch === true ) { 
       item.add() ;
@@ -105,7 +105,7 @@ let itemHelper = {
         item.child = [] ; // initialize
       }
 
-      var white = imageEffectHelper.color_filter(item.image, [255, 255, 255]) ;
+      var white = $Z.core.effect.image.color_filter(item.image, [255, 255, 255]) ;
 
       item.white       = Object.copy(item) ;
       item.white.childFade = true ;
@@ -275,7 +275,7 @@ let itemHelper = {
 
       item[prop] = null ;
 
-      var trans = transitionHelper.new_step(prop, undefined, delay) ;
+      var trans = $Z.core.transition.new_step(prop, undefined, delay) ;
 
       trans.end = function run_callback_end() {
         // console.log('run_callback_end:', 'callback', callback, 'item', item)
@@ -305,15 +305,15 @@ let itemHelper = {
       // console.log('effect flash', 'frameDuration', frameDuration, 'Nstep', Nstep) ;
       // console.log('effect flash 5') ;
       var blank = function () {} ;
-      var valueList = [blank, drawHelper.item] ;
+      var valueList = [blank, $Z.core.draw.item] ;
 
       var flash     = new Array(2 * Nflash) ;
       
       for(var kflash = 0 ; kflash < 2 * Nflash ; kflash++) {
-        flash[kflash] = transitionHelper.new_step('render', valueList[kflash % valueList.length], flashDuration) ;
+        flash[kflash] = $Z.core.transition.new_step('render', valueList[kflash % valueList.length], flashDuration) ;
       }
 
-      flash = transitionHelper.sequence(flash) ;
+      flash = $Z.core.transition.sequence(flash) ;
 
       // var loopConfig = {
       //  Nstep: Nstep,
@@ -367,8 +367,8 @@ let itemHelper = {
       xTransition[kstep] = item.transitionSet[xKey](0) ;
       yTransition[kstep] = item.transitionSet[yKey](0) ;
 
-      xTransition = transitionHelper.sequence(xTransition)[0] ;
-      yTransition = transitionHelper.sequence(yTransition)[0] ;
+      xTransition = $Z.core.transition.sequence(xTransition)[0] ;
+      yTransition = $Z.core.transition.sequence(yTransition)[0] ;
 
       // console.log('xTransition', xTransition, 'yTransition', yTransition) ;
 
@@ -398,7 +398,7 @@ let itemHelper = {
         }
       }
 
-      var newTransition = imageEffectHelper.fade_transition(fadeConfig) ;
+      var newTransition = $Z.core.effect.image.fade_transition(fadeConfig) ;
 
       // console.log('fade', 'newTransition', newTransition, 'item', item, 'fadeConfig', fadeConfig) ;
 
@@ -422,7 +422,7 @@ let itemHelper = {
         item.default_child() ;
       }
 
-      var fade_func = transitionHelper.fixed_duration_creator('opacity', duration, transitionHelper.linear_interp) ;
+      var fade_func = $Z.core.transition.fixed_duration_creator('opacity', duration, $Z.core.transition.linear_interp) ;
 
       item.white.add_sequence([1, 0], fade_func) ;
 

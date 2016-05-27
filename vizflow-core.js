@@ -303,7 +303,7 @@ $__System.register('3', [], function (_export) {
   };
 });
 $__System.register("4", ["5"], function (_export) {
-  var _Object$keys;
+  var _Object$keys, collisionDetect;
 
   return {
     setters: [function (_) {
@@ -312,7 +312,7 @@ $__System.register("4", ["5"], function (_export) {
     execute: function () {
       "use strict";
 
-      _export("default", {
+      collisionDetect = {
 
         Nval: null,
 
@@ -500,7 +500,9 @@ $__System.register("4", ["5"], function (_export) {
           // }
         }
 
-      });
+      };
+
+      _export("default", collisionDetect);
     }
   };
 });
@@ -798,7 +800,7 @@ $__System.register("6", [], function (_export) {
   };
 });
 $__System.register('7', ['8'], function (_export) {
-  var _Object$assign, effect;
+  var _Object$assign, imageEffectHelper, effect;
 
   return {
     setters: [function (_) {
@@ -807,7 +809,244 @@ $__System.register('7', ['8'], function (_export) {
     execute: function () {
       'use strict';
 
+      imageEffectHelper = {
+
+        foreach: function image_effect_helper_foreach(canvas, func, channel) {
+
+          // console.log('image effect helper foreach start', canvas, func, channel) ;
+
+          if (channel === undefined) {
+            channel = -1; // r, g, b channels by default
+          }
+
+          var context = canvas.context();
+          var image = context.getImageData(0, 0, canvas.width, canvas.height);
+          var data = image.data;
+          var Npel = data.length / 4;
+          var offset = 0;
+          var opacity = new Array(Npel);
+
+          for (var kpel = 0; kpel < Npel; kpel++) {
+
+            if (channel < 3 && data[offset + 3] === 0) {
+              offset += 4;
+              continue; // skip transparent pixels if opacity channel is not specified
+            }
+
+            if (channel >= 0 && channel < 4) {
+              // console.log('func(data[offset + channel])', func(data[offset + channel])) ;
+              data[offset + channel] = func(data[offset + channel]);
+            } else if (channel === -1) {
+
+              data[offset + 0] = func(data[offset + 0]);
+              data[offset + 1] = func(data[offset + 1]);
+              data[offset + 2] = func(data[offset + 2]);
+            }
+
+            offset += 4;
+          }
+
+          context.putImageData(image, 0, 0);
+
+          // console.log('foreach: ', 'data', data, 'image', image, 'context', context) ;
+
+          // imageHelper.view(canvas) ;
+        },
+
+        opacity: function image_effect_helper_opacity(canvas, opacity) {
+          imageEffectHelper.foreach(canvas, function () {
+            return opacity;
+          }, 3 // opacity channel
+          );
+        },
+
+        binary_opacity_filter: function image_effect_helper_binary_opacity_filter(canvas, threshold) {
+
+          var context = canvas.context();
+          var image = context.getImageData(0, 0, canvas.width, canvas.height);
+          var data = image.data;
+          var Npel = data.length / 4;
+          var offset = 0;
+          var opacity = new Array(Npel);
+
+          for (var kpel = 0; kpel < Npel; kpel++) {
+            if (data[offset + 3] > 0) {
+              opacity[Npel] = data[offset + 3];
+            }
+            offset += 4;
+          }
+
+          // console.log('opacity', opacity) ;
+          if (threshold === undefined) {
+            threshold = 68;
+          }
+          offset = 0;
+          for (var kpel = 0; kpel < Npel; kpel++) {
+            if (data[offset + 3] < threshold) {
+              data[offset + 3] = 0;
+            } else {
+              data[offset + 3] = 255;
+            }
+            offset += 4;
+          }
+
+          context.putImageData(image, 0, 0);
+        },
+
+        color_filter: function image_effect_helper_color_filter(canvas, color, strength) {
+
+          if (strength === undefined) {
+            strength = 1;
+          }
+
+          // strength goes from 0 to 1
+
+          if (strength > 1) {
+            strength = 1;
+          }
+
+          if (strength < 0) {
+            strength = 0;
+          }
+
+          function blend(x, y, c1) {
+            var mixedVal = (1 - c1) * x + c1 * y;
+            // console.log('blend: ', 'x, y, c1, mixedVal', x, y, c1, mixedVal) ;
+            return Math.round(mixedVal);
+          }
+
+          var filteredImage = imageHelper.copy(canvas);
+
+          for (kclr = 0; kclr < color.length; kclr++) {
+
+            if (color[kclr] !== undefined) {
+              // console.log('color[kclr]', color[kclr], 'strength', strength) ;
+              imageEffectHelper.foreach(filteredImage, function (x) {
+                return blend(x, color[kclr], strength);
+              }, kclr);
+            }
+          }
+
+          return filteredImage;
+
+          // to test:  imageEffectHelper.color_filter ( document.viz.item[0].image, [255, 255, 0], -1 )
+        },
+
+        fade_transition: function image_effect_helper_fade_transition(fadeConfig) {
+
+          var defaultFadeDuration = 1000;
+          if (fadeConfig.duration === undefined) {
+            fadeConfig.duration = defaultFadeDuration;
+          }
+
+          var newTransition = $Z.transition.linear_transition_func('opacity', fadeConfig.duration)(fadeConfig.opacity);
+
+          if (fadeConfig.end !== undefined) {
+            newTransition.end = fadeConfig.end;
+          }
+
+          if (fadeConfig.child !== undefined) {
+            newTransition.child = fadeConfig.child;
+          }
+
+          if (fadeConfig.pause !== undefined) {
+            newTransition.pause = fadeConfig.pause;
+          }
+
+          return newTransition;
+        },
+
+        fade_sequence: function image_effect_helper_fade_sequence(fadeConfig) {
+
+          if (fadeConfig === undefined) {
+            fadeConfig = {};
+          }
+
+          var valueList = fadeConfig.valueList;
+          var duration = fadeConfig.duration || 1000;
+          var value = fadeConfig.value;
+
+          var create_fade = transitionHelper.fixed_duration_linear('opacity', duration);
+
+          return transitionHelper.new_sequence(value, create_fade);
+        },
+
+        explode: function effect_helper_image_explode(blocksize, duration, removeSwitch, fadeSwitch, item) {
+
+          if (item === undefined) {
+            item = this;
+          }
+
+          if (blocksize === undefined) {
+            blocksize = 24;
+          }
+
+          if (duration === undefined) {
+            duration = 1500;
+          }
+
+          if (removeSwitch === undefined) {
+            removeSwitch = true;
+          }
+
+          if (fadeSwitch === undefined) {
+            fadeSwitch = true;
+          }
+
+          if (removeSwitch) {
+            itemHelper.remove(item);
+          }
+
+          // console.log('explode start') ;
+
+          var Nrow = Math.floor(item.image.height / blocksize);
+          var Ncol = Math.floor(item.image.width / blocksize);
+          var Nblock = Nrow * Ncol;
+          var block = new Array(Nblock);
+
+          var sx, sy;
+          var sw = blocksize;
+          var sh = blocksize;
+          var dx = 0;
+          var dy = 0;
+          var dw = blocksize;
+          var dh = blocksize;
+
+          var scale = 300;
+
+          for (var krow = 0; krow < Nrow; krow++) {
+            for (var kcol = 0; kcol < Ncol; kcol++) {
+              var canvas = imageHelper.create(blocksize, blocksize);
+              var context = canvas.context();
+              sx = Math.floor(kcol * blocksize / document.ratio);
+              sy = Math.floor(krow * blocksize / document.ratio);
+              context.drawImage(item.image, sx, sy, sw, sh, dx, dy, dw, dh);
+              var k = krow * Ncol + kcol;
+              var xTrans = $Z.transition.rounded_linear_transition_func('x', duration)((Math.random() - 0.5) * 2 * scale + item.x + sx);
+              block[k] = _Object$assign(itemHelper.setup(), {
+                viz: item.viz,
+                x: item.x + sx,
+                y: item.y + sy,
+                image: canvas,
+                opacity: 1,
+                render: $Z.core.draw.image,
+                inert: true,
+                transition: [xTrans, $Z.transition.rounded_linear_transition_func('y', duration)((Math.random() - 0.5) * 2 * scale + item.y + sy)]
+              });
+              xTrans.end = transitionHelper.remove_end(block[k]);
+              if (fadeSwitch) {
+                imageEffectHelper.fade.call(block[k], { duration: duration });
+              }
+            }
+          }
+
+          itemHelper.add(viz, block);
+        }
+
+      };
       effect = { // effect module for creating effects i.e. compositions of transitions
+
+        image: imageEffectHelper,
 
         zoom_inout: function effect_zoom_inout(zoomConfig, viz) {
 
@@ -938,15 +1177,15 @@ $__System.register('7', ['8'], function (_export) {
             // console.log('effect flash', 'frameDuration', frameDuration, 'Nstep', Nstep) ;
             // console.log('effect flash 5') ;
             var blank = function blank() {};
-            var valueList = [blank, drawHelper.item];
+            var valueList = [blank, $Z.core.draw.item];
 
             var flash = new Array(2 * Nflash);
 
             for (var kflash = 0; kflash < 2 * Nflash; kflash++) {
-              flash[kflash] = transitionHelper.new_step('render', valueList[kflash % valueList.length], flashDuration);
+              flash[kflash] = $Z.core.transition.new_step('render', valueList[kflash % valueList.length], flashDuration);
             }
 
-            flash = transitionHelper.sequence(flash);
+            flash = $Z.core.transition.sequence(flash);
 
             // var loopConfig = {
             //  Nstep: Nstep,
@@ -997,8 +1236,8 @@ $__System.register('7', ['8'], function (_export) {
             xTransition[kstep] = item.transitionSet[xKey](0);
             yTransition[kstep] = item.transitionSet[yKey](0);
 
-            xTransition = transitionHelper.sequence(xTransition)[0];
-            yTransition = transitionHelper.sequence(yTransition)[0];
+            xTransition = $Z.core.transition.sequence(xTransition)[0];
+            yTransition = $Z.core.transition.sequence(yTransition)[0];
 
             // console.log('xTransition', xTransition, 'yTransition', yTransition) ;
 
@@ -1168,9 +1407,9 @@ $__System.register('7', ['8'], function (_export) {
           var duration = fadeConfig.duration || 1000;
           var value = fadeConfig.value;
 
-          var create_fade = transitionHelper.fixed_duration_linear('opacity', duration);
+          var create_fade = $Z.core.transition.fixed_duration_linear('opacity', duration);
 
-          return transitionHelper.new_sequence(value, create_fade);
+          return $Z.core.transition.new_sequence(value, create_fade);
         },
 
         explode: function effect_helper_image_explode(blocksize, duration, removeSwitch, fadeSwitch, item) {
@@ -1196,7 +1435,7 @@ $__System.register('7', ['8'], function (_export) {
           }
 
           if (removeSwitch) {
-            itemHelper.remove(item);
+            $Z.core.item.remove(item);
           }
 
           // console.log('explode start') ;
@@ -1225,24 +1464,24 @@ $__System.register('7', ['8'], function (_export) {
               context.drawImage(item.image, sx, sy, sw, sh, dx, dy, dw, dh);
               var k = krow * Ncol + kcol;
               var xTrans = $Z.transition.rounded_linear_transition_func('x', duration)((Math.random() - 0.5) * 2 * scale + item.x + sx);
-              block[k] = _Object$assign(itemHelper.setup(), {
+              block[k] = _Object$assign($Z.core.item.setup(), {
                 viz: item.viz,
                 x: item.x + sx,
                 y: item.y + sy,
                 image: canvas,
                 opacity: 1,
-                render: drawHelper.image,
+                render: $Z.core.draw.image,
                 inert: true,
                 transition: [xTrans, $Z.transition.rounded_linear_transition_func('y', duration)((Math.random() - 0.5) * 2 * scale + item.y + sy)]
               });
-              xTrans.end = transitionHelper.remove_end(block[k]);
+              xTrans.end = $Z.core.transition.remove_end(block[k]);
               if (fadeSwitch) {
                 imageEffectHelper.fade.call(block[k], { duration: duration });
               }
             }
           }
 
-          itemHelper.add(viz, block);
+          $Z.core.item.add(viz, block);
         }
 
       };
@@ -1259,6 +1498,51 @@ $__System.register("9", [], function (_export) {
     setters: [],
     execute: function () {
       imageHelper = {
+
+        set_position: function image_helper_set_position(canvas) {
+
+          if (canvas === undefined) {
+            canvas = this;
+          }
+
+          var position = {};
+          var windowWidth = window.innerWidth;
+          var widthRatio = canvas.width / windowWidth;
+          var windowHeight = window.innerHeight;
+          var heightRatio = canvas.height / windowHeight;
+          var scaleWidth = true; // toggles width or height scaling (height by default)
+          var landscape = canvas.width >= canvas.height;
+
+          if (landscape && heightRatio > widthRatio) scaleWidth = false;
+          if (!landscape && !(heightRatio < widthRatio)) scaleWidth = false;
+
+          if (scaleWidth) {
+            // fit width to window and center vertically 
+            position.width = windowWidth;
+            position.height = Math.round(canvas.height / widthRatio);
+            position.left = 0;
+            position.top = Math.round(0.5 * (windowHeight - position.height));
+            position.scale = 1 / widthRatio;
+          } else {
+            // fit height to window and center horizontally
+            position.height = windowHeight;
+            position.width = Math.round(canvas.width / heightRatio);
+            position.top = 0;
+            position.left = Math.round(0.5 * (windowWidth - position.width));
+            position.scale = 1 / heightRatio;
+          }
+          // console.log('rw', widthRatio, 'rh', heightRatio, 'pos', position)
+
+          if (canvas.style.width !== position.width || canvas.style.height !== position.height) {
+
+            canvas.style.width = position.width;
+            canvas.style.height = position.height;
+            canvas.style.left = position.left;
+            canvas.style.top = position.top;
+          }
+
+          return position;
+        },
 
         place: function viz_helper_place(canvas) {
 
@@ -1372,7 +1656,7 @@ $__System.register("9", [], function (_export) {
 
           };
 
-          drawHelper.rect(rect, imageContext);
+          $Z.core.draw.rect(rect, imageContext);
           imageContext.drawImage(wordImage, offsetX, offsetY);
 
           imageContext.lineWidth = 1;
@@ -1434,7 +1718,7 @@ $__System.register("9", [], function (_export) {
 
           if (wordConfig.binarySwitch === true) {
             var threshold = 50;
-            imageEffectHelper.binary_opacity_filter(wordImage, threshold);
+            $Z.core.effect.image.binary_opacity_filter(wordImage, threshold);
           }
 
           // imageHelper.view(wordImage)
@@ -1497,7 +1781,7 @@ $__System.register("9", [], function (_export) {
 
         to_canvas: function image_helper_to_canvas(imgUrl) {
 
-          var image = imageLoader.cache[imgUrl]; // temporary variable
+          var image = $Z.core.loader.image.cache[imgUrl]; // temporary variable
           var canvas = imageHelper.create();
           var context = canvas.context();
           canvas.width = image.width;
@@ -1519,13 +1803,14 @@ $__System.register("9", [], function (_export) {
 
           canvas.context = imageHelper.context2d;
           canvas.place = imageHelper.place;
+          canvas.set_position = imageHelper.set_position;
 
           if (color !== undefined) {
             for (var kclr = 0; kclr < color.length; kclr++) {
               var set_color = function set_color() {
                 return color[kclr];
               };
-              imageEffectHelper.foreach(canvas, set_color, kclr);
+              $Z.core.effect.image.foreach(canvas, set_color, kclr);
             }
           }
 
@@ -1812,12 +2097,12 @@ $__System.register('a', [], function (_export) {
               return; // nothing to do
             }
 
-            var position = set_canvas_position(viz.canvas);
+            var position = viz.canvas.set_position();
 
             var xIn = Math.round((event.clientX - position.left) / position.scale);
             var yIn = Math.round((event.clientY - position.top) / position.scale);
 
-            drawHelper.indexed(viz.ui.item, viz.ui.canvas);
+            $Z.core.draw.indexed(viz.ui.item, viz.ui.canvas);
 
             var color = viz.ui.canvas.context().getImageData(xIn, yIn, 1, 1).data;
             var itemIndex = color[0] - 1; // color indexing used by imageHelper.to_index is 1-based
@@ -1902,12 +2187,12 @@ $__System.register('b', ['8'], function (_export) {
             uiSwitch: itemConfig.uiSwitch || false,
             callback: itemConfig.callback,
             addSwitch: itemConfig.addSwitch || false,
-            render: itemConfig.render || drawHelper.item };
+            render: itemConfig.render || $Z.core.draw.item };
 
-          // drawHelper.image expects "this" to  be "item"
+          // $Z.core.draw.image expects "this" to  be "item"
 
           _Object$assign(item, itemHelper.method);
-          _Object$assign(item, transitionHelper.method);
+          _Object$assign(item, $Z.core.transition.method);
 
           if (item.addSwitch === true) {
             item.add();
@@ -1952,7 +2237,7 @@ $__System.register('b', ['8'], function (_export) {
               item.child = []; // initialize
             }
 
-            var white = imageEffectHelper.color_filter(item.image, [255, 255, 255]);
+            var white = $Z.core.effect.image.color_filter(item.image, [255, 255, 255]);
 
             item.white = Object.copy(item);
             item.white.childFade = true;
@@ -2110,7 +2395,7 @@ $__System.register('b', ['8'], function (_export) {
 
             item[prop] = null;
 
-            var trans = transitionHelper.new_step(prop, undefined, delay);
+            var trans = $Z.core.transition.new_step(prop, undefined, delay);
 
             trans.end = function run_callback_end() {
               // console.log('run_callback_end:', 'callback', callback, 'item', item)
@@ -2140,15 +2425,15 @@ $__System.register('b', ['8'], function (_export) {
             // console.log('effect flash', 'frameDuration', frameDuration, 'Nstep', Nstep) ;
             // console.log('effect flash 5') ;
             var blank = function blank() {};
-            var valueList = [blank, drawHelper.item];
+            var valueList = [blank, $Z.core.draw.item];
 
             var flash = new Array(2 * Nflash);
 
             for (var kflash = 0; kflash < 2 * Nflash; kflash++) {
-              flash[kflash] = transitionHelper.new_step('render', valueList[kflash % valueList.length], flashDuration);
+              flash[kflash] = $Z.core.transition.new_step('render', valueList[kflash % valueList.length], flashDuration);
             }
 
-            flash = transitionHelper.sequence(flash);
+            flash = $Z.core.transition.sequence(flash);
 
             // var loopConfig = {
             //  Nstep: Nstep,
@@ -2201,8 +2486,8 @@ $__System.register('b', ['8'], function (_export) {
             xTransition[kstep] = item.transitionSet[xKey](0);
             yTransition[kstep] = item.transitionSet[yKey](0);
 
-            xTransition = transitionHelper.sequence(xTransition)[0];
-            yTransition = transitionHelper.sequence(yTransition)[0];
+            xTransition = $Z.core.transition.sequence(xTransition)[0];
+            yTransition = $Z.core.transition.sequence(yTransition)[0];
 
             // console.log('xTransition', xTransition, 'yTransition', yTransition) ;
 
@@ -2231,7 +2516,7 @@ $__System.register('b', ['8'], function (_export) {
               }
             }
 
-            var newTransition = imageEffectHelper.fade_transition(fadeConfig);
+            var newTransition = $Z.core.effect.image.fade_transition(fadeConfig);
 
             // console.log('fade', 'newTransition', newTransition, 'item', item, 'fadeConfig', fadeConfig) ;
 
@@ -2254,7 +2539,7 @@ $__System.register('b', ['8'], function (_export) {
               item.default_child();
             }
 
-            var fade_func = transitionHelper.fixed_duration_creator('opacity', duration, transitionHelper.linear_interp);
+            var fade_func = $Z.core.transition.fixed_duration_creator('opacity', duration, $Z.core.transition.linear_interp);
 
             item.white.add_sequence([1, 0], fade_func);
           },
@@ -3232,7 +3517,7 @@ $__System.register('15', [], function (_export) {
               run: function run() {
 
                 if (this.item.remove === undefined) {
-                  this.item.remove = itemHelper.remove;
+                  this.item.remove = $Z.core.item.remove;
                 }
 
                 this.item.remove();
@@ -3626,7 +3911,7 @@ $__System.register('21', ['8'], function (_export) {
           screenCanvas.place();
 
           function resize() {
-            set_canvas_position(screenCanvas);
+            screenCanvas.set_position();
           }
 
           resize();
@@ -3680,15 +3965,15 @@ $__System.register('21', ['8'], function (_export) {
             viewportY: 0,
             viewportWidth: screenCanvas.width,
             viewportHeight: screenCanvas.height,
-            detect: actionHelper.detect,
-            perform: actionHelper.perform,
-            image_transition: transitionHelper.step_func('image', frameDuration),
+            detect: $Z.core.action.detect,
+            perform: $Z.core.action.perform,
+            image_transition: $Z.core.transition.step_func('image', frameDuration),
             opacity: vizOpacity,
-            fade: itemHelper.method.fade,
-            shake: effectHelper.shake,
-            setup_item: itemHelper.setup,
-            setup_ui: uiHelper.setup,
-            setup_score: scoreHelper.setup, //  score setup function for games (optional, don't have to use it for non-games)
+            fade: $Z.core.item.method.fade,
+            shake: $Z.core.effect.shake,
+            setup_item: $Z.core.item.setup,
+            setup_ui: $Z.core.ui.setup,
+            // setup_score: scoreHelper.setup, //  score setup function for games (optional, don't have to use it for non-games)
             clearSwitch: true,
             input: vizConfig.inputEvent || $Z.core.input,
             run: vizConfig.run || vizHelper.run,
@@ -3703,7 +3988,7 @@ $__System.register('21', ['8'], function (_export) {
             //function accepting an x end-value and returning a transition object     
             collision: null,
 
-            collision_detect: vizConfig.collision_detect || collisionDetect.pixelwise, // pixel-wise collision detection works for any shape and can be used on lower resolution masks compared to the display images
+            collision_detect: vizConfig.collision_detect || $Z.core.collision.pixelwise, // pixel-wise collision detection works for any shape and can be used on lower resolution masks compared to the display images
 
             prep: function viz_prep() {
 
@@ -3782,11 +4067,11 @@ $__System.register('21', ['8'], function (_export) {
               // this.screenContext.drawImage (this.fullCanvas, 0, 0) ; // use a single drawImage call for rendering the current frame to the visible Canvas (GPU-acceleated performance)
             },
 
-            zoom_inout: effectHelper.zoom_inout,
+            zoom_inout: $Z.core.effect.zoom_inout,
 
             panX: function panX(dur, xNew) {
 
-              var trans = transitionHelper.sequence(xNew.map(function (x) {
+              var trans = $Z.core.transition.sequence(xNew.map(function (x) {
                 return $Z.transition.rounded_linear_transition_func('viewportX', dur)(x);
               }));
 
@@ -3796,7 +4081,7 @@ $__System.register('21', ['8'], function (_export) {
 
             panY: function panY(dur, yNew) {
 
-              var trans = transitionHelper.sequence(yNew.map(function (y) {
+              var trans = $Z.core.transition.sequence(yNew.map(function (y) {
                 return $Z.transition.rounded_linear_transition_func('viewportY', dur)(y);
               }));
 
@@ -3818,7 +4103,7 @@ $__System.register('21', ['8'], function (_export) {
                 fadeVal = [fadeVal];
               }
 
-              return imageEffectHelper.fade_sequence({
+              return $Z.core.effect.image.fade_sequence({
 
                 duration: duration,
                 value: fadeVal
@@ -3835,9 +4120,9 @@ $__System.register('21', ['8'], function (_export) {
             }
           }
 
-          _Object$assign(viz, transitionHelper.method); // viz can be treated as an item
-          _Object$assign(viz, itemHelper.method); // viz can be treated as an item
-          viz.zoom = effectHelper.zoom; // override item.zoom
+          _Object$assign(viz, $Z.core.transition.method); // viz can be treated as an item
+          _Object$assign(viz, $Z.core.item.method); // viz can be treated as an item
+          viz.zoom = $Z.core.effect.zoom; // override item.zoom
 
           // console.log('setup viz end', 'viz', viz) ;
 
@@ -3881,7 +4166,7 @@ $__System.register('21', ['8'], function (_export) {
 
           var overlayImage = $Z.core.image.create(viz.width, viz.height);
 
-          imageEffectHelper.opacity(overlayImage, 1);
+          $Z.core.effect.image.opacity(overlayImage, 1);
 
           var overlayConfig = {
             image: overlayImage,

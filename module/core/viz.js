@@ -41,7 +41,7 @@ let vizHelper = {
     screenCanvas.place() ;
 
     function resize() {
-      set_canvas_position( screenCanvas ) ;
+      screenCanvas.set_position() ;
     }
 
     resize() ;
@@ -95,15 +95,15 @@ let vizHelper = {
       viewportY:      0,
       viewportWidth:  screenCanvas.width,
       viewportHeight: screenCanvas.height,
-      detect:         actionHelper.detect,
-      perform:        actionHelper.perform,
-      image_transition: transitionHelper.step_func('image', frameDuration),  
+      detect:         $Z.core.action.detect,
+      perform:        $Z.core.action.perform,
+      image_transition: $Z.core.transition.step_func('image', frameDuration),  
       opacity: vizOpacity,
-      fade:        itemHelper.method.fade, 
-      shake:       effectHelper.shake,  
-      setup_item:  itemHelper.setup, 
-      setup_ui:    uiHelper.setup,
-      setup_score: scoreHelper.setup, //  score setup function for games (optional, don't have to use it for non-games)
+      fade:        $Z.core.item.method.fade, 
+      shake:       $Z.core.effect.shake,  
+      setup_item:  $Z.core.item.setup, 
+      setup_ui:    $Z.core.ui.setup,
+      // setup_score: scoreHelper.setup, //  score setup function for games (optional, don't have to use it for non-games)
       clearSwitch: true,
       input:             vizConfig.inputEvent || $Z.core.input, 
       run:               vizConfig.run || vizHelper.run,
@@ -118,7 +118,7 @@ let vizHelper = {
 
       collision: null,
 
-      collision_detect: vizConfig.collision_detect || collisionDetect.pixelwise, // pixel-wise collision detection works for any shape and can be used on lower resolution masks compared to the display images
+      collision_detect: vizConfig.collision_detect || $Z.core.collision.pixelwise, // pixel-wise collision detection works for any shape and can be used on lower resolution masks compared to the display images
 
       prep: function viz_prep () {
 
@@ -196,11 +196,11 @@ let vizHelper = {
 
       },
 
-      zoom_inout: effectHelper.zoom_inout,
+      zoom_inout: $Z.core.effect.zoom_inout,
 
       panX: function (dur, xNew) { 
 
-        var trans = transitionHelper.sequence( xNew.map(function(x) {
+        var trans = $Z.core.transition.sequence( xNew.map(function(x) {
           return $Z.transition.rounded_linear_transition_func('viewportX', dur)(x) ;
         }) ) ;
 
@@ -211,7 +211,7 @@ let vizHelper = {
 
       panY: function (dur, yNew) { 
 
-        var trans = transitionHelper.sequence( yNew.map(function(y) {
+        var trans = $Z.core.transition.sequence( yNew.map(function(y) {
           return $Z.transition.rounded_linear_transition_func('viewportY', dur)(y) ;
         }) ) ;
 
@@ -234,7 +234,7 @@ let vizHelper = {
           fadeVal = [fadeVal] ;
         }
 
-        return imageEffectHelper.fade_sequence({ 
+        return $Z.core.effect.image.fade_sequence({ 
 
           duration: duration,
           value: fadeVal,
@@ -251,9 +251,9 @@ let vizHelper = {
       }
     }
 
-    Object.assign(viz, transitionHelper.method) ; // viz can be treated as an item
-    Object.assign(viz, itemHelper.method) ; // viz can be treated as an item
-    viz.zoom = effectHelper.zoom ; // override item.zoom 
+    Object.assign(viz, $Z.core.transition.method) ; // viz can be treated as an item
+    Object.assign(viz, $Z.core.item.method) ; // viz can be treated as an item
+    viz.zoom = $Z.core.effect.zoom ; // override item.zoom 
 
     // console.log('setup viz end', 'viz', viz) ;
 
@@ -306,7 +306,7 @@ let vizHelper = {
 
     var overlayImage = $Z.core.image.create(viz.width, viz.height) ;
 
-    imageEffectHelper.opacity(overlayImage, 1) ;
+    $Z.core.effect.image.opacity(overlayImage, 1) ;
 
     var overlayConfig = {
       image: overlayImage,
