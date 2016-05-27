@@ -68,6 +68,21 @@ function primefruit() {
     g: audioLoader.cache['./audio/g.wav'],
     h: audioLoader.cache['./audio/h.wav'],
     i: audioLoader.cache['./audio/i.wav'],
+    10: audioLoader.cache['./audio/10.wav'],
+    12: audioLoader.cache['./audio/12.wav'],
+    14: audioLoader.cache['./audio/14.wav'],
+    15: audioLoader.cache['./audio/15.wav'],
+    16: audioLoader.cache['./audio/16.wav'],
+    18: audioLoader.cache['./audio/18.wav'],
+    20: audioLoader.cache['./audio/20.wav'],
+    21: audioLoader.cache['./audio/21.wav'],
+    22: audioLoader.cache['./audio/22.wav'],
+    24: audioLoader.cache['./audio/24.wav'],
+    25: audioLoader.cache['./audio/25.wav'],
+    4: audioLoader.cache['./audio/4.wav'],
+    6: audioLoader.cache['./audio/6.wav'],
+    8: audioLoader.cache['./audio/8.wav'],
+    9: audioLoader.cache['./audio/9.wav'],
     win: audioLoader.cache['./audio/win.wav'],
   } ;
   
@@ -75,7 +90,7 @@ function primefruit() {
   viz.audio.music.loop   = true ;
   viz.audio.music.play() ;
   viz.audio.music.gain.gain.value = 0 ;
-  viz.audio.music.volume          = 0.5 ;
+  viz.audio.music.volume          = 1/3 ;
   viz.audio.music.fade(fade) ;
 
   viz.Nprime    = 9 ;
@@ -206,15 +221,17 @@ function primefruit() {
 
         jar.unlock() ;
 
-        jar.call('show_prime', count * Ndur * jar.duration) ;
+        jar.call('show_prime', count * (5 + Ndur) * jar.duration) ;
 
         count++ ;
 
       }
 
       // var dur = (2 + 4 * 8) * jar.duration  ;
+      var delay = 25 ;
+      viz.audio.win.play(delay) ;
 
-      setTimeout(function() { viz.win() ; }, (1 + count) * jar.duration * Ndur) ;
+      setTimeout(function() { viz.win() ; }, 2000 + (count + 0.5) * jar.duration * Ndur) ;
 
     }
   } ;
@@ -242,7 +259,7 @@ function primefruit() {
         opacity: 0,
         
         end: function() {
-          load_game() ;
+          window.location.reload() ;
         },
 
       }) ;

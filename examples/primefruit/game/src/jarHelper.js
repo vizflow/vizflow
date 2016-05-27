@@ -28,6 +28,7 @@ var jarHelper = {
       uiSwitch: true,
       callback: jarHelper.click,
       k: k,
+      num: k + 2,
       xOrigin: xmid,
       yOrigin: ymid,
 
@@ -69,7 +70,7 @@ var jarHelper = {
     jarK.y0         = 0.5 * viz.height + 76 ;
     jarK.duration   = 3 * viz.fadeDuration ;
     jarK.scale1     = 2.5 ;
-    jarK.opacityLow = 0.05 ;
+    jarK.opacityLow = 0.0 ;
 
     var digit = imageHelper.text2image({
       text: k + 2,
@@ -145,7 +146,10 @@ var jarHelper = {
 
       eq += jar.viz.key[code[code.length - 1]] ;
 
-      jar.call(function() { jar.message(eq) ; }, 4.8 * jar.duration) ;
+      jar.call(function() { 
+        jar.message(eq) ; 
+        jar.viz.audio[jar.config.num].play() ;
+      }, 4.8 * jar.duration) ;
 
       var delay = jar.fruit.item[0].duration * 3 ;      
       var dur = 2 * jar.duration + delay ;

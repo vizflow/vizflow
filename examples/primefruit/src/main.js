@@ -35,6 +35,21 @@ document.audio = [
 	'./audio/h.wav',
 	'./audio/i.wav',
 	'./audio/pf.wav',
+	'./audio/10.wav',
+	'./audio/12.wav',
+	'./audio/14.wav',
+	'./audio/15.wav',
+	'./audio/16.wav',
+	'./audio/18.wav',
+	'./audio/20.wav',
+	'./audio/21.wav',
+	'./audio/22.wav',
+	'./audio/24.wav',
+	'./audio/25.wav',
+	'./audio/4.wav',
+	'./audio/6.wav',
+	'./audio/8.wav',
+	'./audio/9.wav',
 
 ] ;
 
