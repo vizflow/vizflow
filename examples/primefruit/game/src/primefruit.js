@@ -228,10 +228,10 @@ function primefruit() {
       }
 
       // var dur = (2 + 4 * 8) * jar.duration  ;
-      var delay = 25 ;
+      var delay = 33 ;
       viz.audio.win.play(delay) ;
 
-      setTimeout(function() { viz.win() ; }, 2000 + (count + 0.5) * jar.duration * Ndur) ;
+      setTimeout(function() { viz.win() ; }, 10000 + (count + 0.5) * jar.duration * Ndur) ;
 
     }
   } ;
