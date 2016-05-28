@@ -1,12 +1,18 @@
 let imageHelper = {
 
+  upsample: function image_helper_upsample (sourceImageData) {
+    // var ratio = 2 ; //(window.devicePixelRatio || 1) ;
+    var newImageObject = imageHelper.block_copy (sourceImageData, document.ratio) ;
+    return newImageObject ;
+  },
+
   set_position: function image_helper_set_position(canvas) {
 
     if ( canvas === undefined ) { 
       canvas = this ;
     }
     
-    var position = {} ;
+    var position     = {} ;
     var windowWidth  = window.innerWidth ;
     var widthRatio   = canvas.width / windowWidth ;
     var windowHeight = window.innerHeight ;
@@ -349,7 +355,7 @@ let imageHelper = {
 
   adjust_ratio: function image_helper_adjust_ratio(canvas) {
 
-    var newCanvas = hidpi_adjust(imageHelper.get_data(canvas)).canvas ;
+    var newCanvas = imageHelper.upsample(imageHelper.get_data(canvas)).canvas ;
 
     if( canvas.sourceCollisionImage !== undefined ) {
       newCanvas.sourceCollisionImage = canvas.sourceCollisionImage ; // propagate collision image without magnification since collision detection occurs on the model canvas

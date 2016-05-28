@@ -113,7 +113,7 @@ let imageEffectHelper = {
 
     var filteredImage = imageHelper.copy(canvas) ;
 
-    for (kclr = 0 ; kclr < color.length ; kclr++) {
+    for (let kclr = 0 ; kclr < color.length ; kclr++) {
 
 
       if(color[kclr] !== undefined) {
@@ -433,7 +433,7 @@ let effect = { // effect module for creating effects i.e. compositions of transi
       xTransition = new Array(Nstep) ;
       yTransition = new Array(Nstep) ;
 
-      for (kstep = 0 ; kstep < Nstep - 1 ; kstep++) {
+      for (let kstep = 0 ; kstep < Nstep - 1 ; kstep++) {
         xTransition[kstep] = item.transitionSet[xKey](Math.round(Math.random() * xShakeMove[(kstep + $Z.iter) % xShakeMove.length] * damping)) ;
         yTransition[kstep] = item.transitionSet[yKey](Math.round(Math.random() * yShakeMove[(kstep + $Z.iter * 3) % xShakeMove.length] * damping)) ;
         damping *= dampingFactor ;
@@ -571,7 +571,7 @@ effect.image = {
 
     var filteredImage = $Z.core.image.copy(canvas) ;
 
-    for (kclr = 0 ; kclr < color.length ; kclr++) {
+    for (let kclr = 0 ; kclr < color.length ; kclr++) {
 
 
       if(color[kclr] !== undefined) {

@@ -2,10 +2,10 @@ let spriteHelper = {
 
   foreach: function sprite_helper_foreach (spriteSet, func) {
 
-    var key    = Object.keys(spriteSet) ;
+    let key    = Object.keys(spriteSet) ;
     var newSet = {} ;
 
-    for(var k = 0 ; k < key.length ; k++ ) {
+    for(let k = 0 ; k < key.length ; k++ ) {
 
       if ( spriteSet[ key[k] ].constructor === Array ) {
    
@@ -39,7 +39,7 @@ let spriteHelper = {
     var spriteCount = 0 ; // initialize
     var totalWidth = 0 ; // initialize
     var height = [] ; // initialize
-    for(var key in spriteSet) {
+    for(let key in spriteSet) {
       if( spriteSet[ key ].constructor === Array ) {
         spriteCount++ ; 
         var widthK  = widthSet[key].reduce( function(a, b) { return a + b ; } );
@@ -62,13 +62,13 @@ let spriteHelper = {
 
     var offsetY = 0 ;
 
-    for(var key in spriteSet) {
+    for(let key in spriteSet) {
       var val = spriteSet[key] ;
       if(val.constructor === Array) {
 
         var offsetX = 0 ;
 
-        for(var kcol = 0 ; kcol < val.length ; kcol++) {
+        for(let kcol = 0 ; kcol < val.length ; kcol++) {
           context.drawImage(val[kcol], offsetX, offsetY) ;
           offsetX += val[kcol].width ;
         }
@@ -92,7 +92,7 @@ let spriteHelper = {
 
     var isZero = true ;
 
-    for(k = 0 ; k < data.data.length ; k++) {
+    for( let k = 0 ; k < data.data.length ; k++) {
       if(data.data[k] !== 0) {
         isZero = false ;
         break ;
@@ -114,7 +114,7 @@ let spriteHelper = {
     if ( rowHeight.constructor === Number ) {
       var h = rowHeight ;
       rowHeight = new Array(rowName.length) ;
-      for ( var krow = 0 ; krow < rowHeight.length ; krow++ ) {
+      for ( let krow = 0 ; krow < rowHeight.length ; krow++ ) {
         rowHeight[krow] = h ;
       }
     }
@@ -122,7 +122,7 @@ let spriteHelper = {
     if ( tileWidth.constructor === Number ) {
       var w = tileWidth ;
       tileWidth = new Array(rowName.length) ;
-      for ( var ktile = 0 ; ktile < tileWidth.length ; ktile++ ) {
+      for ( let ktile = 0 ; ktile < tileWidth.length ; ktile++ ) {
         tileWidth[ktile] = w ;
       }
     }
@@ -131,11 +131,11 @@ let spriteHelper = {
     var Nrow = rowName.length ;
     var spriteSet = {} ;
     var sy        = 0 ;
-    for(var krow = 0 ; krow < Nrow ; krow++) { // one sprite per row
+    for(let krow = 0 ; krow < Nrow ; krow++) { // one sprite per row
       var row     = [] ; // initialize array to store the sprite
       var Ntile   = Math.floor(canvas.width / tileWidth[krow]) ;
       // console.log('spriteHelper get:', 'rowName[krow]', rowName[krow], 'krow', krow, 'Ntile', Ntile) ;
-      for(var kcol = 0 ; kcol < Ntile ; kcol++) {
+      for(let kcol = 0 ; kcol < Ntile ; kcol++) {
         if(paddingSwitch) {
           var tile = $Z.core.image.create(tileWidth[krow], maxHeight) ;         
         } else {
@@ -176,10 +176,10 @@ let spriteHelper = {
 
   horizontal_flip: function sprite_helper_horizontal_flip (spriteSet) {
 
-    var key    = Object.keys(spriteSet) ;
+    let key    = Object.keys(spriteSet) ;
     var newSet = {} ;
 
-    for(var k = 0 ; k < key.length ; k++ ) {
+    for(let k = 0 ; k < key.length ; k++ ) {
 
       // console.log('key[k]', key[k], 'spriteSet', spriteSet)
 
@@ -201,7 +201,7 @@ let spriteHelper = {
 
     var spriteFlip = new Array(sprite.length) ;
 
-    for ( var kFrame = 0 ; kFrame < sprite.length ; kFrame++ ) {
+    for ( let kFrame = 0 ; kFrame < sprite.length ; kFrame++ ) {
 
       spriteFlip[kFrame] = $Z.core.image.flip_image ( sprite[kFrame] ) ;
 

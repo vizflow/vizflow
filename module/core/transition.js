@@ -251,7 +251,7 @@ let transitionHelper = {
         newTransition = [newTransition] ;
       }
 
-      for (kNew = 0 ; kNew < newTransition.length ; kNew ++) {
+      for (let kNew = 0 ; kNew < newTransition.length ; kNew ++) {
         newTransition[kNew].item = item ;
         var property = newTransition[kNew].varName ;
         var transitionIndex = transitionHelper.find(property, transitionList) ;

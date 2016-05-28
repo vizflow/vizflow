@@ -358,7 +358,7 @@ let itemHelper = {
       xTransition = new Array(Nstep) ;
       yTransition = new Array(Nstep) ;
 
-      for (kstep = 0 ; kstep < Nstep - 1 ; kstep++) {
+      for (let kstep = 0 ; kstep < Nstep - 1 ; kstep++) {
         xTransition[kstep] = item.transitionSet[xKey](Math.round(Math.random() * xShakeMove[(kstep + $Z.iter) % xShakeMove.length] * damping)) ;
         yTransition[kstep] = item.transitionSet[yKey](Math.round(Math.random() * yShakeMove[(kstep + $Z.iter * 3) % xShakeMove.length] * damping)) ;
         damping *= dampingFactor ;
