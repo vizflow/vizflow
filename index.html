@@ -31,28 +31,39 @@
 
       function show_logo() {
 
-        console.log('show logo start')
+        console.log('show logo start') ;
 
         var viz = $Z.core.viz.setup({
-          width: 1280,
-          height: 1280,
+          width: 1600,
+          height: 1600,
         }) ;
 
         document.viz = viz ;
 
         viz.run() ;
 
-        var logoImage = $Z.core.image.to_canvas(imageList[0]) ;
+        var vtxt = ['v', 'i', 'z', 'f', 'l', 'o', 'w'] ;
+        var size = 394 ;
+        var spriteImage = $Z.core.image.to_canvas( imageList[0] ) ;
 
-        console.log(logoImage) ;
+        viz.logo = {
+          text: vtxt,
+          sprite: $Z.core.sprite.get( spriteImage, vtxt, size, size ),
+          item: new Array(vstr.length),
+        } ;
 
-        var logo = viz.setup_item({
-          image: logoImage,
-          x: 0, 
-          y: 0,
-          addSwitch: true,
-          opacity: 1,
-        }) ;
+        var x0 = ( viz.width - spriteImage.height ) * 0.5 ;
+        var y0 =   viz.height * 0.5 ;
+
+        for ( ktxt = 0 ; ktxt < vtxt.length ; ktxt++ ) {
+          viz.logo[ktxt] = viz.setup_item({
+            image: viz.logo.sprite[viz.logo.text[ktxt]],
+            x: x0 + ktxt * size,
+            y: y0,
+            addSwitch: true,
+            opacity: 1,
+          }) ;
+        }
 
       }
 

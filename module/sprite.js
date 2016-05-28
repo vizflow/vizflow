@@ -92,7 +92,7 @@ let spriteHelper = {
 
     var isZero = true ;
 
-    for(var k = 0 ; k < data.data.length ; k++) {
+    for(k = 0 ; k < data.data.length ; k++) {
       if(data.data[k] !== 0) {
         isZero = false ;
         break ;
