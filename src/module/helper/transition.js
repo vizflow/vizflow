@@ -120,6 +120,11 @@ let transitionHelper = {
   },
 
   new: function transition_helper_new(property, value, duration, interp_func) {
+
+    if ( interp_func === undefined ) {
+      interp_func = transitionHelper.interp ;
+    }
+
     return transitionHelper.fixed_duration_creator(property, duration, interp_func)(value) ; 
   },
 

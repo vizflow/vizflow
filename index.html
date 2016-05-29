@@ -70,12 +70,12 @@
         var ymid = viz.height * 0.5 ; 
 
         var x0 = ( viz.width - spriteImage.height ) * 0.5 + xOrigin ;
-        var y0 = ymid + yOrigin ;
+        var y0 = ymid ;
 
         var delay = 200 ;
 
         var xpad  =  10 ;
-        var xoff1 = -xpad * 2 ;       // shift the "i" relative to "v" 
+        var xoff1 = -xpad * 2 ;   // shift the "i" relative to "v" 
         var xoff2 = -2.5 * xpad ; // shift more letters
         var xoff3 =  2.5 * xpad ; // shift the letters some more 
 
@@ -95,7 +95,7 @@
             x += xoff3 ;
           }
 
-          viz.logo[ktxt] = viz.setup_item({
+          viz.logo.item[ktxt] = viz.setup_item({
 
             image: viz.logo.sprite[viz.logo.text[ktxt]][0],
             x: x,
@@ -107,26 +107,35 @@
 
           }) ;
 
-          viz.logo[ktxt].call('fade', ktxt * delay) ;
+          viz.logo.item[ktxt].call('fade', ktxt * delay) ;
 
         }
 
-        var Nspin       = 5 ;
-        var tSpin       = 250 ;
-        var duration    = Nspin * tSpin ;
-        var endAngle    = Math.PI * 2 * Nspin ;
-        var angle_func  = $Z.helper.transition.fixed_duration('angle', duration) ;
-        var spinTrans   = angle_func(endAngle) ;
+        var Nspin      = 5 ;
+        var tSpin      = 250 ;
+        var duration   = Nspin * tSpin ;
+        var endAngle   = Math.PI * 2 * Nspin ;
+        var angle_func = $Z.helper.transition.fixed_duration('angle', duration) ;
+        var spinTrans  = angle_func(endAngle) ;
 
         spinTrans.power = 0.15 ; 
+
+        spinTrans.end = function () {
+          var ytrans = $Z.helper.transition.new_linear('y', size * 0.5 + 100, 1000) ;
+          viz.logo.item.forEach(function(d) {
+            d.add_transition( ytrans ) ;
+          }) ;
+        }
 
         // spinTrans.end = function() {
         //   viz.shake() ;
         // }
 
-        function add_spin() { this.add_transition(spinTrans) ; }
+        function add_spin() { 
+          this.add_transition(spinTrans) ; 
+        }
 
-        viz.logo[2].call( add_spin, delay * vtxt.length * 2 ) ;
+        viz.logo.item[2].call( add_spin, delay * vtxt.length * 2 ) ;
 
       }
 
