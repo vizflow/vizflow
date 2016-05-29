@@ -16,7 +16,6 @@ import exit            from './exit'       ;
 import run             from './run'        ;
 import viz             from './viz'        ;
 import update          from './update'     ;
-import transition      from './transition' ;
 
 // import the functions defining the asynchronous tasks comprising the main simulation or game loop, stored in an array called "task": 
 
@@ -64,7 +63,6 @@ let vizflow = { // define the "bling Z" object for running interactive vizualiza
   _perform: [], // array of actions (internal use only as marked by underscore)
   _viz:     {}, // optional global visualization configuration object
 	
-  transition, // module comtaining transition helpers
   item,       // getter/setter function for interfacing with the item/data array
   prep,       // getter/setter function for interfacing with the _prep array
   update,     // default update function for items using arrays of transition objects containing interpolation functions

@@ -2,7 +2,9 @@
 <html>
   <head>
     <style>
+
       body { 
+
         margin: 0;
         font: 13pt courier;
         font-weight: bold;
@@ -12,7 +14,9 @@
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;        
+
        }
+
     </style>
   </head>
   <body>
@@ -20,7 +24,7 @@
     <!-- <script type="text/javascript" src="config.js"></script> -->
 
     <script type="text/javascript" src="vizflow.js"></script>
-    <script type="text/javascript" src="vizflow-core.js"></script>
+    <script type="text/javascript" src="vizflow-helper.js"></script>
 
     <!-- <script type="text/javascript" src="examples/three_circles_svg/three_circles_svg.js"></script>-->
     
@@ -29,15 +33,15 @@
       var imageList = ['./image/vizflow_text.png'] ;
       var audioList = [] ;
 
-      $Z.core.loader.all(imageList, audioList, show_logo) ;
+      $Z.helper.loader.all(imageList, audioList, show_logo) ;
 
       function show_logo() {
 
-        console.log('show logo start') ;
+        // console.log('show logo start') ;
 
         document.ratio = 1 ;
 
-        var viz = $Z.core.viz.setup({
+        var viz = $Z.helper.viz.setup({
           width:  1600,
           height: 1600,
         }) ;
@@ -48,12 +52,13 @@
 
         var vtxt = ['v', 'i', 'z', 'f', 'l', 'o', 'w'] ;
         var size = 197 ;
-        var spriteImage = $Z.core.image.to_canvas( imageList[0] ) ;
+        var spriteImage = $Z.helper.image.to_canvas( imageList[0] ) ;
+        spriteImage.clear_color([255, 255, 255]) ;
 
         viz.logo = {
 
           text: vtxt,
-          sprite: $Z.core.sprite.get( spriteImage, vtxt, size, size ),
+          sprite: $Z.helper.sprite.get( spriteImage, vtxt, size, size ),
           item: new Array( vtxt.length ),
 
         } ;
@@ -61,7 +66,7 @@
         var xOrigin = 0.5 * size ;
         var yOrigin = 0.5 * size ;
 
-        var xmid = viz.width * 0.5 ;
+        var xmid = viz.width  * 0.5 ;
         var ymid = viz.height * 0.5 ; 
 
         var x0 = ( viz.width - spriteImage.height ) * 0.5 + xOrigin ;
@@ -69,12 +74,31 @@
 
         var delay = 200 ;
 
-        for ( ktxt = 0 ; ktxt < vtxt.length ; ktxt++ ) {
+        var xpad  =  10 ;
+        var xoff1 = -xpad ;       // shift the "i" relative to "v" 
+        var xoff2 = -2.5 * xpad ; // shift more letters
+        var xoff3 =  2.5 * xpad ; // shift the letters some more 
+
+        for ( ktxt = vtxt.length - 1 ; ktxt >= 0 ; ktxt-- ) {
+
+          var x = x0 + ktxt * (size + xpad) ;
+
+          if ( ktxt > 0 ) {
+            x += xoff1 ;
+          }
+
+          if ( ktxt > 1 ) {
+            x += xoff2 ;
+          }
+
+          if ( ktxt > 2 ) {
+            x += xoff3 ;
+          }
 
           viz.logo[ktxt] = viz.setup_item({
 
             image: viz.logo.sprite[viz.logo.text[ktxt]][0],
-            x: x0 + ktxt * size,
+            x: x,
             y: y0,
             xOrigin: xOrigin,
             yOrigin: yOrigin,
@@ -87,13 +111,22 @@
 
         }
 
-        var duration   = 4 * 1000 ;
-        var angle_func = $Z.core.transition.fixed_duration_linear('angle', duration) ;
-        var spinTrans  = angle_func(Math.PI * 2 * duration / 1000) ;
+        var Nspin       = 6 ;
+        var tSpin       = 500 ;
+        var duration    = Nspin * tSpin ;
+        var endAngle    = Math.PI * 2 * Nspin ;
+        var angle_func  = $Z.helper.transition.fixed_duration('angle', duration) ;
+        var spinTrans   = angle_func(endAngle) ;
 
-        viz.logo[2].call(function() {
-          this.add_transition(spinTrans)
-        }, delay * vtxt.length * 2) ;
+        spinTrans.power = 0.15 ; 
+        
+        // spinTrans.end = function() {
+        //   viz.shake() ;
+        // }
+
+        function add_spin() { this.add_transition(spinTrans) ; }
+
+        viz.logo[2].call( add_spin, delay * vtxt.length * 1.5 ) ;
 
       }
 
