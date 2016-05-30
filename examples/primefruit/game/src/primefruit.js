@@ -208,6 +208,8 @@ function primefruit() {
 
     if ( viz.score === viz.target ) { // you win!
 
+      viz.busy = true ;
+
       var count = 0 ;
       var Ndur = 15 ;
 
