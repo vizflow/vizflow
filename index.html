@@ -93,7 +93,7 @@
         var x0 = ( viz.width - spriteImage.height ) * 0.5 + xOrigin ;
         var y0 = ymid ;
 
-        var delay = 200 ;
+        var delay = 100 ;
 
         var xpad  =  10 ;
         var xoff1 = -xpad * 2 ;   // shift the "i" relative to "v" 
@@ -132,8 +132,8 @@
 
         }
 
-        var Nspin      = 5 ;
-        var tSpin      = 250 ;
+        var Nspin      = 2 ;
+        var tSpin      = 500 ;
         var duration   = Nspin * tSpin ;
         var endAngle   = Math.PI * 2 * Nspin ;
         var angle_func = $Z.helper.transition.fixed_duration('angle', duration) ;
@@ -152,15 +152,13 @@
           window.location.reload() ;
         }, delay * 40) ;
 
-        // spinTrans.end = function() {
-        //   viz.shake() ;
-        // }
+        var z = viz.logo.item[2] ; 
 
-        function add_spin() { 
+        z.add_spin = function add_spin() { 
           this.add_transition(spinTrans) ; 
         }
 
-        viz.logo.item[2].call( add_spin, delay * vtxt.length * 2 ) ;
+        z.call( 'add_spin', delay * (2 + vtxt.length * 2) ) ;
 
       }
 
