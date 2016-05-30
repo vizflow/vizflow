@@ -59,10 +59,10 @@ let inputEvent = {
       doc = this ;
     }
 
+    $Z.helper.audio.play() ; // play default blank sound in case audio hasn't been triggered yet (e.g. on iOS)
     $Z.prep([doc.viz]) ;
 
     // console.log('input event up', 'this', this) ;
-
     // console.log ('input event up end', 'event', event) ;
 
   },
