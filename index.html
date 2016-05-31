@@ -135,8 +135,10 @@
 
           var trans = item.viz.fader([1, 0]) ;
           trans.end = function() {
-            item.image = item.viz.logo.sprite[item.config.char][1] ;
+            item.image = item.viz.logo.sprite[item.config.txt][1] ;
           }
+
+
           item.white.add_transition(trans) ;
 
         }
@@ -167,7 +169,7 @@
             addSwitch: true,
             opacity: 0,
             k: ktxt,
-            char: vtxt[ktxt],
+            txt: vtxt[ktxt],
 
           }) ;
 
@@ -201,24 +203,22 @@
         var z = viz.logo.item[2] ; 
 
         z.x = viz.width * 0.5 ;
-
         z.add_transition(spinTrans) ;
         z.fade({
           duration: viz.fadeDur,
           opacity: 1,
         })
 
-        z.call(function() {
-          z.add_linear('x', z.config.x, (1 - viz.xdelay) * viz.spinDur) ;
-        }, viz.spinDur * viz.xdelay) ;
+        z.call(
+          function() { z.add_linear('x', z.config.x, (1 - viz.xdelay) * viz.spinDur) ; }, 
+          viz.spinDur * viz.xdelay
+        ) ;
 
         function homepage() {
-
           viz.logo.item.forEach(function(d, i) {
             d.call('upper_left', viz.fadeDur + i * viz.delay) ;
             d.call('fade_switch', (8 + viz.logo.item.length) * viz.delay + viz.movedur) ;
           }) ;
-
         }
       
       }
