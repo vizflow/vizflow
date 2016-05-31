@@ -110,12 +110,11 @@
           var xList   = [viz.width * 0.5, viz.width * (0.5 - xShift), viz.width * (0.5 + xShift), viz.width * 0.5] ;
           var yList   = [yOff, viz.height * (0.5 - yShift) + yOff, viz.height * (0.5 - yShift) + yOff, viz.height * (0.5 - yShift) + yOff] ;
 
-          var urlList = [
-            'http://vizflow.org/three_circles_svg/',
-            'http://vizflow.org/ph_game/', 
-            'http://electionfighter.com/',
-            'http://vizflow.org/primefruit/',
-          ] ;
+          var urlList = document.example.map(function(d) {
+            return 'http://vizflow.org/examples/' + d ;
+          }) ;
+
+          urlList[2] = 'http://electionfighter.com' ; // this one has its own URL
 
           for (var kex = 0 ; kex < document.example.length ; kex++) {
 
