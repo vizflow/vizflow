@@ -8,7 +8,7 @@
         margin: 0;
         font: 13pt courier;
         font-weight: bold;
-        background-color: #FFF;
+        background-color: #fff;
         overflow-y:hidden;
         color: #ccc;
         -webkit-user-select: none;
@@ -53,7 +53,7 @@
     <script>
 
       document.example      = ['three_circles_svg', 'ph_game', 'electionfighter', 'primefruit'] ;
-      document.exampleImage = document.example.map(function(d) { return './image/' + d + '.png' ; }) ;
+      document.exampleImage = document.example.map( function(d) { return './image/' + d + '.png' ; } ) ;
       document.image        = ['./image/vizflow_text.png', './image/vizflow_url.png'] ;
       document.imageList    = document.image.concat(document.exampleImage) ;
       document.audioList    = [] ;
@@ -72,8 +72,8 @@
         spriteImage.clear_color([255, 255, 255]) ;
 
         var viz = $Z.helper.viz.setup({
-          width:  800,
-          height: 800,
+          width:  1200,
+          height: 1200,
           fadeDuration: 400,
         }) ;
 
@@ -83,9 +83,9 @@
         viz.tSpin    = 400 ;
         viz.longDur  = viz.delay * (2 + vtxt.length * 2) ;
         viz.xdelay   = 0.7 ;
-        viz.movedur  = 1000 ;
+        viz.movedur  = 350 ;
         viz.flashDur = 200 ;
-        viz.delay    = 100 ;
+        viz.delay    = 50 ;
         viz.spinDur  = viz.Nspin * viz.tSpin ;
         viz.fadeDur  = 1000 ;
 
@@ -105,10 +105,10 @@
 
           var yShift  = 0.25 ;
           var xShift  = 0.25 ;
-          var yOff    = 188 ;
+          var yOff    = 220 ;
 
           var xList   = [viz.width * 0.5, viz.width * (0.5 - xShift), viz.width * (0.5 + xShift), viz.width * 0.5] ;
-          var yList   = [yOff, viz.height * (0.5 - yShift) + yOff, viz.height * (0.5 - yShift) + yOff, viz.height * 0.5 + yOff] ;
+          var yList   = [yOff, viz.height * (0.5 - yShift) + yOff, viz.height * (0.5 - yShift) + yOff, viz.height * (0.5 - yShift) + yOff] ;
 
           var urlList = [
             'http://vizflow.org/three_circles_svg/',
@@ -120,18 +120,23 @@
           for (var kex = 0 ; kex < document.example.length ; kex++) {
 
             var imageK = $Z.helper.image.to_canvas( document.exampleImage[kex] ) ;
-            var url    = urlList[kex] ;
 
             viz.example[kex] = viz.setup_item({
 
               image: imageK,
-              x: xList[kex] - imageK.width * 0.5,
-              y: yList[kex] - imageK.height * 0.5,
+              x: xList[kex],
+              y: yList[kex],
+              xScale: 0.75,
+              yScale: 0.75,
+              xOrigin:  imageK.width  * 0.5,
+              yOrigin: imageK.height * 0.5,
               uiSwitch: true,
+              url: urlList[kex],
 
               callback: function() {
+                // viz.busy = true ;
                 // console.log('callback', 'url', url) ;
-                window.open(url) ;
+                window.location.href = this.config.url ;
               },
 
               addSwitch: true,
@@ -147,17 +152,17 @@
 
           viz.url = viz.setup_item({
             image: urlImage,
-            x: viz.width * 0.5,
-            y: viz.height - urlImage.height * 3,
-            xOrigin: urlImage.width * 0.5,
-            yOrigin: urlImage.height * 0.5,
-            xScale: 2.5,
-            yScale: 2.5,
+            x: 18, // viz.width * 0.5,
+            y: 80, // viz.height - urlImage.height * 0.5,
+            xOrigin: 0, // urlImage.width * 0.5,
+            yOrigin: 0, // urlImage.height * 0.5,
+            xScale: 0.5,
+            yScale: 0.5,
             uiSwitch: true,
             addSwitch: true,
             callback: function() {
               var vizflowUrl = 'https://github.com/vizflow/vizflow' ;
-              window.open(vizflowUrl) ;
+              window.location.href = vizflowUrl ;
             },
           }) ;
 
@@ -185,8 +190,8 @@
           var scale  = 0.5 ;
           var xScale = scale ;
           var yScale = scale ;
-          var xpad   = 0 ;
-          var ypad   = -160 ;
+          var xpad   = -100 ;
+          var ypad   = -260 ;
           var x1     = xpad + scale * item.x ; 
           var y1     = ypad + scale * item.y ; 
 

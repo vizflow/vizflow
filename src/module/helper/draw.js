@@ -173,7 +173,7 @@ let drawHelper = {
     }
 
     if(context === undefined) {
-      context = rect.viz.fullContext ;
+      context = $Z.helper.image.create(rect.width, rect.height).context() ;
     }
 
     if(ratio === undefined) {
@@ -256,6 +256,8 @@ let drawHelper = {
     context.fillStyle = fillStyle ;
     context.strokeStyle = strokeStyle ;
 
+    return context.canvas ;
+
   },
 
   circle: function draw_circle (circ, context) {
@@ -265,7 +267,7 @@ let drawHelper = {
     }
 
     if (context === undefined) {
-      context = circ.viz.fullContext ;
+      context = $Z.helper.image.create(circ.radius, circ.radius).context() ;
     }
 
     context.beginPath() ;
@@ -292,7 +294,10 @@ let drawHelper = {
 
     context.fillStyle = fillStyle ;
 
+    return context.canvas ;
+
   },
+
 
 } ;
 
