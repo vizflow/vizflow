@@ -50,7 +50,7 @@ function battle_screen() {
     var i = imageHelper.to_canvas('./image/knight_battle_spritesheet.png') ;
     var rowName = ['attack', 'block', 'finisher', 'rest', 'thrust'] ;
     var width   = [tileWidth, tileWidth, tileWidth, tileWidth, tileWidth] ;
-    var height  = [tileHeight, tileHeight, 350, tileHeight, tileHeight] ;
+    var height  = [tileHeight, tileHeight, tileHeight, tileHeight, tileHeight] ;
 
     maxHeight = Math.max.apply(null, height) ;
     var spriteset = spriteHelper.get(i, rowName, width, height) ;
@@ -64,7 +64,7 @@ function battle_screen() {
 
     spriteset.attack = [spriteset.attack[0], spriteset.attack[1], spriteset.attack[2], spriteset.rest[0]] ;
     spriteset.thrust = [spriteset.thrust[0], spriteset.thrust[1], spriteset.rest[0]] ;
-    spriteset.finisher = [spriteset.finisher[0], spriteset.finisher[1], spriteset.finisher[2], spriteset.finisher[3], spriteset.rest[0]] ;    
+    spriteset.finisher = [spriteset.finisher[0], spriteset.finisher[1], spriteset.finisher[2], spriteset.finisher[3], spriteset.finisher[4], spriteset.finisher[5], spriteset.finisher[6], spriteset.rest[0]] ;    
     spriteset.block = [spriteset.block[0], spriteset.rest[0]] ;
     return spriteset ;
 
@@ -79,7 +79,7 @@ function battle_screen() {
     xMove: 74,
     yMove: 74,
     x: 60,
-    y: -25,
+    y: 5,
     type: 'player',
 
     } ;

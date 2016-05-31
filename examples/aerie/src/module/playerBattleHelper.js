@@ -35,7 +35,7 @@ var playerBattleHelper = {
     player.paused               = false ;
     player.state                = [] ;
     player.item.responseSet.hit = playerHitHelper.setup(viz, player) ;
-    player.health               = 60 ;
+    player.health               = 600 ;
     player.health_bar           = playerBattleHelper.health_bar ;
     player.attack               = playerBattleHelper.attack ;
     player.block                = playerBattleHelper.block ;
@@ -90,20 +90,28 @@ var playerBattleHelper = {
         case 'finisher':
           var dur1 = 400 ;
           var dur2 = 350 ;
-          var dur3 = 200 ;
-          var dur4 = 900 ;
-          var dur5 = 250 ;
+          var dur3 = 450 ;
+          var dur4 = 100 ;
+          var dur5 = 50 ;
+          var dur6 = 50 ;
+          var dur7 = 50 ;
+          var dur8 = 50 ;
           var trans1 = transitionHelper.new_step('image', player.sprite.finisher[0], dur1) ;
           var trans2 = transitionHelper.new_step('image', player.sprite.finisher[1], dur2) ;
           var trans3 = transitionHelper.new_step('image', player.sprite.finisher[2], dur3) ;          
-          var trans4 = transitionHelper.new_step('image', player.sprite.finisher[3], dur4) ;          
-          var trans5 = transitionHelper.new_step('image', player.sprite.rest[0], dur4) ;
+          var trans4 = transitionHelper.new_step('image', player.sprite.finisher[3], dur4) ;    
+          var trans5 = transitionHelper.new_step('image', player.sprite.finisher[4], dur5) ;
+          var trans6 = transitionHelper.new_step('image', player.sprite.finisher[5], dur6) ;
+          var trans7 = transitionHelper.new_step('image', player.sprite.finisher[6], dur7) ;          
+          var trans8 = transitionHelper.new_step('image', player.sprite.rest[0], dur8) ;
 
           trans1.child = trans2 ;
           trans1.child.child = trans3 ;
           trans1.child.child.child = trans4 ;
           trans1.child.child.child.child = trans5 ;
-
+          trans1.child.child.child.child.child = trans6 ;
+          trans1.child.child.child.child.child.child = trans7 ;
+          trans1.child.child.child.child.child.child.child = trans8 ;
           player.item.add_transition(trans1) ;          
           
           break;
