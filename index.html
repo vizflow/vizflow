@@ -93,12 +93,13 @@
         var x0 = ( viz.width - spriteImage.height ) * 0.5 + xOrigin ;
         var y0 = ymid ;
 
-        var delay = 100 ;
+        var delay     = 100 ;
+        var longDelay = delay * (2 + vtxt.length * 2) ;
 
         var xpad  =  10 ;
         var xoff1 = -xpad * 2 ;   // shift the "i" relative to "v" 
         var xoff2 = -2.5 * xpad ; // shift more letters
-        var xoff3 =  .5 * xpad ; // shift the letters some more 
+        var xoff3 =  0.5 * xpad ; // shift the letters some more 
 
         for ( ktxt = vtxt.length - 1 ; ktxt >= 0 ; ktxt-- ) {
 
@@ -128,38 +129,57 @@
 
           }) ;
 
-          viz.logo.item[ktxt].call('fade', ktxt * delay) ;
-
         }
 
-        var Nspin      = 2 ;
-        var tSpin      = 500 ;
-        var duration   = Nspin * tSpin ;
+        var Nspin      = 10 ;
+        var tSpin      = 400 ;
+        var spinDur   = Nspin * tSpin ;
         var endAngle   = Math.PI * 2 * Nspin ;
-        var angle_func = $Z.helper.transition.fixed_duration('angle', duration) ;
+        var angle_func = $Z.helper.transition.fixed_duration('angle', spinDur) ;
         var spinTrans  = angle_func(endAngle) ;
 
-        spinTrans.power = 0.15 ; 
+        spinTrans.power = 0.25 ; 
 
         spinTrans.end = function () {
-          var ytrans = $Z.helper.transition.new_linear('y', size * 0.5 + 100, 1000) ;
+          viz.logo.item.forEach(function(d, i) {
+
+            if ( i === 2 ) {
+              return ; // z fades in first
+            }
+
+            d.call('fade', i * delay) ;
+
+          }) ;
+
+          viz.call(homepage, longDelay) ;
+        
+        } // ** end: spinTrans.end **
+
+        var z = viz.logo.item[2] ; 
+        var fadeDur = 1000 ;
+
+        z.x = viz.width * 0.5 ;
+
+        z.add_transition(spinTrans) ;
+        z.fade({
+          duration: fadeDur,
+          opacity: 1,
+        })
+
+        var xdelay = 0.7
+
+        z.call(function() {
+          z.add_linear('x', z.config.x, (1 - xdelay) * spinDur) ;
+        }, spinDur * xdelay) ;
+
+        function homepage() {
+
           viz.logo.item.forEach(function(d, i) {
             d.call('fade', i * delay) ;
           }) ;
+
         }
-
-        viz.call(function(){
-          window.location.reload() ;
-        }, delay * 40) ;
-
-        var z = viz.logo.item[2] ; 
-
-        z.add_spin = function add_spin() { 
-          this.add_transition(spinTrans) ; 
-        }
-
-        z.call( 'add_spin', delay * (2 + vtxt.length * 2) ) ;
-
+      
       }
 
     </script>
