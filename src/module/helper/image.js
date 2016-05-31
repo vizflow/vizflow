@@ -449,11 +449,18 @@ let imageHelper = {
     // console.log ('sourceImageData', sourceImageData, 'destImageData', destImageData) ;
   },
 
+  new_data: function image_helper_new_data(width, height) {
+    var canvas    = imageHelper.create(width, height) ;
+    // console.log('new image data', 'width', width, 'height', height) ;
+    var imageData = canvas.context().createImageData(parseInt(width), parseInt(height));  
+    return imageData ;
+  },
+
   flip_image: function image_helper_flip_image (canvas) {
 
     var context   = canvas.context() ;
     var imageData = context.getImageData (0, 0, canvas.width, canvas.height) ;
-    var imageFlip = new_image_data(canvas.width, canvas.height) ; // new ImageData (canvas.width, canvas.height) ;
+    var imageFlip = imageHelper.new_data(canvas.width, canvas.height) ; // new ImageData (canvas.width, canvas.height) ;
     var Npel      = imageData.data.length / 4 ;
 
     for ( let kPel = 0 ; kPel < Npel ; kPel++ ) {
@@ -495,7 +502,7 @@ let imageHelper = {
 
   to_index: function image_helper_to_index(img0, index) {
 
-    var img = new_image_data(img0.width, img0.height) ; // var img  = new ImageData(img0.width, img0.height) ; // duplicate original image to avoid mutating it
+    var img = imageHelper.new_data(img0.width, img0.height) ; // var img  = new ImageData(img0.width, img0.height) ; // duplicate original image to avoid mutating it
 
     var Npel = img.data.length / 4 ;
 

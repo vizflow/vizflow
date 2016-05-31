@@ -15,7 +15,7 @@
         -moz-user-select: none;
         user-select: none;        
 
-       }
+      }
 
     </style>
 
@@ -41,6 +41,7 @@
 
     </head>
   <body>
+
     <!-- <script type="text/javascript" src="jspm_packages/system.js"></script> -->
     <!-- <script type="text/javascript" src="config.js"></script> -->
 
@@ -51,10 +52,13 @@
     
     <script>
 
-      var imageList = ['./image/vizflow_text.png'] ;
-      var audioList = [] ;
+      document.example      = ['three_circles_svg', 'ph_game', 'electionfighter', 'primefruit'] ;
+      document.exampleImage = document.example.map(function(d) { return './image/' + d + '.png' ; }) ;
+      document.image        = ['./image/vizflow_text.png', './image/vizflow_url.png'] ;
+      document.imageList    = document.image.concat(document.exampleImage) ;
+      document.audioList    = [] ;
 
-      $Z.helper.loader.all(imageList, audioList, vizflow_page) ;
+      $Z.helper.loader.all(document.imageList, document.audioList, vizflow_page) ;
 
       function vizflow_page() {
 
@@ -64,7 +68,7 @@
 
         var vtxt = ['v', 'i', 'z', 'f', 'l', 'o', 'w'] ;
         var size = 102 ;
-        var spriteImage = $Z.helper.image.to_canvas( imageList[0] ) ;
+        var spriteImage = $Z.helper.image.to_canvas( document.imageList[0] ) ;
         spriteImage.clear_color([255, 255, 255]) ;
 
         var viz = $Z.helper.viz.setup({
@@ -92,6 +96,72 @@
           text: vtxt,
           sprite: $Z.helper.sprite.get( spriteImage, vtxt, size, size ),
           item: new Array( vtxt.length ),
+
+        } ;
+
+        viz.examples = function vizflow_examples() {          
+
+          viz.example = new Array(document.example.length) ;
+
+          var yShift  = 0.25 ;
+          var xShift  = 0.25 ;
+          var yOff    = 188 ;
+
+          var xList   = [viz.width * 0.5, viz.width * (0.5 - xShift), viz.width * (0.5 + xShift), viz.width * 0.5] ;
+          var yList   = [yOff, viz.height * (0.5 - yShift) + yOff, viz.height * (0.5 - yShift) + yOff, viz.height * 0.5 + yOff] ;
+
+          var urlList = [
+            'http://vizflow.org/three_circles_svg/',
+            'http://vizflow.org/ph_game/', 
+            'http://electionfighter.com/',
+            'http://vizflow.org/primefruit/',
+          ] ;
+
+          for (var kex = 0 ; kex < document.example.length ; kex++) {
+
+            var imageK = $Z.helper.image.to_canvas( document.exampleImage[kex] ) ;
+            var url    = urlList[kex] ;
+
+            viz.example[kex] = viz.setup_item({
+
+              image: imageK,
+              x: xList[kex] - imageK.width * 0.5,
+              y: yList[kex] - imageK.height * 0.5,
+              uiSwitch: true,
+
+              callback: function() {
+                // console.log('callback', 'url', url) ;
+                window.open(url) ;
+              },
+
+              addSwitch: true,
+              opacity: 0,
+
+            }) ;
+
+            viz.example[kex].fade() ;
+
+          }
+
+          var urlImage = $Z.helper.image.to_canvas(document.imageList[1]) ;
+
+          viz.url = viz.setup_item({
+            image: urlImage,
+            x: viz.width * 0.5,
+            y: viz.height - urlImage.height * 3,
+            xOrigin: urlImage.width * 0.5,
+            yOrigin: urlImage.height * 0.5,
+            xScale: 2.5,
+            yScale: 2.5,
+            uiSwitch: true,
+            addSwitch: true,
+            callback: function() {
+              var vizflowUrl = 'https://github.com/vizflow/vizflow' ;
+              window.open(vizflowUrl) ;
+            },
+          }) ;
+
+          viz.setup_ui() ;
 
         } ;
 
@@ -138,6 +208,9 @@
             item.image = item.viz.logo.sprite[item.config.txt][1] ;
           }
 
+          trans.child.end = function() {
+            viz.examples() ;
+          }
 
           item.white.add_transition(trans) ;
 
