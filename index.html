@@ -54,27 +54,38 @@
       var imageList = ['./image/vizflow_text.png'] ;
       var audioList = [] ;
 
-      $Z.helper.loader.all(imageList, audioList, show_logo) ;
+      $Z.helper.loader.all(imageList, audioList, vizflow_page) ;
 
-      function show_logo() {
+      function vizflow_page() {
 
-        // console.log('show logo start') ;
+        // console.log('vizflow page start') ;
 
         document.ratio = 1 ;
+
+        var vtxt = ['v', 'i', 'z', 'f', 'l', 'o', 'w'] ;
+        var size = 102 ;
+        var spriteImage = $Z.helper.image.to_canvas( imageList[0] ) ;
+        spriteImage.clear_color([255, 255, 255]) ;
 
         var viz = $Z.helper.viz.setup({
           width:  800,
           height: 800,
+          fadeDuration: 400,
         }) ;
 
         document.viz = viz ;
 
-        viz.run() ;
+        viz.Nspin    = 7 ;
+        viz.tSpin    = 400 ;
+        viz.longDur  = viz.delay * (2 + vtxt.length * 2) ;
+        viz.xdelay   = 0.7 ;
+        viz.movedur  = 1000 ;
+        viz.flashDur = 200 ;
+        viz.delay    = 100 ;
+        viz.spinDur  = viz.Nspin * viz.tSpin ;
+        viz.fadeDur  = 1000 ;
 
-        var vtxt = ['v', 'i', 'z', 'f', 'l', 'o', 'w'] ;
-        var size = 95 ;
-        var spriteImage = $Z.helper.image.to_canvas( imageList[0] ) ;
-        spriteImage.clear_color([255, 255, 255]) ;
+        viz.run() ;
 
         viz.logo = {
 
@@ -86,20 +97,49 @@
 
         var xOrigin = 0.5 * size ;
         var yOrigin = 0.5 * size ;
+        var xmid    = viz.width  * 0.5 ;
+        var ymid    = viz.height * 0.5 ; 
+        var x0      = ( viz.width - spriteImage.height ) * 0.5 + xOrigin ;
+        var y0      = ymid ;
+        var xpad    =  10 ;
+        var xoff1   = -xpad * 2 ;   // shift the "i" relative to "v" 
+        var xoff2   = -2.5 * xpad ; // shift more letters
+        var xoff3   =  0.5 * xpad ; // shift the letters some more 
 
-        var xmid = viz.width  * 0.5 ;
-        var ymid = viz.height * 0.5 ; 
+        function upper_left(item) {
 
-        var x0 = ( viz.width - spriteImage.height ) * 0.5 + xOrigin ;
-        var y0 = ymid ;
+          if ( item === undefined ) {
+            item = this ;
+          }
 
-        var delay     = 100 ;
-        var longDelay = delay * (2 + vtxt.length * 2) ;
+          var scale  = 0.5 ;
+          var xScale = scale ;
+          var yScale = scale ;
+          var xpad   = 0 ;
+          var ypad   = -160 ;
+          var x1     = xpad + scale * item.x ; 
+          var y1     = ypad + scale * item.y ; 
 
-        var xpad  =  10 ;
-        var xoff1 = -xpad * 2 ;   // shift the "i" relative to "v" 
-        var xoff2 = -2.5 * xpad ; // shift more letters
-        var xoff3 =  0.5 * xpad ; // shift the letters some more 
+          item.add_linear('xScale', xScale, viz.movedur) ;
+          item.add_linear('yScale', yScale, viz.movedur) ;
+          item.add_linear('x', x1, viz.movedur) ;
+          item.add_linear('y', y1, viz.movedur) ;
+
+        }
+
+        function fade_switch(item) {
+          
+          if (item === undefined) {
+            item = this ;
+          }
+
+          var trans = item.viz.fader([1, 0]) ;
+          trans.end = function() {
+            item.image = item.viz.logo.sprite[item.config.char][1] ;
+          }
+          item.white.add_transition(trans) ;
+
+        }
 
         for ( ktxt = vtxt.length - 1 ; ktxt >= 0 ; ktxt-- ) {
 
@@ -126,16 +166,19 @@
             yOrigin: yOrigin,
             addSwitch: true,
             opacity: 0,
+            k: ktxt,
+            char: vtxt[ktxt],
 
           }) ;
 
+          viz.logo.item[ktxt].upper_left  = upper_left ;
+          viz.logo.item[ktxt].fade_switch = fade_switch ;
+          viz.logo.item[ktxt].default_child() ;
+
         }
 
-        var Nspin      = 10 ;
-        var tSpin      = 400 ;
-        var spinDur   = Nspin * tSpin ;
-        var endAngle   = Math.PI * 2 * Nspin ;
-        var angle_func = $Z.helper.transition.fixed_duration('angle', spinDur) ;
+        var endAngle   = Math.PI * 2 * viz.Nspin ;
+        var angle_func = $Z.helper.transition.fixed_duration('angle', viz.spinDur) ;
         var spinTrans  = angle_func(endAngle) ;
 
         spinTrans.power = 0.25 ; 
@@ -147,35 +190,33 @@
               return ; // z fades in first
             }
 
-            d.call('fade', i * delay) ;
+            d.call('fade', i * viz.delay) ;
 
           }) ;
 
-          viz.call(homepage, longDelay) ;
+          viz.call(homepage, viz.logo.item.length * viz.delay + viz.longDur) ;
         
         } // ** end: spinTrans.end **
 
         var z = viz.logo.item[2] ; 
-        var fadeDur = 1000 ;
 
         z.x = viz.width * 0.5 ;
 
         z.add_transition(spinTrans) ;
         z.fade({
-          duration: fadeDur,
+          duration: viz.fadeDur,
           opacity: 1,
         })
 
-        var xdelay = 0.7
-
         z.call(function() {
-          z.add_linear('x', z.config.x, (1 - xdelay) * spinDur) ;
-        }, spinDur * xdelay) ;
+          z.add_linear('x', z.config.x, (1 - viz.xdelay) * viz.spinDur) ;
+        }, viz.spinDur * viz.xdelay) ;
 
         function homepage() {
 
           viz.logo.item.forEach(function(d, i) {
-            d.call('fade', i * delay) ;
+            d.call('upper_left', viz.fadeDur + i * viz.delay) ;
+            d.call('fade_switch', (8 + viz.logo.item.length) * viz.delay + viz.movedur) ;
           }) ;
 
         }
