@@ -266,18 +266,22 @@ let drawHelper = {
       circ = this ;  
     }
 
+    context.lineWidth = circ.lineWidth || 1 ;
+
     if (context === undefined) {
-      context = $Z.helper.image.create(circ.radius * 2, circ.radius * 2).context() ;
+      let pad = 2 ;
+      let size = (circ.radius + context.lineWidth) * 2 + pad ;
+      context = $Z.helper.image.create(size, size).context() ;
     }
 
     context.beginPath() ;
-    var x = circ.x || circ.radius ;
-    var y = circ.y || circ.radius ;
+    let x = circ.x || circ.radius ;
+    let y = circ.y || circ.radius ;
 
     x = Math.floor(x) ;
     y = Math.floor(y) ;
 
-    var r = circ.radius ;
+    let r = circ.radius ;
     context.arc(x, y, r, 0, Math.PI * 2, true) ;
 
     if(circ.fill !== undefined) {
@@ -286,7 +290,6 @@ let drawHelper = {
     }
 
     if(circ.stroke !== undefined) {
-      context.lineWidth = circ.lineWidth || 1 ;
       context.strokeStyle = circ.stroke ;
       context.stroke() ;
     }
