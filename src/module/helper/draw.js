@@ -269,7 +269,7 @@ let drawHelper = {
     let lineWidth = circ.lineWidth || 0 ;
 
     if (context === undefined) {
-      let pad = 2 ;
+      var pad = 2 ;
       let size = (circ.radius + lineWidth) * 2 + pad ;
       context = $Z.helper.image.create(size, size).context() ;
     }
