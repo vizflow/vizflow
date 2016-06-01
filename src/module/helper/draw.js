@@ -266,11 +266,11 @@ let drawHelper = {
       circ = this ;  
     }
 
-    context.lineWidth = circ.lineWidth || 1 ;
+    let lineWidth = circ.lineWidth || 0 ;
 
     if (context === undefined) {
       let pad = 2 ;
-      let size = (circ.radius + context.lineWidth) * 2 + pad ;
+      let size = (circ.radius + lineWidth) * 2 + pad ;
       context = $Z.helper.image.create(size, size).context() ;
     }
 
@@ -290,6 +290,7 @@ let drawHelper = {
     }
 
     if(circ.stroke !== undefined) {
+      context.lineWidth = lineWidth ;
       context.strokeStyle = circ.stroke ;
       context.stroke() ;
     }
