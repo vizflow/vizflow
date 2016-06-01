@@ -286,6 +286,7 @@ let drawHelper = {
     }
 
     if(circ.stroke !== undefined) {
+      context.lineWidth = circ.lineWidth || 1 ;
       context.strokeStyle = circ.stroke ;
       context.stroke() ;
     }
