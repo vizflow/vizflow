@@ -267,7 +267,7 @@ let drawHelper = {
     }
 
     if (context === undefined) {
-      context = $Z.helper.image.create(circ.radius, circ.radius).context() ;
+      context = $Z.helper.image.create(circ.radius * 2, circ.radius * 2).context() ;
     }
 
     context.beginPath() ;
