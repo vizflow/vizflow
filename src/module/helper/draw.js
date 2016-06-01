@@ -273,8 +273,6 @@ let drawHelper = {
     context.beginPath() ;
     var x = circ.x ;
     var y = circ.y ;
-    x = (x + viz.width) * ratio ;
-    y = (y + viz.height) * ratio ;
 
     x = Math.floor(x) ;
     y = Math.floor(y) ;
@@ -282,17 +280,17 @@ let drawHelper = {
     var r = circ.radius ;
     context.arc(x, y, r, 0, Math.PI * 2, true) ;
 
-    var fillStyle = context.fillStyle ;
-
-    if(circ.color === undefined) {
-      circ.color = fillStyle ;
+    if(circ.fill !== undefined) {
+      context.fillStyle = circ.color ;
+      context.fill() ;
     }
 
-    context.fillStyle = circ.color ;
-    context.fill() ;
-    context.closePath() ;
+    if(circ.stroke !== undefined) {
+      context.strokeStyle = circ.stroke ;
+      context.stroke() ;
+    }
 
-    context.fillStyle = fillStyle ;
+    context.closePath() ;
 
     return context.canvas ;
 
