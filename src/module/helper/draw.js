@@ -271,8 +271,8 @@ let drawHelper = {
     }
 
     context.beginPath() ;
-    var x = circ.x ;
-    var y = circ.y ;
+    var x = circ.x || circ.radius ;
+    var y = circ.y || circ.radius ;
 
     x = Math.floor(x) ;
     y = Math.floor(y) ;
