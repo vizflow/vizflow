@@ -67,7 +67,7 @@ var scoreHelper = {
 
       color: 'rgba(200, 200, 0, 0.8)',
       text: viz.player.score.value,
-      image: imageHelper.text2image,
+      image: imageHelper.text,
       sprite: scoreSprite,
 
     } ;

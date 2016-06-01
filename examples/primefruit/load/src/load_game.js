@@ -76,7 +76,7 @@ function load_game () {
       viz.text  = spriteHelper.get_text('./image/text2.png', textWidth, textHeight) ;
       // viz.text       = spriteHelper.foreach(viz.text, imageHelper.get_original) ;
 
-      var textImage = imageHelper.text2image({
+      var textImage = imageHelper.text({
         sprite: viz.text,
         text: 'start',
       }) ;

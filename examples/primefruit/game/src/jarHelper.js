@@ -72,7 +72,7 @@ var jarHelper = {
     jarK.scale1     = 2.5 ;
     jarK.opacityLow = 0.0 ;
 
-    var digit = imageHelper.text2image({
+    var digit = imageHelper.text({
       text: k + 2,
       sprite: viz.text,
       xShift: 0,
@@ -258,7 +258,7 @@ var jarHelper = {
         jar = this ;
       }
 
-      var image = imageHelper.text2image({
+      var image = imageHelper.text({
         text:   text,
         sprite: jar.viz.text,
         xShift: 10,

@@ -9,7 +9,7 @@ var imageHelper = {
 
 	},
 
-	text2image: function image_helper_text2image(imageConfig) {
+	text: function image_helper_text2image(imageConfig) {
 
 		if(imageConfig === undefined) {
 			imageConfig = this ;
@@ -18,7 +18,7 @@ var imageHelper = {
 		var text   = String(imageConfig.text) ;
 		var sprite = imageConfig.sprite ;
 
-		// console.log('imageHelper text2image:', 'text', text, 'sprite', sprite) ;
+		// console.log('imageHelper text:', 'text', text, 'sprite', sprite) ;
 
 		var width  = sprite[text[0]][0].width  ;
 		var height = sprite[text[0]][0].height ;
@@ -29,7 +29,7 @@ var imageHelper = {
 
 		for(var kchar = 0 ; kchar < text.length ; kchar++) {
 
-			// console.log('text2image sprite', 'sprite[text[kchar]', sprite[text[kchar]]);
+			// console.log('text sprite', 'sprite[text[kchar]', sprite[text[kchar]]);
 			image.context().drawImage(sprite[text[kchar]][0], offsetX, 0) ;
 			offsetX += width ;
 

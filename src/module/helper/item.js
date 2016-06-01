@@ -53,7 +53,7 @@ let itemHelper = {
       fixed:     itemConfig.fixed,
       uiSwitch:  itemConfig.uiSwitch || false,
       callback:  itemConfig.callback,
-      addSwitch: itemConfig.addSwitch || false,
+      addSwitch: itemConfig.addSwitch || true,
       render:    itemConfig.render || $Z.helper.draw.item, // $Z.helper.draw.image expects "this" to  be "item"
 
     } ;
@@ -444,9 +444,29 @@ let itemHelper = {
 
       item.loop( function() { return fader(fadeVal) ; } ) ;
     
-    },
+    }, 
 
-  },
+  }, // end: item helper method property
+
+  text: function item_helper_method_text (textConfig) {
+    var image = $Z.helper.image.text({
+      text: textConfig.text,
+      sprite: textConfig.sprite,
+      color: textConfig.color || '#FFF',
+    }) ;
+
+    var config = { 
+      image: image,
+      x: textConfig.x,
+      y: textConfig.y,
+      opacity: textConfig.opacity, 
+      viz: textConfig.viz,
+      uiSwitch: textConfig.uiSwitch,
+    } ;
+
+    return textConfig.viz.setup_item(config) ;        
+
+  }, 
 
 } ;
 
