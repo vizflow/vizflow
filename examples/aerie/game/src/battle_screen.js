@@ -65,7 +65,7 @@ function battle_screen() {
     spriteset.attack = [spriteset.attack[0], spriteset.attack[1], spriteset.attack[2], spriteset.rest[0]] ;
     spriteset.thrust = [spriteset.thrust[0], spriteset.thrust[1], spriteset.rest[0]] ;
     spriteset.finisher = [spriteset.finisher[0], spriteset.finisher[1], spriteset.finisher[2], spriteset.finisher[3], spriteset.finisher[4], spriteset.finisher[5], spriteset.finisher[6], spriteset.rest[0]] ;    
-    spriteset.block = [spriteset.block[0], spriteset.rest[0]] ;
+    spriteset.block = [spriteset.block[0], spriteset.block[1], spriteset.rest[0]] ;
     return spriteset ;
 
     },
@@ -152,7 +152,7 @@ function battle_screen() {
         },    
 
         x: 60,
-        y: 30,
+        y: 40,
         type: 'enemy',
 
     } ;

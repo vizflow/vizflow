@@ -126,12 +126,15 @@ var playerBattleHelper = {
       switch (blockType) {
 
         case 'shield':  
-          var dur1 = 2000 ;
-          var dur2 = 500 ;
+          var dur1 = 200 ;
+          var dur2 = 1500 ;
+          var dur3 = 200 ;
           var trans1 = transitionHelper.new_step('image', player.sprite.block[0], dur1) ;
-          var trans2 = transitionHelper.new_step('image', player.sprite.rest[0], dur2) ;
+          var trans2 = transitionHelper.new_step('image', player.sprite.block[1], dur2) ;          
+          var trans3 = transitionHelper.new_step('image', player.sprite.rest[0], dur3) ;
 
           trans1.child = trans2 ;
+          trans1.child.child = trans3 ;
           player.item.add_transition(trans1) ;
           break ;
       }
