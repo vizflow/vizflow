@@ -285,7 +285,7 @@ let drawHelper = {
     context.arc(x, y, r, 0, Math.PI * 2, true) ;
 
     if(circ.fill !== undefined) {
-      context.fillStyle = circ.color ;
+      context.fillStyle = circ.fill ;
       context.fill() ;
     }
 
