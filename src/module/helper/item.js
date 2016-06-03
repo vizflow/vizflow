@@ -18,6 +18,15 @@ let itemHelper = {
       itemConfig.inert = true ;
     }
 
+    var xOrigin, yOrigin ;
+    if ( itemConfig.centerSwitch === true ) {
+      xOrigin = itemConfig.image.width * 0.5 ;
+      yOrigin = itemConfig.image.height * 0.5 ;
+    } else {
+      xOrigin = 0 ;
+      yOrigin = 0 ;
+    }
+
     var item = { // configurable properties: x, y, type, element, opacity, image, inert, render, fixed, transition
 
       /* default properties: */
@@ -32,8 +41,8 @@ let itemHelper = {
       x:         itemConfig.x || 0,
       y:         itemConfig.y || 0,
       angle:     itemConfig.angle   || 0,
-      xOrigin:   itemConfig.xOrigin || 0,
-      yOrigin:   itemConfig.yOrigin || 0,
+      xOrigin:   itemConfig.xOrigin || xOrigin,
+      yOrigin:   itemConfig.yOrigin || yOrigin,
       xAngle:    itemConfig.xAngle  || 0,
       yAngle:    itemConfig.yAngle  || 0,
       xScale:    itemConfig.xScale  || 1,
