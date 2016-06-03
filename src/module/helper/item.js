@@ -464,14 +464,7 @@ let itemHelper = {
       color: textConfig.color || '#FFF',
     }) ;
 
-    var config = { 
-      image: image,
-      x: textConfig.x,
-      y: textConfig.y,
-      opacity: textConfig.opacity, 
-      viz: textConfig.viz,
-      uiSwitch: textConfig.uiSwitch,
-    } ;
+    var config = Object.assign({ image: image, }, textConfig) ;
 
     return textConfig.viz.setup_item(config) ;        
 
