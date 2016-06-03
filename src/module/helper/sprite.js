@@ -168,9 +168,11 @@ let spriteHelper = {
 
   },
 
-  get_text: function sprite_helper_get_text (url, width, height) {
+  get_text: function sprite_helper_get_text (url, width, height, alpha) {
     var canvas = $Z.helper.image.to_canvas(url) ;
-    var alpha  = "0123456789abcdefghijklmnopqrstuvwxyz".split("") ;
+    if ( alpha === undefined ) {
+      alpha  = "0123456789abcdefghijklmnopqrstuvwxyz".split("") ;
+    }
     return spriteHelper.get(canvas, alpha, width, height) ;   
   },
 
