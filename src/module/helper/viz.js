@@ -302,7 +302,7 @@ let vizHelper = {
 
   },
 
-  clear_cover: function viz_helper_clear_cover( viz ) {
+  clear_cover: function viz_helper_clear_cover( viz, coverConfig ) {
 
     var overlayImage = $Z.helper.image.create(viz.width, viz.height) ;
 
@@ -313,6 +313,8 @@ let vizHelper = {
       uiSwitch: true,
       addSwitch: true,
     } ;
+
+    overlayConfig = Object.assign(overlayConfig, coverConfig) ;
 
     return viz.setup_item(overlayConfig) ;    
   },
