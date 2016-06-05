@@ -455,6 +455,22 @@ let itemHelper = {
     
     }, 
 
+    focus: function item_helper_method_focus( item ) {
+
+      if ( item === undefined ) {
+        item = this ;
+      }
+
+      var index = $Z._item.indexOf(item) ;
+      var last  = $Z._item[$Z._item.length - 1] ;
+
+      if ( last !== item ) {
+        $Z._item[index] = last ;
+        $Z._item[$Z._item.length - 1] = item ;
+      }
+
+    },
+
   }, // end: item helper method property
 
   text: function item_helper_method_text (textConfig) {

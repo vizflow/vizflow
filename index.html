@@ -134,16 +134,36 @@
               url: urlList[kex],
 
               callback: function() {
-                viz.fade({
-                  opacity: 0,
-                  duration: 2000,
-                  end: {
-                    item: this,
-                    run: function() {
-                      window.location.href = this.item.config.url ;
-                    },
-                  },
+
+                this.focus() ;
+
+                var fadeOutDur = 3000 ;
+
+                this.viz.item.forEach(function(d) {
+                  d.image.clear_color([255, 255, 255]) ;
+                  d.fade({
+                    duration: fadeOutDur,
+                    opacity: 0,
+                  }) ;
                 }) ;
+
+                this.add_linear('xScale', 3, fadeOutDur) ;
+                this.add_linear('yScale', 3, fadeOutDur) ;
+                this.add_linear('x', viz.width * 0.5, fadeOutDur) ;
+                this.add_linear('y', viz.height * 0.5, fadeOutDur) ;
+
+                var url = this.config.url ;
+
+                viz.call(function() { 
+                  viz.fade({
+                    opacity: 0,
+                    duration: 2000,
+                    end: function() {
+                      window.location.href = url ;
+                    },
+                  }) ;
+                }, 1000) ;
+
               },
               addSwitch: true,
               opacity: 0,
