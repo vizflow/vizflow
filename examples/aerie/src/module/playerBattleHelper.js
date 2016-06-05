@@ -35,14 +35,14 @@ var playerBattleHelper = {
     player.paused               = false ;
     player.state                = [] ;
     player.item.responseSet.hit = playerHitHelper.setup(viz, player) ;
-    player.health               = 600 ;
+    player.health               = 100 ;
     player.health_bar           = playerBattleHelper.health_bar ;
     player.attack               = playerBattleHelper.attack ;
     player.block                = playerBattleHelper.block ;
     player.healthbar = viz.setup_item ({
       image: player.health_bar(),
       x: 16,
-      y: 20,
+      y: 10,
     }) ;
 
     player.healthbar.add() ;
@@ -126,8 +126,8 @@ var playerBattleHelper = {
       switch (blockType) {
 
         case 'shield':  
-          var dur1 = 200 ;
-          var dur2 = 1500 ;
+          var dur1 = 100 ;
+          var dur2 = 1000 ;
           var dur3 = 200 ;
           var trans1 = transitionHelper.new_step('image', player.sprite.block[0], dur1) ;
           var trans2 = transitionHelper.new_step('image', player.sprite.block[1], dur2) ;          
