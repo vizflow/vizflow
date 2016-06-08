@@ -121,8 +121,8 @@ var vizHelper = {
 	    keyboard_callback: vizConfig.keyboard_callback,
 
 	    transitionSet:  {
-	      x: $Z.transition.rounded_linear_transition_func ( 'viewportX', 3 * dur ), //function accepting an x end-value and returning a transition object      
-	      y: $Z.transition.rounded_linear_transition_func ( 'viewportY', 3 * dur ), //function accepting an x end-value and returning a transition object      
+	      x: $Z.helper.transition.rounded_linear_transition_func ( 'viewportX', 3 * dur ), //function accepting an x end-value and returning a transition object      
+	      y: $Z.helper.transition.rounded_linear_transition_func ( 'viewportY', 3 * dur ), //function accepting an x end-value and returning a transition object      
 	    },
 
 	    collision: null,
@@ -211,7 +211,7 @@ var vizHelper = {
 
 	    panX: function (dur, xNew) { 
 	      var trans = transitionHelper.sequence( xNew.map(function(x) {
-	        return $Z.transition.rounded_linear_transition_func('viewportX', dur)(x) ;
+	        return $Z.helper.transition.rounded_linear_transition_func('viewportX', dur)(x) ;
 	      }) ) ;
 	      // console.log('panX trans', trans) ;
 	      this.add_transition( trans[0] ) ; 
@@ -219,7 +219,7 @@ var vizHelper = {
 
 	    panY: function (dur, yNew) { 
 	      var trans = transitionHelper.sequence( yNew.map(function(y) {
-	        return $Z.transition.rounded_linear_transition_func('viewportY', dur)(y) ;
+	        return $Z.helper.transition.rounded_linear_transition_func('viewportY', dur)(y) ;
 	      }) ) ;
 	      // console.log('panY trans', trans) ;
 	      this.add_transition( trans[0] ) ; 

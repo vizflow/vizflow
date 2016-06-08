@@ -1,5 +1,9 @@
 var imageHelper = {
 
+	get_data: function image_helper_get_data (canvas) {
+	  return canvas.context().getImageData(0, 0, canvas.width, canvas.height) ;		
+	},
+
 	view: function sprite_helper_view (canvas) {
 
 		var dataURL = canvas.toDataURL("image/png") ;
@@ -9,7 +13,7 @@ var imageHelper = {
 
 	},
 
-	text2image: function image_helper_text2image(imageConfig) {
+	text: function image_helper_text2image(imageConfig) {
 
 		if(imageConfig === undefined) {
 			imageConfig = this ;
@@ -18,7 +22,7 @@ var imageHelper = {
 		var text   = String(imageConfig.text) ;
 		var sprite = imageConfig.sprite ;
 
-		// console.log('imageHelper text2image:', 'text', text, 'sprite', sprite) ;
+		// console.log('imageHelper text:', 'text', text, 'sprite', sprite) ;
 
 		var width  = sprite[text[0]][0].width  ;
 		var height = sprite[text[0]][0].height ;
@@ -33,7 +37,7 @@ var imageHelper = {
 
 		for(var kchar = 0 ; kchar < text.length ; kchar++) {
 
-			// console.log('text2image sprite', 'sprite[text[kchar]', sprite[text[kchar]]);
+			// console.log('text sprite', 'sprite[text[kchar]', sprite[text[kchar]]);
       image.context().drawImage(sprite[text[kchar]][0], Math.floor(offsetX * kchar + width * kchar), 0) ;
 
 		}
@@ -238,7 +242,7 @@ var imageHelper = {
 
 	},
 
-	create: function image_helper_create(width, height) {
+	create: function image_helper_create(width, height, color) {
 
 	  var canvas = document.createElement('canvas') ;
 	  canvas.setAttribute('width', width) ;
@@ -249,6 +253,13 @@ var imageHelper = {
 		canvas.imageSmoothingEnabled = false;  
 
 		canvas.context = imageHelper.context2d ;
+
+		if ( color !== undefined ) {
+			for ( var kclr = 0 ; kclr < color.length ; kclr++ ) {
+				var set_color = function() { return color[kclr] ; } ;
+        imageEffectHelper.foreach( canvas, set_color, kclr ) ;			
+			}
+		}
 
 	  return canvas ;
 
@@ -273,7 +284,7 @@ var imageHelper = {
 
 	adjust_ratio: function image_helper_adjust_ratio(canvas) {
 
-		var newCanvas = hidpi_adjust(get_image_data(canvas)).canvas ;
+		var newCanvas = hidpi_adjust(imageHelper.get_data(canvas)).canvas ;
 
 		if( canvas.sourceCollisionImage !== undefined ) {
 			newCanvas.sourceCollisionImage = canvas.sourceCollisionImage ; // propagate collision image without magnification since collision detection occurs on the model canvas

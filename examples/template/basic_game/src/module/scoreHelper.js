@@ -28,7 +28,7 @@ var scoreHelper = {
     viz.score.config = {
 
       text: viz.score.value,
-      image: imageHelper.text2image,
+      image: imageHelper.text,
       sprite: imageHelper.text_sprite(scoreConfig.sprite),
 
     } ;

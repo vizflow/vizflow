@@ -54,14 +54,14 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 		
 		// console.log('zoom in out:', 'newWidth', newWidth, 'newHeight', newHeight, 'xNew', xNew, 'yNew', yNew) ;
 
-    var widthIn   = $Z.transition.rounded_linear_transition_func('viewportWidth', zoomDur)(newWidth) ;
-    var heightIn  = $Z.transition.rounded_linear_transition_func('viewportHeight', zoomDur)(newHeight) ;
-    var xIn       = $Z.transition.rounded_linear_transition_func('viewportX', zoomDur)(xNew) ;
-    var yIn       = $Z.transition.rounded_linear_transition_func('viewportY', zoomDur)(yNew) ;
-    var widthOut  = $Z.transition.rounded_linear_transition_func('viewportWidth', zoomDur)(viz.displayCanvas.width) ;
-    var heightOut = $Z.transition.rounded_linear_transition_func('viewportHeight', zoomDur)(viz.displayCanvas.height) ;
-    var xOut      = $Z.transition.rounded_linear_transition_func('viewportX', zoomDur)(0) ;
-    var yOut      = $Z.transition.rounded_linear_transition_func('viewportY', zoomDur)(0) ;
+    var widthIn   = $Z.helper.transition.rounded_linear_transition_func('viewportWidth', zoomDur)(newWidth) ;
+    var heightIn  = $Z.helper.transition.rounded_linear_transition_func('viewportHeight', zoomDur)(newHeight) ;
+    var xIn       = $Z.helper.transition.rounded_linear_transition_func('viewportX', zoomDur)(xNew) ;
+    var yIn       = $Z.helper.transition.rounded_linear_transition_func('viewportY', zoomDur)(yNew) ;
+    var widthOut  = $Z.helper.transition.rounded_linear_transition_func('viewportWidth', zoomDur)(viz.displayCanvas.width) ;
+    var heightOut = $Z.helper.transition.rounded_linear_transition_func('viewportHeight', zoomDur)(viz.displayCanvas.height) ;
+    var xOut      = $Z.helper.transition.rounded_linear_transition_func('viewportX', zoomDur)(0) ;
+    var yOut      = $Z.helper.transition.rounded_linear_transition_func('viewportY', zoomDur)(0) ;
 
     widthIn.child  = widthOut ;
     heightIn.child = heightOut ;
@@ -102,10 +102,10 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
 		}
 
     var zoomDur = zoomConfig.duration ;
-    var width   = $Z.transition.rounded_linear_transition_func('viewportWidth', zoomDur)(zoomConfig.width) ;
-    var height  = $Z.transition.rounded_linear_transition_func('viewportHeight', zoomDur)(zoomConfig.height) ;
-    var x       = $Z.transition.rounded_linear_transition_func('viewportX', zoomDur)(zoomConfig.x) ;
-    var y       = $Z.transition.rounded_linear_transition_func('viewportY', zoomDur)(zoomConfig.y) ;
+    var width   = $Z.helper.transition.rounded_linear_transition_func('viewportWidth', zoomDur)(zoomConfig.width) ;
+    var height  = $Z.helper.transition.rounded_linear_transition_func('viewportHeight', zoomDur)(zoomConfig.height) ;
+    var x       = $Z.helper.transition.rounded_linear_transition_func('viewportX', zoomDur)(zoomConfig.x) ;
+    var y       = $Z.helper.transition.rounded_linear_transition_func('viewportY', zoomDur)(zoomConfig.y) ;
 
     return [width, height, x, y] ;
 

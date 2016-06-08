@@ -1,6 +1,6 @@
 // vizflow: application-agnostic interactive vizualization engine
 // by Daniel Korenblum 4/20/2015
-// http://github.com/dannyko/vizflow
+// https://github.com/vizflow/vizflow
 
 // import the helper functions and wrappers attached to the $Z object:
 
@@ -16,7 +16,6 @@ import exit            from './exit'       ;
 import run             from './run'        ;
 import viz             from './viz'        ;
 import update          from './update'     ;
-import transition      from './transition' ;
 
 // import the functions defining the asynchronous tasks comprising the main simulation or game loop, stored in an array called "task": 
 
@@ -30,7 +29,7 @@ import postprocess     from './postprocess'     ;
 
 // define the vizflow object ($Z): 
 
-window.$Z = { // define the "bling Z" object for running interactive vizualizations
+let vizflow = { // define the "bling Z" object for running interactive vizualizations
 
   requestAnimFrame: (
     window.requestAnimationFrame       || 
@@ -64,7 +63,6 @@ window.$Z = { // define the "bling Z" object for running interactive vizualizati
   _perform: [], // array of actions (internal use only as marked by underscore)
   _viz:     {}, // optional global visualization configuration object
 	
-  transition, // module comtaining transition helpers
   item,       // getter/setter function for interfacing with the item/data array
   prep,       // getter/setter function for interfacing with the _prep array
   update,     // default update function for items using arrays of transition objects containing interpolation functions
@@ -80,4 +78,6 @@ window.$Z = { // define the "bling Z" object for running interactive vizualizati
 
 } ;
 
-export default {}
+window.$Z = vizflow ;
+
+export { vizflow as default }

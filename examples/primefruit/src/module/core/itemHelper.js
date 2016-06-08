@@ -29,8 +29,8 @@ var itemHelper = {
 
   		config:    itemConfig,
 	    viz:       itemConfig.viz || viz, 
-			x:         itemConfig.x,
-			y:         itemConfig.y,
+			x:         itemConfig.x || 0,
+			y:         itemConfig.y || 0,
 			angle:     itemConfig.angle   || 0,
 			xOrigin:   itemConfig.xOrigin || 0,
 			yOrigin:   itemConfig.yOrigin || 0,
@@ -108,6 +108,7 @@ var itemHelper = {
       var white = imageEffectHelper.color_filter(item.image, [255, 255, 255]) ;
 
       item.white       = Object.copy(item) ;
+      item.white.childFade = true ;
       item.white.child = undefined ;
 
       item.white.image   = white ;
@@ -203,6 +204,12 @@ var itemHelper = {
         item = this ;
       }
 
+      if ( trans_func.constructor === String ) {
+        trans_func = item[trans_func] ;
+      } else {
+        trans_func = trans_func ;
+      }
+
       item.add_transition( item.loop_trans(trans_func) ) ;              
 
     },
@@ -219,7 +226,6 @@ var itemHelper = {
 
         for ( var kcall = 0 ; kcall < callback.length ; kcall++ ) {
 
-
           if ( delay.constructor === Number ) {
             var delayK = delay * (kcall + 1) ;
           } else if( delay.constructor === Array ) {
@@ -229,13 +235,27 @@ var itemHelper = {
             console.log('item_helper_call: delay is not a Number of Array') ;
           }
 
-          console.log('item helper call: ', 'kcall', kcall, 'callback[kcall]', callback[kcall], 'delayK', delayK) ;
+          // console.log('item helper call: ', 'kcall', kcall, 'callback[kcall]', callback[kcall], 'delayK', delayK) ;
 
-          item.run_callback( callback[kcall], delayK ) ;
+          if ( callback[kcall].constructor === String ) {
+            var callbackK = item[callback[kcall]] ;
+          } else {
+            var callbackK = callback[kcall] ;
+          }
+
+          item.run_callback( callbackK, delayK ) ;
 
         }
 
       } else {
+
+        // console.log('item helper call: ', 'callback', callback, 'item', item)
+
+        if ( callback.constructor === String ) {
+          callback = item[callback] ;
+        }
+
+        // console.log('item helper call: ', 'callback 2', callback, 'delay', delay)
 
         item.run_callback(callback, delay) ;        
 
@@ -251,25 +271,31 @@ var itemHelper = {
 
       item.delayCount++ ;
 
-      var trans = transitionHelper.new_step('delay' + item.delayCount, undefined, delay) ;
+      var prop = 'delay' + item.delayCount ;
 
-      trans.end = function() {
+      item[prop] = null ;
+
+      var trans = transitionHelper.new_step(prop, undefined, delay) ;
+
+      trans.end = function run_callback_end() {
+        // console.log('run_callback_end:', 'callback', callback, 'item', item)
         callback.call(item) ;
-        item.delayCount-- ;
       } ;
+
+      // console.log('run_callback', 'item', item, 'trans', trans) ;
 
       item.add_transition(trans) ;
 
     },
 
-    flash: function effect_flash (Nflash, flashDuration, item) {
+    flash: function item_helper_method_flash (Nflash, flashDuration, item) {
 
       if ( item === undefined ) { // assume that "this" corresponds to the element item object
         item = this ;
       }
 
       if ( Nflash === undefined ) {
-        Nflash = 5 ;
+        Nflash = 1 ;
       }
 
       if ( flashDuration === undefined ) {
@@ -298,7 +324,9 @@ var itemHelper = {
 
       // var loop = animate_loop (loopConfig, valueList, create_transition) ;
 
-      item.add_transition(flash) ;
+      if ( item.add_transition !== undefined ) {
+        item.add_transition(flash) ;
+      }
 
       // console.log('effect flash', 'flash', flash) ;
 
@@ -379,6 +407,44 @@ var itemHelper = {
       item.add_transition(newTransition, replacementSwitch) ;
 
     }, // end fade
+
+    whiteflash: function item_helper_method_whiteflash ( duration, item ) {
+      
+      if(item === undefined) {
+        item = this ;
+      }
+
+      if ( duration === undefined ) {
+        duration = item.duration || item.viz.fadeDuration ;
+      }
+
+      if ( item.white === undefined ) {
+        item.default_child() ;
+      }
+
+      var fade_func = transitionHelper.fixed_duration_creator('opacity', duration, transitionHelper.linear_interp) ;
+
+      item.white.add_sequence([1, 0], fade_func) ;
+
+    },
+
+    loop_fade: function item_helper_method_loop_fade( fader, fadeVal, item ) {
+
+      if ( item === undefined ) { 
+        item = this ;
+      }
+
+      if ( fader === undefined ) {
+        fader = item.viz.fader ;
+      }
+
+      if ( fadeVal === undefined ) {
+        fadeVal = [1, 0] ;
+      }
+
+      item.loop( function() { return fader(fadeVal) ; } ) ;
+    
+    },
 
   },
 

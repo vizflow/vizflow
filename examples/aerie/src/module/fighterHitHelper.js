@@ -49,7 +49,7 @@ var hitHelper = {
 
       ) ;
 
-      var health_transition = $Z.transition.linear_transition_func ( 'width', viz.dur * 4 ) ; 
+      var health_transition = $Z.helper.transition.linear_transition_func ( 'width', viz.dur * 4 ) ; 
 
       if(setupResponseConfig.healthdrop === undefined) {    
         setupResponseConfig.healthdrop = 10 ;

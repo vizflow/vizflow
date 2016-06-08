@@ -13,6 +13,8 @@ function battle_screen() {
 
     viz = vizHelper.setup(vizConfig) ;
 
+    // Object.assign (viz, $Z.helper.item.method) ;
+    // Object.assign (viz, $Z.helper.transition.method) ;
     var tileWidth  = 200 ;
     var tileHeight = 300 ; 
 
@@ -73,8 +75,8 @@ function battle_screen() {
     },
 
     transitionSet: {
-      x: $Z.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), //function accepting an x end-value and returning a transition object 
-      y: $Z.transition.rounded_linear_transition_func ( 'y', viz.frameDuration ), // function accepting a y end-value and returning a transition object
+      x: $Z.helper.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), //function accepting an x end-value and returning a transition object 
+      y: $Z.helper.transition.rounded_linear_transition_func ( 'y', viz.frameDuration ), // function accepting a y end-value and returning a transition object
 
     },
 
@@ -153,12 +155,12 @@ function battle_screen() {
 
         },    
 
-        x: 160,
-        y: 100,
-        xOrigin: 100,
-        yOrigin: 60,
-        xScale: 0.25,
-        yScale: 0.25,        
+        x: 60,
+        y: 40,
+        // xOrigin: 100,
+        // yOrigin: 60,
+        // xScale: 0.15,
+        // yScale: 0.15,        
         type: 'enemy',
 
     } ;
@@ -425,29 +427,27 @@ function battle_screen() {
    
     } ;
 
-    viz.start_attack = function viz_start_attack (viz) {
-        if (viz === undefined) {
-            viz = this ;
-        }
+    viz.player.item.add() ;
+    // viz.start_attack = function viz_start_attack (viz) {
+    //     if (viz === undefined) {
+    //         viz = this ;
+    //     }
 
         viz.enemy.start_hind_attack () ; 
         viz.enemy.start_attack () ;
         viz.enemy.start_tail_attack () ;
         viz.enemy.start_block () ;
         viz.enemy.start_rest() ;
-        viz.enemy.item.add() ;
         viz.enemy.callback  = enemyBattleHelper.update ;        
-    }
+   // }
     
-    viz.player.item.add() ;
-   
-    var scaleDur = 2000 ;
+    // var scaleDur = 2000 ;
 
-    viz.enemy.item.add_linear ('xScale', 1, scaleDur) ;
-    viz.enemy.item.add_linear ('yScale', 1, scaleDur) ;
-    viz.enemy.item.add_linear ('y', 100, scaleDur) ;
+    // viz.enemy.item.add_linear ('xScale', 1, scaleDur) ;
+    // viz.enemy.item.add_linear ('yScale', 1, scaleDur) ;
+    // viz.enemy.item.add_linear ('y', 100, scaleDur) ;
 
-    // viz.call ('start_attack', scaleDur) ;
+    // viz.call ('start_attack', .2 * scaleDur) ;
     viz.player.callback = playerBattleHelper.update ;    
     // viz.player.item.responseSet.bump = bumpHelper.setup(viz) ;
     // viz.player.item.responseSet.hit = playerHitHelper.setup(viz) ;
