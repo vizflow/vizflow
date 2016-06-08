@@ -40,6 +40,7 @@ var enemyBattleHelper = {
       image: enemy.health_bar(),
       x: 60,
       y: 20,
+
     }) ;
 
     enemy.healthbar.add() ;        

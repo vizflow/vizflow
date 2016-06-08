@@ -70,6 +70,10 @@ function setup_element (viz, elementConfig) {
     y: elementConfig.y, 
     type: elementConfig.type,
     opacity: elementConfig.opacity,
+    xOrigin: elementConfig.xOrigin,
+    yOrigin: elementConfig.yOrigin,
+    xScale: elementConfig.xScale,
+    yScale: elementConfig.yScale,    
   }
 
   element.item = itemHelper.setup(itemConfig, viz) ;

@@ -57,19 +57,21 @@ var playerBattleHelper = {
       switch (attackType) {
 
         case 'slash':
-          var dur1 = 100 ;
-          var dur2 = 150 ;
-          var dur3 = 200 ;
-          var dur4 = 250 ;
+          var dur1 = 70 ;
+          var dur2 = 50 ;
+          var dur3 = 40 ;
+          var dur4 = 30 ;
+          var dur5 = 100 ;
           var trans1 = transitionHelper.new_step('image', player.sprite.attack[0], dur1) ;
           var trans2 = transitionHelper.new_step('image', player.sprite.attack[1], dur2) ;
-          var trans3 = transitionHelper.new_step('image', player.sprite.attack[2], dur3) ;          
-          var trans4 = transitionHelper.new_step('image', player.sprite.rest[0], dur4) ;
+          var trans3 = transitionHelper.new_step('image', player.sprite.attack[2], dur3) ;  
+          var trans4 = transitionHelper.new_step('image', player.sprite.attack[3], dur4) ;            
+          var trans5 = transitionHelper.new_step('image', player.sprite.rest[0], dur5) ;
 
           trans1.child = trans2 ;
           trans1.child.child = trans3 ;
           trans1.child.child.child = trans4 ;
-
+          trans1.child.child.child.child = trans5 ;
           player.item.add_transition(trans1) ;          
           
           break;
@@ -88,22 +90,24 @@ var playerBattleHelper = {
           break;
 
         case 'finisher':
-          var dur1 = 400 ;
-          var dur2 = 350 ;
-          var dur3 = 450 ;
-          var dur4 = 100 ;
-          var dur5 = 50 ;
+          var dur1 = 300 ;
+          var dur2 = 250 ;
+          var dur3 = 350 ;
+          var dur4 = 150 ;
+          var dur5 = 100 ;
           var dur6 = 50 ;
           var dur7 = 50 ;
           var dur8 = 50 ;
+          var dur9 = 50 ;
           var trans1 = transitionHelper.new_step('image', player.sprite.finisher[0], dur1) ;
           var trans2 = transitionHelper.new_step('image', player.sprite.finisher[1], dur2) ;
           var trans3 = transitionHelper.new_step('image', player.sprite.finisher[2], dur3) ;          
           var trans4 = transitionHelper.new_step('image', player.sprite.finisher[3], dur4) ;    
           var trans5 = transitionHelper.new_step('image', player.sprite.finisher[4], dur5) ;
           var trans6 = transitionHelper.new_step('image', player.sprite.finisher[5], dur6) ;
-          var trans7 = transitionHelper.new_step('image', player.sprite.finisher[6], dur7) ;          
-          var trans8 = transitionHelper.new_step('image', player.sprite.rest[0], dur8) ;
+          var trans7 = transitionHelper.new_step('image', player.sprite.finisher[6], dur7) ;
+          var trans8 = transitionHelper.new_step('image', player.sprite.finisher[7], dur8) ; 
+          var trans9 = transitionHelper.new_step('image', player.sprite.rest[0], dur9) ;
 
           trans1.child = trans2 ;
           trans1.child.child = trans3 ;
@@ -112,6 +116,8 @@ var playerBattleHelper = {
           trans1.child.child.child.child.child = trans6 ;
           trans1.child.child.child.child.child.child = trans7 ;
           trans1.child.child.child.child.child.child.child = trans8 ;
+          trans1.child.child.child.child.child.child.child.child = trans9 ;
+
           player.item.add_transition(trans1) ;          
           
           break;
