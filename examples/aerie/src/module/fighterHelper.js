@@ -54,7 +54,7 @@ var fighterHelper = {
 		  viz.audio.music.loop = true ;
 			viz.audio.music.play() ;
 		  viz.audio.music.gain.gain.value = 0 ;
-		  viz.audio.music.volume = 0.3 ;
+		  viz.audio.music.volume = 1 ;
 			var fade  = 4 ; // seconds
 			var delay = 4 ; // seconds
 			viz.audio.music.fade(fade, delay) ;			

@@ -61,6 +61,7 @@ var inputEvent = {
         break;
 
     }     
+    audioHelper.play() ;
 
   },
 

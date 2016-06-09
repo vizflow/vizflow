@@ -34,6 +34,9 @@ document.image = [
 	  
 document.audio = [
 
+'./audio/bgm.wav',
+'./audio/slash.wav',
+
 	// './audio/.wav',
 
 ] ;
