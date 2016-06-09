@@ -239,8 +239,8 @@ function battle_screen() {
             return spriteset ;
         },
 
-        x: 20,
-        y: 140,
+        x: 5,
+        y: 160,
       
     } ;    
 
@@ -256,8 +256,8 @@ function battle_screen() {
             return spriteset ;     
         },    
 
-        x: 250,
-        y: 140,     
+        x: 265,
+        y: 160,     
     } ;    
 
     thrustButtonConfig = {
