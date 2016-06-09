@@ -510,7 +510,7 @@ let transitionHelper = {
       
     },  
 
-    add_set: function transition_helper_add_set( property, value, duration, type, item ) {
+    add_set: function transition_helper_add_set( property, value, duration, type, power, item ) {
 
       if ( type === undefined ) {
         type = 'linear' ;
@@ -522,7 +522,7 @@ let transitionHelper = {
 
       if ( value.constructor === Number ) {
         var val = new Array(property.length) ;
-        for ( kval = 0 ; kval < val.length ; kval++ ) {
+        for ( let kval = 0 ; kval < val.length ; kval++ ) {
           val[kval] = value ;
         }
         value = val ;
@@ -536,8 +536,16 @@ let transitionHelper = {
         duration = dur ;
       }
 
+      if ( power === undefined || power.constructor === Number ) {
+        var pow = new Array(property.length) ;
+        for ( let kpow = 0 ; kpow < pow.length ; kpow++ ) {
+          pow[kpow] = power ;
+        }
+        power = pow ;
+      }
+
       for ( let kprop = 0 ; kprop < property.length ; kprop++ ) {
-        item['add_' + type](property[kprop], value[kprop], duration[kprop]) ;
+        item['add_' + type](property[kprop], value[kprop], duration[kprop], power[kprop]) ;
       }
 
     },
