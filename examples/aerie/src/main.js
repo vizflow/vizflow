@@ -36,6 +36,7 @@ document.audio = [
 
 './audio/bgm.wav',
 './audio/slash.wav',
+'./audio/shield.wav',
 
 	// './audio/.wav',
 

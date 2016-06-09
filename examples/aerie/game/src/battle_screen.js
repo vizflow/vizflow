@@ -17,14 +17,14 @@ function battle_screen() {
     viz.audio = {
         music: audioLoader.cache[vizConfig.music],
         slash: audioLoader.cache['./audio/slash.wav'],
-     
+        shield: audioLoader.cache['./audio/shield.wav'],
     } ;
       
     var fade = 4 ;
     viz.audio.music.loop   = true ;
     viz.audio.music.play() ;
     viz.audio.music.gain.gain.value = 0 ;
-    viz.audio.music.volume          = 1 ;
+    viz.audio.music.volume          = 1/3 ;
     viz.audio.music.fade(fade) ;
 
     Object.assign (viz, $Z.helper.item.method) ;
@@ -169,12 +169,12 @@ function battle_screen() {
 
         },    
 
-        x: 160,
-        y: 100,
-        xOrigin: 100,
-        yOrigin: 60,
-        xScale: 0.15,
-        yScale: 0.15,        
+        x: 60,
+        y: 40,
+        // xOrigin: 100,
+        // yOrigin: 60,
+        // xScale: 0.15,
+        // yScale: 0.15,        
         type: 'enemy',
 
     } ;
@@ -399,8 +399,8 @@ function battle_screen() {
                 viz.player.attack('slash') ;                
                 viz.button.attack.item.image = viz.button.attack.sprite.thrust[0] ;
                 viz.button.attack.item.uiSwitch = true ;
-                var delay = 1 ;
-                viz.audio.slash.play(delay) ;                
+                
+                viz.audio.slash.play() ;                
 
                 break ;
 
@@ -429,8 +429,10 @@ function battle_screen() {
 
     viz.button.block.item.image = viz.button.block.sprite.push[0] ;
     viz.button.block.item.uiSwitch = true ;
+
     viz.button.block.item.callback = function block_button_callback() {
         viz.player.block('shield') ;
+                viz.audio.shield.play() ; 
         var dur1 = 100 ;
         var dur2 = 100 ;
 
@@ -438,16 +440,17 @@ function battle_screen() {
         var trans2 = transitionHelper.new_step('image', viz.button.block.sprite.push[0], dur2) ;
         
         trans1.child = trans2 ;
-
+ 
         viz.button.block.item.add_transition(trans1) ;
+      
    
     } ;
 
     viz.player.item.add() ;
-    viz.start_attack = function viz_start_attack (viz) {
-        if (viz === undefined) {
-            viz = this ;
-        }
+    // viz.start_attack = function viz_start_attack (viz) {
+    //     if (viz === undefined) {
+    //         viz = this ;
+    //     }
 
         viz.enemy.start_hind_attack () ; 
         viz.enemy.start_attack () ;
@@ -455,15 +458,15 @@ function battle_screen() {
         viz.enemy.start_block () ;
         viz.enemy.start_rest() ;
         viz.enemy.callback  = enemyBattleHelper.update ;        
-   }
+   // }
     
-    var scaleDur = 2000 ;
+    // var scaleDur = 2000 ;
 
-    viz.enemy.item.add_linear ('xScale', 1, scaleDur) ;
-    viz.enemy.item.add_linear ('yScale', 1, scaleDur) ;
-    viz.enemy.item.add_linear ('y', 100, scaleDur) ;
+    // viz.enemy.item.add_linear ('xScale', 1, scaleDur) ;
+    // viz.enemy.item.add_linear ('yScale', 1, scaleDur) ;
+    // viz.enemy.item.add_linear ('y', 100, scaleDur) ;
 
-    viz.call ('start_attack', .2 * scaleDur) ;
+    // viz.call ('start_attack', .2 * scaleDur) ;
     viz.player.callback = playerBattleHelper.update ;    
     // viz.player.item.responseSet.bump = bumpHelper.setup(viz) ;
     // viz.player.item.responseSet.hit = playerHitHelper.setup(viz) ;
