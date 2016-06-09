@@ -353,7 +353,7 @@ let transitionHelper = {
       
     },
 
-    add_step: function transition_helper_linear(property, value, duration, replacementSwitch, item) {
+    add_step: function transition_helper_add_step(property, value, duration, replacementSwitch, item) {
 
       if ( item === undefined ) {
         item = this ;
@@ -371,7 +371,7 @@ let transitionHelper = {
 
     },
 
-    add_linear: function transition_helper_linear(property, value, duration, replacementSwitch, item) {
+    add_linear: function transition_helper_add_linear(property, value, duration, replacementSwitch, item) {
 
       if ( item === undefined ) {
         item = this ;
@@ -389,7 +389,7 @@ let transitionHelper = {
 
     },
 
-    add_rounded_linear: function transition_helper_linear(property, value, duration, replacementSwitch, item) {
+    add_rounded_linear: function transition_helper_add_rounded_linear(property, value, duration, replacementSwitch, item) {
 
       if ( item === undefined ) {
         item = this ;
@@ -400,6 +400,25 @@ let transitionHelper = {
       }
 
       var transition = transitionHelper.new_rounded_linear(property, value, duration) ;
+
+      item.add_transition(transition, replacementSwitch) ;
+
+      return item ;
+
+    },
+
+    add_power: function transition_helper_add_power(property, value, duration, power, replacementSwitch, item) {
+
+      if ( item === undefined ) {
+        item = this ;
+      }
+
+      if ( replacementSwitch === undefined ) {
+        replacementSwitch = true ;
+      }
+
+      var transition = transitionHelper.new(property, value, duration) ;
+      transition.power = power ;
 
       item.add_transition(transition, replacementSwitch) ;
 
@@ -490,6 +509,38 @@ let transitionHelper = {
       transitionK.end = callback ; // only restore UI functionality after the minimum number of frames has been rendered  
       
     },  
+
+    add_set: function transition_helper_add_set( property, value, duration, type, item ) {
+
+      if ( type === undefined ) {
+        type = 'linear' ;
+      }
+
+      if ( item === undefined ) {
+        item = this ;
+      }
+
+      if ( value.constructor === Number ) {
+        var val = new Array(property.length) ;
+        for ( kval = 0 ; kval < val.length ; kval++ ) {
+          val[kval] = value ;
+        }
+        value = val ;
+      }
+
+      if ( duration.constructor === Number ) {
+        var dur = new Array(property.length) ;
+        for ( let kdur = 0 ; kdur < dur.length ; kdur++ ) {
+          dur[kdur] = duration ;
+        }
+        duration = dur ;
+      }
+
+      for ( let kprop = 0 ; kprop < property.length ; kprop++ ) {
+        item['add_' + type](property[kprop], value[kprop], duration[kprop]) ;
+      }
+
+    },
         
     loop_trans: function transition_helper_loop_trans ( trans_func, item ) {
 

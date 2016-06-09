@@ -228,10 +228,12 @@
           var x1     = xpad + scale * item.x ; 
           var y1     = ypad + scale * item.y ; 
 
-          item.add_linear('xScale', xScale, viz.movedur) ;
-          item.add_linear('yScale', yScale, viz.movedur) ;
-          item.add_linear('x', x1, viz.movedur) ;
-          item.add_linear('y', y1, viz.movedur) ;
+          // item.add_linear('xScale', xScale, viz.movedur) ;
+          // item.add_linear('yScale', yScale, viz.movedur) ;
+          // item.add_linear('x', x1, viz.movedur) ;
+          // item.add_linear('y', y1, viz.movedur) ;
+
+          item.add_set(['xScale', 'yScale', 'x', 'y'], [xScale, yScale, x1, y1], viz.movedur) ;
 
         }
 
