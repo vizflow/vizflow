@@ -24,7 +24,7 @@ function battle_screen() {
     viz.audio.music.loop   = true ;
     viz.audio.music.play() ;
     viz.audio.music.gain.gain.value = 0 ;
-    viz.audio.music.volume          = 1/3 ;
+    viz.audio.music.volume          = 1 ;
     viz.audio.music.fade(fade) ;
 
     Object.assign (viz, $Z.helper.item.method) ;
@@ -462,6 +462,7 @@ function battle_screen() {
     viz.enemy.item.add_linear ('xScale', 1, scaleDur) ;
     viz.enemy.item.add_linear ('yScale', 1, scaleDur) ;
     viz.enemy.item.add_linear ('y', 100, scaleDur) ;
+
     viz.call ('start_attack', .2 * scaleDur) ;
     viz.player.callback = playerBattleHelper.update ;    
     // viz.player.item.responseSet.bump = bumpHelper.setup(viz) ;
