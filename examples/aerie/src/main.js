@@ -34,9 +34,13 @@ document.image = [
 	  
 document.audio = [
 
-'./audio/bgm.wav',
+'./audio/bgm1.wav',
 './audio/slash.wav',
 './audio/shield.wav',
+'./audio/thrust.wav',
+'./audio/growl1.wav',
+'./audio/growl2.wav',
+'./audio/finisher.wav',
 
 	// './audio/.wav',
 

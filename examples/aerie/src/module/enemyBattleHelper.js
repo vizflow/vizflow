@@ -174,7 +174,8 @@ var enemyBattleHelper = {
           var attackTrans    = attack_creator() ;
           attackTrans.end    = function () {
               enemy.attack() ;
-              enemy.start_attack() ;  
+              enemy.start_attack() ;
+              viz.audio.growl1.play() ;
           } ;
 
           var replacementSwitch = true ;
@@ -197,6 +198,7 @@ var enemyBattleHelper = {
           tailAttackTrans.end    = function () {
               enemy.tail_attack() ;
               enemy.start_tail_attack() ;  
+              viz.audio.growl2.play() ;
           } ;
 
           var replacementSwitch = true ;

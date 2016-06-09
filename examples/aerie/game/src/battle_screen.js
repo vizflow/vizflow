@@ -4,7 +4,7 @@ function battle_screen() {
 
         image: imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/battlescreen.png')),
         frameDurationFactor: 3,
-        music:'./audio/bgm.wav',
+        music:'./audio/bgm1.wav',
 
         name: 'battle',
         width: 320,
@@ -18,6 +18,9 @@ function battle_screen() {
         music: audioLoader.cache[vizConfig.music],
         slash: audioLoader.cache['./audio/slash.wav'],
         shield: audioLoader.cache['./audio/shield.wav'],
+        thrust: audioLoader.cache['./audio/thrust.wav'],
+        growl1: audioLoader.cache['./audio/growl1.wav'],   
+        finisher: audioLoader.cache['./audio/finisher.wav'],
     } ;
       
     var fade = 4 ;
@@ -169,7 +172,7 @@ function battle_screen() {
 
         },    
 
-        x: 60,
+        x: 50,
         y: 40,
         // xOrigin: 100,
         // yOrigin: 60,
@@ -409,14 +412,16 @@ function battle_screen() {
                 viz.player.attack('thrust') ;
                 viz.button.attack.item.image = viz.button.finisher.sprite.push[0] ;
                 viz.button.attack.item.uiSwitch = true ; 
-
+                var delay = 1 ;
+                 viz.audio.thrust.play(delay) ;  
                 break ;
 
             case 2:
   
                 viz.player.attack('finisher') ;                
                 viz.button.attack.item.image = viz.button.attack.sprite.slash[0] ;
-                viz.button.attack.item.uiSwitch = true ;               
+                viz.button.attack.item.uiSwitch = true ;   
+                 viz.audio.finisher.play() ;              
                
                 break ;
         }
