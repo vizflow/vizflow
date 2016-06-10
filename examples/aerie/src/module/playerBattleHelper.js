@@ -18,7 +18,7 @@ var playerBattleHelper = {
 
     var healthbarImage  = imageHelper.create(healthbarConfig.width, healthbarConfig.height) ;
 
-    drawHelper.rect(healthbarConfig, healthbarImage.context() ) ; // draw the non-upsampled healthbar to a canvas
+    $Z.helper.draw.rect(healthbarConfig, healthbarImage.context() ) ; // draw the non-upsampled healthbar to a canvas
 
     healthbarImage  = imageHelper.adjust_ratio( healthbarImage ) ;
 
@@ -39,12 +39,14 @@ var playerBattleHelper = {
     player.health_bar           = playerBattleHelper.health_bar ;
     player.attack               = playerBattleHelper.attack ;
     player.block                = playerBattleHelper.block ;
+    player.hit                  = playerBattleHelper.hit ;
     player.healthbar = viz.setup_item ({
       image: player.health_bar(),
       x: 16,
       y: 10,
     }) ;
 
+    player.item.default_child() ;
     player.healthbar.add() ;
 
     return player ;
@@ -144,6 +146,26 @@ var playerBattleHelper = {
           player.item.add_transition(trans1) ;
           break ;
       }
+  },
+
+    hit: function player_battle_helper_hit (hitType, player) {
+    if(player === undefined) {
+      player = this ;
+    }
+      switch (hitType) {
+
+        case 'hit1':
+          var dur1 = 100 ;
+          var dur2 = 100 ;
+
+          var trans1 = transitionHelper.new_step('image', player.sprite.hit[0], dur1) ;
+          var trans2 = transitionHelper.new_step('image', player.sprite.rest[0], dur2) ;        
+
+          trans1.child = trans2 ;
+          
+          player.item.add_transition(trans1) ;
+         break ;
+      }   
   },
 
   update: function player_helper_update(player) {

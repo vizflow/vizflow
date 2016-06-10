@@ -474,7 +474,7 @@ var transitionHelper = {
         run: function () {
 
           if(this.item.remove === undefined) {
-            this.item.remove = itemHelper.remove ;
+            this.item.remove = $Z.helper.item.remove ;
           }
 
           this.item.remove() ;

@@ -158,6 +158,7 @@ var hitHelper = {
     var isAttack  = response.element.sprite.attack.indexOf(img) > -1 ;  // current image is in attack sprite
     var isRest    = response.element.sprite.rest.indexOf(img) > -1 ;
     var isShield  = !isAttack && !isRest ;
+    var isHit     = response.element.sprite.hit.indexOf(img) > -1 ;
     var element   = response.element ;
 
     if (notAttack === true) {
@@ -168,8 +169,9 @@ var hitHelper = {
       var isRest = img === element.sprite.rest[0] ;
        // insert audio here
        element.health -= 0.2 ;
-    } else {
-      element.item.flash(2, 20) ;  
+    } else { 
+      element.hit() ;
+      element.item.whiteflash(50) ;  
       element.health -= 2 ;
     }
     if (element.health < 0) {
@@ -182,7 +184,7 @@ var hitHelper = {
 
     var vizflowImage = imageHelper.adjust_ratio(imageHelper.to_canvas('./image/game_over.png')) ;
 
-    var vizflow = itemHelper.setup({ 
+    var vizflow = $Z.helper.item.setup({ 
 
       x: (viz.width - vizflowImage.originalCanvas.width) * 0.5,
       y: (viz.height - vizflowImage.originalCanvas.height) * 0.5,
@@ -207,7 +209,7 @@ var hitHelper = {
 
         vizflow.fade({
 
-          duration: viz.fadeDuration * 10,
+          duration: viz.fadeDuration * 3,
           end: battle_screen,
           
         }) ;
@@ -326,22 +328,22 @@ var hitHelper = {
 
   },
 
-  flash: function hit_helper_flash(response) {
+  // flash: function hit_helper_flash(response) {
 
-    if(response === undefined) {
-      response = this ;
-    }
+  //   if(response === undefined) {
+  //     response = this ;
+  //   }
 
-    var element = response.element ;
+  //   var element = response.element ;
 
-    var hitDur = hitHelper.duration ;
-    var Nstep  = 3 ; 
-    var flashDuration = 30 ;
-    element.item.flash(Nstep, flashDuration) ;
-    // var flash          = effectHelper.flash.call(element, hitDur / Nstep, Nstep).animation[0] ;
-    // element.item.add_transition(flash) ;
+  //   var hitDur = hitHelper.duration ;
+  //   var Nstep  = 3 ; 
+  //   var flashDuration = 100 ;
+  //   element.item.flash(Nstep, flashDuration) ;
+  //   // var flash          = effectHelper.flash.call(element, hitDur / Nstep, Nstep).animation[0] ;
+  //   // element.item.add_transition(flash) ;
 
-  },
+  // },
 
   detect_switch: function hit_helper_detect_switch(response) {
 

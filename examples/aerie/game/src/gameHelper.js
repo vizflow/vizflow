@@ -24,7 +24,7 @@ var gameHelper = {
 
       end: function() {
 
-        itemHelper.add(viz, [ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop          
+        $Z.helper.item.add(viz, [ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop          
         ]) ;
 
       },  // end fade child 

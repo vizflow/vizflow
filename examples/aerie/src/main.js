@@ -41,6 +41,7 @@ document.audio = [
 './audio/growl1.wav',
 './audio/growl2.wav',
 './audio/finisher.wav',
+'./audio/blocked.wav',
 
 	// './audio/.wav',
 

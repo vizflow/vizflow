@@ -76,7 +76,9 @@ function setup_element (viz, elementConfig) {
     yScale: elementConfig.yScale,    
   }
 
-  element.item = itemHelper.setup(itemConfig, viz) ;
+  element.item = $Z.helper.item.setup(itemConfig, viz) ;
+  // element.item.default_child() ;
+
 
   //element.orientation = 'r' ; // r for facing right
 

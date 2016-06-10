@@ -30,8 +30,8 @@ function run_game() {
   var greenRectImage = imageHelper.create(size, size) ;
   var rectRatio      = 1 ;
 
-  drawHelper.rect(blueRect,  blueRectImage.context(),  rectRatio) ; // draw the non-upsampled blue square to a canvas
-  drawHelper.rect(greenRect, greenRectImage.context(), rectRatio) ; // draw the non-upsampled green square to a canvas
+  $Z.helper.draw.rect(blueRect,  blueRectImage.context(),  rectRatio) ; // draw the non-upsampled blue square to a canvas
+  $Z.helper.draw.rect(greenRect, greenRectImage.context(), rectRatio) ; // draw the non-upsampled green square to a canvas
 
   blueRectImage  = imageHelper.adjust_ratio( blueRectImage  ) ;
   greenRectImage = imageHelper.adjust_ratio( greenRectImage ) ;
@@ -51,7 +51,7 @@ function run_game() {
       angle:  angle,
       xAngle: 0.5 * size,
       yAngle: 0.5 * size,
-      render: drawHelper.image,
+      render: $Z.helper.draw.image,
       image:  blueRectImage,
 
       uiSwitch: true,
@@ -74,7 +74,7 @@ function run_game() {
 
     } ;
 
-    item[kItem] = itemHelper.setup(itemConfig) ;
+    item[kItem] = $Z.helper.item.setup(itemConfig) ;
 
   }
 

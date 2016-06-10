@@ -110,7 +110,7 @@ var vizHelper = {
 	    remove_transition: transitionHelper.remove,
 	    fade:        imageEffectHelper.fade, 
 	    shake:       effectHelper.shake,  
-	    setup_item:  itemHelper.setup, 
+	    setup_item:  $Z.helper.item.setup, 
 	    setup_ui:    uiHelper.setup,
 	    setup_score: scoreHelper.setup, //  score setup function for games (optional, don't have to use it for non-games)
 	    clearSwitch: true,

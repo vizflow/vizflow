@@ -96,7 +96,7 @@ var imageHelper = {
 
     } ;
 
-    drawHelper.rect (rect, imageContext) ;
+    $Z.helper.draw.rect (rect, imageContext) ;
     imageContext.drawImage (wordImage, offsetX, offsetY) ;
 
     imageContext.lineWidth = 1 ; 

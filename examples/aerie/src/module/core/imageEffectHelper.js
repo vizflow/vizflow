@@ -193,7 +193,7 @@ var imageEffectHelper = {
 		}
 
 		if(removeSwitch) {
-			itemHelper.remove(item) ;
+			$Z.helper.item.remove(item) ;
 		}
 
 		// console.log('explode start') ;
@@ -222,13 +222,13 @@ var imageEffectHelper = {
 				context.drawImage(item.image, sx, sy, sw, sh, dx, dy, dw, dh) ;
 				var k = krow * Ncol + kcol ;
 				var xTrans = $Z.helper.transition.rounded_linear_transition_func('x', duration)((Math.random() - 0.5) * 2 * scale + item.x + sx) ;
-				block[k] = Object.assign(itemHelper.setup(), { 
+				block[k] = Object.assign($Z.helper.item.setup(), { 
 					viz: item.viz,
 					x: item.x + sx,
 					y: item.y + sy,
 					image: canvas,
 					opacity: 1,
-					render: drawHelper.image,
+					render: $Z.helper.draw.image,
 					inert: true,
 					transition: [
 						xTrans,
@@ -242,7 +242,7 @@ var imageEffectHelper = {
 			}
 		}
 
-		itemHelper.add(viz, block) ;
+		$Z.helper.item.add(viz, block) ;
 
 	},	
 

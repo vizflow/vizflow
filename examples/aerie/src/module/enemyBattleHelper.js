@@ -18,7 +18,7 @@ var enemyBattleHelper = {
 
     var healthbarImage  = imageHelper.create(healthbarConfig.width, healthbarConfig.height) ;
 
-    drawHelper.rect(healthbarConfig, healthbarImage.context() ) ; // draw the non-upsampled healthbar to a canvas
+    $Z.helper.draw.rect(healthbarConfig, healthbarImage.context() ) ; // draw the non-upsampled healthbar to a canvas
 
     healthbarImage  = imageHelper.adjust_ratio( healthbarImage ) ;
 
@@ -42,6 +42,8 @@ var enemyBattleHelper = {
       y: 20,
 
     }) ;
+
+    enemy.item.default_child() ;
 
     enemy.healthbar.add() ;        
 
@@ -80,6 +82,40 @@ var enemyBattleHelper = {
 
 
     } ;
+
+    enemy.hit = function hit () {
+
+     var transitionFunc ;
+
+          if( enemy.transitionSet.hit === undefined ) {
+            transitionFunc = enemy.transitionSet.image ;
+          } else {
+            transitionFunc = enemy.transitionSet.hit ;
+          }
+          // var loop = animate_loop(
+          //   enemy.loop.hit,
+          //   enemy.sprite.hit,
+          //   transitionFunc,
+          //   function() {} // buttonpress.reset
+          // ) ;
+          var dur1 = 50 ;
+          var dur2 = 50 ;
+          var dur3 = 50 ;
+          var trans1 = transitionHelper.new_step('image', enemy.sprite.hit[0], dur1) ;          
+          var trans2 = transitionHelper.new_step('image', enemy.sprite.hit[1], dur2) ;
+          var trans3 = transitionHelper.new_step('image', enemy.sprite.rest[0], dur3) ;
+
+          trans1.child = trans2 ;
+          trans1.child.child = trans3 ;
+
+          // enemy.loop.hit.position  = loop.position ;
+          // transition                  = loop.animation ;
+
+          enemy.item.add_transition(trans1) ;
+          if( transitionHelper.find('image', enemy.item.transition) > -1 ) {
+            return ; // don't interrupt the current attack animation 
+          }          
+    } ;    
 
     enemy.tail_attack = function tail_attack () {
 

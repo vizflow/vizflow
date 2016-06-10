@@ -8,7 +8,7 @@ function game_over () {
 
     var vizflowImage = imageHelper.adjust_ratio(imageHelper.to_canvas('./image/game_over.png')) ;
 
-    var vizflow = itemHelper.setup({ 
+    var vizflow = $Z.helper.item.setup({ 
 
       x: (viz.width - vizflowImage.originalCanvas.width) * 0.5,
       y: (viz.height - vizflowImage.originalCanvas.height) * 0.5,

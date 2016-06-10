@@ -130,7 +130,7 @@ var effectHelper = { // effect module for creating effects i.e. compositions of 
       // console.log('effect flash', 'frameDuration', frameDuration, 'Nstep', Nstep) ;
       // console.log('effect flash 5') ;
       var blank = function () {} ;
-      var valueList = [blank, drawHelper.item] ;
+      var valueList = [blank, $Z.helper.draw.item] ;
 
       var flash     = new Array(2 * Nflash) ;
       
