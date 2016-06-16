@@ -1,4 +1,4 @@
-function vizflow_page() {
+document.vizflow_page = function vizflow_page() {
 
   // console.log('vizflow page start') ;
 
@@ -13,12 +13,13 @@ function vizflow_page() {
     width:  1200,
     height: 1200,
     fadeDuration: 400,
+    vCenter: false,
     collision_detect: function() {}, // turn off collision detection for this game, improving performance          
   }) ;
 
   document.viz = viz ;
 
-  viz.Nspin    = 6 ;
+  viz.Nspin    = 5 ;
   viz.tSpin    = 400 ;
   viz.longDur  = viz.delay * (2 + vtxt.length * 2) ;
   viz.xdelay   = 0.7 ;
@@ -26,7 +27,7 @@ function vizflow_page() {
   viz.flashDur = 200 ;
   viz.delay    = 50 ;
   viz.spinDur  = viz.Nspin * viz.tSpin ;
-  viz.fadeDur  = 1000 ;
+  viz.fadeDur  = 800 ;
 
   viz.run() ;
 
@@ -55,6 +56,15 @@ function vizflow_page() {
 
     urlList[2] = 'http://electionfighter.com' ; // this one has its own URL
 
+    var scale = 0.75 ;
+    var size0 = $Z.helper.loader.image.cache[document.exampleImage[0]].width ;
+    var size1 = 376 * scale ;
+
+    var whiteCircleImage = $Z.helper.draw.circle({
+      radius: 0.8 * size1,
+      fill: '#FFF',
+    }) ;
+
     for (var kex = 0 ; kex < document.example.length ; kex++) {
 
       var imageK = $Z.helper.image.to_canvas( document.exampleImage[kex] ) ;
@@ -64,8 +74,8 @@ function vizflow_page() {
         image: imageK,
         x: xList[kex],
         y: yList[kex],
-        xScale: 0.75,
-        yScale: 0.75,
+        xScale: scale,
+        yScale: scale,
         xOrigin:  imageK.width  * 0.5,
         yOrigin: imageK.height * 0.5,
         uiSwitch: true,
@@ -75,32 +85,48 @@ function vizflow_page() {
 
           this.focus() ;
 
-          var fadeOutDur = 3000 ;
+          var flash = $Z.helper.effect.image.fade_sequence({ 
 
-          this.viz.item.forEach(function(d) {
-            d.image.clear_color([255, 255, 255]) ;
-            d.fade({
-              duration: fadeOutDur,
-              opacity: 0,
-            }) ;
-          }) ;
+            duration: viz.fadeDuration,
+            value: [0.8, 0],
 
-          this.add_linear('xScale', 3, fadeOutDur) ;
-          this.add_linear('yScale', 3, fadeOutDur) ;
-          this.add_linear('x', viz.width * 0.5, fadeOutDur) ;
-          this.add_linear('y', viz.height * 0.5, fadeOutDur) ;
+          })[0] ;
 
-          var url = this.config.url ;
+          flash.child.end = {
+            item: this,
+            run: function() {
+              var fadeOutDur = 2000 ;
 
-          viz.call(function() { 
-            viz.fade({
-              opacity: 0,
-              duration: 2000,
-              end: function() {
-                window.location.href = url ;
-              },
-            }) ;
-          }, 1000) ;
+              var viz = this.item.viz ;
+
+              viz.item.forEach(function(d) {
+                d.image.clear_color([255, 255, 255]) ;
+                d.fade({
+                  duration: fadeOutDur,
+                  opacity: 0,
+                }) ;
+              }) ;
+
+              this.item.add_set(['xScale', 'yScale', 'x', 'y'], [3, 3, viz.width * 0.5, viz.height * 0.5], fadeOutDur) ;
+
+              var url = this.item.config.url ;
+
+              viz.call(function() { 
+                viz.fade({
+                  opacity: 0,
+                  duration: 2000,
+                  end: function() {
+                    window.location.href = url ;
+                  },
+                }) ;
+              }, 1000) ;
+
+            },
+          } ;
+
+          // console.log('flash', flash) ;
+
+          this.circle.add_transition(flash) ;
 
         },
         addSwitch: true,
@@ -108,6 +134,21 @@ function vizflow_page() {
 
       }) ;
 
+      var whiteCircleConfig = {
+
+        image: whiteCircleImage,
+        opacity: 0,
+        xOrigin: 0.5 * whiteCircleImage.width,
+        yOrigin: 0.5 * whiteCircleImage.height,
+
+      } ;
+
+      whiteCircle = viz.setup_item(whiteCircleConfig) ;
+
+      // console.log('whiteCircle', whiteCircle)
+
+      viz.example[kex].circle =  whiteCircle ;
+      viz.example[kex].child  = [whiteCircle] ;
       viz.example[kex].fade() ;
 
     }
@@ -115,6 +156,7 @@ function vizflow_page() {
     var urlImage = $Z.helper.image.to_canvas(document.imageList[1]) ;
 
     viz.url = viz.setup_item({
+
       image: urlImage,
       x: 18, // viz.width * 0.5,
       y: 80, // viz.height - urlImage.height * 0.5,
@@ -124,6 +166,7 @@ function vizflow_page() {
       yScale: 0.5,
       uiSwitch: true,
       addSwitch: true,
+
       callback: function() {
         viz.fade({
           opacity: 0,
@@ -237,12 +280,15 @@ function vizflow_page() {
       }
 
       d.call('fade', i * viz.delay) ;
+      d.call('fade_switch', viz.delay * viz.logo.item.length) ;
 
     }) ;
 
+    this.item.call('fade_switch', viz.delay * viz.logo.item.length) ;
+
     viz.call(homepage, viz.logo.item.length * viz.delay + viz.longDur) ;
   
-  } // ** end: spinTrans.end **
+  } ; // ** end: spinTrans.end **
 
   var z = viz.logo.item[2] ; 
 
@@ -251,7 +297,7 @@ function vizflow_page() {
   z.fade({
     duration: viz.fadeDur,
     opacity: 1,
-  })
+  }) ;
 
   z.call(
     function() { z.add_linear('x', z.config.x, (1 - viz.xdelay) * viz.spinDur) ; }, 
@@ -261,17 +307,13 @@ function vizflow_page() {
   var fDelay = (8 + viz.logo.item.length) * viz.delay + viz.movedur ;
 
   function homepage() {
+
     viz.logo.item.forEach(function(d, i) {
-      d.call('upper_left', viz.fadeDur + i * viz.delay) ;
-      if ( i < viz.logo.item.length - 1) {
-        d.call('fade_switch', fDelay) ;
-      } else {
-        d.call(['fade_switch', function() { viz.examples() ; }], [fDelay, 1.5 * viz.fadeDuration]) ;
-      }
+      d.call('upper_left', 1.5 * viz.fadeDur + i * viz.delay) ;
     }) ;
+
+    viz.call('examples', fDelay + 1.5 * viz.fadeDuration) ;
+
   }
 
-
-}
-
-
+} ;

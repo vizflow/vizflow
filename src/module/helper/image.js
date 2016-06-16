@@ -11,6 +11,14 @@ let imageHelper = {
     if ( canvas === undefined ) { 
       canvas = this ;
     }
+
+    if ( canvas.vCenter === undefined ) {
+      canvas.vCenter = true ;
+    }
+
+    if ( canvas.hCenter === undefined ) {
+      canvas.hCenter = true ;
+    }
     
     var position     = {} ;
     var windowWidth  = window.innerWidth ;
@@ -27,13 +35,21 @@ let imageHelper = {
       position.width  = windowWidth ;
       position.height = Math.round(canvas.height / widthRatio) ;
       position.left   = 0 ;
-      position.top    = Math.round(0.5 * (windowHeight - position.height)) ;
+      if ( canvas.vCenter === true ) {
+        position.top = Math.round(0.5 * (windowHeight - position.height)) ;        
+      } else {
+        position.top = 0 ;
+      }
       position.scale  = 1 / widthRatio ;
     } else { // fit height to window and center horizontally
       position.height = windowHeight ;
       position.width  = Math.round(canvas.width / heightRatio) ;
       position.top    = 0 ;
-      position.left   = Math.round(0.5 * (windowWidth - position.width)) ;
+      if (canvas.hCenter === true) {
+        position.left = Math.round(0.5 * (windowWidth - position.width)) ;        
+      } else {
+        position.left = 0 ;
+      }
       position.scale  = 1 / heightRatio ;
     }
     // console.log('rw', widthRatio, 'rh', heightRatio, 'pos', position)

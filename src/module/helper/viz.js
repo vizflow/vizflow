@@ -67,6 +67,18 @@ let vizHelper = {
       vizOpacity = vizConfig.opacity ;
     }
 
+    var vCenter = vizConfig.vCenter ;
+
+    if ( vCenter === undefined ) {
+      vCenter = true ;
+    }
+
+    var hCenter = vizConfig.hCenter ;
+
+    if ( hCenter === undefined ) {
+      hCenter = true ;
+    } 
+
     /*
      *   DEFINE THE VIZ OBJECT:
      */
@@ -95,10 +107,12 @@ let vizHelper = {
       viewportY:      0,
       viewportWidth:  screenCanvas.width,
       viewportHeight: screenCanvas.height,
+      hCenter:        hCenter,
+      vCenter:        vCenter,
       detect:         $Z.helper.action.detect,
       perform:        $Z.helper.action.perform,
       image_transition: $Z.helper.transition.step_func('image', frameDuration),  
-      opacity: vizOpacity,
+      opacity:     vizOpacity,
       fade:        $Z.helper.item.method.fade, 
       shake:       $Z.helper.effect.shake,  
       setup_item:  $Z.helper.item.setup, 
@@ -123,6 +137,8 @@ let vizHelper = {
       prep: function viz_prep () {
 
         if( ($Z.iter - this.lastResize) > this.resizeSkip) {
+          this.screenCanvas.hCenter = this.hCenter ;
+          this.screenCanvas.vCenter = this.vCenter ;
           resize() ;
           this.lastResize = $Z.iter ;
         }
