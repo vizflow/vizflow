@@ -1,6 +1,6 @@
 <img src="thumbnail.png" width="366px" height="240px"/>
 
-# vizflow
+# Vizflow
 
 [vizflow.js](https://github.com/vizflow/vizflow) - a render-loop library written using EcmaScript.6 (ES6) with no other external dependencies. 
 
