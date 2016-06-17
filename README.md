@@ -1,4 +1,4 @@
-![vizflow](thumbnail.png =488x320) 
+<img src="thumbnail.png" width="488px" height="320"/>
 
 # vizflow
 
