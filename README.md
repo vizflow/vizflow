@@ -1,4 +1,4 @@
-# ![vizflow](thumbnail.png) vizflow
+# ![vizflow](thumbnail.png "vizflow logo" =488x320 :left) vizflow
 
 [vizflow.js](https://github.com/vizflow/vizflow) - a render-loop library written using EcmaScript.6 (ES6) with no other external dependencies. 
 
