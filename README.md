@@ -1,4 +1,4 @@
-<img src="thumbnail.png" width="488px" height="320"/>
+<img src="thumbnail.png" width="366px" height="240px"/>
 
 # vizflow
 
