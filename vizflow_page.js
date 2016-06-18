@@ -83,6 +83,12 @@ document.vizflow_page = function vizflow_page() {
 
         callback: function() {
 
+          if ( viz.busy === true ) {
+            return ;
+          }
+
+          viz.busy = true ;
+
           this.focus() ;
 
           var flash = $Z.helper.effect.image.fade_sequence({ 
@@ -113,20 +119,22 @@ document.vizflow_page = function vizflow_page() {
 
               viz.call(function() { 
                 viz.fade({
+
                   opacity: 0,
                   duration: 2000,
                   end: function() {
                     window.location.href = url ;
                   },
+
                 }) ;
               }, 1000) ;
 
             },
           } ;
 
-          // console.log('flash', flash) ;
-
           this.circle.add_transition(flash) ;
+
+          // console.log('flash', flash) ;
 
         },
         addSwitch: true,
@@ -168,11 +176,22 @@ document.vizflow_page = function vizflow_page() {
       addSwitch: true,
 
       callback: function() {
+
+        if ( viz.busy === true ) {
+          return ;
+        }
+
+        viz.busy = true ;
+
+        this.whiteflash() ;
+
+        console.log('url callback')
+
         viz.fade({
           opacity: 0,
           duration: 2000,
           item: this,
-          run: function() {
+          end: function() {
             var vizflowUrl = 'https://github.com/vizflow/vizflow' ;
             window.location.href = vizflowUrl ;                  
           },
