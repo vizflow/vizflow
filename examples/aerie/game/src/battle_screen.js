@@ -82,13 +82,16 @@ function battle_screen() {
     maxHeight = Math.max.apply(null, height) ;
     var spriteset = spriteHelper.get(i, rowName, width, height) ;
 
-    var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0].originalCanvas, { x: 0, y: 0, width: spriteset.attack[0].originalCanvas.width * 0.6, height: maxHeight } ) ;
+    var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0].originalCanvas, { x: 0, y: 0, width: spriteset.attack[0].originalCanvas.width * 0.3, height: maxHeight } ) ;
+    var thrustCollisionCanvas                = imageHelper.clear_rect (spriteset.thrust[1].originalCanvas, { x: 0, y: 0, width: spriteset.thrust[1].originalCanvas.width * 0.3, height: maxHeight } ) ;
+    var finisherCollisionCanvas                = imageHelper.clear_rect (spriteset.finisher[1].originalCanvas, { x: 0, y: 0, width: spriteset.finisher[1].originalCanvas.width * 0.3, height: maxHeight } ) ;
+    
     spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
-    spriteset.thrust[1].sourceCollisionImage = attackCollisionCanvas ;
-    spriteset.finisher[1].sourceCollisionImage = attackCollisionCanvas ;
-    spriteset.finisher[2].sourceCollisionImage = attackCollisionCanvas ;
-    spriteset.finisher[3].sourceCollisionImage = attackCollisionCanvas ;
-    spriteset.finisher[4].sourceCollisionImage = attackCollisionCanvas ;    
+    spriteset.thrust[1].sourceCollisionImage = thrustCollisionCanvas ;
+    spriteset.finisher[1].sourceCollisionImage = finisherCollisionCanvas ;
+    spriteset.finisher[2].sourceCollisionImage = finisherCollisionCanvas ;
+    spriteset.finisher[3].sourceCollisionImage = finisherCollisionCanvas ;
+    spriteset.finisher[4].sourceCollisionImage = finisherCollisionCanvas ;    
 
     spriteset.attack = [spriteset.attack[0], spriteset.attack[1], spriteset.attack[2], spriteset.attack[3], spriteset.rest[0]] ;
     spriteset.thrust = [spriteset.thrust[0], spriteset.thrust[1], spriteset.rest[0]] ;
@@ -156,49 +159,55 @@ function battle_screen() {
             position: 0,
             Nstep: 2,
         },   
-
+        snortattack: {
+            frameDur: viz.frameDuration * 10,
+            position: 0,
+            Nstep: 3,
+          },
 
     },         
 
         sprite_loader: function() {
 
           var i         = imageHelper.to_canvas('./image/monster_spritesheet.png') ;
-          var rowName   = ['attack', 'block', 'hindattack', 'hit', 'rest', 'tailattack'] ;
-          var width     = [enemyTileWidth, enemyTileWidth, enemyTileWidth, enemyTileWidth, enemyTileWidth, enemyTileWidth] ;
-          var height    = [enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight] ;
+          var rowName   = ['attack', 'block', 'hindattack', 'hit', 'rest', 'snortattack', 'tailattack'] ;
+          var width     = [enemyTileWidth, enemyTileWidth, enemyTileWidth, enemyTileWidth, enemyTileWidth, enemyTileWidth, enemyTileWidth] ;
+          var height    = [enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight] ;
           maxHeight = Math.max.apply(null, height) ;
 
           var spriteset = spriteHelper.get(i, rowName, width, height) ;
-          var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0].originalCanvas, { x: 0, y: 0, width: spriteset.attack[0].originalCanvas.width * 0.6, height: maxHeight } ) ;
-          var tailAttackCollisionCanvas            = imageHelper.clear_rect (spriteset.tailattack[0].originalCanvas, { x: 0, y: 0, width: spriteset.tailattack[0].originalCanvas.width, height: maxHeight } ) ;
-          var hindAttackCollisionCanvas            = imageHelper.clear_rect (spriteset.hindattack[0].originalCanvas, { x: 0, y: 0, width: spriteset.hindattack[2].originalCanvas.width * 0.6, height: maxHeight } ) ;
+          var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[1].originalCanvas, { x: 0, y: 0, width: spriteset.attack[1].originalCanvas.width * 0.1, height: maxHeight } ) ;
+          var tailAttackCollisionCanvas            = imageHelper.clear_rect (spriteset.tailattack[0].originalCanvas, { x: 0, y: 0, width: spriteset.tailattack[0].originalCanvas.width * 0.1, height: maxHeight } ) ;
+          var hindAttackCollisionCanvas            = imageHelper.clear_rect (spriteset.hindattack[0].originalCanvas, { x: 0, y: 0, width: spriteset.hindattack[2].originalCanvas.width * 0.1, height: maxHeight } ) ;
+          var snortAttackCollisionCanvas           = imageHelper.clear_rect (spriteset.snortattack[1].originalCanvas, { x: 0, y: 0, width: spriteset.snortattack[1].originalCanvas.width * 0.1, height: maxHeight } ) ;
           
           spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
-          spriteset.tailattack[2].sourceCollisionImage = tailAttackCollisionCanvas ;
+          spriteset.snortattack[1].sourceCollisionImage = snortAttackCollisionCanvas ;
+          spriteset.tailattack[0].sourceCollisionImage = tailAttackCollisionCanvas ;
           spriteset.hindattack[1].sourceCollisionImage = hindAttackCollisionCanvas ;
           spriteset.hindattack[2].sourceCollisionImage = hindAttackCollisionCanvas ;
 
-          spriteset.block   = [spriteset.block[0], spriteset.rest[0]] ;      
+          spriteset.snortattack = [spriteset.snortattack[0], spriteset.snortattack[1], spriteset.rest[0]] ;
+          spriteset.block   = [spriteset.block[0], spriteset.block[1], spriteset.block[2], spriteset.block[3]] ;      
           spriteset.attack = [spriteset.attack[0], spriteset.attack[1], spriteset.rest[0]] ;
           spriteset.tailattack = [spriteset.tailattack[0], spriteset.tailattack[1], spriteset.tailattack[2]] ;
           spriteset.hindattack = [spriteset.hindattack[0], spriteset.hindattack[1], spriteset.hindattack[2], spriteset.hindattack[3]] ;
           spriteset.rest = [spriteset.rest[0], spriteset.rest[1], spriteset.rest[2], spriteset.rest[0]];
           spriteset.hit = [spriteset.hit[0], spriteset.hit[1]] ;
-
+imageHelper.view(spriteset.snortattack[1].sourceCollisionImage) ;
           return spriteset ;
 
         },    
 
         x: 50,
-        y: 40,
-        // xOrigin: 100,
-        // yOrigin: 60,
-        // xScale: 0.15,
-        // yScale: 0.15,        
+        y: 50,
+        xOrigin: -5,
+        yOrigin: 60,
+        xScale: 0.05,
+        yScale: 0.05,        
         type: 'enemy',
 
     } ;
-
     viz.enemy  = enemyBattleHelper.setup(viz) ;
 
     viz.player = playerBattleHelper.setup(viz) ;
@@ -403,7 +412,7 @@ function battle_screen() {
     viz.button.finisher.item.image = viz.button.finisher.sprite.push[0] ;
     viz.button.finisher.item.uiSwitch = true ;
     viz.button.finisher.item.callback = function finisher_button_callback() {
-        viz.player.attack('finisher') ;
+    viz.player.attack('finisher') ;
  
     } ;    
     
@@ -470,27 +479,28 @@ function battle_screen() {
     } ;
 
     viz.player.item.add() ;
-    // viz.start_attack = function viz_start_attack (viz) {
-    //     if (viz === undefined) {
-    //         viz = this ;
-    //     }
+    viz.start_attack = function viz_start_attack (viz) {
+        if (viz === undefined) {
+            viz = this ;
+        }
 
         viz.enemy.start_hind_attack () ; 
         viz.enemy.start_attack () ;
         viz.enemy.start_tail_attack () ;
         viz.enemy.start_block () ;
         viz.enemy.start_rest() ;
+        viz.enemy.start_snort_attack() ;
 
         viz.enemy.callback  = enemyBattleHelper.update ;        
-   // }
+   }
     
-    // var scaleDur = 2000 ;
+    var scaleDur = 2000 ;
 
-    // viz.enemy.item.add_linear ('xScale', 1, scaleDur) ;
-    // viz.enemy.item.add_linear ('yScale', 1, scaleDur) ;
-    // viz.enemy.item.add_linear ('y', 100, scaleDur) ;
+    viz.enemy.item.add_linear ('xScale', 1, scaleDur) ;
+    viz.enemy.item.add_linear ('yScale', 1, scaleDur) ;
+    viz.enemy.item.add_linear ('y', 100, scaleDur) ;
 
-    // viz.call ('start_attack', .2 * scaleDur) ;
+    viz.call ('start_attack', .2 * scaleDur) ;
     viz.player.callback = playerBattleHelper.update ;    
     // viz.player.item.responseSet.bump = bumpHelper.setup(viz) ;
     // viz.player.item.responseSet.hit = playerHitHelper.setup(viz) ;

@@ -35,7 +35,7 @@ var playerBattleHelper = {
     player.paused               = false ;
     player.state                = [] ;
     player.item.responseSet.hit = playerHitHelper.setup(viz, player) ;
-    player.health               = 300 ;
+    player.health               = 70 ;
     player.health_bar           = playerBattleHelper.health_bar ;
     player.attack               = playerBattleHelper.attack ;
     player.block                = playerBattleHelper.block ;
@@ -43,7 +43,7 @@ var playerBattleHelper = {
     player.healthbar = viz.setup_item ({
       image: player.health_bar(),
       x: 16,
-      y: 10,
+      y: 30,
     }) ;
 
     player.item.default_child() ;
@@ -213,7 +213,7 @@ var playerBattleHelper = {
 
         case 'l' :
 
-          var xMin        = -Math.floor(player.sprite.rest[0].originalCanvas.width * 0.1 - 20 ) ;
+          var xMin        = -Math.floor(player.sprite.rest[0].originalCanvas.width * 0.1 - 10 ) ;
           var x           = player.item.x - player.xMove ;
           var xNew        = Math.max(xMin, x) ;
           var xTransition = player.transitionSet.x(xNew) ;      

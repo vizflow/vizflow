@@ -53,7 +53,7 @@ var hitHelper = {
       var health_transition = $Z.helper.transition.linear_transition_func ( 'width', viz.dur * 4 ) ; 
 
       if(setupResponseConfig.healthdrop === undefined) {    
-        setupResponseConfig.healthdrop = 10 ;
+        setupResponseConfig.healthdrop = 20 ;
       }
      
       var hit = { // action config object
@@ -167,8 +167,9 @@ var hitHelper = {
     }   
     if (isShield === true) {
       var isRest = img === element.sprite.rest[0] ;
-       // insert audio here
-       element.health -= 0.2 ;
+        element.item.viz.audio.blocked.play() ; 
+
+        element.health -= 0.2 ;
     } else { 
       element.hit() ;
       element.item.whiteflash(50) ;  
