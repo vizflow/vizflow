@@ -100,6 +100,7 @@ let vizHelper = {
       yShift:         Math.floor(0.5 * (paddingFactor - 1) * vizHeight),
       resize:         resize,
       resizeSkip:     resizeSkip,
+      resized:        false,
       lastCollision:  0,
       lastResize:     0,
       viewportX:      0, 
@@ -135,7 +136,7 @@ let vizHelper = {
 
       prep: function viz_prep () {
 
-        if( ($Z.iter - this.lastResize) > this.resizeSkip) {
+        if( !this.resized || ($Z.iter - this.lastResize) > this.resizeSkip) {
           this.screenCanvas.hCenter = this.hCenter ;
           this.screenCanvas.vCenter = this.vCenter ;
 
