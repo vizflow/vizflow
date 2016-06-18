@@ -1,4 +1,6 @@
-# ![vizflow](thumbnail.png) vizflow
+<img src="thumbnail.png" width="366px" height="240px"/>
+
+# Vizflow
 
 [vizflow.js](https://github.com/vizflow/vizflow) - a render-loop library written using EcmaScript.6 (ES6) with no other external dependencies. 
 
@@ -10,7 +12,7 @@ Vizflow uses the symbol `$Z` (read as "bling Z" or "dollar Z") for defining its 
 
 Keeping the library simple-to-use, small, and efficient in terms of performance, especially on mobile devices, are the main goals of this project. Feedback wanted.
 
-# Example
+# Examples
 
 The file `index.html` included in this repository contains a demo, used for our [homepage](http://vizflow.org). Modify the `index.html` file to create your own interactive visualizations, simulations, and games with maximal flexibility and minimal overhead.
 
@@ -18,19 +20,20 @@ Load the `index.html` file locally to test the code in a development environment
 
 The "examples" subdirectory contains the source code to the examples presented on the homepage. 
 
-## Three Circles
+### Three Circles
 
 The "three circles" examples showing an interactive stochastic dynamics simulation with three particles in a rectangular domain rendered as colored circles, using both Canvas and SVG. Clicking on a circle will randomly change its 2D `(x, y)` position and radius by sampling from appropriate uniform distributions for each of these variables.
 
-## pH Visualization/Game
+### pH Visualization/Game
 
-The pH visualization/game example is described [here](https://www.linkedin.com/pulse/ph-visualization-i-daniel-korenblum)
+The pH visualization is a learning game idea that is described [here](https://www.linkedin.com/pulse/ph-visualization-i-daniel-korenblum).
 
-## Election Fighter
+### Election Fighter
 
-The Election Fighter example is described [here](https://www.linkedin.com/pulse/vizflow-testing-via-games-part-i-election-fighter-daniel-korenblum).
+[Election Fighter](http://electionfighter.com) is a game described [here](https://www.linkedin.com/pulse/vizflow-testing-via-games-part-i-election-fighter-daniel-korenblum).
+It's also available on [Google Play](https://play.google.com/store/apps/details?id=com.com.electionfighter) (compiled to Android via Cocoon.io). 
 
-## Prime Fruit
+### Prime Fruit
 
 Prime Fruit is an idea for an educational game teaching the player about prime numbers and prime factorizations, and is described [here](https://www.linkedin.com/pulse/vizflow-testing-via-games-ii-prime-fruit-daniel-korenblum?trk=mp-author-card).
 
@@ -47,6 +50,7 @@ Similarly, run `jspm bundle-sfx --minify src/module/vizflow-helper vizflow-helpe
 * [JSPM](https://github.com/jspm/jspm-cli)
 * [ES6+jspm template](https://github.com/geelen/loopgifs)
 * [2D Picking in Canvas](https://bocoup.com/weblog/2d-picking-in-canvas/)
+* [Cocoon](https://cocoon.io/)
 
 <!---
   

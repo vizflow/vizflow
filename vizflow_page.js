@@ -189,8 +189,7 @@ document.vizflow_page = function vizflow_page() {
 
         viz.fade({
           opacity: 0,
-          duration: 2000,
-          item: this,
+          duration: 1000,
           end: function() {
             var vizflowUrl = 'https://github.com/vizflow/vizflow' ;
             window.location.href = vizflowUrl ;                  
