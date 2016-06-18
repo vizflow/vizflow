@@ -183,18 +183,31 @@ document.vizflow_page = function vizflow_page() {
 
         viz.busy = true ;
 
-        this.whiteflash() ;
+        var dur = 2000 ;
 
-        console.log('url callback')
-
-        viz.fade({
-          opacity: 0,
-          duration: 1000,
-          end: function() {
-            var vizflowUrl = 'https://github.com/vizflow/vizflow' ;
-            window.location.href = vizflowUrl ;                  
-          },
+        viz.item.forEach(function(d) {
+          d.image.clear_color([255, 255, 255]) ;
         }) ;
+
+        this.add_set(['x', 'xScale', 'yScale', 'opacity'], [(viz.width - this.image.width) * 0.5, 2, 2, 0.2], 2 * dur) ;
+
+        // console.log('url callback') ;
+
+        function fadeout() {
+
+          viz.fade({
+            opacity: 0,
+            duration: 0.5 * dur,
+            end: function() {
+              var vizflowUrl = 'https://github.com/vizflow/vizflow' ;
+              window.location.href = vizflowUrl ;                  
+            },
+          }) ;
+
+        }
+
+        viz.call(fadeout, 0.5 * dur) ;
+
       },
     }) ;
 

@@ -44,8 +44,6 @@ let vizHelper = {
       screenCanvas.set_position() ;
     }
 
-    resize() ;
-
     var backgroundImageUrl = vizConfig.backgroundImageUrl ;
     // console.log('vizHelper, resize, to_canvas start') ;
 
@@ -100,6 +98,7 @@ let vizHelper = {
       screenContext:  screenContext,
       xShift:         Math.floor(0.5 * (paddingFactor - 1) * vizWidth),
       yShift:         Math.floor(0.5 * (paddingFactor - 1) * vizHeight),
+      resize:         resize,
       resizeSkip:     resizeSkip,
       lastCollision:  0,
       lastResize:     0,
@@ -139,7 +138,11 @@ let vizHelper = {
         if( ($Z.iter - this.lastResize) > this.resizeSkip) {
           this.screenCanvas.hCenter = this.hCenter ;
           this.screenCanvas.vCenter = this.vCenter ;
-          resize() ;
+
+          this.canvas.hCenter = this.hCenter ;
+          this.canvas.vCenter = this.vCenter ;
+
+          this.resize() ;
           this.lastResize = $Z.iter ;
         }
 
