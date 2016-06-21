@@ -41,6 +41,32 @@ document.vizflow_page = function vizflow_page() {
 
   viz.examples = function vizflow_examples() {          
 
+    var urlImage = $Z.helper.image.to_canvas(document.imageList[1]) ;
+
+    viz.url = viz.setup_item({
+
+      image: urlImage,
+      x: 18, // viz.width * 0.5,
+      y: 80, // viz.height - urlImage.height * 0.5,
+      xOrigin: 0, // urlImage.width * 0.5,
+      yOrigin: 0, // urlImage.height * 0.5,
+      xScale: 0.5,
+      yScale: 0.5,
+      uiSwitch: true,
+      addSwitch: true,
+
+      callback: function() {
+        viz.fade({
+          opacity: 0,
+          duration: 1000,
+          end: function() {
+            var vizflowUrl = 'https://github.com/vizflow/vizflow' ;
+            window.location.href = vizflowUrl ;                  
+          },
+        }) ;
+      },
+    }) ;
+
     viz.example = new Array(document.example.length) ;
 
     var yShift  = 0.25 ;
@@ -152,32 +178,6 @@ document.vizflow_page = function vizflow_page() {
       viz.example[kex].fade() ;
 
     }
-
-    var urlImage = $Z.helper.image.to_canvas(document.imageList[1]) ;
-
-    viz.url = viz.setup_item({
-
-      image: urlImage,
-      x: 18, // viz.width * 0.5,
-      y: 80, // viz.height - urlImage.height * 0.5,
-      xOrigin: 0, // urlImage.width * 0.5,
-      yOrigin: 0, // urlImage.height * 0.5,
-      xScale: 0.5,
-      yScale: 0.5,
-      uiSwitch: true,
-      addSwitch: true,
-
-      callback: function() {
-        viz.fade({
-          opacity: 0,
-          duration: 1000,
-          end: function() {
-            var vizflowUrl = 'https://github.com/vizflow/vizflow' ;
-            window.location.href = vizflowUrl ;                  
-          },
-        }) ;
-      },
-    }) ;
 
     viz.setup_ui() ;
 
