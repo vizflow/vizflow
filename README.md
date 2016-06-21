@@ -26,7 +26,7 @@ The "three circles" examples showing an interactive stochastic dynamics simulati
 
 ### pH Visualization/Game
 
-The pH visualization is a learning game idea that is described [here](https://www.linkedin.com/pulse/ph-visualization-i-daniel-korenblum).
+The [pH visualization](http://vizflow.org/examples/ph_game/) is a learning game idea that is described [here](https://www.linkedin.com/pulse/ph-visualization-i-daniel-korenblum).
 
 ### Election Fighter
 
@@ -35,7 +35,7 @@ It's also available on [Google Play](https://play.google.com/store/apps/details?
 
 ### Prime Fruit
 
-Prime Fruit is an idea for an educational game teaching the player about prime numbers and prime factorizations, and is described [here](https://www.linkedin.com/pulse/vizflow-testing-via-games-ii-prime-fruit-daniel-korenblum?trk=mp-author-card).
+[Prime Fruit](http://vizflow.org/examples/primefruit/) is an idea for an educational game teaching the player about prime numbers and prime factorizations, and is described [here](https://www.linkedin.com/pulse/vizflow-testing-via-games-ii-prime-fruit-daniel-korenblum?trk=mp-author-card).
 
 # Deployment
 
