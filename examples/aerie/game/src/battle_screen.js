@@ -13,6 +13,7 @@ function battle_screen() {
     } ;
     
     viz = vizHelper.setup(vizConfig) ;
+console.log('vizConfig', vizConfig) ;
 
     viz.audio = {
         music: audioLoader.cache[vizConfig.music],
@@ -73,47 +74,47 @@ function battle_screen() {
 
         }, 
 
-    sprite_loader: function() {
-    var i = imageHelper.to_canvas('./image/knight_battle_spritesheet.png') ;
-    var rowName = ['attack', 'block', 'finisher', 'hit', 'rest', 'thrust'] ;
-    var width   = [tileWidth, tileWidth, tileWidth, tileWidth, tileWidth, tileWidth] ;
-    var height  = [tileHeight, tileHeight, tileHeight, tileHeight, tileHeight, tileHeight] ;
+        sprite_loader: function() {
+        var i = imageHelper.to_canvas('./image/knight_battle_spritesheet.png') ;
+        var rowName = ['attack', 'block', 'finisher', 'hit', 'rest', 'thrust'] ;
+        var width   = [tileWidth, tileWidth, tileWidth, tileWidth, tileWidth, tileWidth] ;
+        var height  = [tileHeight, tileHeight, tileHeight, tileHeight, tileHeight, tileHeight] ;
 
-    maxHeight = Math.max.apply(null, height) ;
-    var spriteset = spriteHelper.get(i, rowName, width, height) ;
+        maxHeight = Math.max.apply(null, height) ;
+        var spriteset = spriteHelper.get(i, rowName, width, height) ;
 
-    var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0].originalCanvas, { x: 0, y: 0, width: spriteset.attack[0].originalCanvas.width * 0.3, height: maxHeight } ) ;
-    var thrustCollisionCanvas                = imageHelper.clear_rect (spriteset.thrust[1].originalCanvas, { x: 0, y: 0, width: spriteset.thrust[1].originalCanvas.width * 0.3, height: maxHeight } ) ;
-    var finisherCollisionCanvas                = imageHelper.clear_rect (spriteset.finisher[1].originalCanvas, { x: 0, y: 0, width: spriteset.finisher[1].originalCanvas.width * 0.3, height: maxHeight } ) ;
-    
-    spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
-    spriteset.thrust[1].sourceCollisionImage = thrustCollisionCanvas ;
-    spriteset.finisher[1].sourceCollisionImage = finisherCollisionCanvas ;
-    spriteset.finisher[2].sourceCollisionImage = finisherCollisionCanvas ;
-    spriteset.finisher[3].sourceCollisionImage = finisherCollisionCanvas ;
-    spriteset.finisher[4].sourceCollisionImage = finisherCollisionCanvas ;    
+        var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0].originalCanvas, { x: 0, y: 0, width: spriteset.attack[0].originalCanvas.width * 0.3, height: maxHeight } ) ;
+        var thrustCollisionCanvas                = imageHelper.clear_rect (spriteset.thrust[1].originalCanvas, { x: 0, y: 0, width: spriteset.thrust[1].originalCanvas.width * 0.3, height: maxHeight } ) ;
+        var finisherCollisionCanvas                = imageHelper.clear_rect (spriteset.finisher[1].originalCanvas, { x: 0, y: 0, width: spriteset.finisher[1].originalCanvas.width * 0.3, height: maxHeight } ) ;
+        
+        spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
+        spriteset.thrust[1].sourceCollisionImage = thrustCollisionCanvas ;
+        spriteset.finisher[1].sourceCollisionImage = finisherCollisionCanvas ;
+        spriteset.finisher[2].sourceCollisionImage = finisherCollisionCanvas ;
+        spriteset.finisher[3].sourceCollisionImage = finisherCollisionCanvas ;
+        spriteset.finisher[4].sourceCollisionImage = finisherCollisionCanvas ;    
 
-    spriteset.attack = [spriteset.attack[0], spriteset.attack[1], spriteset.attack[2], spriteset.attack[3], spriteset.rest[0]] ;
-    spriteset.thrust = [spriteset.thrust[0], spriteset.thrust[1], spriteset.rest[0]] ;
-    spriteset.finisher = [spriteset.finisher[0], spriteset.finisher[1], spriteset.finisher[2], spriteset.finisher[3], spriteset.finisher[4], spriteset.finisher[5], spriteset.finisher[6], spriteset.rest[0]] ;    
-    spriteset.block = [spriteset.block[0], spriteset.block[1], spriteset.rest[0]] ;
-    spriteset.hit = [spriteset.hit[0]] ;    
+        spriteset.attack = [spriteset.attack[0], spriteset.attack[1], spriteset.attack[2], spriteset.attack[3], spriteset.rest[0]] ;
+        spriteset.thrust = [spriteset.thrust[0], spriteset.thrust[1], spriteset.rest[0]] ;
+        spriteset.finisher = [spriteset.finisher[0], spriteset.finisher[1], spriteset.finisher[2], spriteset.finisher[3], spriteset.finisher[4], spriteset.finisher[5], spriteset.finisher[6], spriteset.rest[0]] ;    
+        spriteset.block = [spriteset.block[0], spriteset.block[1], spriteset.rest[0]] ;
+        spriteset.hit = [spriteset.hit[0]] ;    
 
-    return spriteset ;
+        return spriteset ;
 
-    },
+        },
 
-    transitionSet: {
-      x: $Z.helper.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), //function accepting an x end-value and returning a transition object 
-      y: $Z.helper.transition.rounded_linear_transition_func ( 'y', viz.frameDuration ), // function accepting a y end-value and returning a transition object
+        transitionSet: {
+          x: $Z.helper.transition.rounded_linear_transition_func ( 'x', viz.frameDuration ), //function accepting an x end-value and returning a transition object 
+          y: $Z.helper.transition.rounded_linear_transition_func ( 'y', viz.frameDuration ), // function accepting a y end-value and returning a transition object
 
-    },
+        },
 
-    xMove: 74,
-    yMove: 74,
-    x: 60,
-    y: 5,
-    type: 'player',
+        xMove: 74,
+        yMove: 74,
+        x: 60,
+        y: 5,
+        type: 'player',
 
     } ;
 
@@ -194,7 +195,7 @@ function battle_screen() {
           spriteset.hindattack = [spriteset.hindattack[0], spriteset.hindattack[1], spriteset.hindattack[2], spriteset.hindattack[3]] ;
           spriteset.rest = [spriteset.rest[0], spriteset.rest[1], spriteset.rest[2], spriteset.rest[0]];
           spriteset.hit = [spriteset.hit[0], spriteset.hit[1]] ;
-imageHelper.view(spriteset.snortattack[1].sourceCollisionImage) ;
+// imageHelper.view(spriteset.snortattack[1].sourceCollisionImage) ;
           return spriteset ;
 
         },    
