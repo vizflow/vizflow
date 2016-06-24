@@ -21,6 +21,11 @@ let vizHelper = {
      */ 
 
     var dur           = vizConfig.duration || 17 ; // the framespeed that vizflow uses (default is 60 frames per second)
+    
+    if ( document.ratio === undefined ) {
+      document.ratio = 1 ;
+    }
+
     var ratio         = document.ratio ; //(window.devicePixelRatio || 1) ; 
     var vizWidth      = vizConfig.width  || 480 ;
     var vizHeight     = vizConfig.height || 640 ;
@@ -40,8 +45,18 @@ let vizHelper = {
 
     screenCanvas.place() ;
 
-    function resize() {
-      screenCanvas.set_position() ;
+    function resize(viz) {
+
+      if ( viz === undefined ) {
+        viz = this ;
+      }
+
+      viz.screenCanvas.set_position() ;
+
+      if ( viz.resized === false ) {
+        viz.resized = true ;
+      }
+
     }
 
     var backgroundImageUrl = vizConfig.backgroundImageUrl ;
@@ -145,6 +160,7 @@ let vizHelper = {
 
           this.resize() ;
           this.lastResize = $Z.iter ;
+
         }
 
         if(this.item === undefined) {

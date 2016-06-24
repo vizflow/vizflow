@@ -52,14 +52,15 @@ let imageHelper = {
       }
       position.scale  = 1 / heightRatio ;
     }
+    
     // console.log('rw', widthRatio, 'rh', heightRatio, 'pos', position)
     
-    if(canvas.style.width !== position.width || canvas.style.height !== position.height) {
+    if(canvas.style.width !== position.width || canvas.style.height !== position.height || canvas.style.left !== position.left || canvas.style.top !== position.top) {
 
-      canvas.style.width  = position.width ;
-      canvas.style.height = position.height ;
-      canvas.style.left   = position.left ;
-      canvas.style.top    = position.top ;
+      canvas.style.width  = position.width + 'px' ;
+      canvas.style.height = position.height + 'px' ;
+      canvas.style.left   = position.left + 'px' ;
+      canvas.style.top    = position.top + 'px' ;
       
     }
 
