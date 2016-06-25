@@ -187,8 +187,6 @@ document.vizflow_page = function vizflow_page() {
 
     }
 
-<<<<<<< HEAD
-=======
     var urlImage = $Z.helper.image.to_canvas(document.imageList[1]) ;
 
     viz.url = viz.setup_item({
@@ -240,6 +238,8 @@ document.vizflow_page = function vizflow_page() {
     }) ;
 
 >>>>>>> b7981a16566e1bb345353ce6c14be65d618f254c
+=======
+>>>>>>> master
     viz.setup_ui() ;
 
   } ;
