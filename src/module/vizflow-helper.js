@@ -7,6 +7,7 @@ import {} from './Object.assign' ; // Object.assign polyfill & wrapper
 // import the helper functions and wrappers attached to the $Z object:
 
 import action     from './helper/action'     ;
+import asynch     from './helper/async'      ;
 import audio      from './helper/audio'      ;
 import collision  from './helper/collision'  ;
 import draw       from './helper/draw'       ;
@@ -25,6 +26,7 @@ import viz        from './helper/viz'        ;
 let helper = { // define the "bling Z helper" property to store the helper modules that can be used when working with vizflow
   
   action,
+  async: asynch,
   audio,
   collision,
   draw,
