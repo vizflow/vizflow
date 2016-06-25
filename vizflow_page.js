@@ -109,6 +109,12 @@ document.vizflow_page = function vizflow_page() {
 
         callback: function() {
 
+          if ( viz.busy === true ) {
+            return ;
+          }
+
+          viz.busy = true ;
+
           this.focus() ;
 
           var flash = $Z.helper.effect.image.fade_sequence({ 
@@ -139,20 +145,22 @@ document.vizflow_page = function vizflow_page() {
 
               viz.call(function() { 
                 viz.fade({
+
                   opacity: 0,
                   duration: 2000,
                   end: function() {
                     window.location.href = url ;
                   },
+
                 }) ;
               }, 1000) ;
 
             },
           } ;
 
-          // console.log('flash', flash) ;
-
           this.circle.add_transition(flash) ;
+
+          // console.log('flash', flash) ;
 
         },
         addSwitch: true,
@@ -179,6 +187,59 @@ document.vizflow_page = function vizflow_page() {
 
     }
 
+<<<<<<< HEAD
+=======
+    var urlImage = $Z.helper.image.to_canvas(document.imageList[1]) ;
+
+    viz.url = viz.setup_item({
+
+      image: urlImage,
+      x: 18, // viz.width * 0.5,
+      y: 80, // viz.height - urlImage.height * 0.5,
+      xOrigin: 0, // urlImage.width * 0.5,
+      yOrigin: 0, // urlImage.height * 0.5,
+      xScale: 0.5,
+      yScale: 0.5,
+      uiSwitch: true,
+      addSwitch: true,
+
+      callback: function() {
+
+        if ( viz.busy === true ) {
+          return ;
+        }
+
+        viz.busy = true ;
+
+        var dur = 2000 ;
+
+        viz.item.forEach(function(d) {
+          d.image.clear_color([255, 255, 255]) ;
+        }) ;
+
+        this.add_set(['x', 'xScale', 'yScale', 'opacity'], [(viz.width - this.image.width) * 0.5, 2, 2, 0.2], 2 * dur) ;
+
+        // console.log('url callback') ;
+
+        function fadeout() {
+
+          viz.fade({
+            opacity: 0,
+            duration: 0.5 * dur,
+            end: function() {
+              var vizflowUrl = 'https://github.com/vizflow/vizflow' ;
+              window.location.href = vizflowUrl ;                  
+            },
+          }) ;
+
+        }
+
+        viz.call(fadeout, 0.5 * dur) ;
+
+      },
+    }) ;
+
+>>>>>>> b7981a16566e1bb345353ce6c14be65d618f254c
     viz.setup_ui() ;
 
   } ;
