@@ -27,6 +27,20 @@ let itemHelper = {
       yOrigin = 0 ;
     }
 
+    var xScale, yScale ;
+
+    if ( itemConfig.xScale === undefined ) {
+      xScale = 1 ;
+    } else {
+      xScale = itemConfig.xScale ;
+    }
+
+    if ( itemConfig.yScale === undefined ) {
+      yScale = 1 ;
+    } else {
+      yScale = itemConfig.yScale ;
+    }
+
     var item = { // configurable properties: x, y, type, element, opacity, image, inert, render, fixed, transition
 
       /* default properties: */
@@ -45,8 +59,8 @@ let itemHelper = {
       yOrigin:   itemConfig.yOrigin || yOrigin,
       xAngle:    itemConfig.xAngle  || 0,
       yAngle:    itemConfig.yAngle  || 0,
-      xScale:    itemConfig.xScale  || 1,
-      yScale:    itemConfig.yScale  || 1,
+      xScale:    xScale,
+      yScale:    yScale,
       type:      itemConfig.type,
       element:   itemConfig.element,
       enter:     itemConfig.enter,
@@ -465,8 +479,20 @@ let itemHelper = {
       var last  = $Z._item[$Z._item.length - 1] ;
 
       if ( last !== item ) {
-        $Z._item[index] = last ;
-        $Z._item[$Z._item.length - 1] = item ;
+
+        $Z._item[$Z._item.length - 1] = item ; // item to be focused becomes last
+
+        if ( $Z._item.length > 2 ) {
+
+          for ( var kitem = index ; kitem < $Z._item.length - 2 ; kitem++ ) { // left-shift by one:
+            $Z._item[kitem] = $Z._item[kitem + 1] ;
+          }
+
+          $Z._item[$Z._item.length - 2] = last ; // previously last item becomes second-to-last
+
+        } else { // only 2 items
+          $Z._item[0] = last ;
+        }
       }
 
     },
