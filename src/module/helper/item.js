@@ -130,14 +130,33 @@ let itemHelper = {
 
       var white = $Z.helper.effect.image.color_filter(item.image, [255, 255, 255]) ;
 
-      item.white       = Object.copy(item) ;
-      item.white.childFade = true ;
-      item.white.child = undefined ;
-
-      item.white.image   = white ;
-      item.white.opacity = 0 ;
-
+      item.white = $Z.helper.item.setup({
+        viz: item.viz,
+        addSwitch: false,
+        image: white,
+        opacity: 0,
+        xOrigin: item.xOrigin,
+        yOrigin: item.yOrigin,
+      }) ;
+      // item.white.childFade = true ;
       item.child.push(item.white) ;
+
+      var black = $Z.helper.effect.image.color_filter(item.image, [0, 0, 0]) ;
+
+      item.black = $Z.helper.item.setup({
+        viz: item.viz,
+        addSwitch: false,
+        image: black,
+        opacity: 0,
+        xOrigin: item.xOrigin,
+        yOrigin: item.yOrigin,
+      }) ;
+
+      // item.black.childFade = true ;
+
+      item.black.image   = black ;
+
+      item.child.push(item.black) ;
 
     },
 
@@ -442,7 +461,7 @@ let itemHelper = {
       }
 
       if ( item.white === undefined ) {
-        item.default_child() ;
+        return ;
       }
 
       var fade_func = $Z.helper.transition.fixed_duration_creator('opacity', duration, $Z.helper.transition.linear_interp) ;
