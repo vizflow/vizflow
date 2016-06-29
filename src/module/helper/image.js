@@ -19,38 +19,63 @@ let imageHelper = {
     if ( canvas.hCenter === undefined ) {
       canvas.hCenter = true ;
     }
-    
+
     var position     = {} ;
     var windowWidth  = window.innerWidth ;
     var widthRatio   = canvas.width / windowWidth ;
     var windowHeight = window.innerHeight ;
     var heightRatio  = canvas.height / windowHeight ;
-    var scaleWidth   = true ; // toggles width or height scaling (height by default)
+    var scaleWidth   = true ; // toggles width or height scaling 
     var landscape    = canvas.width >= canvas.height ;
     
     if(  landscape &&  (heightRatio > widthRatio) ) scaleWidth = false ;
     if( !landscape && !(heightRatio < widthRatio) ) scaleWidth = false ;
     
-    if(scaleWidth) { // fit width to window and center vertically  
-      position.width  = windowWidth ;
-      position.height = Math.round(canvas.height / widthRatio) ;
-      position.left   = 0 ;
-      if ( canvas.vCenter === true ) {
-        position.top = Math.round(0.5 * (windowHeight - position.height)) ;        
-      } else {
-        position.top = 0 ;
+    if( scaleWidth ) { // fit width to window and center vertically  
+    
+      if ( canvas.cover === true ) {
+
+        position.width  = windowWidth ;
+        position.height = windowHeight ;
+        position.left   = 0 ;
+        position.top    = 0 ;
+
+      } else {      
+        
+        position.width  = windowWidth ;
+        position.height = Math.round(canvas.height / widthRatio) ;
+        position.left   = 0 ;
+        if ( canvas.vCenter === true ) {
+          position.top = Math.round(0.5 * (windowHeight - position.height)) ;        
+        } else {
+          position.top = 0 ;
+        }
+        position.scale  = 1 / widthRatio ;
+      
       }
-      position.scale  = 1 / widthRatio ;
+    
     } else { // fit height to window and center horizontally
-      position.height = windowHeight ;
-      position.width  = Math.round(canvas.width / heightRatio) ;
-      position.top    = 0 ;
-      if (canvas.hCenter === true) {
-        position.left = Math.round(0.5 * (windowWidth - position.width)) ;        
+      
+      if ( canvas.cover === true ) {
+
+        position.width  = windowWidth ;
+        position.height = windowHeight ;
+        position.left   = 0 ;
+        position.top    = 0 ;
+
       } else {
-        position.left = 0 ;
+
+        position.height = windowHeight ;
+        position.width  = Math.round(canvas.width / heightRatio) ;
+        position.top    = 0 ;
+        if (canvas.hCenter === true) {
+          position.left = Math.round(0.5 * (windowWidth - position.width)) ;        
+        } else {
+          position.left = 0 ;
+        }
+        position.scale  = 1 / heightRatio ;
+
       }
-      position.scale  = 1 / heightRatio ;
     }
     
     // console.log('rw', widthRatio, 'rh', heightRatio, 'pos', position)
