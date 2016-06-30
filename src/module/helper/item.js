@@ -41,6 +41,14 @@ let itemHelper = {
       yScale = itemConfig.yScale ;
     }
 
+    var addSwitch ;
+
+    if( itemConfig.addSwitch !== undefined ) {
+      addSwitch = itemConfig.addSwitch ;
+    } else {
+      addSwitch = true ;
+    }
+
     var item = { // configurable properties: x, y, type, element, opacity, image, inert, render, fixed, transition
 
       /* default properties: */
@@ -76,7 +84,7 @@ let itemHelper = {
       fixed:     itemConfig.fixed,
       uiSwitch:  itemConfig.uiSwitch || false,
       callback:  itemConfig.callback,
-      addSwitch: itemConfig.addSwitch || true,
+      addSwitch: addSwitch,
       render:    itemConfig.render || $Z.helper.draw.item, // $Z.helper.draw.image expects "this" to  be "item"
 
     } ;
@@ -497,21 +505,14 @@ let itemHelper = {
       var index = $Z._item.indexOf(item) ;
       var last  = $Z._item[$Z._item.length - 1] ;
 
-      if ( last !== item ) {
+      if ( index > -1 && last !== item ) {
+
+        for ( var kitem = index ; kitem < $Z._item.length - 1 ; kitem++ ) { // left-shift by one:
+          $Z._item[kitem] = $Z._item[kitem + 1] ;
+        }
 
         $Z._item[$Z._item.length - 1] = item ; // item to be focused becomes last
 
-        if ( $Z._item.length > 2 ) {
-
-          for ( var kitem = index ; kitem < $Z._item.length - 2 ; kitem++ ) { // left-shift by one:
-            $Z._item[kitem] = $Z._item[kitem + 1] ;
-          }
-
-          $Z._item[$Z._item.length - 2] = last ; // previously last item becomes second-to-last
-
-        } else { // only 2 items
-          $Z._item[0] = last ;
-        }
       }
 
     },

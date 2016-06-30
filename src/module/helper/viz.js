@@ -41,6 +41,8 @@ let vizHelper = {
 
     if ( vizConfig.coverSwitch === true ) {
       screenCanvas.cover = true ;
+      screenCanvas.maxWidth = Math.floor(displayWidth / window.devicePixelRatio) ;
+      screenCanvas.maxHeight = Math.floor(displayHeight / window.devicePixelRatio) ;
     }
 
     var fullContext   = fullCanvas.context() ; // model canvas (indepdenent of device pixel ratio)
@@ -77,6 +79,7 @@ let vizHelper = {
             var viewportHeight = viz.viewportHeight ; 
             var newHeight      = Math.min(viz.fullCanvas.height, (viewAspect / aspectRatio) * viewportHeight) ;
             viz.viewportHeight = Math.round(newHeight) ;
+            var scale = viz.viewportHeight / viz.screenCanvas.height ;
             return ;
           }
 

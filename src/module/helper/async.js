@@ -10,7 +10,7 @@ let asyncHelper = {
 
   },
 
-  pasync: function setup_promisify(async) { // function that creates functions that return promises that wrap our async functions 
+  promise: function setup_promisify(async) { // function that creates functions that return promises that wrap our async functions 
 
     function setup_async_promise() {
       return asyncHelper.promisify(async) ;

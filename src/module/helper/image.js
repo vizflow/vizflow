@@ -35,10 +35,10 @@ let imageHelper = {
     
       if ( canvas.cover === true ) {
 
-        position.width  = windowWidth ;
-        position.height = windowHeight ;
-        position.left   = 0 ;
-        position.top    = 0 ;
+        position.width  = Math.min(windowWidth, canvas.maxWidth) ;
+        position.height = Math.min(windowHeight, canvas.maxHeight) ;
+        position.left   = 0.5 * (windowWidth  - position.width) ;
+        position.top    = 0.5 * (windowHeight - position.height) ;
 
       } else {      
         
@@ -58,10 +58,10 @@ let imageHelper = {
       
       if ( canvas.cover === true ) {
 
-        position.width  = windowWidth ;
-        position.height = windowHeight ;
-        position.left   = 0 ;
-        position.top    = 0 ;
+        position.width  = Math.min(windowWidth, canvas.maxWidth) ;
+        position.height = Math.min(windowHeight, canvas.maxHeight) ;
+        position.left   = 0.5 * (windowWidth  - position.width) ;
+        position.top    = 0.5 * (windowHeight - position.height) ;
 
       } else {
 
@@ -76,6 +76,7 @@ let imageHelper = {
         position.scale  = 1 / heightRatio ;
 
       }
+
     }
     
     // console.log('rw', widthRatio, 'rh', heightRatio, 'pos', position)
