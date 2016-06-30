@@ -556,7 +556,12 @@ let transitionHelper = {
         item = this ;
       }
 
-      var trans = trans_func() ;
+      var trans ;
+      if ( trans_func.constructor === String ) {
+        trans = item[trans_func]() ;
+      } else {
+        trans = trans_func() ;
+      }
 
       var child = transitionHelper.get_child(trans, 'last') ;
 

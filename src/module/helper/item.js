@@ -254,12 +254,6 @@ let itemHelper = {
         item = this ;
       }
 
-      if ( trans_func.constructor === String ) {
-        trans_func = item[trans_func] ;
-      } else {
-        trans_func = trans_func ;
-      }
-
       item.add_transition( item.loop_trans(trans_func) ) ;              
 
     },
