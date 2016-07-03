@@ -5,27 +5,27 @@ var transitionHelper = {
   },
 
   linear_interp: function transition_helper_linear_interp(t) {
-    return $Z.transition.linear_interp.call(this, t) ;
+    return $Z.helper.transition.linear_interp.call(this, t) ;
   },
 
   rounded_linear_interp: function transition_helper_rounded_linear_interp(t) {
-    return $Z.transition.rounded_linear_interp.call(this, t) ;
+    return $Z.helper.transition.rounded_linear_interp.call(this, t) ;
   },
 
   step_func: function transition_helper_step_func(varName, duration) {
-    return $Z.transition.build_func(varName, duration, transitionHelper.step_interp) ;
+    return $Z.helper.transition.build_func(varName, duration, transitionHelper.step_interp) ;
   },
 
   linear_func: function transition_helper_linear_func(varName, duration) {
-    return $Z.transition.build_func(varName, duration, $Z.transition.linear_interp) ;
+    return $Z.helper.transition.build_func(varName, duration, $Z.helper.transition.linear_interp) ;
   },
 
   rounded_linear_func: function transition_helper_rounded_linear_func(varName, duration) {
-    return $Z.transition.build_func(varName, duration, transitionHelper.rounded_linear_interp) ;
+    return $Z.helper.transition.build_func(varName, duration, transitionHelper.rounded_linear_interp) ;
   },
 
   fixed_duration_creator: function transition_helper_fixed_duration_creator(property, duration, interp_func) {
-    return $Z.transition.build_func(property, duration, interp_func) ;
+    return $Z.helper.transition.build_func(property, duration, interp_func) ;
   },
 
   fixed_duration_step: function transition_helper_fixed_duration_linear(property, duration) {
@@ -49,11 +49,11 @@ var transitionHelper = {
   },
 
   new_linear: function transition_helper_new_linear(property, value, duration) {
-    return transitionHelper.new(property, value, duration, $Z.transition.linear_interp) ;
+    return transitionHelper.new(property, value, duration, $Z.helper.transition.linear_interp) ;
   },
 
   new_rounded_linear: function transition_helper_new_rounded_linear(property, value, duration) {
-    return transitionHelper.new(property, value, duration, $Z.transition.rounded_linear_interp) ;
+    return transitionHelper.new(property, value, duration, $Z.helper.transition.rounded_linear_interp) ;
   },
 
   sequence: function transition_helper_sequence(transitionArray) {

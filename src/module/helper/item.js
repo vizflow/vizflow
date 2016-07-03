@@ -479,14 +479,14 @@ let itemHelper = {
       }
 
       if ( fader === undefined ) {
-        fader = item.viz.fader ;
+        fader = item.viz.fader || item.fader ; // the viz itself can act as an item
       }
 
       if ( fadeVal === undefined ) {
         fadeVal = [1, 0] ;
       }
 
-      item.loop( function() { return fader(fadeVal) ; } ) ;
+      item.loop( function() { return fader.call(item.viz || this, fadeVal) ; } ) ;
     
     }, 
 
