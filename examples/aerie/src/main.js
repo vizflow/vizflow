@@ -27,6 +27,9 @@ document.image = [
 	'./image/thrust_button_spritesheet.png',
 	'./image/finisher_button_spritesheet.png',
 	'./image/game_over.png',
+	'./image/battlescreen_background.png',
+	'./image/battlescreen_moon.png',
+	'./image/battlescreen_clouds.png',
 
 
 

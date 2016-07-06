@@ -2,7 +2,7 @@ function battle_screen() {
   
     var vizConfig = {
 
-        image: imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/battlescreen.png')),
+        image: imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/battlescreen_background.png')),
         frameDurationFactor: 3,
         music:'./audio/bgm1.wav',
 
@@ -13,7 +13,7 @@ function battle_screen() {
     } ;
     
     viz = vizHelper.setup(vizConfig) ;
-console.log('vizConfig', vizConfig) ;
+// console.log('vizConfig', vizConfig) ;
 
     viz.audio = {
         music: audioLoader.cache[vizConfig.music],
@@ -35,6 +35,29 @@ console.log('vizConfig', vizConfig) ;
 
     Object.assign (viz, $Z.helper.item.method) ;
     Object.assign (viz, $Z.helper.transition.method) ;
+    
+    var scaleDur = 2000 ;
+
+    var cloudsConfig = {
+        image: imageHelper.adjust_ratio (imageHelper.to_canvas('./image/battlescreen_clouds.png')),
+        x: 330,
+        y: -30,
+    } ;
+    var moonConfig = {
+        image: imageHelper.adjust_ratio (imageHelper.to_canvas('./image/battlescreen_moon.png')),
+        x: 70,
+        y: 50,   
+     } ;
+
+    viz.clouds = viz.setup_item(cloudsConfig) ;  
+    viz.clouds.add_linear ('x', 0, scaleDur * 20 ) ;
+    // viz.clouds.x = viz.cloudsConfig.x ;
+    // viz.clouds.add_linear ('x', 0, scaleDur * 5 ) ;
+
+    // viz.clouds.call(function() {
+    //     this.add_linear('y', -200,scaleDur) ;
+    // }, scaleDur * 10) ;
+
     var tileWidth  = 200 ;
     var tileHeight = 300 ; 
 
@@ -83,9 +106,9 @@ console.log('vizConfig', vizConfig) ;
         maxHeight = Math.max.apply(null, height) ;
         var spriteset = spriteHelper.get(i, rowName, width, height) ;
 
-        var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0].originalCanvas, { x: 0, y: 0, width: spriteset.attack[0].originalCanvas.width * 0.3, height: maxHeight } ) ;
-        var thrustCollisionCanvas                = imageHelper.clear_rect (spriteset.thrust[1].originalCanvas, { x: 0, y: 0, width: spriteset.thrust[1].originalCanvas.width * 0.3, height: maxHeight } ) ;
-        var finisherCollisionCanvas                = imageHelper.clear_rect (spriteset.finisher[1].originalCanvas, { x: 0, y: 0, width: spriteset.finisher[1].originalCanvas.width * 0.3, height: maxHeight } ) ;
+        var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0].originalCanvas, { x: 0, y: 0, width: spriteset.attack[0].originalCanvas.width * 0.1, height: maxHeight } ) ;
+        var thrustCollisionCanvas                = imageHelper.clear_rect (spriteset.thrust[1].originalCanvas, { x: 0, y: 0, width: spriteset.thrust[1].originalCanvas.width * 0.1, height: maxHeight } ) ;
+        var finisherCollisionCanvas                = imageHelper.clear_rect (spriteset.finisher[1].originalCanvas, { x: 0, y: 0, width: spriteset.finisher[1].originalCanvas.width * 0.1, height: maxHeight } ) ;
         
         spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
         spriteset.thrust[1].sourceCollisionImage = thrustCollisionCanvas ;
@@ -94,11 +117,12 @@ console.log('vizConfig', vizConfig) ;
         spriteset.finisher[3].sourceCollisionImage = finisherCollisionCanvas ;
         spriteset.finisher[4].sourceCollisionImage = finisherCollisionCanvas ;    
 
-        spriteset.attack = [spriteset.attack[0], spriteset.attack[1], spriteset.attack[2], spriteset.attack[3], spriteset.rest[0]] ;
-        spriteset.thrust = [spriteset.thrust[0], spriteset.thrust[1], spriteset.rest[0]] ;
-        spriteset.finisher = [spriteset.finisher[0], spriteset.finisher[1], spriteset.finisher[2], spriteset.finisher[3], spriteset.finisher[4], spriteset.finisher[5], spriteset.finisher[6], spriteset.rest[0]] ;    
-        spriteset.block = [spriteset.block[0], spriteset.block[1], spriteset.rest[0]] ;
-        spriteset.hit = [spriteset.hit[0]] ;    
+        // spriteset.attack = [spriteset.attack[0], spriteset.attack[1], spriteset.attack[2], spriteset.attack[3], spriteset.rest[0]] ;
+        // spriteset.thrust = [spriteset.thrust[0], spriteset.thrust[1], spriteset.rest[0]] ;
+        // spriteset.finisher = [spriteset.finisher[0], spriteset.finisher[1], spriteset.finisher[2], spriteset.finisher[3], spriteset.finisher[4], spriteset.finisher[5], spriteset.finisher[6], spriteset.rest[0]] ;    
+        // spriteset.block = [spriteset.block[0], spriteset.block[1], spriteset.rest[0]] ;
+        // spriteset.hit = [spriteset.hit[0]] ;    
+ // imageHelper.view(spriteset.finisher[4].sourceCollisionImage ) ;
 
         return spriteset ;
 
@@ -177,35 +201,35 @@ console.log('vizConfig', vizConfig) ;
           maxHeight = Math.max.apply(null, height) ;
 
           var spriteset = spriteHelper.get(i, rowName, width, height) ;
-          var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[1].originalCanvas, { x: 0, y: 0, width: spriteset.attack[1].originalCanvas.width * 0.1, height: maxHeight } ) ;
-          var tailAttackCollisionCanvas            = imageHelper.clear_rect (spriteset.tailattack[0].originalCanvas, { x: 0, y: 0, width: spriteset.tailattack[0].originalCanvas.width * 0.1, height: maxHeight } ) ;
+          var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[1].originalCanvas, { x: 100, y: 0, width: spriteset.attack[1].originalCanvas.width * 0.5, height: maxHeight } ) ;
+          var tailAttackCollisionCanvas            = imageHelper.clear_rect (spriteset.tailattack[2].originalCanvas, { x: 0, y: 0, width: spriteset.tailattack[0].originalCanvas.width * 0.1, height: maxHeight } ) ;
           var hindAttackCollisionCanvas            = imageHelper.clear_rect (spriteset.hindattack[0].originalCanvas, { x: 0, y: 0, width: spriteset.hindattack[2].originalCanvas.width * 0.1, height: maxHeight } ) ;
-          var snortAttackCollisionCanvas           = imageHelper.clear_rect (spriteset.snortattack[1].originalCanvas, { x: 0, y: 0, width: spriteset.snortattack[1].originalCanvas.width * 0.1, height: maxHeight } ) ;
+          var snortAttackCollisionCanvas           = imageHelper.clear_rect (spriteset.snortattack[1].originalCanvas, { x: 70, y: 0, width: spriteset.snortattack[1].originalCanvas.width * 0.8, height: maxHeight } ) ;
           
           spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
           spriteset.snortattack[1].sourceCollisionImage = snortAttackCollisionCanvas ;
-          spriteset.tailattack[0].sourceCollisionImage = tailAttackCollisionCanvas ;
+          spriteset.tailattack[2].sourceCollisionImage = tailAttackCollisionCanvas ;
           spriteset.hindattack[1].sourceCollisionImage = hindAttackCollisionCanvas ;
           spriteset.hindattack[2].sourceCollisionImage = hindAttackCollisionCanvas ;
 
-          spriteset.snortattack = [spriteset.snortattack[0], spriteset.snortattack[1], spriteset.rest[0]] ;
-          spriteset.block   = [spriteset.block[0], spriteset.block[1], spriteset.block[2], spriteset.block[3]] ;      
-          spriteset.attack = [spriteset.attack[0], spriteset.attack[1], spriteset.rest[0]] ;
-          spriteset.tailattack = [spriteset.tailattack[0], spriteset.tailattack[1], spriteset.tailattack[2]] ;
-          spriteset.hindattack = [spriteset.hindattack[0], spriteset.hindattack[1], spriteset.hindattack[2], spriteset.hindattack[3]] ;
-          spriteset.rest = [spriteset.rest[0], spriteset.rest[1], spriteset.rest[2], spriteset.rest[0]];
-          spriteset.hit = [spriteset.hit[0], spriteset.hit[1]] ;
-// imageHelper.view(spriteset.snortattack[1].sourceCollisionImage) ;
+          // spriteset.snortattack = [spriteset.snortattack[0], spriteset.snortattack[1], spriteset.rest[0]] ;
+          // spriteset.block   = [spriteset.block[0], spriteset.block[1], spriteset.block[2], spriteset.block[3]] ;      
+          // spriteset.attack = [spriteset.attack[0], spriteset.attack[1], spriteset.rest[0]] ;
+          // spriteset.tailattack = [spriteset.tailattack[0], spriteset.tailattack[1], spriteset.tailattack[2]] ;
+          // spriteset.hindattack = [spriteset.hindattack[0], spriteset.hindattack[1], spriteset.hindattack[2], spriteset.hindattack[3]] ;
+          // spriteset.rest = [spriteset.rest[0], spriteset.rest[1], spriteset.rest[2], spriteset.rest[0]];
+          // spriteset.hit = [spriteset.hit[0], spriteset.hit[1]] ;
+ imageHelper.view(tailAttackCollisionCanvas) ;
           return spriteset ;
 
         },    
 
         x: 50,
         y: 50,
-        xOrigin: -5,
-        yOrigin: 60,
-        xScale: 0.05,
-        yScale: 0.05,        
+        // xOrigin: -5,
+        // yOrigin: 60,
+        // xScale: 0.05,
+        // yScale: 0.05,        
         type: 'enemy',
 
     } ;
@@ -236,6 +260,8 @@ console.log('vizConfig', vizConfig) ;
         }) ;     
 
     } ;
+
+
 
     var moveButtonWidth     = 50 ;
     var moveButtonHeight    = 75 ;
@@ -430,7 +456,7 @@ console.log('vizConfig', vizConfig) ;
                 viz.player.attack('slash') ;                
                 viz.button.attack.item.image = viz.button.attack.sprite.thrust[0] ;
                 viz.button.attack.item.uiSwitch = true ;
-                     // gameHelper.screen_handler(slashCode) ;
+                gameHelper.screen_handler(slashCode) ;
           
                 break ;
 
@@ -440,7 +466,7 @@ console.log('vizConfig', vizConfig) ;
                 viz.player.attack('thrust') ;
                 viz.button.attack.item.image = viz.button.finisher.sprite.push[0] ;
                 viz.button.attack.item.uiSwitch = true ; 
-                       // gameHelper.screen_handler(thrustCode) ;
+                gameHelper.screen_handler(thrustCode) ;
  
                 break ;
 
@@ -449,7 +475,7 @@ console.log('vizConfig', vizConfig) ;
                 viz.player.attack('finisher') ;                
                 viz.button.attack.item.image = viz.button.attack.sprite.slash[0] ;
                 viz.button.attack.item.uiSwitch = true ;   
-                        // gameHelper.screen_handler(finisherCode) ;
+                gameHelper.screen_handler(finisherCode) ;
       
                 break ;
         }
@@ -495,11 +521,15 @@ console.log('vizConfig', vizConfig) ;
         viz.enemy.callback  = enemyBattleHelper.update ;        
    }
     
-    var scaleDur = 2000 ;
+   
+    viz.moon = viz.setup_item(moonConfig) ;
+    // viz.moon.add_linear ('y', 100, scaleDur * 1.5) ;
 
-    viz.enemy.item.add_linear ('xScale', 1, scaleDur) ;
-    viz.enemy.item.add_linear ('yScale', 1, scaleDur) ;
-    viz.enemy.item.add_linear ('y', 100, scaleDur) ;
+
+
+    // viz.enemy.item.add_linear ('xScale', 1, scaleDur) ;
+    // viz.enemy.item.add_linear ('yScale', 1, scaleDur) ;
+    // viz.enemy.item.add_linear ('y', 100, scaleDur) ;
 
     viz.call ('start_attack', .2 * scaleDur) ;
     viz.player.callback = playerBattleHelper.update ;    
