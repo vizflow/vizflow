@@ -117,11 +117,6 @@ function battle_screen() {
         spriteset.finisher[3].sourceCollisionImage = finisherCollisionCanvas ;
         spriteset.finisher[4].sourceCollisionImage = finisherCollisionCanvas ;    
 
-        // spriteset.attack = [spriteset.attack[0], spriteset.attack[1], spriteset.attack[2], spriteset.attack[3], spriteset.rest[0]] ;
-        // spriteset.thrust = [spriteset.thrust[0], spriteset.thrust[1], spriteset.rest[0]] ;
-        // spriteset.finisher = [spriteset.finisher[0], spriteset.finisher[1], spriteset.finisher[2], spriteset.finisher[3], spriteset.finisher[4], spriteset.finisher[5], spriteset.finisher[6], spriteset.rest[0]] ;    
-        // spriteset.block = [spriteset.block[0], spriteset.block[1], spriteset.rest[0]] ;
-        // spriteset.hit = [spriteset.hit[0]] ;    
  // imageHelper.view(spriteset.finisher[4].sourceCollisionImage ) ;
 
         return spriteset ;
@@ -134,7 +129,7 @@ function battle_screen() {
 
         },
 
-        xMove: 74,
+        xMove: 79,
         yMove: 74,
         x: 60,
         y: 5,
@@ -203,23 +198,17 @@ function battle_screen() {
           var spriteset = spriteHelper.get(i, rowName, width, height) ;
           var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[1].originalCanvas, { x: 100, y: 0, width: spriteset.attack[1].originalCanvas.width * 0.5, height: maxHeight } ) ;
           var tailAttackCollisionCanvas            = imageHelper.clear_rect (spriteset.tailattack[2].originalCanvas, { x: 0, y: 0, width: spriteset.tailattack[0].originalCanvas.width * 0.1, height: maxHeight } ) ;
-          var hindAttackCollisionCanvas            = imageHelper.clear_rect (spriteset.hindattack[0].originalCanvas, { x: 0, y: 0, width: spriteset.hindattack[2].originalCanvas.width * 0.1, height: maxHeight } ) ;
+          var hindAttackCollisionCanvas            = imageHelper.clear_rect (spriteset.hindattack[2].originalCanvas, { x: 0, y: 0, width: spriteset.hindattack[2].originalCanvas.width * 0.5, height: maxHeight } ) ;
           var snortAttackCollisionCanvas           = imageHelper.clear_rect (spriteset.snortattack[1].originalCanvas, { x: 70, y: 0, width: spriteset.snortattack[1].originalCanvas.width * 0.8, height: maxHeight } ) ;
           
           spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
           spriteset.snortattack[1].sourceCollisionImage = snortAttackCollisionCanvas ;
           spriteset.tailattack[2].sourceCollisionImage = tailAttackCollisionCanvas ;
-          spriteset.hindattack[1].sourceCollisionImage = hindAttackCollisionCanvas ;
+          // spriteset.hindattack[1].sourceCollisionImage = hindAttackCollisionCanvas ;
           spriteset.hindattack[2].sourceCollisionImage = hindAttackCollisionCanvas ;
 
-          // spriteset.snortattack = [spriteset.snortattack[0], spriteset.snortattack[1], spriteset.rest[0]] ;
-          // spriteset.block   = [spriteset.block[0], spriteset.block[1], spriteset.block[2], spriteset.block[3]] ;      
-          // spriteset.attack = [spriteset.attack[0], spriteset.attack[1], spriteset.rest[0]] ;
-          // spriteset.tailattack = [spriteset.tailattack[0], spriteset.tailattack[1], spriteset.tailattack[2]] ;
-          // spriteset.hindattack = [spriteset.hindattack[0], spriteset.hindattack[1], spriteset.hindattack[2], spriteset.hindattack[3]] ;
-          // spriteset.rest = [spriteset.rest[0], spriteset.rest[1], spriteset.rest[2], spriteset.rest[0]];
-          // spriteset.hit = [spriteset.hit[0], spriteset.hit[1]] ;
- imageHelper.view(tailAttackCollisionCanvas) ;
+
+ // imageHelper.view(hindAttackCollisionCanvas) ;
           return spriteset ;
 
         },    
@@ -233,6 +222,9 @@ function battle_screen() {
         type: 'enemy',
 
     } ;
+
+    viz.moon = viz.setup_item(moonConfig) ;
+    viz.moon.add_linear ('y', 100, scaleDur * 19.5) ;
     viz.enemy  = enemyBattleHelper.setup(viz) ;
 
     viz.player = playerBattleHelper.setup(viz) ;
@@ -292,7 +284,6 @@ function battle_screen() {
             var width = [moveButtonWidth] ;
             var height = [moveButtonHeight] ;
             var spriteset = spriteHelper.get(i, rowName, width, height) ;
-            spriteset.push = [spriteset.push[0], spriteset.push[1], spriteset.push[0]] ;
            // console.log('spriteloader left button') 
             return spriteset ;
         },
@@ -309,7 +300,6 @@ function battle_screen() {
             var width = [moveButtonWidth] ;
             var height = [moveButtonHeight] ;
             var spriteset = spriteHelper.get(i, rowName, width, height) ;
-            spriteset.push = [spriteset.push[0], spriteset.push[1]] ;
             
             return spriteset ;     
         },    
@@ -325,7 +315,6 @@ function battle_screen() {
             var width = [actionButtonWidth] ;
             var height = [actionButtonHeight] ;
             var spriteset = spriteHelper.get(i, rowName, width, height) ;
-            spriteset.push = [spriteset.push[0], spriteset.push[1]] ;
             
             return spriteset ; 
         },    
@@ -340,7 +329,6 @@ function battle_screen() {
             var width = [actionButtonWidth] ;
             var height = [actionButtonHeight] ;
             var spriteset = spriteHelper.get(i, rowName, width, height) ;
-            spriteset.push = [spriteset.push[0], spriteset.push[1]] ;
             
             return spriteset ;
         },    
@@ -355,8 +343,6 @@ function battle_screen() {
             var width = [actionButtonWidth, actionButtonWidth, actionButtonWidth] ;
             var height = [actionButtonHeight, actionButtonHeight, actionButtonHeight] ;
             var spriteset = spriteHelper.get(i, rowName, width, height) ;
-            spriteset.slash = [spriteset.slash[0], spriteset.slash[1]] ;
-            spriteset.thrust = [spriteset.thrust[0], spriteset.thrust[1]] ;
             
             return spriteset ;       
         },    
@@ -371,7 +357,6 @@ function battle_screen() {
             var width = [actionButtonWidth] ;
             var height = [actionButtonHeight] ;
             var spriteset = spriteHelper.get(i, rowName, width, height) ;
-            spriteset.push = [spriteset.push[0], spriteset.push[1]] ;
             
             return spriteset ;        
         },    
@@ -522,8 +507,7 @@ function battle_screen() {
    }
     
    
-    viz.moon = viz.setup_item(moonConfig) ;
-    // viz.moon.add_linear ('y', 100, scaleDur * 1.5) ;
+ 
 
 
 

@@ -3,7 +3,7 @@ var imageHelper = {
 	view: function sprite_helper_view (canvas) {
 
 		var dataURL = canvas.toDataURL("image/png") ;
-		console.log('dataUrl', dataURL) ;
+		// console.log('dataUrl', dataURL) ;
 		var win = window.open() ;
 		win.document.write('<img src="' + dataURL + '"/>') ;	  		
 
