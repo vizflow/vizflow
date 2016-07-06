@@ -232,7 +232,8 @@ var playerBattleHelper = {
           //   var replacementSwitch = true ;
           //   viz.add_transition(viz.transitionSet.x(viewXnew), replacementSwitch) ;
           // } 
-                    player.item.add_linear('x', -25, 300) ;
+          player.add_linear_sequence('x', [-25, 80], 300, player) ;
+                    // player.item.add_linear('x', -25, 300) ;
                               //player.item.add_linear('x', center, 300) ;
           break ;
 
