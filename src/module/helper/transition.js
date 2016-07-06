@@ -148,12 +148,12 @@ let transitionHelper = {
     return [transition] ;
   },
 
-  new_sequence: function transition_helper_new_sequence(valueList, creator_func) {
+  new_sequence: function transition_helper_new_sequence(valueList, creator) {
     
     var trans = new Array(valueList.length) ; 
 
     for ( var k = 0 ; k < trans.length ; k++ ) {
-      trans[k] = creator_func(valueList[k]) ;
+      trans[k] = creator(valueList[k]) ;
     }
 
     return transitionHelper.sequence(trans) ;
@@ -426,7 +426,7 @@ let transitionHelper = {
 
     },
 
-    add_sequence: function transition_helper_new_sequence(valueList, creator_func, item) {
+    add_sequence: function transition_helper_new_sequence(valueList, creator, item) {
 
       if ( item === undefined ) {
         item = this ;
@@ -435,10 +435,52 @@ let transitionHelper = {
       var trans = new Array(valueList.length) ; 
 
       for ( var k = 0 ; k < trans.length ; k++ ) {
-        trans[k] = creator_func(valueList[k]) ;
+        trans[k] = creator(valueList[k]) ;
       }
 
       item.add_transition( transitionHelper.sequence(trans) ) ;
+
+    },
+
+    add_linear_sequence: function transition_add_linear_sequence(propertyList, valueList, durationList, item) {
+      
+      if ( item === undefined ) { 
+        item = this ;
+      }
+
+      if ( propertyList.constructor === String ) {
+      
+        let p = new Array(valueList.length) ;
+      
+        for ( let kp = 0 ; kp < p.length ; kp++ ) {
+          p[kp] = propertyList ;
+        }
+
+        propertyList = p ;
+      
+      }
+
+      if ( durationList.constructor === Number ) {
+      
+        let d = new Array(valueList.length) ;
+      
+        for ( let kd = 0 ; kd < d.length ; kd++ ) {
+          d[kd] = durationList ;
+        }
+
+        durationList = d ;
+      
+      }
+
+      let trans = new Array(valueList.length) ;
+
+      for ( kval = 0 ; kval < valueList.length ; kval++ ) {
+        trans[kval] = transitionHelper.new(propertyList[kval], valueList[kval], durationList[kval]) ;
+      }
+
+      let seq = transitionHelper.sequence(trans) ;
+
+      item.add_transition(seq) ;
 
     },
 
