@@ -496,12 +496,12 @@ function battle_screen() {
             viz = this ;
         }
 
-        viz.enemy.start_hind_attack () ; 
+       // viz.enemy.start_hind_attack () ; 
         viz.enemy.start_attack () ;
         viz.enemy.start_tail_attack () ;
-        viz.enemy.start_block () ;
+        // viz.enemy.start_block () ;
         viz.enemy.start_rest() ;
-        viz.enemy.start_snort_attack() ;
+        // viz.enemy.start_snort_attack() ;
 
         viz.enemy.callback  = enemyBattleHelper.update ;        
    }

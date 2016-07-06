@@ -175,7 +175,7 @@ var hitHelper = {
       element.item.whiteflash(50) ;  
       element.health -= 2 ;
     }
-    if (element.health < 0) {
+    if (element.health < 1) {
     
  function end_game(viz) {
 
