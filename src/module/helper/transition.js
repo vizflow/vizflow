@@ -103,8 +103,8 @@ let transitionHelper = {
     return transitionHelper.build_func(property, duration, transitionHelper.interp) ;
   },
 
-  fixed_duration_creator: function transition_helper_fixed_duration_creator(property, duration, interp_func) {
-    return transitionHelper.build_func(property, duration, interp_func) ;
+  fixed_duration_creator: function transition_helper_fixed_duration_creator(property, duration, interpolator) {
+    return transitionHelper.build_func(property, duration, interpolator) ;
   },
 
   fixed_duration_step: function transition_helper_fixed_duration_linear(property, duration) {
@@ -119,13 +119,13 @@ let transitionHelper = {
     return transitionHelper.fixed_duration_creator(property, duration, transitionHelper.rounded_linear_interp) ;
   },
 
-  new: function transition_helper_new(property, value, duration, interp_func) {
+  new: function transition_helper_new(property, value, duration, interpolator) {
 
-    if ( interp_func === undefined ) {
-      interp_func = transitionHelper.interp ;
+    if ( interpolator === undefined ) {
+      interpolator = transitionHelper.interp ;
     }
 
-    return transitionHelper.fixed_duration_creator(property, duration, interp_func)(value) ; 
+    return transitionHelper.fixed_duration_creator(property, duration, interpolator)(value) ; 
   },
 
   new_step: function transition_helper_new_step(property, value, duration) {
@@ -474,8 +474,10 @@ let transitionHelper = {
 
       let trans = new Array(valueList.length) ;
 
+      let interp = transitionHelper.linear_interp ;
+
       for ( let kval = 0 ; kval < valueList.length ; kval++ ) {
-        trans[kval] = transitionHelper.new(propertyList[kval], valueList[kval], durationList[kval]) ;
+        trans[kval] = transitionHelper.new(propertyList[kval], valueList[kval], durationList[kval], interp) ;
       }
 
       let seq = transitionHelper.sequence(trans) ;
