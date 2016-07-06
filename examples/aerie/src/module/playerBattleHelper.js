@@ -232,7 +232,8 @@ var playerBattleHelper = {
           //   var replacementSwitch = true ;
           //   viz.add_transition(viz.transitionSet.x(viewXnew), replacementSwitch) ;
           // } 
-          player.add_linear_sequence('x', [-25, 80], 300, player) ;
+          player.item.add_linear_sequence('x', [-25,60], 700) ;
+          console.log('player.item.transition', player.item.transition) ;
                     // player.item.add_linear('x', -25, 300) ;
                               //player.item.add_linear('x', center, 300) ;
           break ;
@@ -241,24 +242,26 @@ var playerBattleHelper = {
 
         case 'r' :
 
-          var xMax        = Math.floor(player.sprite.rest[0].originalCanvas.width * 0.7 - 1) ;
-          var x           = player.item.x + player.xMove ;
-          var xNew        = Math.min(xMax, x) ;
-          var xTransition = player.transitionSet.x(xNew) ;      
-          player.item.add_transition(xTransition) ;      
+          // var xMax        = Math.floor(player.sprite.rest[0].originalCanvas.width * 0.7 - 1) ;
+          // var x           = player.item.x + player.xMove ;
+          // var xNew        = Math.min(xMax, x) ;
+          // var xTransition = player.transitionSet.x(xNew) ;      
+          // player.item.add_transition(xTransition) ;      
 
-          var viewXmax = 0 ;
-          var viz = player.item.viz ;
-          var viewTol = 10 ;
-          var center = player.item.image.originalCanvas.width * 0.5 + player.item.x ;
-          var dist = (viz.viewportX + viz.width) - center ;
+          // var viewXmax = 0 ;
+          // var viz = player.item.viz ;
+          // var viewTol = 10 ;
+          // var center = player.item.image.originalCanvas.width * 0.5 + player.item.x ;
+          // var dist = (viz.viewportX + viz.width) - center ;
   
-          if( dist < viewTol && viz.viewportX < viewXmax ) {
-            var viewXnew = Math.min(viewXmax, viz.viewportX + (viewTol - dist)) ;
-            var replacementSwitch = true ;
-            viz.add_transition(viz.transitionSet.x(viewXnew), replacementSwitch) ;
-          }
-                    player.item.add_linear('x', 160, 300) ;
+          // if( dist < viewTol && viz.viewportX < viewXmax ) {
+          //   var viewXnew = Math.min(viewXmax, viz.viewportX + (viewTol - dist)) ;
+          //   var replacementSwitch = true ;
+          //   viz.add_transition(viz.transitionSet.x(viewXnew), replacementSwitch) ;
+          // }
+          player.item.add_linear_sequence('x', [160 ,60], 700) ;
+
+          // player.item.add_linear('x', 160, 300) ;
 
           break ;
        

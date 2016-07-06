@@ -223,8 +223,8 @@ function battle_screen() {
 
     } ;
 
-    viz.moon = viz.setup_item(moonConfig) ;
-    viz.moon.add_linear ('y', 100, scaleDur * 19.5) ;
+    // viz.moon = viz.setup_item(moonConfig) ;
+    // viz.moon.add_linear ('y', 100, scaleDur * 19.5) ;
     viz.enemy  = enemyBattleHelper.setup(viz) ;
 
     viz.player = playerBattleHelper.setup(viz) ;
