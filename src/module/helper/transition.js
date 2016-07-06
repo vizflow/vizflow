@@ -474,7 +474,7 @@ let transitionHelper = {
 
       let trans = new Array(valueList.length) ;
 
-      for ( kval = 0 ; kval < valueList.length ; kval++ ) {
+      for ( let kval = 0 ; kval < valueList.length ; kval++ ) {
         trans[kval] = transitionHelper.new(propertyList[kval], valueList[kval], durationList[kval]) ;
       }
 
