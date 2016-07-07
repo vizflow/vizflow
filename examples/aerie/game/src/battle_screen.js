@@ -442,15 +442,15 @@ function battle_screen() {
                           
                 break ;
 
-            // case 1:
-            //     var delay = 0.5 ;
-            //     viz.audio.thrust.play(delay) ;  
-            //     viz.player.attack('thrust') ;
-            //     // viz.button.attack.item.image = viz.button.finisher.sprite.push[0] ;
-            //     viz.button.attack.item.uiSwitch = true ; 
-            //     gameHelper.screen_handler(thrustCode) ;
+            case 1:
+                var delay = 0.5 ;
+                viz.audio.thrust.play(delay) ;  
+                viz.player.attack('thrust') ;
+                // viz.button.attack.item.image = viz.button.finisher.sprite.push[0] ;
+                viz.button.attack.item.uiSwitch = true ; 
+                gameHelper.screen_handler(thrustCode) ;
  
-            //     break ;
+                break ;
 
             // case 2:
             //     viz.audio.finisher.play() ;   
@@ -462,9 +462,9 @@ function battle_screen() {
             //     break ;
         }
 
-        // viz.button.attack.index++ ;
-        // viz.button.attack.index = viz.button.attack.index % viz.button.attack.sprite.combo.length ; // tells us how many images there are modded by the images in the sprite
-        // viz.button.attack.item.image = viz.button.attack.sprite.combo[viz.button.attack.index] ;
+        viz.button.attack.index++ ;
+        viz.button.attack.index = viz.button.attack.index % viz.button.attack.sprite.combo.length ; // tells us how many images there are modded by the images in the sprite
+        viz.button.attack.item.image = viz.button.attack.sprite.combo[viz.button.attack.index] ;
               
     } ;
 
