@@ -237,9 +237,6 @@ document.vizflow_page = function vizflow_page() {
       },
     }) ;
 
->>>>>>> b7981a16566e1bb345353ce6c14be65d618f254c
-=======
->>>>>>> master
     viz.setup_ui() ;
 
   } ;
