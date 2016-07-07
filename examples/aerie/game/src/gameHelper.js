@@ -1,14 +1,14 @@
 var gameHelper = {
 
-  load_audio: function game_helper_load_audio(viz) {
+  // load_audio: function game_helper_load_audio(viz) {
 
-    if(viz === undefined) {
-      viz = this ;
-    }
+  //   if(viz === undefined) {
+  //     viz = this ;
+  //   }
 
-    viz.audio = {} ;
+  //   viz.audio = {} ;
   
-  },  
+  // },  
 
   load: function game_helper_load(viz) {
 
