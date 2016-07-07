@@ -59,11 +59,11 @@ var playerBattleHelper = {
       switch (attackType) {
 
         case 'slash':
-          var dur1 = 120 ;
+          var dur1 = 220 ;
           var dur2 = 100 ;
           var dur3 = 90 ;
-          var dur4 = 80 ;
-          var dur5 = 100 ;
+          var dur4 = 300 ;
+          var dur5 = 600 ;
           var trans1 = transitionHelper.new_step('image', player.sprite.attack[0], dur1) ;
           var trans2 = transitionHelper.new_step('image', player.sprite.attack[1], dur2) ;
           var trans3 = transitionHelper.new_step('image', player.sprite.attack[2], dur3) ;  
@@ -213,13 +213,13 @@ var playerBattleHelper = {
 
         case 'l' :
 
-          player.item.add_linear_sequence('x', [-80,60], [15, 800]) ;
+          player.item.add_linear_sequence('x', [-30, 60], [100, 800]) ;
  
           break ;
 
         case 'r' :
 
-          player.item.add_linear_sequence('x', [180 ,60], [15, 800]) ;
+          player.item.add_linear_sequence('x', [160, 60], [100, 800]) ;
 
           break ;
        
