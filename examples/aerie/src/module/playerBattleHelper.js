@@ -213,13 +213,13 @@ var playerBattleHelper = {
 
         case 'l' :
 
-          player.item.add_linear_sequence('x', [-100,60], [15, 800]) ;
+          player.item.add_linear_sequence('x', [-80,60], [15, 800]) ;
  
           break ;
 
         case 'r' :
 
-          player.item.add_linear_sequence('x', [200 ,60], [15, 800]) ;
+          player.item.add_linear_sequence('x', [180 ,60], [15, 800]) ;
 
           break ;
        
