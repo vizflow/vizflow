@@ -13,7 +13,8 @@ document.vizflow_page = function vizflow_page() {
     width:  1200,
     height: 1200,
     fadeDuration: 400,
-    vCenter: false,
+    coverSwitch: true,
+    // vCenter: false,
     collision_detect: function() {}, // turn off collision detection for this game, improving performance          
   }) ;
 
@@ -54,6 +55,7 @@ document.vizflow_page = function vizflow_page() {
       yScale: 0.5,
       uiSwitch: true,
       addSwitch: true,
+      fixed: true,
 
       callback: function() {
         viz.fade({
@@ -71,7 +73,7 @@ document.vizflow_page = function vizflow_page() {
 
     var yShift  = 0.25 ;
     var xShift  = 0.25 ;
-    var yOff    = 220 ;
+    var yOff    = 200 ;
 
     var xList   = [viz.width * 0.5, viz.width * (0.5 - xShift), viz.width * (0.5 + xShift), viz.width * 0.5] ;
     var yList   = [yOff, viz.height * (0.5 - yShift) + yOff, viz.height * (0.5 - yShift) + yOff, viz.height * (0.5 - yShift) + yOff] ;
@@ -82,7 +84,7 @@ document.vizflow_page = function vizflow_page() {
 
     urlList[2] = 'http://electionfighter.com' ; // this one has its own URL
 
-    var scale = 0.75 ;
+    var scale = 0.75 * .5 * (viz.viewportHeight / 376) ;
     var size0 = $Z.helper.loader.image.cache[document.exampleImage[0]].width ;
     var size1 = 376 * scale ;
 
@@ -105,6 +107,7 @@ document.vizflow_page = function vizflow_page() {
         xOrigin:  imageK.width  * 0.5,
         yOrigin: imageK.height * 0.5,
         uiSwitch: true,
+        fixed: true,
         url: urlList[kex],
 
         callback: function() {
@@ -189,54 +192,6 @@ document.vizflow_page = function vizflow_page() {
 
     var urlImage = $Z.helper.image.to_canvas(document.imageList[1]) ;
 
-    viz.url = viz.setup_item({
-
-      image: urlImage,
-      x: 18, // viz.width * 0.5,
-      y: 80, // viz.height - urlImage.height * 0.5,
-      xOrigin: 0, // urlImage.width * 0.5,
-      yOrigin: 0, // urlImage.height * 0.5,
-      xScale: 0.5,
-      yScale: 0.5,
-      uiSwitch: true,
-      addSwitch: true,
-
-      callback: function() {
-
-        if ( viz.busy === true ) {
-          return ;
-        }
-
-        viz.busy = true ;
-
-        var dur = 2000 ;
-
-        viz.item.forEach(function(d) {
-          d.image.clear_color([255, 255, 255]) ;
-        }) ;
-
-        this.add_set(['x', 'xScale', 'yScale', 'opacity'], [(viz.width - this.image.width) * 0.5, 2, 2, 0.2], 2 * dur) ;
-
-        // console.log('url callback') ;
-
-        function fadeout() {
-
-          viz.fade({
-            opacity: 0,
-            duration: 0.5 * dur,
-            end: function() {
-              var vizflowUrl = 'https://github.com/vizflow/vizflow' ;
-              window.location.href = vizflowUrl ;                  
-            },
-          }) ;
-
-        }
-
-        viz.call(fadeout, 0.5 * dur) ;
-
-      },
-    }) ;
-
     viz.setup_ui() ;
 
   } ;
@@ -263,10 +218,15 @@ document.vizflow_page = function vizflow_page() {
     var yScale = scale ;
     var xpad   = -100 ;
     var ypad   = -260 ;
-    var x1     = xpad + scale * item.x ; 
-    var y1     = ypad + scale * item.y ; 
+    var x1     = xpad + scale * item.x + item.viz.viewportX ; 
+    var y1     = ypad + scale * item.y + item.viz.viewportY ; 
     
-    item.add_set(['xScale', 'yScale', 'x', 'y'], [xScale, yScale, x1, y1], viz.movedur, 'power', 2) ;
+    item.add_set(['xScale', 'yScale', 'x', 'y'], [xScale, yScale, x1, y1], item.viz.movedur, 'power', 2) ;
+    item.call(function() {
+      this.x -= this.viz.viewportX ;
+      this.y -= this.viz.viewportY ;
+      this.fixed = true ;
+    }, item.viz.movedur) ;
 
   }
 

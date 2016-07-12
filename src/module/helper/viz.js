@@ -57,10 +57,24 @@ let vizHelper = {
         viz = this ;
       }
 
-      document.body.parentNode.style.width  = window.innerWidth + 'px' ;      
-      document.body.parentNode.style.height = window.innerHeight + 'px' ;      
-      document.body.style.width  = window.innerWidth + 'px' ;      
-      document.body.style.height = window.innerHeight + 'px' ;      
+      var w = window.innerWidth  + 'px' ;
+      var h = window.innerHeight + 'px' ;
+
+      if ( document.body.parentNode.style.width !== w ) {
+        document.body.parentNode.style.width = w ;              
+      }
+
+      if ( document.body.style.width !== w ) {
+        document.body.style.width = w ;      
+      }
+
+      if ( document.body.parentNode.style.height !== h ) {
+        document.body.parentNode.style.height = h ;      
+      }
+
+      if ( document.body.style.height !== h ) {
+        document.body.style.height = h ;      
+      }
 
       var position = viz.screenCanvas.set_position() ;
 

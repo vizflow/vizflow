@@ -136,6 +136,12 @@ let transitionHelper = {
     return transitionHelper.new(property, value, duration, transitionHelper.linear_interp) ;
   },
 
+  new_power: function transition_helper_new_power(property, value, duration, power) {
+    var trans = transitionHelper.new(property, value, duration, transitionHelper.power_interp) ;
+    trans.power = power ;
+    return trans ;
+  },
+
   new_rounded_linear: function transition_helper_new_rounded_linear(property, value, duration) {
     return transitionHelper.new(property, value, duration, transitionHelper.rounded_linear_interp) ;
   },
