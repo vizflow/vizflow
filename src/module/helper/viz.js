@@ -80,55 +80,59 @@ let vizHelper = {
 
       if ( viz.screenCanvas.cover === true ) {
         
-        if ( viz.screenCanvas.hCenter === true ) {
-          viz.viewportX = Math.round(0.5 * (viz.screenCanvas.width - viz.viewportWidth)) ;
-        }
-        if ( viz.screenCanvas.vCenter === true ) {
-          viz.viewportY = Math.round(0.5 * (viz.screenCanvas.height - viz.viewportHeight)) ;
-        }
-
         var aspectRatio = position.width / position.height ; 
         var viewAspect  = viz.viewportWidth / viz.viewportHeight ;
 
-        var tol = 0.0001 ;
+        var tol = 0.001 ;
 
         if ( aspectRatio < viewAspect && ( (viewAspect / aspectRatio) - 1 ) > tol ) { // needs to be skinnier: make width smaller or height larger
 
           if ( viz.viewportHeight < viz.fullCanvas.height ) { // expand height first as much as possible
+            
             var viewportHeight = viz.viewportHeight ; 
             var newHeight      = Math.min(viz.fullCanvas.height, (viewAspect / aspectRatio) * viewportHeight) ;
             viz.viewportHeight = Math.round(newHeight) ;
-            return ;
-          }
+            viewAspect  = viz.viewportWidth / viz.viewportHeight ;
+
+          } 
 
           var viewportWidth = viz.viewportWidth ;
           viewportWidth *= aspectRatio / viewAspect ;
           viewportWidth = Math.round(viewportWidth) ;
-
-          var diff = viz.viewportWidth - viewportWidth ;
-
           viz.viewportWidth = viewportWidth ;
-
-          // viz.viewportX += Math.round(0.5 * diff) ;
-
+        
         } else if ( aspectRatio > viewAspect && ( (aspectRatio / viewAspect) - 1 ) > tol ) { // needs to be fatter: make width larger or height smaller
 
           if ( viz.viewportWidth < viz.fullCanvas.width ) { // expand width first as much as possible
+
             var viewportWidth = viz.viewportWidth ; 
             var newWidth      = Math.min(viz.fullCanvas.width, (aspectRatio / viewAspect) * viewportWidth) ;
             viz.viewportWidth = Math.round(newWidth) ;
-            return ;
+            viewAspect  = viz.viewportWidth / viz.viewportHeight ;
+
           }
 
           var viewportHeight = viz.viewportHeight ;
           viewportHeight *= viewAspect / aspectRatio ;
           viewportHeight = Math.round(viewportHeight) ;
-
-          var diff = viz.viewportHeight - viewportHeight ;
-
           viz.viewportHeight = viewportHeight ;
-          // viz.viewportY += Math.round(0.5 * diff) ;
 
+        }
+
+        var minWidth  = 2 ;
+        var minHeight = 2 ;
+
+        viz.viewportWidth  = Math.max(viz.viewportWidth, minWidth) ;
+        viz.viewportHeight = Math.max(viz.viewportHeight, minHeight) ;
+
+        viz.viewportWidth  = Math.min(viz.viewportWidth,  viz.screenCanvas.width) ;
+        viz.viewportHeight = Math.min(viz.viewportHeight, viz.screenCanvas.height) ;
+
+        if ( viz.screenCanvas.hCenter === true ) {
+          viz.viewportX = Math.max(0, Math.round(0.5 * (viz.screenCanvas.width - viz.viewportWidth))) ;
+        }
+        if ( viz.screenCanvas.vCenter === true ) {
+          viz.viewportY = Math.max(0, Math.round(0.5 * (viz.screenCanvas.height - viz.viewportHeight))) ;
         }
 
       }

@@ -14,7 +14,8 @@ document.vizflow_page = function vizflow_page() {
     height: 1200,
     fadeDuration: 400,
     coverSwitch: true,
-    // vCenter: false,
+    hCenter: true,
+    vCenter: true,
     collision_detect: function() {}, // turn off collision detection for this game, improving performance          
   }) ;
 
@@ -71,12 +72,20 @@ document.vizflow_page = function vizflow_page() {
 
     viz.example = new Array(document.example.length) ;
 
+    var size0   = 376 ;
+    var xpad    = 5 ;
+    var size1   = Math.round( ( (360 / 640) * viz.width - xpad ) / 3 );
+    var scale   = size1 / size0 ;
+    var xshift  = (size1 + xpad) ;
+
     var yShift  = 0.25 ;
     var xShift  = 0.25 ;
-    var yOff    = 200 ;
+    var yOff    = viz.height * 0.5 - 0.5 * size1 ;
+    var ypad    = 10 ;
+    var y1      = yOff + size1 + ypad ;
 
-    var xList   = [viz.width * 0.5, viz.width * (0.5 - xShift), viz.width * (0.5 + xShift), viz.width * 0.5] ;
-    var yList   = [yOff, viz.height * (0.5 - yShift) + yOff, viz.height * (0.5 - yShift) + yOff, viz.height * (0.5 - yShift) + yOff] ;
+    var xList   = [viz.width * 0.5, 0.5 * viz.width - xshift, 0.5 * viz.width + xshift, viz.width * 0.5] ;
+    var yList   = [yOff, y1, y1, y1] ;
 
     var urlList = document.example.map(function(d) {
       return 'http://vizflow.org/examples/' + d ;
@@ -84,9 +93,8 @@ document.vizflow_page = function vizflow_page() {
 
     urlList[2] = 'http://electionfighter.com' ; // this one has its own URL
 
-    var scale = 0.75 * .5 * (viz.viewportHeight / 376) ;
     var size0 = $Z.helper.loader.image.cache[document.exampleImage[0]].width ;
-    var size1 = 376 * scale ;
+    var size1 = size0 * scale ;
 
     var whiteCircleImage = $Z.helper.draw.circle({
       radius: 0.8 * size1,
@@ -107,7 +115,7 @@ document.vizflow_page = function vizflow_page() {
         xOrigin:  imageK.width  * 0.5,
         yOrigin: imageK.height * 0.5,
         uiSwitch: true,
-        fixed: true,
+        fixed: false,
         url: urlList[kex],
 
         callback: function() {
