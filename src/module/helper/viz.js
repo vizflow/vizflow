@@ -90,7 +90,7 @@ let vizHelper = {
         var aspectRatio = position.width / position.height ; 
         var viewAspect  = viz.viewportWidth / viz.viewportHeight ;
 
-        var tol = 0.01 ;
+        var tol = 0.0001 ;
 
         if ( aspectRatio < viewAspect && ( (viewAspect / aspectRatio) - 1 ) > tol ) { // needs to be skinnier: make width smaller or height larger
 
@@ -98,7 +98,6 @@ let vizHelper = {
             var viewportHeight = viz.viewportHeight ; 
             var newHeight      = Math.min(viz.fullCanvas.height, (viewAspect / aspectRatio) * viewportHeight) ;
             viz.viewportHeight = Math.round(newHeight) ;
-            var scale = viz.viewportHeight / viz.screenCanvas.height ;
             return ;
           }
 
@@ -204,6 +203,8 @@ let vizHelper = {
       viewportY:      0,
       viewportWidth:  screenCanvas.width,
       viewportHeight: screenCanvas.height,
+      viewportScaleX:  1,
+      viewportScaleY:  1,
       hCenter:        hCenter,
       vCenter:        vCenter,
       detect:         $Z.helper.action.detect,

@@ -80,9 +80,14 @@ let drawHelper = {
         var yOrigin = 0 ;
       }
 
-      context.drawImage(tempCanvas, item[kItem].x - xOrigin, item[kItem].y - yOrigin) ; // draw color-indexed button for color picking
+      var itemImage = item[kItem].image ;
+      item[kItem].image = tempCanvas ;
+      drawHelper.image(item[kItem], context) ; // context.drawImage(tempCanvas, item[kItem].x - xOrigin, item[kItem].y - yOrigin) ; // draw color-indexed button for color picking
+      item[kItem].image = itemImage ;
 
     }
+
+    // $Z.helper.image.view(context.canvas) ;
 
     // console.log('indexed draw: ', 'item', item)
 

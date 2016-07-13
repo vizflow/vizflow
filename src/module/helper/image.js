@@ -50,7 +50,7 @@ let imageHelper = {
         } else {
           position.top = 0 ;
         }
-        position.scale  = 1 / widthRatio ;
+        // position.scale  = 1 / widthRatio ;
       
       }
     
@@ -73,12 +73,15 @@ let imageHelper = {
         } else {
           position.left = 0 ;
         }
-        position.scale  = 1 / heightRatio ;
+        // position.scale  = 1 / heightRatio ;
 
       }
 
     }
     
+    position.scaleX = position.width / canvas.width ;
+    position.scaleY = position.height / canvas.height ;
+
     // console.log('rw', widthRatio, 'rh', heightRatio, 'pos', position)
     
     if(canvas.style.width !== position.width || canvas.style.height !== position.height || canvas.style.left !== position.left || canvas.style.top !== position.top) {
