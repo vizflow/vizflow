@@ -164,7 +164,6 @@ let loader = {
   audio: audioLoader,
 
   all: function vizflow_core_loader_all(imageList, audioList, callback) {
-    document.ratio     = 2 ; // upsample images to ensure crisp edges on hidpi devices 
     imageLoader.preload ( imageList, function preload_audio() {
       // console.log('main.js: preload_audio') ;
       audioLoader.preload( 
