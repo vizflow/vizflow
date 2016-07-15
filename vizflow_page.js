@@ -15,7 +15,7 @@ document.vizflow_page = function vizflow_page() {
   if ( scrsz > vtxt.length * (size * 1.1) ) {
     vizSize = scrsz ;
   } else {
-    vizSize = 800 ;
+    vizSize = 1200 ;
   }
 
   var viz = $Z.helper.viz.setup({
@@ -229,7 +229,7 @@ document.vizflow_page = function vizflow_page() {
   var x0      = ( viz.width - spriteImage.height ) * 0.5 + xOrigin ;
   var y0      = ymid ;
   var kern    = size * logoScale ;
-  var x1      = -0.3 ;
+  var x1      = -0.4 ;
   var kshift  = [ 0, x1 * 0.5, x1, x1, x1, x1, x1] ;
   var x2      = -0.525 ;
   var kshift2 = [ 0, x2 * 0.5, x2, x2, x2, x2, x2] ;
