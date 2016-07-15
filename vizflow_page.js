@@ -9,9 +9,12 @@ document.vizflow_page = function vizflow_page() {
   var spriteImage = $Z.helper.image.to_canvas( document.imageList[0] ) ;
   spriteImage.clear_color([255, 255, 255]) ;
 
+  var scrsz = Math.max(screen.height, window.innerHeight) ;
+  scrsz = Math.max(scrsz, Math.max(screen.width, window.innerWidth)) ;
+
   var viz = $Z.helper.viz.setup({
-    width:  Math.max(screen.width, window.innerWidth),
-    height: Math.max(screen.height, window.innerHeight),
+    width:  scrsz,
+    height: scrsz,
     fadeDuration: 400,
     coverSwitch: true,
     hCenter: true,
@@ -88,7 +91,7 @@ document.vizflow_page = function vizflow_page() {
 
     var yShift  = 0.25 ;
     var xShift  = 0.25 ;
-    var yOff    = viz.height * 0.75 - size1 ;
+    var yOff    = (viz.height - size1) * 0.5 ;
     var ypad    = 10 ;
     var y1      = yOff + size1 + ypad ;
 
