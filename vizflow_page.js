@@ -10,8 +10,8 @@ document.vizflow_page = function vizflow_page() {
   spriteImage.clear_color([255, 255, 255]) ;
 
   var viz = $Z.helper.viz.setup({
-    width:  1200,
-    height: 1200,
+    width:  Math.max(screen.width, window.innerWidth),
+    height: Math.max(screen.height, window.innerHeight),
     fadeDuration: 400,
     coverSwitch: true,
     hCenter: true,
@@ -21,13 +21,13 @@ document.vizflow_page = function vizflow_page() {
 
   document.viz = viz ;
 
-  var logoScale   = 0.5 ;
-  var logoScale2  = 2/5 ;
+  var logoScale   = .75 ;
+  var logoScale2  = 1/2 ;
   // var widthCutoff = 700 ;
   // if ( parseInt( viz.screenCanvas.style.width ) < widthCutoff ) {
   //   logoScale2 = 2/5 ;
   // }
-  var urlScale   = .45 ;
+  var urlScale   = 0.5 ;
 
   viz.Nspin    = 5 ;
   viz.tSpin    = 400 ;
@@ -56,8 +56,8 @@ document.vizflow_page = function vizflow_page() {
     viz.url = viz.setup_item({
 
       image: urlImage,
-      x: 35, // viz.width * 0.5,
-      y: 70, // viz.height - urlImage.height * 0.5,
+      x: 60, // viz.width * 0.5,
+      y: 80, // viz.height - urlImage.height * 0.5,
       xOrigin: 0, // urlImage.width * 0.5,
       yOrigin: 0, // urlImage.height * 0.5,
       xScale: urlScale,
@@ -88,7 +88,7 @@ document.vizflow_page = function vizflow_page() {
 
     var yShift  = 0.25 ;
     var xShift  = 0.25 ;
-    var yOff    = viz.height * 0.5 - size1 ;
+    var yOff    = viz.height * 0.75 - size1 ;
     var ypad    = 10 ;
     var y1      = yOff + size1 + ypad ;
 
@@ -238,7 +238,7 @@ document.vizflow_page = function vizflow_page() {
     var xScale = scale ;
     var yScale = scale ;
     var xpad   = item.config.xFinal ;
-    var ypad   = 0.25 * item.image.height ;
+    var ypad   = 0.25 * item.image.height + 10 ;
     var x1     = xpad + item.viz.viewportX ; 
     var y1     = ypad + item.viz.viewportY ; 
     
