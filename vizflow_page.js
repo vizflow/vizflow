@@ -219,10 +219,12 @@ document.vizflow_page = function vizflow_page() {
   var x0      = ( viz.width - spriteImage.height ) * 0.5 + xOrigin ;
   var y0      = ymid ;
   var kern    = size * logoScale ;
-  var x1 = -0.3 ;
+  var x1      = -0.3 ;
   var kshift  = [ 0, x1 * 0.5, x1, x1, x1, x1, x1] ;
+  var x2      = -0.525 ;
+  var kshift2 = [ 0, x2 * 0.5, x2, x2, x2, x2, x2] ;
   var xlogo   = [-3, -2, -1, 0, 1, 2, 3 ].map(function(d, i) { return d * kern + xmid + kshift[i] * size ; }) ;
-  var xlogo2  = [ 0,  1,  2, 3, 4, 5, 6 ].map(function(d, i) { return d * kern * (logoScale2 / logoScale) + kshift[i] * size * 0.5 + size * logoScale2 ; }) ;
+  var xlogo2  = [ 0,  1,  2, 3, 4, 5, 6 ].map(function(d, i) { return d * size * logoScale2 + kshift2[i] * size * logoScale2 + size * logoScale2 ; }) ;
 
   // console.log('xlogo2', xlogo2)
 
