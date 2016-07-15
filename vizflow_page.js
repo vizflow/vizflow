@@ -5,7 +5,7 @@ document.vizflow_page = function vizflow_page() {
   document.ratio = 1 ;
 
   var vtxt = ['v', 'i', 'z', 'f', 'l', 'o', 'w'] ;
-  var size = 102 ;
+  var size = 137 ;
   var spriteImage = $Z.helper.image.to_canvas( document.imageList[0] ) ;
   spriteImage.clear_color([255, 255, 255]) ;
 
@@ -20,6 +20,14 @@ document.vizflow_page = function vizflow_page() {
   }) ;
 
   document.viz = viz ;
+
+  var logoScale   = 0.5 ;
+  var logoScale2  = 2/5 ;
+  // var widthCutoff = 700 ;
+  // if ( parseInt( viz.screenCanvas.style.width ) < widthCutoff ) {
+  //   logoScale2 = 2/5 ;
+  // }
+  var urlScale   = .45 ;
 
   viz.Nspin    = 5 ;
   viz.tSpin    = 400 ;
@@ -48,12 +56,12 @@ document.vizflow_page = function vizflow_page() {
     viz.url = viz.setup_item({
 
       image: urlImage,
-      x: 18, // viz.width * 0.5,
-      y: 80, // viz.height - urlImage.height * 0.5,
+      x: 35, // viz.width * 0.5,
+      y: 70, // viz.height - urlImage.height * 0.5,
       xOrigin: 0, // urlImage.width * 0.5,
       yOrigin: 0, // urlImage.height * 0.5,
-      xScale: 0.5,
-      yScale: 0.5,
+      xScale: urlScale,
+      yScale: urlScale,
       uiSwitch: true,
       addSwitch: true,
       fixed: true,
@@ -80,7 +88,7 @@ document.vizflow_page = function vizflow_page() {
 
     var yShift  = 0.25 ;
     var xShift  = 0.25 ;
-    var yOff    = viz.height * 0.5 - 0.5 * size1 ;
+    var yOff    = viz.height * 0.5 - size1 ;
     var ypad    = 10 ;
     var y1      = yOff + size1 + ypad ;
 
@@ -210,10 +218,13 @@ document.vizflow_page = function vizflow_page() {
   var ymid    = viz.height * 0.5 ; 
   var x0      = ( viz.width - spriteImage.height ) * 0.5 + xOrigin ;
   var y0      = ymid ;
-  var xpad    =  10 ;
-  var xoff1   = -xpad * 2 ;   // shift the "i" relative to "v" 
-  var xoff2   = -2.5 * xpad ; // shift more letters
-  var xoff3   =  0.5 * xpad ; // shift the letters some more 
+  var kern    = size * logoScale ;
+  var x1 = -0.3 ;
+  var kshift  = [ 0, x1 * 0.5, x1, x1, x1, x1, x1] ;
+  var xlogo   = [-3, -2, -1, 0, 1, 2, 3 ].map(function(d, i) { return d * kern + xmid + kshift[i] * size ; }) ;
+  var xlogo2  = [ 0,  1,  2, 3, 4, 5, 6 ].map(function(d, i) { return d * kern * (logoScale2 / logoScale) + kshift[i] * size * 0.5 + size * logoScale2 ; }) ;
+
+  // console.log('xlogo2', xlogo2)
 
   function upper_left(item) {
 
@@ -221,13 +232,13 @@ document.vizflow_page = function vizflow_page() {
       item = this ;
     }
 
-    var scale  = 0.5 ;
+    var scale  = item.config.scaleFinal ;
     var xScale = scale ;
     var yScale = scale ;
-    var xpad   = -100 ;
-    var ypad   = -260 ;
-    var x1     = xpad + scale * item.x + item.viz.viewportX ; 
-    var y1     = ypad + scale * item.y + item.viz.viewportY ; 
+    var xpad   = item.config.xFinal ;
+    var ypad   = 0.25 * item.image.height ;
+    var x1     = xpad + item.viz.viewportX ; 
+    var y1     = ypad + item.viz.viewportY ; 
     
     item.add_set(['xScale', 'yScale', 'x', 'y'], [xScale, yScale, x1, y1], item.viz.movedur, 'power', 2) ;
     item.call(function() {
@@ -255,31 +266,21 @@ document.vizflow_page = function vizflow_page() {
 
   for ( ktxt = vtxt.length - 1 ; ktxt >= 0 ; ktxt-- ) {
 
-    var x = x0 + ktxt * (size + xpad) ;
-
-    if ( ktxt > 0 ) {
-      x += xoff1 ;
-    }
-
-    if ( ktxt > 1 ) {
-      x += xoff2 ;
-    }
-
-    if ( ktxt > 2 ) {
-      x += xoff3 ;
-    }
-
     viz.logo.item[ktxt] = viz.setup_item({
 
       image: viz.logo.sprite[viz.logo.text[ktxt]][0],
-      x: x,
+      x: xlogo[ktxt],
       y: y0,
       xOrigin: xOrigin,
       yOrigin: yOrigin,
+      xScale: logoScale,
+      yScale: logoScale,
+      scaleFinal: logoScale2,
       addSwitch: true,
       opacity: 0,
       k: ktxt,
       txt: vtxt[ktxt],
+      xFinal: xlogo2[ktxt],
 
     }) ;
 
@@ -298,11 +299,14 @@ document.vizflow_page = function vizflow_page() {
   spinTrans.power = 0.25 ; 
 
   spinTrans.end = function () {
+
     viz.logo.item.forEach(function(d, i) {
 
       if ( i === 2 ) {
         return ; // z fades in first
       }
+
+      // d.add_linear('x', xlogo[i], viz.fadeDuration) ;
 
       d.call('fade', i * viz.delay) ;
       d.call('fade_switch', viz.delay * viz.logo.item.length) ;
@@ -320,12 +324,12 @@ document.vizflow_page = function vizflow_page() {
   z.x = viz.width * 0.5 ;
   z.add_transition(spinTrans) ;
   z.fade({
-    duration: viz.fadeDur,
+    duration: 3 * viz.fadeDur,
     opacity: 1,
   }) ;
 
   z.call(
-    function() { z.add_linear('x', z.config.x, (1 - viz.xdelay) * viz.spinDur) ; }, 
+    function() { z.add_linear('x', xlogo[2], (1 - viz.xdelay) * viz.spinDur) ; }, 
     viz.spinDur * viz.xdelay
   ) ;
 
