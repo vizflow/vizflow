@@ -12,9 +12,15 @@ document.vizflow_page = function vizflow_page() {
   var scrsz = Math.max(screen.height, window.innerHeight) ;
   scrsz = Math.max(scrsz, Math.max(screen.width, window.innerWidth)) ;
 
+  if ( scrsz > vtxt.length * (size * 1.1) ) {
+    vizSize = scrsz ;
+  } else {
+    vizSize = 800 ;
+  }
+
   var viz = $Z.helper.viz.setup({
-    width:  scrsz,
-    height: scrsz,
+    width:  vizSize,
+    height: vizSize,
     fadeDuration: 400,
     coverSwitch: true,
     hCenter: true,
@@ -85,7 +91,8 @@ document.vizflow_page = function vizflow_page() {
 
     var size0   = 376 ;
     var xpad    = 5 ;
-    var size1   = Math.round( ( (360 / 640) * viz.width - xpad ) / 3 );
+    var exampleWidth = Math.min(size0 * 3, viz.width) ;
+    var size1   = Math.round( ( (360 / 640) * exampleWidth - xpad ) / 3 );
     var scale   = size1 / size0 ;
     var xshift  = (size1 + xpad) ;
 
@@ -226,7 +233,7 @@ document.vizflow_page = function vizflow_page() {
   var kshift  = [ 0, x1 * 0.5, x1, x1, x1, x1, x1] ;
   var x2      = -0.525 ;
   var kshift2 = [ 0, x2 * 0.5, x2, x2, x2, x2, x2] ;
-  var xlogo   = [-3, -2, -1, 0, 1, 2, 3 ].map(function(d, i) { return d * kern + xmid + kshift[i] * size ; }) ;
+  var xlogo   = [-3, -2, -1, 0, 1, 2, 3 ].map(function(d, i) { return d * kern + xmid + kshift[i] * size - 0.5 * x1 * size ; }) ;
   var xlogo2  = [ 0,  1,  2, 3, 4, 5, 6 ].map(function(d, i) { return d * size * logoScale2 + kshift2[i] * size * logoScale2 + size * logoScale2 ; }) ;
 
   // console.log('xlogo2', xlogo2)
