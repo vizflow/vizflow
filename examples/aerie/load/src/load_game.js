@@ -82,7 +82,7 @@ function load_game () {
 
       viz.startTextItem    = viz.setup_item(startTextConfig) ;
       viz.startItem        = viz.setup_item(startConfig) ;
-      viz.overlay          = $Z.helper.clear_cover(viz) ;
+      viz.overlay          = vizHelper.clear_cover(viz) ;
       viz.overlay.callback = run_title ;
 
       viz.setup_ui() ;
