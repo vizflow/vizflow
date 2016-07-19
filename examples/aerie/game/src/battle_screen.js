@@ -2,7 +2,7 @@ function battle_screen() {
   
     var vizConfig = {
 
-        image: imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/battlescreen_background.png')),
+        image: imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/battlescreen.png')),
         frameDurationFactor: 3,
         music:'./audio/bgm1.wav',
 
@@ -36,7 +36,7 @@ function battle_screen() {
     Object.assign (viz, $Z.helper.item.method) ;
     Object.assign (viz, $Z.helper.transition.method) ;
     
-    // var scaleDur = 2000 ;
+    var scaleDur = 2000 ;
 
     // var cloudsConfig = {
     //     image: imageHelper.adjust_ratio (imageHelper.to_canvas('./image/battlescreen_clouds.png')),
@@ -280,7 +280,8 @@ function battle_screen() {
            // console.log('spriteloader left button') 
             return spriteset ;
         },
-
+        
+        uiSwitch: true,
         x: 5,
         y: 160,
       

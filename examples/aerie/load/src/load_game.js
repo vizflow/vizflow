@@ -8,6 +8,9 @@ function load_game () {
     music:      undefined,
     inputEvent: inputEvent,
     run: title, // fade in vizflow URL for title screen by default
+    width: 320,
+    height: 240,
+    paddingFactor: 1,
 
   } ;
 
@@ -66,7 +69,7 @@ function load_game () {
       var startConfig = {
         image: startImage,
         x: 0,
-        y: 0,
+        y: -200,
         opacity: 0,
         addSwitch: true,
 
@@ -75,19 +78,29 @@ function load_game () {
       var startTextConfig = {
         image: imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/start.png')),
         x: 160,
-        y: 130,
+        y: 300,
         opacity: 1,
         addSwitch: true,
       } ;
 
-      viz.startTextItem    = viz.setup_item(startTextConfig) ;
+      var linDur = 2000 ;
+
       viz.startItem        = viz.setup_item(startConfig) ;
-      viz.overlay          = vizHelper.clear_cover(viz) ;
+      viz.startTextItem    = viz.setup_item(startTextConfig) ;
+      viz.startItem.add_linear('y', 0, linDur) ;
+      viz.startTextItem.add_linear('y', 130, linDur) ;
+      viz.overlay          = $Z.helper.viz.clear_cover(viz) ;
       viz.overlay.callback = run_title ;
 
       viz.setup_ui() ;
 
-      viz.startItem.call(['fade', loop_flash], [0, viz.fadeDuration]) ;      
+     // function loop_flash() {
+     //    viz.startItem.loop(function() {
+     //      return $Z.helper.item.method.flash(1, 420)[0] ;
+     //    }) ;
+     //  }
+
+      viz.startItem.call(['fade'], [0, 4 * viz.fadeDuration]) ;      
     
     }    
 
@@ -153,25 +166,19 @@ function load_game () {
 
    
 
-      viz.call(function() {
 
-        var fade = 4 ;
+
+       //  var fade = 4 ;
         // viz.audio.music.fade(fade) ;
 
-        viz.zoom({
-          x: x0,
-          y: y0, 
-          width: viz.width / 3,
-          height: viz.height / 3,
-          duration: 4 * viz.fadeDuration,
-        }) ;
+      
         
-        viz.fade({
+        viz.title.bg.fade({
           duration: 3 * viz.fadeDuration,
           opacity: 0,
           end: battle_screen,
         }) ;
-      }, 10 * viz.fadeDuration) ;
+ 
 
     }
 
