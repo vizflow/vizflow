@@ -126,24 +126,37 @@ let drawHelper = {
     // console.log('draw_image', 'item', item, 'context', context, 'this', this) ;
 
     var viewX, viewY ;
+    var itemX, itemY;
 
     if(item.fixed === true) {
 
       viewX = item.viz.viewportX ;
       viewY = item.viz.viewportY ;
+      itemX = item.x ;
+      itemY = item.y ;
+
+      if ( item.x < 0 ) { // periodic wrap negative values
+        itemX = item.viz.viewportWidth + item.x ;
+      }
+
+      if ( item.y < 0 ) { // periodic wrap negative values
+        itemY = item.viz.viewportHeight + item.y ;
+      }
 
     } else {
 
       viewX = 0 ;
       viewY = 0 ;
+      itemX = item.x ;
+      itemY = item.y ;
 
     }
 
     var originX = item.xOrigin * item.xScale || 0 ;
     var originY = item.yOrigin * item.yScale || 0 ;
 
-    var dx = (item.x + item.viz.xShift + viewX - originX) * ratio ;
-    var dy = (item.y + item.viz.yShift + viewY - originY) * ratio ;
+    var dx = (itemX + item.viz.xShift + viewX - originX) * ratio ;
+    var dy = (itemY + item.viz.yShift + viewY - originY) * ratio ;
 
     dx = Math.floor( dx ) ;
     dy = Math.floor( dy ) ;
