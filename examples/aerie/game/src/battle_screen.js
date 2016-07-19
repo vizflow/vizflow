@@ -36,27 +36,22 @@ function battle_screen() {
     Object.assign (viz, $Z.helper.item.method) ;
     Object.assign (viz, $Z.helper.transition.method) ;
     
-    var scaleDur = 2000 ;
+    // var scaleDur = 2000 ;
 
-    var cloudsConfig = {
-        image: imageHelper.adjust_ratio (imageHelper.to_canvas('./image/battlescreen_clouds.png')),
-        x: 330,
-        y: -30,
-    } ;
-    var moonConfig = {
-        image: imageHelper.adjust_ratio (imageHelper.to_canvas('./image/battlescreen_moon.png')),
-        x: 70,
-        y: 50,   
-     } ;
+    // var cloudsConfig = {
+    //     image: imageHelper.adjust_ratio (imageHelper.to_canvas('./image/battlescreen_clouds.png')),
+    //     x: 330,
+    //     y: -30,
+    // } ;
+    // var moonConfig = {
+    //     image: imageHelper.adjust_ratio (imageHelper.to_canvas('./image/battlescreen_moon.png')),
+    //     x: 70,
+    //     y: 50,   
+    //  } ;
 
-    viz.clouds = viz.setup_item(cloudsConfig) ;  
-    viz.clouds.add_linear ('x', 0, scaleDur * 20 ) ;
-    // viz.clouds.x = viz.cloudsConfig.x ;
-    // viz.clouds.add_linear ('x', 0, scaleDur * 5 ) ;
-
-    // viz.clouds.call(function() {
-    //     this.add_linear('y', -200,scaleDur) ;
-    // }, scaleDur * 10) ;
+    // viz.clouds = viz.setup_item(cloudsConfig) ;  
+    // viz.clouds.add_linear ('x', 0, scaleDur * 20 ) ;
+   
 
     var tileWidth  = 200 ;
     var tileHeight = 300 ; 

@@ -1,5 +1,20 @@
 function load_game () {
   // console.log ('load game start') ;
+  document.ratio = 2 ; // upsample images to ensure crisp edges on hidpi devices
+
+  var vizConfig = {
+
+    background: undefined,
+    music:      undefined,
+    inputEvent: inputEvent,
+    run: title, // fade in vizflow URL for title screen by default
+
+  } ;
+
+  var viz = vizHelper.setup(vizConfig) ; // frameDuration computed
+
+  viz.run() ;
+
   function title(viz) {
 
     if(viz === undefined) {
@@ -34,7 +49,7 @@ function load_game () {
         vizflow.fade({
 
           duration: viz.fadeDuration,
-          end: battle_screen,
+          end: start_text,
           
         }) ;
 
@@ -42,28 +57,133 @@ function load_game () {
 
     }) ;
 
+    function start_text() {
+
+      // viz.text       = spriteHelper.foreach(viz.text, imageHelper.get_original) ;
+
+      var startImage = imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/aerie_title.png')) ;
+
+      var startConfig = {
+        image: startImage,
+        x: 0,
+        y: 0,
+        opacity: 0,
+        addSwitch: true,
+
+      } ;
+
+      var startTextConfig = {
+        image: imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/start.png')),
+        x: 160,
+        y: 130,
+        opacity: 1,
+        addSwitch: true,
+      } ;
+
+      viz.startTextItem    = viz.setup_item(startTextConfig) ;
+      viz.startItem        = viz.setup_item(startConfig) ;
+      viz.overlay          = $Z.helper.clear_cover(viz) ;
+      viz.overlay.callback = run_title ;
+
+      viz.setup_ui() ;
+
+      viz.startItem.call(['fade', loop_flash], [0, viz.fadeDuration]) ;      
+    
+    }    
+
+    function run_title() {
+
+      viz.overlay.remove() ;
+
+      viz.startItem.fade({
+        duration: 0.5 * viz.fadeDuration,
+        opacity: 0,
+        end: function() {
+          viz.startItem.remove() ;
+          viz.startTextItem.remove() ;
+        }
+      })
+
+      var size = 320 ;    
+
+      var sprite = spriteHelper.get(imageHelper.to_canvas('./image/aerie_title.png'), ['bg'], 320, 240) ;
+
+      viz.title = {
+
+        sprite: sprite,
+        
+        bgConfig: {
+          image: sprite.bg[0],
+          opacity: 0,
+          childFade: true,
+        },
+
+      } ;
+
+      var wordDelay = 5 * viz.fadeDuration ;
+
+      viz.title.bg          = viz.setup_item(viz.title.bgConfig) ; 
+      // viz.title.bg.image    = imageEffectHelper.color_filter(viz.title.bg.image, [, 64, 64]) ;
+      // viz.title.prime       = viz.setup_item(viz.title.primeConfig) ;
+      // viz.title.fruit       = viz.setup_item(viz.title.fruitConfig) ;
+      // viz.title.fruit.child = [viz.setup_item(viz.title.fOverConfig)] ;
+      // viz.title.prime.child = [viz.setup_item(viz.title.pOverConfig)] ;
+
+      viz.title.bg.add() ; // add background first so that it's rendered below other items
+      // viz.title.prime.add() ;
+      // viz.title.fruit.add() ;
+      // viz.title.prime.fade() ;
+      // viz.title.fruit.call('fade', viz.fadeDuration) ;
+      // viz.title.prime.child[0].call('loop_fade', wordDelay) ;
+      // viz.title.fruit.child[0].call('loop_fade', wordDelay) ;
+
+      // var delay = 1 ;
+      // viz.audio.pf.volume = 1 ;
+      // viz.audio.pf.play(delay) ;
+
+      // var fade = 4 ;
+      // viz.audio.music.loop = true ;
+      // viz.audio.music.play() ;
+      // viz.audio.music.gain.gain.value = 0 ;
+      // viz.audio.music.volume = 0.5 ;
+      // viz.audio.music.fade(fade) ;
+      // // viz.audio.music.volume = 0 ;
+      // // viz.audio.music.fade() ;
+      // // viz.title.bg            .call('loop_fade', wordDelay) ;
+
+   
+
+      viz.call(function() {
+
+        var fade = 4 ;
+        // viz.audio.music.fade(fade) ;
+
+        viz.zoom({
+          x: x0,
+          y: y0, 
+          width: viz.width / 3,
+          height: viz.height / 3,
+          duration: 4 * viz.fadeDuration,
+        }) ;
+        
+        viz.fade({
+          duration: 3 * viz.fadeDuration,
+          opacity: 0,
+          end: battle_screen,
+        }) ;
+      }, 10 * viz.fadeDuration) ;
+
+    }
 
   } 
 
-  document.ratio = 2 ; // upsample images to ensure crisp edges on hidpi devices
 
-  var vizConfig = {
-
-    background: undefined,
-    music:      undefined,
-    inputEvent: inputEvent,
-    run: title, // fade in vizflow URL for title screen by default
-
-  } ;
-
-  var viz = vizHelper.setup(vizConfig) ; // frameDuration computed
-
-  viz.menuConfig = {
+  // viz.menuConfig = {
  
-    sprite_loader: undefined,
-    callback:      undefined,
+  //   sprite_loader: undefined,
+  //   callback:      undefined,
 
-  } ;
+  // } ;
 
   // load_response: vizConfig.load_response, 
   // load_ui: vizConfig.load_ui,
@@ -71,6 +191,5 @@ function load_game () {
   // load_char: vizConfig.load_char,
   // load: vizHelper.load,
 
-  viz.run() ;
 
 }

@@ -20,6 +20,8 @@ document.image = [
 	'./image/attackButton.png',
 	// './image/blockButton.png',
 	'./image/healButton.png',	
+	'./image/start.png',
+	'./image/aerie_title.png',	
 	'./image/left_button_spritesheet.png',
 	'./image/right_button_spritesheet.png',
 	'./image/attack_button_spritesheet.png',
@@ -27,9 +29,9 @@ document.image = [
 	'./image/thrust_button_spritesheet.png',
 	'./image/finisher_button_spritesheet.png',
 	'./image/game_over.png',
-	'./image/battlescreen_background.png',
-	'./image/battlescreen_moon.png',
-	'./image/battlescreen_clouds.png',
+	// './image/battlescreen_background.png',
+	// './image/battlescreen_moon.png',
+	// './image/battlescreen_clouds.png',
 
 
 
