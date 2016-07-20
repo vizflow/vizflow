@@ -613,27 +613,29 @@ let transitionHelper = {
         trans = trans_func() ;
       }
 
+      trans.item = item ;
+
       var child = transitionHelper.get_child(trans, 'last') ;
 
-      if ( child.end === undefined ) {
-
-        child.end = {
-        
-          item: item,
-          transition_func: trans_func,
-          run: transitionHelper.loop_end,
-        
-        } ;
-
-      } else {
+      if ( child.end !== undefined ) {
 
         if ( child.end.constructor === Object ) {
-          child.run() ;
+          child.end.run() ;
         } else {
-          child() ;
+          child.end() ;
         }
 
       }
+
+      child.end = {
+      
+        item: item,
+        transition_func: trans_func,
+        run: transitionHelper.loop_end,
+      
+      } ;
+
+      // console.log('loop_trans:', 'trans', trans, 'child', child) ;
 
       return trans ;
 
