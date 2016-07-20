@@ -258,6 +258,29 @@ let itemHelper = {
 
     },
 
+    loop_func: function item_loop_func( func, duration, item ) {
+
+      if ( item === undefined ) {
+        item = this ;
+      }
+
+      if ( func.constructor === String ) {
+        func = item[func] ;
+      }
+
+      if ( duration === undefined ) {
+        duration = item.viz.loopDuration ;
+      }
+
+      var trans_func = function () {
+        var trans = $Z.helper.transition.new_step('loop_' + func.name, null, duration ) ;
+        trans.end = function() {
+          func.call(this.item) ;
+        } ;
+      } ;
+
+    },
+
     call: function item_helper_call (callback, delay, item) {
 
       if ( item === undefined ) {
@@ -276,7 +299,7 @@ let itemHelper = {
             delaySum += delay[kcall] ;
             delayK = delaySum ;
           } else {
-            console.log('item_helper_call: delay is not a Number of Array') ;
+            console.log('item.call: delay is not a Number of Array') ;
           }
 
           // console.log('item helper call: ', 'kcall', kcall, 'callback[kcall]', callback[kcall], 'delayK', delayK) ;
@@ -313,6 +336,10 @@ let itemHelper = {
         item = this ;
       }
 
+      if ( item.delayCount === undefined ) {
+        item.delayCount = 0 ;
+      }
+
       item.delayCount++ ;
 
       var prop = 'delay' + item.delayCount ;
@@ -322,13 +349,15 @@ let itemHelper = {
       var trans = $Z.helper.transition.new_step(prop, undefined, delay) ;
 
       trans.end = function run_callback_end() {
-        // console.log('run_callback_end:', 'callback', callback, 'item', item)
         callback.call(item) ;
+        // console.log('run_callback_end:', 'callback', callback, 'item', item)
       } ;
 
       // console.log('run_callback', 'item', item, 'trans', trans) ;
 
       item.add_transition(trans) ;
+
+      // console.log('run_callback', 'item.transition', item.transition) ;
 
     },
 
