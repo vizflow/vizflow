@@ -175,7 +175,7 @@ var hitHelper = {
       element.item.whiteflash(50) ;  
       element.health -= 2 ;
     }
-    if (element.health < .1) {
+    if (element.health < 1) {
     
  function end_game(viz) {
 
@@ -207,7 +207,7 @@ var hitHelper = {
       duration: viz.fadeDuration,
 
       end: function() { 
- window.location.reload() ;
+        window.location.reload() ;
         vizflow.fade({
 
           duration: viz.fadeDuration * 3,

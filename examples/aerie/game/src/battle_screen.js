@@ -316,8 +316,9 @@ function battle_screen() {
             
             return spriteset ; 
         },    
-        x: 4, // drawn offscreen
+        x: -50, // drawn offscreen
         y: 60,
+        opacity: 0.7,
     } ;
 
     finisherButtonConfig = {
@@ -330,8 +331,9 @@ function battle_screen() {
             
             return spriteset ;
         },    
-        x: 270, // drawn offscreen
-        y: 60,
+        x: 320, // drawn offscreen
+        y: 110,
+        opacity: 0,
     } ;    
 
     slashButtonConfig = {
@@ -421,13 +423,20 @@ function battle_screen() {
     
          // viz.busy = true ;
     viz.player.attack('thrust') ;
-    //viz.audio.thrust.play() ;
+    viz.audio.thrust.play() ;
+    viz.button.thrust.item.add_linear('x', -50, scaleDur * 0.1) ;
+
+    viz.button.thrust.item.flash(1);
+    viz.button.thrust.item.fade({
+        opacity: 0.7,
+        duration: 0.3 * viz.fadeDuration,
+    }) ;
         var dur1 = 300 ;
         var dur2 = 100 ;
 
         var trans1 = transitionHelper.new_step('image', viz.button.thrust.sprite.push[1], dur1) ;
         var trans2 = transitionHelper.new_step('image', viz.button.thrust.sprite.push[0], dur2) ;
-    viz.button.thrust.item.uiSwitch = false ;
+        viz.button.thrust.item.uiSwitch = false ;
         
         trans1.child = trans2 ;
         trans2.end = function() {
@@ -439,6 +448,46 @@ function battle_screen() {
 
 
     } ;    
+
+    
+    //viz.button.slash.index = 0 ;
+    viz.button.slash.item.image = viz.button.slash.sprite.push[0] ;
+    viz.button.slash.item.uiSwitch = true ;
+    viz.button.slash.item.callback = function slash_button_callback() {
+      
+    viz.player.attack('slash') ;
+  
+    // viz.audio.slash.play() ; 
+        var dur1 = 300 ;
+        var dur2 = 100 ;
+
+        var trans1 = transitionHelper.new_step('image', viz.button.slash.sprite.push[1], dur1) ;
+        var trans2 = transitionHelper.new_step('image', viz.button.slash.sprite.push[0], dur2) ;
+
+        trans1.child = trans2 ;
+        trans1.end = function() {
+            viz.audio.slash.play() ;
+          
+        }  
+        viz.button.slash.item.add_transition(trans1) ; 
+        viz.button.slash.item.uiSwitch = false ; 
+        viz.button.finisher.item.uiSwitch = true ;
+        viz.button.finisher.item.add_linear('x', 270, 0.1 * scaleDur ) ;
+        viz.button.finisher.item.fade({
+            opacity: 1,
+            duration: 0.3 * viz.fadeDuration,
+        }) ; 
+        viz.button.slash.item.add_linear('x', 320, 0.1 * scaleDur ) ;
+        viz.button.slash.item.fade({
+            opacity: 0,
+            duration: 0.3 * viz.fadeDuration,
+        }) ;         
+        // viz.button.slash.item.fade()
+            
+        gameHelper.screen_handler(slashCode) ;
+
+        
+        }
 
     viz.button.finisher.item.image = viz.button.finisher.sprite.push[0] ;
     viz.button.finisher.item.uiSwitch = true ;
@@ -458,46 +507,26 @@ function battle_screen() {
         }
 
         viz.button.finisher.item.add_transition(trans1) ;
-            viz.button.finisher.item.uiSwitch = false ;
+
             
-           viz.button.slash.item.uiSwitch = true; 
+        viz.button.slash.item.uiSwitch = true; 
+        viz.button.finisher.item.add_linear('x', 320, 0.1 * scaleDur ) ;
+         
+        viz.button.finisher.item.fade({
+            opacity: 0,
+            duration: 0.3 * viz.fadeDuration,
+        }) ;   
+        viz.button.slash.item.add_linear('x', 270, 0.1 * scaleDur ) ;
+        viz.button.slash.item.fade({
+            opacity: 1,
+            duration: 0.3 * viz.fadeDuration,
+        }) ; 
+        viz.button.finisher.item.uiSwitch = false ;
+        
         gameHelper.screen_handler(finisherCode) ; 
-            if ( viz.busy === true ) { 
-            return ;
-          }
-    
-         viz.busy = true ;   
+
  
-    } ;    
-    
-    //viz.button.slash.index = 0 ;
-    viz.button.slash.item.image = viz.button.slash.sprite.push[0] ;
-    viz.button.slash.item.uiSwitch = true ;
-    viz.button.slash.item.callback = function slash_button_callback() {
-      
-    viz.player.attack('slash') ;
-  
-    // viz.audio.slash.play() ; 
-        var dur1 = 300 ;
-        var dur2 = 100 ;
-
-        var trans1 = transitionHelper.new_step('image', viz.button.slash.sprite.push[1], dur1) ;
-        var trans2 = transitionHelper.new_step('image', viz.button.slash.sprite.push[0], dur2) ;
-    viz.button.slash.item.uiSwitch = false; 
-        viz.button.finisher.item.uiSwitch = true ;
-       
-        trans1.child = trans2 ;
-        trans1.end = function() {
-            viz.audio.slash.play() ;
-          
-        }  
-        viz.button.slash.item.add_transition(trans1) ;            
-
-        
-        gameHelper.screen_handler(slashCode) ;
-
-        
-        }
+    } ;            
 
         // viz.button.attack.index++ ;
         // viz.button.attack.index = viz.button.attack.index % viz.button.attack.sprite.combo.length ; // tells us how many images there are modded by the images in the sprite
@@ -523,11 +552,16 @@ function battle_screen() {
             viz.audio.shield.play() ;
         }   
         viz.button.block.item.add_transition(trans1) ;
-                  if ( viz.busy === true ) { 
-            return ;
-          }
+        viz.button.thrust.item.add_linear('x', 4, scaleDur * 0.1) ;
+        viz.button.thrust.item.fade({
+            opacity: 1,
+            duration: 0.3 * viz.fadeDuration,
+        }) ;        
+         //          if ( viz.busy === true ) { 
+         //    return ;
+         //  }
     
-         viz.busy = true ;
+         // viz.busy = true ;
         
     } ;
 
