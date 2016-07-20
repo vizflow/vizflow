@@ -271,7 +271,7 @@ var enemyBattleHelper = {
         tailAttackTrans.end    = function () {
             enemy.tail_attack() ;
             enemy.start_tail_attack() ;  
-            viz.audio.growl2.play() ;
+            viz.audio.growl1.play() ;
         } ;
 
         var replacementSwitch = true ;

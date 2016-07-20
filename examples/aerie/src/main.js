@@ -8,7 +8,7 @@ document.body.style.margin    = 0 ;
 document.image = [ 
 	
 	'./image/vizflow.png',
-	// './image/camp.png',
+  './image/start.png',
 	// './image/knight.png',
 	// './image/knight_spritesheet.png',
 	'./image/monster_spritesheet.png',
@@ -18,20 +18,21 @@ document.image = [
 	'./image/leftButton.png',
 	'./image/rightButton.png',
 	'./image/attackButton.png',
-	// './image/blockButton.png',
+	'./image/aerie_title.png',
+	'./image/aerie_start_title.png',
+	'./image/title_blade.png',
+
 	'./image/healButton.png',	
-	'./image/start.png',
-	'./image/aerie_title.png',	
 	'./image/left_button_spritesheet.png',
 	'./image/right_button_spritesheet.png',
-	'./image/attack_button_spritesheet.png',
+	'./image/slash_button_spritesheet.png',
   './image/block_button_spritesheet.png',
 	'./image/thrust_button_spritesheet.png',
 	'./image/finisher_button_spritesheet.png',
 	'./image/game_over.png',
-	// './image/battlescreen_background.png',
-	// './image/battlescreen_moon.png',
-	// './image/battlescreen_clouds.png',
+	'./image/battlescreen_background.png',
+	'./image/battlescreen_moon.png',
+	'./image/battlescreen_clouds.png',
 
 
 

@@ -1,21 +1,21 @@
 function load_game () {
   // console.log ('load game start') ;
-  document.ratio = 2 ; // upsample images to ensure crisp edges on hidpi devices
+  document.ratio = 1 ; // upsample images to ensure crisp edges on hidpi devices
 
   var vizConfig = {
 
     background: undefined,
     music:      undefined,
     inputEvent: inputEvent,
-    run: title, // fade in vizflow URL for title screen by default
     width: 320,
     height: 240,
-    paddingFactor: 1,
+
+    run: title, // fade in vizflow URL for title screen by default
 
   } ;
 
   var viz = vizHelper.setup(vizConfig) ; // frameDuration computed
-
+  
   viz.run() ;
 
   function title(viz) {
@@ -26,7 +26,7 @@ function load_game () {
 
     var vizflowImage = imageHelper.adjust_ratio(imageHelper.to_canvas('./image/vizflow.png')) ;
 
-    var vizflow = $Z.helper.item.setup({ 
+    var vizflowItem = $Z.helper.item.setup({ 
 
       x: (viz.width - vizflowImage.originalCanvas.width) * 0.5,
       y: (viz.height - vizflowImage.originalCanvas.height) * 0.5,
@@ -37,20 +37,23 @@ function load_game () {
 
     }) ;
 
-    vizflow.add() ;
+    vizflowItem.add() ;
 
     vizHelper.run(viz) ; // call the generic run function
     
     viz.opacity = 1 ;
 
-    vizflow.fade({
+    vizflowItem.fade({
 
+      opacity:  1,
       duration: viz.fadeDuration,
+      pause:    viz.fadeDuration,
 
       end: function() { 
 
-        vizflow.fade({
-
+        vizflowItem.fade({
+          
+          opacity:  0,
           duration: viz.fadeDuration,
           end: start_text,
           
@@ -59,50 +62,54 @@ function load_game () {
       },
 
     }) ;
-
+   
     function start_text() {
 
-      // viz.text       = spriteHelper.foreach(viz.text, imageHelper.get_original) ;
-
-      var startImage = imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/aerie_title.png')) ;
-
       var startConfig = {
-        image: startImage,
+        image:  imageHelper.adjust_ratio(imageHelper.to_canvas('./image/aerie_title.png')),
         x: 0,
-        y: -200,
+        y: -300,
         opacity: 0,
         addSwitch: true,
 
-      } ;
-
+      } ; 
       var startTextConfig = {
-        image: imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/start.png')),
-        x: 160,
-        y: 300,
+        image:  imageHelper.adjust_ratio(imageHelper.to_canvas('./image/start.png')),
+        x: 130,
+        y: 320,
         opacity: 1,
         addSwitch: true,
+      }  ;
+
+      var swordConfig = {
+        image: imageHelper.adjust_ratio(imageHelper.to_canvas('./image/title_blade.png')),
+        x: 240,
+        y: 76,
+
       } ;
 
-      var linDur = 2000 ;
+    var scaleDur = 2000 ;
 
-      viz.startItem        = viz.setup_item(startConfig) ;
-      viz.startTextItem    = viz.setup_item(startTextConfig) ;
-      viz.startItem.add_linear('y', 0, linDur) ;
-      viz.startTextItem.add_linear('y', 130, linDur) ;
-      viz.overlay          = $Z.helper.viz.clear_cover(viz) ;
-      viz.overlay.callback = run_title ;
+    viz.swordItem = viz.setup_item(swordConfig) ;
 
-      viz.setup_ui() ;
-
-     // function loop_flash() {
-     //    viz.startItem.loop(function() {
-     //      return $Z.helper.item.method.flash(1, 420)[0] ;
-     //    }) ;
-     //  }
-
-      viz.startItem.call(['fade'], [0, 4 * viz.fadeDuration]) ;      
+    viz.startItem = viz.setup_item(startConfig) ;
+    viz.startText =viz.setup_item(startTextConfig) ;
+    viz.startItem.add_linear('y', -80,scaleDur) ;
+    viz.startText.add_linear('y', 160 , scaleDur );
+    viz.swordItem.add_linear('x', 36, .3 * scaleDur) ;
+    viz.startText.flash(100) ;
+    viz.setup_item(startTextConfig) ;
     
-    }    
+    viz.overlay          = $Z.helper.viz.clear_cover(viz) ;
+    viz.overlay.callback = run_title ;
+
+    viz.setup_ui() ;
+
+    viz.startItem.call(['fade'], [0, 4*viz.fadeDuration]) ; 
+
+    } ;
+    
+  }    
 
     function run_title() {
 
@@ -113,90 +120,73 @@ function load_game () {
         opacity: 0,
         end: function() {
           viz.startItem.remove() ;
-          viz.startTextItem.remove() ;
+
         }
       })
 
-      var size = 320 ;    
+      viz.startText.fade({
+        duration: 0.5 * viz.fadeDuration,
+        opacity: 0,
+        end: function() {
+          viz.startText.remove() ;
 
-      var sprite = spriteHelper.get(imageHelper.to_canvas('./image/aerie_title.png'), ['bg'], 320, 240) ;
+        }
+      })
 
-      viz.title = {
+      //   viz.sword.fade({
+      //   duration: 2 * viz.fadeDuration,
+      //   opacity: 0,
+      //   end: function() {
+      //     viz.sword.remove() ;
 
-        sprite: sprite,
-        
-        bgConfig: {
-          image: sprite.bg[0],
-          opacity: 0,
-          childFade: true,
-        },
+      //   }
+      // })
 
-      } ;
+      // var width = 320 ;    
+      // var height = 240;
+      // var sprite = spriteHelper.get(imageHelper.to_canvas('./image/aerie_title.png'), ['bg'], width, height) ;
 
-      var wordDelay = 5 * viz.fadeDuration ;
+      // viz.title = {
 
-      viz.title.bg          = viz.setup_item(viz.title.bgConfig) ; 
-      // viz.title.bg.image    = imageEffectHelper.color_filter(viz.title.bg.image, [, 64, 64]) ;
-      // viz.title.prime       = viz.setup_item(viz.title.primeConfig) ;
-      // viz.title.fruit       = viz.setup_item(viz.title.fruitConfig) ;
-      // viz.title.fruit.child = [viz.setup_item(viz.title.fOverConfig)] ;
-      // viz.title.prime.child = [viz.setup_item(viz.title.pOverConfig)] ;
-
-      viz.title.bg.add() ; // add background first so that it's rendered below other items
-      // viz.title.prime.add() ;
-      // viz.title.fruit.add() ;
-      // viz.title.prime.fade() ;
-      // viz.title.fruit.call('fade', viz.fadeDuration) ;
-      // viz.title.prime.child[0].call('loop_fade', wordDelay) ;
-      // viz.title.fruit.child[0].call('loop_fade', wordDelay) ;
-
-      // var delay = 1 ;
-      // viz.audio.pf.volume = 1 ;
-      // viz.audio.pf.play(delay) ;
-
-      // var fade = 4 ;
-      // viz.audio.music.loop = true ;
-      // viz.audio.music.play() ;
-      // viz.audio.music.gain.gain.value = 0 ;
-      // viz.audio.music.volume = 0.5 ;
-      // viz.audio.music.fade(fade) ;
-      // // viz.audio.music.volume = 0 ;
-      // // viz.audio.music.fade() ;
-      // // viz.title.bg            .call('loop_fade', wordDelay) ;
-
-   
+      //   sprite: sprite,
+      //   bgConfig: {
+      //     image: sprite.bg[0],
+      //     x: 0,
+      //     y: -80,
+      //   },
 
 
+      // } ;
 
-       //  var fade = 4 ;
+      viz.overlay.remove() ;
+
+      //viz.title.bg          = viz.setup_item(viz.title.bgConfig) ; 
+
+      viz.swordItem.add() ;
+      //viz.title.bg.fade() ;
+      viz.swordItem.call('fade', 3 * viz.fadeDuration) ; 
+
+      viz.swordItem.call(function() {
+
+        var fade = 4 ;
         // viz.audio.music.fade(fade) ;
 
-      
+        // viz.zoom({
+        //   x: x0,
+        //   y: y0, 
+        //   width: viz.width / 3,
+        //   height: viz.height / 3,
+        //   duration: 4 * viz.fadeDuration,
+        // }) ;
         
-        viz.title.bg.fade({
-          duration: 3 * viz.fadeDuration,
+        viz.swordItem.fade({
+          duration: 2 * viz.fadeDuration,
           opacity: 0,
           end: battle_screen,
         }) ;
- 
+      }, 4 * viz.fadeDuration) ;
+  }
 
-    }
-
-  } 
-
-
-  // viz.menuConfig = {
- 
-  //   sprite_loader: undefined,
-  //   callback:      undefined,
-
-  // } ;
-
-  // load_response: vizConfig.load_response, 
-  // load_ui: vizConfig.load_ui,
-  // load_audio: vizConfig.load_audio,
-  // load_char: vizConfig.load_char,
-  // load: vizHelper.load,
 
 
 }

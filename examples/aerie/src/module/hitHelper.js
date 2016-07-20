@@ -167,7 +167,7 @@ var hitHelper = {
     }   
     if (isShield === true) {
       var isRest = img === element.sprite.rest[0] ;
-        element.item.viz.audio.blocked.play() ; 
+        // element.item.viz.audio.blocked.play() ; 
 
         element.health -= 0.2 ;
     } else { 
@@ -175,7 +175,7 @@ var hitHelper = {
       element.item.whiteflash(50) ;  
       element.health -= 2 ;
     }
-    if (element.health < 1) {
+    if (element.health < .1) {
     
  function end_game(viz) {
 
@@ -211,7 +211,7 @@ var hitHelper = {
         vizflow.fade({
 
           duration: viz.fadeDuration * 3,
-          end: battle_screen,
+          end: load_game,
           
         }) ;
 
@@ -221,25 +221,25 @@ var hitHelper = {
 
   } 
 
-  document.ratio = 2 ; // upsample images to ensure crisp edges on hidpi devices
+  //document.ratio = 2 ; // upsample images to ensure crisp edges on hidpi devices
 
-  var vizConfig = {
+  // var vizConfig = {
 
-    background: undefined,
-    music:      undefined,
-    inputEvent: inputEvent,
-    run: end_game, // fade in vizflow URL for title screen by default
+  //   background: undefined,
+  //   music:      undefined,
+  //   inputEvent: inputEvent,
+  //   run: end_game, // fade in vizflow URL for title screen by default
 
-  } ;
+  // } ;
 
-  var viz = vizHelper.setup(vizConfig) ; // frameDuration computed
+  // var viz = vizHelper.setup(vizConfig) ; // frameDuration computed
 
-  viz.menuConfig = {
+  // viz.menuConfig = {
  
-    sprite_loader: undefined,
-    callback:      undefined,
+  //   sprite_loader: undefined,
+  //   callback:      undefined,
 
-  } ;
+  // } ;
 
   end_game (viz) ;
   
