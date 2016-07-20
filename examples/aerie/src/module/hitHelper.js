@@ -207,11 +207,11 @@ var hitHelper = {
       duration: viz.fadeDuration,
 
       end: function() { 
-
+ window.location.reload() ;
         vizflow.fade({
 
           duration: viz.fadeDuration * 3,
-          end: load_game,
+          //end: load_game,
           
         }) ;
 
