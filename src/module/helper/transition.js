@@ -653,12 +653,26 @@ let transitionHelper = {
         item.transition = [] ;
         transitionList = item.transition ;
       }    
-      var transitionIndex = transitionHelper.find(property, transitionList) ;
-      if (transitionIndex === -1) {
-        return ; // nothing to do
-      } else {
-        transitionList.splice(transitionIndex, 1) ;
-      }    
+
+      if ( property === undefined || property === 'all' ) {
+        item.transition = [] ;
+        return ;
+      }
+
+      if ( property.constructor === String ) {
+        property = [property] ;
+      }
+
+      for ( let kprop = 0 ; kprop < property.length ; kprop++ ) {
+
+        var transitionIndex = transitionHelper.find(property, transitionList) ;
+
+        if ( transitionIndex > -1 ) {
+          transitionList.splice(transitionIndex, 1) ;
+        }    
+
+      }
+
     },
 
     remove_end: function(item) {
