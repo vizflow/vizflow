@@ -310,7 +310,7 @@ let itemHelper = {
           }        
 
 
-          if ( loopSwitch === true ) { 
+          if ( loopSwitch === true || loopSwitch === 'loop' ) { 
 
             var delayK ;
             if ( duration.constructor === Number ) {
@@ -361,7 +361,7 @@ let itemHelper = {
 
         // console.log('item helper call: ', 'callback 2', callback, 'duration', duration)
 
-        if ( loopSwitch === true ) {
+        if ( loopSwitch === true || loopSwitch === 'loop' ) {
           item.loop_function(callback, duration) ;
         } else {
           item.run_callback(callback, duration) ;
