@@ -266,16 +266,7 @@ function battle_screen() {
     var finisherCode = 32 ;
 
     leftButtonConfig = {
-   
-       // loop: {
-
-       //      push: {
-       //          frameDur: viz.frameDuration,
-       //          position: 0,
-       //          Nstep: 3,
-       //      },
-
-       //  },       
+        
         sprite_loader: function() {
             var i = imageHelper.to_canvas ('./image/left_button_spritesheet.png') ;
             var rowName = ['push'] ;
@@ -385,6 +376,7 @@ function battle_screen() {
     viz.button.left.item.image = viz.button.left.sprite.push[0] ;
     viz.button.left.item.uiSwitch = true ;
     viz.button.left.item.callback = function left_button_callback() {
+        gameHelper.screen_handler(leftCode) ;
         
         var dur1 = 100 ;
         var dur2 = 100 ;
@@ -394,7 +386,6 @@ function battle_screen() {
         trans1.child = trans2 ;
 
         viz.button.left.item.add_transition(trans1) ;        
-        gameHelper.screen_handler(leftCode) ;
    } ;
 
     viz.button.right.item.image = viz.button.right.sprite.push[0] ;

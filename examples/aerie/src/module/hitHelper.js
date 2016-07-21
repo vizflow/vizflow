@@ -183,37 +183,41 @@ var hitHelper = {
       viz = this ;
     }
 
-    var vizflowImage = imageHelper.adjust_ratio(imageHelper.to_canvas('./image/game_over.png')) ;
+    var endImage = imageHelper.adjust_ratio(imageHelper.to_canvas('./image/game_over.png')) ;
 
-    var vizflow = $Z.helper.item.setup({ 
+    var endItem = $Z.helper.item.setup({ 
 
-      x: (viz.width - vizflowImage.originalCanvas.width) * 0.5,
-      y: (viz.height - vizflowImage.originalCanvas.height) * 0.5,
-      image: vizflowImage,
+      x: (viz.width - endImage.originalCanvas.width) * 0.5,
+      y: (viz.height - endImage.originalCanvas.height) * 0.5,
+      image: endImage,
       opacity: 0,
       inert: true,
       viz: viz,
 
     }) ;
 
-    vizflow.add() ;
+    endItem.add() ;
 
-    vizHelper.run(viz) ; // call the generic run function
+    // vizHelper.run(viz) ; // call the generic run function
     
     viz.opacity = 1 ;
+    viz.fade({
 
-    vizflow.fade({
+      duration: 2 * viz.fadeDuration,
+    }) ;
 
-      duration: viz.fadeDuration,
+    endItem.fade({
+
+      duration: viz.fadeDuration * 2,
 
       end: function() { 
-        window.location.reload() ;
-        vizflow.fade({
+        endItem.fade({
 
-          duration: viz.fadeDuration * 3,
-          //end: load_game,
-          
+          duration: viz.fadeDuration * 2,
+          end: window.location.reload(),
         }) ;
+   
+
 
       },
 
