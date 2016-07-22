@@ -29,8 +29,8 @@ let transitionHelper = {
 
   color_interp: function color_interp(t) {
 
-    var color1 = this.startValue ; // here, "this" revers to whatever context this gets bound to (not this module itself)
-    var color2 = this.endValue ;   // here, "this" revers to whatever context this gets bound to (not this module itself)
+    var color1 = this.startValue ; // here, "this" refers to whatever context this gets bound to (not this module itself)
+    var color2 = this.endValue ;   // here, "this" refers to whatever context this gets bound to (not this module itself)
 
     color1 = color1.slice(1) ; // take off the hash
     color2 = color2.slice(1) ; // take off the hash
@@ -103,8 +103,8 @@ let transitionHelper = {
     return transitionHelper.build_func(property, duration, transitionHelper.interp) ;
   },
 
-  fixed_duration_creator: function transition_helper_fixed_duration_creator(property, duration, interp_func) {
-    return transitionHelper.build_func(property, duration, interp_func) ;
+  fixed_duration_creator: function transition_helper_fixed_duration_creator(property, duration, interpolator) {
+    return transitionHelper.build_func(property, duration, interpolator) ;
   },
 
   fixed_duration_step: function transition_helper_fixed_duration_linear(property, duration) {
@@ -119,13 +119,13 @@ let transitionHelper = {
     return transitionHelper.fixed_duration_creator(property, duration, transitionHelper.rounded_linear_interp) ;
   },
 
-  new: function transition_helper_new(property, value, duration, interp_func) {
+  new: function transition_helper_new(property, value, duration, interpolator) {
 
-    if ( interp_func === undefined ) {
-      interp_func = transitionHelper.interp ;
+    if ( interpolator === undefined ) {
+      interpolator = transitionHelper.interp ;
     }
 
-    return transitionHelper.fixed_duration_creator(property, duration, interp_func)(value) ; 
+    return transitionHelper.fixed_duration_creator(property, duration, interpolator)(value) ; 
   },
 
   new_step: function transition_helper_new_step(property, value, duration) {
@@ -134,6 +134,12 @@ let transitionHelper = {
 
   new_linear: function transition_helper_new_linear(property, value, duration) {
     return transitionHelper.new(property, value, duration, transitionHelper.linear_interp) ;
+  },
+
+  new_power: function transition_helper_new_power(property, value, duration, power) {
+    var trans = transitionHelper.new(property, value, duration, transitionHelper.power_interp) ;
+    trans.power = power ;
+    return trans ;
   },
 
   new_rounded_linear: function transition_helper_new_rounded_linear(property, value, duration) {
@@ -148,12 +154,12 @@ let transitionHelper = {
     return [transition] ;
   },
 
-  new_sequence: function transition_helper_new_sequence(valueList, creator_func) {
+  new_sequence: function transition_helper_new_sequence(valueList, creator) {
     
     var trans = new Array(valueList.length) ; 
 
     for ( var k = 0 ; k < trans.length ; k++ ) {
-      trans[k] = creator_func(valueList[k]) ;
+      trans[k] = creator(valueList[k]) ;
     }
 
     return transitionHelper.sequence(trans) ;
@@ -426,7 +432,7 @@ let transitionHelper = {
 
     },
 
-    add_sequence: function transition_helper_new_sequence(valueList, creator_func, item) {
+    add_sequence: function transition_helper_new_sequence(valueList, creator, item) {
 
       if ( item === undefined ) {
         item = this ;
@@ -435,10 +441,54 @@ let transitionHelper = {
       var trans = new Array(valueList.length) ; 
 
       for ( var k = 0 ; k < trans.length ; k++ ) {
-        trans[k] = creator_func(valueList[k]) ;
+        trans[k] = creator(valueList[k]) ;
       }
 
       item.add_transition( transitionHelper.sequence(trans) ) ;
+
+    },
+
+    add_linear_sequence: function transition_add_linear_sequence(propertyList, valueList, durationList, item) {
+      
+      if ( item === undefined ) { 
+        item = this ;
+      }
+
+      if ( propertyList.constructor === String ) {
+      
+        let p = new Array(valueList.length) ;
+      
+        for ( let kp = 0 ; kp < p.length ; kp++ ) {
+          p[kp] = propertyList ;
+        }
+
+        propertyList = p ;
+      
+      }
+
+      if ( durationList.constructor === Number ) {
+      
+        let d = new Array(valueList.length) ;
+      
+        for ( let kd = 0 ; kd < d.length ; kd++ ) {
+          d[kd] = durationList ;
+        }
+
+        durationList = d ;
+      
+      }
+
+      let trans = new Array(valueList.length) ;
+
+      let interp = transitionHelper.linear_interp ;
+
+      for ( let kval = 0 ; kval < valueList.length ; kval++ ) {
+        trans[kval] = transitionHelper.new(propertyList[kval], valueList[kval], durationList[kval], interp) ;
+      }
+
+      let seq = transitionHelper.sequence(trans) ;
+
+      item.add_transition(seq) ;
 
     },
 
@@ -556,29 +606,36 @@ let transitionHelper = {
         item = this ;
       }
 
-      var trans = trans_func() ;
+      var trans ;
+      if ( trans_func.constructor === String ) {
+        trans = item[trans_func]() ;
+      } else {
+        trans = trans_func() ;
+      }
+
+      trans.item = item ;
 
       var child = transitionHelper.get_child(trans, 'last') ;
 
-      if ( child.end === undefined ) {
-
-        child.end = {
-        
-          item: item,
-          transition_func: trans_func,
-          run: transitionHelper.loop_end,
-        
-        } ;
-
-      } else {
+      if ( child.end !== undefined ) {
 
         if ( child.end.constructor === Object ) {
-          child.run() ;
+          child.end.run() ;
         } else {
-          child() ;
+          child.end() ;
         }
 
       }
+
+      child.end = {
+      
+        item: item,
+        transition_func: trans_func,
+        run: transitionHelper.loop_end,
+      
+      } ;
+
+      // console.log('loop_trans:', 'trans', trans, 'child', child) ;
 
       return trans ;
 
@@ -596,12 +653,26 @@ let transitionHelper = {
         item.transition = [] ;
         transitionList = item.transition ;
       }    
-      var transitionIndex = transitionHelper.find(property, transitionList) ;
-      if (transitionIndex === -1) {
-        return ; // nothing to do
-      } else {
-        transitionList.splice(transitionIndex, 1) ;
-      }    
+
+      if ( property === undefined || property === 'all' ) {
+        item.transition = [] ;
+        return ;
+      }
+
+      if ( property.constructor === String ) {
+        property = [property] ;
+      }
+
+      for ( let kprop = 0 ; kprop < property.length ; kprop++ ) {
+
+        var transitionIndex = transitionHelper.find(property, transitionList) ;
+
+        if ( transitionIndex > -1 ) {
+          transitionList.splice(transitionIndex, 1) ;
+        }    
+
+      }
+
     },
 
     remove_end: function(item) {

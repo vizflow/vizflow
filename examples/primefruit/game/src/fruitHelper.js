@@ -4,18 +4,18 @@ var fruitHelper = {
 
     if ( fruitHelper.sprite === undefined ) {
 
-      fruitHelper.sprite = spriteHelper.get
+      fruitHelper.sprite = $Z.helper.sprite.get
       ( 
-        imageHelper.to_canvas('./image/fruit.gif'), 
+        $Z.helper.image.to_canvas('./image/fruit.gif'), 
         ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'], 
         viz.tileWidth, 
         viz.rowHeight // function argument list, so no trailing comma 
       ) ;  
 
-      var overlayImage = imageHelper.to_canvas('./image/fruit-overlay.png') ;
-      overlayImage     = imageEffectHelper.color_filter(overlayImage, [100, 128, 255]) ; // jar lid color
+      var overlayImage = $Z.helper.image.to_canvas('./image/fruit-overlay.png') ;
+      overlayImage     = $Z.helper.effect.image.color_filter(overlayImage, [100, 128, 255]) ; // jar lid color
 
-      fruitHelper.overlay = spriteHelper.get
+      fruitHelper.overlay = $Z.helper.sprite.get
       ( 
         overlayImage, 
         ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'], 
@@ -67,8 +67,8 @@ var fruitHelper = {
 
       } ;
 
-      fruit.item[kitem]          = itemHelper.setup( fruitConfig ) ; // each tile contains some viz.fruit
-      fruit.item[kitem].digit    = itemHelper.setup( digitConfig ) ;
+      fruit.item[kitem]          = $Z.helper.item.setup( fruitConfig ) ; // each tile contains some viz.fruit
+      fruit.item[kitem].digit    = $Z.helper.item.setup( digitConfig ) ;
       fruit.item[kitem].code     = viz.code[k][kitem] ; 
       fruit.item[kitem].pausedur = viz.fadeDuration * 2 ;
       fruit.item[kitem].duration = viz.fadeDuration * 3 ;
@@ -183,7 +183,7 @@ var fruitHelper = {
 
       fruit.white.add_transition(document.fade([1, 0])) ;
       fruit.digit.add_transition(f0) ;
-      fruit.call(add_f1, transitionHelper.duration(f0))
+      fruit.call(add_f1, $Z.helper.transition.duration(f0))
 
     },
 
@@ -275,7 +275,7 @@ var fruitHelper = {
         yNew += fruit.yOrigin ;
       }
 
-      return transitionHelper.new_linear('y', yNew, fruit.duration) ;
+      return $Z.helper.transition.new_linear('y', yNew, fruit.duration) ;
 
     },
 
@@ -296,7 +296,7 @@ var fruitHelper = {
         xNew += fruit.xOrigin ;
       }
 
-      return transitionHelper.new_linear('x', xNew, fruit.duration) ;
+      return $Z.helper.transition.new_linear('x', xNew, fruit.duration) ;
 
     },
 
@@ -323,7 +323,7 @@ var fruitHelper = {
         scale1 = fruit.config.xScale ;
       }
 
-      var xScaleTrans = transitionHelper.new_linear('xScale', scale1, fruit.duration) ;
+      var xScaleTrans = $Z.helper.transition.new_linear('xScale', scale1, fruit.duration) ;
       
       return xScaleTrans ;
 
@@ -339,7 +339,7 @@ var fruitHelper = {
         scale1 = fruit.config.yScale ;
       }
 
-      var yScaleTrans   = transitionHelper.new_linear('yScale', scale1, fruit.duration) ;
+      var yScaleTrans   = $Z.helper.transition.new_linear('yScale', scale1, fruit.duration) ;
       
       return yScaleTrans ;
 
@@ -401,8 +401,8 @@ var fruitHelper = {
 
       // var pauseDur = 3 * fk.duration ;
       // var xyDur    = fk.duration ;
-      // var xTrans   = transitionHelper.new_linear('x', 0.5 * fk.viz.width, xyDur) ;      
-      // var yTrans   = transitionHelper.new_linear('y', 0.5 * fk.viz.width, xyDur) ; 
+      // var xTrans   = $Z.helper.transition.new_linear('x', 0.5 * fk.viz.width, xyDur) ;      
+      // var yTrans   = $Z.helper.transition.new_linear('y', 0.5 * fk.viz.width, xyDur) ; 
       // var index    = fk.code.charCodeAt(0) - 'a'.charCodeAt(0) ; // prime number index 
 
       // xTrans.end = function() {
@@ -421,12 +421,12 @@ var fruitHelper = {
       //   }, fk.duration * 5) ;
       // }
 
-      // var xInit = transitionHelper.new_linear('x', fk.viz.jar[fk.config.kjar].x, xyDur) ;
+      // var xInit = $Z.helper.transition.new_linear('x', fk.viz.jar[fk.config.kjar].x, xyDur) ;
       // xInit.end = function() {
       //   fk.add_transition(yInit) ;        
       // }
 
-      // var yInit = transitionHelper.new_linear('y', fk.y - 32, xyDur) ;
+      // var yInit = $Z.helper.transition.new_linear('y', fk.y - 32, xyDur) ;
       // yInit.end = function() {
       //   fk.add_transition(xTrans) ;
       // }

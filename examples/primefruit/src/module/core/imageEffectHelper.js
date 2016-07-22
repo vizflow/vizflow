@@ -136,7 +136,7 @@ var imageEffectHelper = {
 			fadeConfig.duration = defaultFadeDuration ;
 		}
 
-		var newTransition = $Z.transition.linear_transition_func('opacity', fadeConfig.duration)(fadeConfig.opacity) ;
+		var newTransition = $Z.helper.transition.linear_transition_func('opacity', fadeConfig.duration)(fadeConfig.opacity) ;
 
 		if( fadeConfig.end !== undefined) {
 			newTransition.end = fadeConfig.end ;
@@ -221,7 +221,7 @@ var imageEffectHelper = {
 				sy = Math.floor(krow * blocksize / document.ratio) ;
 				context.drawImage(item.image, sx, sy, sw, sh, dx, dy, dw, dh) ;
 				var k = krow * Ncol + kcol ;
-				var xTrans = $Z.transition.rounded_linear_transition_func('x', duration)((Math.random() - 0.5) * 2 * scale + item.x + sx) ;
+				var xTrans = $Z.helper.transition.rounded_linear_transition_func('x', duration)((Math.random() - 0.5) * 2 * scale + item.x + sx) ;
 				block[k] = Object.assign(itemHelper.setup(), { 
 					viz: item.viz,
 					x: item.x + sx,
@@ -232,7 +232,7 @@ var imageEffectHelper = {
 					inert: true,
 					transition: [
 						xTrans,
-						$Z.transition.rounded_linear_transition_func('y', duration)((Math.random() - 0.5) * 2 * scale + item.y + sy),
+						$Z.helper.transition.rounded_linear_transition_func('y', duration)((Math.random() - 0.5) * 2 * scale + item.y + sy),
 					],
 				}) ;
 				xTrans.end = transitionHelper.remove_end(block[k]) ;

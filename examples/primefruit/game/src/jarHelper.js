@@ -4,17 +4,17 @@ var jarHelper = {
 
     if ( jarHelper.lidImage === undefined ) {
       jarHelper.lidImage = [
-          imageHelper.adjust_ratio(imageHelper.to_canvas('./image/jarLidGray.png')), 
-          imageHelper.adjust_ratio(imageHelper.to_canvas('./image/jarLidPurp.png')),
-          imageHelper.adjust_ratio(imageHelper.to_canvas('./image/jarLidBlue.png')),
+          $Z.helper.image.adjust_ratio($Z.helper.image.to_canvas('./image/jarLidGray.png')), 
+          $Z.helper.image.adjust_ratio($Z.helper.image.to_canvas('./image/jarLidPurp.png')),
+          $Z.helper.image.adjust_ratio($Z.helper.image.to_canvas('./image/jarLidBlue.png')),
       ] ;
     }
 
     if ( jarHelper.image === undefined ) {
-      jarHelper.image = imageHelper.adjust_ratio(imageHelper.to_canvas('./image/jarOpen.png')) ;      
+      jarHelper.image = $Z.helper.image.adjust_ratio($Z.helper.image.to_canvas('./image/jarOpen.png')) ;      
     }
 
-    var jarImage = imageHelper.copy(jarHelper.image) ;
+    var jarImage = $Z.helper.image.copy(jarHelper.image) ;
     var xmid     = jarImage.originalCanvas.width * 0.5 ;
     var ymid     = jarImage.originalCanvas.height * 0.5
 
@@ -34,7 +34,7 @@ var jarHelper = {
 
     } ;
 
-    var jarK = itemHelper.setup( jarConfig ) ;
+    var jarK = $Z.helper.item.setup( jarConfig ) ;
     // jarK.default_child() ;
 
     var lidConfig = {
@@ -48,13 +48,13 @@ var jarHelper = {
 
     } ;
 
-    lidK = itemHelper.setup ( lidConfig ) ;
+    lidK = $Z.helper.item.setup ( lidConfig ) ;
     lidK.default_child() ;
 
     var lidConfigBlue = Object.copy( lidConfig ) ;
     // lidConfigBlue.opacity = 0 ;
     lidConfigBlue.image = jarHelper.lidImage[2] ;
-    var lidKblue        = itemHelper.setup ( lidConfigBlue ) ;
+    var lidKblue        = $Z.helper.item.setup ( lidConfigBlue ) ;
     lidKblue.default_child() ;
 
     jarK.lid   = lidK ;
@@ -72,7 +72,7 @@ var jarHelper = {
     jarK.scale1     = 2.5 ;
     jarK.opacityLow = 0.0 ;
 
-    var digit = imageHelper.text({
+    var digit = $Z.helper.image.text({
       text: k + 2,
       sprite: viz.text,
       xShift: 0,
@@ -258,13 +258,13 @@ var jarHelper = {
         jar = this ;
       }
 
-      var image = imageHelper.text({
+      var image = $Z.helper.image.text({
         text:   text,
         sprite: jar.viz.text,
         xShift: 10,
       }) ;      
 
-      image = imageHelper.adjust_ratio(image) ;
+      image = $Z.helper.image.adjust_ratio(image) ;
 
       var text = jar.viz.setup_item({
 
@@ -480,7 +480,7 @@ var jarHelper = {
 
       var viz = jar.viz ;
 
-      var trans = transitionHelper.new_linear( 'opacity', o1, jar.duration * 3 ) ;
+      var trans = $Z.helper.transition.new_linear( 'opacity', o1, jar.duration * 3 ) ;
 
       for ( var kjar = 0 ; kjar < viz.jar.length ; kjar++ ) {
         

@@ -22,8 +22,8 @@ let audioLoader = {
 
       if (AudioContext) {
           // Do whatever you want using the Web Audio API
-        // console.log('AudioContext', AudioContext, 'audioHelper', audioHelper)
-        var audio = Object.copy(audioHelper) ; // shallow copy, maintains a single AudioContext container for all source files loaded
+        // console.log('AudioContext', AudioContext, '$Z.helper.audio', $Z.helper.audio)
+        var audio = Object.copy($Z.helper.audio) ; // shallow copy, maintains a single AudioContext container for all source files loaded
           // ...
       } else {
           // Web Audio API is not supported
@@ -36,8 +36,8 @@ let audioLoader = {
       request.open('get', url, true) ;
       request.responseType = 'arraybuffer' ;
       request.onload = function () {
-          // console.log('request.response', request.response, 'audioHelper.context', audioHelper.context, 'AudioContext', AudioContext) ;
-        audioHelper.context.decodeAudioData( request.response, function(buff) { 
+          // console.log('request.response', request.response, '$Z.helper.audio.context', $Z.helper.audio.context, 'AudioContext', AudioContext) ;
+        $Z.helper.audio.context.decodeAudioData( request.response, function(buff) { 
           audio.buffer = buff ;
           audioLoader.cache[url] = audio ;
           audioLoader.callback_handler() ;
@@ -164,7 +164,6 @@ let loader = {
   audio: audioLoader,
 
   all: function vizflow_core_loader_all(imageList, audioList, callback) {
-    document.ratio     = 2 ; // upsample images to ensure crisp edges on hidpi devices 
     imageLoader.preload ( imageList, function preload_audio() {
       // console.log('main.js: preload_audio') ;
       audioLoader.preload( 

@@ -21,6 +21,11 @@ let vizHelper = {
      */ 
 
     var dur           = vizConfig.duration || 17 ; // the framespeed that vizflow uses (default is 60 frames per second)
+    
+    if ( document.ratio === undefined ) {
+      document.ratio = 1 ;
+    }
+
     var ratio         = document.ratio ; //(window.devicePixelRatio || 1) ; 
     var vizWidth      = vizConfig.width  || 480 ;
     var vizHeight     = vizConfig.height || 640 ;
@@ -34,17 +39,109 @@ let vizHelper = {
     var fullCanvas    = $Z.helper.image.create(fullWidth, fullHeight) ;     // fully upsampled canvas (dependent on device pixel ratio)
     var screenCanvas  = $Z.helper.image.create(displayWidth, displayHeight) ; // actual display canvas (drawn to screen once per step/cycle/frame of the animation engine)
 
+    if ( vizConfig.coverSwitch === true ) {
+      screenCanvas.cover = true ;
+      screenCanvas.maxWidth = Math.floor(displayWidth / Math.min(1, window.devicePixelRatio)) ;
+      screenCanvas.maxHeight = Math.floor(displayHeight / Math.min(1, window.devicePixelRatio)) ;
+    }
+
     var fullContext   = fullCanvas.context() ; // model canvas (indepdenent of device pixel ratio)
     var vizContext    = vizCanvas.context() ;  
     var screenContext = screenCanvas.context() ;
 
     screenCanvas.place() ;
 
-    function resize() {
-      screenCanvas.set_position() ;
-    }
+    function resize(viz) {
 
-    resize() ;
+      if ( viz === undefined ) {
+        viz = this ;
+      }
+
+      var w = window.innerWidth  + 'px' ;
+      var h = window.innerHeight + 'px' ;
+
+      if ( document.body.parentNode.style.width !== w ) {
+        document.body.parentNode.style.width = w ;              
+      }
+
+      if ( document.body.style.width !== w ) {
+        document.body.style.width = w ;      
+      }
+
+      if ( document.body.parentNode.style.height !== h ) {
+        document.body.parentNode.style.height = h ;      
+      }
+
+      if ( document.body.style.height !== h ) {
+        document.body.style.height = h ;      
+      }
+
+      var position = viz.screenCanvas.set_position() ;
+
+      if ( viz.screenCanvas.cover === true ) {
+        
+        var aspectRatio = position.width / position.height ; 
+        var viewAspect  = viz.viewportWidth / viz.viewportHeight ;
+
+        var tol = 0.001 ;
+
+        if ( aspectRatio < viewAspect && ( (viewAspect / aspectRatio) - 1 ) > tol ) { // needs to be skinnier: make width smaller or height larger
+
+          if ( viz.viewportHeight < viz.fullCanvas.height ) { // expand height first as much as possible
+            
+            var viewportHeight = viz.viewportHeight ; 
+            var newHeight      = Math.min(viz.fullCanvas.height, (viewAspect / aspectRatio) * viewportHeight) ;
+            viz.viewportHeight = Math.round(newHeight) ;
+            viewAspect  = viz.viewportWidth / viz.viewportHeight ;
+
+          } 
+
+          var viewportWidth = viz.viewportWidth ;
+          viewportWidth *= aspectRatio / viewAspect ;
+          viewportWidth = Math.round(viewportWidth) ;
+          viz.viewportWidth = viewportWidth ;
+        
+        } else if ( aspectRatio > viewAspect && ( (aspectRatio / viewAspect) - 1 ) > tol ) { // needs to be fatter: make width larger or height smaller
+
+          if ( viz.viewportWidth < viz.fullCanvas.width ) { // expand width first as much as possible
+
+            var viewportWidth = viz.viewportWidth ; 
+            var newWidth      = Math.min(viz.fullCanvas.width, (aspectRatio / viewAspect) * viewportWidth) ;
+            viz.viewportWidth = Math.round(newWidth) ;
+            viewAspect  = viz.viewportWidth / viz.viewportHeight ;
+
+          }
+
+          var viewportHeight = viz.viewportHeight ;
+          viewportHeight *= viewAspect / aspectRatio ;
+          viewportHeight = Math.round(viewportHeight) ;
+          viz.viewportHeight = viewportHeight ;
+
+        }
+
+        var minWidth  = 2 ;
+        var minHeight = 2 ;
+
+        viz.viewportWidth  = Math.max(viz.viewportWidth, minWidth) ;
+        viz.viewportHeight = Math.max(viz.viewportHeight, minHeight) ;
+
+        viz.viewportWidth  = Math.min(viz.viewportWidth,  viz.screenCanvas.width) ;
+        viz.viewportHeight = Math.min(viz.viewportHeight, viz.screenCanvas.height) ;
+
+        if ( viz.screenCanvas.hCenter === true ) {
+          viz.viewportX = Math.max(0, Math.round(0.5 * (viz.screenCanvas.width - viz.viewportWidth))) ;
+        }
+        if ( viz.screenCanvas.vCenter === true ) {
+          viz.viewportY = Math.max(0, Math.round(0.5 * (viz.screenCanvas.height - viz.viewportHeight))) ;
+        }
+
+      }
+
+      if ( viz.resized === false ) {
+        viz.resized = true ;
+      }
+
+    }
 
     var backgroundImageUrl = vizConfig.backgroundImageUrl ;
     // console.log('vizHelper, resize, to_canvas start') ;
@@ -67,6 +164,18 @@ let vizHelper = {
       vizOpacity = vizConfig.opacity ;
     }
 
+    var vCenter = vizConfig.vCenter ;
+
+    if ( vCenter === undefined ) {
+      vCenter = true ;
+    }
+
+    var hCenter = vizConfig.hCenter ;
+
+    if ( hCenter === undefined ) {
+      hCenter = true ;
+    } 
+
     /*
      *   DEFINE THE VIZ OBJECT:
      */
@@ -76,6 +185,7 @@ let vizHelper = {
       config:         vizConfig,
       width:          vizWidth,
       height:         vizHeight, 
+      aspectRatio:    vizWidth / vizHeight, 
       dur:            dur,
       frameDuration:  frameDuration,
       fadeDuration:   vizConfig.fadeDuration || fadeDuration,
@@ -88,17 +198,23 @@ let vizHelper = {
       screenContext:  screenContext,
       xShift:         Math.floor(0.5 * (paddingFactor - 1) * vizWidth),
       yShift:         Math.floor(0.5 * (paddingFactor - 1) * vizHeight),
+      resize:         resize,
       resizeSkip:     resizeSkip,
+      resized:        false,
       lastCollision:  0,
       lastResize:     0,
       viewportX:      0, 
       viewportY:      0,
       viewportWidth:  screenCanvas.width,
       viewportHeight: screenCanvas.height,
+      viewportScaleX:  1,
+      viewportScaleY:  1,
+      hCenter:        hCenter,
+      vCenter:        vCenter,
       detect:         $Z.helper.action.detect,
       perform:        $Z.helper.action.perform,
       image_transition: $Z.helper.transition.step_func('image', frameDuration),  
-      opacity: vizOpacity,
+      opacity:     vizOpacity,
       fade:        $Z.helper.item.method.fade, 
       shake:       $Z.helper.effect.shake,  
       setup_item:  $Z.helper.item.setup, 
@@ -122,9 +238,16 @@ let vizHelper = {
 
       prep: function viz_prep () {
 
-        if( ($Z.iter - this.lastResize) > this.resizeSkip) {
-          resize() ;
+        if( !this.resized || ($Z.iter - this.lastResize) > this.resizeSkip) {
+          this.screenCanvas.hCenter = this.hCenter ;
+          this.screenCanvas.vCenter = this.vCenter ;
+
+          this.canvas.hCenter = this.hCenter ;
+          this.canvas.vCenter = this.vCenter ;
+
+          this.resize() ;
           this.lastResize = $Z.iter ;
+
         }
 
         if(this.item === undefined) {

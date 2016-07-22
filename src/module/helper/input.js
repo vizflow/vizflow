@@ -105,12 +105,15 @@ let inputEvent = {
         return ; // nothing to do
       }
 
-      var position = viz.canvas.set_position() ;
-
-      var xIn = Math.round( ( event.clientX - position.left ) / position.scale ) ;
-      var yIn = Math.round( ( event.clientY - position.top  ) / position.scale ) ;
-
       $Z.helper.draw.indexed( viz.ui.item, viz.ui.canvas ) ;
+
+      var position = viz.screenCanvas.set_position() ;
+
+      viz.viewportScaleX = viz.viewportWidth  / viz.screenCanvas.width ;      
+      viz.viewportScaleY = viz.viewportHeight / viz.screenCanvas.height ;      
+
+      var xIn = Math.round( viz.viewportX + viz.viewportScaleX * ( event.clientX - position.left ) / position.scaleX ) ;
+      var yIn = Math.round( viz.viewportY + viz.viewportScaleY * ( event.clientY - position.top  ) / position.scaleY ) ;
 
       var color     = viz.ui.canvas.context().getImageData( xIn, yIn, 1, 1 ).data ;
       var itemIndex = color[0] - 1 ; // color indexing used by imageHelper.to_index is 1-based

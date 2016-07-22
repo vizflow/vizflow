@@ -55,35 +55,35 @@ function primefruit() {
 
   } ;
   
-  var viz       = vizHelper.setup(vizConfig) ; // first create generic vizflow configuration object, then add application-specific details
+  var viz       = $Z.helper.viz.setup(vizConfig) ; // first create generic vizflow configuration object, then add application-specific details
 
   viz.audio = {
-    music: audioLoader.cache[vizConfig.music],
-    a: audioLoader.cache['./audio/a.wav'],
-    b: audioLoader.cache['./audio/b.wav'],
-    c: audioLoader.cache['./audio/c.wav'],
-    d: audioLoader.cache['./audio/d.wav'],
-    e: audioLoader.cache['./audio/e.wav'],
-    f: audioLoader.cache['./audio/f.wav'],
-    g: audioLoader.cache['./audio/g.wav'],
-    h: audioLoader.cache['./audio/h.wav'],
-    i: audioLoader.cache['./audio/i.wav'],
-    10: audioLoader.cache['./audio/10.wav'],
-    12: audioLoader.cache['./audio/12.wav'],
-    14: audioLoader.cache['./audio/14.wav'],
-    15: audioLoader.cache['./audio/15.wav'],
-    16: audioLoader.cache['./audio/16.wav'],
-    18: audioLoader.cache['./audio/18.wav'],
-    20: audioLoader.cache['./audio/20.wav'],
-    21: audioLoader.cache['./audio/21.wav'],
-    22: audioLoader.cache['./audio/22.wav'],
-    24: audioLoader.cache['./audio/24.wav'],
-    25: audioLoader.cache['./audio/25.wav'],
-    4: audioLoader.cache['./audio/4.wav'],
-    6: audioLoader.cache['./audio/6.wav'],
-    8: audioLoader.cache['./audio/8.wav'],
-    9: audioLoader.cache['./audio/9.wav'],
-    win: audioLoader.cache['./audio/win.wav'],
+    music: $Z.helper.loader.audio.cache[vizConfig.music],
+    a: $Z.helper.loader.audio.cache['./audio/a.wav'],
+    b: $Z.helper.loader.audio.cache['./audio/b.wav'],
+    c: $Z.helper.loader.audio.cache['./audio/c.wav'],
+    d: $Z.helper.loader.audio.cache['./audio/d.wav'],
+    e: $Z.helper.loader.audio.cache['./audio/e.wav'],
+    f: $Z.helper.loader.audio.cache['./audio/f.wav'],
+    g: $Z.helper.loader.audio.cache['./audio/g.wav'],
+    h: $Z.helper.loader.audio.cache['./audio/h.wav'],
+    i: $Z.helper.loader.audio.cache['./audio/i.wav'],
+    10: $Z.helper.loader.audio.cache['./audio/10.wav'],
+    12: $Z.helper.loader.audio.cache['./audio/12.wav'],
+    14: $Z.helper.loader.audio.cache['./audio/14.wav'],
+    15: $Z.helper.loader.audio.cache['./audio/15.wav'],
+    16: $Z.helper.loader.audio.cache['./audio/16.wav'],
+    18: $Z.helper.loader.audio.cache['./audio/18.wav'],
+    20: $Z.helper.loader.audio.cache['./audio/20.wav'],
+    21: $Z.helper.loader.audio.cache['./audio/21.wav'],
+    22: $Z.helper.loader.audio.cache['./audio/22.wav'],
+    24: $Z.helper.loader.audio.cache['./audio/24.wav'],
+    25: $Z.helper.loader.audio.cache['./audio/25.wav'],
+    4: $Z.helper.loader.audio.cache['./audio/4.wav'],
+    6: $Z.helper.loader.audio.cache['./audio/6.wav'],
+    8: $Z.helper.loader.audio.cache['./audio/8.wav'],
+    9: $Z.helper.loader.audio.cache['./audio/9.wav'],
+    win: $Z.helper.loader.audio.cache['./audio/win.wav'],
   } ;
   
   var fade = 4 ;
@@ -151,14 +151,14 @@ function primefruit() {
     'i': 23,
   } ;
 
-  // var text  = imageHelper.text_sprite() ;
+  // var text  = $Z.helper.image.text_sprite() ;
 
   var textWidth  = 32 ;
   var textHeight = 32 ;
-  var text       = spriteHelper.get_text(document.textUrl[0], textWidth, textHeight) ;
-  viz.text       = spriteHelper.foreach(text, imageHelper.get_original) ;
+  var text       = $Z.helper.sprite.get_text(document.textUrl[0], textWidth, textHeight) ;
+  viz.text       = $Z.helper.sprite.foreach(text, $Z.helper.image.get_original) ;
 
-  var xImage = imageHelper.create(viz.text['0'][0].width, viz.text['0'][0].height) ;
+  var xImage = $Z.helper.image.create(viz.text['0'][0].width, viz.text['0'][0].height) ;
 
   var x  = viz.text['x'][0];
   var sx = 0 ; var sw = x.width ; 
@@ -175,7 +175,7 @@ function primefruit() {
 
   document.fade = function fade(fadeVal) {
 
-    return imageEffectHelper.fade_sequence({ 
+    return $Z.helper.effect.image.fade_sequence({ 
 
       duration: duration,
       value: fadeVal,

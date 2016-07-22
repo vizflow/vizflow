@@ -435,7 +435,7 @@ var itemHelper = {
       }
 
       if ( fader === undefined ) {
-        fader = item.viz.fader ;
+        fader = item.viz.fader || item.fader ;
       }
 
       if ( fadeVal === undefined ) {

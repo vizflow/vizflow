@@ -7,12 +7,11 @@ function load_game () {
     paddingFactor: 1,
     background: undefined,
     music:      './audio/starman.wav',
-    inputEvent: inputEvent,
     run:        title, // fade in vizflowItem URL for title screen by default
 
   } ;
 
-  var viz = vizHelper.setup(vizConfig) ; // frameDuration computed
+  var viz = $Z.helper.viz.setup(vizConfig) ; // frameDuration computed
 
   viz.run() ;
 
@@ -23,15 +22,15 @@ function load_game () {
     }
 
     viz.audio = {
-      music: audioLoader.cache[viz.config.music],
-      pf: audioLoader.cache['./audio/pf.wav'],
+      music: $Z.helper.loader.audio.cache[viz.config.music],
+      pf: $Z.helper.loader.audio.cache['./audio/pf.wav'],
     } ;
     
     viz.audio.music.volume *= 0.5 ;
 
-    var vizflowImage = imageHelper.adjust_ratio(imageHelper.to_canvas('./image/vizflow.png')) ;
+    var vizflowImage = $Z.helper.image.adjust_ratio($Z.helper.image.to_canvas('./image/vizflow.png')) ;
 
-    var vizflowItem = itemHelper.setup({ 
+    var vizflowItem = $Z.helper.item.setup({ 
 
       x: (viz.width  - vizflowImage.originalCanvas.width)  * 0.5,
       y: (viz.height - vizflowImage.originalCanvas.height) * 0.5,
@@ -44,7 +43,7 @@ function load_game () {
 
     vizflowItem.add() ;
 
-    vizHelper.run(viz) ; // call the generic run function
+    $Z.helper.viz.run(viz) ; // call the generic run function
     
     viz.opacity = 1 ;
 
@@ -73,10 +72,10 @@ function load_game () {
     function start_text() {
       
       var textWidth = 32 ; var textHeight = 32 ;
-      viz.text  = spriteHelper.get_text('./image/text2.png', textWidth, textHeight) ;
-      // viz.text       = spriteHelper.foreach(viz.text, imageHelper.get_original) ;
+      viz.text  = $Z.helper.sprite.get_text('./image/text2.png', textWidth, textHeight) ;
+      // viz.text       = $Z.helper.sprite.foreach(viz.text, $Z.helper.image.get_original) ;
 
-      var textImage = imageHelper.text({
+      var textImage = $Z.helper.image.text({
         sprite: viz.text,
         text: 'start',
       }) ;
@@ -94,14 +93,14 @@ function load_game () {
       } ;
 
       viz.startItem        = viz.setup_item(startConfig) ;
-      viz.overlay          = vizHelper.clear_cover(viz) ;
+      viz.overlay          = $Z.helper.viz.clear_cover(viz) ;
       viz.overlay.callback = run_title ;
 
       viz.setup_ui() ;
 
       function loop_flash() {
         viz.startItem.loop(function() {
-          return itemHelper.method.flash(1, 420)[0] ;
+          return $Z.helper.item.method.flash(1, 420)[0] ;
         }) ;
       }
 
@@ -123,7 +122,7 @@ function load_game () {
 
       var size = 320 ;    
 
-      var sprite = spriteHelper.get(imageHelper.to_canvas('./image/pf-title.png'), ['bg', 'fruit', 'prime'], size, size) ;
+      var sprite = $Z.helper.sprite.get($Z.helper.image.to_canvas('./image/pf-title.png'), ['bg', 'fruit', 'prime'], size, size) ;
 
       viz.title = {
 
@@ -162,7 +161,7 @@ function load_game () {
       var wordDelay = 5 * viz.fadeDuration ;
 
       viz.title.bg          = viz.setup_item(viz.title.bgConfig) ; 
-      viz.title.bg.image    = imageEffectHelper.color_filter(viz.title.bg.image, [, 64, 64]) ;
+      viz.title.bg.image    = $Z.helper.effect.image.color_filter(viz.title.bg.image, [, 64, 64]) ;
       viz.title.prime       = viz.setup_item(viz.title.primeConfig) ;
       viz.title.fruit       = viz.setup_item(viz.title.fruitConfig) ;
       viz.title.fruit.child = [viz.setup_item(viz.title.fOverConfig)] ;
@@ -196,9 +195,9 @@ function load_game () {
 
       viz.fruit = {
 
-        sprite: spriteHelper.get
+        sprite: $Z.helper.sprite.get
         ( 
-          imageHelper.to_canvas('./image/fruit.gif'), 
+          $Z.helper.image.to_canvas('./image/fruit.gif'), 
           viz.key, 
           viz.tileWidth, 
           viz.rowHeight // function argument list, so no trailing comma 
@@ -206,11 +205,13 @@ function load_game () {
 
       } ;
 
-      var fruitFade = [.6, 0] ;
-
       viz.fruit.item = new Array(viz.key.length) ;
 
-      function fruit_fader(fadeVal) {
+      function fruit_fader(fadeVal, viz) {
+
+        if ( viz === undefined ) {
+          viz = this ;
+        }
         var duration = viz.fadeDuration * 0.5 ;
         return viz.fader(fadeVal, duration) ;
       }
@@ -242,28 +243,34 @@ function load_game () {
 
         fk.default_child() ;
         fk.call('fade', k * viz.fadeDuration / viz.key.length + 3 * viz.fadeDuration) ;
-        fk.white.call(function() { this.loop_fade(fruit_fader, fruitFade) ; }, 5 * viz.fadeDuration) ;
+        fk.white.call(function() { 
+          var fruitFade = [.6, 0] ;
+          this.loop_fade(fruit_fader, fruitFade) ; 
+        }, 5 * viz.fadeDuration) ;
 
       }
 
       viz.call(function() {
 
+        var viz = this ;
+
         var fade = 4 ;
         viz.audio.music.fade(fade) ;
 
-        viz.zoom({
-          x: x0,
-          y: y0, 
-          width: viz.width / 3,
-          height: viz.height / 3,
-          duration: 4 * viz.fadeDuration,
-        }) ;
+        // viz.zoom({
+        //   x: x0,
+        //   y: y0, 
+        //   width: viz.width / 3,
+        //   height: viz.height / 3,
+        //   duration: 4 * viz.fadeDuration,
+        // }) ;
         
         viz.fade({
           duration: 3 * viz.fadeDuration,
           opacity: 0,
           end: primefruit,
         }) ;
+
       }, 10 * viz.fadeDuration) ;
 
     }

@@ -27,6 +27,28 @@ let itemHelper = {
       yOrigin = 0 ;
     }
 
+    var xScale, yScale ;
+
+    if ( itemConfig.xScale === undefined ) {
+      xScale = 1 ;
+    } else {
+      xScale = itemConfig.xScale ;
+    }
+
+    if ( itemConfig.yScale === undefined ) {
+      yScale = 1 ;
+    } else {
+      yScale = itemConfig.yScale ;
+    }
+
+    var addSwitch ;
+
+    if( itemConfig.addSwitch !== undefined ) {
+      addSwitch = itemConfig.addSwitch ;
+    } else {
+      addSwitch = true ;
+    }
+
     var item = { // configurable properties: x, y, type, element, opacity, image, inert, render, fixed, transition
 
       /* default properties: */
@@ -45,8 +67,8 @@ let itemHelper = {
       yOrigin:   itemConfig.yOrigin || yOrigin,
       xAngle:    itemConfig.xAngle  || 0,
       yAngle:    itemConfig.yAngle  || 0,
-      xScale:    itemConfig.xScale  || 1,
-      yScale:    itemConfig.yScale  || 1,
+      xScale:    xScale,
+      yScale:    yScale,
       type:      itemConfig.type,
       element:   itemConfig.element,
       enter:     itemConfig.enter,
@@ -62,7 +84,7 @@ let itemHelper = {
       fixed:     itemConfig.fixed,
       uiSwitch:  itemConfig.uiSwitch || false,
       callback:  itemConfig.callback,
-      addSwitch: itemConfig.addSwitch || true,
+      addSwitch: addSwitch,
       render:    itemConfig.render || $Z.helper.draw.item, // $Z.helper.draw.image expects "this" to  be "item"
 
     } ;
@@ -116,14 +138,33 @@ let itemHelper = {
 
       var white = $Z.helper.effect.image.color_filter(item.image, [255, 255, 255]) ;
 
-      item.white       = Object.copy(item) ;
-      item.white.childFade = true ;
-      item.white.child = undefined ;
-
-      item.white.image   = white ;
-      item.white.opacity = 0 ;
-
+      item.white = $Z.helper.item.setup({
+        viz: item.viz,
+        addSwitch: false,
+        image: white,
+        opacity: 0,
+        xOrigin: item.xOrigin,
+        yOrigin: item.yOrigin,
+      }) ;
+      // item.white.childFade = true ;
       item.child.push(item.white) ;
+
+      var black = $Z.helper.effect.image.color_filter(item.image, [0, 0, 0]) ;
+
+      item.black = $Z.helper.item.setup({
+        viz: item.viz,
+        addSwitch: false,
+        image: black,
+        opacity: 0,
+        xOrigin: item.xOrigin,
+        yOrigin: item.yOrigin,
+      }) ;
+
+      // item.black.childFade = true ;
+
+      item.black.image   = black ;
+
+      item.child.push(item.black) ;
 
     },
 
@@ -213,46 +254,100 @@ let itemHelper = {
         item = this ;
       }
 
-      if ( trans_func.constructor === String ) {
-        trans_func = item[trans_func] ;
-      } else {
-        trans_func = trans_func ;
-      }
-
       item.add_transition( item.loop_trans(trans_func) ) ;              
 
     },
 
-    call: function item_helper_call (callback, delay, item) {
+    loop_function: function item_loop_func( func, duration, item ) {
 
       if ( item === undefined ) {
         item = this ;
       }
 
+      if ( func.constructor === String ) {
+        func = item[func] ;
+      }
+
+      if ( duration === undefined ) {
+        duration = item.viz.loopDuration ;
+      }
+
+      // console.log('item_loop_func:', 'item, func, duration', item, func, duration) ;
+
+      var trans_func = function () {
+        var trans = $Z.helper.transition.new_step('loop_' + func.name, null, duration ) ;
+        trans.end = function() {
+          // console.log('item_loop_func trans.end:', 'this', this, 'func', func) ;
+          func.call(this.item) ;
+        } ;
+        return trans ;
+      } ;
+
+      // func.call(item) ;
+
+      item.loop(trans_func) ;
+
+    },
+
+    call: function item_helper_call (callback, duration, loopSwitch, item) {
+
+      if ( item === undefined ) {
+        item = this ;
+      }
+
+      if ( loopSwitch === undefined ) { 
+        loopSwitch = false ;
+      }
+
       if ( callback.constructor === Array ) {
 
-        var delaySum = 0 ;
-
         for ( var kcall = 0 ; kcall < callback.length ; kcall++ ) {
-
-          if ( delay.constructor === Number ) {
-            var delayK = delay * (kcall + 1) ;
-          } else if( delay.constructor === Array ) {
-            delaySum += delay[kcall] ;
-            delayK = delaySum ;
-          } else {
-            console.log('item_helper_call: delay is not a Number of Array') ;
-          }
-
-          // console.log('item helper call: ', 'kcall', kcall, 'callback[kcall]', callback[kcall], 'delayK', delayK) ;
 
           if ( callback[kcall].constructor === String ) {
             var callbackK = item[callback[kcall]] ;
           } else {
             var callbackK = callback[kcall] ;
-          }
+          }        
 
-          item.run_callback( callbackK, delayK ) ;
+
+          if ( loopSwitch === true || loopSwitch === 'loop' ) { 
+
+            var delayK ;
+            if ( duration.constructor === Number ) {
+              delayK = duration ;
+            } else if( duration.constructor === Array ) {
+              delayK = duration[kcall] ;
+            } else {
+              console.log('item.call: duration is not a Number or Array') ;
+            }
+            // console.log('item helper call: ', 'kcall', kcall, 'callback[kcall]', callback[kcall], 'delayK', delayK) ;
+
+            item.loop_function( callbackK, delayK ) ;
+
+          } else {
+
+            var delaySum = 0 ;
+
+            if ( duration.constructor === Number ) {
+              var delayK = duration * (kcall + 1) ;
+            } else if( duration.constructor === Array ) {
+              delaySum += duration[kcall] ;
+              delayK = delaySum ;
+            } else {
+              console.log('item.call: duration is not a Number or Array') ;
+            }
+
+            // console.log('item helper call: ', 'kcall', kcall, 'callback[kcall]', callback[kcall], 'delayK', delayK) ;
+
+            if ( callback[kcall].constructor === String ) {
+              var callbackK = item[callback[kcall]] ;
+            } else {
+              var callbackK = callback[kcall] ;
+            }
+
+            item.run_callback( callbackK, delayK ) ;
+
+          }  
 
         }
 
@@ -264,9 +359,13 @@ let itemHelper = {
           callback = item[callback] ;
         }
 
-        // console.log('item helper call: ', 'callback 2', callback, 'delay', delay)
+        // console.log('item helper call: ', 'callback 2', callback, 'duration', duration)
 
-        item.run_callback(callback, delay) ;        
+        if ( loopSwitch === true || loopSwitch === 'loop' ) {
+          item.loop_function(callback, duration) ;
+        } else {
+          item.run_callback(callback, duration) ;
+        }
 
       }
 
@@ -278,6 +377,10 @@ let itemHelper = {
         item = this ;
       }
 
+      if ( item.delayCount === undefined ) {
+        item.delayCount = 0 ;
+      }
+
       item.delayCount++ ;
 
       var prop = 'delay' + item.delayCount ;
@@ -287,13 +390,15 @@ let itemHelper = {
       var trans = $Z.helper.transition.new_step(prop, undefined, delay) ;
 
       trans.end = function run_callback_end() {
-        // console.log('run_callback_end:', 'callback', callback, 'item', item)
         callback.call(item) ;
+        // console.log('run_callback_end:', 'callback', callback, 'item', item)
       } ;
 
       // console.log('run_callback', 'item', item, 'trans', trans) ;
 
       item.add_transition(trans) ;
+
+      // console.log('run_callback', 'item.transition', item.transition) ;
 
     },
 
@@ -428,7 +533,7 @@ let itemHelper = {
       }
 
       if ( item.white === undefined ) {
-        item.default_child() ;
+        return ;
       }
 
       var fade_func = $Z.helper.transition.fixed_duration_creator('opacity', duration, $Z.helper.transition.linear_interp) ;
@@ -444,14 +549,14 @@ let itemHelper = {
       }
 
       if ( fader === undefined ) {
-        fader = item.viz.fader ;
+        fader = item.viz.fader || item.fader ; // the viz itself can act as an item
       }
 
       if ( fadeVal === undefined ) {
         fadeVal = [1, 0] ;
       }
 
-      item.loop( function() { return fader(fadeVal) ; } ) ;
+      item.loop( function() { return fader.call(item.viz || this, fadeVal) ; } ) ;
     
     }, 
 
@@ -464,9 +569,14 @@ let itemHelper = {
       var index = $Z._item.indexOf(item) ;
       var last  = $Z._item[$Z._item.length - 1] ;
 
-      if ( last !== item ) {
-        $Z._item[index] = last ;
-        $Z._item[$Z._item.length - 1] = item ;
+      if ( index > -1 && last !== item ) {
+
+        for ( var kitem = index ; kitem < $Z._item.length - 1 ; kitem++ ) { // left-shift by one:
+          $Z._item[kitem] = $Z._item[kitem + 1] ;
+        }
+
+        $Z._item[$Z._item.length - 1] = item ; // item to be focused becomes last
+
       }
 
     },

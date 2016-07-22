@@ -2080,13 +2080,8 @@ $__System.register("44", [], function (_export) {
               var yOrigin = 0;
             }
 
-            var itemImage = item[kItem].image;
-            item[kItem].image = tempCanvas;
-            drawHelper.image(item[kItem], context); // context.drawImage(tempCanvas, item[kItem].x - xOrigin, item[kItem].y - yOrigin) ; // draw color-indexed button for color picking
-            item[kItem].image = itemImage;
+            context.drawImage(tempCanvas, item[kItem].x - xOrigin, item[kItem].y - yOrigin); // draw color-indexed button for color picking
           }
-
-          // $Z.helper.image.view(context.canvas) ;
 
           // console.log('indexed draw: ', 'item', item)
 
@@ -2124,37 +2119,22 @@ $__System.register("44", [], function (_export) {
           // console.log('draw_image', 'item', item, 'context', context, 'this', this) ;
 
           var viewX, viewY;
-          var itemX, itemY;
 
           if (item.fixed === true) {
 
             viewX = item.viz.viewportX;
             viewY = item.viz.viewportY;
-            itemX = item.x;
-            itemY = item.y;
-
-            if (item.x < 0) {
-              // periodic wrap negative values
-              itemX = item.viz.viewportWidth + item.x;
-            }
-
-            if (item.y < 0) {
-              // periodic wrap negative values
-              itemY = item.viz.viewportHeight + item.y;
-            }
           } else {
 
             viewX = 0;
             viewY = 0;
-            itemX = item.x;
-            itemY = item.y;
           }
 
           var originX = item.xOrigin * item.xScale || 0;
           var originY = item.yOrigin * item.yScale || 0;
 
-          var dx = (itemX + item.viz.xShift + viewX - originX) * ratio;
-          var dy = (itemY + item.viz.yShift + viewY - originY) * ratio;
+          var dx = (item.x + item.viz.xShift + viewX - originX) * ratio;
+          var dy = (item.y + item.viz.yShift + viewY - originY) * ratio;
 
           dx = Math.floor(dx);
           dy = Math.floor(dy);
@@ -2833,33 +2813,30 @@ $__System.register('46', [], function (_export) {
               } else {
                 position.top = 0;
               }
-              // position.scale  = 1 / widthRatio ;
+              position.scale = 1 / widthRatio;
             }
           } else {
-              // fit height to window and center horizontally
+            // fit height to window and center horizontally
 
-              if (canvas.cover === true) {
+            if (canvas.cover === true) {
 
-                position.width = Math.min(windowWidth, canvas.maxWidth);
-                position.height = Math.min(windowHeight, canvas.maxHeight);
-                position.left = 0.5 * (windowWidth - position.width);
-                position.top = 0.5 * (windowHeight - position.height);
+              position.width = Math.min(windowWidth, canvas.maxWidth);
+              position.height = Math.min(windowHeight, canvas.maxHeight);
+              position.left = 0.5 * (windowWidth - position.width);
+              position.top = 0.5 * (windowHeight - position.height);
+            } else {
+
+              position.height = windowHeight;
+              position.width = Math.round(canvas.width / heightRatio);
+              position.top = 0;
+              if (canvas.hCenter === true) {
+                position.left = Math.round(0.5 * (windowWidth - position.width));
               } else {
-
-                position.height = windowHeight;
-                position.width = Math.round(canvas.width / heightRatio);
-                position.top = 0;
-                if (canvas.hCenter === true) {
-                  position.left = Math.round(0.5 * (windowWidth - position.width));
-                } else {
-                  position.left = 0;
-                }
-                // position.scale  = 1 / heightRatio ;
+                position.left = 0;
               }
+              position.scale = 1 / heightRatio;
             }
-
-          position.scaleX = position.width / canvas.width;
-          position.scaleY = position.height / canvas.height;
+          }
 
           // console.log('rw', widthRatio, 'rh', heightRatio, 'pos', position)
 
@@ -3452,15 +3429,12 @@ $__System.register('47', [], function (_export) {
               return; // nothing to do
             }
 
+            var position = viz.canvas.set_position();
+
+            var xIn = Math.round((event.clientX - position.left) / position.scale);
+            var yIn = Math.round((event.clientY - position.top) / position.scale);
+
             $Z.helper.draw.indexed(viz.ui.item, viz.ui.canvas);
-
-            var position = viz.screenCanvas.set_position();
-
-            viz.viewportScaleX = viz.viewportWidth / viz.screenCanvas.width;
-            viz.viewportScaleY = viz.viewportHeight / viz.screenCanvas.height;
-
-            var xIn = Math.round(viz.viewportX + viz.viewportScaleX * (event.clientX - position.left) / position.scaleX);
-            var yIn = Math.round(viz.viewportY + viz.viewportScaleY * (event.clientY - position.top) / position.scaleY);
 
             var color = viz.ui.canvas.context().getImageData(xIn, yIn, 1, 1).data;
             var itemIndex = color[0] - 1; // color indexing used by imageHelper.to_index is 1-based
@@ -3740,49 +3714,28 @@ $__System.register('48', ['3'], function (_export) {
             item.add_transition(item.loop_trans(trans_func));
           },
 
-          loop_function: function item_loop_func(func, duration, item) {
+          call: function item_helper_call(callback, delay, item) {
 
             if (item === undefined) {
               item = this;
-            }
-
-            if (func.constructor === String) {
-              func = item[func];
-            }
-
-            if (duration === undefined) {
-              duration = item.viz.loopDuration;
-            }
-
-            // console.log('item_loop_func:', 'item, func, duration', item, func, duration) ;
-
-            var trans_func = function trans_func() {
-              var trans = $Z.helper.transition.new_step('loop_' + func.name, null, duration);
-              trans.end = function () {
-                // console.log('item_loop_func trans.end:', 'this', this, 'func', func) ;
-                func.call(this.item);
-              };
-              return trans;
-            };
-
-            // func.call(item) ;
-
-            item.loop(trans_func);
-          },
-
-          call: function item_helper_call(callback, duration, loopSwitch, item) {
-
-            if (item === undefined) {
-              item = this;
-            }
-
-            if (loopSwitch === undefined) {
-              loopSwitch = false;
             }
 
             if (callback.constructor === Array) {
 
+              var delaySum = 0;
+
               for (var kcall = 0; kcall < callback.length; kcall++) {
+
+                if (delay.constructor === Number) {
+                  var delayK = delay * (kcall + 1);
+                } else if (delay.constructor === Array) {
+                  delaySum += delay[kcall];
+                  delayK = delaySum;
+                } else {
+                  console.log('item_helper_call: delay is not a Number of Array');
+                }
+
+                // console.log('item helper call: ', 'kcall', kcall, 'callback[kcall]', callback[kcall], 'delayK', delayK) ;
 
                 if (callback[kcall].constructor === String) {
                   var callbackK = item[callback[kcall]];
@@ -3790,42 +3743,7 @@ $__System.register('48', ['3'], function (_export) {
                   var callbackK = callback[kcall];
                 }
 
-                if (loopSwitch === true || loopSwitch === 'loop') {
-
-                  var delayK;
-                  if (duration.constructor === Number) {
-                    delayK = duration;
-                  } else if (duration.constructor === Array) {
-                    delayK = duration[kcall];
-                  } else {
-                    console.log('item.call: duration is not a Number or Array');
-                  }
-                  // console.log('item helper call: ', 'kcall', kcall, 'callback[kcall]', callback[kcall], 'delayK', delayK) ;
-
-                  item.loop_function(callbackK, delayK);
-                } else {
-
-                  var delaySum = 0;
-
-                  if (duration.constructor === Number) {
-                    var delayK = duration * (kcall + 1);
-                  } else if (duration.constructor === Array) {
-                    delaySum += duration[kcall];
-                    delayK = delaySum;
-                  } else {
-                    console.log('item.call: duration is not a Number or Array');
-                  }
-
-                  // console.log('item helper call: ', 'kcall', kcall, 'callback[kcall]', callback[kcall], 'delayK', delayK) ;
-
-                  if (callback[kcall].constructor === String) {
-                    var callbackK = item[callback[kcall]];
-                  } else {
-                    var callbackK = callback[kcall];
-                  }
-
-                  item.run_callback(callbackK, delayK);
-                }
+                item.run_callback(callbackK, delayK);
               }
             } else {
 
@@ -3835,13 +3753,9 @@ $__System.register('48', ['3'], function (_export) {
                 callback = item[callback];
               }
 
-              // console.log('item helper call: ', 'callback 2', callback, 'duration', duration)
+              // console.log('item helper call: ', 'callback 2', callback, 'delay', delay)
 
-              if (loopSwitch === true || loopSwitch === 'loop') {
-                item.loop_function(callback, duration);
-              } else {
-                item.run_callback(callback, duration);
-              }
+              item.run_callback(callback, delay);
             }
           },
 
@@ -3849,10 +3763,6 @@ $__System.register('48', ['3'], function (_export) {
 
             if (item === undefined) {
               item = this;
-            }
-
-            if (item.delayCount === undefined) {
-              item.delayCount = 0;
             }
 
             item.delayCount++;
@@ -3864,15 +3774,13 @@ $__System.register('48', ['3'], function (_export) {
             var trans = $Z.helper.transition.new_step(prop, undefined, delay);
 
             trans.end = function run_callback_end() {
-              callback.call(item);
               // console.log('run_callback_end:', 'callback', callback, 'item', item)
+              callback.call(item);
             };
 
             // console.log('run_callback', 'item', item, 'trans', trans) ;
 
             item.add_transition(trans);
-
-            // console.log('run_callback', 'item.transition', item.transition) ;
           },
 
           flash: function item_helper_method_flash(Nflash, flashDuration, item) {
@@ -4241,6 +4149,7 @@ $__System.register('49', [], function (_export) {
         audio: audioLoader,
 
         all: function vizflow_core_loader_all(imageList, audioList, callback) {
+          document.ratio = 2; // upsample images to ensure crisp edges on hidpi devices
           imageLoader.preload(imageList, function preload_audio() {
             // console.log('main.js: preload_audio') ;
             audioLoader.preload(audioList, function main_run() {
@@ -4767,8 +4676,8 @@ $__System.register('4f', [], function (_export) {
           return transitionHelper.build_func(property, duration, transitionHelper.interp);
         },
 
-        fixed_duration_creator: function transition_helper_fixed_duration_creator(property, duration, interpolator) {
-          return transitionHelper.build_func(property, duration, interpolator);
+        fixed_duration_creator: function transition_helper_fixed_duration_creator(property, duration, interp_func) {
+          return transitionHelper.build_func(property, duration, interp_func);
         },
 
         fixed_duration_step: function transition_helper_fixed_duration_linear(property, duration) {
@@ -4783,13 +4692,13 @@ $__System.register('4f', [], function (_export) {
           return transitionHelper.fixed_duration_creator(property, duration, transitionHelper.rounded_linear_interp);
         },
 
-        'new': function transition_helper_new(property, value, duration, interpolator) {
+        'new': function transition_helper_new(property, value, duration, interp_func) {
 
-          if (interpolator === undefined) {
-            interpolator = transitionHelper.interp;
+          if (interp_func === undefined) {
+            interp_func = transitionHelper.interp;
           }
 
-          return transitionHelper.fixed_duration_creator(property, duration, interpolator)(value);
+          return transitionHelper.fixed_duration_creator(property, duration, interp_func)(value);
         },
 
         new_step: function transition_helper_new_step(property, value, duration) {
@@ -4798,12 +4707,6 @@ $__System.register('4f', [], function (_export) {
 
         new_linear: function transition_helper_new_linear(property, value, duration) {
           return transitionHelper['new'](property, value, duration, transitionHelper.linear_interp);
-        },
-
-        new_power: function transition_helper_new_power(property, value, duration, power) {
-          var trans = transitionHelper['new'](property, value, duration, transitionHelper.power_interp);
-          trans.power = power;
-          return trans;
         },
 
         new_rounded_linear: function transition_helper_new_rounded_linear(property, value, duration) {
@@ -4818,12 +4721,12 @@ $__System.register('4f', [], function (_export) {
           return [transition];
         },
 
-        new_sequence: function transition_helper_new_sequence(valueList, creator) {
+        new_sequence: function transition_helper_new_sequence(valueList, creator_func) {
 
           var trans = new Array(valueList.length);
 
           for (var k = 0; k < trans.length; k++) {
-            trans[k] = creator(valueList[k]);
+            trans[k] = creator_func(valueList[k]);
           }
 
           return transitionHelper.sequence(trans);
@@ -5083,7 +4986,7 @@ $__System.register('4f', [], function (_export) {
             return item;
           },
 
-          add_sequence: function transition_helper_new_sequence(valueList, creator, item) {
+          add_sequence: function transition_helper_new_sequence(valueList, creator_func, item) {
 
             if (item === undefined) {
               item = this;
@@ -5092,51 +4995,10 @@ $__System.register('4f', [], function (_export) {
             var trans = new Array(valueList.length);
 
             for (var k = 0; k < trans.length; k++) {
-              trans[k] = creator(valueList[k]);
+              trans[k] = creator_func(valueList[k]);
             }
 
             item.add_transition(transitionHelper.sequence(trans));
-          },
-
-          add_linear_sequence: function transition_add_linear_sequence(propertyList, valueList, durationList, item) {
-
-            if (item === undefined) {
-              item = this;
-            }
-
-            if (propertyList.constructor === String) {
-
-              var p = new Array(valueList.length);
-
-              for (var kp = 0; kp < p.length; kp++) {
-                p[kp] = propertyList;
-              }
-
-              propertyList = p;
-            }
-
-            if (durationList.constructor === Number) {
-
-              var d = new Array(valueList.length);
-
-              for (var kd = 0; kd < d.length; kd++) {
-                d[kd] = durationList;
-              }
-
-              durationList = d;
-            }
-
-            var trans = new Array(valueList.length);
-
-            var interp = transitionHelper.linear_interp;
-
-            for (var kval = 0; kval < valueList.length; kval++) {
-              trans[kval] = transitionHelper['new'](propertyList[kval], valueList[kval], durationList[kval], interp);
-            }
-
-            var seq = transitionHelper.sequence(trans);
-
-            item.add_transition(seq);
           },
 
           add_child: function transition_helper_add_child(transition, newTransition, pause, frameIndex, item) {
@@ -5256,28 +5118,25 @@ $__System.register('4f', [], function (_export) {
               trans = trans_func();
             }
 
-            trans.item = item;
-
             var child = transitionHelper.get_child(trans, 'last');
 
-            if (child.end !== undefined) {
+            if (child.end === undefined) {
+
+              child.end = {
+
+                item: item,
+                transition_func: trans_func,
+                run: transitionHelper.loop_end
+
+              };
+            } else {
 
               if (child.end.constructor === Object) {
-                child.end.run();
+                child.run();
               } else {
-                child.end();
+                child();
               }
             }
-
-            child.end = {
-
-              item: item,
-              transition_func: trans_func,
-              run: transitionHelper.loop_end
-
-            };
-
-            // console.log('loop_trans:', 'trans', trans, 'child', child) ;
 
             return trans;
           },
@@ -5294,24 +5153,12 @@ $__System.register('4f', [], function (_export) {
               item.transition = [];
               transitionList = item.transition;
             }
-
-            if (property === undefined || property === 'all') {
-              item.transition = [];
-              return;
-            }
-
-            if (property.constructor === String) {
-              property = [property];
-            }
-
-            for (var kprop = 0; kprop < property.length; kprop++) {
-
-              var transitionIndex = transitionHelper.find(property, transitionList);
-
-              if (transitionIndex > -1) {
+            var transitionIndex = transitionHelper.find(property, transitionList);
+            if (transitionIndex === -1) {
+              return; // nothing to do
+            } else {
                 transitionList.splice(transitionIndex, 1);
               }
-            }
           },
 
           remove_end: function remove_end(item) {
@@ -5751,83 +5598,63 @@ $__System.register('54', ['3'], function (_export) {
               viz = this;
             }
 
-            var w = window.innerWidth + 'px';
-            var h = window.innerHeight + 'px';
-
-            if (document.body.parentNode.style.width !== w) {
-              document.body.parentNode.style.width = w;
-            }
-
-            if (document.body.style.width !== w) {
-              document.body.style.width = w;
-            }
-
-            if (document.body.parentNode.style.height !== h) {
-              document.body.parentNode.style.height = h;
-            }
-
-            if (document.body.style.height !== h) {
-              document.body.style.height = h;
-            }
-
             var position = viz.screenCanvas.set_position();
 
             if (viz.screenCanvas.cover === true) {
 
+              if (viz.screenCanvas.hCenter === true) {
+                viz.viewportX = Math.round(0.5 * (viz.screenCanvas.width - viz.viewportWidth));
+              }
+              if (viz.screenCanvas.vCenter === true) {
+                viz.viewportY = Math.round(0.5 * (viz.screenCanvas.height - viz.viewportHeight));
+              }
+
               var aspectRatio = position.width / position.height;
               var viewAspect = viz.viewportWidth / viz.viewportHeight;
 
-              var tol = 0.001;
+              var tol = 0.01;
 
               if (aspectRatio < viewAspect && viewAspect / aspectRatio - 1 > tol) {
                 // needs to be skinnier: make width smaller or height larger
 
                 if (viz.viewportHeight < viz.fullCanvas.height) {
                   // expand height first as much as possible
-
                   var viewportHeight = viz.viewportHeight;
                   var newHeight = Math.min(viz.fullCanvas.height, viewAspect / aspectRatio * viewportHeight);
                   viz.viewportHeight = Math.round(newHeight);
-                  viewAspect = viz.viewportWidth / viz.viewportHeight;
+                  var scale = viz.viewportHeight / viz.screenCanvas.height;
+                  return;
                 }
 
                 var viewportWidth = viz.viewportWidth;
                 viewportWidth *= aspectRatio / viewAspect;
                 viewportWidth = Math.round(viewportWidth);
+
+                var diff = viz.viewportWidth - viewportWidth;
+
                 viz.viewportWidth = viewportWidth;
+
+                // viz.viewportX += Math.round(0.5 * diff) ;
               } else if (aspectRatio > viewAspect && aspectRatio / viewAspect - 1 > tol) {
-                // needs to be fatter: make width larger or height smaller
+                  // needs to be fatter: make width larger or height smaller
 
-                if (viz.viewportWidth < viz.fullCanvas.width) {
-                  // expand width first as much as possible
+                  if (viz.viewportWidth < viz.fullCanvas.width) {
+                    // expand width first as much as possible
+                    var viewportWidth = viz.viewportWidth;
+                    var newWidth = Math.min(viz.fullCanvas.width, aspectRatio / viewAspect * viewportWidth);
+                    viz.viewportWidth = Math.round(newWidth);
+                    return;
+                  }
 
-                  var viewportWidth = viz.viewportWidth;
-                  var newWidth = Math.min(viz.fullCanvas.width, aspectRatio / viewAspect * viewportWidth);
-                  viz.viewportWidth = Math.round(newWidth);
-                  viewAspect = viz.viewportWidth / viz.viewportHeight;
+                  var viewportHeight = viz.viewportHeight;
+                  viewportHeight *= viewAspect / aspectRatio;
+                  viewportHeight = Math.round(viewportHeight);
+
+                  var diff = viz.viewportHeight - viewportHeight;
+
+                  viz.viewportHeight = viewportHeight;
+                  // viz.viewportY += Math.round(0.5 * diff) ;
                 }
-
-                var viewportHeight = viz.viewportHeight;
-                viewportHeight *= viewAspect / aspectRatio;
-                viewportHeight = Math.round(viewportHeight);
-                viz.viewportHeight = viewportHeight;
-              }
-
-              var minWidth = 2;
-              var minHeight = 2;
-
-              viz.viewportWidth = Math.max(viz.viewportWidth, minWidth);
-              viz.viewportHeight = Math.max(viz.viewportHeight, minHeight);
-
-              viz.viewportWidth = Math.min(viz.viewportWidth, viz.screenCanvas.width);
-              viz.viewportHeight = Math.min(viz.viewportHeight, viz.screenCanvas.height);
-
-              if (viz.screenCanvas.hCenter === true) {
-                viz.viewportX = Math.max(0, Math.round(0.5 * (viz.screenCanvas.width - viz.viewportWidth)));
-              }
-              if (viz.screenCanvas.vCenter === true) {
-                viz.viewportY = Math.max(0, Math.round(0.5 * (viz.screenCanvas.height - viz.viewportHeight)));
-              }
             }
 
             if (viz.resized === false) {
@@ -5899,8 +5726,6 @@ $__System.register('54', ['3'], function (_export) {
             viewportY: 0,
             viewportWidth: screenCanvas.width,
             viewportHeight: screenCanvas.height,
-            viewportScaleX: 1,
-            viewportScaleY: 1,
             hCenter: hCenter,
             vCenter: vCenter,
             detect: $Z.helper.action.detect,
