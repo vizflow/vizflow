@@ -4,17 +4,17 @@ var jarHelper = {
 
     if ( jarHelper.lidImage === undefined ) {
       jarHelper.lidImage = [
-          imageHelper.adjust_ratio(imageHelper.to_canvas('./image/jarLidGray.png')), 
-          imageHelper.adjust_ratio(imageHelper.to_canvas('./image/jarLidPurp.png')),
-          imageHelper.adjust_ratio(imageHelper.to_canvas('./image/jarLidBlue.png')),
+          $Z.helper.image.adjust_ratio($Z.helper.image.to_canvas('./image/jarLidGray.png')), 
+          $Z.helper.image.adjust_ratio($Z.helper.image.to_canvas('./image/jarLidPurp.png')),
+          $Z.helper.image.adjust_ratio($Z.helper.image.to_canvas('./image/jarLidBlue.png')),
       ] ;
     }
 
     if ( jarHelper.image === undefined ) {
-      jarHelper.image = imageHelper.adjust_ratio(imageHelper.to_canvas('./image/jarOpen.png')) ;      
+      jarHelper.image = $Z.helper.image.adjust_ratio($Z.helper.image.to_canvas('./image/jarOpen.png')) ;      
     }
 
-    var jarImage = imageHelper.copy(jarHelper.image) ;
+    var jarImage = $Z.helper.image.copy(jarHelper.image) ;
     var xmid     = jarImage.originalCanvas.width * 0.5 ;
     var ymid     = jarImage.originalCanvas.height * 0.5
 
@@ -28,12 +28,13 @@ var jarHelper = {
       uiSwitch: true,
       callback: jarHelper.click,
       k: k,
+      num: k + 2,
       xOrigin: xmid,
       yOrigin: ymid,
 
     } ;
 
-    var jarK = itemHelper.setup( jarConfig ) ;
+    var jarK = $Z.helper.item.setup( jarConfig ) ;
     // jarK.default_child() ;
 
     var lidConfig = {
@@ -47,13 +48,13 @@ var jarHelper = {
 
     } ;
 
-    lidK = itemHelper.setup ( lidConfig ) ;
+    lidK = $Z.helper.item.setup ( lidConfig ) ;
     lidK.default_child() ;
 
     var lidConfigBlue = Object.copy( lidConfig ) ;
     // lidConfigBlue.opacity = 0 ;
     lidConfigBlue.image = jarHelper.lidImage[2] ;
-    var lidKblue        = itemHelper.setup ( lidConfigBlue ) ;
+    var lidKblue        = $Z.helper.item.setup ( lidConfigBlue ) ;
     lidKblue.default_child() ;
 
     jarK.lid   = lidK ;
@@ -69,9 +70,9 @@ var jarHelper = {
     jarK.y0         = 0.5 * viz.height + 76 ;
     jarK.duration   = 3 * viz.fadeDuration ;
     jarK.scale1     = 2.5 ;
-    jarK.opacityLow = 0.05 ;
+    jarK.opacityLow = 0.0 ;
 
-    var digit = imageHelper.text2image({
+    var digit = $Z.helper.image.text({
       text: k + 2,
       sprite: viz.text,
       xShift: 0,
@@ -136,10 +137,24 @@ var jarHelper = {
         jar = this ;
       }
 
+      var eq = '' ;
+      var code = jar.viz.code[jar.config.k] ;
+
+      for ( kcode = 0 ; kcode < code.length - 1 ; kcode++ ) {
+        eq += jar.viz.key[code[kcode]] + 'x' ;
+      }
+
+      eq += jar.viz.key[code[code.length - 1]] ;
+
+      jar.call(function() { 
+        jar.message(eq) ; 
+        jar.viz.audio[jar.config.num].play() ;
+      }, 4.8 * jar.duration) ;
+
       var delay = jar.fruit.item[0].duration * 3 ;      
       var dur = 2 * jar.duration + delay ;
 
-      jar.call(['fruit_grab', 'shrink', 'cleanup'], [jar.duration, dur, jar.duration]) ;
+      jar.call(['fruit_grab', 'shrink', 'cleanup'], [jar.duration, dur, 4 * jar.duration]) ;
 
     },
 
@@ -161,7 +176,7 @@ var jarHelper = {
 
       if ( jar === undefined ) {
         jar = this ;
-      }
+      } 
     
       jar.blue.opacity = 1 ;
       var blueFadeDur  = [0, 0, 0, 0, 0, 0, 1] ;
@@ -211,9 +226,8 @@ var jarHelper = {
         jar.resize(jar.scale1) ;          
       }
 
-      jar.center() ;
       jar.focus(jar.opacityLow) ;
-      jar.call([resize, 'open', callback ], jar.duration ) ;
+      jar.call(['center', resize, 'open', callback ], [jar.duration * 3, jar.duration, jar.duration, jar.duration] ) ;
 
     },
 
@@ -238,11 +252,58 @@ var jarHelper = {
 
     },
 
+    message: function jar_helper_message( text, jar ) {
+
+      if ( jar === undefined ) { 
+        jar = this ;
+      }
+
+      var image = $Z.helper.image.text({
+        text:   text,
+        sprite: jar.viz.text,
+        xShift: 10,
+      }) ;      
+
+      image = $Z.helper.image.adjust_ratio(image) ;
+
+      var text = jar.viz.setup_item({
+
+        image:   image,
+        xOrigin: image.originalCanvas.width * 0.5,
+        yOrigin: image.originalCanvas.height * 0.5,
+        x:       jar.viz.width * 0.5,
+        y:       jar.viz.height * 0.49,
+        opacity: 0,
+        addSwitch: true,
+        xScale: .1,
+        yScale: .1,
+
+      }) ;
+
+      text.default_child() ;
+
+      text.in  = function fade_in()  { text.add_transition( document.fade([1]) ) ; } ;
+      text.wf  = function fade_wh()  { text.white.add_transition( document.fade([1, 0]) ) ; } ;
+      text.out = function fade_out() { text.add_transition( document.fade([1, .5, 0]) ) ; } ;
+
+      text.add_linear('xScale', 1, jar.duration) ;
+      text.add_linear('yScale', 1, jar.duration) ;
+      text.in() ;
+
+      text.call(['wf', 'out'], [jar.duration, 2 * jar.duration]) ;
+
+    },
+
     primetrans: function jar_helper_primetrans( jar ) {
 
       if ( jar === undefined ) {
         jar = this ;
       }
+
+      jar.call(function() { 
+        jar.message('prime') ; 
+        viz.audio[jar.fruit.code].play() ;
+      }, 4.8 * jar.duration) ;
 
       var viz = jar.viz ;
 
@@ -410,7 +471,7 @@ var jarHelper = {
       }
 
       if ( o1 === undefined ) {
-        if ( jar.viz.jar.every(function(jar) { return jar.removeSwitch === true || jar.opacity == 1 ; }) ) {
+        if ( jar.viz.jar.every( function(jar) { return jar.removeSwitch === true || jar.opacity == 1 ; } ) ) {
           o1 = jar.opacityLow ;
         } else {
           o1 = 1 ;
@@ -419,7 +480,7 @@ var jarHelper = {
 
       var viz = jar.viz ;
 
-      var trans = transitionHelper.new_linear( 'opacity', o1, jar.duration ) ;
+      var trans = $Z.helper.transition.new_linear( 'opacity', o1, jar.duration * 3 ) ;
 
       for ( var kjar = 0 ; kjar < viz.jar.length ; kjar++ ) {
         
@@ -440,7 +501,7 @@ var jarHelper = {
 
         viz.jar[kjar].lid.remove_transition('opacity') ;
         viz.jar[kjar].lid.white.remove_transition('opacity') ;        
-        viz.jar[kjar].lid .add_transition( trans ) ;
+        viz.jar[kjar].lid.add_transition( trans ) ;
         viz.jar[kjar].blue.add_transition( trans ) ;
         viz.jar[kjar].add_transition( trans ) ;
 

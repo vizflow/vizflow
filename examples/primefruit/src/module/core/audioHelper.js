@@ -186,4 +186,6 @@ var AudioContext = window.AudioContext // Default
 	// },
 } ;
 
+audioHelper.buffer = audioHelper.context.createBuffer(2, 735, 44100) ; // blank default stereo buffer, 1/60 sec duration
+
 // console.log('audioHelper end', 'audioHelper', audioHelper) ;

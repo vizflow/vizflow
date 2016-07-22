@@ -1,42 +1,66 @@
 <!doctype html5>
 <html>
   <head>
+
     <style>
+
       body { 
+
         margin: 0;
         font: 13pt courier;
         font-weight: bold;
-        background-color: #FFF;
+        background-color: #fff;
         overflow-y:hidden;
         color: #ccc;
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;        
-       }
+
+      }
+
     </style>
-  </head>
+
+      <title>Vizflow</title>
+
+      <link rel="icon" href="./favicon.ico?v=2" />
+
+      <meta charset="UTF-8">
+      <meta name="viewport" content="initial-scale=1.0,width=device-width,maximum-scale=1,user-scalable=no,minimal-ui">
+      <meta name="vizflow"  content="Vizflow is an ES6 render-loop library">
+
+      <!-- Twitter Card data -->
+      <meta name="twitter:card" value="Vizflow: ES6 render-loop library">
+
+      <!-- Open Graph data -->
+      <meta property="og:title"       content="Vizflow is a general purpose ES6 render loop library" />
+      <meta property="og:type"        content="website" />
+      <meta property="og:url"         content="http://vizflow.org" />
+      <meta property="og:image"       content="http://vizflow.org/thumbnail.png" />
+      <meta property="og:description" content="Vizflow is an ES6 render-loop library for adding interactive visualizations to HTML5 apps" />
+
+  </head>  
   <body>
-    <script type="text/javascript" src="jspm_packages/system.js"></script>
-    <script type="text/javascript" src="config.js"></script>
-    <script type="text/javascript" src="examples/three_circles_canvas/three_circles_canvas.js"></script>
-    <script type="text/javascript" src="examples/three_circles_svg/three_circles_svg.js"></script>
+
+    <!-- <script type="text/javascript" src="jspm_packages/system.js"></script> -->
+    <!-- <script type="text/javascript" src="config.js"></script> -->
+
+    <script type="text/javascript" src="vizflow.js"></script>
+    <script type="text/javascript" src="vizflow-helper.js"></script>    
+    <script type="text/javascript" src="vizflow_page.js"></script>    
+
     <script>
-      System.import('src/vizflow').then( () => { 
 
-        //var type = 'canvas' ;
-        //var type = 'svg' ;
-        var type = prompt('please enter either "canvas" or "svg"', 'canvas')
+      document.example      = ['three_circles_svg', 'ph_game', 'electionfighter', 'primefruit'] ;
+      document.exampleImage = document.example.map( function(d) { return './image/' + d + '.png' ; } ) ;
+      document.image        = ['./image/vizflow_text.png', './image/vizflow_url.png'] ;
+      document.imageList    = document.image.concat(document.exampleImage) ;
+      document.audioList    = [] ;
 
-        if(type === 'canvas') 
-          three_circles_canvas() ; 
-        else if(type === 'svg')
-          three_circles_svg() ; 
-        else 
-          window.location = '/' ;
-        
-      } ) ;
+      $Z.helper.loader.all(document.imageList, document.audioList, document.vizflow_page) ;
+
     </script>
-    <!-- *** production - compile build.js using: jspm bundle-sfx --minify src/vizflow -->
-    <!-- *** production - add <script type="text/javascript" src="build.js"></script> tag in place of system.js and config.js -->
+
+    <script type="text/javascript" src="analytics.js"></script>    
+
   </body>
 </html>

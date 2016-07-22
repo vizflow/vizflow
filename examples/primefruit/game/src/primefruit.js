@@ -2,9 +2,9 @@ function primefruit() {
 
 /***
   
-    primes <= 25: 2 3 5 7 11 13 17 19 23
+    the primes <= 25 are: 2 3 5 7 11 13 17 19 23
     
-    factorizations for i <= 25:
+    the prime factorizations for 1, 2, ..., 25 are :
 
      2
      3
@@ -33,10 +33,10 @@ function primefruit() {
 
 ***/  
 
-  // console.log('prime viz.fruit: start') ;
+  // console.log('primefruit: start') ;
 
   /*
-   * when using vizflow it's easier to create the viz object and then add the items to it afterwards:
+   *   create the viz object first, and then add the items to it using viz.setup_item()
    */
 
   var duration = 17 * 8 ;
@@ -45,14 +45,53 @@ function primefruit() {
 
   var vizConfig = {
 
+    paddingFactor: 1,
     width:  width,
     height: height,
     fadeDuration: duration,
     opacity: 0,
+    collision_detect: function() {}, // turn off collision detection for this game, improving performance
+    music: './audio/lizardstick.wav',
 
   } ;
   
-  var viz = vizHelper.setup(vizConfig) ; // first create generic vizflow configuration object, then add application-specific details
+  var viz       = $Z.helper.viz.setup(vizConfig) ; // first create generic vizflow configuration object, then add application-specific details
+
+  viz.audio = {
+    music: $Z.helper.loader.audio.cache[vizConfig.music],
+    a: $Z.helper.loader.audio.cache['./audio/a.wav'],
+    b: $Z.helper.loader.audio.cache['./audio/b.wav'],
+    c: $Z.helper.loader.audio.cache['./audio/c.wav'],
+    d: $Z.helper.loader.audio.cache['./audio/d.wav'],
+    e: $Z.helper.loader.audio.cache['./audio/e.wav'],
+    f: $Z.helper.loader.audio.cache['./audio/f.wav'],
+    g: $Z.helper.loader.audio.cache['./audio/g.wav'],
+    h: $Z.helper.loader.audio.cache['./audio/h.wav'],
+    i: $Z.helper.loader.audio.cache['./audio/i.wav'],
+    10: $Z.helper.loader.audio.cache['./audio/10.wav'],
+    12: $Z.helper.loader.audio.cache['./audio/12.wav'],
+    14: $Z.helper.loader.audio.cache['./audio/14.wav'],
+    15: $Z.helper.loader.audio.cache['./audio/15.wav'],
+    16: $Z.helper.loader.audio.cache['./audio/16.wav'],
+    18: $Z.helper.loader.audio.cache['./audio/18.wav'],
+    20: $Z.helper.loader.audio.cache['./audio/20.wav'],
+    21: $Z.helper.loader.audio.cache['./audio/21.wav'],
+    22: $Z.helper.loader.audio.cache['./audio/22.wav'],
+    24: $Z.helper.loader.audio.cache['./audio/24.wav'],
+    25: $Z.helper.loader.audio.cache['./audio/25.wav'],
+    4: $Z.helper.loader.audio.cache['./audio/4.wav'],
+    6: $Z.helper.loader.audio.cache['./audio/6.wav'],
+    8: $Z.helper.loader.audio.cache['./audio/8.wav'],
+    9: $Z.helper.loader.audio.cache['./audio/9.wav'],
+    win: $Z.helper.loader.audio.cache['./audio/win.wav'],
+  } ;
+  
+  var fade = 4 ;
+  viz.audio.music.loop   = true ;
+  viz.audio.music.play() ;
+  viz.audio.music.gain.gain.value = 0 ;
+  viz.audio.music.volume          = 1/3 ;
+  viz.audio.music.fade(fade) ;
 
   viz.Nprime    = 9 ;
   viz.N         = 25 ; // how many numbers to represent with viz.fruit baskets
@@ -112,16 +151,31 @@ function primefruit() {
     'i': 23,
   } ;
 
-  // var text  = imageHelper.text_sprite() ;
+  // var text  = $Z.helper.image.text_sprite() ;
 
   var textWidth  = 32 ;
   var textHeight = 32 ;
-  var text       = spriteHelper.get_text(document.textUrl, textWidth, textHeight) ;
-  viz.text       = spriteHelper.foreach(text, imageHelper.get_original) ;
+  var text       = $Z.helper.sprite.get_text(document.textUrl[0], textWidth, textHeight) ;
+  viz.text       = $Z.helper.sprite.foreach(text, $Z.helper.image.get_original) ;
+
+  var xImage = $Z.helper.image.create(viz.text['0'][0].width, viz.text['0'][0].height) ;
+
+  var x  = viz.text['x'][0];
+  var sx = 0 ; var sw = x.width ; 
+  var sy = 0 ; var sh = x.height ;
+  var dw = Math.floor(sw * 0.5) ; var dh = Math.floor(sh * 0.5) ;
+  var dx = Math.floor(dw * 0.5) ;
+  var dy = Math.floor(dh * 0.5) ;
+
+  // console.log('x, sx, sy, sw, sh, dx, dy, dw, dh', x, sx, sy, sw, sh, dx, dy, dw, dh) ;
+
+  xImage.context().drawImage(x, sx, sy, sw, sh, dx, dy, dw, dh) ;
+
+  viz.text['x'][0] = xImage ;
 
   document.fade = function fade(fadeVal) {
 
-    return imageEffectHelper.fade_sequence({ 
+    return $Z.helper.effect.image.fade_sequence({ 
 
       duration: duration,
       value: fadeVal,
@@ -154,7 +208,10 @@ function primefruit() {
 
     if ( viz.score === viz.target ) { // you win!
 
+      viz.busy = true ;
+
       var count = 0 ;
+      var Ndur = 15 ;
 
       for ( kjar = 0 ; kjar < viz.jar.length ; kjar++ ) {
 
@@ -166,22 +223,24 @@ function primefruit() {
 
         jar.unlock() ;
 
-        jar.call('show_prime', count * 5 * jar.duration) ;
+        jar.call('show_prime', count * (5 + Ndur) * jar.duration) ;
 
         count++ ;
 
       }
 
       // var dur = (2 + 4 * 8) * jar.duration  ;
+      var delay = 33 ;
+      viz.audio.win.play(delay) ;
 
-      setTimeout(function() { viz.win() ; }, 12000) ;
+      setTimeout(function() { viz.win() ; }, 10000 + (count + 0.5) * jar.duration * Ndur) ;
 
     }
   } ;
 
   viz.win = function win() {
 
-    console.log('you win!') ;
+    // console.log('you win!') ;
 
     var duration2 = 3000 ;
 
@@ -202,7 +261,7 @@ function primefruit() {
         opacity: 0,
         
         end: function() {
-          load_game() ;
+          window.location.reload() ;
         },
 
       }) ;
@@ -231,12 +290,6 @@ function primefruit() {
     return true ;
 
   } ;
-
-  viz.collected = {} ; // the goal of the game is to collect all of the prime fruits
-  viz.current = 'a'.charCodeAt(0) ;
-
-  viz.setup_ui() ;
-  viz.run() ;
 
   viz.unlock_jars = function unlock_jars( viz ) { 
 
@@ -272,7 +325,6 @@ function primefruit() {
 
     if ( viz.all_closed() ) {
 
-      viz.current++ ;  
       curr  = String.fromCharCode( viz.current ) ;
 
       if ( viz.key[curr] === undefined ) {
@@ -282,6 +334,7 @@ function primefruit() {
       kCurr = viz.key[curr] - 2 ; 
       // console.log( 'viz.current', viz.current, 'curr', curr, 'kCurr', kCurr ) ;
       viz.jar[kCurr].unlock() ;
+      viz.current++ ;  
 
     }
 
@@ -330,9 +383,15 @@ function primefruit() {
     duration: viz.fadeDuration * 5,
     
     end: function() {
-     viz.jar[0].unlock() ;
+      viz.unlock_jars() ;
     },
 
   }) ;
+
+  viz.collected = {} ; // initialize goal-tracking object --- the goal of the game is to collect all of the prime fruits
+  viz.current   = 'a'.charCodeAt(0) ;
+  viz.setup_ui() ;
+  viz.busy = true ;
+  viz.run() ;
 
 }

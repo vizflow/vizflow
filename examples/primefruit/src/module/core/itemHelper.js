@@ -29,8 +29,8 @@ var itemHelper = {
 
   		config:    itemConfig,
 	    viz:       itemConfig.viz || viz, 
-			x:         itemConfig.x,
-			y:         itemConfig.y,
+			x:         itemConfig.x || 0,
+			y:         itemConfig.y || 0,
 			angle:     itemConfig.angle   || 0,
 			xOrigin:   itemConfig.xOrigin || 0,
 			yOrigin:   itemConfig.yOrigin || 0,
@@ -204,6 +204,12 @@ var itemHelper = {
         item = this ;
       }
 
+      if ( trans_func.constructor === String ) {
+        trans_func = item[trans_func] ;
+      } else {
+        trans_func = trans_func ;
+      }
+
       item.add_transition( item.loop_trans(trans_func) ) ;              
 
     },
@@ -282,14 +288,14 @@ var itemHelper = {
 
     },
 
-    flash: function effect_flash (Nflash, flashDuration, item) {
+    flash: function item_helper_method_flash (Nflash, flashDuration, item) {
 
       if ( item === undefined ) { // assume that "this" corresponds to the element item object
         item = this ;
       }
 
       if ( Nflash === undefined ) {
-        Nflash = 5 ;
+        Nflash = 1 ;
       }
 
       if ( flashDuration === undefined ) {
@@ -318,7 +324,9 @@ var itemHelper = {
 
       // var loop = animate_loop (loopConfig, valueList, create_transition) ;
 
-      item.add_transition(flash) ;
+      if ( item.add_transition !== undefined ) {
+        item.add_transition(flash) ;
+      }
 
       // console.log('effect flash', 'flash', flash) ;
 
@@ -418,7 +426,25 @@ var itemHelper = {
 
       item.white.add_sequence([1, 0], fade_func) ;
 
-    }
+    },
+
+    loop_fade: function item_helper_method_loop_fade( fader, fadeVal, item ) {
+
+      if ( item === undefined ) { 
+        item = this ;
+      }
+
+      if ( fader === undefined ) {
+        fader = item.viz.fader || item.fader ;
+      }
+
+      if ( fadeVal === undefined ) {
+        fadeVal = [1, 0] ;
+      }
+
+      item.loop( function() { return fader(fadeVal) ; } ) ;
+    
+    },
 
   },
 

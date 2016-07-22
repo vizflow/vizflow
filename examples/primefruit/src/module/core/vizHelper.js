@@ -17,7 +17,7 @@ var vizHelper = {
 	  }
 
 	  /* 
-	   *   TEMPORARY VARIABLES USED FOR SETTING UP THE "viz" OBJECT:
+	   *   TEMPORARY VARIABLES USED FOR SETTING UP THE VIZ OBJECT:
 	   */ 
 
 	  var dur           = vizConfig.duration || 17 ; // the framespeed that vizflow uses (default is 60 frames per second)
@@ -32,13 +32,11 @@ var vizHelper = {
 
 	  var vizCanvas     = imageHelper.create(vizWidth, vizHeight) ;         // model canvas (indepdenent of device pixel ratio)
 	  var fullCanvas    = imageHelper.create(fullWidth, fullHeight) ;     // fully upsampled canvas (dependent on device pixel ratio)
-	  var displayCanvas = imageHelper.create(displayWidth, displayHeight) ; // hidden display canvas (resized by devicePixelRatio, but not actually drawn to the screen)
 	  var screenCanvas  = imageHelper.create(displayWidth, displayHeight) ; // actual display canvas (drawn to screen once per step/cycle/frame of the animation engine)
 
-	  var fullContext    = fullCanvas.context() ; // model canvas (indepdenent of device pixel ratio)
-	  var vizContext     = vizCanvas.context() ;
-	  var displayContext = displayCanvas.context() ;
-	  var screenContext  = screenCanvas.context() ;
+	  var fullContext   = fullCanvas.context() ; // model canvas (indepdenent of device pixel ratio)
+	  var vizContext    = vizCanvas.context() ;  
+	  var screenContext = screenCanvas.context() ;
 
 	  place_viz(screenCanvas) ;
 
@@ -59,10 +57,7 @@ var vizHelper = {
 
 	  var frameDuration = vizConfig.frameDurationFactor * dur ;
 	  var fadeDuration  = 750 ;
-
-	  // console.log('displayCanvas', displayCanvas) ;
-
-	  var resizeSkip  = 3 * vizConfig.frameDurationFactor ; // how often to check for window resize events
+	  var resizeSkip    = 3 * vizConfig.frameDurationFactor ; // how often to check for window resize events
 
 	  var vizOpacity ;
 
@@ -89,19 +84,17 @@ var vizHelper = {
 	    context:        vizContext,
 	    fullCanvas:     fullCanvas, 
 	    fullContext:    fullContext,
-	    displayCanvas:  displayCanvas, 
-	    displayContext: displayContext,
 	    screenCanvas:   screenCanvas, 
 	    screenContext:  screenContext,
-	    xShift:         Math.floor(0.5 * (paddingFactor - 1) * vizWidth + 1),
+	    xShift:         Math.floor(0.5 * (paddingFactor - 1) * vizWidth),
 	    yShift:         Math.floor(0.5 * (paddingFactor - 1) * vizHeight),
 	    resizeSkip:     resizeSkip,
 	    lastCollision:  0,
 	    lastResize:     0,
 	    viewportX:      0, 
 	    viewportY:      0,
-	    viewportWidth:  displayCanvas.width,
-	    viewportHeight: displayCanvas.height,
+	    viewportWidth:  screenCanvas.width,
+	    viewportHeight: screenCanvas.height,
 	    detect:         actionHelper.detect,
 	    perform:        actionHelper.perform,
 	    image_transition: transitionHelper.step_func('image', frameDuration),  
@@ -119,13 +112,13 @@ var vizHelper = {
 	    keyboard_callback: vizConfig.keyboard_callback,
 
 	    transitionSet:  {
-	      x: $Z.transition.rounded_linear_transition_func ( 'viewportX', 3 * dur ), //function accepting an x end-value and returning a transition object      
-	      y: $Z.transition.rounded_linear_transition_func ( 'viewportY', 3 * dur ), //function accepting an x end-value and returning a transition object      
+	      x: $Z.helper.transition.rounded_linear_transition_func ( 'viewportX', 3 * dur ), //function accepting an x end-value and returning a transition object      
+	      y: $Z.helper.transition.rounded_linear_transition_func ( 'viewportY', 3 * dur ), //function accepting an x end-value and returning a transition object      
 	    },
 
 	    collision: null,
 
-	    collision_detect: collisionDetect.pixelwise, // pixel-wise collision detection works for any shape and can be used on lower resolution masks compared to the display images
+	    collision_detect: vizConfig.collision_detect || collisionDetect.pixelwise, // pixel-wise collision detection works for any shape and can be used on lower resolution masks compared to the display images
 
 	    prep: function viz_prep () {
 
@@ -177,7 +170,6 @@ var vizHelper = {
 	      if (this.image !== undefined) {
 	      	this.fullContext.drawImage (this.image, 0, 0) ; // draw background image if there is one
 	      }
-	      // this.displayContext.globalAlpha = 1 ;
 	 
 	      return true ;
 	 
@@ -191,36 +183,65 @@ var vizHelper = {
 	      var sh = this.viewportHeight ;
 	      var dx = 0 ;
 	      var dy = 0 ;
-	      var dw = displayCanvas.width ;
-	      var dh = displayCanvas.height ;
-	      this.displayCanvas.width = this.displayCanvas.width ;
-	      // console.log('sx, sy, sw, sh, dx, dy, dw, dh', sx, sy, sw, sh, dx, dy, dw, dh) ;
-	      this.displayContext.drawImage(this.fullCanvas, sx, sy, sw, sh, dx, dy, dw, dh) ;
+	      var dw = screenCanvas.width ;
+	      var dh = screenCanvas.height ;
 
-	      this.screenCanvas.width        = this.screenCanvas.width ; // clearRect(0, 0, this.screenCanvas.width, this.displayCanvas.height) ;
+	      // console.log('sx, sy, sw, sh, dx, dy, dw, dh', sx, sy, sw, sh, dx, dy, dw, dh) ;
+
+	      // this.screenCanvas.width = this.screenCanvas.width ;
+	      this.screenContext.clearRect(0, 0, this.screenCanvas.width, this.screenCanvas.height) ;
 	      this.screenContext.globalAlpha = this.opacity ;
-	      this.screenContext.drawImage (this.displayCanvas, 0, 0) ; // use a single drawImage call for rendering the current frame to the visible Canvas (GPU-acceleated performance)
+	      this.screenContext.drawImage(this.fullCanvas, sx, sy, sw, sh, dx, dy, dw, dh) ;
+	      // this.screenContext.drawImage (this.fullCanvas, 0, 0) ; // use a single drawImage call for rendering the current frame to the visible Canvas (GPU-acceleated performance)
 
 	    },
 
-	    zoom: effectHelper.zoom,
 	    zoom_inout: effectHelper.zoom_inout,
 
 	    panX: function (dur, xNew) { 
+
 	      var trans = transitionHelper.sequence( xNew.map(function(x) {
-	        return $Z.transition.rounded_linear_transition_func('viewportX', dur)(x) ;
+	        return $Z.helper.transition.rounded_linear_transition_func('viewportX', dur)(x) ;
 	      }) ) ;
+
 	      // console.log('panX trans', trans) ;
 	      this.add_transition( trans[0] ) ; 
+
 	    },
 
 	    panY: function (dur, yNew) { 
+
 	      var trans = transitionHelper.sequence( yNew.map(function(y) {
-	        return $Z.transition.rounded_linear_transition_func('viewportY', dur)(y) ;
+	        return $Z.helper.transition.rounded_linear_transition_func('viewportY', dur)(y) ;
 	      }) ) ;
+
 	      // console.log('panY trans', trans) ;
 	      this.add_transition( trans[0] ) ; 
+
 	    },
+
+			fader: function viz_helper_method_fader(fadeVal, duration, viz) {
+
+				if ( viz === undefined ) {
+					viz = this ;
+				}
+
+				if ( duration === undefined ) {
+					duration = viz.fadeDuration ;
+				}
+
+				if ( fadeVal.constructor !== Array ) {
+					fadeVal = [fadeVal] ;
+				}
+
+		    return imageEffectHelper.fade_sequence({ 
+
+		      duration: duration,
+		      value: fadeVal,
+
+		    })[0] ;
+
+		  },	
 
 	  } ;
 
@@ -232,6 +253,7 @@ var vizHelper = {
 
 		Object.assign(viz, transitionHelper.method) ; // viz can be treated as an item
 		Object.assign(viz, itemHelper.method) ; // viz can be treated as an item
+		viz.zoom = effectHelper.zoom ; // override item.zoom 
 
 	  // console.log('setup viz end', 'viz', viz) ;
 
@@ -266,7 +288,7 @@ var vizHelper = {
 
 	    }, 
 
-	    false // function argument list cannot have trailing comma
+	    false // function argument list cannot have trailing comma (?)
 	  ) ;
 
 	  document.addEventListener('touchend', viz.input.up,   false) ;
@@ -276,9 +298,23 @@ var vizHelper = {
 	  // console.log('viz helper load before $Z.viz', 'viz.run', viz) ;
 
 	  $Z.viz(viz) ; // load the vizualization config object into vizflow
-
 	  $Z.run() ;    // run the (possibly interactive) visualization (infinite loop by default)
 
+	},
+
+	clear_cover: function viz_helper_clear_cover( viz ) {
+
+    var overlayImage = imageHelper.create(viz.width, viz.height) ;
+
+    imageEffectHelper.opacity(overlayImage, 1) ;
+
+    var overlayConfig = {
+      image: overlayImage,
+      uiSwitch: true,
+      addSwitch: true,
+    } ;
+
+    return viz.setup_item(overlayConfig) ;		
 	}
 
 } ;

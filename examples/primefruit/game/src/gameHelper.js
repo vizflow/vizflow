@@ -16,7 +16,7 @@ var gameHelper = {
       viz = this ;
     }
 
-    viz.image = imageHelper.adjust_ratio(imageHelper.to_canvas(viz.config.backgroundImageUrl)) ; 
+    viz.image = $Z.helper.image.adjust_ratio($Z.helper.image.to_canvas(viz.config.backgroundImageUrl)) ; 
 
     viz.fade({
       duration: viz.fadeDuration * 0.5,
@@ -24,7 +24,7 @@ var gameHelper = {
 
       end: function() {
 
-        itemHelper.add(viz, [ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop          
+        $Z.helper.item.add(viz, [ // this is the array of objects that are used by the vizflow visualization engine for the main animation loop          
         ]) ;
 
       },  // end fade child 
