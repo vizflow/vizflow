@@ -338,7 +338,7 @@ function battle_screen() {
             return spriteset ;
         },    
         x: 320, // drawn offscreen
-        y: 110,
+        y: 60,
         opacity: 0,
     } ;    
 
