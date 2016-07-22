@@ -253,6 +253,21 @@ function battle_screen() {
 
     } ;
 
+    var heroHealthConfig = {
+        image:  imageHelper.adjust_ratio (imageHelper.to_canvas('./image/hero.png')),
+        x: 12,
+        y: 28,
+    } ;
+
+    var monsterHealthConfig = {
+        image:  imageHelper.adjust_ratio (imageHelper.to_canvas('./image/monster.png')),
+        x: 10,
+        y: 8,
+    } ;
+
+    viz.heroHealth = viz.setup_item(heroHealthConfig) ;
+    viz.monsterHealth = viz.setup_item(monsterHealthConfig) ;
+
     var moveButtonWidth     = 50 ;
     var moveButtonHeight    = 75 ;
     var actionButtonWidth   = 46 ;

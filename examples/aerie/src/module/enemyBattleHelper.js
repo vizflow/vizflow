@@ -7,8 +7,8 @@ var enemyBattleHelper = {
 
     var healthbarConfig = { 
 
-      color:  '#0000FF',
-      height: 3,
+      color:  '#FF0000',
+      height: 5,
       width:  enemy.health,
       angle:  0,
       x:      0,
@@ -39,7 +39,7 @@ var enemyBattleHelper = {
     enemy.healthbar = viz.setup_item ({
       image: enemy.health_bar(),
       x: 10,
-      y: 20,
+      y: 16,
 
     }) ;
 

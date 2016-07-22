@@ -8,8 +8,8 @@ var playerBattleHelper = {
     var healthbarConfig = { 
 
       color:  '#FF0000',
-      height: player.health,
-      width:  4,
+      height: 5,
+      width:  player.health,
       angle:  0,
       x:      0,
       y:      0,
@@ -42,8 +42,8 @@ var playerBattleHelper = {
     player.hit                  = playerBattleHelper.hit ;
     player.healthbar = viz.setup_item ({
       image: player.health_bar(),
-      x: 16,
-      y: 30,
+      x: 10,
+      y: 38,
     }) ;
 
     player.item.default_child() ;
