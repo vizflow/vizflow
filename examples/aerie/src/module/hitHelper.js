@@ -175,9 +175,9 @@ var hitHelper = {
       element.item.whiteflash(50) ;  
       element.health -= 2 ;
     }
-    if (element.health < 1) {
+    if (element.item.viz.player.health < 1) {
     
- function end_game(viz) {
+ function game_over(viz) {
 
     if(viz === undefined) {
       viz = this ;
@@ -197,9 +197,59 @@ var hitHelper = {
     }) ;
 
     endItem.add() ;
+     
+    viz.opacity = 1 ;
+    viz.fade({
 
-    // vizHelper.run(viz) ; // call the generic run function
+      duration: 4 * viz.fadeDuration,
+    }) ;
+
+    endItem.fade({
+
+      duration: viz.fadeDuration * 4,
+
+      end: function() { 
+        endItem.fade({
+
+          duration: viz.fadeDuration * 4,
+          end: window.location.reload(),
+        }) ;
+   
+      },
+
+    }) ;
+
+  } 
+
+  game_over (viz) ;
+  
+    } else {
+      element.healthbar.image = element.health_bar() ;
+    }
+
+  if (element.item.viz.enemy.health < 2) {
     
+ function you_win(viz) {
+
+    if(viz === undefined) {
+      viz = this ;
+    }
+
+    var endImage = imageHelper.adjust_ratio(imageHelper.to_canvas('./image/you_win.png')) ;
+
+    var endItem = $Z.helper.item.setup({ 
+
+      x: (viz.width - endImage.originalCanvas.width) * 0.5,
+      y: (viz.height - endImage.originalCanvas.height) * 0.5,
+      image: endImage,
+      opacity: 0,
+      inert: true,
+      viz: viz,
+
+    }) ;
+
+    endItem.add() ;
+     
     viz.opacity = 1 ;
     viz.fade({
 
@@ -208,51 +258,28 @@ var hitHelper = {
 
     endItem.fade({
 
-      duration: viz.fadeDuration * 2,
+      duration: viz.fadeDuration * 4,
 
       end: function() { 
         endItem.fade({
 
-          duration: viz.fadeDuration * 2,
+          duration: viz.fadeDuration * 4,
           end: window.location.reload(),
         }) ;
    
-
-
       },
 
     }) ;
 
   } 
 
-  //document.ratio = 2 ; // upsample images to ensure crisp edges on hidpi devices
-
-  // var vizConfig = {
-
-  //   background: undefined,
-  //   music:      undefined,
-  //   inputEvent: inputEvent,
-  //   run: end_game, // fade in vizflow URL for title screen by default
-
-  // } ;
-
-  // var viz = vizHelper.setup(vizConfig) ; // frameDuration computed
-
-  // viz.menuConfig = {
- 
-  //   sprite_loader: undefined,
-  //   callback:      undefined,
-
-  // } ;
-
-  end_game (viz) ;
+  you_win (viz) ;
   
     } else {
       element.healthbar.image = element.health_bar() ;
     }
     
   }, 
-
   reset: function hit_helper_reset (response) {
 
     if( response === undefined ) {
@@ -294,22 +321,7 @@ var hitHelper = {
       // }
       hitTransition = animate(element.sprite.hit, tran_func, undefined, element.sprite.rest[0])[0] ;
 
-      // console.log('hitHelper transition:', 'hitTransition', hitTransition) ;
-
-      // imageHelper.view(element.sprite.hit[0]) ;
-
-      // if(element === response.viz.enemy) { // perform zoom in-out and screen shake effects on enemy response
-
-      //   var shakeSwitch = true ;
-
-      //   var freq = 1 / 8 ;
-      //   if(Math.random() < freq) {
-      //     effectHelper.zoom_inout(response.viz, hitDur, shakeSwitch) ;        
-      //   }
-
-      // }
-
-      var replacementSwitch = true ; // interrupt current player transitions due to response
+      var replacementSwitch = false ; // interrupt current player transitions due to response
       element.item.add_transition(hitTransition, replacementSwitch) ;
 
       if(element === element.item.viz.enemy) {
@@ -332,23 +344,6 @@ var hitHelper = {
     }
 
   },
-
-  // flash: function hit_helper_flash(response) {
-
-  //   if(response === undefined) {
-  //     response = this ;
-  //   }
-
-  //   var element = response.element ;
-
-  //   var hitDur = hitHelper.duration ;
-  //   var Nstep  = 3 ; 
-  //   var flashDuration = 100 ;
-  //   element.item.flash(Nstep, flashDuration) ;
-  //   // var flash          = effectHelper.flash.call(element, hitDur / Nstep, Nstep).animation[0] ;
-  //   // element.item.add_transition(flash) ;
-
-  // },
 
   detect_switch: function hit_helper_detect_switch(response) {
 

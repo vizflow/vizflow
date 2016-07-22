@@ -21,6 +21,7 @@ document.image = [
 	'./image/aerie_title.png',
 	'./image/aerie_start_title.png',
 	'./image/title_blade.png',
+	'./image/you_win.png',
 
 	'./image/healButton.png',	
 	'./image/left_button_spritesheet.png',

@@ -178,13 +178,15 @@ function load_game () {
         //   height: viz.height / 3,
         //   duration: 4 * viz.fadeDuration,
         // }) ;
-        
+       viz.swordItem.add_linear('x', -300, 0.5 * viz.fadeDuration) ;
+     
         viz.swordItem.fade({
           duration: 2 * viz.fadeDuration,
           opacity: 0,
           end: battle_screen,
         }) ;
       }, 4 * viz.fadeDuration) ;
+      
   }
 
 

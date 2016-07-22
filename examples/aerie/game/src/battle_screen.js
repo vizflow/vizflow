@@ -403,18 +403,15 @@ function battle_screen() {
         viz.button.right.item.add_transition(trans1) ;            
         
         gameHelper.screen_handler(rightCode) ;
+
     } ;
 
     viz.button.thrust.item.image = viz.button.thrust.sprite.push[0] ;
     viz.button.thrust.item.uiSwitch = true ;
     viz.button.thrust.item.callback = function thrust_button_callback() {
-         //               if ( viz.busy === true ) { 
-         //    return ;
-         //  }
-    
-         // viz.busy = true ;
+
     viz.player.attack('thrust') ;
-    viz.audio.thrust.play() ;
+    // viz.audio.thrust.play() ;
     viz.button.thrust.item.add_linear('x', -50, scaleDur * 0.1) ;
 
     viz.button.thrust.item.flash(1);
@@ -539,7 +536,7 @@ function battle_screen() {
         viz.button.thrust.item.uiSwitch = true ;
         
         trans1.child = trans2 ;
-        trans2.end = function() {
+        trans1.end = function() {
             viz.audio.shield.play() ;
         }   
         viz.button.block.item.add_transition(trans1) ;
