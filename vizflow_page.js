@@ -60,33 +60,6 @@ document.vizflow_page = function vizflow_page() {
 
   viz.examples = function vizflow_examples() {          
 
-    var urlImage = $Z.helper.image.to_canvas(document.imageList[1]) ;
-
-    viz.url = viz.setup_item({
-
-      image: urlImage,
-      x: 60, // viz.width * 0.5,
-      y: 80, // viz.height - urlImage.height * 0.5,
-      xOrigin: 0, // urlImage.width * 0.5,
-      yOrigin: 0, // urlImage.height * 0.5,
-      xScale: urlScale,
-      yScale: urlScale,
-      uiSwitch: true,
-      addSwitch: true,
-      fixed: true,
-
-      callback: function() {
-        viz.fade({
-          opacity: 0,
-          duration: 1000,
-          end: function() {
-            var vizflowUrl = 'https://github.com/vizflow/vizflow' ;
-            window.location.href = vizflowUrl ;                  
-          },
-        }) ;
-      },
-    }) ;
-
     viz.example = new Array(document.example.length) ;
 
     var size0   = 376 ;
@@ -101,15 +74,26 @@ document.vizflow_page = function vizflow_page() {
     var yOff    = (viz.height - size1) * 0.5 ;
     var ypad    = 10 ;
     var y1      = yOff + size1 + ypad ;
+    var y2      = yOff + size1 * 2 + ypad ;
 
-    var xList   = [viz.width * 0.5, 0.5 * viz.width - xshift, 0.5 * viz.width + xshift, viz.width * 0.5] ;
-    var yList   = [yOff, y1, y1, y1] ;
+    var xList   = [
+      viz.width * 0.5 - size1 * 0.5,           // three circles
+      0.5 * viz.width + size1 * 0.5,  // ph game
+      0.5 * viz.width - xshift,  // election fighter
+      viz.width * 0.5,           // prime fruit
+      viz.width * 0.5 + xshift, // aerie
+    ] ;
+
+    var yList   = [yOff, yOff, y1, y1, y1] ;
 
     var urlList = document.example.map(function(d) {
       return 'http://vizflow.org/examples/' + d ;
     }) ;
 
     urlList[2] = 'http://electionfighter.com' ; // this one has its own URL
+    urlList[4] = 'http://entsphere.com/birdz' ; // temporary URL
+
+    // console.log('urlList', urlList) ;
 
     var size0 = $Z.helper.loader.image.cache[document.exampleImage[0]].width ;
     var size1 = size0 * scale ;
@@ -119,7 +103,7 @@ document.vizflow_page = function vizflow_page() {
       fill: '#FFF',
     }) ;
 
-    for (var kex = 0 ; kex < document.example.length ; kex++) {
+    for (var kex = 0 ; kex < document.example.length ; kex++) { // loop over examples
 
       var imageK = $Z.helper.image.to_canvas( document.exampleImage[kex] ) ;
 
@@ -217,6 +201,35 @@ document.vizflow_page = function vizflow_page() {
     }
 
     var urlImage = $Z.helper.image.to_canvas(document.imageList[1]) ;
+
+    viz.url = viz.setup_item({
+
+      image: urlImage,
+      x: 60, // viz.width * 0.5,
+      y: 80, // viz.height - urlImage.height * 0.5,
+      xOrigin: 0, // urlImage.width * 0.5,
+      yOrigin: 0, // urlImage.height * 0.5,
+      xScale: urlScale,
+      yScale: urlScale,
+      uiSwitch: true,
+      addSwitch: true,
+      fixed: true,
+
+      callback: function() {
+        viz.fade({
+          opacity: 0,
+          duration: 1000,
+          end: function() {
+            var vizflowUrl = 'https://github.com/vizflow/vizflow' ;
+            window.location.href = vizflowUrl ;                  
+          },
+        }) ;
+      },
+    }) ;
+
+    // viz.logo.item.forEach(function(d, i) {
+    //   d.focus() ;
+    // }) ;
 
     viz.setup_ui() ;
 
