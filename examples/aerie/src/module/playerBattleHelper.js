@@ -41,7 +41,7 @@ var playerBattleHelper = {
     player.block                = playerBattleHelper.block ;
     player.hit                  = playerBattleHelper.hit ;
     player.healthbar = viz.setup_item ({
-      image: player.health_bar(),
+    image: player.health_bar(),
       x: 10,
       y: 38,
     }) ;
@@ -212,6 +212,7 @@ var playerBattleHelper = {
       switch(state) {
 
         case 'l' :
+        
 
           player.item.add_linear_sequence('x', [-30, 60], [100, 800]) ;
  
