@@ -249,30 +249,6 @@ function battle_screen() {
 
     viz.player = playerBattleHelper.setup(viz) ;
 
-    viz.keyboard_down_callback = function keyboard_down_callback(event) {
-
-        var transition     = [] ;
-        
-        if (viz.player.state.indexOf(event.keyCode) == -1) {
-            this.player.state.push(event.keyCode) ;
-        }
-
-        this.player.callback() ;
-
-    } ;
-
-    viz.keyboard_up_callback = function keyboard_up_callback(event) {
-        
-        if(viz.player.state.length === 0) {
-            return ;
-        }
-
-        viz.player.state = viz.player.state.filter(function (d) {
-            d !== event.keyCode ;
-        }) ;     
-
-    } ;
-
     var heroHealthConfig = {
         image:  imageHelper.adjust_ratio (imageHelper.to_canvas('./image/hero.png')),
         x: 12,
@@ -294,7 +270,6 @@ function battle_screen() {
     var actionButtonHeight  = 60 ;
     var buttonTileCount = 2 ;
     var leftCode        = 37 ;
-    var rightCode       = 39 ;
     var blockCode       = 40 ;
     var slashCode      = 32 ;
     var thrustCode   = 32 ;
@@ -411,7 +386,7 @@ function battle_screen() {
     viz.button.left.item.image = viz.button.left.sprite.push[0] ;
     viz.button.left.item.uiSwitch = true ;
     viz.button.left.item.callback = function left_button_callback() {
-        gameHelper.screen_handler(leftCode) ;
+        // gameHelper.screen_handler(leftCode) ;
         
         var dur1 = 100 ;
         var dur2 = 100 ;
@@ -425,6 +400,7 @@ function battle_screen() {
 
     viz.button.right.item.image = viz.button.right.sprite.push[0] ;
     viz.button.right.item.uiSwitch = true ;
+    viz.button.right.code = 39 ;
     viz.button.right.item.callback = function right_button_callback() {
 
         var dur1 = 100 ;
@@ -435,9 +411,15 @@ function battle_screen() {
         
         trans1.child = trans2 ;
 
-        viz.button.right.item.add_transition(trans1) ;            
+        viz.button.right.item.add_transition(trans1) ;  
+
+        viz.player.update_state({ keyCode: viz.button.right.code }) ;
+
+        viz.player.callback() ;
+
+        console.log('right button callback end') ;
         
-        gameHelper.screen_handler(rightCode) ;
+        // gameHelper.screen_handler(rightCode) ;
 
     } ;
 
@@ -467,7 +449,7 @@ function battle_screen() {
         }  
         viz.button.thrust.item.add_transition(trans1) ;            
       
-        gameHelper.screen_handler(thrustCode) ;
+        // gameHelper.screen_handler(thrustCode) ;
 
 
     } ;    
@@ -507,7 +489,7 @@ function battle_screen() {
         }) ;         
         // viz.button.slash.item.fade()
             
-        gameHelper.screen_handler(slashCode) ;
+        // gameHelper.screen_handler(slashCode) ;
 
         
         }
@@ -546,7 +528,7 @@ function battle_screen() {
         }) ; 
         viz.button.finisher.item.uiSwitch = false ;
         
-        gameHelper.screen_handler(finisherCode) ; 
+        // gameHelper.screen_handler(finisherCode) ; 
 
  
     } ;            
