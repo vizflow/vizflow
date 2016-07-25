@@ -413,9 +413,10 @@ function battle_screen() {
 
         viz.button.right.item.add_transition(trans1) ;  
 
-        viz.player.update_state({ keyCode: viz.button.right.code }) ;
-
+        var event = { keyCode: viz.button.right.code } ;
+        viz.player.add_event(event) ;
         viz.player.callback() ;
+        viz.player.remove_event(event) ;
 
         console.log('right button callback end') ;
         
