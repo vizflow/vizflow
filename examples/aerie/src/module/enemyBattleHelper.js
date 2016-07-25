@@ -63,7 +63,7 @@ var enemyBattleHelper = {
             function() {} // buttonpress.reset
           ) ;
           var dur1 = 800 ;
-          var dur2 = 200 ;
+          var dur2 = 50 ;
           var dur3 = 100 ;
           var trans1 = transitionHelper.new_step('image', enemy.sprite.attack[0], dur1) ;          
           var trans2 = transitionHelper.new_step('image', enemy.sprite.attack[1], dur2) ;
@@ -137,7 +137,7 @@ var enemyBattleHelper = {
 
           var dur1 = 800 ;
           var dur2 = 600 ;
-          var dur3 = 100 ;
+          var dur3 = 50 ;
           var dur4 = 100 ;
           var trans1 = transitionHelper.new_step('image', enemy.sprite.tailattack[0], dur1) ;
           var trans2 = transitionHelper.new_step('image', enemy.sprite.tailattack[1], dur2) ;
@@ -256,7 +256,7 @@ var enemyBattleHelper = {
 
       } ;
 
-      var tailAttackDuration = 5500 ;
+      var tailAttackDuration = 6000 ;
       var tail_attack_creator = transitionHelper.step_func('tailattack', tailAttackDuration) ;
 
       enemy.canTailAttack = true ;
