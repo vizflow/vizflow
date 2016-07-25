@@ -62,7 +62,7 @@ var enemyBattleHelper = {
             transitionFunc,
             function() {} // buttonpress.reset
           ) ;
-          var dur1 = 700 ;
+          var dur1 = 800 ;
           var dur2 = 200 ;
           var dur3 = 100 ;
           var trans1 = transitionHelper.new_step('image', enemy.sprite.attack[0], dur1) ;          
@@ -135,9 +135,9 @@ var enemyBattleHelper = {
             function() {} // buttonpress.reset
           ) ;
 
-          var dur1 = 500 ;
-          var dur2 = 300 ;
-          var dur3 = 200 ;
+          var dur1 = 800 ;
+          var dur2 = 600 ;
+          var dur3 = 100 ;
           var dur4 = 100 ;
           var trans1 = transitionHelper.new_step('image', enemy.sprite.tailattack[0], dur1) ;
           var trans2 = transitionHelper.new_step('image', enemy.sprite.tailattack[1], dur2) ;

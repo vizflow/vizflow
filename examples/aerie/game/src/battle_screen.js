@@ -5,7 +5,7 @@ function battle_screen() {
         image: imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/battlescreen_background.png')),
         frameDurationFactor: 3,
         music:'./audio/bgm1.wav',
-
+        
         name: 'battle',
         width: 320,
         height: 240,
@@ -43,11 +43,11 @@ function battle_screen() {
         x: 330,
         y: -30,
     } ;
-    var moonConfig = {
-        image: imageHelper.adjust_ratio (imageHelper.to_canvas('./image/battlescreen_moon.png')),
-        x: 70,
-        y: 50,   
-     } ;
+    // var moonConfig = {
+    //     image: imageHelper.adjust_ratio (imageHelper.to_canvas('./image/battlescreen_moon.png')),
+    //     x: 70,
+    //     y: 50,   
+    //  } ;
 
     viz.clouds = viz.setup_item(cloudsConfig) ;  
     viz.clouds.add_linear ('x', 0, scaleDur * 20 ) ;
