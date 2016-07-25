@@ -396,10 +396,10 @@ function battle_screen() {
         trans1.child = trans2 ;
 
         viz.button.left.item.add_transition(trans1) ;  
-
-        viz.player.update_state({ keyCode: viz.button.left.code }) ;
-
-        viz.player.callback() ;        
+        var event = { keyCode: viz.button.left.code } ;
+        viz.player.add_event(event) ;
+        viz.player.callback() ;
+        viz.player.remove_event(event) ;   
 
    } ;
 
