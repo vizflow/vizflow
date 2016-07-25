@@ -196,19 +196,39 @@ function battle_screen() {
           maxHeight = Math.max.apply(null, height) ;
 
           var spriteset = spriteHelper.get(i, rowName, width, height) ;
-          var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[1].originalCanvas, { x: 100, y: 0, width: spriteset.attack[1].originalCanvas.width * 0.5, height: maxHeight } ) ;
-          var tailAttackCollisionCanvas            = imageHelper.clear_rect (spriteset.tailattack[2].originalCanvas, { x: 0, y: 0, width: spriteset.tailattack[0].originalCanvas.width * 0.1, height: maxHeight } ) ;
-          var hindAttackCollisionCanvas            = imageHelper.clear_rect (spriteset.hindattack[2].originalCanvas, { x: 0, y: 0, width: spriteset.hindattack[2].originalCanvas.width * 0.5, height: maxHeight } ) ;
-          var snortAttackCollisionCanvas           = imageHelper.clear_rect (spriteset.snortattack[1].originalCanvas, { x: 70, y: 0, width: spriteset.snortattack[1].originalCanvas.width * 0.8, height: maxHeight } ) ;
+
+          var attackCollisionCanvas = imageHelper.clear_rect (
+            spriteset.attack[1].originalCanvas, 
+            { x: 100, y: 0, width: spriteset.attack[1].originalCanvas.width * 0.5, height: maxHeight } 
+          ) ;
+
+          var tailAttackCollisionCanvas = imageHelper.clear_rect (
+            spriteset.tailattack[2].originalCanvas, 
+            { x: 0, y: 0, width: spriteset.tailattack[0].originalCanvas.width * 0.1, height: maxHeight } 
+          ) ;
+
+          var hindAttackCollisionCanvas = imageHelper.clear_rect (
+            spriteset.hindattack[2].originalCanvas, 
+            { x: 0, y: 0, width: spriteset.hindattack[2].originalCanvas.width * 0.5, height: maxHeight } 
+          ) ;
+
+          var snortAttackCollisionCanvas = imageHelper.clear_rect (
+            spriteset.snortattack[1].originalCanvas, 
+            { x: 70, y: 0, width: spriteset.snortattack[1].originalCanvas.width * 0.8, height: maxHeight } 
+          ) ;
           
-          spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
+          spriteset.attack[1].sourceCollisionImage      = attackCollisionCanvas ;
           spriteset.snortattack[1].sourceCollisionImage = snortAttackCollisionCanvas ;
-          spriteset.tailattack[2].sourceCollisionImage = tailAttackCollisionCanvas ;
-          // spriteset.hindattack[1].sourceCollisionImage = hindAttackCollisionCanvas ;
-          spriteset.hindattack[2].sourceCollisionImage = hindAttackCollisionCanvas ;
+          spriteset.tailattack[2].sourceCollisionImage  = tailAttackCollisionCanvas ;
+          spriteset.hindattack[2].sourceCollisionImage  = hindAttackCollisionCanvas ;
 
+          // make an additional white overlay for the hit frame:
 
- // imageHelper.view(hindAttackCollisionCanvas) ;
+          var white = $Z.helper.effect.image.color_filter(spriteset.hit[1], [255, 255, 255]) ;
+          // item.white.childFade = true ;
+          spriteset.hitOverlay = white ;
+
+     // imageHelper.view(hindAttackCollisionCanvas) ;
           return spriteset ;
 
         },    
