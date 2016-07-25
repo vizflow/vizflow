@@ -13,11 +13,11 @@ document.image = [
 	// './image/knight_spritesheet.png',
 	'./image/monster_spritesheet.png',
 	// './image/powerup.png',
-	'./image/battlescreen.png',
+	// './image/battlescreen.png',
 	'./image/knight_battle_spritesheet.png',
-	'./image/leftButton.png',
-	'./image/rightButton.png',
-	'./image/attackButton.png',
+	//'./image/leftButton.png',
+	//'./image/rightButton.png',
+	// './image/attackButton.png',
 	'./image/aerie_title.png',
 	'./image/aerie_start_title.png',
 	'./image/title_blade.png',
@@ -25,7 +25,7 @@ document.image = [
 	'./image/hero.png',
 	'./image/monster.png',
 
-	'./image/healButton.png',	
+	//'./image/healButton.png',	
 	'./image/left_button_spritesheet.png',
 	'./image/right_button_spritesheet.png',
 	'./image/slash_button_spritesheet.png',
@@ -34,7 +34,7 @@ document.image = [
 	'./image/finisher_button_spritesheet.png',
 	'./image/game_over.png',
 	'./image/battlescreen_background.png',
-	'./image/battlescreen_moon.png',
+	//'./image/battlescreen_moon.png',
 	'./image/battlescreen_clouds.png',
 
 
@@ -48,9 +48,9 @@ document.audio = [
 './audio/shield.wav',
 './audio/thrust.wav',
 './audio/growl1.wav',
-'./audio/growl2.wav',
+//'./audio/growl2.wav',
 './audio/finisher.wav',
-'./audio/blocked.wav',
+//'./audio/blocked.wav',
 
 	// './audio/.wav',
 
