@@ -49,7 +49,14 @@ var playerBattleHelper = {
     player.item.default_child() ;
     player.healthbar.add() ;
 
+    player.update_state = function(event) {
+      if (this.state.indexOf(event.keyCode) == -1) {
+        this.state.push(event.keyCode) ;
+      }      
+    } ;
+
     return player ;
+
   },
 
   attack: function player_battle_helper_attack (attackType, player) {

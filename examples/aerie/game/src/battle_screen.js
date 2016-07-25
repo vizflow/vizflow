@@ -196,19 +196,39 @@ function battle_screen() {
           maxHeight = Math.max.apply(null, height) ;
 
           var spriteset = spriteHelper.get(i, rowName, width, height) ;
-          var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[1].originalCanvas, { x: 100, y: 0, width: spriteset.attack[1].originalCanvas.width * 0.5, height: maxHeight } ) ;
-          var tailAttackCollisionCanvas            = imageHelper.clear_rect (spriteset.tailattack[2].originalCanvas, { x: 0, y: 0, width: spriteset.tailattack[0].originalCanvas.width * 0.1, height: maxHeight } ) ;
-          var hindAttackCollisionCanvas            = imageHelper.clear_rect (spriteset.hindattack[2].originalCanvas, { x: 0, y: 0, width: spriteset.hindattack[2].originalCanvas.width * 0.5, height: maxHeight } ) ;
-          var snortAttackCollisionCanvas           = imageHelper.clear_rect (spriteset.snortattack[1].originalCanvas, { x: 70, y: 0, width: spriteset.snortattack[1].originalCanvas.width * 0.8, height: maxHeight } ) ;
+
+          var attackCollisionCanvas = imageHelper.clear_rect (
+            spriteset.attack[1].originalCanvas, 
+            { x: 100, y: 0, width: spriteset.attack[1].originalCanvas.width * 0.5, height: maxHeight } 
+          ) ;
+
+          var tailAttackCollisionCanvas = imageHelper.clear_rect (
+            spriteset.tailattack[2].originalCanvas, 
+            { x: 0, y: 0, width: spriteset.tailattack[0].originalCanvas.width * 0.1, height: maxHeight } 
+          ) ;
+
+          var hindAttackCollisionCanvas = imageHelper.clear_rect (
+            spriteset.hindattack[2].originalCanvas, 
+            { x: 0, y: 0, width: spriteset.hindattack[2].originalCanvas.width * 0.5, height: maxHeight } 
+          ) ;
+
+          var snortAttackCollisionCanvas = imageHelper.clear_rect (
+            spriteset.snortattack[1].originalCanvas, 
+            { x: 70, y: 0, width: spriteset.snortattack[1].originalCanvas.width * 0.8, height: maxHeight } 
+          ) ;
           
-          spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
+          spriteset.attack[1].sourceCollisionImage      = attackCollisionCanvas ;
           spriteset.snortattack[1].sourceCollisionImage = snortAttackCollisionCanvas ;
-          spriteset.tailattack[2].sourceCollisionImage = tailAttackCollisionCanvas ;
-          // spriteset.hindattack[1].sourceCollisionImage = hindAttackCollisionCanvas ;
-          spriteset.hindattack[2].sourceCollisionImage = hindAttackCollisionCanvas ;
+          spriteset.tailattack[2].sourceCollisionImage  = tailAttackCollisionCanvas ;
+          spriteset.hindattack[2].sourceCollisionImage  = hindAttackCollisionCanvas ;
 
+          // make an additional white overlay for the hit frame:
 
- // imageHelper.view(hindAttackCollisionCanvas) ;
+          var white = $Z.helper.effect.image.color_filter(spriteset.hit[1], [255, 255, 255]) ;
+          // item.white.childFade = true ;
+          spriteset.hitOverlay = white ;
+
+     // imageHelper.view(hindAttackCollisionCanvas) ;
           return spriteset ;
 
         },    
@@ -228,30 +248,6 @@ function battle_screen() {
     viz.enemy  = enemyBattleHelper.setup(viz) ;
 
     viz.player = playerBattleHelper.setup(viz) ;
-
-    viz.keyboard_down_callback = function keyboard_down_callback(event) {
-
-        var transition     = [] ;
-        
-        if (viz.player.state.indexOf(event.keyCode) == -1) {
-            this.player.state.push(event.keyCode) ;
-        }
-
-        this.player.callback() ;
-
-    } ;
-
-    viz.keyboard_up_callback = function keyboard_up_callback(event) {
-        
-        if(viz.player.state.length === 0) {
-            return ;
-        }
-
-        viz.player.state = viz.player.state.filter(function (d) {
-            d !== event.keyCode ;
-        }) ;     
-
-    } ;
 
     var heroHealthConfig = {
         image:  imageHelper.adjust_ratio (imageHelper.to_canvas('./image/hero.png')),
@@ -273,8 +269,6 @@ function battle_screen() {
     var actionButtonWidth   = 46 ;
     var actionButtonHeight  = 60 ;
     var buttonTileCount = 2 ;
-    var leftCode        = 37 ;
-    var rightCode       = 39 ;
     var blockCode       = 40 ;
     var slashCode      = 32 ;
     var thrustCode   = 32 ;
@@ -390,8 +384,9 @@ function battle_screen() {
 
     viz.button.left.item.image = viz.button.left.sprite.push[0] ;
     viz.button.left.item.uiSwitch = true ;
+    viz.button.left.code = 37 ;
     viz.button.left.item.callback = function left_button_callback() {
-        gameHelper.screen_handler(leftCode) ;
+        // gameHelper.screen_handler(leftCode) ;
         
         var dur1 = 100 ;
         var dur2 = 100 ;
@@ -400,11 +395,17 @@ function battle_screen() {
 
         trans1.child = trans2 ;
 
-        viz.button.left.item.add_transition(trans1) ;        
+        viz.button.left.item.add_transition(trans1) ;  
+
+        viz.player.update_state({ keyCode: viz.button.left.code }) ;
+
+        viz.player.callback() ;        
+
    } ;
 
     viz.button.right.item.image = viz.button.right.sprite.push[0] ;
     viz.button.right.item.uiSwitch = true ;
+    viz.button.right.code = 39 ;
     viz.button.right.item.callback = function right_button_callback() {
 
         var dur1 = 100 ;
@@ -415,9 +416,15 @@ function battle_screen() {
         
         trans1.child = trans2 ;
 
-        viz.button.right.item.add_transition(trans1) ;            
+        viz.button.right.item.add_transition(trans1) ;  
+
+        viz.player.update_state({ keyCode: viz.button.right.code }) ;
+
+        viz.player.callback() ;
+
+        console.log('right button callback end') ;
         
-        gameHelper.screen_handler(rightCode) ;
+        // gameHelper.screen_handler(rightCode) ;
 
     } ;
 
@@ -447,7 +454,7 @@ function battle_screen() {
         }  
         viz.button.thrust.item.add_transition(trans1) ;            
       
-        gameHelper.screen_handler(thrustCode) ;
+        // gameHelper.screen_handler(thrustCode) ;
 
 
     } ;    
@@ -487,7 +494,7 @@ function battle_screen() {
         }) ;         
         // viz.button.slash.item.fade()
             
-        gameHelper.screen_handler(slashCode) ;
+        // gameHelper.screen_handler(slashCode) ;
 
         
         }
@@ -526,7 +533,7 @@ function battle_screen() {
         }) ; 
         viz.button.finisher.item.uiSwitch = false ;
         
-        gameHelper.screen_handler(finisherCode) ; 
+        // gameHelper.screen_handler(finisherCode) ; 
 
  
     } ;            

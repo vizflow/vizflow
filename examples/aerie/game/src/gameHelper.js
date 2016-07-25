@@ -42,12 +42,12 @@ var gameHelper = {
 
   },  
 
-  screen_handler: function game_helper_screen_handler (keyCode) {
-    var event = {
-        keyCode: keyCode,
-    } ;
-    viz.keyboard_down_callback(event) ;
-    viz.keyboard_up_callback(event) ;            
-  },  
+  // screen_handler: function game_helper_screen_handler (keyCode) {
+  //   var event = {
+  //       keyCode: keyCode,
+  //   } ;
+  //   viz.keyboard_down_callback(event) ;
+  //   viz.keyboard_up_callback(event) ;            
+  // },  
 
 } ;
