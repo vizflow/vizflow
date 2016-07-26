@@ -15,6 +15,10 @@ function battle_screen() {
     viz = vizHelper.setup(vizConfig) ;
 // console.log('vizConfig', vizConfig) ;
 
+    viz.callback = function viz_callback(event) {
+      viz.player.callback(event) ;
+    } ;
+
     viz.audio = {
         music: audioLoader.cache[vizConfig.music],
         slash: audioLoader.cache['./audio/slash.wav'],
@@ -397,10 +401,8 @@ function battle_screen() {
 
         viz.button.left.item.add_transition(trans1) ;  
         var event = { keyCode: viz.button.left.code } ;
-        viz.player.add_event(event) ;
-        viz.player.callback() ;
-        viz.player.remove_event(event) ;   
-
+        viz.player.callback(event) ;
+ 
    } ;
 
     viz.button.right.item.image = viz.button.right.sprite.push[0] ;
@@ -419,9 +421,7 @@ function battle_screen() {
         viz.button.right.item.add_transition(trans1) ;  
 
         var event = { keyCode: viz.button.right.code } ;
-        viz.player.add_event(event) ;
-        viz.player.callback() ;
-        viz.player.remove_event(event) ;
+        viz.player.callback(event) ;
 
         console.log('right button callback end') ;
         

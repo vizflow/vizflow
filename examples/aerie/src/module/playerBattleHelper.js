@@ -181,7 +181,7 @@ var playerBattleHelper = {
       }   
   },
 
-  update: function player_helper_update(player) {
+  update: function player_helper_update(event, player) {
 
     if( player === undefined ) {
       player = this ;
@@ -190,6 +190,8 @@ var playerBattleHelper = {
     if( player.paused === true ) {
       return ;
     }
+
+    player.add_event(event) ;
 
     var transition ;
 
@@ -382,7 +384,9 @@ var playerBattleHelper = {
       }
 
     }
-        
+     
+    player.remove_event(event) ;       
+
   },
       
 } ;

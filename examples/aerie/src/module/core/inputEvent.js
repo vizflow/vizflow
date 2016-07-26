@@ -77,6 +77,8 @@ var inputEvent = {
 
       if ( viz.keyboard_callback !== undefined ) {
         viz.keyboard_callback(event) ; 
+      } else { 
+        inputEvent.response.keyboard_callback(event, viz) ;
       }
 
     },
@@ -88,10 +90,20 @@ var inputEvent = {
       }
     
       if(viz.screen_callback === undefined) {
-        inputEvent.response.screen_callback.call(viz, event) ;
+        inputEvent.response.screen_callback(event, viz) ;
       } else {
         viz.screen_callback(event) ;
       }
+
+    },
+
+    keyboard_callback: function input_event_keyboard_callback (event, viz) {
+
+      if (viz === undefined) {
+        viz = this ;
+      } 
+
+      viz.callback(event) ;   
 
     },
 
