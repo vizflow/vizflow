@@ -4,7 +4,7 @@ function battle_screen() {
 
         image: imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/battlescreen_background.png')),
         frameDurationFactor: 3,
-        music:'./audio/bgm1.wav',
+        music: undefined,  //'./audio/bgm1.wav',
         
         name: 'battle',
         width: 320,
@@ -20,7 +20,7 @@ function battle_screen() {
     } ;
 
     viz.audio = {
-        music: audioLoader.cache[vizConfig.music],
+       // music: audioLoader.cache[vizConfig.music],
         slash: audioLoader.cache['./audio/slash.wav'],
         shield: audioLoader.cache['./audio/shield.wav'],
         thrust: audioLoader.cache['./audio/thrust.wav'],
