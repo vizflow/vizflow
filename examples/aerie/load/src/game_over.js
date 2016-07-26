@@ -21,7 +21,7 @@ function game_over () {
 
     vizflow.add() ;
 
-    vizHelper.run(viz) ; // call the generic run function
+    $Z.helper.viz.run(viz) ; // call the generic run function
     
     viz.opacity = 1 ;
 
@@ -56,7 +56,7 @@ function game_over () {
 
   } ;
 
-  var viz = vizHelper.setup(vizConfig) ; // frameDuration computed
+  var viz = $Z.helper.viz.setup(vizConfig) ; // frameDuration computed
 
 
 

@@ -1,4 +1,4 @@
-var vizHelper = {
+var $Z.helper.viz = {
 
 	setup: function viz_helper_setup_viz (vizConfig) {
 
@@ -53,7 +53,7 @@ var vizHelper = {
 	  var image ;
 	  if(vizConfig.loadingImageUrl !== undefined) {
 		  image = imageHelper.adjust_ratio(imageHelper.to_canvas(vizConfig.loadingImageUrl));
-		  // console.log('vizHelper, resize, to_canvas end') ;
+		  // console.log('$Z.helper.viz, resize, to_canvas end') ;
 	  } 
 
 	  var frameDuration = vizConfig.frameDurationFactor * dur ;
@@ -115,7 +115,7 @@ var vizHelper = {
 	    setup_score: scoreHelper.setup, //  score setup function for games (optional, don't have to use it for non-games)
 	    clearSwitch: true,
 	    input:             vizConfig.inputEvent || inputEvent, 
-	    run:               vizConfig.run || vizHelper.run,
+	    run:               vizConfig.run || $Z.helper.viz.run,
 	    stagingArray:      vizConfig.item || [],
 	    screen_callback:   vizConfig.screen_callback,
 	    keyboard_callback: vizConfig.keyboard_callback,
@@ -241,9 +241,9 @@ var vizHelper = {
 
 	run: function(viz) {
 
-		// console.log('vizHelper run start') ;
+		// console.log('$Z.helper.viz run start') ;
 
-		if ( viz === undefined && this !== vizHelper ) {
+		if ( viz === undefined && this !== $Z.helper.viz ) {
 			viz = this ;
 		} 
 
