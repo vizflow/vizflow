@@ -19,7 +19,7 @@ document.image = [
 	//'./image/rightButton.png',
 	// './image/attackButton.png',
 	'./image/aerie_title.png',
-	'./image/aerie_start_title.png',
+	
 	'./image/title_blade.png',
 	'./image/you_win.png',
 	'./image/hero.png',
@@ -43,7 +43,7 @@ document.image = [
 	  
 document.audio = [
 
-'./audio/bgm1.wav',
+// './audio/bgm1.wav',
 './audio/slash.wav',
 './audio/shield.wav',
 './audio/thrust.wav',
