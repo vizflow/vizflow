@@ -157,6 +157,11 @@ var playerBattleHelper = {
           trans1.child = trans2 ;
           trans1.child.child = trans3 ;
           player.item.add_transition(trans1) ;
+
+            if (player.restoreRest === true) {
+              finalFrame = player.sprite.rest[0] ;  
+            }
+          player.restoreRest === true ;    
           break ;
       }
   },
@@ -215,10 +220,10 @@ var playerBattleHelper = {
           // case 32: // space
             state = 'd' ;
             break;
-          case 32: // space
+          case 68: // d
             state = 'a' ;
             break ;
-          case 13:
+          case 70: // f
             state = 'f' ;
             break ;  
 
@@ -254,7 +259,7 @@ var playerBattleHelper = {
           }
 
           var loop = animate_loop(
-            player.loop.block,
+
             player.sprite.block,
             transitionFunc,
             function() {} // buttonpress.reset
@@ -264,6 +269,11 @@ var playerBattleHelper = {
           transition                  = loop.animation ;
 
           var replacementSwitch = true ;
+
+            if (player.restoreRest === true) {
+              finalFrame = player.sprite.rest[0] ;  
+            }
+          player.restoreRest === true ;          
           player.item.add_transition(transition, replacementSwitch) ;
     
             break ;
@@ -279,7 +289,7 @@ var playerBattleHelper = {
           if( transitionHelper.find('image', player.item.transition) > -1 ) {
             return ; // don't interrupt the current attack animation 
           }
-
+          viz.button.slash.item.callback() ;
           var transitionFunc ;
 
           if( player.transitionSet.attack === undefined ) {
@@ -300,12 +310,12 @@ var playerBattleHelper = {
           transition                  = loop.animation ;
           // console.log('player battle helper update attack case', 'transition', transition) ;
           var replacementSwitch = true ;
-          var finalFrame ; // = player.sprite.rest[0] ;
+          var finalFrame  = player.sprite.rest[0] ;
 
             if (player.restoreRest === true) {
               finalFrame = player.sprite.rest[0] ;  
             }
-
+          player.restoreRest = true ;
           player.item.add_transition(transition, replacementSwitch) ;
 
           break ;
@@ -334,7 +344,7 @@ var playerBattleHelper = {
 
           player.loop.thrust.position = loop.position ;
           transition                  = loop.animation ;
-
+          viz.button.thrust.item.callback() ;
           var replacementSwitch = true ;
           var finalFrame ; // = player.sprite.rest[0] ;
 
@@ -352,6 +362,7 @@ var playerBattleHelper = {
             return ; // don't interrupt the current attack animation 
           }
 
+          viz.player.button.finisher.callback() ;
           var transitionFunc ;
 
           if( player.transitionSet.finisher === undefined ) {
