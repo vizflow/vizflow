@@ -43,7 +43,7 @@ document.image = [
 	  
 document.audio = [
 
-// './audio/bgm1.wav',
+'./audio/bgm1.wav',
 './audio/slash.wav',
 './audio/shield.wav',
 './audio/thrust.wav',

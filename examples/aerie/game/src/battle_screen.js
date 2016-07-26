@@ -4,7 +4,7 @@ function battle_screen() {
 
         image: imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/battlescreen_background.png')),
         frameDurationFactor: 3,
-        music: undefined,   //'./audio/bgm1.wav',
+        music:'./audio/bgm1.wav',
         
         name: 'battle',
         width: 320,
@@ -20,14 +20,14 @@ function battle_screen() {
     } ;
 
     viz.audio = {
-        //music: audioLoader.cache[vizConfig.music],
+        music: audioLoader.cache[vizConfig.music],
         slash: audioLoader.cache['./audio/slash.wav'],
         shield: audioLoader.cache['./audio/shield.wav'],
         thrust: audioLoader.cache['./audio/thrust.wav'],
         growl1: audioLoader.cache['./audio/growl1.wav'],   
-              
+        // growl2: audioLoader.cache['./audio/growl2.wav'],           
         finisher: audioLoader.cache['./audio/finisher.wav'],
-    
+        // blocked: audioLoader.cache['./audio/blocked.wav'],
     } ;
       
     var fade = 4 ;
