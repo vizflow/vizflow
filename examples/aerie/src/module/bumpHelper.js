@@ -36,7 +36,7 @@ var bumpHelper = {
       height: response.viz.height,
     } ;
 
-    collisionDetect.pixelwise(col) ;
+    $Z.helper.collision.pixelwise(col) ;
     
     return col.collision.count > 0 ;
 

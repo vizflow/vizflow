@@ -127,7 +127,7 @@ var vizHelper = {
 
 	    collision: null,
 
-	    collision_detect: collisionDetect.pixelwise, // pixel-wise collision detection works for any shape and can be used on lower resolution masks compared to the display images
+	    collision_detect: $Z.helper.collision.pixelwise, // pixel-wise collision detection works for any shape and can be used on lower resolution masks compared to the display images
 
 	    prep: function viz_prep () {
 

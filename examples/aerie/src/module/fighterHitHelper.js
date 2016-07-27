@@ -6,7 +6,7 @@ var hitHelper = {
     width: null, 
     height: null, 
     item: [null, null], 
-    detect: collisionDetect.pixelwise,
+    detect: $Z.helper.collision.pixelwise,
   },
 
   source: {  // temporary variable used by collision()

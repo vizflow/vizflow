@@ -23,7 +23,7 @@ var scoreHelper = {
     viz.score.change = scoreConfig.change       || [100] ;
     viz.score.level  = scoreConfig.level        || 0 ;
 
-    // var scoreSprite = spriteHelper.foreach(spriteHelper.get(canvas, rowName, tileWidth, rowHeight), imageHelper.get_original) ;
+    // var scoreSprite = $Z.helper.sprite.foreach($Z.helper.sprite.get(canvas, rowName, tileWidth, rowHeight), imageHelper.get_original) ;
 
     viz.score.config = {
 

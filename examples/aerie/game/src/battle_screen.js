@@ -111,7 +111,7 @@ function battle_screen() {
         var height  = [tileHeight, tileHeight, tileHeight, tileHeight, tileHeight, tileHeight] ;
 
         maxHeight = Math.max.apply(null, height) ;
-        var spriteset = spriteHelper.get(i, rowName, width, height) ;
+        var spriteset = $Z.helper.sprite.get(i, rowName, width, height) ;
 
         var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0].originalCanvas, { x: 0, y: 0, width: spriteset.attack[0].originalCanvas.width * 0.1, height: maxHeight } ) ;
         var thrustCollisionCanvas                = imageHelper.clear_rect (spriteset.thrust[1].originalCanvas, { x: 0, y: 0, width: spriteset.thrust[1].originalCanvas.width * 0.1, height: maxHeight } ) ;
@@ -202,7 +202,7 @@ function battle_screen() {
           var height    = [enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight] ;
           maxHeight = Math.max.apply(null, height) ;
 
-          var spriteset = spriteHelper.get(i, rowName, width, height) ;
+          var spriteset = $Z.helper.sprite.get(i, rowName, width, height) ;
 
           var attackCollisionCanvas = imageHelper.clear_rect (
             spriteset.attack[1].originalCanvas, 
@@ -288,7 +288,7 @@ function battle_screen() {
             var rowName = ['push'] ;
             var width = [moveButtonWidth] ;
             var height = [moveButtonHeight] ;
-            var spriteset = spriteHelper.get(i, rowName, width, height) ;
+            var spriteset = $Z.helper.sprite.get(i, rowName, width, height) ;
            // console.log('spriteloader left button') 
             return spriteset ;
         },
@@ -304,7 +304,7 @@ function battle_screen() {
             var rowName = ['push'] ;
             var width = [moveButtonWidth] ;
             var height = [moveButtonHeight] ;
-            var spriteset = spriteHelper.get(i, rowName, width, height) ;
+            var spriteset = $Z.helper.sprite.get(i, rowName, width, height) ;
             
             return spriteset ;     
         },    
@@ -319,7 +319,7 @@ function battle_screen() {
             var rowName = ['push'] ;
             var width = [actionButtonWidth] ;
             var height = [actionButtonHeight] ;
-            var spriteset = spriteHelper.get(i, rowName, width, height) ;
+            var spriteset = $Z.helper.sprite.get(i, rowName, width, height) ;
             
             return spriteset ; 
         },    
@@ -334,7 +334,7 @@ function battle_screen() {
             var rowName = ['push'] ;
             var width = [actionButtonWidth] ;
             var height = [actionButtonHeight] ;
-            var spriteset = spriteHelper.get(i, rowName, width, height) ;
+            var spriteset = $Z.helper.sprite.get(i, rowName, width, height) ;
             
             return spriteset ;
         },    
@@ -349,7 +349,7 @@ function battle_screen() {
             var rowName = ['push'] ;
             var width = [actionButtonWidth] ;
             var height = [actionButtonHeight] ;
-            var spriteset = spriteHelper.get(i, rowName, width, height) ;
+            var spriteset = $Z.helper.sprite.get(i, rowName, width, height) ;
             
             return spriteset ;       
         },    
@@ -363,7 +363,7 @@ function battle_screen() {
             var rowName = ['push'] ;
             var width = 46 ;
             var height = 44;
-            var spriteset = spriteHelper.get(i, rowName, width, height) ;
+            var spriteset = $Z.helper.sprite.get(i, rowName, width, height) ;
             
             return spriteset ;        
         },    

@@ -1,4 +1,4 @@
-var spriteHelper = {
+var $Z.helper.sprite = {
 
 	foreach: function sprite_helper_foreach (spriteSet, func) {
 
@@ -33,8 +33,8 @@ var spriteHelper = {
 			return canvas.height ;
 		}
 
-		widthSet = spriteHelper.foreach(spriteSet, get_width) ;
-		heightSet = spriteHelper.foreach(spriteSet, get_height) ;
+		widthSet = $Z.helper.sprite.foreach(spriteSet, get_width) ;
+		heightSet = $Z.helper.sprite.foreach(spriteSet, get_height) ;
 
 		var spriteCount = 0 ; // initialize
 		var totalWidth = 0 ; // initialize
@@ -134,7 +134,7 @@ var spriteHelper = {
 		for(var krow = 0 ; krow < Nrow ; krow++) { // one sprite per row
 			var row     = [] ; // initialize array to store the sprite
 			var Ntile   = Math.floor(canvas.width / tileWidth[krow]) ;
-			// console.log('spriteHelper get:', 'rowName[krow]', rowName[krow], 'krow', krow, 'Ntile', Ntile) ;
+			// console.log('$Z.helper.sprite get:', 'rowName[krow]', rowName[krow], 'krow', krow, 'Ntile', Ntile) ;
 			for(var kcol = 0 ; kcol < Ntile ; kcol++) {
 				if(paddingSwitch) {
 					var tile = imageHelper.create(tileWidth[krow], maxHeight) ;					
@@ -150,16 +150,16 @@ var spriteHelper = {
 				}
 				// console.log('spiteHelper get:', 'sx, sy, tile.width, tile.height, 0, maxHeight - rowHeight[krow], tile.width, tile.height', sx, sy, tile.width, tile.height, 0, maxHeight - rowHeight[krow], tile.width, tile.height) ;
 				var tileData = get_image_data(tile) ;
-				var isBlank  = spriteHelper.is_blank(tileData) ;
-				// console.log('spriteHelper get:', 'rowName[krow]', rowName[krow], 'kcol', kcol, 'tileData', tileData, 'isBlank', isBlank) ;
+				var isBlank  = $Z.helper.sprite.is_blank(tileData) ;
+				// console.log('$Z.helper.sprite get:', 'rowName[krow]', rowName[krow], 'kcol', kcol, 'tileData', tileData, 'isBlank', isBlank) ;
 				if(isBlank) {
 					break ;
 				}
 	  		tile = imageHelper.adjust_ratio(tile) ;
-	  		// console.log('spriteHelper get', 'tileCanvas', tile) ;				
+	  		// console.log('$Z.helper.sprite get', 'tileCanvas', tile) ;				
 				row.push(tile) ;
 			}
-			// console.log('spriteHelper get:', 'krow', krow, 'row', row, 'tile.width', tile.width, 'tile.height', tile.height, 'maxHeight', maxHeight, 'rowHeight', rowHeight) ;
+			// console.log('$Z.helper.sprite get:', 'krow', krow, 'row', row, 'tile.width', tile.width, 'tile.height', tile.height, 'maxHeight', maxHeight, 'rowHeight', rowHeight) ;
 			spriteSet[rowName[krow]] = row ;
 			sy += rowHeight[krow] ;
 		}
@@ -171,7 +171,7 @@ var spriteHelper = {
 	get_text: function sprite_helper_get_text (url, width, height) {
 		var canvas = imageHelper.to_canvas(url) ;
 		var alpha  = "0123456789abcdefghijklmnopqrstuvwxyz".split("") ;
-    return spriteHelper.get(canvas, alpha, width, height) ;		
+    return $Z.helper.sprite.get(canvas, alpha, width, height) ;		
 	},
 	
 	horizontal_flip: function sprite_helper_horizontal_flip (spriteSet) {
@@ -185,7 +185,7 @@ var spriteHelper = {
 
 	    if ( spriteSet[ key[k] ].constructor === Array ) {
 
-	      newSet[ key[k] ] = spriteHelper.flip_sprite( spriteSet[ key[k] ] ) ;
+	      newSet[ key[k] ] = $Z.helper.sprite.flip_sprite( spriteSet[ key[k] ] ) ;
 
 	    } else {
 	      newSet [ key[k] ] = spriteSet[ key[k] ] ;

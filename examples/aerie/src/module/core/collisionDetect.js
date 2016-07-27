@@ -1,4 +1,4 @@
-var collisionDetect = {
+var $Z.helper.collision = {
 
   Nval: null,
 
@@ -18,19 +18,19 @@ var collisionDetect = {
     var Nchannel = 2 ; // max 2 items per collision pixel
     var Nval     = Npel * Nchannel ;
 
-    if(collisionDetect.Nval !== Nval) {
+    if($Z.helper.collision.Nval !== Nval) {
 
-      collisionDetect.image = new Array(Nval) ; 
+      $Z.helper.collision.image = new Array(Nval) ; 
 
     } else {
 
-      for(var kPel = 0 ; kPel < collisionDetect.image.length ; kPel++) {
-        collisionDetect.image[kPel] = undefined ; // initialize
+      for(var kPel = 0 ; kPel < $Z.helper.collision.image.length ; kPel++) {
+        $Z.helper.collision.image[kPel] = undefined ; // initialize
       }
 
     }
 
-    var img = collisionDetect.image ;
+    var img = $Z.helper.collision.image ;
 
     var collision = {} ; // initialize output object
 
@@ -51,7 +51,7 @@ var collisionDetect = {
 
       // collision.detect[item[kItem]] = {} ; // initialize
 
-      // console.log('collisionDetect pixelwise', 'kItem', kItem) ;
+      // console.log('$Z.helper.collision pixelwise', 'kItem', kItem) ;
 
       if (item[kItem].inert !== undefined && item[kItem].inert) {
         continue ;

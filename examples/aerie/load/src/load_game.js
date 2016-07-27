@@ -144,7 +144,7 @@ function load_game () {
 
       // var width = 320 ;    
       // var height = 240;
-      // var sprite = spriteHelper.get(imageHelper.to_canvas('./image/aerie_title.png'), ['bg'], width, height) ;
+      // var sprite = $Z.helper.sprite.get(imageHelper.to_canvas('./image/aerie_title.png'), ['bg'], width, height) ;
 
       // viz.title = {
 
