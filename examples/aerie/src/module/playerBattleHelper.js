@@ -258,8 +258,8 @@ var playerBattleHelper = {
             transitionFunc = player.transitionSet.block ;
           }
 
-          var loop = $Z.helper.sprite.animate(
-
+          var loop = $Z.helper.sprite.animate_loop(
+            {},
             player.sprite.block,
             transitionFunc,
             function() {} // buttonpress.reset
@@ -298,8 +298,8 @@ var playerBattleHelper = {
             transitionFunc = player.transitionSet.attack ;
           }
 
-          var loop = $Z.helper.sprite.animate(
-            // player.loop.attack,
+          var loop = $Z.helper.sprite.animate_loop(
+            {},// player.loop.attack,
             player.sprite.attack,
             transitionFunc,
             undefined,
@@ -309,7 +309,7 @@ var playerBattleHelper = {
 
           player.loop.attack.position = loop.position ;
           transition                  = loop.animation ;
-          // console.log('player battle helper update attack case', 'transition', transition) ;
+          console.log('player battle helper update attack case', 'transition', transition, 'loop', loop) ;
           var replacementSwitch = true ;
           var finalFrame  = player.sprite.rest[0] ;
 
@@ -335,7 +335,7 @@ var playerBattleHelper = {
             transitionFunc = player.transitionSet.thrust ;
           }
 
-          var loop = $Z.helper.sprite.animate(
+          var loop = $Z.helper.sprite.animate_loop(
             player.loop.thrust,
             player.sprite.thrust,
             transitionFunc,
@@ -372,7 +372,7 @@ var playerBattleHelper = {
             transitionFunc = player.transitionSet.finisher ;
           }
 
-          var loop = $Z.helper.sprite.animate(
+          var loop = $Z.helper.sprite.animate_loop(
             player.loop.finisher,
             player.sprite.finisher,
             transitionFunc,

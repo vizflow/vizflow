@@ -4642,7 +4642,7 @@ $__System.register("4e", ["43"], function (_export) {
           // console.log('animate_loop:', 'Nframe', Nframe, 'kpos', kPos, 'loop', loop, 'body', body, 'head', head, 'tail', tail) ;
 
           loopOutput.position = (loopOutput.position + loopConfig.Nstep) % Nframe;
-          loopOutput.animation = animate(loop, create_transition, callback);
+          loopOutput.animation = $Z.helper.sprite.animate(loop, create_transition, callback);
           // loopOutput.animation[0].duration = 1 ; // show first frame immediately
 
           return loopOutput;

@@ -296,7 +296,7 @@ var itemHelper = {
       // } ;
       // // console.log('effect flash 12') ;
 
-      // var loop = $Z.helper.sprite.animate (loopConfig, valueList, create_transition) ;
+      // var loop = $Z.helper.sprite.animate_loop (loopConfig, valueList, create_transition) ;
 
       item.add_transition(flash) ;
 

@@ -58,8 +58,8 @@ var enemyBattleHelper = {
           } else {
             transitionFunc = enemy.transitionSet.attack ;
           }
-          var loop = $Z.helper.sprite.animate(
-            // enemy.loop.attack,
+          var loop = $Z.helper.sprite.animate_loop(
+            {}, // enemy.loop.attack,
             enemy.sprite.attack,
             transitionFunc,
             undefined,
@@ -95,7 +95,7 @@ var enemyBattleHelper = {
           } else {
             transitionFunc = enemy.transitionSet.hit ;
           }
-          // var loop = $Z.helper.sprite.animate(
+          // var loop = $Z.helper.sprite.animate_loop(
           //   enemy.loop.hit,
           //   enemy.sprite.hit,
           //   transitionFunc,
@@ -141,8 +141,8 @@ var enemyBattleHelper = {
             transitionFunc = enemy.transitionSet.tailattack ;
           }
 
-          var loop = $Z.helper.sprite.animate(
-            // enemy.loop.tailattack,
+          var loop = $Z.helper.sprite.animate_loop(
+            {},// enemy.loop.tailattack,
             enemy.sprite.tailattack,
             transitionFunc,
             undefined,
@@ -230,8 +230,8 @@ var enemyBattleHelper = {
         transitionFunc = enemy.transitionSet.rest ;
       }
 
-      var loop = $Z.helper.sprite.animate(
-        // enemy.loop.rest,
+      var loop = $Z.helper.sprite.animate_loop(
+        {},// enemy.loop.rest,
         enemy.sprite.rest,
         transitionFunc,
         undefined,
