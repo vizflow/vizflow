@@ -1,6 +1,6 @@
 function block_copy (sourceImageData, ratio) {
 
-  var destImage = imageHelper.create(sourceImageData.width * ratio, sourceImageData.height * ratio) ;
+  var destImage = $Z.helper.image.create(sourceImageData.width * ratio, sourceImageData.height * ratio) ;
   var destImageContext = destImage.context() ;
   var destImageData = destImageContext.getImageData(0, 0, destImage.width, destImage.height) ;
    

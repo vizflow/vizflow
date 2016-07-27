@@ -183,7 +183,7 @@ var hitHelper = {
       viz = this ;
     }
 
-    var endImage = imageHelper.adjust_ratio(imageHelper.to_canvas('./image/game_over.png')) ;
+    var endImage = $Z.helper.image.adjust_ratio($Z.helper.image.to_canvas('./image/game_over.png')) ;
 
     var endItem = $Z.helper.item.setup({ 
 
@@ -235,7 +235,7 @@ var hitHelper = {
       viz = this ;
     }
 
-    var endImage = imageHelper.adjust_ratio(imageHelper.to_canvas('./image/you_win.png')) ;
+    var endImage = $Z.helper.image.adjust_ratio($Z.helper.image.to_canvas('./image/you_win.png')) ;
 
     var endItem = $Z.helper.item.setup({ 
 

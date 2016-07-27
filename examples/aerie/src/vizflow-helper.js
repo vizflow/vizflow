@@ -1792,7 +1792,7 @@ $__System.register('41', [], function (_export) {
   };
 });
 $__System.register("42", ["43"], function (_export) {
-  var _Object$keys, $Z.helper.collision;
+  var _Object$keys, collisionDetect;
 
   return {
     setters: [function (_) {
@@ -1801,7 +1801,7 @@ $__System.register("42", ["43"], function (_export) {
     execute: function () {
       "use strict";
 
-      $Z.helper.collision = {
+      collisionDetect = {
 
         Nval: null,
 
@@ -1821,17 +1821,17 @@ $__System.register("42", ["43"], function (_export) {
           var Nchannel = 2; // max 2 items per collision pixel
           var Nval = Npel * Nchannel;
 
-          if ($Z.helper.collision.Nval !== Nval) {
+          if (collisionDetect.Nval !== Nval) {
 
-            $Z.helper.collision.image = new Array(Nval);
+            collisionDetect.image = new Array(Nval);
           } else {
 
-            for (var kPel = 0; kPel < $Z.helper.collision.image.length; kPel++) {
-              $Z.helper.collision.image[kPel] = undefined; // initialize
+            for (var kPel = 0; kPel < collisionDetect.image.length; kPel++) {
+              collisionDetect.image[kPel] = undefined; // initialize
             }
           }
 
-          var img = $Z.helper.collision.image;
+          var img = collisionDetect.image;
 
           var collision = {}; // initialize output object
 
@@ -1852,7 +1852,7 @@ $__System.register("42", ["43"], function (_export) {
 
             // collision.detect[item[kItem]] = {} ; // initialize
 
-            // console.log('$Z.helper.collision pixelwise', 'kItem', kItem) ;
+            // console.log('collisionDetect pixelwise', 'kItem', kItem) ;
 
             if (item[kItem].inert !== undefined && item[kItem].inert) {
               continue;
@@ -1991,7 +1991,7 @@ $__System.register("42", ["43"], function (_export) {
 
       };
 
-      _export("default", $Z.helper.collision);
+      _export("default", collisionDetect);
     }
   };
 });

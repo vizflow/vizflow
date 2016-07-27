@@ -2,7 +2,7 @@ function battle_screen() {
   
     var vizConfig = {
 
-        image: imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/battlescreen_background.png')),
+        image: $Z.helper.image.adjust_ratio ($Z.helper.image.to_canvas ('./image/battlescreen_background.png')),
         frameDurationFactor: 3,
         music: './audio/bgm1.wav',
         
@@ -45,7 +45,7 @@ function battle_screen() {
     var scaleDur = 2000 ;
 
     var cloudsConfig = {
-        image: imageHelper.adjust_ratio (imageHelper.to_canvas('./image/battlescreen_clouds.png')),
+        image: $Z.helper.image.adjust_ratio ($Z.helper.image.to_canvas('./image/battlescreen_clouds.png')),
         x: 330,
         y: -30,
     } ;
@@ -105,7 +105,7 @@ function battle_screen() {
         }, 
 
         sprite_loader: function() {
-        var i = imageHelper.to_canvas('./image/knight_battle_spritesheet.png') ;
+        var i = $Z.helper.image.to_canvas('./image/knight_battle_spritesheet.png') ;
         var rowName = ['attack', 'block', 'finisher', 'hit', 'rest', 'thrust'] ;
         var width   = [tileWidth, tileWidth, tileWidth, tileWidth, tileWidth, tileWidth] ;
         var height  = [tileHeight, tileHeight, tileHeight, tileHeight, tileHeight, tileHeight] ;
@@ -113,9 +113,9 @@ function battle_screen() {
         maxHeight = Math.max.apply(null, height) ;
         var spriteset = $Z.helper.sprite.get(i, rowName, width, height) ;
 
-        var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0].originalCanvas, { x: 0, y: 0, width: spriteset.attack[0].originalCanvas.width * 0.1, height: maxHeight } ) ;
-        var thrustCollisionCanvas                = imageHelper.clear_rect (spriteset.thrust[1].originalCanvas, { x: 0, y: 0, width: spriteset.thrust[1].originalCanvas.width * 0.1, height: maxHeight } ) ;
-        var finisherCollisionCanvas              = imageHelper.clear_rect (spriteset.finisher[1].originalCanvas, { x: 0, y: 0, width: spriteset.finisher[1].originalCanvas.width * 0.1, height: maxHeight } ) ;
+        var attackCollisionCanvas                = $Z.helper.image.clear_rect (spriteset.attack[0].originalCanvas, { x: 0, y: 0, width: spriteset.attack[0].originalCanvas.width * 0.1, height: maxHeight } ) ;
+        var thrustCollisionCanvas                = $Z.helper.image.clear_rect (spriteset.thrust[1].originalCanvas, { x: 0, y: 0, width: spriteset.thrust[1].originalCanvas.width * 0.1, height: maxHeight } ) ;
+        var finisherCollisionCanvas              = $Z.helper.image.clear_rect (spriteset.finisher[1].originalCanvas, { x: 0, y: 0, width: spriteset.finisher[1].originalCanvas.width * 0.1, height: maxHeight } ) ;
         
         spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
         spriteset.thrust[1].sourceCollisionImage = thrustCollisionCanvas ;
@@ -124,7 +124,7 @@ function battle_screen() {
         spriteset.finisher[3].sourceCollisionImage = finisherCollisionCanvas ;
         spriteset.finisher[4].sourceCollisionImage = finisherCollisionCanvas ;    
 
- // imageHelper.view(spriteset.finisher[4].sourceCollisionImage ) ;
+ // $Z.helper.image.view(spriteset.finisher[4].sourceCollisionImage ) ;
 
         return spriteset ;
 
@@ -196,7 +196,7 @@ function battle_screen() {
 
         sprite_loader: function() {
 
-          var i         = imageHelper.to_canvas('./image/monster_spritesheet.png') ;
+          var i         = $Z.helper.image.to_canvas('./image/monster_spritesheet.png') ;
           var rowName   = ['attack', 'block', 'hindattack', 'hit', 'rest', 'snortattack', 'tailattack'] ;
           var width     = [enemyTileWidth, enemyTileWidth, enemyTileWidth, enemyTileWidth, enemyTileWidth, enemyTileWidth, enemyTileWidth] ;
           var height    = [enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight, enemyTileHeight] ;
@@ -204,22 +204,22 @@ function battle_screen() {
 
           var spriteset = $Z.helper.sprite.get(i, rowName, width, height) ;
 
-          var attackCollisionCanvas = imageHelper.clear_rect (
+          var attackCollisionCanvas = $Z.helper.image.clear_rect (
             spriteset.attack[1].originalCanvas, 
             { x: 100, y: 0, width: spriteset.attack[1].originalCanvas.width * 0.5, height: maxHeight } 
           ) ;
 
-          var tailAttackCollisionCanvas = imageHelper.clear_rect (
+          var tailAttackCollisionCanvas = $Z.helper.image.clear_rect (
             spriteset.tailattack[2].originalCanvas, 
             { x: 0, y: 0, width: spriteset.tailattack[0].originalCanvas.width * 0.1, height: maxHeight } 
           ) ;
 
-          // var hindAttackCollisionCanvas = imageHelper.clear_rect (
+          // var hindAttackCollisionCanvas = $Z.helper.image.clear_rect (
           //   spriteset.hindattack[2].originalCanvas, 
           //   { x: 0, y: 0, width: spriteset.hindattack[2].originalCanvas.width * 0.5, height: maxHeight } 
           // ) ;
 
-          // var snortAttackCollisionCanvas = imageHelper.clear_rect (
+          // var snortAttackCollisionCanvas = $Z.helper.image.clear_rect (
           //   spriteset.snortattack[1].originalCanvas, 
           //   { x: 70, y: 0, width: spriteset.snortattack[1].originalCanvas.width * 0.8, height: maxHeight } 
           // ) ;
@@ -235,7 +235,7 @@ function battle_screen() {
           // item.white.childFade = true ;
           spriteset.hitOverlay = white ;
 
-     // imageHelper.view(hindAttackCollisionCanvas) ;
+     // $Z.helper.image.view(hindAttackCollisionCanvas) ;
           return spriteset ;
 
         },    
@@ -257,13 +257,13 @@ function battle_screen() {
     viz.player = playerBattleHelper.setup(viz) ;
 
     var heroHealthConfig = {
-        image:  imageHelper.adjust_ratio (imageHelper.to_canvas('./image/hero.png')),
+        image:  $Z.helper.image.adjust_ratio ($Z.helper.image.to_canvas('./image/hero.png')),
         x: 12,
         y: 28,
     } ;
 
     var monsterHealthConfig = {
-        image:  imageHelper.adjust_ratio (imageHelper.to_canvas('./image/monster.png')),
+        image:  $Z.helper.image.adjust_ratio ($Z.helper.image.to_canvas('./image/monster.png')),
         x: 10,
         y: 8,
     } ;
@@ -284,7 +284,7 @@ function battle_screen() {
     leftButtonConfig = {
         
         sprite_loader: function() {
-            var i = imageHelper.to_canvas ('./image/left_button_spritesheet.png') ;
+            var i = $Z.helper.image.to_canvas ('./image/left_button_spritesheet.png') ;
             var rowName = ['push'] ;
             var width = [moveButtonWidth] ;
             var height = [moveButtonHeight] ;
@@ -300,7 +300,7 @@ function battle_screen() {
 
     rightButtonConfig = {
         sprite_loader: function() {
-            var i = imageHelper.to_canvas ('./image/right_button_spritesheet.png') ;
+            var i = $Z.helper.image.to_canvas ('./image/right_button_spritesheet.png') ;
             var rowName = ['push'] ;
             var width = [moveButtonWidth] ;
             var height = [moveButtonHeight] ;
@@ -315,7 +315,7 @@ function battle_screen() {
 
     thrustButtonConfig = {
             sprite_loader: function() {
-            var i = imageHelper.to_canvas ('./image/thrust_button_spritesheet.png') ;
+            var i = $Z.helper.image.to_canvas ('./image/thrust_button_spritesheet.png') ;
             var rowName = ['push'] ;
             var width = [actionButtonWidth] ;
             var height = [actionButtonHeight] ;
@@ -330,7 +330,7 @@ function battle_screen() {
 
     finisherButtonConfig = {
         sprite_loader: function() {
-            var i = imageHelper.to_canvas ('./image/finisher_button_spritesheet.png') ;
+            var i = $Z.helper.image.to_canvas ('./image/finisher_button_spritesheet.png') ;
             var rowName = ['push'] ;
             var width = [actionButtonWidth] ;
             var height = [actionButtonHeight] ;
@@ -345,7 +345,7 @@ function battle_screen() {
 
     slashButtonConfig = {
         sprite_loader: function() {
-            var i = imageHelper.to_canvas ('./image/slash_button_spritesheet.png') ;
+            var i = $Z.helper.image.to_canvas ('./image/slash_button_spritesheet.png') ;
             var rowName = ['push'] ;
             var width = [actionButtonWidth] ;
             var height = [actionButtonHeight] ;
@@ -359,7 +359,7 @@ function battle_screen() {
 
     blockButtonConfig = {
         sprite_loader: function() {
-            var i = imageHelper.to_canvas ('./image/block_button_spritesheet.png') ;
+            var i = $Z.helper.image.to_canvas ('./image/block_button_spritesheet.png') ;
             var rowName = ['push'] ;
             var width = 46 ;
             var height = 44;
@@ -371,7 +371,7 @@ function battle_screen() {
         y: 110,    
     } ;    
 
-    var uiCanvas = imageHelper.create(viz.width, viz.height) ;
+    var uiCanvas = $Z.helper.image.create(viz.width, viz.height) ;
     var uiConfig = {
 
         canvas:   uiCanvas,

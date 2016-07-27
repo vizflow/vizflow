@@ -23,13 +23,13 @@ var scoreHelper = {
     viz.score.change = scoreConfig.change       || [100] ;
     viz.score.level  = scoreConfig.level        || 0 ;
 
-    // var scoreSprite = $Z.helper.sprite.foreach($Z.helper.sprite.get(canvas, rowName, tileWidth, rowHeight), imageHelper.get_original) ;
+    // var scoreSprite = $Z.helper.sprite.foreach($Z.helper.sprite.get(canvas, rowName, tileWidth, rowHeight), $Z.helper.image.get_original) ;
 
     viz.score.config = {
 
       text: viz.score.value,
-      image: imageHelper.text2image,
-      sprite: imageHelper.text_sprite(scoreConfig.sprite),
+      image: $Z.helper.image.text2image,
+      sprite: $Z.helper.image.text_sprite(scoreConfig.sprite),
 
     } ;
 
@@ -50,7 +50,7 @@ var scoreHelper = {
     viz.score.set() ;
     viz.score.add() ; // add item
 
-    // imageHelper.view(viz.player.score.image) ;
+    // $Z.helper.image.view(viz.player.score.image) ;
   
   },
 	

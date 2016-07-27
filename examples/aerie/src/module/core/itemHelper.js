@@ -105,7 +105,7 @@ var itemHelper = {
         item.child = [] ; // initialize
       }
 
-      var white = imageEffectHelper.color_filter(item.image, [255, 255, 255]) ;
+      var white = image$Z.helper.effect.color_filter(item.image, [255, 255, 255]) ;
 
       item.white       = Object.copy(item) ;
       item.white.child = undefined ;
@@ -296,7 +296,7 @@ var itemHelper = {
       // } ;
       // // console.log('effect flash 12') ;
 
-      // var loop = animate_loop (loopConfig, valueList, create_transition) ;
+      // var loop = $Z.helper.sprite.animate (loopConfig, valueList, create_transition) ;
 
       item.add_transition(flash) ;
 
@@ -370,7 +370,7 @@ var itemHelper = {
         }
       }
 
-      var newTransition = imageEffectHelper.fade_transition(fadeConfig) ;
+      var newTransition = image$Z.helper.effect.fade_transition(fadeConfig) ;
 
       // console.log('fade', 'newTransition', newTransition, 'item', item, 'fadeConfig', fadeConfig) ;
 

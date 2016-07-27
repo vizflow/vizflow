@@ -16,11 +16,11 @@ var playerBattleHelper = {
 
     } ;
 
-    var healthbarImage  = imageHelper.create(healthbarConfig.width, healthbarConfig.height) ;
+    var healthbarImage  = $Z.helper.image.create(healthbarConfig.width, healthbarConfig.height) ;
 
     $Z.helper.draw.rect(healthbarConfig, healthbarImage.context() ) ; // draw the non-upsampled healthbar to a canvas
 
-    healthbarImage  = imageHelper.adjust_ratio( healthbarImage ) ;
+    healthbarImage  = $Z.helper.image.adjust_ratio( healthbarImage ) ;
 
     return healthbarImage ;
 
@@ -258,7 +258,7 @@ var playerBattleHelper = {
             transitionFunc = player.transitionSet.block ;
           }
 
-          var loop = animate_loop(
+          var loop = $Z.helper.sprite.animate(
 
             player.sprite.block,
             transitionFunc,
@@ -298,7 +298,7 @@ var playerBattleHelper = {
             transitionFunc = player.transitionSet.attack ;
           }
 
-          var loop = animate_loop(
+          var loop = $Z.helper.sprite.animate(
             player.loop.attack,
             player.sprite.attack,
             transitionFunc,
@@ -334,7 +334,7 @@ var playerBattleHelper = {
             transitionFunc = player.transitionSet.thrust ;
           }
 
-          var loop = animate_loop(
+          var loop = $Z.helper.sprite.animate(
             player.loop.thrust,
             player.sprite.thrust,
             transitionFunc,
@@ -371,7 +371,7 @@ var playerBattleHelper = {
             transitionFunc = player.transitionSet.finisher ;
           }
 
-          var loop = animate_loop(
+          var loop = $Z.helper.sprite.animate(
             player.loop.finisher,
             player.sprite.finisher,
             transitionFunc,

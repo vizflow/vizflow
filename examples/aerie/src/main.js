@@ -43,7 +43,7 @@ document.image = [
 	  
 document.audio = [
 
-// './audio/bgm1.wav',
+'./audio/bgm1.wav',
 './audio/slash.wav',
 './audio/shield.wav',
 './audio/thrust.wav',
@@ -58,7 +58,7 @@ document.audio = [
 
 document.skipIndex = 0 ;
 
-imageLoader.preload ( document.image, function preload_audio() {
+$Z.helper.loader.image.preload ( document.image, function preload_audio() {
   console.log('main.js: preload_audio') ;
 	$Z.helper.loader.audio.preload( 
 		document.audio, 

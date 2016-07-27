@@ -57,7 +57,7 @@ var $Z.helper.sprite = {
 
 		// console.log('totalHeight', totalHeight)
 
-		var canvas  = imageHelper.create(totalWidth, totalHeight) ;
+		var canvas  = $Z.helper.image.create(totalWidth, totalHeight) ;
 		var context = canvas.context() ;
 
 		var offsetY = 0 ;
@@ -77,7 +77,7 @@ var $Z.helper.sprite = {
 			offsetY += height.shift() ;
 		}
 
-		imageHelper.view(canvas) ;
+		$Z.helper.image.view(canvas) ;
 
 	},
 
@@ -105,7 +105,7 @@ var $Z.helper.sprite = {
 
 	get: function sprite_helper_get (canvas, rowName, tileWidth, rowHeight, paddingSwitch) {
 
-		// imageHelper.view(canvas) ;
+		// $Z.helper.image.view(canvas) ;
 
 		if(paddingSwitch === undefined) {
 			paddingSwitch = true ;
@@ -137,9 +137,9 @@ var $Z.helper.sprite = {
 			// console.log('$Z.helper.sprite get:', 'rowName[krow]', rowName[krow], 'krow', krow, 'Ntile', Ntile) ;
 			for(var kcol = 0 ; kcol < Ntile ; kcol++) {
 				if(paddingSwitch) {
-					var tile = imageHelper.create(tileWidth[krow], maxHeight) ;					
+					var tile = $Z.helper.image.create(tileWidth[krow], maxHeight) ;					
 				} else {
-					var tile = imageHelper.create(tileWidth[krow], rowHeight[krow]) ;										
+					var tile = $Z.helper.image.create(tileWidth[krow], rowHeight[krow]) ;										
 				}
 				var tileCtx = tile.context() ;
 				var sx      = kcol * tile.width ;
@@ -155,7 +155,7 @@ var $Z.helper.sprite = {
 				if(isBlank) {
 					break ;
 				}
-	  		tile = imageHelper.adjust_ratio(tile) ;
+	  		tile = $Z.helper.image.adjust_ratio(tile) ;
 	  		// console.log('$Z.helper.sprite get', 'tileCanvas', tile) ;				
 				row.push(tile) ;
 			}
@@ -169,7 +169,7 @@ var $Z.helper.sprite = {
 	},
 
 	get_text: function sprite_helper_get_text (url, width, height) {
-		var canvas = imageHelper.to_canvas(url) ;
+		var canvas = $Z.helper.image.to_canvas(url) ;
 		var alpha  = "0123456789abcdefghijklmnopqrstuvwxyz".split("") ;
     return $Z.helper.sprite.get(canvas, alpha, width, height) ;		
 	},
@@ -203,18 +203,18 @@ var $Z.helper.sprite = {
 
 		for ( var kFrame = 0 ; kFrame < sprite.length ; kFrame++ ) {
 
-			spriteFlip[kFrame] = imageHelper.flip_image ( sprite[kFrame] ) ;
+			spriteFlip[kFrame] = $Z.helper.image.flip_image ( sprite[kFrame] ) ;
 
 	    if(sprite[kFrame].originalCanvas !== undefined) {
-	      spriteFlip[kFrame].originalCanvas = imageHelper.flip_image( sprite[kFrame].originalCanvas ) ;
+	      spriteFlip[kFrame].originalCanvas = $Z.helper.image.flip_image( sprite[kFrame].originalCanvas ) ;
 	    }
 	     			
 	    if(sprite[kFrame].sourceCollisionImage !== undefined) {
-	      spriteFlip[kFrame].sourceCollisionImage = imageHelper.flip_image( sprite[kFrame].sourceCollisionImage ) ;
+	      spriteFlip[kFrame].sourceCollisionImage = $Z.helper.image.flip_image( sprite[kFrame].sourceCollisionImage ) ;
 	    }
 
 	    if(sprite[kFrame].targetCollisionImage !== undefined) {
-	      spriteFlip[kFrame].targetCollisionImage = imageHelper.flip_image( sprite[kFrame].targetCollisionImage ) ;
+	      spriteFlip[kFrame].targetCollisionImage = $Z.helper.image.flip_image( sprite[kFrame].targetCollisionImage ) ;
 	    } else { // default target collision image is the same as the original
 	      spriteFlip[kFrame].targetCollisionImage = spriteFlip[kFrame] ;
 	    }

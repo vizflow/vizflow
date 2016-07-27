@@ -292,7 +292,7 @@ var hitHelper = {
 
       // console.log('hitHelper transition:', 'hitTransition', hitTransition) ;
 
-      // imageHelper.view(element.sprite.hit[0]) ;
+      // $Z.helper.image.view(element.sprite.hit[0]) ;
 
       var replacementSwitch = true ; // interrupt current player transitions due to response
       element.item.add_transition(hitTransition, replacementSwitch) ;
@@ -333,7 +333,7 @@ var hitHelper = {
     // console.log('hitDur', hitDur, 'Nstep', Nstep) ;
     var flashDuration = 100 ;
     element.item.flash(Nstep, flashDuration) ;
-    // var flash          = effectHelper.flash.call(element, hitDur / Nstep, Nstep).animation[0] ;
+    // var flash          = $Z.helper.effect.flash.call(element, hitDur / Nstep, Nstep).animation[0] ;
     // element.item.add_transition(flash) ;
 
   },

@@ -30,10 +30,10 @@ var vizHelper = {
 	  var fullWidth     = Math.floor(vizWidth * paddingFactor * ratio) ;  
 	  var fullHeight    = Math.floor(vizHeight * paddingFactor * ratio) ; 
 
-	  var vizCanvas     = imageHelper.create(vizWidth, vizHeight) ;         // model canvas (indepdenent of device pixel ratio)
-	  var fullCanvas    = imageHelper.create(fullWidth, fullHeight) ;     // fully upsampled canvas (dependent on device pixel ratio)
-	  var displayCanvas = imageHelper.create(displayWidth, displayHeight) ; // hidden display canvas (resized by devicePixelRatio, but not actually drawn to the screen)
-	  var screenCanvas  = imageHelper.create(displayWidth, displayHeight) ; // actual display canvas (drawn to screen once per step/cycle/frame of the animation engine)
+	  var vizCanvas     = $Z.helper.image.create(vizWidth, vizHeight) ;         // model canvas (indepdenent of device pixel ratio)
+	  var fullCanvas    = $Z.helper.image.create(fullWidth, fullHeight) ;     // fully upsampled canvas (dependent on device pixel ratio)
+	  var displayCanvas = $Z.helper.image.create(displayWidth, displayHeight) ; // hidden display canvas (resized by devicePixelRatio, but not actually drawn to the screen)
+	  var screenCanvas  = $Z.helper.image.create(displayWidth, displayHeight) ; // actual display canvas (drawn to screen once per step/cycle/frame of the animation engine)
 
 	  var fullContext    = fullCanvas.context() ; // model canvas (indepdenent of device pixel ratio)
 	  var vizContext     = vizCanvas.context() ;
@@ -52,7 +52,7 @@ var vizHelper = {
 
 	  var image ;
 	  if(vizConfig.loadingImageUrl !== undefined) {
-		  image = imageHelper.adjust_ratio(imageHelper.to_canvas(vizConfig.loadingImageUrl));
+		  image = $Z.helper.image.adjust_ratio($Z.helper.image.to_canvas(vizConfig.loadingImageUrl));
 		  // console.log('$Z.helper.viz, resize, to_canvas end') ;
 	  } 
 
@@ -108,8 +108,8 @@ var vizHelper = {
 	    add_transition: transitionHelper.add, 
 	    add_sequence: transitionHelper.add_sequence,
 	    remove_transition: transitionHelper.remove,
-	    fade:        imageEffectHelper.fade, 
-	    shake:       effectHelper.shake,  
+	    fade:        image$Z.helper.effect.fade, 
+	    shake:       $Z.helper.effect.shake,  
 	    setup_item:  $Z.helper.item.setup, 
 	    setup_ui:    uiHelper.setup,
 	    setup_score: scoreHelper.setup, //  score setup function for games (optional, don't have to use it for non-games)
@@ -206,8 +206,8 @@ var vizHelper = {
 
 	    },
 
-	    zoom: effectHelper.zoom,
-	    zoom_inout: effectHelper.zoom_inout,
+	    zoom: $Z.helper.effect.zoom,
+	    zoom_inout: $Z.helper.effect.zoom_inout,
 
 	    panX: function (dur, xNew) { 
 	      var trans = transitionHelper.sequence( xNew.map(function(x) {

@@ -24,7 +24,7 @@ function load_game () {
       viz = this ;
     }
 
-    var vizflowImage = imageHelper.adjust_ratio(imageHelper.to_canvas('./image/vizflow.png')) ;
+    var vizflowImage = $Z.helper.image.adjust_ratio($Z.helper.image.to_canvas('./image/vizflow.png')) ;
 
     var vizflowItem = $Z.helper.item.setup({ 
 
@@ -66,7 +66,7 @@ function load_game () {
     function start_text() {
 
       var startConfig = {
-        image:  imageHelper.adjust_ratio(imageHelper.to_canvas('./image/aerie_title.png')),
+        image:  $Z.helper.image.adjust_ratio($Z.helper.image.to_canvas('./image/aerie_title.png')),
         x: 0,
         y: -300,
         opacity: 0,
@@ -74,7 +74,7 @@ function load_game () {
 
       } ; 
       var startTextConfig = {
-        image:  imageHelper.adjust_ratio(imageHelper.to_canvas('./image/start.png')),
+        image:  $Z.helper.image.adjust_ratio($Z.helper.image.to_canvas('./image/start.png')),
         x: 130,
         y: 320,
         opacity: 1,
@@ -82,7 +82,7 @@ function load_game () {
       }  ;
 
       var swordConfig = {
-        image: imageHelper.adjust_ratio(imageHelper.to_canvas('./image/title_blade.png')),
+        image: $Z.helper.image.adjust_ratio($Z.helper.image.to_canvas('./image/title_blade.png')),
         x: 240,
         y: 76,
 
@@ -144,7 +144,7 @@ function load_game () {
 
       // var width = 320 ;    
       // var height = 240;
-      // var sprite = $Z.helper.sprite.get(imageHelper.to_canvas('./image/aerie_title.png'), ['bg'], width, height) ;
+      // var sprite = $Z.helper.sprite.get($Z.helper.image.to_canvas('./image/aerie_title.png'), ['bg'], width, height) ;
 
       // viz.title = {
 

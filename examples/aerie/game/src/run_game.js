@@ -26,15 +26,15 @@ function run_game() {
 
   var greenRect = Object.assign( Object.copy(blueRect), { color: greenish } ) ;
 
-  var blueRectImage  = imageHelper.create(size, size) ;
-  var greenRectImage = imageHelper.create(size, size) ;
+  var blueRectImage  = $Z.helper.image.create(size, size) ;
+  var greenRectImage = $Z.helper.image.create(size, size) ;
   var rectRatio      = 1 ;
 
   $Z.helper.draw.rect(blueRect,  blueRectImage.context(),  rectRatio) ; // draw the non-upsampled blue square to a canvas
   $Z.helper.draw.rect(greenRect, greenRectImage.context(), rectRatio) ; // draw the non-upsampled green square to a canvas
 
-  blueRectImage  = imageHelper.adjust_ratio( blueRectImage  ) ;
-  greenRectImage = imageHelper.adjust_ratio( greenRectImage ) ;
+  blueRectImage  = $Z.helper.image.adjust_ratio( blueRectImage  ) ;
+  greenRectImage = $Z.helper.image.adjust_ratio( greenRectImage ) ;
 
   // console.log('run game: ', 'blueRectImage', blueRectImage) ;
 
@@ -134,7 +134,7 @@ function run_game() {
 
   }
 
-  var uiCanvas = imageHelper.create(viz.width, viz.height) ;
+  var uiCanvas = $Z.helper.image.create(viz.width, viz.height) ;
 
   var uiConfig = {
 

@@ -125,7 +125,7 @@ var inputEvent = {
       $Z.helper.draw.indexed( viz.ui.item, viz.ui.canvas ) ;
 
       var color     = viz.ui.canvas.context().getImageData( xIn, yIn, 1, 1 ).data ;
-      var itemIndex = color[0] - 1 ; // color indexing used by imageHelper.to_index is 1-based
+      var itemIndex = color[0] - 1 ; // color indexing used by $Z.helper.image.to_index is 1-based
 
       if(itemIndex >= 0) { // user selected a user-interface item 
         viz.ui.item[itemIndex].callback() ;

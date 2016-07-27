@@ -33,7 +33,7 @@ var drawHelper = {
   indexed: function draw_helper_indexed(item, canvas, width, height) { // takes an array of items and draws them using indexed colors
 
     if(canvas === undefined) { 
-      var canvas  = imageHelper.create (width, height) ;
+      var canvas  = $Z.helper.image.create (width, height) ;
     } else {
       canvas.width = canvas.width // resets the canvas simiar to clearRect
     }
@@ -58,8 +58,8 @@ var drawHelper = {
         .context()
         .getImageData(0, 0, item[kItem].image.width, item[kItem].image.height) ;
 
-      var imageK     = imageHelper.to_index(imageDataK, kItem) ; // ImageData object
-      var tempCanvas = imageHelper.create(item[kItem].image.width, item[kItem].image.height) ;
+      var imageK     = $Z.helper.image.to_index(imageDataK, kItem) ; // ImageData object
+      var tempCanvas = $Z.helper.image.create(item[kItem].image.width, item[kItem].image.height) ;
 
       tempCanvas
         .context()
