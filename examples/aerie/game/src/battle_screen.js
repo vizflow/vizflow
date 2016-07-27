@@ -4,7 +4,7 @@ function battle_screen() {
 
         image: imageHelper.adjust_ratio (imageHelper.to_canvas ('./image/battlescreen_background.png')),
         frameDurationFactor: 3,
-        music:'./audio/bgm1.wav',
+        music: './audio/bgm1.wav',
         
         name: 'battle',
         width: 320,
@@ -12,7 +12,7 @@ function battle_screen() {
 
     } ;
     
-    viz = vizHelper.setup(vizConfig) ;
+    viz = $Z.helper.viz.setup(vizConfig) ;
 // console.log('vizConfig', vizConfig) ;
 
     viz.callback = function viz_callback(event) {
@@ -20,14 +20,16 @@ function battle_screen() {
     } ;
 
     viz.audio = {
-        music: audioLoader.cache[vizConfig.music],
-        slash: audioLoader.cache['./audio/slash.wav'],
-        shield: audioLoader.cache['./audio/shield.wav'],
-        thrust: audioLoader.cache['./audio/thrust.wav'],
-        growl1: audioLoader.cache['./audio/growl1.wav'],   
-        // growl2: audioLoader.cache['./audio/growl2.wav'],           
-        finisher: audioLoader.cache['./audio/finisher.wav'],
-        // blocked: audioLoader.cache['./audio/blocked.wav'],
+
+        music: $Z.helper.loader.audio.cache[vizConfig.music],
+        slash: $Z.helper.loader.audio.cache['./audio/slash.wav'],
+        shield: $Z.helper.loader.audio.cache['./audio/shield.wav'],
+        thrust: $Z.helper.loader.audio.cache['./audio/thrust.wav'],
+        growl1: $Z.helper.loader.audio.cache['./audio/growl1.wav'],   
+        // growl2: $Z.helper.loader.audio.cache['./audio/growl2.wav'],           
+        finisher: $Z.helper.loader.audio.cache['./audio/finisher.wav'],
+        // blocked: $Z.helper.loader.audio.cache['./audio/blocked.wav'],
+
     } ;
       
     var fade = 4 ;
@@ -47,11 +49,6 @@ function battle_screen() {
         x: 330,
         y: -30,
     } ;
-    // var moonConfig = {
-    //     image: imageHelper.adjust_ratio (imageHelper.to_canvas('./image/battlescreen_moon.png')),
-    //     x: 70,
-    //     y: 50,   
-    //  } ;
 
     viz.clouds = viz.setup_item(cloudsConfig) ;  
     viz.clouds.add_linear ('x', 0, scaleDur * 20 ) ;
@@ -69,10 +66,16 @@ function battle_screen() {
 
         loop: {
 
-            walk: {
+            rest: {
                 frameDur: viz.frameDuration,
                 position: 0,
                 Nstep: 1,
+            },
+
+            finisher: {
+                frameDur: viz.frameDuration,
+                position: 0,
+                Nstep: 9,
             },
 
             thrust: {
@@ -112,7 +115,7 @@ function battle_screen() {
 
         var attackCollisionCanvas                = imageHelper.clear_rect (spriteset.attack[0].originalCanvas, { x: 0, y: 0, width: spriteset.attack[0].originalCanvas.width * 0.1, height: maxHeight } ) ;
         var thrustCollisionCanvas                = imageHelper.clear_rect (spriteset.thrust[1].originalCanvas, { x: 0, y: 0, width: spriteset.thrust[1].originalCanvas.width * 0.1, height: maxHeight } ) ;
-        var finisherCollisionCanvas                = imageHelper.clear_rect (spriteset.finisher[1].originalCanvas, { x: 0, y: 0, width: spriteset.finisher[1].originalCanvas.width * 0.1, height: maxHeight } ) ;
+        var finisherCollisionCanvas              = imageHelper.clear_rect (spriteset.finisher[1].originalCanvas, { x: 0, y: 0, width: spriteset.finisher[1].originalCanvas.width * 0.1, height: maxHeight } ) ;
         
         spriteset.attack[1].sourceCollisionImage = attackCollisionCanvas ;
         spriteset.thrust[1].sourceCollisionImage = thrustCollisionCanvas ;
@@ -211,20 +214,20 @@ function battle_screen() {
             { x: 0, y: 0, width: spriteset.tailattack[0].originalCanvas.width * 0.1, height: maxHeight } 
           ) ;
 
-          var hindAttackCollisionCanvas = imageHelper.clear_rect (
-            spriteset.hindattack[2].originalCanvas, 
-            { x: 0, y: 0, width: spriteset.hindattack[2].originalCanvas.width * 0.5, height: maxHeight } 
-          ) ;
+          // var hindAttackCollisionCanvas = imageHelper.clear_rect (
+          //   spriteset.hindattack[2].originalCanvas, 
+          //   { x: 0, y: 0, width: spriteset.hindattack[2].originalCanvas.width * 0.5, height: maxHeight } 
+          // ) ;
 
-          var snortAttackCollisionCanvas = imageHelper.clear_rect (
-            spriteset.snortattack[1].originalCanvas, 
-            { x: 70, y: 0, width: spriteset.snortattack[1].originalCanvas.width * 0.8, height: maxHeight } 
-          ) ;
+          // var snortAttackCollisionCanvas = imageHelper.clear_rect (
+          //   spriteset.snortattack[1].originalCanvas, 
+          //   { x: 70, y: 0, width: spriteset.snortattack[1].originalCanvas.width * 0.8, height: maxHeight } 
+          // ) ;
           
           spriteset.attack[1].sourceCollisionImage      = attackCollisionCanvas ;
-          spriteset.snortattack[1].sourceCollisionImage = snortAttackCollisionCanvas ;
+          // spriteset.snortattack[1].sourceCollisionImage = snortAttackCollisionCanvas ;
           spriteset.tailattack[2].sourceCollisionImage  = tailAttackCollisionCanvas ;
-          spriteset.hindattack[2].sourceCollisionImage  = hindAttackCollisionCanvas ;
+          // spriteset.hindattack[2].sourceCollisionImage  = hindAttackCollisionCanvas ;
 
           // make an additional white overlay for the hit frame:
 
@@ -273,10 +276,10 @@ function battle_screen() {
     var actionButtonWidth   = 46 ;
     var actionButtonHeight  = 60 ;
     var buttonTileCount = 2 ;
-    var blockCode       = 40 ;
-    var slashCode      = 32 ;
-    var thrustCode   = 32 ;
-    var finisherCode = 32 ;
+    // var blockCode       = 40 ;
+    // var slashCode      = 32 ;
+    // var thrustCode   = 32 ;
+    // var finisherCode = 32 ;
 
     leftButtonConfig = {
         
@@ -430,11 +433,12 @@ function battle_screen() {
     } ;
 
     viz.button.thrust.item.image = viz.button.thrust.sprite.push[0] ;
+ 
     viz.button.thrust.item.uiSwitch = true ;
+    viz.button.block.code = 38 ;    
     viz.button.thrust.item.callback = function thrust_button_callback() {
 
     viz.player.attack('thrust') ;
-    // viz.audio.thrust.play() ;
     viz.button.thrust.item.add_linear('x', -50, scaleDur * 0.1) ;
 
     // viz.button.thrust.item.flash(1);
@@ -453,16 +457,20 @@ function battle_screen() {
         trans2.end = function() {
             viz.audio.thrust.play() ;
         }  
-        viz.button.thrust.item.add_transition(trans1) ;            
+        viz.button.thrust.item.add_transition(trans1) ; 
+
+        var event = { keyCode: viz.button.thrust.code } ;
+        viz.player.callback(event) ;
       
+
         gameHelper.screen_handler(thrustCode) ;
 
 
     } ;    
-
     
-    //viz.button.slash.index = 0 ;
     viz.button.slash.item.image = viz.button.slash.sprite.push[0] ;
+    viz.button.slash.code = 68 ;
+
     viz.button.slash.item.uiSwitch = true ;
     viz.button.slash.item.callback = function slash_button_callback() {
       
@@ -481,6 +489,8 @@ function battle_screen() {
           
         }  
         viz.button.slash.item.add_transition(trans1) ; 
+
+     
         viz.button.slash.item.uiSwitch = false ; 
         viz.button.finisher.item.uiSwitch = true ;
         viz.button.finisher.item.add_linear('x', 270, 0.1 * scaleDur ) ;
@@ -493,6 +503,8 @@ function battle_screen() {
             opacity: 0,
             duration: 0.3 * viz.fadeDuration,
         }) ;         
+        var event = { keyCode: viz.button.slash.code } ;
+        viz.player.callback(event) ;           
         // viz.button.slash.item.fade()
             
         gameHelper.screen_handler(slashCode) ;
@@ -501,6 +513,7 @@ function battle_screen() {
         }
 
     viz.button.finisher.item.image = viz.button.finisher.sprite.push[0] ;
+    viz.button.finisher.code = 70 ;    
     viz.button.finisher.item.uiSwitch = true ;
     viz.button.finisher.item.callback = function finisher_button_callback() {
     viz.player.attack('finisher') ;
@@ -519,6 +532,9 @@ function battle_screen() {
 
         viz.button.finisher.item.add_transition(trans1) ;
 
+        var event = { keyCode: viz.button.finisher.code } ;
+        viz.player.callback(event) ;        
+
             
         viz.button.slash.item.uiSwitch = true; 
         viz.button.finisher.item.add_linear('x', 320, 0.1 * scaleDur ) ;
@@ -533,9 +549,9 @@ function battle_screen() {
             duration: 0.3 * viz.fadeDuration,
         }) ; 
         viz.button.finisher.item.uiSwitch = false ;
+
         
         gameHelper.screen_handler(finisherCode) ; 
-
  
     } ;            
 
@@ -547,6 +563,7 @@ function battle_screen() {
 
     viz.button.block.item.image = viz.button.block.sprite.push[0] ;
     viz.button.block.item.uiSwitch = true ;
+    viz.button.block.code = 40 ;
 
     viz.button.block.item.callback = function block_button_callback() {
         viz.player.block('shield') ;
@@ -563,17 +580,16 @@ function battle_screen() {
             viz.audio.shield.play() ;
         }   
         viz.button.block.item.add_transition(trans1) ;
+
+        var event = { keyCode: viz.button.block.code } ;
+        viz.player.callback(event) ;
+
         viz.button.thrust.item.add_linear('x', 4, scaleDur * 0.1) ;
         viz.button.thrust.item.fade({
             opacity: 1,
             duration: 0.3 * viz.fadeDuration,
         }) ;        
-         //          if ( viz.busy === true ) { 
-         //    return ;
-         //  }
-    
-         // viz.busy = true ;
-        
+
     } ;
 
     viz.player.item.add() ;

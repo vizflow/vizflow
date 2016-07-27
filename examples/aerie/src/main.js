@@ -4,7 +4,7 @@ document.addEventListener("touchmove", function(e) { e.preventDefault() }) ;
 
 document.body.style.overflowY = 'hidden' ;
 document.body.style.margin    = 0 ;
-
+console.log('main start') ;
 document.image = [ 
 	
 	'./image/vizflow.png',
@@ -19,7 +19,7 @@ document.image = [
 	//'./image/rightButton.png',
 	// './image/attackButton.png',
 	'./image/aerie_title.png',
-	'./image/aerie_start_title.png',
+	
 	'./image/title_blade.png',
 	'./image/you_win.png',
 	'./image/hero.png',
@@ -43,7 +43,7 @@ document.image = [
 	  
 document.audio = [
 
-'./audio/bgm1.wav',
+// './audio/bgm1.wav',
 './audio/slash.wav',
 './audio/shield.wav',
 './audio/thrust.wav',
@@ -59,11 +59,11 @@ document.audio = [
 document.skipIndex = 0 ;
 
 imageLoader.preload ( document.image, function preload_audio() {
-  // console.log('main.js: preload_audio') ;
-	audioLoader.preload( 
+  console.log('main.js: preload_audio') ;
+	$Z.helper.loader.audio.preload( 
 		document.audio, 
 		function main_run() {
-			// console.log('main.js: main_run') ;
+			console.log('main.js: main_run') ;
 			var div = document.getElementById('loading') ;
 			div.style.visibility = 'hidden' ;
 			load_game() ;

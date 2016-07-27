@@ -82,7 +82,7 @@ function run_game() {
     item: item,
   } ;
 
-  var viz = vizHelper.setup(vizConfig) ; // first create generic vizflow configuration object, then add application-specific details
+  var viz = $Z.helper.viz.setup(vizConfig) ; // first create generic vizflow configuration object, then add application-specific details
 
   function green_flash() {
 
@@ -156,6 +156,6 @@ function run_game() {
   // load_ui: vizConfig.load_ui,
   // load_audio: vizConfig.load_audio,
   // load_char: vizConfig.load_char,
-  // load: vizHelper.load,
+  // load: $Z.helper.viz.load,
 
 }
