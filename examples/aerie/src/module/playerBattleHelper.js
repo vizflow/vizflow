@@ -204,13 +204,13 @@ var playerBattleHelper = {
           case 37: // left
             state = 'l' ;
             break;
-          case 38: // up
+          case 65: // up
             state = 't' ;
             break;
           case 39: // right
             state = 'r' ;
             break;
-          case 40: // down
+          case 83: // down
           // case 13: // enter
           // case 32: // space
             state = 'd' ;

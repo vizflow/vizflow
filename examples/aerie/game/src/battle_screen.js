@@ -25,9 +25,9 @@ function battle_screen() {
         shield: audioLoader.cache['./audio/shield.wav'],
         thrust: audioLoader.cache['./audio/thrust.wav'],
         growl1: audioLoader.cache['./audio/growl1.wav'],   
-        growl2: audioLoader.cache['./audio/growl2.wav'],           
+        // growl2: audioLoader.cache['./audio/growl2.wav'],           
         finisher: audioLoader.cache['./audio/finisher.wav'],
-        blocked: audioLoader.cache['./audio/blocked.wav'],
+        // blocked: audioLoader.cache['./audio/blocked.wav'],
     } ;
       
     var fade = 4 ;
@@ -423,7 +423,7 @@ function battle_screen() {
         var event = { keyCode: viz.button.right.code } ;
         viz.player.callback(event) ;
 
-        console.log('right button callback end') ;
+        // console.log('right button callback end') ;
         
         // gameHelper.screen_handler(rightCode) ;
 
@@ -437,7 +437,7 @@ function battle_screen() {
     // viz.audio.thrust.play() ;
     viz.button.thrust.item.add_linear('x', -50, scaleDur * 0.1) ;
 
-    viz.button.thrust.item.flash(1);
+    // viz.button.thrust.item.flash(1);
     viz.button.thrust.item.fade({
         opacity: 0.7,
         duration: 0.3 * viz.fadeDuration,
@@ -455,7 +455,7 @@ function battle_screen() {
         }  
         viz.button.thrust.item.add_transition(trans1) ;            
       
-        // gameHelper.screen_handler(thrustCode) ;
+        gameHelper.screen_handler(thrustCode) ;
 
 
     } ;    
@@ -495,7 +495,7 @@ function battle_screen() {
         }) ;         
         // viz.button.slash.item.fade()
             
-        // gameHelper.screen_handler(slashCode) ;
+        gameHelper.screen_handler(slashCode) ;
 
         
         }
@@ -534,7 +534,7 @@ function battle_screen() {
         }) ; 
         viz.button.finisher.item.uiSwitch = false ;
         
-        // gameHelper.screen_handler(finisherCode) ; 
+        gameHelper.screen_handler(finisherCode) ; 
 
  
     } ;            
