@@ -1,8 +1,9 @@
 function battle_screen() {
   
+    var backgroundImage = $Z.helper.image.to_canvas ('./image/battlescreen_background.png') ;
     var vizConfig = {
 
-        image: $Z.helper.image.adjust_ratio ($Z.helper.image.to_canvas ('./image/battlescreen_background.png')),
+        image: backgroundImage,
         frameDurationFactor: 3,
         music: './audio/bgm1.wav',
         
@@ -463,7 +464,7 @@ function battle_screen() {
         viz.player.callback(event) ;
       
 
-        gameHelper.screen_handler(thrustCode) ;
+        // gameHelper.screen_handler(thrustCode) ;
 
 
     } ;    
@@ -507,7 +508,7 @@ function battle_screen() {
         viz.player.callback(event) ;           
         // viz.button.slash.item.fade()
             
-        gameHelper.screen_handler(slashCode) ;
+        // gameHelper.screen_handler(slashCode) ;
 
         
         }
@@ -551,7 +552,7 @@ function battle_screen() {
         viz.button.finisher.item.uiSwitch = false ;
 
         
-        gameHelper.screen_handler(finisherCode) ; 
+        // gameHelper.screen_handler(finisherCode) ; 
  
     } ;            
 

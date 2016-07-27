@@ -61,10 +61,6 @@ var inputEvent = {
 
     $Z.prep([doc.viz]) ;
 
-    // console.log('input event up', 'this', this) ;
-
-    // console.log ('input event up end', 'event', event) ;
-
   },
 
   response: {
@@ -103,7 +99,7 @@ var inputEvent = {
         viz = this ;
       } 
 
-      viz.callback(event) ;   
+      callback(event) ;   
 
     },
 

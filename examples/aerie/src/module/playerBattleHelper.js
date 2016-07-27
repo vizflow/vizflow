@@ -299,10 +299,11 @@ var playerBattleHelper = {
           }
 
           var loop = $Z.helper.sprite.animate(
-            player.loop.attack,
+            // player.loop.attack,
             player.sprite.attack,
             transitionFunc,
-            function() {} // buttonpress.reset
+            undefined,
+            player.sprite.rest[0] // buttonpress.reset
 
           ) ;
 
@@ -338,7 +339,7 @@ var playerBattleHelper = {
             player.loop.thrust,
             player.sprite.thrust,
             transitionFunc,
-            function() {} // buttonpress.reset
+            player.sprite.rest[0] // buttonpress.reset
 
           ) ;
 
