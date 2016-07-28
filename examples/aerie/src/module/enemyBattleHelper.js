@@ -34,7 +34,7 @@ var enemyBattleHelper = {
     enemy.paused               = false ;
     enemy.state                = [] ;
     enemy.item.responseSet.hit = enemyHitHelper.setup(viz, enemy) ;
-    enemy.health = 180 ;
+    enemy.health = 10 ;
     enemy.health_bar = enemyBattleHelper.health_bar ;
 
     enemy.healthbar = viz.setup_item ({

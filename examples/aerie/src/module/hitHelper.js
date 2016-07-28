@@ -53,7 +53,7 @@ var hitHelper = {
       var health_transition = $Z.helper.transition.linear_transition_func ( 'width', viz.dur * 4 ) ; 
 
       if(setupResponseConfig.healthdrop === undefined) {    
-        setupResponseConfig.healthdrop = 20 ;
+        setupResponseConfig.healthdrop = 1 ;
       }
      
       var hit = { // action config object
@@ -173,63 +173,64 @@ var hitHelper = {
     } else { 
       element.hit() ;
       element.item.whiteflash(50) ;  
-      element.health -= 2 ;
+      element.health -= 1 ;
     }
     if (element.item.viz.player.health < 1) {
-    
- function game_over(viz) {
+    element.item.viz.player.healthbar.image.remove() ;
+      function game_over(viz) {
 
-    if(viz === undefined) {
-      viz = this ;
-    }
+        if(viz === undefined) {
+          viz = this ;
+        }
 
-    var endImage = $Z.helper.image.adjust_ratio($Z.helper.image.to_canvas('./image/game_over.png')) ;
+        var endImage = $Z.helper.image.adjust_ratio($Z.helper.image.to_canvas('./image/game_over.png')) ;
 
-    var endItem = $Z.helper.item.setup({ 
+        var endItem = $Z.helper.item.setup({ 
 
-      x: (viz.width - endImage.originalCanvas.width) * 0.5,
-      y: (viz.height - endImage.originalCanvas.height) * 0.5,
-      image: endImage,
-      opacity: 0,
-      inert: true,
-      viz: viz,
+          x: (viz.width - endImage.originalCanvas.width) * 0.5,
+          y: (viz.height - endImage.originalCanvas.height) * 0.5,
+          image: endImage,
+          opacity: 0,
+          inert: true,
+          viz: viz,
 
-    }) ;
+        }) ;
 
-    endItem.add() ;
-     
-    viz.opacity = 1 ;
-    viz.fade({
+        endItem.add() ;
+         
+        viz.opacity = 1 ;
+        viz.fade({
 
-      duration: 4 * viz.fadeDuration,
-    }) ;
+          duration: 4 * viz.fadeDuration,
+        }) ;
 
-    endItem.fade({
-
-      duration: viz.fadeDuration * 4,
-
-      end: function() { 
         endItem.fade({
 
           duration: viz.fadeDuration * 4,
-          end: window.location.reload(),
+
+          end: function() { 
+            endItem.fade({
+
+              duration: viz.fadeDuration * 4,
+              end: window.location.reload(),
+            }) ;
+       
+          },
+
         }) ;
-   
-      },
 
-    }) ;
+      } 
 
-  } 
-
-  game_over (viz) ;
+    game_over (viz) ;
   
     } else {
       element.healthbar.image = element.health_bar() ;
     }
 
-  if (element.item.viz.enemy.health < 2) {
-    
+  if (element.item.viz.enemy.health < 1) {
+
  function you_win(viz) {
+        element.item.viz.enemy.healthbar.image.remove() ;
 
     if(viz === undefined) {
       viz = this ;
