@@ -53,7 +53,7 @@ var hitHelper = {
       var health_transition = $Z.helper.transition.linear_transition_func ( 'width', viz.dur * 4 ) ; 
 
       if(setupResponseConfig.healthdrop === undefined) {    
-        setupResponseConfig.healthdrop = 1 ;
+        setupResponseConfig.healthdrop = 2 ;
       }
      
       var hit = { // action config object
@@ -173,7 +173,7 @@ var hitHelper = {
     } else { 
       element.hit() ;
       element.item.whiteflash(50) ;  
-      element.health -= 1 ;
+      element.health -= 2 ;
     }
     if (element.item.viz.player.health < 1) {
     element.item.viz.player.healthbar.image.remove() ;

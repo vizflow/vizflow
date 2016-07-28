@@ -244,7 +244,7 @@ let spriteHelper = {
       }
       transitionArray[kframe] = (transition) ;
     }
-    return transitionHelper.sequence(transitionArray) ;
+    return $Z.helper.transition.sequence(transitionArray) ;
   },
 
   animate_loop: function sprite_helper_animate_loop (loopConfig, valueList, create_transition, callback, restFrame) {

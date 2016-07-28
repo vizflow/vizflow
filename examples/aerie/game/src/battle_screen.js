@@ -23,7 +23,7 @@ function battle_screen() {
     viz.setup_item(backgroundConfig) ;
 
     viz.callback = function viz_callback(event) {
-    viz.player.callback(event) ;
+        viz.player.callback(event) ;
     } ;
 
     viz.audio = {
@@ -395,8 +395,8 @@ function battle_screen() {
         
         var dur1 = 100 ;
         var dur2 = 100 ;
-        var trans1 = transitionHelper.new_step('image', viz.button.left.sprite.push[1], dur1) ;
-        var trans2 = transitionHelper.new_step('image', viz.button.left.sprite.push[0], dur2) ;
+        var trans1 = $Z.helper.transition.new_step('image', viz.button.left.sprite.push[1], dur1) ;
+        var trans2 = $Z.helper.transition.new_step('image', viz.button.left.sprite.push[0], dur2) ;
 
         trans1.child = trans2 ;
 
@@ -414,8 +414,8 @@ function battle_screen() {
         var dur1 = 100 ;
         var dur2 = 100 ;
 
-        var trans1 = transitionHelper.new_step('image', viz.button.right.sprite.push[1], dur1) ;
-        var trans2 = transitionHelper.new_step('image', viz.button.right.sprite.push[0], dur2) ;
+        var trans1 = $Z.helper.transition.new_step('image', viz.button.right.sprite.push[1], dur1) ;
+        var trans2 = $Z.helper.transition.new_step('image', viz.button.right.sprite.push[0], dur2) ;
         
         trans1.child = trans2 ;
 
@@ -443,8 +443,8 @@ function battle_screen() {
         var dur1 = 300 ;
         var dur2 = 100 ;
 
-        var trans1 = transitionHelper.new_step('image', viz.button.thrust.sprite.push[1], dur1) ;
-        var trans2 = transitionHelper.new_step('image', viz.button.thrust.sprite.push[0], dur2) ;
+        var trans1 = $Z.helper.transition.new_step('image', viz.button.thrust.sprite.push[1], dur1) ;
+        var trans2 = $Z.helper.transition.new_step('image', viz.button.thrust.sprite.push[0], dur2) ;
         viz.button.thrust.item.uiSwitch = false ;
         
         trans1.child = trans2 ;
@@ -469,8 +469,8 @@ function battle_screen() {
         var dur1 = 300 ;
         var dur2 = 100 ;
 
-        var trans1 = transitionHelper.new_step('image', viz.button.slash.sprite.push[1], dur1) ;
-        var trans2 = transitionHelper.new_step('image', viz.button.slash.sprite.push[0], dur2) ;
+        var trans1 = $Z.helper.transition.new_step('image', viz.button.slash.sprite.push[1], dur1) ;
+        var trans2 = $Z.helper.transition.new_step('image', viz.button.slash.sprite.push[0], dur2) ;
 
         trans1.child = trans2 ;
         trans1.end = function() {
@@ -506,8 +506,8 @@ function battle_screen() {
         var dur1 = 300 ;
         var dur2 = 100 ;
 
-        var trans1 = transitionHelper.new_step('image', viz.button.finisher.sprite.push[1], dur1) ;
-        var trans2 = transitionHelper.new_step('image', viz.button.finisher.sprite.push[0], dur2) ;
+        var trans1 = $Z.helper.transition.new_step('image', viz.button.finisher.sprite.push[1], dur1) ;
+        var trans2 = $Z.helper.transition.new_step('image', viz.button.finisher.sprite.push[0], dur2) ;
         
         trans1.child = trans2 ;
 
@@ -553,8 +553,8 @@ function battle_screen() {
         var dur1 = 300 ;
         var dur2 = 100 ;
 
-        var trans1 = transitionHelper.new_step('image', viz.button.block.sprite.push[1], dur1) ;
-        var trans2 = transitionHelper.new_step('image', viz.button.block.sprite.push[0], dur2) ;
+        var trans1 = $Z.helper.transition.new_step('image', viz.button.block.sprite.push[1], dur1) ;
+        var trans2 = $Z.helper.transition.new_step('image', viz.button.block.sprite.push[0], dur2) ;
         viz.button.thrust.item.uiSwitch = true ;
         
         trans1.child = trans2 ;

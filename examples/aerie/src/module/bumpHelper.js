@@ -61,7 +61,7 @@ var bumpHelper = {
     var bumpDuration   = 0 ;
 
     hit.healthbar.health -= hit.healthdrop * 0.1 ;
-    transitionHelper.update_end_value.call(hit.healthbar.item, 'width', hit.healthbar.health, hit.health_transition) ;
+    $Z.helper.transition.update_end_value.call(hit.healthbar.item, 'width', hit.healthbar.health, hit.health_transition) ;
 
     var Nflash = 2 ;
     var flashDuration = bumpDuration * 0.1 ;

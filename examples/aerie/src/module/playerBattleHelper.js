@@ -35,7 +35,7 @@ var playerBattleHelper = {
     player.paused               = false ;
     player.state                = [] ;
     player.item.responseSet.hit = playerHitHelper.setup(viz, player) ;
-    player.health               = 6 ;
+    player.health               = 50 ;
     player.health_bar           = playerBattleHelper.health_bar ;
     player.attack               = playerBattleHelper.attack ;
     player.block                = playerBattleHelper.block ;
@@ -77,11 +77,11 @@ var playerBattleHelper = {
           var dur3 = 90 ;
           var dur4 = 300 ;
           var dur5 = 600 ;
-          var trans1 = transitionHelper.new_step('image', player.sprite.attack[0], dur1) ;
-          var trans2 = transitionHelper.new_step('image', player.sprite.attack[1], dur2) ;
-          var trans3 = transitionHelper.new_step('image', player.sprite.attack[2], dur3) ;  
-          var trans4 = transitionHelper.new_step('image', player.sprite.attack[3], dur4) ;            
-          var trans5 = transitionHelper.new_step('image', player.sprite.rest[0], dur5) ;
+          var trans1 = $Z.helper.transition.new_step('image', player.sprite.attack[0], dur1) ;
+          var trans2 = $Z.helper.transition.new_step('image', player.sprite.attack[1], dur2) ;
+          var trans3 = $Z.helper.transition.new_step('image', player.sprite.attack[2], dur3) ;  
+          var trans4 = $Z.helper.transition.new_step('image', player.sprite.attack[3], dur4) ;            
+          var trans5 = $Z.helper.transition.new_step('image', player.sprite.rest[0], dur5) ;
 
           trans1.child = trans2 ;
           trans1.child.child = trans3 ;
@@ -95,9 +95,9 @@ var playerBattleHelper = {
           var dur1 = 800 ;
           var dur2 = 500 ;
           var dur3 = 500 ;
-          var trans1 = transitionHelper.new_step('image', player.sprite.thrust[0], dur1) ;
-          var trans2 = transitionHelper.new_step('image', player.sprite.thrust[1], dur2) ;
-          var trans3 = transitionHelper.new_step('image', player.sprite.rest[0], dur3) ;
+          var trans1 = $Z.helper.transition.new_step('image', player.sprite.thrust[0], dur1) ;
+          var trans2 = $Z.helper.transition.new_step('image', player.sprite.thrust[1], dur2) ;
+          var trans3 = $Z.helper.transition.new_step('image', player.sprite.rest[0], dur3) ;
           
           trans1.child = trans2 ;
           trans1.child.child = trans3 ;
@@ -114,15 +114,15 @@ var playerBattleHelper = {
           var dur7 = 50 ;
           var dur8 = 50 ;
           var dur9 = 50 ;
-          var trans1 = transitionHelper.new_step('image', player.sprite.finisher[0], dur1) ;
-          var trans2 = transitionHelper.new_step('image', player.sprite.finisher[1], dur2) ;
-          var trans3 = transitionHelper.new_step('image', player.sprite.finisher[2], dur3) ;          
-          var trans4 = transitionHelper.new_step('image', player.sprite.finisher[3], dur4) ;    
-          var trans5 = transitionHelper.new_step('image', player.sprite.finisher[4], dur5) ;
-          var trans6 = transitionHelper.new_step('image', player.sprite.finisher[5], dur6) ;
-          var trans7 = transitionHelper.new_step('image', player.sprite.finisher[6], dur7) ;
-          var trans8 = transitionHelper.new_step('image', player.sprite.finisher[7], dur8) ; 
-          var trans9 = transitionHelper.new_step('image', player.sprite.rest[0], dur9) ;
+          var trans1 = $Z.helper.transition.new_step('image', player.sprite.finisher[0], dur1) ;
+          var trans2 = $Z.helper.transition.new_step('image', player.sprite.finisher[1], dur2) ;
+          var trans3 = $Z.helper.transition.new_step('image', player.sprite.finisher[2], dur3) ;          
+          var trans4 = $Z.helper.transition.new_step('image', player.sprite.finisher[3], dur4) ;    
+          var trans5 = $Z.helper.transition.new_step('image', player.sprite.finisher[4], dur5) ;
+          var trans6 = $Z.helper.transition.new_step('image', player.sprite.finisher[5], dur6) ;
+          var trans7 = $Z.helper.transition.new_step('image', player.sprite.finisher[6], dur7) ;
+          var trans8 = $Z.helper.transition.new_step('image', player.sprite.finisher[7], dur8) ; 
+          var trans9 = $Z.helper.transition.new_step('image', player.sprite.rest[0], dur9) ;
 
           trans1.child = trans2 ;
           trans1.child.child = trans3 ;
@@ -150,9 +150,9 @@ var playerBattleHelper = {
           var dur1 = 100 ;
           var dur2 = 1000 ;
           var dur3 = 200 ;
-          var trans1 = transitionHelper.new_step('image', player.sprite.block[0], dur1) ;
-          var trans2 = transitionHelper.new_step('image', player.sprite.block[1], dur2) ;          
-          var trans3 = transitionHelper.new_step('image', player.sprite.rest[0], dur3) ;
+          var trans1 = $Z.helper.transition.new_step('image', player.sprite.block[0], dur1) ;
+          var trans2 = $Z.helper.transition.new_step('image', player.sprite.block[1], dur2) ;          
+          var trans3 = $Z.helper.transition.new_step('image', player.sprite.rest[0], dur3) ;
 
           trans1.child = trans2 ;
           trans1.child.child = trans3 ;
@@ -176,8 +176,8 @@ var playerBattleHelper = {
           var dur1 = 100 ;
           var dur2 = 100 ;
 
-          var trans1 = transitionHelper.new_step('image', player.sprite.hit[0], dur1) ;
-          var trans2 = transitionHelper.new_step('image', player.sprite.rest[0], dur2) ;        
+          var trans1 = $Z.helper.transition.new_step('image', player.sprite.hit[0], dur1) ;
+          var trans2 = $Z.helper.transition.new_step('image', player.sprite.rest[0], dur2) ;        
 
           trans1.child = trans2 ;
           
@@ -244,7 +244,7 @@ var playerBattleHelper = {
        
         case 'd' :
 
-          // if( transitionHelper.find('image', player.item.transition) > -1 ) {
+          // if( $Z.helper.transition.find('image', player.item.transition) > -1 ) {
           //   return ; // don't interrupt the current attack animation 
           // }
           viz.player.block('shield') ;
@@ -280,7 +280,7 @@ var playerBattleHelper = {
 
         case 'a' :
          
-          // if( transitionHelper.find('image', player.item.transition) > -1 ) {
+          // if( $Z.helper.transition.find('image', player.item.transition) > -1 ) {
           //   return ; // don't interrupt the current attack animation 
           // }
           viz.player.attack('slash') ;
@@ -319,7 +319,7 @@ var playerBattleHelper = {
 
         case 't' :
          
-          // if( transitionHelper.find('image', player.item.transition) > -1 ) {
+          // if( $Z.helper.transition.find('image', player.item.transition) > -1 ) {
           //   return ; // don't interrupt the current attack animation 
           // }
           viz.player.attack('thrust') ;
@@ -356,7 +356,7 @@ var playerBattleHelper = {
 
         case 'f' :
          
-          // if( transitionHelper.find('image', player.item.transition) > -1 ) {
+          // if( $Z.helper.transition.find('image', player.item.transition) > -1 ) {
           //   return ; // don't interrupt the current attack animation 
           // }
           viz.player.attack('finisher') ;
