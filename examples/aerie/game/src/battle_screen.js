@@ -2,24 +2,28 @@ function battle_screen() {
   
     var vizConfig = {
 
-        image: $Z.helper.image.adjust_ratio ($Z.helper.image.to_canvas ('./image/battlescreen_background.png')),
         frameDurationFactor: 3,
         music: './audio/bgm1.wav',
-        
         name: 'battle',
         width: 320,
         height: 240,    
-        x: 0,
-        y: 0,
-        opacity: 1,
 
     } ;
     
     viz = $Z.helper.viz.setup(vizConfig) ;
-// console.log('vizConfig', vizConfig) ;
+
+    var backgroundConfig = {
+        image: $Z.helper.image.adjust_ratio ($Z.helper.image.to_canvas ('./image/battlescreen_background.png')),
+        width: 320,
+        height: 240,
+        x: 0,
+        y: 0,
+    } ;
+
+    viz.setup_item(backgroundConfig) ;
 
     viz.callback = function viz_callback(event) {
-      viz.player.callback(event) ;
+    viz.player.callback(event) ;
     } ;
 
     viz.audio = {
@@ -55,12 +59,6 @@ function battle_screen() {
 
     viz.clouds = viz.setup_item(cloudsConfig) ;  
     viz.clouds.add_linear ('x', 0, scaleDur * 20 ) ;
-    // viz.clouds.x = viz.cloudsConfig.x ;
-    // viz.clouds.add_linear ('x', 0, scaleDur * 5 ) ;
-
-    // viz.clouds.call(function() {
-    //     this.add_linear('y', -200,scaleDur) ;
-    // }, scaleDur * 10) ;
 
     var tileWidth  = 200 ;
     var tileHeight = 300 ; 
@@ -92,13 +90,12 @@ function battle_screen() {
                 position: 0,
                 Nstep: 2,
             }, 
+
             rest: {
                 frameDur: viz.frameDuration,
                 position: 0,
                 Nstep: 1,
             },
-
-        
 
             thrust: {
                 frameDur: viz.frameDuration,
@@ -128,7 +125,6 @@ function battle_screen() {
         spriteset.finisher[3].sourceCollisionImage = finisherCollisionCanvas ;
         spriteset.finisher[4].sourceCollisionImage = finisherCollisionCanvas ;    
 
- // $Z.helper.image.view(spriteset.finisher[4].sourceCollisionImage ) ;
 
         return spriteset ;
 
@@ -239,7 +235,6 @@ function battle_screen() {
           // item.white.childFade = true ;
           spriteset.hitOverlay = white ;
 
-     // $Z.helper.image.view(hindAttackCollisionCanvas) ;
           return spriteset ;
 
         },    
