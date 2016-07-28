@@ -209,7 +209,6 @@ var playerBattleHelper = {
           case 37: // left
             state = 'l' ;
             break;
-          case 65: // up
             state = 't' ;
             break;
           case 39: // right
@@ -246,35 +245,37 @@ var playerBattleHelper = {
        
         case 'd' :
 
-          if( transitionHelper.find('image', player.item.transition) > -1 ) {
-            return ; // don't interrupt the current attack animation 
-          }
+          // if( transitionHelper.find('image', player.item.transition) > -1 ) {
+          //   return ; // don't interrupt the current attack animation 
+          // }
+          viz.player.block('shield') ;
 
-          var transitionFunc ;
 
-          if( player.transitionSet.block === undefined ) {
-            transitionFunc = player.transitionSet.image ;
-          } else {
-            transitionFunc = player.transitionSet.block ;
-          }
+          // var transitionFunc ;
 
-          var loop = $Z.helper.sprite.animate_loop(
-            {},
-            player.sprite.block,
-            transitionFunc,
-            function() {} // buttonpress.reset
-          ) ;
+          // if( player.transitionSet.block === undefined ) {
+          //   transitionFunc = player.transitionSet.image ;
+          // } else {
+          //   transitionFunc = player.transitionSet.block ;
+          // }
 
-          player.loop.block.position  = loop.position ;
-          transition                  = loop.animation ;
+          // var loop = $Z.helper.sprite.animate_loop(
+          //   {},
+          //   player.sprite.block,
+          //   transitionFunc,
+          //   function() {} // buttonpress.reset
+          // ) ;
 
-          var replacementSwitch = true ;
+          // player.loop.block.position  = loop.position ;
+          // transition                  = loop.animation ;
 
-            if (player.restoreRest === true) {
-              finalFrame = player.sprite.rest[0] ;  
-            }
-          player.restoreRest === true ;          
-          player.item.add_transition(transition, replacementSwitch) ;
+          // var replacementSwitch = true ;
+
+          // //   if (player.restoreRest === true) {
+          // //     finalFrame = player.sprite.rest[0] ;  
+          // //   }
+          // // player.restoreRest === true ;          
+          // player.item.add_transition(transition, replacementSwitch) ;
     
             break ;
 
@@ -286,110 +287,114 @@ var playerBattleHelper = {
 
         case 'a' :
          
-          if( transitionHelper.find('image', player.item.transition) > -1 ) {
-            return ; // don't interrupt the current attack animation 
-          }
-          viz.button.slash.item.callback() ;
-          var transitionFunc ;
+          // if( transitionHelper.find('image', player.item.transition) > -1 ) {
+          //   return ; // don't interrupt the current attack animation 
+          // }
+          viz.player.attack('slash') ;
 
-          if( player.transitionSet.attack === undefined ) {
-            transitionFunc = player.transitionSet.image ;
-          } else {
-            transitionFunc = player.transitionSet.attack ;
-          }
+          //viz.button.slash.item.callback() ;
+          // var transitionFunc ;
 
-          var loop = $Z.helper.sprite.animate_loop(
-            {},// player.loop.attack,
-            player.sprite.attack,
-            transitionFunc,
-            undefined,
-            player.sprite.rest[0] // buttonpress.reset
+          // if( player.transitionSet.attack === undefined ) {
+          //   transitionFunc = player.transitionSet.image ;
+          // } else {
+          //   transitionFunc = player.transitionSet.attack ;
+          // }
 
-          ) ;
+          // var loop = $Z.helper.sprite.animate_loop(
+          //   {},// player.loop.attack,
+          //   player.sprite.attack,
+          //   transitionFunc,
+          //   // undefined,
+          //   player.sprite.rest[0] // buttonpress.reset
 
-          player.loop.attack.position = loop.position ;
-          transition                  = loop.animation ;
-          console.log('player battle helper update attack case', 'transition', transition, 'loop', loop) ;
-          var replacementSwitch = true ;
-          var finalFrame  = player.sprite.rest[0] ;
+          // ) ;
 
-            if (player.restoreRest === true) {
-              finalFrame = player.sprite.rest[0] ;  
-            }
-          player.restoreRest = true ;
-          player.item.add_transition(transition, replacementSwitch) ;
+          // player.loop.attack.position = loop.position ;
+          // transition                  = loop.animation ;
+          // console.log('player battle helper update attack case', 'transition', transition, 'loop', loop) ;
+          // var replacementSwitch = true ;
+          // var finalFrame  = player.sprite.rest[0] ;
+
+          // //   if (player.restoreRest === true) {
+          // //     finalFrame = player.sprite.rest[0] ;  
+          // //   }
+          // // player.restoreRest = true ;
+          // player.item.add_transition(transition, replacementSwitch) ;
 
           break ;
 
         case 't' :
          
-          if( transitionHelper.find('image', player.item.transition) > -1 ) {
-            return ; // don't interrupt the current attack animation 
-          }
+          // if( transitionHelper.find('image', player.item.transition) > -1 ) {
+          //   return ; // don't interrupt the current attack animation 
+          // }
+          viz.player.attack('thrust') ;
 
-          var transitionFunc ;
+          // var transitionFunc ;
 
-          if( player.transitionSet.thrust === undefined ) {
-            transitionFunc = player.transitionSet.image ;
-          } else {
-            transitionFunc = player.transitionSet.thrust ;
-          }
+          // if( player.transitionSet.thrust === undefined ) {
+          //   transitionFunc = player.transitionSet.image ;
+          // } else {
+          //   transitionFunc = player.transitionSet.thrust ;
+          // }
 
-          var loop = $Z.helper.sprite.animate_loop(
-            player.loop.thrust,
-            player.sprite.thrust,
-            transitionFunc,
-            player.sprite.rest[0] // buttonpress.reset
+          // var loop = $Z.helper.sprite.animate_loop(
+          //   {},
+          //   player.sprite.thrust,
+          //   transitionFunc,
+          //   player.sprite.rest[0] // buttonpress.reset
 
-          ) ;
+          // ) ;
 
-          player.loop.thrust.position = loop.position ;
-          transition                  = loop.animation ;
-          viz.button.thrust.item.callback() ;
-          var replacementSwitch = true ;
-          var finalFrame ; // = player.sprite.rest[0] ;
+          // player.loop.thrust.position = loop.position ;
+          // transition                  = loop.animation ;
+          // viz.button.thrust.item.callback() ;
+          // var replacementSwitch = true ;
+          // var finalFrame ; // = player.sprite.rest[0] ;
 
-            if (player.restoreRest === true) {
-              finalFrame = player.sprite.rest[0] ;  
-            }
+          //   if (player.restoreRest === true) {
+          //     finalFrame = player.sprite.rest[0] ;  
+          //   }
 
-          player.item.add_transition(transition, replacementSwitch) ;
+          // player.item.add_transition(transition, replacementSwitch) ;
 
           break ;         
 
         case 'f' :
          
-          if( transitionHelper.find('image', player.item.transition) > -1 ) {
-            return ; // don't interrupt the current attack animation 
-          }
+          // if( transitionHelper.find('image', player.item.transition) > -1 ) {
+          //   return ; // don't interrupt the current attack animation 
+          // }
+          viz.player.attack('finisher') ;
 
-          viz.player.button.finisher.callback() ;
-          var transitionFunc ;
+         // viz.player.button.finisher.callback() ;
+          // var transitionFunc ;
 
-          if( player.transitionSet.finisher === undefined ) {
-            transitionFunc = player.transitionSet.image ;
-          } else {
-            transitionFunc = player.transitionSet.finisher ;
-          }
+          // if( player.transitionSet.finisher === undefined ) {
+          //   transitionFunc = player.transitionSet.image ;
+          // } else {
+          //   transitionFunc = player.transitionSet.finisher ;
+          // }
 
-          var loop = $Z.helper.sprite.animate_loop(
-            player.loop.finisher,
-            player.sprite.finisher,
-            transitionFunc,
-            function() {} // buttonpress.reset
+          // var loop = $Z.helper.sprite.animate_loop(
+          //   {},
+          //   player.sprite.finisher,
+          //   transitionFunc,
+          //   function() {} // buttonpress.reset
 
-          ) ;
+          // ) ;
 
-          player.loop.finisher.position = loop.position ;
-          transition                  = loop.animation ;
-          var replacementSwitch = true ;
-          var finalFrame ; // = player.sprite.rest[0] ;
+          // player.loop.finisher.position = loop.position ;
+          // transition                  = loop.animation ;
+          // var replacementSwitch = true ;
+          // // var finalFrame ; // = player.sprite.rest[0] ;
 
-            if (player.restoreRest === true) {
-              finalFrame = player.sprite.rest[0] ;  
-            }
+          // //   if (player.restoreRest === true) {
+          // //     finalFrame = player.sprite.rest[0] ;  
+          // //   }
 
-          player.item.add_transition(transition, replacementSwitch) ;
+          // player.item.add_transition(transition, replacementSwitch) ;
 
           break ;              
                   

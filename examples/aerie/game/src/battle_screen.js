@@ -1,15 +1,17 @@
 function battle_screen() {
   
-    var backgroundImage = $Z.helper.image.to_canvas ('./image/battlescreen_background.png') ;
     var vizConfig = {
 
-        image: backgroundImage,
+        image: $Z.helper.image.adjust_ratio ($Z.helper.image.to_canvas ('./image/battlescreen_background.png')),
         frameDurationFactor: 3,
         music: './audio/bgm1.wav',
         
         name: 'battle',
         width: 320,
-        height: 240,
+        height: 240,    
+        x: 0,
+        y: 0,
+        opacity: 1,
 
     } ;
     
@@ -67,24 +69,6 @@ function battle_screen() {
 
         loop: {
 
-            rest: {
-                frameDur: viz.frameDuration,
-                position: 0,
-                Nstep: 1,
-            },
-
-            finisher: {
-                frameDur: viz.frameDuration,
-                position: 0,
-                Nstep: 9,
-            },
-
-            thrust: {
-                frameDur: viz.frameDuration,
-                position: 0,
-                Nstep: 3,
-            },
-
             attack: {
                 frameDur: viz.frameDuration,
                 position: 0, 
@@ -94,14 +78,33 @@ function battle_screen() {
             block: {
                 frameDur: viz.frameDuration,
                 position: 0,
-                Nstep: 2,
-            },   
+                Nstep: 3,
+            }, 
+
+            finisher: {
+                frameDur: viz.frameDuration,
+                position: 0,
+                Nstep: 9,
+            },
 
             hit: {
                 frameDur: viz.frameDuration,
                 position: 0,
+                Nstep: 2,
+            }, 
+            rest: {
+                frameDur: viz.frameDuration,
+                position: 0,
                 Nstep: 1,
-            },   
+            },
+
+        
+
+            thrust: {
+                frameDur: viz.frameDuration,
+                position: 0,
+                Nstep: 3,
+            },
 
         }, 
 
@@ -436,7 +439,7 @@ function battle_screen() {
     viz.button.thrust.item.image = viz.button.thrust.sprite.push[0] ;
  
     viz.button.thrust.item.uiSwitch = true ;
-    viz.button.block.code = 38 ;    
+    viz.button.thrust.code = 65 ;    
     viz.button.thrust.item.callback = function thrust_button_callback() {
 
     viz.player.attack('thrust') ;
@@ -564,7 +567,7 @@ function battle_screen() {
 
     viz.button.block.item.image = viz.button.block.sprite.push[0] ;
     viz.button.block.item.uiSwitch = true ;
-    viz.button.block.code = 40 ;
+    viz.button.block.code = 83 ;
 
     viz.button.block.item.callback = function block_button_callback() {
         viz.player.block('shield') ;
