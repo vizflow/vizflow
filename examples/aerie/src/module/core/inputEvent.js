@@ -27,8 +27,6 @@ var inputEvent = {
         break;
 
     }     
-  
-    // console.log('input event: ', 'prep', prep) ;
 
     function run_click () {
       // console.log('input event run click:', 'inputHandler', inputHandler) ;
@@ -48,9 +46,7 @@ var inputEvent = {
     } ;
 
     $Z._prep.push(runClick) ;
-  
-    // console.log('input event: ', 'newPrep', newPrep) ;
-    //console.log ('mousedown: holding', holding, 'event', event) ;
+
   },
 
   up: function input_event_up (event, doc) {
@@ -99,7 +95,7 @@ var inputEvent = {
         viz = this ;
       } 
 
-      callback(event) ;   
+      viz.callback(event) ;   
 
     },
 

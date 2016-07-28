@@ -209,14 +209,13 @@ var playerBattleHelper = {
           case 37: // left
             state = 'l' ;
             break;
+          case 65: // a
             state = 't' ;
             break;
           case 39: // right
             state = 'r' ;
             break;
-          case 83: // down
-          // case 13: // enter
-          // case 32: // space
+          case 83: // s
             state = 'd' ;
             break;
           case 68: // d
@@ -278,12 +277,6 @@ var playerBattleHelper = {
           // player.item.add_transition(transition, replacementSwitch) ;
     
             break ;
-
-        // case 'u' :
-
-        // element.health += 30 ;  
-          
-          break ;  
 
         case 'a' :
          

@@ -392,7 +392,6 @@ function battle_screen() {
     viz.button.left.item.uiSwitch = true ;
     viz.button.left.code = 37 ;
     viz.button.left.item.callback = function left_button_callback() {
-        // gameHelper.screen_handler(leftCode) ;
         
         var dur1 = 100 ;
         var dur2 = 100 ;
@@ -425,10 +424,6 @@ function battle_screen() {
         var event = { keyCode: viz.button.right.code } ;
         viz.player.callback(event) ;
 
-        // console.log('right button callback end') ;
-        
-        // gameHelper.screen_handler(rightCode) ;
-
     } ;
 
     viz.button.thrust.item.image = viz.button.thrust.sprite.push[0] ;
@@ -460,10 +455,6 @@ function battle_screen() {
 
         var event = { keyCode: viz.button.thrust.code } ;
         viz.player.callback(event) ;
-      
-
-        // gameHelper.screen_handler(thrustCode) ;
-
 
     } ;    
     
@@ -475,7 +466,6 @@ function battle_screen() {
       
     viz.player.attack('slash') ;
   
-    // viz.audio.slash.play() ; 
         var dur1 = 300 ;
         var dur2 = 100 ;
 
@@ -504,11 +494,7 @@ function battle_screen() {
         }) ;         
         var event = { keyCode: viz.button.slash.code } ;
         viz.player.callback(event) ;           
-        // viz.button.slash.item.fade()
-            
-        // gameHelper.screen_handler(slashCode) ;
 
-        
         }
 
     viz.button.finisher.item.image = viz.button.finisher.sprite.push[0] ;
@@ -516,7 +502,7 @@ function battle_screen() {
     viz.button.finisher.item.uiSwitch = true ;
     viz.button.finisher.item.callback = function finisher_button_callback() {
     viz.player.attack('finisher') ;
-    // viz.audio.finisher.play() ;
+     
         var dur1 = 300 ;
         var dur2 = 100 ;
 
@@ -548,9 +534,6 @@ function battle_screen() {
             duration: 0.3 * viz.fadeDuration,
         }) ; 
         viz.button.finisher.item.uiSwitch = false ;
-
-        
-        // gameHelper.screen_handler(finisherCode) ; 
  
     } ;            
 
@@ -592,6 +575,7 @@ function battle_screen() {
     } ;
 
     viz.player.item.add() ;
+    
     viz.start_attack = function viz_start_attack (viz) {
         if (viz === undefined) {
             viz = this ;
