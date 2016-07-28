@@ -99,11 +99,16 @@ var inputEvent = {
         viz = this ;
       } 
 
-      callback(event) ;   
+      if ( viz.callback === undefined ) {
+        return ;
+      }
+
+      viz.callback(event) ;   
 
     },
 
     screen_callback: function input_event_response_screen_callback (event, viz) {
+
     
       if (viz === undefined) {
         viz = this ;
@@ -113,19 +118,45 @@ var inputEvent = {
         return ; // nothing to do
       }
 
-      var position = set_canvas_position( viz.canvas ) ;
-
-      var xIn = Math.round( ( event.clientX - position.left ) / position.scale ) ;
-      var yIn = Math.round( ( event.clientY - position.top  ) / position.scale ) ;
-
       $Z.helper.draw.indexed( viz.ui.item, viz.ui.canvas ) ;
 
+      var position = viz.screenCanvas.set_position() ;
+
+      viz.viewportScaleX = viz.viewportWidth  / viz.screenCanvas.width ;      
+      viz.viewportScaleY = viz.viewportHeight / viz.screenCanvas.height ;      
+
+      var xIn = Math.round( viz.viewportX + viz.viewportScaleX * ( event.clientX - position.left ) / position.scaleX ) ;
+      var yIn = Math.round( viz.viewportY + viz.viewportScaleY * ( event.clientY - position.top  ) / position.scaleY ) ;
+
       var color     = viz.ui.canvas.context().getImageData( xIn, yIn, 1, 1 ).data ;
-      var itemIndex = color[0] - 1 ; // color indexing used by $Z.helper.image.to_index is 1-based
+      var itemIndex = color[0] - 1 ; // color indexing used by imageHelper.to_index is 1-based
 
       if(itemIndex >= 0) { // user selected a user-interface item 
         viz.ui.item[itemIndex].callback() ;
       } 
+
+    
+      // if (viz === undefined) {
+      //   viz = this ;
+      // }
+
+      // if ( viz.ui === undefined ) {
+      //   return ; // nothing to do
+      // }
+
+      // var position = viz.screenCanvas.set_position() ;
+
+      // var xIn = Math.round( ( event.clientX - position.left ) / position.scale ) ;
+      // var yIn = Math.round( ( event.clientY - position.top  ) / position.scale ) ;
+
+      // $Z.helper.draw.indexed( viz.ui.item, viz.ui.canvas ) ;
+
+      // var color     = viz.ui.canvas.context().getImageData( xIn, yIn, 1, 1 ).data ;
+      // var itemIndex = color[0] - 1 ; // color indexing used by $Z.helper.image.to_index is 1-based
+
+      // if(itemIndex >= 0) { // user selected a user-interface item 
+      //   viz.ui.item[itemIndex].callback() ;
+      // } 
 
     }, 
 

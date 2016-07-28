@@ -68,9 +68,9 @@ var enemyBattleHelper = {
           var dur1 = 800 ;
           var dur2 = 50 ;
           var dur3 = 100 ;
-          var trans1 = transitionHelper.new_step('image', enemy.sprite.attack[0], dur1) ;          
-          var trans2 = transitionHelper.new_step('image', enemy.sprite.attack[1], dur2) ;
-          var trans3 = transitionHelper.new_step('image', enemy.sprite.rest[0], dur3) ;
+          var trans1 = $Z.helper.transition.new_step('image', enemy.sprite.attack[0], dur1) ;          
+          var trans2 = $Z.helper.transition.new_step('image', enemy.sprite.attack[1], dur2) ;
+          var trans3 = $Z.helper.transition.new_step('image', enemy.sprite.rest[0], dur3) ;
 
           trans1.child = trans2 ;
           trans1.child.child = trans3 ;
@@ -79,7 +79,7 @@ var enemyBattleHelper = {
           transition                  = loop.animation ;
 
           enemy.item.add_transition(trans1) ;
-          if( transitionHelper.find('image', enemy.item.transition) > -1 ) {
+          if( $Z.helper.transition.find('image', enemy.item.transition) > -1 ) {
             return ; // don't interrupt the current attack animation 
           }          
 
@@ -104,9 +104,9 @@ var enemyBattleHelper = {
           var dur1   = 50 ;
           var dur2   = 50 ;
           var dur3   = 50 ;
-          var trans1 = transitionHelper.new_step('image', enemy.sprite.hit[0], dur1) ;          
-          var trans2 = transitionHelper.new_step('image', enemy.sprite.hit[1], dur2) ;
-          var trans3 = transitionHelper.new_step('image', enemy.sprite.rest[0], dur3) ;
+          var trans1 = $Z.helper.transition.new_step('image', enemy.sprite.hit[0], dur1) ;          
+          var trans2 = $Z.helper.transition.new_step('image', enemy.sprite.hit[1], dur2) ;
+          var trans3 = $Z.helper.transition.new_step('image', enemy.sprite.rest[0], dur3) ;
 
           trans1.child = trans2 ;
           trans1.child.child = trans3 ;
@@ -116,16 +116,16 @@ var enemyBattleHelper = {
 
           enemy.item.add_transition(trans1) ;
 
-          var trans4 = transitionHelper.new_step('image', enemy.item.white.image, dur1) ;          
-          var trans5 = transitionHelper.new_step('image', enemy.sprite.hitOverlay, dur2) ;
-          var trans6 = transitionHelper.new_step('image', enemy.item.white.image, dur3) ;
+          var trans4 = $Z.helper.transition.new_step('image', enemy.item.white.image, dur1) ;          
+          var trans5 = $Z.helper.transition.new_step('image', enemy.sprite.hitOverlay, dur2) ;
+          var trans6 = $Z.helper.transition.new_step('image', enemy.item.white.image, dur3) ;
 
           trans4.child       = trans5 ;
           trans4.child.child = trans3 ;
 
           enemy.item.white.add_transition(trans4) ;
 
-          if( transitionHelper.find('image', enemy.item.transition) > -1 ) {
+          if( $Z.helper.transition.find('image', enemy.item.transition) > -1 ) {
             return ; // don't interrupt the current attack animation 
           }          
     } ;    
@@ -153,10 +153,10 @@ var enemyBattleHelper = {
           var dur2 = 600 ;
           var dur3 = 50 ;
           var dur4 = 100 ;
-          var trans1 = transitionHelper.new_step('image', enemy.sprite.tailattack[0], dur1) ;
-          var trans2 = transitionHelper.new_step('image', enemy.sprite.tailattack[1], dur2) ;
-          var trans3 = transitionHelper.new_step('image', enemy.sprite.tailattack[2], dur3) ;          
-          var trans4 = transitionHelper.new_step('image', enemy.sprite.rest[0], dur4) ;
+          var trans1 = $Z.helper.transition.new_step('image', enemy.sprite.tailattack[0], dur1) ;
+          var trans2 = $Z.helper.transition.new_step('image', enemy.sprite.tailattack[1], dur2) ;
+          var trans3 = $Z.helper.transition.new_step('image', enemy.sprite.tailattack[2], dur3) ;          
+          var trans4 = $Z.helper.transition.new_step('image', enemy.sprite.rest[0], dur4) ;
           trans1.child = trans2 ;
           trans1.child.child = trans3 ;
           trans1.child.child.child = trans4 ;
@@ -165,14 +165,14 @@ var enemyBattleHelper = {
           transition                  = loop.animation ;
 
           enemy.item.add_transition(trans1) ;
-          if( transitionHelper.find('image', enemy.item.transition) > -1 ) {
+          if( $Z.helper.transition.find('image', enemy.item.transition) > -1 ) {
             return ; // don't interrupt the current attack animation 
           }
 
     } ;
 
     var attackDuration = 4000 ;
-    var attack_creator = transitionHelper.step_func('attack', attackDuration) ;
+    var attack_creator = $Z.helper.transition.step_func('attack', attackDuration) ;
 
     enemy.canAttack = true ;
 
@@ -198,7 +198,7 @@ var enemyBattleHelper = {
     } ;
 
     var tailAttackDuration = 5500 ;
-    var tail_attack_creator = transitionHelper.step_func('tailattack', tailAttackDuration) ;
+    var tail_attack_creator = $Z.helper.transition.step_func('tailattack', tailAttackDuration) ;
 
     enemy.canTailAttack = true ;
 
@@ -244,11 +244,11 @@ var enemyBattleHelper = {
       var dur3 = 150 ;
       var dur4 = 100 ;
       var dur5 = 100 ;
-      var trans1 = transitionHelper.new_step('image', enemy.sprite.rest[0], dur1) ;
-      var trans2 = transitionHelper.new_step('image', enemy.sprite.rest[1], dur2) ;
-      var trans3 = transitionHelper.new_step('image', enemy.sprite.rest[2], dur3) ;
-      var trans4 = transitionHelper.new_step('image', enemy.sprite.rest[1], dur4) ;          
-      var trans5 = transitionHelper.new_step('image', enemy.sprite.rest[0], dur5) ;
+      var trans1 = $Z.helper.transition.new_step('image', enemy.sprite.rest[0], dur1) ;
+      var trans2 = $Z.helper.transition.new_step('image', enemy.sprite.rest[1], dur2) ;
+      var trans3 = $Z.helper.transition.new_step('image', enemy.sprite.rest[2], dur3) ;
+      var trans4 = $Z.helper.transition.new_step('image', enemy.sprite.rest[1], dur4) ;          
+      var trans5 = $Z.helper.transition.new_step('image', enemy.sprite.rest[0], dur5) ;
       trans1.child = trans2 ;
       trans1.child.child = trans3 ;
       trans1.child.child.child = trans4 ;
@@ -257,14 +257,14 @@ var enemyBattleHelper = {
       transition                  = loop.animation ;
 
       enemy.item.add_transition(trans1) ;
-      if( transitionHelper.find('image', enemy.item.transition) > -1 ) {
+      if( $Z.helper.transition.find('image', enemy.item.transition) > -1 ) {
         return ; // don't interrupt the current attack animation           
 
       }
       } ;
 
       var restDuration = 20000 ;
-      var rest_creator = transitionHelper.step_func('rest', restDuration) ;
+      var rest_creator = $Z.helper.transition.step_func('rest', restDuration) ;
 
       enemy.canrest = true ;
 
