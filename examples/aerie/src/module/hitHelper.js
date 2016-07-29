@@ -258,7 +258,7 @@ var hitHelper = {
 
     endItem.fade({
 
-      duration: viz.fadeDuration * 4,
+      duration: viz.fadeDuration * 2,
 
       end: function() { 
         endItem.fade({
