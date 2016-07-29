@@ -95,6 +95,10 @@ var inputEvent = {
         viz = this ;
       } 
 
+      if ( viz.callback === undefined ) {
+        return ;
+      }
+
 
       viz.callback(event) ;   
 
