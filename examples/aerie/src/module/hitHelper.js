@@ -167,9 +167,8 @@ var hitHelper = {
     }   
     if (isShield === true) {
       var isRest = img === element.sprite.rest[0] ;
-        // element.item.viz.audio.blocked.play() ; 
 
-        element.health -= 0.2 ;
+        element.health -= 0.5 ;
     } else { 
       element.hit() ;
       element.item.whiteflash(50) ;  
@@ -228,9 +227,9 @@ var hitHelper = {
     }
 
   if (element.item.viz.enemy.health < 1) {
+        element.item.viz.enemy.healthbar.image.remove() ;
 
  function you_win(viz) {
-        element.item.viz.enemy.healthbar.image.remove() ;
 
     if(viz === undefined) {
       viz = this ;

@@ -241,10 +241,10 @@ function battle_screen() {
 
         x: 50,
         y: 50,
-        // xOrigin: -5,
-        // yOrigin: 60,
-        // xScale: 0.05,
-        // yScale: 0.05,        
+        xOrigin: -5,
+        yOrigin: 60,
+        xScale: 0.05,
+        yScale: 0.05,        
         type: 'enemy',
 
     } ;
@@ -590,9 +590,9 @@ function battle_screen() {
 
         viz.enemy.callback  = enemyBattleHelper.update ;        
    }
-    // viz.enemy.item.add_linear ('xScale', 1, scaleDur) ;
-    // viz.enemy.item.add_linear ('yScale', 1, scaleDur) ;
-    // viz.enemy.item.add_linear ('y', 100, scaleDur) ;
+    viz.enemy.item.add_linear ('xScale', 1, scaleDur) ;
+    viz.enemy.item.add_linear ('yScale', 1, scaleDur) ;
+    viz.enemy.item.add_linear ('y', 100, scaleDur) ;
     viz.call ('start_attack', .2 * scaleDur) ;
     viz.player.callback = playerBattleHelper.update ;    
     // viz.player.item.responseSet.bump = bumpHelper.setup(viz) ;
