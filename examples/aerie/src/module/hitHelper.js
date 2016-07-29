@@ -174,14 +174,14 @@ var hitHelper = {
       element.item.whiteflash(50) ;  
       element.health -= 2 ;
     }
-    if (response.healthbar.health < 0 && response.element === response.viz.player) {
-      function game_over(viz) {
+    if (element.item.viz.player.health < 1) {
     element.item.viz.player.healthbar.image.remove() ;
+      function game_over(viz) {
 
         if(viz === undefined) {
           viz = this ;
         }
-        response.healthbar.health = 0 ;
+
         var endImage = $Z.helper.image.adjust_ratio($Z.helper.image.to_canvas('./image/game_over.png')) ;
 
         var endItem = $Z.helper.item.setup({ 
