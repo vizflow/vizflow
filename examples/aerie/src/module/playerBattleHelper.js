@@ -203,6 +203,7 @@ var playerBattleHelper = {
     for (var kState = 0 ; kState < player.state.length ; kState++) {
       var keyCode = player.state[kState] ;
       var state ;
+      var scaleDur = 2000 ;
 
         switch (keyCode) {
 
@@ -248,33 +249,13 @@ var playerBattleHelper = {
           //   return ; // don't interrupt the current attack animation 
           // }
           viz.player.block('shield') ;
+          viz.button.thrust.item.add_linear('x', 4, scaleDur * 0.1) ;
+          viz.button.thrust.item.fade({
+              opacity: 1,
+              duration: 0.3 * viz.fadeDuration,
+          }) ;   
 
 
-          // var transitionFunc ;
-
-          // if( player.transitionSet.block === undefined ) {
-          //   transitionFunc = player.transitionSet.image ;
-          // } else {
-          //   transitionFunc = player.transitionSet.block ;
-          // }
-
-          // var loop = $Z.helper.sprite.animate_loop(
-          //   {},
-          //   player.sprite.block,
-          //   transitionFunc,
-          //   function() {} // buttonpress.reset
-          // ) ;
-
-          // player.loop.block.position  = loop.position ;
-          // transition                  = loop.animation ;
-
-          // var replacementSwitch = true ;
-
-          // //   if (player.restoreRest === true) {
-          // //     finalFrame = player.sprite.rest[0] ;  
-          // //   }
-          // // player.restoreRest === true ;          
-          // player.item.add_transition(transition, replacementSwitch) ;
     
             break ;
 
@@ -284,36 +265,18 @@ var playerBattleHelper = {
           //   return ; // don't interrupt the current attack animation 
           // }
           viz.player.attack('slash') ;
-
-          //viz.button.slash.item.callback() ;
-          // var transitionFunc ;
-
-          // if( player.transitionSet.attack === undefined ) {
-          //   transitionFunc = player.transitionSet.image ;
-          // } else {
-          //   transitionFunc = player.transitionSet.attack ;
-          // }
-
-          // var loop = $Z.helper.sprite.animate_loop(
-          //   {},// player.loop.attack,
-          //   player.sprite.attack,
-          //   transitionFunc,
-          //   // undefined,
-          //   player.sprite.rest[0] // buttonpress.reset
-
-          // ) ;
-
-          // player.loop.attack.position = loop.position ;
-          // transition                  = loop.animation ;
-          // console.log('player battle helper update attack case', 'transition', transition, 'loop', loop) ;
-          // var replacementSwitch = true ;
-          // var finalFrame  = player.sprite.rest[0] ;
-
-          // //   if (player.restoreRest === true) {
-          // //     finalFrame = player.sprite.rest[0] ;  
-          // //   }
-          // // player.restoreRest = true ;
-          // player.item.add_transition(transition, replacementSwitch) ;
+          viz.button.slash.item.uiSwitch = false ; 
+          viz.button.finisher.item.uiSwitch = true ;
+          viz.button.finisher.item.add_linear('x', 270, 0.1 * scaleDur ) ;
+          viz.button.finisher.item.fade({
+              opacity: 1,
+              duration: 0.3 * viz.fadeDuration,
+          }) ; 
+          viz.button.slash.item.add_linear('x', 320, 0.1 * scaleDur ) ;
+          viz.button.slash.item.fade({
+              opacity: 0,
+              duration: 0.3 * viz.fadeDuration,
+          }) ;           
 
           break ;
 
@@ -323,34 +286,7 @@ var playerBattleHelper = {
           //   return ; // don't interrupt the current attack animation 
           // }
           viz.player.attack('thrust') ;
-
-          // var transitionFunc ;
-
-          // if( player.transitionSet.thrust === undefined ) {
-          //   transitionFunc = player.transitionSet.image ;
-          // } else {
-          //   transitionFunc = player.transitionSet.thrust ;
-          // }
-
-          // var loop = $Z.helper.sprite.animate_loop(
-          //   {},
-          //   player.sprite.thrust,
-          //   transitionFunc,
-          //   player.sprite.rest[0] // buttonpress.reset
-
-          // ) ;
-
-          // player.loop.thrust.position = loop.position ;
-          // transition                  = loop.animation ;
-          // viz.button.thrust.item.callback() ;
-          // var replacementSwitch = true ;
-          // var finalFrame ; // = player.sprite.rest[0] ;
-
-          //   if (player.restoreRest === true) {
-          //     finalFrame = player.sprite.rest[0] ;  
-          //   }
-
-          // player.item.add_transition(transition, replacementSwitch) ;
+          viz.button.thrust.item.add_linear('x', -50, scaleDur * 0.1) ;
 
           break ;         
 
@@ -360,34 +296,19 @@ var playerBattleHelper = {
           //   return ; // don't interrupt the current attack animation 
           // }
           viz.player.attack('finisher') ;
+          viz.button.slash.item.uiSwitch = true; 
+          viz.button.finisher.item.add_linear('x', 320, 0.1 * scaleDur ) ;
 
-         // viz.player.button.finisher.callback() ;
-          // var transitionFunc ;
-
-          // if( player.transitionSet.finisher === undefined ) {
-          //   transitionFunc = player.transitionSet.image ;
-          // } else {
-          //   transitionFunc = player.transitionSet.finisher ;
-          // }
-
-          // var loop = $Z.helper.sprite.animate_loop(
-          //   {},
-          //   player.sprite.finisher,
-          //   transitionFunc,
-          //   function() {} // buttonpress.reset
-
-          // ) ;
-
-          // player.loop.finisher.position = loop.position ;
-          // transition                  = loop.animation ;
-          // var replacementSwitch = true ;
-          // // var finalFrame ; // = player.sprite.rest[0] ;
-
-          // //   if (player.restoreRest === true) {
-          // //     finalFrame = player.sprite.rest[0] ;  
-          // //   }
-
-          // player.item.add_transition(transition, replacementSwitch) ;
+          viz.button.finisher.item.fade({
+            opacity: 0,
+            duration: 0.3 * viz.fadeDuration,
+          }) ;   
+          viz.button.slash.item.add_linear('x', 270, 0.1 * scaleDur ) ;
+          viz.button.slash.item.fade({
+            opacity: 1,
+            duration: 0.3 * viz.fadeDuration,
+          }) ; 
+          viz.button.finisher.item.uiSwitch = false ;          
 
           break ;              
                   

@@ -174,113 +174,27 @@ var hitHelper = {
       element.item.whiteflash(50) ;  
       element.health -= 0.5 ;
     }
-    if (element.item.viz.player.health < 1) {
-    // element.item.viz.player.healthbar.image.remove() ;
-      function game_over(viz) {
 
-        if(viz === undefined) {
-          viz = this ;
-        }
+    if ( element.health < 1 ) {
+      element.health = 1 ; // clamps health value at zero as a lower-bound\
+    }
 
-        var endImage = $Z.helper.image.adjust_ratio($Z.helper.image.to_canvas('./image/game_over.png')) ;
-
-        var endItem = $Z.helper.item.setup({ 
-
-          x: (viz.width - endImage.originalCanvas.width) * 0.5,
-          y: (viz.height - endImage.originalCanvas.height) * 0.5,
-          image: endImage,
-          opacity: 0,
-          inert: true,
-          viz: viz,
-
-        }) ;
-
-        endItem.add() ;
-         
-        viz.opacity = 1 ;
-        viz.fade({
-
-          duration: 4 * viz.fadeDuration,
-        }) ;
-
-        endItem.fade({
-
-          duration: viz.fadeDuration * 4,
-
-          end: function() { 
-            endItem.fade({
-
-              duration: viz.fadeDuration * 4,
-              end: window.location.reload(),
-            }) ;
-       
-          },
-
-        }) ;
-
-      } 
-
-    game_over (viz) ;
-  
+    if (element.item.viz.player.health < 2) {
+      element.item.viz.game_over() ;
     } else {
       element.healthbar.image = element.health_bar() ;
     }
-        var healthDamping = 1 ;
 
-  if (element.item.viz.enemy.health < 2) {
-    // element.item.viz.enemy.healthbar.image.remove() ;
 
- function you_win(viz) {
+    if (element.item.viz.enemy.health < 2) {
+      viz.win() ;  
 
-    if(viz === undefined) {
-      viz = this ;
-    }
-
-    var endImage = $Z.helper.image.adjust_ratio($Z.helper.image.to_canvas('./image/you_win.png')) ;
-
-    var endItem = $Z.helper.item.setup({ 
-
-      x: (viz.width - endImage.originalCanvas.width) * 0.5,
-      y: (viz.height - endImage.originalCanvas.height) * 0.5,
-      image: endImage,
-      opacity: 0,
-      inert: true,
-      viz: viz,
-
-    }) ;
-
-    endItem.add() ;
-     
-    viz.opacity = 1 ;
-    viz.fade({
-
-      duration: 2 * viz.fadeDuration,
-    }) ;
-
-    endItem.fade({
-
-      duration: viz.fadeDuration * 2,
-
-      end: function() { 
-        endItem.fade({
-
-          duration: viz.fadeDuration * 4,
-          end: window.location.reload(),
-        }) ;
-   
-      },
-
-    }) ;
-
-  } 
-
-  you_win (viz) ;
-  
     } else {
       element.healthbar.image = element.health_bar() ;
     }
     
   }, 
+
   reset: function hit_helper_reset (response) {
 
     if( response === undefined ) {

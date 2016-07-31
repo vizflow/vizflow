@@ -1601,11 +1601,11 @@ $__System.register("40", ["3f"], function (_export) {
 $__System.register('41', [], function (_export) {
   'use strict';
 
-  var AudioContext, audioHelper;
+  var audioHelper;
   return {
     setters: [],
     execute: function () {
-      AudioContext = window.AudioContext // Default
+      window.AudioContext = window.AudioContext // Default
        || window.webkitAudioContext // Safari and old versions of Chrome
        || window.mozAudioContext || window.oAudioContext || window.msAudioContext || false;
 
@@ -4101,7 +4101,7 @@ $__System.register('49', [], function (_export) {
             audioLoader.callback_handler();
           } else {
 
-            if (AudioContext) {
+            if (window.AudioContext !== undefined) {
               // Do whatever you want using the Web Audio API
               // console.log('AudioContext', AudioContext, '$Z.helper.audio', $Z.helper.audio)
               var audio = Object.copy($Z.helper.audio); // shallow copy, maintains a single AudioContext container for all source files loaded

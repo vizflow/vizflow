@@ -20,7 +20,7 @@ let audioLoader = {
       audioLoader.callback_handler() ;
     } else {
 
-      if (AudioContext) {
+      if ( window.AudioContext !== undefined ) {
           // Do whatever you want using the Web Audio API
         // console.log('AudioContext', AudioContext, '$Z.helper.audio', $Z.helper.audio)
         var audio = Object.copy($Z.helper.audio) ; // shallow copy, maintains a single AudioContext container for all source files loaded

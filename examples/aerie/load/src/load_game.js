@@ -6,7 +6,6 @@ function load_game () {
 
     background: undefined,
     music:      undefined,
-    inputEvent: inputEvent,
     width: 320,
     height: 240,
 
@@ -100,6 +99,7 @@ function load_game () {
     viz.startText.flash(100) ;
     viz.setup_item(startTextConfig) ;
     
+    
     viz.overlay          = $Z.helper.viz.clear_cover(viz) ;
     viz.overlay.callback = run_title ;
 
@@ -133,62 +133,23 @@ function load_game () {
         }
       })
 
-      //   viz.sword.fade({
-      //   duration: 2 * viz.fadeDuration,
-      //   opacity: 0,
-      //   end: function() {
-      //     viz.sword.remove() ;
-
-      //   }
-      // })
-
-      // var width = 320 ;    
-      // var height = 240;
-      // var sprite = $Z.helper.sprite.get($Z.helper.image.to_canvas('./image/aerie_title.png'), ['bg'], width, height) ;
-
-      // viz.title = {
-
-      //   sprite: sprite,
-      //   bgConfig: {
-      //     image: sprite.bg[0],
-      //     x: 0,
-      //     y: -80,
-      //   },
-
-
-      // } ;
-
       viz.overlay.remove() ;
 
-      //viz.title.bg          = viz.setup_item(viz.title.bgConfig) ; 
-
       viz.swordItem.add() ;
-      //viz.title.bg.fade() ;
-      viz.swordItem.call('fade', 3 * viz.fadeDuration) ; 
 
       viz.swordItem.call(function() {
 
         var fade = 4 ;
-        // viz.audio.music.fade(fade) ;
 
-        // viz.zoom({
-        //   x: x0,
-        //   y: y0, 
-        //   width: viz.width / 3,
-        //   height: viz.height / 3,
-        //   duration: 4 * viz.fadeDuration,
-        // }) ;
        viz.swordItem.add_linear('x', -300, 0.5 * viz.fadeDuration) ;
      
         viz.swordItem.fade({
-          duration: 2 * viz.fadeDuration,
+          duration: 1 * viz.fadeDuration,
           opacity: 0,
           end: battle_screen,
         }) ;
-      }, 4 * viz.fadeDuration) ;
+      }, 1 * viz.fadeDuration) ;
       
   }
-
-
 
 }
