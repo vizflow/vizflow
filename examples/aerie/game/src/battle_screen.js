@@ -12,6 +12,9 @@ function battle_screen() {
     
     viz = $Z.helper.viz.setup(vizConfig) ;
 
+    viz.game_over = gameHelper.game_over ;
+    viz.win       = gameHelper.you_win ; 
+
     var backgroundConfig = {
         image: $Z.helper.image.adjust_ratio ($Z.helper.image.to_canvas ('./image/battlescreen_background.png')),
         width: 320,
