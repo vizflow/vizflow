@@ -196,6 +196,8 @@ var playerBattleHelper = {
       return ;
     }
 
+    // console.log('playerBattleHelper update:', 'event', event) ;
+
     player.add_event(event) ;
 
     var transition ;

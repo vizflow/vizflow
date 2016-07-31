@@ -95,12 +95,11 @@ var inputEvent = {
         viz = this ;
       } 
 
-      if ( viz.callback === undefined ) {
+      if ( viz.keyboard_callback === undefined ) {
         return ;
       }
 
-
-      viz.callback(event) ;   
+      viz.keyboard_callback(event) ;   
 
     },
 
