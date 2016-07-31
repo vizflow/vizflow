@@ -91,7 +91,6 @@ document.vizflow_page = function vizflow_page() {
     }) ;
 
     urlList[2] = 'http://electionfighter.com' ; // this one has its own URL
-    urlList[4] = 'http://entsphere.com/birdz' ; // temporary URL
 
     // console.log('urlList', urlList) ;
 
