@@ -1,0 +1,118 @@
+<!doctype html5>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+
+  <head>
+ <link rel="icon" href="./favicon.ico?v=2" />
+ 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0,width=device-width,maximum-scale=1,user-scalable=no,minimal-ui">
+    <meta name="Aerie" content="Prototype RPG combat engine">
+
+    <title>Aerie: Battle System</title>
+
+    <meta name="Aerie: Battle System" content="Prototype RPG combat engine" />
+
+    <meta name="twitter:card" value="Aerie - Prototype RPG combat engine">
+
+    <meta property="og:title" content="Aerie - Prototype RPG combat engine" />
+    <meta property="og:type" content="game" />
+    <meta property="og:url" content="http://www.vizflow.org/examples/aerie" />
+    <meta property="og:image" content="http://www.vizflow.org/examples/aerie/image/aerie_title.png" />
+    <meta property="og:description" content="Prototype RPG combat engine" />
+    <meta name="theme-color" content="#010111">
+
+    <style>
+
+      html, body {
+        background-color: #010111 ;
+        color: #999 ;
+        font-size: 36px;
+      }
+
+      div {
+        background: url('./image/loading.gif');
+        background-repeat: no-repeat;
+        background-size: contain;
+        width:50%;
+        height:100%;
+        margin: auto;
+      }
+
+      canvas, img, div { 
+          image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
+          image-rendering: -moz-crisp-edges;          /* Firefox                        */
+          image-rendering: -o-crisp-edges;            /* Opera                          */
+          image-rendering: -webkit-optimize-contrast; /* Chrome (and eventually Safari) */
+          image-rendering: pixelated;                 /* Chrome */
+          image-rendering: optimize-contrast;         /* CSS3 Proposed                  */
+          -ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
+      }    
+
+    </style>
+
+  </head>
+
+  <body>
+  
+    <!-- vizflow modules: -->    
+
+    <script src="src/vizflow.js"></script>
+    <script src="src/vizflow-helper.js"></script>
+
+    <!-- custom modules: -->
+
+    <script src="src/setup/setup_element.js"></script>
+
+    <!-- game-specific modules: -->
+
+    <script src="src/module/playerBattleHelper.js"></script>    
+    <script src="src/module/enemyBattleHelper.js"></script> 
+    <script src="src/module/scoreHelper.js"></script>
+    <script src="src/module/responseHelper.js"></script>
+    <script src="src/module/hitHelper.js"></script>        
+    <script src="src/module/playerHitHelper.js"></script>
+    <script src="src/module/enemyHitHelper.js"></script>
+
+    <!-- visualization specific code: -->
+
+    <script src="load/src/load_game.js"></script>
+    <script src="game/src/gameHelper.js"></script>
+    <script src="game/src/battle_screen.js"></script>    
+
+    <div id="loading"></div>
+
+    <script>
+
+        function fullscreen() {
+
+            var elem;
+            elem = document.body.parentNode ;
+            
+            if (elem.requestFullscreen) {
+              return elem.requestFullscreen() ;
+            } else if (elem.msRequestFullscreen) {
+              return elem.msRequestFullscreen() ;
+            } else if (elem.mozRequestFullScreen) {
+              return elem.mozRequestFullScreen() ;
+            } else if (elem.webkitRequestFullscreen) {
+              return elem.webkitRequestFullscreen() ;
+            }
+
+            document.removeEventListener('click', fullscreen) ;
+
+        }
+
+        document.addEventListener('click', fullscreen) ;
+
+    </script>
+
+    <!-- after everything else has been done, load the main.js script run the vizualization: -->
+
+    <script src="src/main.js"></script> 
+
+  </body>
+
+</html>

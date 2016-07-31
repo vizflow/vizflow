@@ -613,27 +613,29 @@ let transitionHelper = {
         trans = trans_func() ;
       }
 
+      trans.item = item ;
+
       var child = transitionHelper.get_child(trans, 'last') ;
 
-      if ( child.end === undefined ) {
-
-        child.end = {
-        
-          item: item,
-          transition_func: trans_func,
-          run: transitionHelper.loop_end,
-        
-        } ;
-
-      } else {
+      if ( child.end !== undefined ) {
 
         if ( child.end.constructor === Object ) {
-          child.run() ;
+          child.end.run() ;
         } else {
-          child() ;
+          child.end() ;
         }
 
       }
+
+      child.end = {
+      
+        item: item,
+        transition_func: trans_func,
+        run: transitionHelper.loop_end,
+      
+      } ;
+
+      // console.log('loop_trans:', 'trans', trans, 'child', child) ;
 
       return trans ;
 
@@ -651,12 +653,26 @@ let transitionHelper = {
         item.transition = [] ;
         transitionList = item.transition ;
       }    
-      var transitionIndex = transitionHelper.find(property, transitionList) ;
-      if (transitionIndex === -1) {
-        return ; // nothing to do
-      } else {
-        transitionList.splice(transitionIndex, 1) ;
-      }    
+
+      if ( property === undefined || property === 'all' ) {
+        item.transition = [] ;
+        return ;
+      }
+
+      if ( property.constructor === String ) {
+        property = [property] ;
+      }
+
+      for ( let kprop = 0 ; kprop < property.length ; kprop++ ) {
+
+        var transitionIndex = transitionHelper.find(property, transitionList) ;
+
+        if ( transitionIndex > -1 ) {
+          transitionList.splice(transitionIndex, 1) ;
+        }    
+
+      }
+
     },
 
     remove_end: function(item) {

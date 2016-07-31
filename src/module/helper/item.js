@@ -258,36 +258,96 @@ let itemHelper = {
 
     },
 
-    call: function item_helper_call (callback, delay, item) {
+    loop_function: function item_loop_func( func, duration, item ) {
 
       if ( item === undefined ) {
         item = this ;
       }
 
+      if ( func.constructor === String ) {
+        func = item[func] ;
+      }
+
+      if ( duration === undefined ) {
+        duration = item.viz.loopDuration ;
+      }
+
+      // console.log('item_loop_func:', 'item, func, duration', item, func, duration) ;
+
+      var trans_func = function () {
+        var trans = $Z.helper.transition.new_step('loop_' + func.name, null, duration ) ;
+        trans.end = function() {
+          // console.log('item_loop_func trans.end:', 'this', this, 'func', func) ;
+          func.call(this.item) ;
+        } ;
+        return trans ;
+      } ;
+
+      // func.call(item) ;
+
+      item.loop(trans_func) ;
+
+    },
+
+    call: function item_helper_call (callback, duration, loopSwitch, item) {
+
+      if ( item === undefined ) {
+        item = this ;
+      }
+
+      if ( loopSwitch === undefined ) { 
+        loopSwitch = false ;
+      }
+
       if ( callback.constructor === Array ) {
 
-        var delaySum = 0 ;
-
         for ( var kcall = 0 ; kcall < callback.length ; kcall++ ) {
-
-          if ( delay.constructor === Number ) {
-            var delayK = delay * (kcall + 1) ;
-          } else if( delay.constructor === Array ) {
-            delaySum += delay[kcall] ;
-            delayK = delaySum ;
-          } else {
-            console.log('item_helper_call: delay is not a Number of Array') ;
-          }
-
-          // console.log('item helper call: ', 'kcall', kcall, 'callback[kcall]', callback[kcall], 'delayK', delayK) ;
 
           if ( callback[kcall].constructor === String ) {
             var callbackK = item[callback[kcall]] ;
           } else {
             var callbackK = callback[kcall] ;
-          }
+          }        
 
-          item.run_callback( callbackK, delayK ) ;
+
+          if ( loopSwitch === true || loopSwitch === 'loop' ) { 
+
+            var delayK ;
+            if ( duration.constructor === Number ) {
+              delayK = duration ;
+            } else if( duration.constructor === Array ) {
+              delayK = duration[kcall] ;
+            } else {
+              console.log('item.call: duration is not a Number or Array') ;
+            }
+            // console.log('item helper call: ', 'kcall', kcall, 'callback[kcall]', callback[kcall], 'delayK', delayK) ;
+
+            item.loop_function( callbackK, delayK ) ;
+
+          } else {
+
+            var delaySum = 0 ;
+
+            if ( duration.constructor === Number ) {
+              var delayK = duration * (kcall + 1) ;
+            } else if( duration.constructor === Array ) {
+              delaySum += duration[kcall] ;
+              delayK = delaySum ;
+            } else {
+              console.log('item.call: duration is not a Number or Array') ;
+            }
+
+            // console.log('item helper call: ', 'kcall', kcall, 'callback[kcall]', callback[kcall], 'delayK', delayK) ;
+
+            if ( callback[kcall].constructor === String ) {
+              var callbackK = item[callback[kcall]] ;
+            } else {
+              var callbackK = callback[kcall] ;
+            }
+
+            item.run_callback( callbackK, delayK ) ;
+
+          }  
 
         }
 
@@ -299,9 +359,13 @@ let itemHelper = {
           callback = item[callback] ;
         }
 
-        // console.log('item helper call: ', 'callback 2', callback, 'delay', delay)
+        // console.log('item helper call: ', 'callback 2', callback, 'duration', duration)
 
-        item.run_callback(callback, delay) ;        
+        if ( loopSwitch === true || loopSwitch === 'loop' ) {
+          item.loop_function(callback, duration) ;
+        } else {
+          item.run_callback(callback, duration) ;
+        }
 
       }
 
@@ -313,6 +377,10 @@ let itemHelper = {
         item = this ;
       }
 
+      if ( item.delayCount === undefined ) {
+        item.delayCount = 0 ;
+      }
+
       item.delayCount++ ;
 
       var prop = 'delay' + item.delayCount ;
@@ -322,13 +390,15 @@ let itemHelper = {
       var trans = $Z.helper.transition.new_step(prop, undefined, delay) ;
 
       trans.end = function run_callback_end() {
-        // console.log('run_callback_end:', 'callback', callback, 'item', item)
         callback.call(item) ;
+        // console.log('run_callback_end:', 'callback', callback, 'item', item)
       } ;
 
       // console.log('run_callback', 'item', item, 'trans', trans) ;
 
       item.add_transition(trans) ;
+
+      // console.log('run_callback', 'item.transition', item.transition) ;
 
     },
 

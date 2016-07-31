@@ -244,7 +244,7 @@ let spriteHelper = {
       }
       transitionArray[kframe] = (transition) ;
     }
-    return transitionHelper.sequence(transitionArray) ;
+    return $Z.helper.transition.sequence(transitionArray) ;
   },
 
   animate_loop: function sprite_helper_animate_loop (loopConfig, valueList, create_transition, callback, restFrame) {
@@ -315,7 +315,7 @@ let spriteHelper = {
     // console.log('animate_loop:', 'Nframe', Nframe, 'kpos', kPos, 'loop', loop, 'body', body, 'head', head, 'tail', tail) ;
     
     loopOutput.position              = (loopOutput.position + loopConfig.Nstep) % Nframe ;
-    loopOutput.animation             = animate (loop, create_transition, callback) ;
+    loopOutput.animation             = $Z.helper.sprite.animate (loop, create_transition, callback) ;
     // loopOutput.animation[0].duration = 1 ; // show first frame immediately
 
     return loopOutput ;
