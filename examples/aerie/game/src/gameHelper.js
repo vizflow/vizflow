@@ -32,14 +32,14 @@ var gameHelper = {
 
   },  
 
-  load_select: function game_helper_load_select (viz) {
-    if(viz === undefined) {
-      viz = this ;
-    }
+  // load_select: function game_helper_load_select (viz) {
+  //   if(viz === undefined) {
+  //     viz = this ;
+  //   }
 
-    viz.sprite = viz.menuConfig.sprite_loader() ;
-    viz.load_audio() ;
+  //   viz.sprite = viz.menuConfig.sprite_loader() ;
+  //   viz.load_audio() ;
 
-  },  
+  // },  
 
 } ;

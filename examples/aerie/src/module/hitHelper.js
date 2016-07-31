@@ -53,7 +53,7 @@ var hitHelper = {
       var health_transition = $Z.helper.transition.linear_transition_func ( 'width', viz.dur * 4 ) ; 
 
       if(setupResponseConfig.healthdrop === undefined) {    
-        setupResponseConfig.healthdrop = 2 ;
+        setupResponseConfig.healthdrop = 0.5 ;
       }
      
       var hit = { // action config object
@@ -172,10 +172,10 @@ var hitHelper = {
     } else { 
       element.hit() ;
       element.item.whiteflash(50) ;  
-      element.health -= 2 ;
+      element.health -= 0.5 ;
     }
     if (element.item.viz.player.health < 1) {
-    element.item.viz.player.healthbar.image.remove() ;
+    // element.item.viz.player.healthbar.image.remove() ;
       function game_over(viz) {
 
         if(viz === undefined) {
@@ -225,11 +225,12 @@ var hitHelper = {
     } else {
       element.healthbar.image = element.health_bar() ;
     }
+        var healthDamping = 1 ;
 
-  if (element.item.viz.enemy.health < 1) {
+  if (element.item.viz.enemy.health < 2) {
+    // element.item.viz.enemy.healthbar.image.remove() ;
 
  function you_win(viz) {
-        element.item.viz.enemy.healthbar.image.remove() ;
 
     if(viz === undefined) {
       viz = this ;
