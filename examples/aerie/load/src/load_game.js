@@ -6,7 +6,6 @@ function load_game () {
 
     background: undefined,
     music:      undefined,
-    inputEvent: inputEvent,
     width: 320,
     height: 240,
 

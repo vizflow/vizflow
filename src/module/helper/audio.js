@@ -1,4 +1,4 @@
-let AudioContext = window.AudioContext // Default
+window.AudioContext = window.AudioContext // Default
   || window.webkitAudioContext // Safari and old versions of Chrome
   || window.mozAudioContext 
   || window.oAudioContext 
