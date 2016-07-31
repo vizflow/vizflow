@@ -66,17 +66,17 @@ var gameHelper = {
     viz.opacity = 1 ;
     viz.fade({
 
-      duration: 2 * viz.fadeDuration,
+      duration: 3 * viz.fadeDuration,
     }) ;
 
     endItem.fade({
 
-      duration: viz.fadeDuration * 2,
+      duration: viz.fadeDuration * 3,
 
       end: function() { 
         endItem.fade({
 
-          duration: viz.fadeDuration * 4,
+          duration: viz.fadeDuration * 3,
           end: window.location.reload(),
         }) ;
    
@@ -112,17 +112,17 @@ var gameHelper = {
     viz.opacity = 1 ;
     viz.fade({
 
-      duration: 4 * viz.fadeDuration,
+      duration: 3 * viz.fadeDuration,
     }) ;
 
     endItem.fade({
 
-      duration: viz.fadeDuration * 4,
+      duration: viz.fadeDuration * 3,
 
       end: function() { 
         endItem.fade({
 
-          duration: viz.fadeDuration * 4,
+          duration: viz.fadeDuration * 3,
           end: window.location.reload(),
         }) ;
    
