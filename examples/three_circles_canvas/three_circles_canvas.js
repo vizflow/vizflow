@@ -1,4 +1,4 @@
-fpre// three colored circles with Canvas rendering, a simple demo of vizflow's transition features
+// three colored circles with Canvas rendering, a simple demo of vizflow's transition features
 
 function three_circles_canvas() {
 
