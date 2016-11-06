@@ -1,0 +1,27 @@
+<!doctype html5>
+<html>
+  <head>
+    <style>
+      body { 
+        margin: 0;
+        font: 13pt courier;
+        font-weight: bold;
+        background-color: #FFF;
+        overflow-y:hidden;
+        color: #ccc;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;        
+       }
+     </style>
+     <script src="vizflow.js"></script>
+     <script src="vizflow-helper.js"></script>
+  </head>
+  <body>
+    <script src="ball_viz.js"></script>
+    <script>
+      document.imageList = ['image/ball.png'] ;      
+      $Z.helper.loader.all(document.imageList, [], ball_viz) ;
+    </script>
+  </body>
+</html>
