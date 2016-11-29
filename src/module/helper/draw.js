@@ -82,8 +82,11 @@ let drawHelper = {
 
       var itemImage = item[kItem].image ;
       item[kItem].image = tempCanvas ;
+      var op = item[kItem].opacity ; 
+      item[kItem].opacity = 1 ;
       drawHelper.image(item[kItem], context) ; // context.drawImage(tempCanvas, item[kItem].x - xOrigin, item[kItem].y - yOrigin) ; // draw color-indexed button for color picking
       item[kItem].image = itemImage ;
+      item[kItem].opacity = op ;
 
     }
 
