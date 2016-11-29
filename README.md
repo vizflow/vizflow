@@ -4,13 +4,13 @@
 
 [vizflow.js](https://github.com/vizflow/vizflow) - a render-loop library written using EcmaScript.6 (ES6) with no other external dependencies. 
 
-Vizflow is a light-weight library for adding transition effects and interactive visualizations to HTML5 documents with a simpler design compared to other popular interactive visualization libraries like [D3js](http://d3js.org). 
+Vizflow is a relatively small library for adding transition effects and interactive visualizations to HTML5 documents with a simpler design compared to other popular interactive visualization libraries like [D3js](http://d3js.org). 
 
 Instead of focusing on specific applications such as data visualization, it only provides an engine for running animations, transition effects, simulations, games, etc., depending on the application. 
 
 Vizflow uses the symbol `$Z` (read as "bling Z" or "dollar Z") for defining its namespace.
 
-Keeping the library simple-to-use, small, and efficient in terms of performance, especially on mobile devices, are the main goals of this project. Feedback wanted.
+Following the DRY and KISS guidelines, keeping the library simple-to-use, small, and efficient in terms of performance, especially on mobile devices, are the main goals of this project.
 
 # Examples
 
@@ -36,6 +36,10 @@ It's also available on [Google Play](https://play.google.com/store/apps/details?
 ### Prime Fruit
 
 [Prime Fruit](http://vizflow.org/examples/primefruit/) is an idea for an educational game teaching the player about prime numbers and prime factorizations, and is described [here](https://www.linkedin.com/pulse/vizflow-testing-via-games-ii-prime-fruit-daniel-korenblum?trk=mp-author-card).
+
+### Ball
+
+This is a very basic example of sprite based animation showing a ball bounding inside a Canvas. It needs to be expanded to be used for performance testing by running with different numbers of balls and analyzing framerate degradation.
 
 # Deployment
 
