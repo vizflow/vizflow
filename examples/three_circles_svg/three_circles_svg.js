@@ -23,6 +23,7 @@ function three_circles_svg() {
     circ.viz.setAttribute( 'cy',   circ.y      ) ;
     circ.viz.setAttribute( 'fill', circ.color  ) ;
     circ.viz.setAttribute( 'r',    circ.radius ) ;
+
   }
 
   function random_color() {
@@ -76,16 +77,20 @@ function three_circles_svg() {
   }) ;
 
   function click() {
+
+    var circItem = this ;
+
+    // console.log( 'this', this, 'circItem', circItem ) ;
     
     var tx   = x_transition ( width  * (Math.random() - 0.5) ) ; // x transition object
     var ty   = y_transition ( height * (Math.random() - 0.5) ) ; // y transition object
     var tr   = r_transition ( 1 + (4 * Math.random())        ) ; // radius transition object
     var tc   = c_transition ( random_color()                 ) ; // transient color transition object
-    var tc2  = c_transition ( this.datum.color0              ) ; // final color transition object (return back to starting color)
+    var tc2  = c_transition ( circItem.datum.color0          ) ; // final color transition object (return back to starting color)
 
     tc.child = tc2 ; // ** example of the vizflow transition-chaining syntax
 
-    this.datum.add_transition( [tx, ty, tr, tc] ) ; // set the transitions for this item, also cancels all existing transitions for this item (side-effect)
+    circItem.datum.add_transition( [tx, ty, tr, tc] ) ; // set the transitions for this item, also cancels all existing transitions for this item (side-effect)
 
   } 
 
