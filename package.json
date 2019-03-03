@@ -1,12 +1,15 @@
 {
   "jspm": {
+    "registry": "npm",
     "directories": {
       "lib": "."
     },
     "devDependencies": {
-      "babel": "npm:babel-core@^5.8.24",
-      "babel-runtime": "npm:babel-runtime@^5.8.24",
-      "core-js": "npm:core-js@^1.1.4"
+      "babel": "babel-core@^5.8.24",
+      "babel-runtime": "^5.8.24",
+      "core-js": "^1.1.4",
+      "lodash": "^4.17.11",
+      "minimatch": "^3.0.2"
     }
   }
 }
