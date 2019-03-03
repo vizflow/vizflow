@@ -1,0 +1,1 @@
+module.exports = require("npm:ieee754@1.1.12/index.js");
