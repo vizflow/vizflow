@@ -1,10 +1,11 @@
 <!doctype html5>
 <html>
-  <head>
 
-    <style>
+<head>
 
-      body {
+  <style>
+
+    body {
 
         margin: 0;
         font: 13pt courier;
@@ -20,18 +21,25 @@
 
     </style>
 
-      <title>Framerate Test</title>
+  <title>Framerate Test</title>
+</head>
 
-  </head>
-  <body>
+<body>
 
-    <script type="text/javascript" src="vizflow.js"></script>
-    <script type="text/javascript" src="vizflow-helper.js"></script>
-    <script type="text/javascript" src="framerate-test.js"></script>
+  <script type="text/javascript" src="vizflow.js"></script>
+  <script type="text/javascript" src="vizflow-helper.js"></script>
+  <script type="text/javascript" src="framerate-test.js"></script>
+  <div id="buttonDiv">
+    <input text type=number class='input'>
+    <button onClick="
+      $Z.maxIter = 1 ;
+      setTimeout(function(){
+        $Z.maxIter = Infinity ;
+        framerate_test(document.querySelector('.input').value) ;  
+      }, 100) ;
+    ">run</button>
+  </div>
+  <div id="canvasDiv"></div>
+</body>
 
-    <script>
-      document.framerate_test() ;
-    </script>
-
-  </body>
 </html>

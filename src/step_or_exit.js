@@ -4,7 +4,7 @@ export default function step_or_exit() {
 		console.log('vizflow: step or exit start') ;
 	}
 
-	if($Z.done()) {
+	if($Z.done()) { // $Z.maxIter gets applied here
 
 		$Z.exit() ;
 	
