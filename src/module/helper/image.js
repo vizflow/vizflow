@@ -97,18 +97,22 @@ let imageHelper = {
 
   },
 
-  place: function viz_helper_place( canvas ) {
+  place: function viz_helper_place( domObject, canvas ) {
+
+    if ( domObject === undefined ) {
+      domObject = document.body ;
+    }
 
     if ( canvas === undefined ) { 
       canvas = this ;
     }
 
-    var y = document.body.getElementsByTagName("canvas");
+    var y = domObject.getElementsByTagName("canvas");
     for(let ky = 0 ; ky < y.length ; ky++) {
       // console.log('removing', 'canvas', y[ky]) ;
       y[ky].parentNode.removeChild(y[ky]) ;
     }
-    document.body.appendChild(canvas) ;
+    domObject.appendChild(canvas) ;
     canvas.style.position = 'fixed' ;
     canvas.parentNode.style.transformOrigin = "0 0"; //scale from top left
     // canvas.context().scale(1, 1) ;

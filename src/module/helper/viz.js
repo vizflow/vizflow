@@ -49,7 +49,7 @@ let vizHelper = {
     var vizContext    = vizCanvas.context() ;  
     var screenContext = screenCanvas.context() ;
 
-    screenCanvas.place() ;
+    screenCanvas.place( vizConfig.parentElement ) ;
 
     function resize(viz) {
 
