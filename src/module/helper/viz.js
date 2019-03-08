@@ -1,4 +1,4 @@
-let vizHelper = {
+  let vizHelper = {
 
   setup: function viz_helper_setup_viz (vizConfig) {
 
@@ -20,7 +20,7 @@ let vizHelper = {
      *   TEMPORARY VARIABLES USED FOR SETTING UP THE VIZ OBJECT:
      */ 
 
-    var dur           = vizConfig.duration || 17 ; // the framespeed that vizflow uses (default is 60 frames per second)
+    var dur = vizConfig.duration || 17 ; // the framespeed that vizflow uses (default is 60 frames per second)
     
     if ( document.ratio === undefined ) {
       document.ratio = 1 ;
@@ -298,7 +298,7 @@ let vizHelper = {
    
       },
 
-      post: function viz_post () {
+      post: function viz_post () { // automatically gets added to the $Z._post array when viz.run() calls $Z.viz()
 
         var sx = Math.floor((this.viewportX + this.xShift) * ratio) ;
         var sy = Math.floor((this.viewportY + this.yShift) * ratio)  ; 

@@ -66,7 +66,7 @@ let vizflow = { // define the "bling Z" object for running interactive vizualiza
   item,       // getter/setter function for interfacing with the item/data array
   prep,       // getter/setter function for interfacing with the _prep array
   update,     // default update function for items using arrays of transition objects containing interpolation functions
-  post,       // getter/setter function for interfacing with the _prep array
+  post,       // getter/setter function for interfacing with the _post array
   detect,     // getter/setter function for interfacing with the _detect array
   perform,    // getter/setter function for interfacing with the _perform array
   pipe,       // function for dynamically chaining promises using a for-loop
@@ -74,7 +74,7 @@ let vizflow = { // define the "bling Z" object for running interactive vizualiza
   done,       // function to check for the end of the simulation or game, returns true if the simulation or game has ended
   exit,       // function to execute after the simulation or game has ended to trigger the exit sequence
   run,        // function that executes each of the asynchronous tasks sequentially using Promise.then() chaining
-  viz,        // function that load the visualization configuration object (viz)
+  viz,        // function that loads the visualization configuration object (viz)
 
 } ;
 
