@@ -21,11 +21,13 @@ document.framerate_test = function framerate_test() {
   document.viz = viz ; // for convenience
 
   var bgImage = $Z.helper.draw.rect({
+
     color: document.testConfig.bgColor,
     x: 0,
     y: 0,
     width: vizSize,
     height: vizSize,
+    
   }) ; // Canvas object for background rectangle
 
   // $Z.helper.image.view( bgImage ) ;

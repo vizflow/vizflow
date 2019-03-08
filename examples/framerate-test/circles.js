@@ -1,21 +1,16 @@
-document.clearCirc = function clearCirc() {
-  document.circleList.forEach(
-    function (circle) {
-      circle.remove() ;
-    }
-  ) ;
-}
+document.circleList = [] ; // initialize
 
-document.circleList = [] ;
-
-document.circles = function fps(nIndex) {
+document.circles = function circles(nIndex) {
 
   //var nIndex = this.i ;
   var testConfig = document.testConfig ;
 
   function circle_update(circle) { // overries the Vizflow default update() function
 
-    circle = this ;
+    if( circle === undefined ) { 
+        circle = this ;
+    }
+
     circle.x += circle.dx ;
     circle.y += circle.dy ;
 
@@ -44,12 +39,12 @@ document.circles = function fps(nIndex) {
       rgb2hex(255 * Math.random()) ; // b
   }
 
-  var circleList = Array(testConfig.nCircle[nIndex]) ;
+  var circleList      = Array(testConfig.nCircle[nIndex]) ;
   document.circleList = circleList ;
 
   for (var kcirc = 0 ; kcirc < testConfig.nCircle[nIndex] ; kcirc++) {
 
-    var circleSize = (Math.random() * (testConfig.maxSize - testConfig.minSize)) + testConfig.minSize ;
+    var circleSize = ( Math.random() * (testConfig.maxSize - testConfig.minSize) ) + testConfig.minSize ;
 
     var circleImage = $Z.helper.draw.circle({
       radius: circleSize,
@@ -83,59 +78,53 @@ document.circles = function fps(nIndex) {
     circleList[kcirc].dy = speed * Math.sin(angle) ;
 
     circleList[kcirc].update = circle_update ;
-    
+
   }
 
-  var fpsConfig = {
+  var text = ' ' ;
 
-    image: undefined,
-    opacity: 1,
-    x: 10,
-    y: 10,
+  var fpsTextConfig = {
+
+    binarySwitch: false,
+    px: 50,
+    font: 'C64 User',
+    text: text,
+    color: '#6D83FF',
 
   } ;
 
-  var fps = document.viz.setup_item(fpsConfig) ;
+  var wordImage = $Z.helper.image.word(fpsTextConfig) ;
 
-  var text = 'Ncircle: ' + testConfig.nCircle[nIndex] + ' fps: ####' ;
-
-  fpsTextConfig = {
-    binarSwitch: false,
-    px: 50,
-    font: 'Sans-Serif',
-    text: text,
-    color: 'white',
-  }
-
-  fps.image = $Z.helper.image.word(fpsTextConfig) ;
+  document.fpsItem.image = wordImage ;
+  document.fpsItem.add() ;
 
   var iterPrev = $Z.iter ;
-  var tPrev = performance.now() ;
-  document.results.min[nIndex] = Infinity ;
-  document.results.max[nIndex] = -Infinity ;
-  fps.update = function () {
+  var tPrev    = performance.now() ;
+
+  document.results.min[nIndex] =  Infinity ; // initialize
+  document.results.max[nIndex] = -Infinity ; // initialize
+
+  document.fpsItem.update = function () {
 
     var dIter = $Z.iter - iterPrev ;
 
     if (dIter >= 60) {
 
-      var tNext = performance.now() ;
-      var dt = .001 * (tNext - tPrev) ;
+      var tNext  = performance.now() ;
+      var dt     = .001 * (tNext - tPrev) ;
       var fpsVal = dIter / dt ;
+      
       document.results.min[nIndex] = document.results.min[nIndex] > fpsVal ? fpsVal : document.results.min[nIndex] ;
       document.results.max[nIndex] = document.results.max[nIndex] < fpsVal ? fpsVal : document.results.max[nIndex] ;
-      fpsTextConfig.text = 'Ncircle: ' + testConfig.nCircle[nIndex] + ' fps: ' + Math.round(fpsVal) ;
+      
+      fpsTextConfig.text     = 'N = ' + testConfig.nCircle[nIndex] + ', ' + Math.round(fpsVal) + ' fps' ;
+      document.fpsItem.image = $Z.helper.image.word(fpsTextConfig) ;
 
-      fps.image = $Z.helper.image.word(fpsTextConfig) ;
-      iterPrev = $Z.iter ;
-      tPrev = tNext ;
+      iterPrev  = $Z.iter ;
+      tPrev     = tNext ;
 
     }
 
-  }
-} ;
+  } ;
 
-document.nextStep = function nextStep() {
-  document.clearCirc() ;
-  document.circles(this.i) ;
 } ;

@@ -15,8 +15,8 @@ document.framerate_splash = function framerate_splash() {
 
   }) ;
 
-  var splashFadeDuration = 1000 ;
-  var splashFadeVal = [ 1, 1, 0 ] ;
+  var splashFadeDuration = 300 ;
+  var splashFadeVal = [ 1, 1, 1, 0 ] ;
 
   var splashFade = $Z.helper.effect.image.fade_sequence({ 
 
@@ -25,9 +25,24 @@ document.framerate_splash = function framerate_splash() {
 
   })[0] ;
 
-  splashFade.child.child.end = function() {
+  $Z.helper.transition.get_child(splashFade, 'last').end = function() { // this function will run after the splash item fades out
+
     splash.remove() ;
+
+    var fpsConfig = {
+
+      image: undefined,
+      opacity: 1,
+      x: 10,
+      y: 10,
+      addSwitch: false,
+
+    } ;
+
+    document.fpsItem = document.viz.setup_item( fpsConfig ) ;
+
     document.circleloop() ; // call the next phase of the visualization
+
   } ;
 
   splash.add_transition( splashFade ) ;
