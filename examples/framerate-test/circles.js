@@ -14,12 +14,40 @@ document.circles = function circles(nIndex) {
     circle.x += circle.dx ;
     circle.y += circle.dy ;
 
-    if (circle.x <= circle.config.radius || circle.x >= circle.viz.width - circle.config.radius) {
+    var xtolR = circle.viz.width - circle.config.radius ;
+    var xtolL = circle.config.radius ;
+
+    var xOvershoot = circle.x <= xtolL || circle.x >= xtolR ;
+    // var xTolerance = circle.x - circle.config.radius < tol || circle.x + circle.config.radius > circle.viz.width - tol ;
+
+    if ( xOvershoot ) {
+
       circle.dx *= -1 ;
+
+      if( circle.x < xtolL ) {
+        circle.x = xtolL ; 
+      } else {
+        circle.x = xtolR ;
+      }
+
     }
 
-    if (circle.y <= circle.config.radius + document.layoutConfig.topMargin || circle.y >= circle.viz.height - circle.config.radius) {
+    var ytolT = circle.config.radius + document.layoutConfig.topMargin  ;
+    var ytolB = circle.viz.height - circle.config.radius ;
+
+    var yOvershoot = circle.y < ytolT || circle.y > ytolB ;
+    // var yTolerance = circle.y - circle.config.radius < document.layoutConfig.topMargin + tol || circle.y + circle.config.radius > circle.viz.height - tol ;
+
+    if ( yOvershoot ) {
+      
       circle.dy *= -1 ;
+
+      if( circle.y < ytolT ) {
+        circle.y = ytolT ; 
+      } else {
+        circle.y = ytolB ;
+      }
+
     }
 
   } ;

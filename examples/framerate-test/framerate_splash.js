@@ -54,7 +54,7 @@ document.framerate_splash = function framerate_splash() {
 
     var topBarImage = $Z.helper.draw.rect({
 
-      color: "#444",
+      color: document.testConfig.barColor,
       x: 0,
       y: 0,
       width: document.viz.width,
