@@ -19,24 +19,20 @@ document.framerate_test = function framerate_test() {
   var viz = $Z.helper.viz.setup( vizConfig ) ; // main visualization object
 
   document.viz = viz ; // for convenience
-
-  var bgImage = $Z.helper.draw.rect({
-
-    color: document.testConfig.bgColor,
-    x: 0,
-    y: 0,
-    width: vizSize,
-    height: vizSize,
-    
-  }) ; // Canvas object for background rectangle
-
-  
-
-  // $Z.helper.image.view( bgImage ) ;
-
-  viz.image = bgImage ;
   
   viz.run() ; // starts the render loop - can be done later too
+
+  var dummyWordConfig = {
+
+    binarySwitch: false,
+    px: document.layoutConfig.font,
+    font: 'C64 User',
+    text: 'dummy_text',
+    color: '#6D83FF',
+
+  } ;
+
+  $Z.helper.image.word(dummyWordConfig) ; // for some reason the Canvas font setting does not take effect until after the first call (bug?)
 
   document.framerate_splash() ; // call the first phase of the visualization
 

@@ -39,6 +39,23 @@ document.circles = function circles(nIndex) {
       rgb2hex(255 * Math.random()) ; // b
   }
 
+  var text = ' ' ;
+
+  var fpsTextConfig = {
+
+    binarySwitch: false,
+    px: document.layoutConfig.font,
+    font: 'C64 User',
+    text: text,
+    color: '#6D83FF',
+
+  } ;
+
+  var wordImage = $Z.helper.image.word(fpsTextConfig) ;
+
+  document.fpsItem.image = wordImage ;
+  document.fpsItem.add() ;  
+
   var circleList      = Array(testConfig.nCircle[nIndex]) ;
   document.circleList = circleList ;
 
@@ -81,51 +98,23 @@ document.circles = function circles(nIndex) {
 
   }
 
-  var text = ' ' ;
-
-  var fpsTextConfig = {
-
-    binarySwitch: false,
-    px: document.layoutConfig.font,
-    font: 'C64 User',
-    text: text,
-    color: '#6D83FF',
-
-  } ;
-
-  var wordImage = $Z.helper.image.word(fpsTextConfig) ;
-
-  document.fpsItem.image = wordImage ;
-  document.fpsItem.add() ;
-    
-  var numText='N = ' + testConfig.nCircle[nIndex];
-
-  var numConfig = {
-
-    binarySwitch: false,
-    px: document.layoutConfig.font,
-    font: 'C64 User',
-    text: numText,
-    color: '#6D83FF',
-
-  } ;
-
-  var numImage = $Z.helper.image.word(numConfig) ;
-
-  document.numItem.image=numImage;
-  document.numItem.add();
-
+  /// framerate counter:
+  
   var iterPrev = $Z.iter ;
   var tPrev    = performance.now() ;
 
   document.results.min[nIndex] =  Infinity ; // initialize
   document.results.max[nIndex] = -Infinity ; // initialize
 
+  var fpsFade = 250 ;
+  document.fpsItem.opacity = 1 ;
+
   document.fpsItem.update = function () {
 
     var dIter = $Z.iter - iterPrev ;
+    var Niter = 60 ;
 
-    if (dIter >= 60) {
+    if (dIter >= Niter) {
 
       var tNext  = performance.now() ;
       var dt     = .001 * (tNext - tPrev) ;
@@ -134,8 +123,10 @@ document.circles = function circles(nIndex) {
       document.results.min[nIndex] = document.results.min[nIndex] > fpsVal ? fpsVal : document.results.min[nIndex] ;
       document.results.max[nIndex] = document.results.max[nIndex] < fpsVal ? fpsVal : document.results.max[nIndex] ;
       
-      fpsTextConfig.text     = Math.round(fpsVal) + ' fps' ;
-      document.fpsItem.image = $Z.helper.image.word(fpsTextConfig) ;
+      fpsTextConfig.text = (0.1 * Math.round(fpsVal * 10)).toFixed(1) + ' fps' ;
+      // console.log({fpsTextConfig}) ;
+      document.fpsItem.image = $Z.helper.image.word( fpsTextConfig ) ;
+      
 
       iterPrev  = $Z.iter ;
       tPrev     = tNext ;

@@ -23,7 +23,7 @@ document.circleloop = function circleloop() {
 
   }
 
-  document.viz.add_transition($Z.helper.transition.sequence(testList)) ;
+  document.viz.add_transition($Z.helper.transition.sequence(testList)) ;    
 
   document.viz.call( 
     function() {
@@ -48,7 +48,51 @@ document.clearCirc = function clearCirc() {
 
 document.nextStep = function nextStep() {
 
-  document.clearCirc() ;
-  document.circles(this.i) ;
+  var testIndex = this.i ;
+
+  var vizFade = testIndex > 0 ? document.viz.fadeDuration : 0 ;
+
+  document.viz.fade({
+    opacity: 0,
+    duration: vizFade,
+    end: function() {
+      
+      document.clearCirc() ;
+      
+      var numText='N = ' + document.testConfig.nCircle[ testIndex ] ;
+
+      var numTextConfig = {
+
+        binarySwitch: false,
+        px: document.layoutConfig.font,
+        font: 'C64 User',
+        text: numText,
+        color: '#6D83FF',
+
+      } ;
+
+      var numImage = $Z.helper.image.word( numTextConfig ) ;
+
+      document.numItem.opacity = 0 ;
+      document.numItem.image = numImage ;
+      document.numItem.fade() ;
+
+      document.fpsItem.opacity = 0 ;
+
+      document.viz.fade({
+        opacity: 1,
+        end: function() {
+                 
+          if( testIndex === 0 ) { 
+            document.numItem.add() ; 
+          }
+
+          document.circles( testIndex ) ; // run the next step  
+
+        },
+
+      }) ;
+    },
+  }) ;
 
 } ;
