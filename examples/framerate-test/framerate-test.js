@@ -16,7 +16,7 @@ document.framerate_test = function framerate_test() {
 
   } ;
 
-  var viz = $Z.helper.viz.setup( vizConfig ) ;
+  var viz = $Z.helper.viz.setup( vizConfig ) ; // main visualization object
 
   document.viz = viz ; // for convenience
 
@@ -29,6 +29,8 @@ document.framerate_test = function framerate_test() {
     height: vizSize,
     
   }) ; // Canvas object for background rectangle
+
+  
 
   // $Z.helper.image.view( bgImage ) ;
 

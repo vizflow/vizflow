@@ -18,7 +18,7 @@ document.circles = function circles(nIndex) {
       circle.dx *= -1 ;
     }
 
-    if (circle.y <= circle.config.radius || circle.y >= circle.viz.height - circle.config.radius) {
+    if (circle.y <= circle.config.radius + document.layoutConfig.topMargin || circle.y >= circle.viz.height - circle.config.radius) {
       circle.dy *= -1 ;
     }
 
@@ -86,7 +86,7 @@ document.circles = function circles(nIndex) {
   var fpsTextConfig = {
 
     binarySwitch: false,
-    px: 50,
+    px: document.layoutConfig.font,
     font: 'C64 User',
     text: text,
     color: '#6D83FF',
@@ -97,6 +97,23 @@ document.circles = function circles(nIndex) {
 
   document.fpsItem.image = wordImage ;
   document.fpsItem.add() ;
+    
+  var numText='N = ' + testConfig.nCircle[nIndex];
+
+  var numConfig = {
+
+    binarySwitch: false,
+    px: document.layoutConfig.font,
+    font: 'C64 User',
+    text: numText,
+    color: '#6D83FF',
+
+  } ;
+
+  var numImage = $Z.helper.image.word(numConfig) ;
+
+  document.numItem.image=numImage;
+  document.numItem.add();
 
   var iterPrev = $Z.iter ;
   var tPrev    = performance.now() ;
@@ -117,7 +134,7 @@ document.circles = function circles(nIndex) {
       document.results.min[nIndex] = document.results.min[nIndex] > fpsVal ? fpsVal : document.results.min[nIndex] ;
       document.results.max[nIndex] = document.results.max[nIndex] < fpsVal ? fpsVal : document.results.max[nIndex] ;
       
-      fpsTextConfig.text     = 'N = ' + testConfig.nCircle[nIndex] + ', ' + Math.round(fpsVal) + ' fps' ;
+      fpsTextConfig.text     = Math.round(fpsVal) + ' fps' ;
       document.fpsItem.image = $Z.helper.image.word(fpsTextConfig) ;
 
       iterPrev  = $Z.iter ;
