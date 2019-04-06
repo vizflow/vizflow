@@ -59,35 +59,32 @@ document.nextStep = function nextStep() {
       
       document.clearCirc() ;
       
-      var numText='N = ' + document.testConfig.nCircle[ testIndex ] ;
-
-      var numTextConfig = {
-
-        binarySwitch: false,
-        px: document.layoutConfig.font,
-        font: 'C64 User',
-        text: numText,
-        color: '#6D83FF',
-
-      } ;
-
-      var numImage = $Z.helper.image.word( numTextConfig ) ;
-
       document.numItem.opacity = 0 ;
-      document.numItem.image = numImage ;
-      document.numItem.fade() ;
-
       document.fpsItem.opacity = 0 ;
 
       document.viz.fade({
         opacity: 1,
         end: function() {
                  
-          if( testIndex === 0 ) { 
-            document.numItem.add() ; 
-          }
+          var numText='N = ' + document.testConfig.nCircle[ testIndex ] ;
 
-          document.circles( testIndex ) ; // run the next step  
+          var numTextConfig = {
+
+            binarySwitch: false,
+            px: document.layoutConfig.font,
+            font: 'C64 User',
+            text: numText,
+            color: '#6D83FF',
+
+          } ;
+
+          var numImage = $Z.helper.image.word( numTextConfig ) ;
+
+          document.numItem.image = numImage ;
+          document.numItem.fade( { 
+            duration: document.viz.fadeDuration,
+            end: function() { document.circles( testIndex ) }, // run the next step  
+        } ) ;          
 
         },
 

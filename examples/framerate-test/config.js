@@ -16,12 +16,12 @@
   document.testConfig = {
 
     nCircle:  [50, 100, 250, 500, 1000], // 2500, 5000, 10000, 25000],
-    duration: 11,
+    duration: 7.5,
     skip: 60,
     bgColor:  '#FFF',
-    barColor: '#666',
+    barColor: '#575757',
     vizSize:  1200,
-    maxSpeed: 40,
+    maxSpeed: 30,
     minSpeed: 5,
     maxSize:  50,
     minSize:  5,

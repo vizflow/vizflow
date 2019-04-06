@@ -82,7 +82,7 @@ document.circles = function circles(nIndex) {
   var wordImage = $Z.helper.image.word(fpsTextConfig) ;
 
   document.fpsItem.image = wordImage ;
-  document.fpsItem.add() ;  
+  document.fpsItem.opacity = 1 ;
 
   var circleList      = Array(testConfig.nCircle[nIndex]) ;
   document.circleList = circleList ;
@@ -134,9 +134,6 @@ document.circles = function circles(nIndex) {
   document.results.min[nIndex] =  Infinity ; // initialize
   document.results.max[nIndex] = -Infinity ; // initialize
 
-  var fpsFade = 250 ;
-  document.fpsItem.opacity = 1 ;
-
   document.fpsItem.update = function () {
 
     var dIter = $Z.iter - iterPrev ;
@@ -155,7 +152,6 @@ document.circles = function circles(nIndex) {
       // console.log({fpsTextConfig}) ;
       document.fpsItem.image = $Z.helper.image.word( fpsTextConfig ) ;
       
-
       iterPrev  = $Z.iter ;
       tPrev     = tNext ;
 

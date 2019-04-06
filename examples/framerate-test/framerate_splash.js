@@ -76,10 +76,9 @@ document.framerate_splash = function framerate_splash() {
     var fpsConfig = { // ready to start the main visualization - create the framerate counter item
 
       image: undefined,
-      opacity: 1,
+      opacity: 0,
       x: document.viz.width - fpsPadding,
       y: document.layoutConfig.margin,
-      addSwitch: false,
 
     } ;
 
@@ -88,10 +87,9 @@ document.framerate_splash = function framerate_splash() {
     var numConfig = { // ready to start the main visualization - create the framerate counter item
 
       image: undefined,
-      opacity: 1,
+      opacity: 0,
       x: document.layoutConfig.leftMargin,
       y: document.layoutConfig.margin + numPadY,
-      addSwitch: false,
 
     } ;
 
