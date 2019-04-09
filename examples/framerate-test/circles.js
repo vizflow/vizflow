@@ -32,11 +32,11 @@ document.circles = function circles(nIndex) {
 
     }
 
-    var ytolT = circle.config.radius + document.layoutConfig.topMargin  ;
+    var ytolT = circle.config.radius + document.styleConfig.topMargin  ;
     var ytolB = circle.viz.height - circle.config.radius ;
 
     var yOvershoot = circle.y < ytolT || circle.y > ytolB ;
-    // var yTolerance = circle.y - circle.config.radius < document.layoutConfig.topMargin + tol || circle.y + circle.config.radius > circle.viz.height - tol ;
+    // var yTolerance = circle.y - circle.config.radius < document.styleConfig.topMargin + tol || circle.y + circle.config.radius > circle.viz.height - tol ;
 
     if ( yOvershoot ) {
       
@@ -72,10 +72,10 @@ document.circles = function circles(nIndex) {
   var fpsTextConfig = {
 
     binarySwitch: false,
-    px: document.layoutConfig.font,
+    px: document.styleConfig.font,
     font: 'C64 User',
     text: text,
-    color: '#6D83FF',
+    color: document.styleConfig.fontColor,
 
   } ;
 
@@ -108,8 +108,8 @@ document.circles = function circles(nIndex) {
       opacity: 1 / 2,
       xOrigin: 0.5 * circleImage.width,
       yOrigin: 0.5 * circleImage.height,
-      x: testConfig.vizSize * 0.5,
-      y: testConfig.vizSize * 0.5,
+      x: document.styleConfig.vizSize * 0.5,
+      y: document.styleConfig.vizSize * 0.5,
       radius: circleSize,
 
     } ;

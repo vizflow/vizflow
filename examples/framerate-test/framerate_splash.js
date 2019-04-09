@@ -40,7 +40,7 @@ document.framerate_splash = function framerate_splash() {
 
     var bgImage = $Z.helper.draw.rect({
 
-      color: document.testConfig.bgColor,
+      color: document.styleConfig.bgColor,
       x: 0,
       y: 0,
       width: document.viz.width,
@@ -54,11 +54,11 @@ document.framerate_splash = function framerate_splash() {
 
     var topBarImage = $Z.helper.draw.rect({
 
-      color: document.testConfig.barColor,
+      color: document.styleConfig.barColor,
       x: 0,
       y: 0,
       width: document.viz.width,
-      height: document.layoutConfig.topMargin,
+      height: document.styleConfig.topMargin,
 
     }) ; // Canvas object for background rectangle
 
@@ -78,7 +78,7 @@ document.framerate_splash = function framerate_splash() {
       image: undefined,
       opacity: 0,
       x: document.viz.width - fpsPadding,
-      y: document.layoutConfig.margin,
+      y: document.styleConfig.margin,
 
     } ;
 
@@ -88,8 +88,8 @@ document.framerate_splash = function framerate_splash() {
 
       image: undefined,
       opacity: 0,
-      x: document.layoutConfig.leftMargin,
-      y: document.layoutConfig.margin + numPadY,
+      x: document.styleConfig.leftMargin,
+      y: document.styleConfig.margin + numPadY,
 
     } ;
 

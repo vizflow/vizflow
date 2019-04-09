@@ -71,10 +71,10 @@ document.nextStep = function nextStep() {
           var numTextConfig = {
 
             binarySwitch: false,
-            px: document.layoutConfig.font,
+            px: document.styleConfig.font,
             font: 'C64 User',
             text: numText,
-            color: '#6D83FF',
+            color: document.styleConfig.fontColor,
 
           } ;
 

@@ -25,10 +25,10 @@ document.framerate_test = function framerate_test() {
   var dummyWordConfig = {
 
     binarySwitch: false,
-    px: document.layoutConfig.font,
+    px: document.styleConfig.font,
     font: 'C64 User',
     text: 'dummy_text',
-    color: '#6D83FF',
+    color: document.styleConfig.fontColor,
 
   } ;
 
