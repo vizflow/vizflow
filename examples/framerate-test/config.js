@@ -7,6 +7,7 @@
   var margin  = 15 ;
 
   document.styleConfig = {
+
     font: fontHeight,
     topMargin: fontHeight + 2 * margin,
     leftMargin: margin,
@@ -15,11 +16,12 @@
     fontColor: '#6D83FF',
     barColor: '#575757',
     vizSize:  1200,
+
   }
 
   document.testConfig = {
 
-    nCircle:  [50, 100, 250, 500, 1000], // 2500, 5000, 10000, 25000],
+    nCircle:  [50, 100], // 250, 500, 1000], // 2500, 5000, 10000, 25000],
     duration: 7.5,
     skip: 60,
     maxSpeed: 30,
@@ -30,8 +32,10 @@
   } ;
 
   document.results = {
+
     min: [],
     max: [],
+
   } ;
 
-})();
+})(); // immediately invoked function declaration
