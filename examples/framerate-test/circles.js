@@ -5,7 +5,7 @@ document.circles = function circles(nIndex) {
   //var nIndex = this.i ;
   var testConfig = document.testConfig ;
 
-  function circle_update(circle) { // overries the Vizflow default update() function
+  function circle_update( circle ) { // overries the Vizflow default update() function
 
     if( circle === undefined ) { 
         circle = this ;
@@ -16,21 +16,27 @@ document.circles = function circles(nIndex) {
 
     circle.reflect() ;
 
-  } ;
+  }
 
-  function rgb2hex(rgb) {
-    var c = Math.round(rgb).toString(16) ;
-    if (c.length === 1) c += c ; // make sure it is the right length
+  function rgb2hex( rgb ) {
+
+    var c = Math.round(rgb).toString( 16 ) ;
+    
+    if ( c.length === 1 ) {
+      c += c ; // make sure it is the right length
+    }
+    
     return c ;
+  
   }
 
   function random_color() {
-    return '#' +
-      rgb2hex(255 * Math.random()) // r
-      +
-      rgb2hex(255 * Math.random()) // g
-      +
-      rgb2hex(255 * Math.random()) ; // b
+
+    return '#' 
+      + rgb2hex(255 * Math.random())   // r
+      + rgb2hex(255 * Math.random())   // g
+      + rgb2hex(255 * Math.random()) ; // b
+
   }
 
   var text = ' ' ;
@@ -50,22 +56,25 @@ document.circles = function circles(nIndex) {
   document.fpsItem.image = wordImage ;
   document.fpsItem.opacity = 1 ;
 
-  var circleList      = Array(testConfig.nCircle[nIndex]) ;
+  var circleList      = Array( testConfig.nCircle[nIndex] ) ;
   document.circleList = circleList ;
 
-  for (var kcirc = 0 ; kcirc < testConfig.nCircle[nIndex] ; kcirc++) {
+  for ( var kcirc = 0 ; kcirc < testConfig.nCircle[nIndex] ; kcirc++ ) {
 
     var circleSize = ( Math.random() * (testConfig.maxSize - testConfig.minSize) ) + testConfig.minSize ;
 
     var circleImage = $Z.helper.draw.circle({
+
       radius: circleSize,
       fill: random_color(),
+
     }) ; // Canvas object
 
-
     var circleImage = $Z.helper.draw.circle({
+
       radius: circleSize,
       fill: random_color(),
+
     }) ; // Canvas object
 
     var circleConfig = {
@@ -77,6 +86,7 @@ document.circles = function circles(nIndex) {
       x: document.styleConfig.vizSize * 0.5,
       y: document.styleConfig.vizSize * 0.5,
       radius: circleSize,
+      addSwitch: false,
 
     } ;
 
@@ -88,34 +98,38 @@ document.circles = function circles(nIndex) {
     circleList[kcirc].dx = speed * Math.cos(angle) ;
     circleList[kcirc].dy = speed * Math.sin(angle) ;
 
-    circleList[kcirc].update = circle_update ;
+    circleList[kcirc].update  = circle_update ;
     circleList[kcirc].reflect = document.circle_reflect ;
 
-  }
+  } ;
 
   /// framerate counter:
   
   var iterPrev = $Z.iter ;
   var tPrev    = performance.now() ;
+  var fpsVal   = NaN ; // initialize
+  
+  document.results.list[ document.testIndex ] = [] ; // initialize
 
-  document.results.min[nIndex] =  Infinity ; // initialize
-  document.results.max[nIndex] = -Infinity ; // initialize
+  document.results.list[nIndex] = [] ;
 
-  document.fpsItem.update = function () {
+  document.fpsItem.update = function fps_update() {
 
     var dIter = $Z.iter - iterPrev ;
-    var Niter = 60 ;
+    var tNext = performance.now() ;
+    var tWait = tNext - tPrev ;
 
-    if (dIter >= Niter) {
+    var tCut = document.testConfig.skip ;
+    // var Niter = 60 ;
 
-      var tNext  = performance.now() ;
-      var dt     = .001 * (tNext - tPrev) ;
-      var fpsVal = dIter / dt ;
+    if ( tWait >= tCut ) { // enough time has elapsed to estimate another fps value
+
+      var dt    = .001 * ( tWait ) ;
+      fpsVal    = dIter / dt ;
+
+      document.results.list[ nIndex ].push(fpsVal) ;      
       
-      document.results.min[nIndex] = document.results.min[nIndex] > fpsVal ? fpsVal : document.results.min[nIndex] ;
-      document.results.max[nIndex] = document.results.max[nIndex] < fpsVal ? fpsVal : document.results.max[nIndex] ;
-      
-      fpsTextConfig.text = (0.1 * Math.round(fpsVal * 10)).toFixed(1) + ' fps' ;
+      fpsTextConfig.text = ( 0.1 * Math.round( fpsVal * 10 ) ).toFixed( 1 ) + ' fps' ;
       // console.log({fpsTextConfig}) ;
       document.fpsItem.image = $Z.helper.image.word( fpsTextConfig ) ;
       
@@ -125,5 +139,7 @@ document.circles = function circles(nIndex) {
     }
 
   } ;
+
+  document.viz.call( function() { circleList.forEach( function( circ ) { circ.add() ; } ) ; }, document.testConfig.delay ) ; // let the browser settle after object creation
 
 } ;

@@ -11,7 +11,7 @@ document.run_test = function run_test() {
 
     end: function() {
       
-      document.circleList.forEach( function (circle) { circle.remove() ; } ) ; // clear the circles from the previous test
+      document.circleList.forEach( function ( circle ) { circle.remove() ; } ) ; // clear the circles from the previous test
       
       document.numItem.opacity = 0 ;
       document.fpsItem.opacity = 0 ;
@@ -23,12 +23,13 @@ document.run_test = function run_test() {
         return
       }      
 
-      document.viz.fade({
+      document.viz.fade( {
 
         opacity: 1,
 
         end: function() {
-          document.viz.call( document.run_test, document.testConfig.duration * 1000 )
+
+          document.viz.call( document.run_test, document.testConfig.duration * 1000 ) ; // calls itself recursively until testIndex === number of tests
                  
           var numText='N = ' + document.testConfig.nCircle[ document.testIndex ] ;
 
@@ -49,15 +50,15 @@ document.run_test = function run_test() {
           document.numItem.fade( { 
 
             duration: document.viz.fadeDuration,
-            end: function() { 
-              document.circles( document.testIndex ) 
-            }, // run the next step  
+            end: function() { // run the next step  
+              document.circles( document.testIndex ) ;
+            }, 
 
         } ) ;          
 
         },
 
-      }) ;
+      } ) ;
 
     }, // end: viz.fade.end
 

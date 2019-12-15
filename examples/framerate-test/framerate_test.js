@@ -32,7 +32,7 @@ document.framerate_test = function framerate_test() {
 
   } ;
 
-  $Z.helper.image.word(dummyWordConfig) ; // for some reason the Canvas font setting does not take effect until after the first call (bug?)
+  $Z.helper.image.word( dummyWordConfig ) ; // HACK: for some reason the Canvas font setting does not take effect until after the first call (bug?)
 
   document.framerate_splash() ; // call the first phase of the visualization
 
