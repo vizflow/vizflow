@@ -1,1 +1,0 @@
-module.exports = require("npm:balanced-match@1.0.0/index.js");
