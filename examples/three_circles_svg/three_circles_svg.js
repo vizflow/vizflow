@@ -14,11 +14,16 @@ function three_circles_svg() {
 
   svg.appendChild(g) ;
 
-  function render() {
-    this.viz.setAttribute( 'cx',   this.x      ) ;
-    this.viz.setAttribute( 'cy',   this.y      ) ;
-    this.viz.setAttribute( 'fill', this.color  ) ;
-    this.viz.setAttribute( 'r',    this.radius ) ;
+  function render( circ ) {
+    if( circ === undefined ) {
+      circ = this ;
+    }
+
+    circ.viz.setAttribute( 'cx',   circ.x      ) ;
+    circ.viz.setAttribute( 'cy',   circ.y      ) ;
+    circ.viz.setAttribute( 'fill', circ.color  ) ;
+    circ.viz.setAttribute( 'r',    circ.radius ) ;
+
   }
 
   function random_color() {
@@ -57,7 +62,7 @@ function three_circles_svg() {
     d.render       = render ; // function that tells the visulization engine how to render the items for each frame of the visualization
 
     d.viz          = document.createElementNS(svgns, 'circle') ;
-    d.viz['__d__'] = d     ; // bind the data to the viz element for efficient access
+    d.viz.datum    = d     ; // bind the data to the viz element for efficient access
     d.viz.onclick  = click ;
 
     d.viz.setAttribute( 'cx',   d.x      ) ;
@@ -65,21 +70,27 @@ function three_circles_svg() {
     d.viz.setAttribute( 'r',    d.radius ) ;
     d.viz.setAttribute( 'fill', d.color  ) ;
 
+    Object.assign( d, $Z.helper.transition.method ) ; // merge methods into items
+
     g.appendChild(d.viz) ;
 
   }) ;
 
   function click() {
+
+    var circItem = this ;
+
+    // console.log( 'this', this, 'circItem', circItem ) ;
     
     var tx   = x_transition ( width  * (Math.random() - 0.5) ) ; // x transition object
     var ty   = y_transition ( height * (Math.random() - 0.5) ) ; // y transition object
     var tr   = r_transition ( 1 + (4 * Math.random())        ) ; // radius transition object
     var tc   = c_transition ( random_color()                 ) ; // transient color transition object
-    var tc2  = c_transition ( this.__d__.color0              ) ; // final color transition object (return back to starting color)
+    var tc2  = c_transition ( circItem.datum.color0          ) ; // final color transition object (return back to starting color)
 
     tc.child = tc2 ; // ** example of the vizflow transition-chaining syntax
 
-    this.__d__.transition = [tx, ty, tr, tc] ; // set the transitions for this item, also cancels all existing transitions for this item (side-effect)
+    circItem.datum.add_transition( [tx, ty, tr, tc] ) ; // set the transitions for this item, also cancels all existing transitions for this item (side-effect)
 
   } 
 
