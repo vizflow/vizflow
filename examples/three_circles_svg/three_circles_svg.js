@@ -37,10 +37,10 @@ function three_circles_svg() {
 
   var dur          = 500 ; // transition duration in milliseconds
 
-  var x_transition = $Z.transition.linear_transition_func ( 'x',      dur ) ; // function accepting an x end-value and returning a transition object
-  var y_transition = $Z.transition.linear_transition_func ( 'y',      dur ) ; // function accepting a y end-value and returning a transition object
-  var r_transition = $Z.transition.linear_transition_func ( 'radius', dur ) ; // function accepting a y end-value and returning a transition object
-  var c_transition = $Z.transition.color_transition_func  ( 'color',  dur ) ; // function accepting a color end-value and returning a transition object
+  var x_transition = $Z.helper.transition.linear_transition_func ( 'x',      dur ) ; // function accepting an x end-value and returning a transition object
+  var y_transition = $Z.helper.transition.linear_transition_func ( 'y',      dur ) ; // function accepting a y end-value and returning a transition object
+  var r_transition = $Z.helper.transition.linear_transition_func ( 'radius', dur ) ; // function accepting a y end-value and returning a transition object
+  var c_transition = $Z.helper.transition.color_transition_func  ( 'color',  dur ) ; // function accepting a color end-value and returning a transition object
 
   var red   = '#993333' ;
   var green = '#339933' ;
