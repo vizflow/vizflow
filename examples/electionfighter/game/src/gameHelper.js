@@ -74,7 +74,8 @@ var gameHelper = {
 	    'love me',
 	    'winning',
 	    'my hands',
-	    
+	    'no collusion',
+	    'witch hunt',
 	  ] ;
 
 	  var wordImage = new Array(wordList.length) ;
