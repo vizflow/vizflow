@@ -30,7 +30,7 @@ The [pH visualization](http://vizflow.org/examples/ph_game/) is a learning game 
 
 ### Election Fighter
 
-[Election Fighter](http://electionfighter.com) is a game described [here](https://www.linkedin.com/pulse/vizflow-testing-via-games-part-i-election-fighter-daniel-korenblum).
+[Election Fighter](http://vizflow.org/examples/electionfighter) is a game described [here](https://www.linkedin.com/pulse/vizflow-testing-via-games-part-i-election-fighter-daniel-korenblum).
 
 ### Prime Fruit
 
