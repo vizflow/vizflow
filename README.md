@@ -53,7 +53,6 @@ Similarly, run `jspm bundle-sfx --minify src/module/vizflow-helper vizflow-helpe
 * [JSPM](https://github.com/jspm/jspm-cli)
 * [ES6+jspm template](https://github.com/geelen/loopgifs)
 * [2D Picking in Canvas](https://bocoup.com/weblog/2d-picking-in-canvas/)
-* [Cocoon](https://cocoon.io/)
 
 <!---
   
