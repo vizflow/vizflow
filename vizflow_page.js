@@ -90,8 +90,6 @@ document.vizflow_page = function vizflow_page() {
       return 'http://vizflow.org/examples/' + d ;
     }) ;
 
-    urlList[2] = 'http://electionfighter.com' ; // this one has its own URL
-
     // console.log('urlList', urlList) ;
 
     var size0 = $Z.helper.loader.image.cache[document.exampleImage[0]].width ;
