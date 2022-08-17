@@ -43,7 +43,7 @@ This is a very basic example of sprite based animation showing a ball bounding i
 # Deployment
 
 Compile `vizflow.js` using `browserify src/vizflow.js -t babelify | uglifyjs -o vizflow.js --source-map` for running in a production environment.
-Similarly, run `browserify src/module/vizflow-helper-t babelify | uglifyjs -o vizflow-helper.js --source-map` to build the production-ready versions of the helper modules.
+Similarly, run `browserify src/module/vizflow-helper.js -t babelify | uglifyjs -o vizflow-helper.js --source-map` to build the production-ready versions of the helper modules.
 
 # References
 
