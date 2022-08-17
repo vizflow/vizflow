@@ -42,16 +42,17 @@ This is a very basic example of sprite based animation showing a ball bounding i
 
 # Deployment
 
-Compile `vizflow.js` using `jspm bundle-sfx --minify src/vizflow vizflow.js` for running in a production environment.
-Similarly, run `jspm bundle-sfx --minify src/module/vizflow-helper vizflow-helper.js` to build the production-ready versions of the helper modules.
+Compile `vizflow.js` using `browserify src/vizflow.js -t babelify | uglifyjs -o vizflow.js --source-map` for running in a production environment.
+Similarly, run `browserify src/module/vizflow-helper-t babelify | uglifyjs -o vizflow-helper.js --source-map` to build the production-ready versions of the helper modules.
 
 # References
 
 * [ES6](http://wiki.ecmascript.org/doku.php?id=harmony:specification_drafts)
 * [Promise](https://developer.mozilla.org/en-US/docs/Mozilla/JavaScript_code_modules/Promise.jsm/Promise)
 * [Babel](http://babeljs.io/)
-* [JSPM](https://github.com/jspm/jspm-cli)
-* [ES6+jspm template](https://github.com/geelen/loopgifs)
+* [browserify + babelify](https://waelyasmina.com/browserify-tutorial-for-total-beginners/)
+* [uglify-js](https://www.npmjs.com/package/uglify-js)
+* [npm](https://docs.npmjs.com/try-the-latest-stable-version-of-npm)
 * [2D Picking in Canvas](https://bocoup.com/weblog/2d-picking-in-canvas/)
 
 <!---
