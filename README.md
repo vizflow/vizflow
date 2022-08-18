@@ -6,7 +6,7 @@
 
 Vizflow is a relatively small library for adding transition effects and interactive visualizations to HTML5 documents with a simpler design compared to other popular interactive visualization libraries like [D3js](http://d3js.org). 
 
-Instead of focusing on specific applications such as data visualization, it only provides an engine for running animations, transition effects, simulations, games, etc., depending on the application. 
+Instead of focusing on specific applications such as data visualization, it only provides an engine for running animations, transition effects, simulations, games, etc., depending on the application. Vizflow is render-agnostic: its primary concern is to manage _what_ happens at each point in time, rather than _how_ each frame is rendered. In addition, due to the performance limitations of DOM-based rendering, it provides a number of helper modules for working with the [2D Canvas API](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D).
 
 Vizflow uses the symbol `$Z` (read as "bling Z" or "dollar Z") for defining its namespace.
 
