@@ -4,7 +4,7 @@
 
 [vizflow.js](https://github.com/vizflow/vizflow) - a render-loop library written using EcmaScript.6 (ES6) with no other external dependencies. 
 
-Vizflow is a relatively small library for adding transition effects and interactive visualizations to HTML5 documents with a simpler design compared to other popular interactive visualization libraries like [D3js](http://d3js.org). 
+Vizflow is a relatively small library for adding transition effects and interactive visualizations to HTML5 documents with a simpler design compared to other popular interactive visualization libraries like [D3js](https://d3js.org). 
 
 Instead of focusing on specific applications such as data visualization, it only provides an engine for running animations, transition effects, simulations, games, etc., depending on the application. Vizflow is render-agnostic: its primary concern is to manage _what_ happens at each point in time, rather than _how_ each frame is rendered. In addition, due to the performance limitations of DOM-based rendering, it provides a number of helper modules for working with the [2D Canvas API](https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D).
 
@@ -14,7 +14,7 @@ Following the DRY and KISS guidelines, keeping the library simple-to-use, small,
 
 # Examples
 
-The file `index.html` included in this repository contains a demo, used for our [homepage](http://vizflow.org). Modify the `index.html` file to create your own interactive visualizations, simulations, and games with maximal flexibility and minimal overhead.
+The file `index.html` included in this repository contains a demo, used for our [homepage](https://vizflow.github.io/vizflow). Modify the `index.html` file to create your own interactive visualizations, simulations, and games with maximal flexibility and minimal overhead.
 
 Load the `index.html` file locally to test the code in a development environment (requires a local web server such as [live-server](https://github.com/tapio/live-server) to be running). 
 
@@ -26,15 +26,15 @@ The "three circles" examples showing an interactive stochastic dynamics simulati
 
 ### pH Visualization/Game
 
-The [pH visualization](http://vizflow.org/examples/ph_game/) is a learning game idea that is described [here](https://www.linkedin.com/pulse/ph-visualization-i-daniel-korenblum).
+The [pH visualization](https://vizflow.github.io/vizflow/examples/ph_game/) is a learning game idea that is described [here](https://www.linkedin.com/pulse/ph-visualization-i-daniel-korenblum).
 
 ### Election Fighter
 
-[Election Fighter](http://vizflow.org/examples/electionfighter) is a game described [here](https://www.linkedin.com/pulse/vizflow-testing-via-games-part-i-election-fighter-daniel-korenblum).
+[Election Fighter](https://vizflow.github.io/vizflow/examples/electionfighter) is a game described [here](https://www.linkedin.com/pulse/vizflow-testing-via-games-part-i-election-fighter-daniel-korenblum).
 
 ### Prime Fruit
 
-[Prime Fruit](http://vizflow.org/examples/primefruit/) is an idea for an educational game teaching the player about prime numbers and prime factorizations, and is described [here](https://www.linkedin.com/pulse/vizflow-testing-via-games-ii-prime-fruit-daniel-korenblum?trk=mp-author-card).
+[Prime Fruit](https://vizflow.github.io/vizflow/examples/primefruit/) is an idea for an educational game teaching the player about prime numbers and prime factorizations, and is described [here](https://www.linkedin.com/pulse/vizflow-testing-via-games-ii-prime-fruit-daniel-korenblum?trk=mp-author-card).
 
 ### Ball
 
@@ -47,9 +47,9 @@ Similarly, run `browserify src/module/vizflow-helper.js -t babelify | uglifyjs -
 
 # References
 
-* [ES6](http://wiki.ecmascript.org/doku.php?id=harmony:specification_drafts)
+* [ES6](https://wiki.ecmascript.org/doku.php?id=harmony:specification_drafts)
 * [Promise](https://developer.mozilla.org/en-US/docs/Mozilla/JavaScript_code_modules/Promise.jsm/Promise)
-* [Babel](http://babeljs.io/)
+* [Babel](https://babeljs.io/)
 * [browserify + babelify](https://waelyasmina.com/browserify-tutorial-for-total-beginners/)
 * [uglify-js](https://www.npmjs.com/package/uglify-js)
 * [npm](https://docs.npmjs.com/try-the-latest-stable-version-of-npm)
