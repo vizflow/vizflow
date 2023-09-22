@@ -87,7 +87,7 @@ document.vizflow_page = function vizflow_page() {
     var yList   = [yOff, yOff, y1, y1, y1] ;
 
     var urlList = document.example.map(function(d) {
-      return 'http://vizflow.org/examples/' + d ;
+      return 'https://vizflow.github.io/vizflow/examples/' + d ;
     }) ;
 
     // console.log('urlList', urlList) ;
